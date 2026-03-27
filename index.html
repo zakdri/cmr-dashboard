@@ -1,0 +1,4462 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intranet CMR Maroc - Digital Workplace 2026</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --cmr-primary: #256cb5;
+            --cmr-dark: #18385f;
+            --cmr-gray: #758693;
+            --bg-page: #f4f7fa;
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --sidebar-width: 90px;
+            --submenu-width: 260px;
+            --sidebar-expanded: 240px;
+            --right-sidebar-width: 320px;
+            --radius: 16px;
+            --shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 40px -5px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* TOP HEADER */
+        .top-header {
+            width: 100%;
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .header-logo {
+            height: 45px;
+            width: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo svg {
+            height: 100%;
+            width: auto;
+        }
+
+        .search-container {
+            flex: 0 1 500px;
+            position: relative;
+        }
+
+        .search-pill {
+            width: 100%;
+            background: #f1f5f9;
+            border-radius: 30px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .search-pill:focus-within {
+            background: white;
+            border-color: var(--cmr-primary);
+            box-shadow: 0 0 0 4px rgba(37, 108, 181, 0.1);
+        }
+
+        .search-pill input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-pill input::placeholder {
+            color: #94a3b8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon-btn {
+            width: 42px;
+            height: 42px;
+            background: #f8fafc;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-light);
+            border: none;
+            position: relative;
+        }
+
+        .header-icon-btn:hover {
+            background: var(--cmr-primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .header-icon-btn .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 18px;
+            height: 18px;
+            background: #ef4444;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 2px solid white;
+        }
+
+        .header-user-pill {
+            padding: 6px 16px 6px 6px;
+            background: #f8fafc;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .header-dropdown {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            width: 280px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 12px;
+            display: none;
+            z-index: 1100;
+            animation: slideDown 0.3s ease;
+        }
+
+        .header-dropdown.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-header {
+            padding: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background: #f8fafc;
+        }
+
+        .dropdown-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-light);
+        }
+
+        .dropdown-item.logout {
+            color: #ef4444;
+            margin-top: 8px;
+            border-top: 1px solid #f1f5f9;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .dropdown-item.logout i {
+            color: #ef4444;
+        }
+
+        .notif-item {
+            padding: 12px;
+            border-radius: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border-bottom: 1px solid #f8fafc;
+        }
+
+        .notif-item:hover {
+            background: #f8fafc;
+        }
+
+        .notif-title {
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .notif-desc {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .notif-time {
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 6px;
+        }
+
+        /* QUICK LINKS GRID */
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 4px;
+        }
+
+        .quick-link-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 8px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .quick-link-item:hover {
+            background: #f1f5f9;
+        }
+
+        .quick-link-icon {
+            width: 32px;
+            height: 32px;
+            background: #eff6ff;
+            color: var(--cmr-primary);
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+        }
+
+        .quick-link-label {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .header-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--cmr-primary), var(--cmr-dark));
+            color: white;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .header-user-name {
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* LAYOUT CONTAINER */
+        .layout-container {
+            display: flex;
+            flex: 1;
+            margin-top: 70px;
+            height: calc(100vh - 70px);
+        }
+
+        /* LEFT SIDEBAR - ICON MENU */
+        .sidebar-left {
+            width: var(--sidebar-width);
+            background: var(--cmr-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            z-index: 100;
+            position: fixed;
+            left: 0;
+            top: 70px;
+            bottom: 0;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar-logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 0;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .sidebar-nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        
+        .sidebar-nav::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-item {
+            width: 100%;
+            height: 80px;
+            min-height: 80px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+        }
+
+        .nav-item i {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.2;
+            padding: 0 4px;
+            word-break: break-word;
+        }
+
+        .nav-item.has-submenu .submenu-indicator {
+            position: absolute;
+            right: 8px;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            opacity: 0.7;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .nav-item.has-submenu.submenu-open .submenu-indicator {
+            transform: rotate(90deg);
+            opacity: 1;
+        }
+
+        .sidebar-submenu-panel {
+            position: fixed;
+            top: 70px;
+            left: var(--sidebar-width);
+            bottom: 0;
+            width: var(--submenu-width);
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            box-shadow: 8px 0 24px rgba(15, 23, 42, 0.08);
+            z-index: 120;
+            display: flex;
+            flex-direction: column;
+            padding: 18px 14px;
+            opacity: 0;
+            transform: translateX(-24px);
+            pointer-events: none;
+            transition: opacity 0.28s ease, transform 0.28s ease;
+        }
+
+        .sidebar-submenu-panel.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .submenu-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--cmr-primary);
+            margin-bottom: 14px;
+            padding: 6px 10px;
+        }
+
+        .submenu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .submenu-item {
+            width: 100%;
+            border: none;
+            text-align: left;
+            background: #f8fafc;
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 12px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submenu-item:hover {
+            background: #eff6ff;
+            color: var(--cmr-primary);
+            transform: translateX(3px);
+        }
+
+        .submenu-item.active {
+            background: #eff6ff;
+            color: var(--cmr-primary);
+        }
+
+
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            margin-right: var(--right-sidebar-width);
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 30px;
+            background: var(--bg-page);
+            transition: transform 0.28s ease;
+            will-change: transform;
+        }
+
+        body.submenu-open .main-content {
+            transform: translateX(var(--submenu-width));
+            overflow-x: auto;
+        }
+
+        body.submenu-open .main-content::after {
+            content: '';
+            display: block;
+            width: calc(100% + var(--submenu-width) + var(--right-sidebar-width));
+            height: 1px;
+        }
+
+        /* RIGHT SIDEBAR - FIXED */
+        .sidebar-right {
+            width: var(--right-sidebar-width);
+            background: white;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: fixed;
+            right: 0;
+            top: 70px;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 90;
+        }
+
+        /* VIEW VISIBILITY */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        .right-block {
+            background: #f8fafc;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(37, 108, 181, 0.1);
+        }
+
+        .right-block-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .right-block-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--cmr-primary);
+            color: white;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+        }
+
+        /* QUOTE BLOCK */
+        .quote-block {
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+            border: 1px solid rgba(37, 108, 181, 0.1);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+
+
+        .quote-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1e293b;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .quote-author-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(37, 108, 181, 0.2);
+        }
+
+        .author-avatar-small {
+            width: 32px;
+            height: 32px;
+            background: var(--cmr-primary);
+            color: white;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .quote-author {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--cmr-dark);
+        }
+
+        .quote-role {
+            font-size: 11px;
+            color: var(--cmr-primary);
+            font-weight: 600;
+        }
+
+        /* MOOD BLOCK */
+        .mood-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mood-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: grid;
+            place-items: center;
+            color: var(--text-light);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .mood-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .mood-btn[data-mood="great"] {
+            color: #22c55e;
+        }
+
+        .mood-btn[data-mood="good"] {
+            color: #84cc16;
+        }
+
+        .mood-btn[data-mood="neutral"] {
+            color: #eab308;
+        }
+
+        .mood-btn[data-mood="bad"] {
+            color: #f97316;
+        }
+
+        .mood-btn[data-mood="terrible"] {
+            color: #ef4444;
+        }
+
+        .mood-btn.active i {
+            color: white;
+        }
+
+        .mood-results {
+            margin-top: 24px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .mood-results.active {
+            display: flex;
+        }
+
+        /* FLASH INFO CARD */
+        .flash-info-card {
+            background: #fef9c3;
+            border-radius: var(--radius);
+            padding: 20px;
+            color: #1e293b;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .live-badge {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .flash-content-box {
+            background: rgba(239, 68, 68, 0.08);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(239, 68, 68, 0.1);
+        }
+
+        .flash-subject {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 2px;
+            color: #1e293b;
+        }
+
+        .flash-desc {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        /* FORMATION CARD */
+        .formation-progress-container {
+            margin-top: 16px;
+        }
+
+        .formation-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        .formation-bar-bg {
+            height: 8px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .formation-bar-fill {
+            height: 100%;
+            background: var(--cmr-primary);
+            border-radius: 10px;
+        }
+
+        .formation-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px;
+            border-radius: var(--radius);
+            margin-top: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .formation-icon-box {
+            width: 36px;
+            height: 36px;
+            background: #eff6ff;
+            color: var(--cmr-primary);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+        }
+
+        .formation-btn {
+            width: 100%;
+            padding: 10px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .formation-btn:hover {
+            border-color: var(--cmr-primary);
+            color: var(--cmr-primary);
+            background: #eff6ff;
+        }
+
+        .retry-mood-btn {
+            margin-top: 16px;
+            background: #f1f5f9;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--cmr-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .retry-mood-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .mood-stat {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mood-stat-label {
+            font-size: 18px;
+            width: 24px;
+        }
+
+        .mood-stat-bar-bg {
+            flex: 1;
+            height: 8px;
+            background: #f1f5f9;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .mood-stat-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            width: 0;
+            transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .mood-stat-percent {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-light);
+            min-width: 30px;
+            text-align: right;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* CALENDAR BLOCK */
+        .calendar-widget {
+            text-align: center;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .calendar-nav {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            color: var(--text-light);
+            transition: all 0.2s;
+        }
+
+        .calendar-nav:hover {
+            background: var(--cmr-primary);
+            color: white;
+        }
+
+        .calendar-month {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .calendar-day-header {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-light);
+            padding: 8px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-main);
+            position: relative;
+        }
+
+        .calendar-day:hover:not(.today) {
+            background: #f1f5f9;
+            color: var(--cmr-primary);
+        }
+
+        .calendar-day.today {
+            background: var(--cmr-primary);
+            color: white;
+            font-weight: 700;
+        }
+
+        .calendar-day.event {
+            position: relative;
+        }
+
+        .calendar-day.event::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            width: 5px;
+            height: 5px;
+            background: #f59e0b;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+        }
+
+        .calendar-events {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .calendar-event-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            font-size: 12px;
+            border: none;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .calendar-event-item:hover {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transform: translateX(4px);
+        }
+
+        .event-time {
+            font-weight: 700;
+            color: var(--cmr-primary);
+            min-width: 45px;
+        }
+
+        /* NEWS CARD REFINED STYLES */
+        .news-card-v2 {
+            padding: 0 !important;
+            display: flex;
+            overflow: hidden;
+            height: 380px;
+            margin-bottom: 24px;
+        }
+
+        .news-card-v2:hover {
+            transform: none !important;
+        }
+
+        .news-slider-mini {
+            flex: 2.5;
+            position: relative;
+            height: 100%;
+        }
+
+        .news-slide-mini {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .news-slide-mini.active {
+            opacity: 1;
+        }
+
+        .news-slide-mini img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Removed hover zoom, overlay, and text color changes */
+
+        .news-slide-mini .mini-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            z-index: 4;
+        }
+
+        .mini-news-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .news-content-area {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        .news-list-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+            overflow: hidden;
+            /* Prevent ANY scrollbars */
+        }
+
+        .news-item-mini {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .news-item-mini:hover {
+            background: #eff6ff;
+            transform: translateX(4px);
+        }
+
+        .news-item-mini img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .news-item-content-mini {
+            flex: 1;
+        }
+
+        .news-item-title-mini {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-item-meta-mini {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        /* CAROUSEL SECTION */
+        .carousel-section {
+            margin-bottom: 24px;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+        }
+
+        .carousel-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .carousel-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .carousel-dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* QUICK ACCESS BAR */
+        .quick-access-bar {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .quick-access-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quick-access-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .manage-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--cmr-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            outline: none;
+        }
+
+        .manage-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .edit-modal {
+            width: 500px;
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .app-category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--cmr-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .edit-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .edit-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .edit-item.active {
+            border-color: var(--cmr-primary);
+            background: #eff6ff;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .primary-btn {
+            background: var(--cmr-primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .secondary-btn {
+            background: #f1f5f9;
+            color: var(--text-light);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+        }
+
+        .quick-access-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .quick-access-item:hover {
+            background: white;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-3px);
+        }
+
+        .quick-access-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--cmr-primary), var(--cmr-dark));
+            color: white;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+        }
+
+        .quick-access-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        /* DASHBOARD GRID */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .dashboard-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+        }
+
+        .card-icon.blue {
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+
+        .card-icon.green {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .card-icon.orange {
+            background: #fff7ed;
+            color: #f59e0b;
+        }
+
+        .card-icon.purple {
+            background: #faf5ff;
+            color: #a855f7;
+        }
+
+        .card-icon.pink {
+            background: #fdf4ff;
+            color: #d946ef;
+        }
+
+        .card-action {
+            font-size: 12px;
+            color: var(--cmr-primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: #eff6ff;
+            border-radius: 8px;
+            transition: all 0.2s;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .card-action:hover {
+            background: var(--cmr-primary);
+            color: white;
+        }
+
+        /* APP GRID */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .app-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .app-item:hover {
+            background: #f8fafc;
+        }
+
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* STAT GRID */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .stat-item {
+            padding: 16px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item.blue {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        }
+
+        .stat-item.green {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+        }
+
+        .stat-item.purple {
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+        }
+
+        .stat-item.orange {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            opacity: 0.2;
+        }
+
+        /* TEAM LIST */
+        .team-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .team-member:hover {
+            background: #f8fafc;
+        }
+
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 13px;
+            color: white;
+            position: relative;
+        }
+
+        .member-status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .member-status.online {
+            background: #22c55e;
+        }
+
+        .member-status.busy {
+            background: #ef4444;
+        }
+
+        .member-status.away {
+            background: #eab308;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: block;
+        }
+
+        .member-role {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .member-mood {
+            font-size: 20px;
+        }
+
+        /* KM TABS */
+        .km-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 10px;
+        }
+
+        .km-tab {
+            flex: 1;
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .km-tab.active {
+            background: white;
+            color: var(--cmr-primary);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .km-content {
+            display: none;
+        }
+
+        .km-content.active {
+            display: block;
+        }
+
+        /* DOC LIST */
+        .doc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .doc-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .doc-item:hover {
+            background: #f1f5f9;
+        }
+
+        .doc-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .doc-icon.pdf {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .doc-icon.xls {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .doc-icon.doc {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .doc-info {
+            flex: 1;
+        }
+
+        .doc-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .doc-meta {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        /* AGENDA */
+        .agenda-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .agenda-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .agenda-item:hover {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transform: translateX(4px);
+        }
+
+        .agenda-time {
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .agenda-hour {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--cmr-primary);
+        }
+
+        .agenda-min {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .agenda-content {
+            flex: 1;
+        }
+
+        .agenda-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .agenda-loc {
+            font-size: 11px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* IDEE BOX */
+        .idee-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .idee-stat {
+            text-align: center;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .idee-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--cmr-primary);
+        }
+
+        .idee-label {
+            font-size: 11px;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .idee-progress {
+            background: #ecfdf5;
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .idee-check {
+            width: 36px;
+            height: 36px;
+            background: #22c55e;
+            color: white;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+        }
+
+        /* APP CARD LARGE */
+        .app-card-large {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: 100%;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .app-card-large:hover {
+            /* transform: translateY(-5px); Removed as requested */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            /* Kept subtle or standard */
+            background-color: var(--hover-bg, #f8fafc);
+            border-color: var(--hover-border, #e2e8f0);
+        }
+
+        .app-card-icon-large {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .app-card-content {
+            flex: 1;
+        }
+
+        .app-card-title-large {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .app-card-desc {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .app-card-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--cmr-primary);
+            margin-top: auto;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1400px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar-right {
+                display: none;
+            }
+
+            .main-content {
+                margin-right: 0;
+            }
+
+            body.submenu-open .main-content::after {
+                width: calc(100% + var(--submenu-width));
+            }
+        }
+
+        @media (max-width: 968px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-access-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* NEWS TICKER */
+        .news-ticker-container {
+            background: #ffffff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 10px 20px 10px 0;
+            /* Remove left padding */
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .ticker-label {
+            font-weight: 800;
+            color: #ef4444;
+            padding: 0 20px;
+            /* Add internal padding */
+            z-index: 10;
+            background: #ffffff;
+            box-shadow: 5px 0 15px rgba(255, 255, 255, 1);
+            /* Enhanced shadow to hide text */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            height: 100%;
+            position: relative;
+        }
+
+        .ticker-wrapper {
+            display: flex;
+            animation: ticker 60s linear infinite;
+            /* Slower speed */
+        }
+
+        .news-ticker-container:hover .ticker-wrapper {
+            animation-play-state: paused;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding-right: 40px;
+            /* Use padding instead of margin for calculation safety */
+            font-size: 13px;
+            color: var(--text-main);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .ticker-item strong {
+            color: var(--cmr-primary);
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- TOP HEADER -->
+    <header class="top-header">
+        <div class="header-logo">
+            <svg viewBox="0 0 207.08 58.4" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <style>
+                        .cls-1 {
+                            fill: #18385f;
+                        }
+
+                        .cls-2 {
+                            fill: #256cb5;
+                        }
+
+                        .cls-3 {
+                            fill: #758693;
+                        }
+                    </style>
+                </defs>
+                <g>
+                    <path class="cls-3"
+                        d="M125.08,47.33c-1.73-3.72-2.88-7.6-4.1-11.16-5.28,6.78-9.12,14.45-11.62,21.95,8.5,0,14.85-2.25,19.81-5.61-1.77-1.46-3.17-3.19-4.09-5.18" />
+                    <path class="cls-3"
+                        d="M177.67,16.05c-18.03-3.86-30.18-.65-41.34,6.2-1.15.71-2.27,1.46-3.36,2.25,3.97,2.98,7.48,6.98,10.24,11.86,1.56-2.5,3-4.87,4.46-6.9,5.97-8.29,13.55-14.64,30-13.41" />
+                    <path class="cls-2"
+                        d="M156.02,23.57c21.65-5.5,20.31,10.2,26.62,23.76,3.35,7.2,12.92,11.07,24.44,11.07-2.3-32.82-29.41-49.19-51.06-34.83" />
+                    <path class="cls-3"
+                        d="M88.48,31.88c.55-.84,1.09-1.65,1.64-2.41,5.98-8.29,13.55-14.63,30-13.41-18.03-3.86-30.18-.65-41.34,6.2-.17.1-.33.21-.5.32,3.8,2.27,7.27,5.4,10.2,9.3" />
+                    <path class="cls-3"
+                        d="M67.42,31.53c-7.38,7.79-12.51,17.32-15.6,26.59,10.49,0,17.7-3.43,23.08-8.14-.64-.83-1.19-1.71-1.62-2.65-2.52-5.42-3.82-11.18-5.86-15.8" />
+                    <path class="cls-2"
+                        d="M132.98,24.5c-10.03-7.52-23.04-8.54-34.51-.93,15.71-3.99,19.32,3.18,22.52,12.6,3.39-4.35,7.38-8.33,11.99-11.67" />
+                    <path class="cls-2"
+                        d="M129.18,52.5c4.68,3.86,12,5.9,20.35,5.9-.6-8.55-2.88-15.98-6.31-22.04-3.49,5.59-7.61,11.79-14.04,16.14" />
+                    <path class="cls-1"
+                        d="M132.98,24.5c-4.61,3.33-8.6,7.32-11.99,11.67,1.21,3.56,2.36,7.44,4.1,11.16.92,1.98,2.32,3.71,4.09,5.18,6.43-4.35,10.55-10.56,14.04-16.14-2.76-4.88-6.27-8.88-10.24-11.86" />
+                    <path class="cls-3"
+                        d="M68.31,16.05c-18.03-3.86-30.18-.65-41.34,6.2C13.26,30.67,4.48,44.68,0,58.12c24.43,0,31.05-18.59,38.31-28.65,5.98-8.29,13.55-14.64,30-13.41" />
+                    <path class="cls-2"
+                        d="M74.9,49.98c4.26,5.5,12.8,8.43,22.82,8.43-.75-10.79-4.19-19.8-9.23-26.53-3.6,5.54-7.38,12.67-13.58,18.1" />
+                    <path class="cls-2"
+                        d="M78.28,22.57c-9.56-5.7-21.23-5.9-31.62,1,12.99-3.3,17.7,1.03,20.76,7.96,3.19-3.37,6.81-6.41,10.87-8.96" />
+                    <path class="cls-1"
+                        d="M88.48,31.88c-2.93-3.91-6.4-7.04-10.2-9.3-4.05,2.55-7.67,5.59-10.87,8.96,2.04,4.61,3.33,10.38,5.86,15.8.44.94.98,1.82,1.62,2.65,6.21-5.43,9.99-12.56,13.59-18.1" />
+                    <path class="cls-3"
+                        d="M28.07,9.87c0,3.45-2.8,6.25-6.25,6.25s-6.25-2.8-6.25-6.25,2.8-6.25,6.25-6.25,6.25,2.8,6.25,6.25" />
+                    <path class="cls-3"
+                        d="M83.46,8.87c0,3.83-3.11,6.94-6.94,6.94s-6.94-3.11-6.94-6.94,3.11-6.94,6.94-6.94,6.94,3.11,6.94,6.94" />
+                    <path class="cls-3"
+                        d="M143.37,7.98c0,4.41-3.58,7.98-7.98,7.98s-7.98-3.57-7.98-7.98,3.57-7.98,7.98-7.98,7.98,3.57,7.98,7.98" />
+                </g>
+            </svg>
+        </div>
+
+        <div class="search-container">
+            <div class="search-pill">
+                <i data-lucide="search" style="width: 20px; height: 20px; color: #94a3b8;"></i>
+                <input type="text" placeholder="Rechercher dans l'intranet...">
+                <i data-lucide="command" style="width: 16px; height: 16px; color: #cbd5e1;"></i>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <div style="position: relative;">
+                <button class="header-icon-btn" onclick="toggleDropdown('notifDropdown')">
+                    <i data-lucide="bell" style="width: 20px; height: 20px;"></i>
+                    <span class="badge">3</span>
+                </button>
+                <div class="header-dropdown" id="notifDropdown">
+                    <div class="dropdown-header">
+                        Notifications
+                        <span style="font-size: 11px; color: var(--cmr-primary); cursor: pointer;">Tout marquer
+                            lu</span>
+                    </div>
+                    <div class="notif-item">
+                        <div class="notif-title">Nouveau document publié</div>
+                        <div class="notif-desc">La procédure RH 2026 est maintenant disponible.</div>
+                        <div class="notif-time">Il y a 10 min</div>
+                    </div>
+                    <div class="notif-item">
+                        <div class="notif-title">Réunion Direction</div>
+                        <div class="notif-desc">La réunion commencera dans 15 minutes.</div>
+                        <div class="notif-time">Il y a 25 min</div>
+                    </div>
+                    <div class="notif-item">
+                        <div class="notif-title">Félicitations !</div>
+                        <div class="notif-desc">L'idée "Digit-Passe" a été validée.</div>
+                        <div class="notif-time">Hier, 16:45</div>
+                    </div>
+                </div>
+            </div>
+            <div style="position: relative;">
+                <button class="header-icon-btn" onclick="toggleDropdown('quickLinksDropdown')">
+                    <i data-lucide="layout-grid" style="width: 20px; height: 20px;"></i>
+                </button>
+                <div class="header-dropdown" id="quickLinksDropdown" style="width: 320px;">
+                    <div class="dropdown-header">
+                        Accès Rapides
+                        <span style="font-size: 11px; color: var(--cmr-primary); cursor: pointer;"
+                            onclick="toggleModal('editModal')">Gérer</span>
+                    </div>
+                    <div class="quick-links-grid">
+                        <a href="#" class="quick-link-item">
+                            <div class="quick-link-icon">
+                                <i data-lucide="calendar-plus" style="width: 18px;"></i>
+                            </div>
+                            <span class="quick-link-label">Congés</span>
+                        </a>
+                        <a href="#" class="quick-link-item">
+                            <div class="quick-link-icon">
+                                <i data-lucide="door-open" style="width: 18px;"></i>
+                            </div>
+                            <span class="quick-link-label">Salles</span>
+                        </a>
+                        <a href="#" class="quick-link-item">
+                            <div class="quick-link-icon">
+                                <i data-lucide="file-text" style="width: 18px;"></i>
+                            </div>
+                            <span class="quick-link-label">Frais</span>
+                        </a>
+                        <a href="#" class="quick-link-item">
+                            <div class="quick-link-icon">
+                                <i data-lucide="sticky-note" style="width: 18px;"></i>
+                            </div>
+                            <span class="quick-link-label">Notes</span>
+                        </a>
+                        <a href="#" class="quick-link-item">
+                            <div class="quick-link-icon">
+                                <i data-lucide="ticket" style="width: 18px;"></i>
+                            </div>
+                            <span class="quick-link-label">Tickets</span>
+                        </a>
+                        <a href="#" class="quick-link-item">
+                            <div class="quick-link-icon">
+                                <i data-lucide="book-open" style="width: 18px;"></i>
+                            </div>
+                            <span class="quick-link-label">Docs</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div style="position: relative;">
+                <div class="header-user-pill" onclick="toggleDropdown('userDropdown')">
+                    <div class="header-avatar">LH</div>
+                    <span class="header-user-name">Lalla Cherifa HARFI</span>
+                    <i data-lucide="chevron-down" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                </div>
+                <div class="header-dropdown" id="userDropdown">
+                    <div class="dropdown-header">Mon Compte</div>
+                    <a href="#" class="dropdown-item">
+                        <i data-lucide="user"></i>
+                        Mon Profil
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i data-lucide="settings"></i>
+                        Paramètres
+                    </a>
+                    <a href="#" class="dropdown-item logout">
+                        <i data-lucide="log-out"></i>
+                        Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- LAYOUT CONTAINER -->
+    <div class="layout-container">
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar-left">
+
+
+            <nav class="sidebar-nav">
+                <!-- Group 1: Priority Access -->
+                <div id="nav-dashboard" class="nav-item active" onclick="switchView('dashboard')">
+                    <i data-lucide="home"></i>
+                    <span>Accueil</span>
+                </div>
+                <div id="nav-applis" class="nav-item" onclick="switchView('applis')">
+                    <i data-lucide="layers"></i>
+                    <span>Mes Applications</span>
+                </div>
+
+                <!-- Group 2: HR, Social & Learning -->
+                <div id="nav-rh" class="nav-item has-submenu" onclick="toggleSidebarSubmenu('rh')">
+                    <i data-lucide="users"></i>
+                    <span>RH & Mobilité</span>
+                    <i data-lucide="chevron-right" class="submenu-indicator"></i>
+                </div>
+                <div id="nav-academy" class="nav-item" onclick="switchView('academy')">
+                    <i data-lucide="graduation-cap"></i>
+                    <span>CMR Academy</span>
+                </div>
+                <div id="nav-vie-sociale" class="nav-item" onclick="switchView('vie-sociale')">
+                    <i data-lucide="coffee"></i>
+                    <span>Vie Sociale</span>
+                </div>
+
+                <!-- Group 3: Work, Docs & Collab -->
+                <div id="nav-km" class="nav-item has-submenu" onclick="toggleSidebarSubmenu('km')">
+                    <i data-lucide="brain"></i>
+                    <span>Knowledge Management</span>
+                    <i data-lucide="chevron-right" class="submenu-indicator"></i>
+                </div>
+                <div id="nav-documentaires" class="nav-item" onclick="switchView('documentaires')">
+                    <i data-lucide="folder-open"></i>
+                    <span>Documentaires</span>
+                </div>
+                <div id="nav-collaboratifs" class="nav-item" onclick="switchView('collaboratifs')">
+                    <i data-lucide="network"></i>
+                    <span>Collaboratifs</span>
+                </div>
+                <div id="nav-projets" class="nav-item" onclick="switchView('projets')">
+                    <i data-lucide="briefcase"></i>
+                    <span>Projets</span>
+                </div>
+
+                <!-- Group 4: Sub-departments & Institutional -->
+                <div id="nav-institutionnel" class="nav-item" onclick="switchView('institutionnel')">
+                    <i data-lucide="landmark"></i>
+                    <span>Institutionnel</span>
+                </div>
+                <div id="nav-reglementation" class="nav-item" onclick="switchView('reglementation')">
+                    <i data-lucide="shield-check"></i>
+                    <span>Réglementation</span>
+                </div>
+                <div id="nav-achats" class="nav-item" onclick="switchView('achats')">
+                    <i data-lucide="shopping-cart"></i>
+                    <span>Achats</span>
+                </div>
+                <div id="nav-rse" class="nav-item" onclick="switchView('rse')">
+                    <i data-lucide="leaf"></i>
+                    <span>RSE</span>
+                </div>
+                <div id="nav-innovation" class="nav-item" onclick="switchView('innovation')">
+                    <i data-lucide="lightbulb"></i>
+                    <span>Innovation</span>
+                </div>
+                <div id="nav-admin" class="nav-item" onclick="switchView('admin')">
+                    <i data-lucide="settings"></i>
+                    <span>Administration & Pilotage</span>
+                </div>
+            </nav>
+        </aside>
+
+        <aside class="sidebar-submenu-panel" id="sidebarSubmenu">
+            <div class="submenu-title" id="submenuTitle">Sous-menu</div>
+            <div class="submenu-list" id="submenuList"></div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div id="view-dashboard" class="view-section active"> <!-- DASHBOARD VIEW START -->
+
+                <!-- NEWS TICKER -->
+                <div class="news-ticker-container">
+                    <div class="ticker-label">
+                        <i data-lucide="zap" style="width: 16px; height: 16px;"></i>
+                        FLASH INFO
+                    </div>
+                    <div class="ticker-wrapper" id="tickerWrapper">
+                        <!-- Content will be injected by JS -->
+                    </div>
+                </div>
+
+                <!-- ACTUALITÉS SECTION REFINED -->
+                <div class="dashboard-card news-card-v2">
+                    <!-- NEWS SLIDER MINI -->
+                    <div class="news-slider-mini">
+                        <a href="#" class="news-slide-mini active">
+                            <img src="images/intranet/news_contract.jpg" alt="Signature Contrat Programme">
+                            <div class="mini-overlay">
+                                <div class="mini-news-title">Signature du nouveau contrat programme Etat-CMR 2026-2028
+                                </div>
+                                <div class="news-item-meta-mini" style="color: rgba(255,255,255,0.7)">Portée Stratégique
+                                    •
+                                    Hier</div>
+                            </div>
+                        </a>
+                        <a href="#" class="news-slide-mini">
+                            <img src="images/intranet/news_board.jpg" alt="Conseil d'Administration">
+                            <div class="mini-overlay">
+                                <div class="mini-news-title">Tenue de la session ordinaire du Conseil d'Administration
+                                </div>
+                                <div class="news-item-meta-mini" style="color: rgba(255,255,255,0.7)">Gouvernance • 2
+                                    jours
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="news-slide-mini">
+                            <img src="images/intranet/news_academy.jpg" alt="CMR Academy">
+                            <div class="mini-overlay">
+                                <div class="mini-news-title">Lancement des nouveaux ateliers de la "CMR Academy"</div>
+                                <div class="news-item-meta-mini" style="color: rgba(255,255,255,0.7)">Formation &
+                                    Développement • 1 semaine</div>
+                            </div>
+                        </a>
+                        <div class="carousel-indicators" style="right: 20px; bottom: 15px; z-index: 10;">
+                            <div class="carousel-dot active" onclick="goToMiniSlide(0)"></div>
+                            <div class="carousel-dot" onclick="goToMiniSlide(1)"></div>
+                            <div class="carousel-dot" onclick="goToMiniSlide(2)"></div>
+                        </div>
+                    </div>
+
+                    <div class="news-content-area">
+                        <div class="card-header" style="padding: 0; margin-bottom: 24px;">
+                            <div class="card-title">
+                                <div class="card-icon blue">
+                                    <i data-lucide="newspaper" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Actualités
+                            </div>
+                            <a href="#" class="card-action">
+                                Voir tout
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+
+                        <!-- NEWS LIST MINI -->
+                        <div class="news-list-mini">
+                            <a href="#" class="news-item-mini">
+                                <img src="images/intranet/slider_cmr_tech.png" alt="Signature Electronique">
+                                <div class="news-item-content-mini">
+                                    <div class="news-item-title-mini">Déploiement de la solution de signature
+                                        électronique
+                                    </div>
+                                    <div class="news-item-meta-mini">Direction Digitale • Janv 2026</div>
+                                </div>
+                            </a>
+                            <a href="#" class="news-item-mini">
+                                <img src="images/intranet/slider2.png" alt="Innovation">
+                                <div class="news-item-content-mini">
+                                    <div class="news-item-title-mini">Résultats de la campagne d'innovation
+                                        "Digit-Passe"
+                                    </div>
+                                    <div class="news-item-meta-mini">Comité Innovation • 3 jours</div>
+                                </div>
+                            </a>
+                            <a href="#" class="news-item-mini">
+                                <img src="images/intranet/slider3.png" alt="RH">
+                                <div class="news-item-content-mini">
+                                    <div class="news-item-title-mini">Lancement du programme de formation "CMR Academy"
+                                    </div>
+                                    <div class="news-item-meta-mini">Ressources Humaines • 1 semaine</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- QUICK ACCESS BAR -->
+                <section class="quick-access-bar">
+                    <div class="quick-access-header">
+                        <div class="quick-access-title" style="cursor: pointer;" onclick="toggleModal('editModal')">
+                            <i data-lucide="layout-grid"
+                                style="width: 20px; height: 20px; color: var(--cmr-primary);"></i>
+                            Accès Rapides
+                        </div>
+                        <button class="manage-btn" onclick="toggleModal('editModal')">
+                            <i data-lucide="settings-2" style="width: 14px; height: 14px;"></i>
+                            Gérer
+                        </button>
+                    </div>
+                    <div class="quick-access-grid">
+                        <a href="#" class="quick-access-item">
+                            <div class="quick-access-icon">
+                                <i data-lucide="calendar-plus" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <span class="quick-access-label">Congés</span>
+                        </a>
+                        <a href="#" class="quick-access-item">
+                            <div class="quick-access-icon">
+                                <i data-lucide="door-open" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <span class="quick-access-label">Réservation</span>
+                        </a>
+                        <a href="#" class="quick-access-item">
+                            <div class="quick-access-icon">
+                                <i data-lucide="file-text" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <span class="quick-access-label">Note de frais</span>
+                        </a>
+                        <a href="#" class="quick-access-item">
+                            <div class="quick-access-icon">
+                                <i data-lucide="sticky-note" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <span class="quick-access-label">Bloc-note</span>
+                        </a>
+                        <a href="#" class="quick-access-item">
+                            <div class="quick-access-icon">
+                                <i data-lucide="ticket" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <span class="quick-access-label">Support IT</span>
+                        </a>
+                        <a href="#" class="quick-access-item">
+                            <div class="quick-access-icon">
+                                <i data-lucide="book-open" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <span class="quick-access-label">Documentation</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- MODAL OVERLAY -->
+                <div class="modal-overlay" id="editModal">
+                    <div class="edit-modal">
+                        <div class="modal-title">
+                            <i data-lucide="layout-grid" style="color: var(--cmr-primary);"></i>
+                            Personnaliser vos raccourcis
+                        </div>
+                        <div class="edit-grid">
+                            <div class="edit-item active">
+                                <span>Congés</span>
+                                <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                            </div>
+                            <div class="edit-item active">
+                                <span>Réservation</span>
+                                <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                            </div>
+                            <div class="edit-item active">
+                                <span>Note de frais</span>
+                                <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                            </div>
+                            <div class="edit-item">
+                                <span>Annuaire</span>
+                                <i data-lucide="circle" style="width: 18px; color: #cbd5e1;"></i>
+                            </div>
+                            <div class="edit-item active">
+                                <span>Bloc-note</span>
+                                <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                            </div>
+                            <div class="edit-item active">
+                                <span>Documentation</span>
+                                <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="secondary-btn" onclick="toggleModal('editModal')">Annuler</button>
+                            <button class="primary-btn" onclick="toggleModal('editModal')">Enregistrer les
+                                modifications</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DASHBOARD GRID -->
+                <div class="dashboard-grid">
+                    <!-- MES APPLICATIONS -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue">
+                                    <i data-lucide="layers" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Mes Applications
+                            </div>
+                            <a href="#" class="card-action">
+                                Voir tout
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="app-grid">
+                            <div class="app-item">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">
+                                    <i data-lucide="users" style="width: 22px; height: 22px;"></i>
+                                </div>
+                                <span class="app-name">SIRH</span>
+                            </div>
+                            <div class="app-item">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                                    <i data-lucide="banknote" style="width: 22px; height: 22px;"></i>
+                                </div>
+                                <span class="app-name">Paie</span>
+                            </div>
+                            <div class="app-item">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #a855f7, #9333ea);">
+                                    <i data-lucide="folder-open" style="width: 22px; height: 22px;"></i>
+                                </div>
+                                <span class="app-name">GED</span>
+                            </div>
+                            <div class="app-item">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                                    <i data-lucide="life-buoy" style="width: 22px; height: 22px;"></i>
+                                </div>
+                                <span class="app-name">Support</span>
+                            </div>
+                            <div class="app-item">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                    <i data-lucide="megaphone" style="width: 22px; height: 22px;"></i>
+                                </div>
+                                <span class="app-name">Com</span>
+                            </div>
+                            <div class="app-item">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                    <i data-lucide="book-user" style="width: 22px; height: 22px;"></i>
+                                </div>
+                                <span class="app-name">Annuaire</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STATISTIQUES -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green">
+                                    <i data-lucide="bar-chart-3" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Statistiques
+                            </div>
+                            <a href="#" class="card-action">
+                                Actualiser
+                                <i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="stat-grid">
+                            <div class="stat-item blue">
+                                <div class="stat-value">87%</div>
+                                <div class="stat-label">Productivité</div>
+                                <i data-lucide="trending-up" class="stat-icon" style="width: 40px; height: 40px;"></i>
+                            </div>
+                            <div class="stat-item green">
+                                <div class="stat-value">152</div>
+                                <div class="stat-label">Utilisateurs</div>
+                                <i data-lucide="users" class="stat-icon" style="width: 40px; height: 40px;"></i>
+                            </div>
+                            <div class="stat-item purple">
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">Projets</div>
+                                <i data-lucide="briefcase" class="stat-icon" style="width: 40px; height: 40px;"></i>
+                            </div>
+                            <div class="stat-item orange">
+                                <div class="stat-value">98%</div>
+                                <div class="stat-label">Satisfaction</div>
+                                <i data-lucide="star" class="stat-icon" style="width: 40px; height: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ÉQUIPES EN LIGNE -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon purple">
+                                    <i data-lucide="users" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Équipes en ligne
+                            </div>
+                            <button class="card-action">
+                                <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i>
+                                Chat
+                            </button>
+                        </div>
+                        <div class="team-list">
+                            <div class="team-member">
+                                <div class="member-avatar" style="background: #3b82f6;">
+                                    MK
+                                    <div class="member-status online"></div>
+                                </div>
+                                <div class="member-info">
+                                    <span class="member-name">Mehdi Kadiri</span>
+                                    <span class="member-role">DSI</span>
+                                </div>
+                                <span class="member-mood">😊</span>
+                            </div>
+                            <div class="team-member">
+                                <div class="member-avatar" style="background: #ec4899;">
+                                    SB
+                                    <div class="member-status busy"></div>
+                                </div>
+                                <div class="member-info">
+                                    <span class="member-name">Sarah Bennani</span>
+                                    <span class="member-role">DRH</span>
+                                </div>
+                                <span class="member-mood">🤗</span>
+                            </div>
+                            <div class="team-member">
+                                <div class="member-avatar" style="background: #10b981;">
+                                    NR
+                                    <div class="member-status away"></div>
+                                </div>
+                                <div class="member-info">
+                                    <span class="member-name">Nabil Rais</span>
+                                    <span class="member-role">Finance</span>
+                                </div>
+                                <span class="member-mood">😐</span>
+                            </div>
+                            <div class="team-member">
+                                <div class="member-avatar" style="background: #f59e0b;">
+                                    FK
+                                    <div class="member-status online"></div>
+                                </div>
+                                <div class="member-info">
+                                    <span class="member-name">Fatima Kabbaj</span>
+                                    <span class="member-role">Communication</span>
+                                </div>
+                                <span class="member-mood">😔</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KNOWLEDGE MANAGEMENT -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue">
+                                    <i data-lucide="library" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Knowledge Management
+                            </div>
+                            <a href="#" class="card-action">
+                                Explorer
+                                <i data-lucide="compass" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="km-tabs">
+                            <button class="km-tab active" onclick="switchKmTab('docs')">Documents</button>
+                            <button class="km-tab" onclick="switchKmTab('veille')">Veille</button>
+                        </div>
+                        <div id="km-docs" class="km-content active">
+                            <div class="doc-list">
+                                <div class="doc-item">
+                                    <div class="doc-icon pdf">PDF</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Procédure RH 2026</div>
+                                        <div class="doc-meta">Mis à jour il y a 2h</div>
+                                    </div>
+                                    <i data-lucide="download" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                                </div>
+                                <div class="doc-item">
+                                    <div class="doc-icon xls">XLS</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Budget Prévisionnel</div>
+                                        <div class="doc-meta">Comptabilité • Hier</div>
+                                    </div>
+                                    <i data-lucide="download" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                                </div>
+                                <div class="doc-item">
+                                    <div class="doc-icon doc">DOC</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Guide Utilisateur SIRH</div>
+                                        <div class="doc-meta">DRH • 2 jours</div>
+                                    </div>
+                                    <i data-lucide="download" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="km-veille" class="km-content">
+                            <div class="doc-list">
+                                <div class="doc-item">
+                                    <div class="doc-icon" style="background: #f0fdf4; color: #16a34a;">
+                                        <i data-lucide="rss" style="width: 18px; height: 18px;"></i>
+                                    </div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Digitalisation Retraite</div>
+                                        <div class="doc-meta">Harvard Business Review</div>
+                                    </div>
+                                </div>
+                                <div class="doc-item">
+                                    <div class="doc-icon" style="background: #fdf4ff; color: #d946ef;">
+                                        <i data-lucide="trending-up" style="width: 18px; height: 18px;"></i>
+                                    </div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Nouvelle Réglementation 2026</div>
+                                        <div class="doc-meta">Bulletin Officiel</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOÎTE À IDÉES -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon pink">
+                                    <i data-lucide="lightbulb" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Boîte à Idées
+                            </div>
+                            <a href="#" class="card-action">
+                                Contribuer
+                                <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="idee-stats">
+                            <div class="idee-stat">
+                                <div class="idee-number">47</div>
+                                <div class="idee-label">Votes en cours</div>
+                            </div>
+                            <div class="idee-stat">
+                                <div class="idee-number">12</div>
+                                <div class="idee-label">En évaluation</div>
+                            </div>
+                        </div>
+                        <div class="idee-progress">
+                            <div class="idee-check">
+                                <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 16px; font-weight: 700; color: #14532d;">5 Idées</div>
+                                <div style="font-size: 12px; color: #15803d;">Implémentées ce mois</div>
+                            </div>
+                            <i data-lucide="arrow-right"
+                                style="width: 16px; height: 16px; color: #15803d; margin-left: auto;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- END DASHBOARD VIEW -->
+
+            <!-- KM VIEW -->
+            <div id="view-km" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Knowledge Management</h2>
+                    <p>Accédez à l'ensemble du savoir de la CMR : procédures, veille et archives.</p>
+                </div>
+
+                <div class="km-navbar">
+                    <div class="km-nav-item active" onclick="switchPageKmTab('docs')">Documentation Métier</div>
+                    <div class="km-nav-item" onclick="switchPageKmTab('veille')">Veille Stratégique</div>
+                    <div class="km-nav-item" onclick="switchPageKmTab('archives')">Archives</div>
+                </div>
+
+                <!-- TAB: DOCS -->
+                <div id="page-km-docs" class="km-tab-content" style="display: grid;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large folder">
+                                <i data-lucide="folder" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Procédures RH</div>
+                            <div class="doc-card-meta">
+                                <span>12 fichiers</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large folder">
+                                <i data-lucide="folder" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Guides Utilisateurs</div>
+                            <div class="doc-card-meta">
+                                <span>8 fichiers</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large pdf">
+                                <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Charte Informatique 2026.pdf</div>
+                            <div class="doc-card-meta">
+                                <span>2.4 MB</span>
+                                <span>Mis à jour hier</span>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large ppt">
+                                <i data-lucide="presentation" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Présentation Stratégie 2026.pptx</div>
+                            <div class="doc-card-meta">
+                                <span>15 MB</span>
+                                <span>Il y a 3 jours</span>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large word">
+                                <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Modèle Note de Service.docx</div>
+                            <div class="doc-card-meta">
+                                <span>145 KB</span>
+                                <span>Semaine dernière</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: VEILLE -->
+                <div id="page-km-veille" class="km-tab-content" style="display: none;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #ecfdf5; color: #059669;">
+                                <i data-lucide="newspaper" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Tendances Digital Workplace 2026</div>
+                            <div class="doc-card-meta">
+                                <span>Article</span>
+                                <span>Gartner</span>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #ecfdf5; color: #059669;">
+                                <i data-lucide="newspaper" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">L'IA dans l'administration publique</div>
+                            <div class="doc-card-meta">
+                                <span>Dossier</span>
+                                <span>McKinsey</span>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #f0f9ff; color: #0284c7;">
+                                <i data-lucide="link" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Portail National de la Retraite</div>
+                            <div class="doc-card-meta">
+                                <span>Lien externe</span>
+                                <span>finances.gov.ma</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: ARCHIVES -->
+                <div id="page-km-archives" class="km-tab-content" style="display: none;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large folder">
+                                <i data-lucide="archive" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Archives 2025</div>
+                            <div class="doc-card-meta">
+                                <span>450 fichiers</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large folder">
+                                <i data-lucide="archive" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Archives 2024</div>
+                            <div class="doc-card-meta">
+                                <span>380 fichiers</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- APPLIS VIEW -->
+            <div id="view-applis" class="view-section">
+                <div class="km-header">
+                    <h2>Mes Applications</h2>
+                    <p>Accédez rapidement à tous vos outils métiers et services.</p>
+                </div>
+
+                <div class="app-category-title">Ressources Humaines</div>
+                <div class="app-grid"
+                    style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    <a href="#" class="app-card-large" style="--hover-bg: #f0f9ff; --hover-border: #bae6fd;">
+                        <div class="app-card-icon-large" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">
+                            <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">SIRH</span>
+                            <p class="app-card-desc">Système d'Information Ressources Humaines. Gestion des carrières et
+                                congés.</p>
+                            <div class="app-card-action">
+                                Accéder
+                                <i data-lucide="arrow-right" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #eef2ff; --hover-border: #c7d2fe;">
+                        <div class="app-card-icon-large" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                            <i data-lucide="banknote" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Paie</span>
+                            <p class="app-card-desc">Consultation des bulletins de paie et historique des rémunérations.
+                            </p>
+                            <div class="app-card-action">
+                                Consulter
+                                <i data-lucide="arrow-right" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #faf5ff; --hover-border: #e9d5ff;">
+                        <div class="app-card-icon-large" style="background: linear-gradient(135deg, #a855f7, #9333ea);">
+                            <i data-lucide="graduation-cap" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Formation</span>
+                            <p class="app-card-desc">Catalogue de formations et suivi de votre parcours de
+                                développement.</p>
+                            <div class="app-card-action">
+                                Découvrir
+                                <i data-lucide="arrow-right" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #fdf2f8; --hover-border: #fbcfe8;">
+                        <div class="app-card-icon-large" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                            <i data-lucide="file-spreadsheet" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Notes de Frais</span>
+                            <p class="app-card-desc">Saisie et suivi des remboursements de frais professionnels.</p>
+                            <div class="app-card-action">
+                                Saisir
+                                <i data-lucide="arrow-right" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="app-category-title">Finance & Achat</div>
+                <div class="app-grid"
+                    style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    <a href="#" class="app-card-large" style="--hover-bg: #ecfdf5; --hover-border: #a7f3d0;">
+                        <div class="app-card-icon-large" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i data-lucide="pie-chart" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Sage</span>
+                            <p class="app-card-desc">Gestion financière et comptable. Accès réservé au service finance.
+                            </p>
+                            <div class="app-card-action">
+                                Ouvrir
+                                <i data-lucide="arrow-right" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #fff7ed; --hover-border: #fed7aa;">
+                        <div class="app-card-icon-large" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i data-lucide="shopping-cart" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Achats</span>
+                            <p class="app-card-desc">Portail des demandes d'achats et gestion des fournisseurs.</p>
+                            <div class="app-card-action">
+                                Accéder
+                                <i data-lucide="arrow-right" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="app-category-title">Outils Collaboratifs</div>
+                <div class="app-grid"
+                    style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    <a href="#" class="app-card-large" style="--hover-bg: #f0f9ff; --hover-border: #bae6fd;">
+                        <div class="app-card-icon-large" style="background: #0078d4;">
+                            <i data-lucide="mail" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Outlook</span>
+                            <p class="app-card-desc">Messagerie électronique professionnelle et calendrier.</p>
+                            <div class="app-card-action">
+                                Ouvrir
+                                <i data-lucide="external-link" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #eef2ff; --hover-border: #c7d2fe;">
+                        <div class="app-card-icon-large" style="background: #5059c9;">
+                            <i data-lucide="message-square" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Teams</span>
+                            <p class="app-card-desc">Communication d'équipe, réunions et collaboration en temps réel.
+                            </p>
+                            <div class="app-card-action">
+                                Ouvrir
+                                <i data-lucide="external-link" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #f0f9ff; --hover-border: #bae6fd;">
+                        <div class="app-card-icon-large" style="background: #0078d4;">
+                            <i data-lucide="cloud" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">OneDrive</span>
+                            <p class="app-card-desc">Stockage personnel sécurisé et partage de fichiers.</p>
+                            <div class="app-card-action">
+                                Accéder
+                                <i data-lucide="external-link" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="app-category-title">Support & IT</div>
+                <div class="app-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
+                    <a href="#" class="app-card-large" style="--hover-bg: #fef2f2; --hover-border: #fecaca;">
+                        <div class="app-card-icon-large" style="background: #ef4444;">
+                            <i data-lucide="life-buoy" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Helpdesk</span>
+                            <p class="app-card-desc">Support technique. Signaler un incident ou faire une demande.</p>
+                            <div class="app-card-action">
+                                Créer un ticket
+                                <i data-lucide="arrow-right" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #f8fafc; --hover-border: #cbd5e1;">
+                        <div class="app-card-icon-large" style="background: #64748b;">
+                            <i data-lucide="monitor" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">GLPI</span>
+                            <p class="app-card-desc">Gestion de parc informatique et inventaire.</p>
+                            <div class="app-card-action">
+                                Consulter
+                                <i data-lucide="arrow-right" style="width: 14px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ACADEMY VIEW -->
+            <div id="view-academy" class="view-section km-container">
+                <div class="km-header">
+                    <h2>CMR Academy</h2>
+                    <p>Développez vos compétences avec nos programmes de formation sur-mesure.</p>
+                </div>
+
+                <div class="km-navbar"
+                    style="display: flex; align-items: center; gap: 24px; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 0;">
+                    <div class="km-nav-item active" onclick="switchAcademyPageTab('catalogue')">Catalogue</div>
+                    <div class="km-nav-item" onclick="switchAcademyPageTab('formations')">Mes Formations</div>
+                    <div class="km-nav-item" onclick="switchAcademyPageTab('certificats')">Mes Certificats</div>
+                </div>
+
+                <!-- TAB: CATALOGUE -->
+                <div id="page-academy-catalogue" class="km-tab-content" style="display: block;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #eef2ff; color: #4f46e5;">
+                                <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Management & Leadership</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Développez votre posture de manager et
+                                motivez vos équipes.</p>
+                            <div class="doc-card-meta">
+                                <span>6 parcours</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #f0fdf4; color: #16a34a;">
+                                <i data-lucide="cpu" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Compétences Digitales</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Maîtrisez les outils numériques de
+                                demain.</p>
+                            <div class="doc-card-meta">
+                                <span>12 modules</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #fdf2f8; color: #db2777;">
+                                <i data-lucide="heart" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Soft Skills</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Communication, intelligence
+                                émotionnelle et bien-être.</p>
+                            <div class="doc-card-meta">
+                                <span>8 modules</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #fff7ed; color: #ea580c;">
+                                <i data-lucide="shield-check" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Conformité & Risques</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Réglementations, éthique et sécurité
+                                de l'information.</p>
+                            <div class="doc-card-meta">
+                                <span>4 parcours</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: MES FORMATIONS -->
+                <div id="page-academy-formations" class="km-tab-content" style="display: none;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #eff6ff; color: #3b82f6;">
+                                <i data-lucide="play-circle" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Cybersécurité 101</div>
+                            <div style="margin-top: 8px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+                                    <span>Progression</span>
+                                    <span>35%</span>
+                                </div>
+                                <div style="height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden;">
+                                    <div style="width: 35%; height: 100%; background: #3b82f6;"></div>
+                                </div>
+                            </div>
+                            <div class="doc-card-meta">
+                                <span style="color: #3b82f6; font-weight: 700;">En cours</span>
+                                <button
+                                    style="background: #eff6ff; color: #3b82f6; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;">Reprendre</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: MES CERTIFICATS -->
+                <div id="page-academy-certificats" class="km-tab-content" style="display: none;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #fdf4ff; color: #a855f7;">
+                                <i data-lucide="award" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Certification Management 2025</div>
+                            <div class="doc-card-meta">
+                                <span>Délivré le 12/12/2025</span>
+                                <i data-lucide="download" style="width: 16px; color: #94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RH VIEW -->
+            <div id="view-rh" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Ressources Humaines</h2>
+                    <p>Gérez votre carrière, accédez à vos documents et découvrez nos opportunités internes.</p>
+                </div>
+
+                <div class="km-navbar"
+                    style="display: flex; align-items: center; gap: 24px; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 0;">
+                    <div class="km-nav-item active" onclick="switchRhPageTab('carriere')">Ma Carrière</div>
+                    <div class="km-nav-item" onclick="switchRhPageTab('documents')">Documents RH</div>
+                    <div class="km-nav-item" onclick="switchRhPageTab('offres')">Offres Internes</div>
+                </div>
+
+                <!-- TAB: MA CARRIÈRE -->
+                <div id="page-rh-carriere" class="km-tab-content" style="display: block;">
+                    <div class="km-grid">
+                        <div class="doc-card" style="cursor: default;">
+                            <div class="doc-icon-large" style="background: #eff6ff; color: #3b82f6;">
+                                <i data-lucide="user" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Profil Collaborateur</div>
+                            <div style="font-size: 13px; color: var(--text-main); margin-top: 8px;">
+                                <p><strong>Poste :</strong> Consultant Senior</p>
+                                <p><strong>Département :</strong> Digital & Innovation</p>
+                                <p><strong>Ancienneté :</strong> 4 ans</p>
+                            </div>
+                            <div class="doc-card-meta">
+                                <span style="color: #3b82f6; font-weight: 600;">Modifier le profil</span>
+                                <i data-lucide="external-link" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card" style="cursor: default;">
+                            <div class="doc-icon-large" style="background: #f0fdf4; color: #16a34a;">
+                                <i data-lucide="trending-up" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Évolution & Objectifs</div>
+                            <div style="font-size: 13px; color: var(--text-main); margin-top: 8px;">
+                                <p><strong>Entretien Annuel :</strong> Réalisé le 15/01/2026</p>
+                                <p><strong>Objectifs fixés :</strong> 5/5</p>
+                                <p><strong>Bonus atteint :</strong> 100%</p>
+                            </div>
+                            <div class="doc-card-meta">
+                                <span style="color: #16a34a; font-weight: 600;">Voir le compte-rendu</span>
+                                <i data-lucide="file-text" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card" style="cursor: default;">
+                            <div class="doc-icon-large" style="background: #fdf2f8; color: #db2777;">
+                                <i data-lucide="award" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Compétences & Badges</div>
+                            <div style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
+                                <span
+                                    style="background: #fdf2f8; border: 1px solid #fbcfe8; padding: 4px 8px; border-radius: 20px; font-size: 10px; color: #be185d;">Agilité</span>
+                                <span
+                                    style="background: #fdf2f8; border: 1px solid #fbcfe8; padding: 4px 8px; border-radius: 20px; font-size: 10px; color: #be185d;">Design
+                                    Thinking</span>
+                                <span
+                                    style="background: #fdf2f8; border: 1px solid #fbcfe8; padding: 4px 8px; border-radius: 20px; font-size: 10px; color: #be185d;">Tech
+                                    Expert</span>
+                            </div>
+                            <div class="doc-card-meta">
+                                <span style="color: #db2777; font-weight: 600;">Espace Compétences</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: DOCUMENTS RH -->
+                <div id="page-rh-documents" class="km-tab-content" style="display: none;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large pdf">
+                                <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Demande d'Attestation de Travail.pdf</div>
+                            <div class="doc-card-meta">
+                                <span>Formulaire</span>
+                                <i data-lucide="download" style="width: 16px; color: #94a3b8;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large pdf">
+                                <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Règlement Intérieur 2026.pdf</div>
+                            <div class="doc-card-meta">
+                                <span>Information</span>
+                                <i data-lucide="download" style="width: 16px; color: #94a3b8;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large word">
+                                <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Modèle Demande de Congé Exceptionnel.docx</div>
+                            <div class="doc-card-meta">
+                                <span>Formulaire</span>
+                                <i data-lucide="download" style="width: 16px; color: #94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: OFFRES INTERNES -->
+                <div id="page-rh-offres" class="km-tab-content" style="display: none;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #fff7ed; color: #ea580c;">
+                                <i data-lucide="briefcase" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Chef de Projet BI (H/F)</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Direction des Systèmes d'Information -
+                                Casablanca</p>
+                            <div class="doc-card-meta">
+                                <span style="color: #ea580c; font-weight: 600;">Postuler en interne</span>
+                                <i data-lucide="arrow-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #fff7ed; color: #ea580c;">
+                                <i data-lucide="briefcase" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Responsable Communication Digital (H/F)</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Direction de la Communication - Siège
+                            </p>
+                            <div class="doc-card-meta">
+                                <span style="color: #ea580c; font-weight: 600;">Postuler en interne</span>
+                                <i data-lucide="arrow-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- VIE SOCIALE VIEW -->
+            <div id="view-vie-sociale" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espace Vie Sociale</h2>
+                    <p>Renforcez la cohésion interne : Événements, Galerie photos et Capsules vidéo.</p>
+                </div>
+                <div class="km-grid">
+                    <div class="doc-card" style="cursor: pointer;">
+                        <div class="doc-icon-large" style="background: #fdf2f8; color: #db2777;">
+                            <i data-lucide="camera" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="doc-card-title">Galerie Photos</div>
+                        <p style="font-size: 13px; color: var(--text-light); margin-top: 8px;">Dernières photos des événements CMR.</p>
+                        <div class="doc-card-meta">
+                            <span style="color: #db2777; font-weight: 600;">Ouvrir</span>
+                            <i data-lucide="image" style="width: 16px;"></i>
+                        </div>
+                    </div>
+                    <div class="doc-card" style="cursor: pointer;">
+                        <div class="doc-icon-large" style="background: #eff6ff; color: #3b82f6;">
+                            <i data-lucide="calendar" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="doc-card-title">Événements à venir</div>
+                        <p style="font-size: 13px; color: var(--text-light); margin-top: 8px;">Team building, conférences, fêtes.</p>
+                        <div class="doc-card-meta">
+                            <span style="color: #3b82f6; font-weight: 600;">S'inscrire</span>
+                            <i data-lucide="calendar-plus" style="width: 16px;"></i>
+                        </div>
+                    </div>
+                    <div class="doc-card" style="cursor: pointer;">
+                        <div class="doc-icon-large" style="background: #f0fdf4; color: #16a34a;">
+                            <i data-lucide="video" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="doc-card-title">Capsules Vidéo</div>
+                        <p style="font-size: 13px; color: var(--text-light); margin-top: 8px;">Interviews, rétrospectives.</p>
+                        <div class="doc-card-meta">
+                            <span style="color: #16a34a; font-weight: 600;">Regarder</span>
+                            <i data-lucide="play-circle" style="width: 16px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INSTITUTIONNEL VIEW -->
+            <div id="view-institutionnel" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espace Institutionnel</h2>
+                    <p>Organisation, Gouvernance, Plan stratégique et Référentiels.</p>
+                </div>
+                <div class="app-category-title">Organisation</div>
+                <div class="app-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    <a href="#" class="app-card-large" style="--hover-bg: #f0f9ff; --hover-border: #bae6fd;">
+                        <div class="app-card-icon-large" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">
+                            <i data-lucide="network" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Organigramme Interactif</span>
+                            <p class="app-card-desc">Visualisez l'organisation des directions opérationnelles de la CMR.</p>
+                            <div class="app-card-action">Consulter<i data-lucide="arrow-right" style="width: 14px;"></i></div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #fff7ed; --hover-border: #fed7aa;">
+                        <div class="app-card-icon-large" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i data-lucide="target" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Plan Stratégique</span>
+                            <p class="app-card-desc">Objectifs et axes de la stratégie CMR 2026-2028.</p>
+                            <div class="app-card-action">Consulter<i data-lucide="arrow-right" style="width: 14px;"></i></div>
+                        </div>
+                    </a>
+                </div>
+                <div class="app-category-title">Gouvernance & Mémentos</div>
+                <div class="km-grid">
+                    <div class="doc-card">
+                        <div class="doc-icon-large pdf"><i data-lucide="file-text" style="width: 24px; height: 24px;"></i></div>
+                        <div class="doc-card-title">Règlement Intérieur 2026.pdf</div>
+                        <div class="doc-card-meta"><span>Dernière version</span><i data-lucide="download" style="width: 16px; color: #94a3b8;"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJETS VIEW -->
+            <div id="view-projets" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espace Projets</h2>
+                    <p>Vision transverse du portefeuille projets (Fiches, Indicateurs, Livrables).</p>
+                </div>
+                <div class="km-grid">
+                    <div class="doc-card">
+                        <div class="doc-icon-large" style="background: #eff6ff; color: #3b82f6;"><i data-lucide="briefcase" style="width: 24px; height: 24px;"></i></div>
+                        <div class="doc-card-title">Projet Refonte Intranet</div>
+                        <p style="font-size: 13px; margin-top: 8px;">Phase 2 : Conception SFD / Maquettes</p>
+                        <div style="height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; margin-top: 10px;">
+                            <div style="width: 70%; height: 100%; background: #3b82f6;"></div>
+                        </div>
+                        <div class="doc-card-meta"><span style="font-weight: 600;">Ouvert</span><span>Progression: 70%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOCUMENTAIRES VIEW -->
+            <div id="view-documentaires" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espaces Documentaires</h2>
+                    <p>Gestion des documents actifs avec métadonnées et lien GED.</p>
+                </div>
+                <div class="km-grid">
+                    <div class="doc-card">
+                        <div class="doc-icon-large folder"><i data-lucide="folder" style="width: 24px; height: 24px;"></i></div>
+                        <div class="doc-card-title">Documents Publics</div>
+                        <div class="doc-card-meta"><span>12 fichiers</span><i data-lucide="chevron-right" style="width: 16px;"></i></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- INNOVATION VIEW -->
+            <div id="view-innovation" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espace Innovation</h2>
+                    <p>Dépôt d’idées, Vote collaboratif et Suivi d'évolution.</p>
+                </div>
+                <div class="dashboard-card" style="margin-top: 20px;">
+                    <div class="card-header pb-4 border-b border-gray-100">
+                        <div class="card-title">Campagne d'idéation "Digit-Passe"</div>
+                        <button class="primary-btn">Déposer une idée</button>
+                    </div>
+                    <div style="padding: 20px 0;">
+                        <p style="color: var(--text-light);">Aucune nouvelle idée soumise aujourd'hui.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- RÉGLEMENTATION VIEW -->
+            <div id="view-reglementation" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espace Réglementation</h2>
+                    <p>Centralisation des textes réglementaires, normes et référentiels officiels.</p>
+                </div>
+                <div class="km-grid">
+                    <div class="doc-card" style="cursor: pointer;">
+                        <div class="doc-icon-large pdf" style="color: #dc2626; background: #fee2e2;">
+                            <i data-lucide="scale" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="doc-card-title">Dahirs & Lois</div>
+                        <div class="doc-card-meta">
+                            <span>Sélection Officielle</span>
+                        </div>
+                    </div>
+                    <div class="doc-card" style="cursor: pointer;">
+                        <div class="doc-icon-large word" style="color: #2563eb; background: #dbeafe;">
+                            <i data-lucide="book-open" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="doc-card-title">Circulaires & Décisions</div>
+                        <div class="doc-card-meta">
+                            <span>Publications par année</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLLABORATIFS VIEW -->
+            <div id="view-collaboratifs" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espaces Collaboratifs</h2>
+                    <p>Forums, groupes de travail et espaces de partage transverses.</p>
+                </div>
+                <div class="app-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
+                    <a href="#" class="app-card-large" style="--hover-bg: #f8fafc; --hover-border: #cbd5e1;">
+                        <div class="app-card-icon-large" style="background: #eab308; color: white;">
+                            <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Communautés Métiers</span>
+                            <p class="app-card-desc">Groupes d'échanges et bonnes pratiques.</p>
+                            <div class="app-card-action">Rejoindre<i data-lucide="arrow-right" style="width: 14px;"></i></div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #f0f9ff; --hover-border: #bae6fd;">
+                        <div class="app-card-icon-large" style="background: #0284c7; color: white;">
+                            <i data-lucide="message-square" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Forums de discussion</span>
+                            <p class="app-card-desc">Questions techniques et entraide interne.</p>
+                            <div class="app-card-action">Consulter<i data-lucide="arrow-right" style="width: 14px;"></i></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ACHATS VIEW -->
+            <div id="view-achats" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espace Achats</h2>
+                    <p>Support opérationnel, accès PPA et référentiel fournisseurs.</p>
+                </div>
+                <div class="km-grid">
+                    <div class="doc-card" style="cursor: pointer;">
+                        <div class="doc-icon-large" style="background: #fdf2f8; color: #db2777;">
+                            <i data-lucide="shopping-bag" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="doc-card-title">Plan Prévisionnel des Achats (PPA)</div>
+                        <div class="doc-card-meta">
+                            <span>Version 2026 consolidée</span>
+                            <i data-lucide="download" style="width: 16px;"></i>
+                        </div>
+                    </div>
+                    <div class="doc-card" style="cursor: pointer;">
+                        <div class="doc-icon-large" style="background: #eff6ff; color: #3b82f6;">
+                            <i data-lucide="book-check" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="doc-card-title">Référentiel Fournisseurs</div>
+                        <div class="doc-card-meta">
+                            <span>Dernière MAJ: 3 jours</span>
+                            <i data-lucide="external-link" style="width: 16px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RSE VIEW -->
+            <div id="view-rse" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espace RSE</h2>
+                    <p>Politique de Responsabilité Sociétale de l'Entreprise.</p>
+                </div>
+                <div class="km-grid">
+                    <div class="doc-card" style="cursor: pointer;">
+                        <div class="doc-icon-large" style="background: #f0fdf4; color: #16a34a;">
+                            <i data-lucide="leaf" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="doc-card-title">Politique & Rapports RSE</div>
+                        <div class="doc-card-meta">
+                            <span>Dernier rapport 2025</span>
+                            <i data-lucide="download" style="width: 16px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMINISTRATION VIEW -->
+            <div id="view-admin" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Administration & Pilotage</h2>
+                    <p>Espace réservé aux administrateurs pour piloter la plateforme, paramétrer les menus et les habilitations.</p>
+                </div>
+                <div class="app-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
+                    <a href="#" class="app-card-large" style="--hover-bg: #fff1f2; --hover-border: #fecdd3;">
+                        <div class="app-card-icon-large" style="background: #be123c; color: white;">
+                            <i data-lucide="key" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Gestion des Habilitations</span>
+                            <p class="app-card-desc">Synchronisation LDAP et rôles.</p>
+                        </div>
+                    </a>
+                    <a href="#" class="app-card-large" style="--hover-bg: #f8fafc; --hover-border: #cbd5e1;">
+                        <div class="app-card-icon-large" style="background: #475569; color: white;">
+                            <i data-lucide="activity" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <span class="app-card-title-large">Reporting & Usages</span>
+                            <p class="app-card-desc">Métrique d'utilisation et statistiques de consultation.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+</main>
+        <!-- RIGHT SIDEBAR -->
+        <aside class="sidebar-right" id="rightSidebar">
+            <!-- CITATION DU JOUR -->
+            <div class="quote-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: var(--cmr-primary); color: white;">
+                        <i data-lucide="quote" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <strong>Citation du Jour</strong>
+                </div>
+                <div class="quote-text"
+                    style="color: #1e293b; font-size: 15px; font-style: italic; line-height: 1.6; display: block;">
+                    "L'innovation distingue les leaders des suiveurs. Notre ambition est de transformer chaque défi
+                    en
+                    opportunité de croissance."
+                </div>
+            </div>
+
+            <!-- HUMEUR DU JOUR -->
+            <div class="right-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i data-lucide="smile" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <span id="mood-title">Humeur du jour</span>
+                </div>
+                <div class="mood-results" id="moodResults">
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">🤩</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #22c55e;" data-percent="45"></div>
+                        </div>
+                        <span class="mood-stat-percent">45%</span>
+                    </div>
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">😊</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #84cc16;" data-percent="30"></div>
+                        </div>
+                        <span class="mood-stat-percent">30%</span>
+                    </div>
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">😐</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #eab308;" data-percent="15"></div>
+                        </div>
+                        <span class="mood-stat-percent">15%</span>
+                    </div>
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">🙁</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #f97316;" data-percent="7"></div>
+                        </div>
+                        <span class="mood-stat-percent">7%</span>
+                    </div>
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">😡</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #ef4444;" data-percent="3"></div>
+                        </div>
+                        <span class="mood-stat-percent">3%</span>
+                    </div>
+                    <button class="retry-mood-btn" onclick="resetMood()">
+                        <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+                        Changer d'avis
+                    </button>
+                </div>
+                <div class="mood-buttons" id="moodButtons">
+                    <button class="mood-btn" data-mood="great" onclick="selectMood(this)">
+                        <i data-lucide="laugh" style="width: 20px; height: 20px;"></i>
+                    </button>
+                    <button class="mood-btn" data-mood="good" onclick="selectMood(this)">
+                        <i data-lucide="smile" style="width: 20px; height: 20px;"></i>
+                    </button>
+                    <button class="mood-btn" data-mood="neutral" onclick="selectMood(this)">
+                        <i data-lucide="meh" style="width: 20px; height: 20px;"></i>
+                    </button>
+                    <button class="mood-btn" data-mood="bad" onclick="selectMood(this)">
+                        <i data-lucide="frown" style="width: 20px; height: 20px;"></i>
+                    </button>
+                    <button class="mood-btn" data-mood="terrible" onclick="selectMood(this)">
+                        <i data-lucide="angry" style="width: 20px; height: 20px;"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- AGENDAS WIDGET -->
+            <!-- AGENDAS WIDGET -->
+            <div class="right-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i data-lucide="calendar-check" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <strong>Agendas</strong>
+                    <button class="manage-btn"
+                        style="margin-left: auto; background: rgba(0,0,0,0.03); border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px; color: #64748b; font-size: 11px; font-weight: 600;">
+                        <i data-lucide="settings-2" style="width: 12px; height: 12px;"></i>
+                        Gérer
+                    </button>
+                </div>
+
+                <!-- Pill Tabs -->
+                <div
+                    style="background: #f1f5f9; padding: 4px; border-radius: 12px; display: flex; margin-bottom: 20px;">
+                    <button id="tab-perso-btn" onclick="openAgendaTab('perso')" class="agenda-tab-btn active"
+                        style="flex: 1; text-align: center; padding: 8px; background: white; border: none; border-radius: 10px; font-size: 12px; font-weight: 700; color: #f59e0b; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s;">Ma
+                        Journée</button>
+                    <button id="tab-cmr-btn" onclick="openAgendaTab('cmr')" class="agenda-tab-btn"
+                        style="flex: 1; text-align: center; padding: 8px; background: transparent; border: none; border-radius: 10px; font-size: 12px; font-weight: 500; color: #64748b; cursor: pointer; transition: 0.2s;">Calendrier
+                        CMR</button>
+                </div>
+
+                <!-- CONTENT: PERSO -->
+                <div id="agenda-perso-list" style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Agenda Item 1 -->
+                    <div
+                        style="padding: 16px; border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="background: #eff6ff; color: #3b82f6; width: 45px; height: 45px; border-radius: 14px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <span style="font-size: 11px; font-weight: 800;">14:00</span>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">
+                                Comité
+                                de Pilotage</div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div
+                                    style="font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 4px;">
+                                    <i data-lucide="map-pin" style="width: 10px; height: 10px;"></i> Salle A
+                                </div>
+                                <button
+                                    style="background: #eff6ff; color: #3b82f6; border: none; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                                    <i data-lucide="video" style="width: 12px; height: 12px;"></i>
+                                    Rejoindre
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Agenda Item 2 (Meeting) -->
+                    <div
+                        style="padding: 16px; border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="background: #eff6ff; color: #3b82f6; width: 45px; height: 45px; border-radius: 14px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <span style="font-size: 11px; font-weight: 800;">16:30</span>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Point
+                                d'avancement</div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div
+                                    style="font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 4px;">
+                                    <i data-lucide="video" style="width: 10px; height: 10px;"></i> Teams
+                                </div>
+                                <button
+                                    style="background: #eff6ff; color: #3b82f6; border: none; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                                    <i data-lucide="video" style="width: 12px; height: 12px;"></i>
+                                    Rejoindre
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENT: CMR -->
+                <div id="agenda-cmr-list" style="display: none; flex-direction: column; gap: 12px;">
+                    <!-- Event 1 -->
+                    <div
+                        style="padding: 16px; border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; width: 45px; text-align: center;">
+                            <div
+                                style="background: #ef4444; color: white; font-size: 9px; font-weight: 700; padding: 2px 0;">
+                                FÉV</div>
+                            <div style="padding: 4px 0; font-size: 13px; font-weight: 800; color: #1e293b;">15</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 700; color: #1e293b;">Assemblée Générale</div>
+                            <div style="font-size: 11px; color: #64748b;">Auditorium Principal</div>
+                        </div>
+                    </div>
+                    <!-- Event 2 -->
+                    <div
+                        style="padding: 16px; border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; width: 45px; text-align: center;">
+                            <div
+                                style="background: #3b82f6; color: white; font-size: 9px; font-weight: 700; padding: 2px 0;">
+                                MAR</div>
+                            <div style="padding: 4px 0; font-size: 13px; font-weight: 800; color: #1e293b;">08</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 700; color: #1e293b;">Journée de la Femme
+                            </div>
+                            <div style="font-size: 11px; color: #64748b;">Événement Interne</div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    function openAgendaTab(tabName) {
+                        // Reset buttons
+                        document.getElementById('tab-perso-btn').style.background = 'transparent';
+                        document.getElementById('tab-perso-btn').style.color = '#64748b';
+                        document.getElementById('tab-perso-btn').style.boxShadow = 'none';
+
+                        document.getElementById('tab-cmr-btn').style.background = 'transparent';
+                        document.getElementById('tab-cmr-btn').style.color = '#64748b';
+                        document.getElementById('tab-cmr-btn').style.boxShadow = 'none';
+
+                        // Hide Lists
+                        document.getElementById('agenda-perso-list').style.display = 'none';
+                        document.getElementById('agenda-cmr-list').style.display = 'none';
+
+                        // Set Active
+                        document.getElementById('tab-' + tabName + '-btn').style.background = 'white';
+                        document.getElementById('tab-' + tabName + '-btn').style.color = '#f59e0b';
+                        document.getElementById('tab-' + tabName + '-btn').style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+                        document.getElementById('agenda-' + tabName + '-list').style.display = 'flex';
+                    }
+                </script>
+            </div>
+
+            <!-- ANNIVERSAIRES -->
+            <div class="right-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                        <i data-lucide="cake" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    Anniversaires
+                </div>
+                <div class="team-list" style="gap: 16px;">
+                    <div class="team-member"
+                        style="background: white; padding: 16px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: none;">
+                        <div class="member-avatar"
+                            style="background: linear-gradient(135deg, #fbbf24, #f59e0b); width: 44px; height: 44px; color: white; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);">
+                            <i data-lucide="party-popper" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name" style="font-size: 15px;">Yassine Benali</span>
+                            <span class="member-role" style="color: #f59e0b; font-weight: 700;">Aujourd'hui •
+                                Marketing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FLASH INFO -->
+            <div class="flash-info-card">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: #ef4444; color: white;">
+                        <i data-lucide="bell-ring" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <strong>Flash Info</strong>
+                    <span class="live-badge" style="margin-left: auto;">LIVE</span>
+                </div>
+                <div class="flash-content-box">
+                    <div class="flash-subject">Maintenance Serveur</div>
+                    <div class="flash-desc">Ce soir à partir de 18h00. Indisponibilité estimée: 2h.</div>
+                </div>
+            </div>
+
+            <!-- MA FORMATION -->
+            <div class="right-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: var(--cmr-primary);">
+                        <i data-lucide="graduation-cap" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <strong>Ma Formation</strong>
+                </div>
+
+                <div class="formation-item">
+                    <div class="formation-icon-box">
+                        <i data-lucide="shield-check" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <div class="member-info">
+                        <span class="member-name" style="font-size: 14px; font-weight: 700;">Cybersécurité
+                            101</span>
+                        <span class="member-role"
+                            style="color: var(--cmr-primary); font-weight: 700; font-size: 11px;">Obligatoire</span>
+                    </div>
+                </div>
+
+                <div class="formation-progress-container">
+                    <div class="formation-label">
+                        <span>Progression</span>
+                        <span>35%</span>
+                    </div>
+                    <div class="formation-bar-bg">
+                        <div class="formation-bar-fill" style="width: 35%;"></div>
+                    </div>
+                    <button class="formation-btn">Reprendre</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Main Carousel functionality
+        let currentSlide = 0;
+        const mainSlides = document.querySelectorAll('.carousel-section .carousel-slide');
+        const mainDots = document.querySelectorAll('.carousel-section .carousel-dot');
+        const totalMainSlides = mainSlides.length;
+
+        function showSlide(index) {
+            mainSlides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            mainDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % totalMainSlides;
+            showSlide(next);
+        }
+
+        setInterval(nextSlide, 5000);
+
+        // Mini News Slider functionality
+        let currentMiniSlide = 0;
+        const miniSliderContainer = document.querySelector('.news-slider-mini');
+        const miniSlides = document.querySelectorAll('.news-slider-mini .news-slide-mini');
+        const miniDots = document.querySelectorAll('.news-slider-mini .carousel-dot');
+        const totalMiniSlides = miniSlides.length;
+
+        function showMiniSlide(index) {
+            miniSlides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            miniDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentMiniSlide = index;
+        }
+
+        function goToMiniSlide(index) {
+            showMiniSlide(index);
+        }
+
+        function nextMiniSlide() {
+            let next = (currentMiniSlide + 1) % totalMiniSlides;
+            showMiniSlide(next);
+        }
+
+        let miniInterval = setInterval(nextMiniSlide, 4000);
+
+        // Pause on hover
+        miniSliderContainer.addEventListener('mouseenter', () => {
+            clearInterval(miniInterval);
+        });
+
+        miniSliderContainer.addEventListener('mouseleave', () => {
+            miniInterval = setInterval(nextMiniSlide, 4000);
+        });
+
+
+
+        // Mood selection
+        function selectMood(btn) {
+            document.querySelectorAll('.mood-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            btn.classList.add('active');
+
+            // Change title
+            document.getElementById('mood-title').textContent = "L'humeur de l'équipe";
+
+            // Show results
+            const results = document.getElementById('moodResults');
+            results.classList.add('active');
+
+            // Hide buttons
+            document.getElementById('moodButtons').style.display = 'none';
+
+            // Animate bars
+            setTimeout(() => {
+                document.querySelectorAll('.mood-stat-bar-fill').forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-percent') + '%';
+                });
+            }, 100);
+        }
+
+        function resetMood() {
+            // Restore title
+            document.getElementById('mood-title').textContent = "Humeur du jour";
+
+            // Hide results
+            document.getElementById('moodResults').classList.remove('active');
+
+            // Reset bars
+            document.querySelectorAll('.mood-stat-bar-fill').forEach(bar => {
+                bar.style.width = '0';
+            });
+
+            // Show buttons again
+            const buttons = document.getElementById('moodButtons');
+            buttons.style.display = 'flex';
+            buttons.style.opacity = '1';
+            buttons.style.pointerEvents = 'auto';
+
+            document.querySelectorAll('.mood-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+        }
+
+        // Toggle Dropdowns
+        function toggleDropdown(id) {
+            // Close other dropdowns
+            document.querySelectorAll('.header-dropdown').forEach(d => {
+                if (d.id !== id) d.classList.remove('active');
+            });
+            document.getElementById(id).classList.toggle('active');
+            event.stopPropagation();
+        }
+
+        // Toggle Modal
+        function toggleModal(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+
+        // Global click to close dropdowns
+        window.onclick = function (event) {
+            if (!event.target.closest('.header-actions') && !event.target.closest('.header-user-pill')) {
+                document.querySelectorAll('.header-dropdown').forEach(d => {
+                    d.classList.remove('active');
+                });
+            }
+            if (!event.target.closest('.sidebar-submenu-panel') && !event.target.closest('#nav-km') && !event.target.closest('#nav-rh')) {
+                hideSidebarSubmenu();
+            }
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        // Calendar day selection
+        document.querySelectorAll('.calendar-day').forEach(day => {
+            day.addEventListener('click', function () {
+                if (!this.textContent) return;
+                document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('today'));
+                this.classList.add('today');
+            });
+        });
+
+        // Random News Ticker
+        const cmrNewsItems = [
+            "<strong>CMR Actualités :</strong> Signature du nouveau contrat programme État-CMR pour la période 2026-2028.",
+            "<strong>RH :</strong> Campagne d'évaluation annuelle lancée – Date limite le 28 février.",
+            "<strong>IT :</strong> Maintenance prévue sur le serveur \"Paie\" ce vendredi à 18h00.",
+            "<strong>Social :</strong> Inscriptions ouvertes pour les colonies de vacances 2026.",
+            "<strong>Innovation :</strong> Félicitations à l'équipe \"Digit-Passe\" pour le prix de l'innovation !",
+            "<strong>Stratégie :</strong> Lancement de la feuille de route digitale 2026.",
+            "<strong>Partenariat :</strong> Accord signé avec la CNOPS pour l'échange de données.",
+            "<strong>Formation :</strong> Nouveaux modules e-learning disponibles sur CMR Academy.",
+            "<strong>Gouvernance :</strong> Réunion du comité d'audit prévue le 15 mars.",
+            "<strong>Climat Social :</strong> Enquête de satisfaction interne : Taux de participation de 85%."
+        ];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function populateTicker() {
+            const wrapper = document.getElementById('tickerWrapper');
+            if (!wrapper) return;
+
+            const shuffledNews = shuffleArray([...cmrNewsItems]);
+            // Take 6 items randomly
+            const selectedNews = shuffledNews.slice(0, 6);
+
+            const newsHtml = selectedNews.map(item =>
+                `<span class="ticker-item">${item}</span>`
+            ).join('');
+
+            // Duplicate content for seamless loop
+            wrapper.innerHTML = newsHtml + newsHtml;
+        }
+
+        // Initialize ticker on load
+        document.addEventListener('DOMContentLoaded', populateTicker);
+    </script>
+
+    <style>
+        /* SPA VIEWS */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        /* KM INTERFACE */
+        .km-container {
+            padding-right: 20px;
+        }
+
+        .km-navbar {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+            flex-wrap: nowrap;
+            scrollbar-width: thin;
+        }
+
+        .km-nav-item {
+            padding: 12px 4px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-light);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex: 0 0 auto;
+        }
+
+        .km-nav-item:hover {
+            color: var(--cmr-primary);
+        }
+
+        .km-nav-item.active {
+            color: var(--cmr-primary);
+            font-weight: 700;
+        }
+
+        .km-nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--cmr-primary);
+        }
+
+        .km-header {
+            margin-bottom: 24px;
+        }
+
+        .km-header h2 {
+            font-size: 24px;
+            color: var(--cmr-primary);
+            margin-bottom: 8px;
+        }
+
+        .km-header p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .km-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .doc-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: rgba(37, 108, 181, 0.2);
+        }
+
+        .doc-icon-large {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 4px;
+        }
+
+        .doc-icon-large.pdf {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .doc-icon-large.word {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .doc-icon-large.ppt {
+            background: #ffedd5;
+            color: #ea580c;
+        }
+
+        .doc-icon-large.folder {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .doc-card-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .doc-card-meta {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* View Toggle Utilities */
+    </style>
+    <script>
+        // ... (existing scripts) ...
+
+        const sidebarSubmenuConfig = {
+            km: {
+                title: 'Knowledge Management',
+                items: [
+                    { label: 'Documentation Metier', tab: 'docs' },
+                    { label: 'Veille Strategique', tab: 'veille' },
+                    { label: 'Archives', tab: 'archives' }
+                ]
+            },
+            rh: {
+                title: 'Ressources Humaines',
+                items: [
+                    { label: 'Ma Carriere', tab: 'carriere' },
+                    { label: 'Documents RH', tab: 'documents' },
+                    { label: 'Offres Internes', tab: 'offres' }
+                ]
+            }
+        };
+
+        let activeSidebarSubmenu = null;
+        const submenuSelections = {
+            km: null,
+            rh: null
+        };
+
+        function hideSidebarSubmenu() {
+            const panel = document.getElementById('sidebarSubmenu');
+            if (!panel) return;
+            panel.classList.remove('active');
+            document.body.classList.remove('submenu-open');
+            document.querySelectorAll('.nav-item.has-submenu').forEach(el => {
+                el.classList.remove('submenu-open');
+            });
+            activeSidebarSubmenu = null;
+        }
+
+        function toggleSidebarSubmenu(type) {
+            const panel = document.getElementById('sidebarSubmenu');
+            const title = document.getElementById('submenuTitle');
+            const list = document.getElementById('submenuList');
+            const config = sidebarSubmenuConfig[type];
+            if (!panel || !title || !list || !config) return;
+
+            if (activeSidebarSubmenu === type && panel.classList.contains('active')) {
+                hideSidebarSubmenu();
+                return;
+            }
+
+            title.textContent = config.title;
+            const selectedTab = getActiveSubmenuTab(type);
+            list.innerHTML = config.items.map(item => {
+                const isActive = item.tab === selectedTab ? ' active' : '';
+                return `<button class="submenu-item${isActive}" onclick="openSubmenuView('${type}', '${item.tab}')">${item.label}<i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>`;
+            }).join('');
+
+            activeSidebarSubmenu = type;
+            panel.classList.add('active');
+            document.body.classList.add('submenu-open');
+            document.querySelectorAll('.nav-item.has-submenu').forEach(el => {
+                el.classList.remove('submenu-open');
+            });
+            const currentNav = document.getElementById('nav-' + type);
+            if (currentNav) {
+                currentNav.classList.add('submenu-open');
+            }
+            lucide.createIcons();
+
+            if (typeof event !== 'undefined' && event) {
+                event.stopPropagation();
+            }
+        }
+
+        function openSubmenuView(viewId, tabId) {
+            if (submenuSelections[viewId] !== undefined) {
+                submenuSelections[viewId] = tabId;
+            }
+
+            switchView(viewId);
+
+            if (viewId === 'km') {
+                switchPageKmTab(tabId);
+            }
+
+            if (viewId === 'rh') {
+                switchRhPageTab(tabId);
+            }
+
+            hideSidebarSubmenu();
+        }
+
+        function getActiveSubmenuTab(type) {
+            return submenuSelections[type] || '';
+        }
+
+        // SPA LOGIC
+        function switchView(viewId) {
+            hideSidebarSubmenu();
+
+            // Toggle Body Class for Layout changes
+            if (viewId === 'km') {
+                document.body.classList.add('km-active');
+            } else {
+                document.body.classList.remove('km-active');
+            }
+
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById('view-' + viewId).classList.add('active');
+
+            // Update Sidebar Active State
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            const activeNavLink = document.getElementById('nav-' + viewId);
+            if (activeNavLink) {
+                activeNavLink.classList.add('active');
+            }
+        }
+
+        // KM TAB LOGIC (Dashboard Widget)
+        function switchKmTab(tabId) {
+            // Update Nav Items
+            const widgetTabs = document.querySelectorAll('.km-tab');
+            widgetTabs.forEach(el => el.classList.remove('active'));
+            // Find the button that was clicked - this is a bit loose but works for the widget
+            // In a real app we'd pass 'this' or use event delegation more strictly
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+
+            // Update Content
+            document.querySelectorAll('.km-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            const content = document.getElementById('km-' + tabId);
+            if (content) content.classList.add('active');
+        }
+
+        // KM PAGE TAB LOGIC (Full Page)
+        function switchPageKmTab(tabId) {
+            submenuSelections.km = tabId;
+
+            const kmNavbar = document.querySelector('#view-km .km-navbar');
+            if (kmNavbar) {
+                kmNavbar.querySelectorAll('.km-nav-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+
+                const targetNav = kmNavbar.querySelector(`[onclick="switchPageKmTab('${tabId}')"]`);
+                if (targetNav) {
+                    targetNav.classList.add('active');
+                }
+            }
+
+            // Update Content
+            // We need to target the specific page tabs, not the widget ones
+            const pageTabs = ['page-km-docs', 'page-km-veille', 'page-km-archives'];
+            pageTabs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            const targetEl = document.getElementById('page-km-' + tabId);
+            if (targetEl) targetEl.style.display = 'grid';
+        }
+
+        // ACADEMY PAGE TAB LOGIC
+        function switchAcademyPageTab(tabId) {
+            // Update Nav Items
+            if (event && event.target && event.target.parentElement) {
+                const navItems = event.target.parentElement.querySelectorAll('.km-nav-item');
+                navItems.forEach(el => el.classList.remove('active'));
+                event.target.classList.add('active');
+            }
+
+            // Update Content
+            const pageTabs = ['page-academy-catalogue', 'page-academy-formations', 'page-academy-certificats'];
+            pageTabs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            const targetEl = document.getElementById('page-academy-' + tabId);
+            if (targetEl) targetEl.style.display = 'block';
+        }
+
+        // RH PAGE TAB LOGIC
+        function switchRhPageTab(tabId) {
+            submenuSelections.rh = tabId;
+
+            // Update Nav Items
+            const rhNavbar = document.querySelector('#view-rh .km-navbar');
+            if (rhNavbar) {
+                rhNavbar.querySelectorAll('.km-nav-item').forEach(el => el.classList.remove('active'));
+                const targetNav = rhNavbar.querySelector(`[onclick="switchRhPageTab('${tabId}')"]`);
+                if (targetNav) targetNav.classList.add('active');
+            }
+
+            // Update Content
+            const pageTabs = ['page-rh-carriere', 'page-rh-documents', 'page-rh-offres'];
+            pageTabs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            const targetEl = document.getElementById('page-rh-' + tabId);
+            if (targetEl) targetEl.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

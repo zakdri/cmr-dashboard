@@ -1,0 +1,1128 @@
+APPEL D’OFFRES N°023 /2025/ CMR
+Refonte de l’intranet de la Caisse Marocaine des Retraites avec extension des licences de la solution VISIATIV PROCESS (EX. MOOVAPPS)
+PHASE 2 : Conception
+DOCUMENT DES SPECIFICATIONS FONCTIONNELLES
+AVANT- PROPOS
+Le présent document s’inscrit dans une démarche projet appliquée par REELIZ pour répondre aux besoins du marché initié par la CMR.
+Références du document
+Objet
+Valeur
+Auteur(s)
+REELIZ
+Date de rédaction Initiale
+28/12/2025
+Référence
+CMR_PH2_SFD
+Version
+1.0
+État
+A valider
+Client
+CMR
+Projet
+REFONTE INTRANET
+Validation du document                                                               
+Pour CMR
+Pour REELIZ
+Fait à : 
+Fait à :
+Le :
+Le :
+Nom :
+Nom :
+Signature :
+Signature :
+Diffusion du document
+Nom
+Objet de la diffusion
+Equipe projet CMR
+Pour information et validation
+Table des modifications
+Date
+Auteur
+Version
+Description de la modification
+29/12/2025
+Mohamed JAMALELARAB
+0.1
+Création du document
+16/02/2026
+Mohamed JAMALELARAB
+1.0
+MAJ du Document
+SOMMAIRE
+1INTRODUCTION7
+1.1Objet du document7
+1.2Contexte du projet7
+1.3Périmètre du SFD7
+2Principes Généraux de Conception Fonctionnelle8
+2.1Architecture fonctionnelle globale de l’intranet8
+2.2Logique de structuration par espaces8
+2.3Principes fonctionnels transverses9
+2.3.1Personnalisation par profil9
+2.3.2Gestion des habilitations9
+2.3.3Notifications et alertes9
+2.3.4Recherche unifiée10
+2.3.5Interfaçage avec la GED OpenText10
+2.3.6Paramétrage10
+2.4Gestion des profils utilisateurs10
+2.4.1Profils génériques10
+2.4.2Logique d’attribution11
+3Spécifications Fonctionnelles des Espaces Intranet11
+3.1Page d’Accueil12
+3.1.1Objectif12
+3.1.2Acteurs12
+3.1.3Composants fonctionnels12
+3.1.3.1Bandeau institutionnel12
+3.1.3.2Slider / Actualités dynamiques12
+3.1.3.3Widgets dynamiques13
+3.1.3.4Accès rapides13
+3.1.3.5Recherche unifiée13
+3.1.3.6Notifications13
+3.1.4Règles de gestion clés14
+3.2Espace Institutionnel14
+3.2.1Objectif14
+3.2.2Composants14
+3.2.3Règles de gestion14
+3.3Espace Knowledge Management (KM)14
+3.3.1Objectif14
+3.3.2Composants15
+3.3.3Règles de gestion15
+3.4Espace Réglementation16
+3.4.1Objectif16
+3.4.2Composants16
+3.4.3Règles16
+3.5Espace Innovation16
+3.5.1Objectif16
+3.5.2Composants16
+3.5.3Règles16
+3.6Espace RSE17
+3.6.1Objectif17
+3.6.2Composants17
+3.7Espace RH & Mobilité17
+3.7.1Objectif17
+3.7.2Composants17
+3.8Espace CMR Academy17
+3.8.1Objectif17
+3.8.2Composants18
+3.9Espace Projets18
+3.9.1Objectif18
+3.9.2Composants18
+3.10Espace Achats19
+3.10.1Objectif19
+3.10.2Composants19
+3.11Espace Vie Sociale19
+3.11.1Objectif19
+3.11.2Composants19
+3.12Espace Mes Applications19
+3.12.1Objectif19
+3.12.2Composants20
+3.13Espaces Collaboratifs20
+3.14Espaces Documentaires20
+3.15Espaces Administration & Pilotage20
+4Spécifications Fonctionnelles des Workflows20
+4.1Workflow – Gestion des Achats21
+4.1.1Processus 1 : Préparation du Plan Prévisionnel des Achats (PPA)21
+4.2Workflow – Gestion de la Mobilité du Personnel23
+4.3Workflow – Gestion des Formations25
+4.4Exigences Transverses Applicables à l’ensemble des Workflows28
+5Exigences Fonctionnelles Transverses29
+5.1Gestion des habilitations et des droits d’accès29
+5.1.1Principe général29
+5.1.2Niveaux d’habilitation29
+5.1.3Traçabilité30
+5.2Paramétrage et administration fonctionnelle30
+5.2.1Paramétrage des espaces30
+5.2.2Paramétrage des workflows30
+5.2.3Administration des contenus30
+5.3Notifications et alertes31
+5.3.1Notifications workflows31
+5.3.2Historisation31
+5.4Moteur de recherche transversal31
+5.5Gestion documentaire et interfaçage GED31
+5.5.1Documents actifs31
+5.5.2Archivage GED31
+5.6Tableaux de bord et reporting32
+5.7Performance et disponibilité fonctionnelle32
+5.8Conformité et sécurité32
+6Modalités de Mise en Œuvre et Principes de Validation33
+6.1Transition vers la Phase de Réalisation33
+6.2Principes de Paramétrage et d’Implémentation33
+6.3Validation Fonctionnelle Progressive33
+6.4Gestion des Évolutions34
+6.5Gouvernance et Suivi34
+7Annexes34
+7.1Glossaire34
+7.2Référentiel des Profils et Rôles35
+7.2.1Profils transverses35
+7.2.2Acteurs spécifiques aux workflows35
+7.3Cartographie des Espaces de l’Intranet35
+INTRODUCTION
+Objet du document
+Le présent Cahier de Spécifications Fonctionnelles (SFD) a pour objet de définir de manière détaillée l’ensemble des exigences fonctionnelles relatives à la refonte de l’intranet de la Caisse Marocaine des Retraites (CMR), dans le cadre du Marché n°23/2025/CMR.
+Ce document couvre :
+Les spécifications fonctionnelles des modules et espaces composant le futur intranet.
+Les spécifications détaillées des workflows métier à implémenter via le moteur BPM de la solution VISIATIV PROCESS (EX. MOOVAPPS).
+Les exigences fonctionnelles transverses relatives à la gestion des profils, des habilitations, des notifications et des interactions avec les systèmes existants.
+Il constitue le référentiel contractuel de base pour les phases de réalisation, d’intégration, de test et de recette fonctionnelle.
+Contexte du projet
+La Caisse Marocaine des Retraites a engagé un projet stratégique de refonte complète de son intranet institutionnel, actuellement basé sur la solution SharePoint, en vue de mettre en place une Digital Workplace moderne, évolutive et centrée utilisateur, reposant sur la solution VISIATIV PROCESS (EX. MOOVAPPS).
+Cette refonte vise notamment à :
+Moderniser l’expérience utilisateur et l’ergonomie globale de l’intranet.
+Structurer et valoriser les contenus institutionnels et métiers.
+Centraliser les accès aux services et applications internes.
+Digitaliser certains processus métiers prioritaires via des workflows BPM.
+Assurer une meilleure traçabilité, transparence et efficacité opérationnelle.
+Le présent SFD s’inscrit dans la Phase 2 – Conception du projet, et décline de manière opérationnelle les orientations validées lors de la phase de cadrage ainsi que la structure détaillée de l’intranet (Story-board) préalablement approuvée.
+Périmètre du SFD
+Le périmètre du présent document couvre :
+L’ensemble des espaces fonctionnels du futur intranet, tels que définis dans le story-board validé.
+Les modules collaboratifs et métiers intégrés à la plateforme.
+Les trois workflows prioritaires identifiés :
+Gestion des achats.
+Gestion de la mobilité du personnel.
+Gestion des formations.
+Les exigences fonctionnelles transverses liées à la gestion des profils, des droits d’accès, des notifications, de la recherche et des interfaçages.
+Sont exclus du périmètre du présent document :
+Les spécifications techniques détaillées relatives à l’architecture infrastructure et applicative (traitées dans le DAT).
+Les éléments purement graphiques et artistiques, relevant des maquettes et de la direction artistique validée.
+ 
+Principes Généraux de Conception Fonctionnelle
+Architecture fonctionnelle globale de l’intranet
+Le futur intranet de la CMR est conçu comme une Digital Workplace institutionnelle structurée en espaces fonctionnels distincts, interconnectés et cohérents avec la structure organisationnelle de la CMR.
+L’architecture fonctionnelle repose sur :
+Une structuration par grands univers (institutionnel, métiers, collaboratif, transverse).
+Une navigation hiérarchisée et peu profonde.
+Une distinction claire entre :
+Les espaces informationnels.
+Les espaces collaboratifs.
+Les espaces processus et workflows.
+Les espaces documentaires.
+Les espaces d’administration et de pilotage.
+Chaque espace constitue un module fonctionnel identifiable, disposant :
+D’un objectif métier défini.
+D’acteurs clairement identifiés.
+De règles de gestion spécifiques.
+D’un périmètre de contenu maîtrisé.
+L’ensemble des modules s’appuie sur les capacités CMS, collaboratives et BPM de la solution VISIATIV PROCESS (EX. MOOVAPPS).
+ 
+Logique de structuration par espaces
+L’intranet est structuré autour des principes suivants :
+Une page d’accueil jouant le rôle de point d’entrée central.
+Des espaces accessibles via un menu principal structuré.
+Des sous-espaces organisés par thématique ou domaine fonctionnel.
+Des mécanismes d’accès rapide vers les services et applications les plus utilisés.
+La structuration des espaces respecte les principes validés dans le story-board :
+Limitation du nombre de niveaux d’arborescence.
+Cohérence entre navigation horizontale et verticale.
+Distinction visuelle des univers fonctionnels, sans rupture d’expérience globale.
+Chaque espace devra permettre :
+La consultation de contenus.
+La contribution (selon profil).
+L’accès aux documents associés.
+L’intégration éventuelle de workflows.
+ 
+Principes fonctionnels transverses
+Les principes suivants s’appliquent à l’ensemble des espaces et modules.
+Personnalisation par profil
+L’affichage des contenus et des services peut être personnalisé selon :
+Le profil utilisateur.
+L’appartenance à une structure.
+Les rôles fonctionnels attribués.
+La personnalisation doit rester maîtrisée et ne pas altérer la cohérence globale de l’intranet.
+ 
+Gestion des habilitations
+La gestion des droits d’accès repose sur :
+Une logique de groupes associés aux structures organisationnelles.
+Des rôles fonctionnels (administrateur, contributeur, validateur, utilisateur standard).
+L’intégration avec l’annuaire LDAP / Active Directory.
+Les droits sont définis au niveau :
+Des espaces.
+Des rubriques.
+Des contenus.
+Des workflows.
+Des documents.
+ 
+Notifications et alertes
+Le système devra permettre :
+L’envoi automatique de notifications liées aux workflows.
+L’envoi d’alertes éditoriales (publication, mise à jour, contenu prioritaire).
+La gestion de notifications ciblées selon profil ou groupe.
+Les notifications devront être historisées et consultables par l’utilisateur.
+ 
+Recherche unifiée
+Un moteur de recherche transversal devra permettre :
+La recherche sur l’ensemble des contenus intranet.
+L’exploitation des métadonnées.
+Le filtrage par type de contenu, espace ou catégorie.
+L’intégration, le cas échéant, des contenus exposés depuis la GED OpenText.
+ 
+Interfaçage avec la GED OpenText
+L’intranet héberge les documents actifs liés aux usages quotidiens.
+Les documents passifs ou archivés sont conservés dans la GED OpenText.
+L’intranet devra permettre :
+L’affichage de documents issus de la GED via interfaçage ciblé.
+La consultation sécurisée des versions archivées.
+La non-duplication des référentiels documentaires.
+ 
+Paramétrage
+La solution devra permettre :
+L’ajout, la modification ou la suppression de rubriques sans développement spécifique.
+La gestion dynamique des menus.
+L’administration des contenus par des gestionnaires habilités.
+Les opérations de paramétrage doivent être réalisables sans modification du code source.
+Gestion des profils utilisateurs
+La gestion des profils repose sur une configuration générique basée sur les groupes liés aux structures organisationnelles de la CMR.
+Profils génériques
+Les profils suivants sont définis :
+Administrateur plateforme : Gestion globale de la configuration, des droits et des paramètres techniques.
+Administrateur fonctionnel d’espace : Gestion des contenus, rubriques et paramètres d’un espace donné.
+Contributeur : Création et mise à jour de contenus dans un espace donné.
+Validateur : Validation des contenus ou étapes workflow selon périmètre.
+Utilisateur standard : Consultation des contenus et participation aux processus selon habilitation.
+Acteurs métiers spécifiques : Profils dédiés aux workflows (RH, Service Achat, structures métiers, commissions).
+Logique d’attribution
+Les profils sont attribués :
+Par appartenance à une structure.
+Par rôle métier.
+Par désignation nominative si nécessaire (ex : membres de commission).
+L’attribution et la révocation des droits doivent être historisées.
+ 
+Spécifications Fonctionnelles des Espaces Intranet
+Le présent chapitre décrit les spécifications fonctionnelles détaillées de l’ensemble des espaces constituant le futur intranet de la Caisse Marocaine des Retraites.
+Conformément au périmètre validé lors de la phase de cadrage et à la structure détaillée de l’intranet (Story-board) approuvée, l’intranet cible est organisé en espaces fonctionnels couvrant les dimensions institutionnelles, métiers, collaboratives et transverses de la CMR.
+Chaque espace est défini comme un module fonctionnel structuré, disposant :
+D’un objectif métier identifié.
+D’un périmètre de contenu maîtrisé.
+De profils et acteurs associés.
+De règles de gestion spécifiques.
+D’interactions avec les autres espaces et, le cas échéant, avec les workflows métier.
+ 
+Les spécifications présentées s’appuient sur :
+Les besoins consolidés dans le rapport de cadrage.
+Les principes UX/UI issus du document de refonte artistique.
+Les orientations validées via le story-board.
+Les maquettes disponibles, lorsque celles-ci existent.
+ 
+Les maquettes constituent un support illustratif, les exigences fonctionnelles décrites dans le présent document prévalent pour la réalisation et la recette.
+L’ensemble des espaces entrant dans le périmètre du projet est couvert, y compris ceux ne disposant pas encore de maquettes finalisées, afin d’assurer une couverture exhaustive et conforme aux engagements contractuels.
+ 
+Cette structuration garantit la cohérence globale de la solution et constitue la base de référence pour la phase de réalisation.
+Page d’Accueil
+Objectif
+ 
+La page d’accueil constitue le point d’entrée principal et quotidien de l’intranet.
+ 
+Elle joue un rôle de :
+Tableau de bord institutionnel.
+Vitrine interne de la CMR.
+Point d’accès rapide aux services et processus.
+Agrégateur d’informations prioritaires.
+ 
+Elle doit refléter les principes validés en phase de cadrage et les orientations UX/UI définies.
+Acteurs
+Tous les collaborateurs (consultation)
+Administrateur plateforme
+Administrateur fonctionnel
+Contributeurs habilités
+Composants fonctionnels
+Bandeau institutionnel
+Message DG
+Communication stratégique
+Contenus prioritaires
+Slider / Actualités dynamiques
+Publication hiérarchisée
+Paramétrage des priorités
+Archivage automatique
+Figure 3.1 – Maquette Page d’Accueil
+Widgets dynamiques
+Événements
+Formations à venir
+Alertes critiques
+Indicateurs clés
+Paramétrables sans code.
+Accès rapides
+Espaces stratégiques
+Workflows en cours
+Applications métiers
+Personnalisation par profil autorisée mais maîtrisée.
+Recherche unifiée
+Recherche plein texte
+Filtres par type
+Résultats intégrant GED OpenText
+Notifications
+Workflow
+Éditoriales
+Système
+Règles de gestion clés
+Paramétrage complète des blocs.
+Respect des habilitations LDAP.
+Archivage automatique des contenus expirés.
+Statistiques de consultation disponibles.
+Espace Institutionnel
+Objectif
+Centraliser :
+Organisation
+Gouvernance
+Plan stratégique
+Référentiels SMI
+Comités et instances
+Composants
+Organigramme interactif (synchronisé LDAP)
+Fiches collaborateurs
+Fiches de poste
+Référentiel documentaire actif
+Lien vers versions archivées GED
+Règles de gestion
+Documents vivants vs archivés distingués.
+Historisation des versions.
+Droits par structure.
+Figure 3.2 – Maquette Espace Institutionnel
+ 
+Espace Knowledge Management (KM)
+Objectif
+Capitaliser et structurer :
+Connaissances métier
+Guides
+Procédures
+Glossaire retraite
+REX projets
+ 
+Composants
+Structuration par catégories
+Articles thématiques
+Capsules e-learning
+Communautés de pratique
+Espace AMOA & conduite du changement
+Dépôt livrables projets actifs
+Figure 3.3 – Maquette KM
+ 
+Règles de gestion
+Workflow de validation éditoriale.
+Métadonnées obligatoires.
+Interfaçage GED pour archivage.
+Possibilité exploitation GLPI.
+ 
+Espace Réglementation
+Objectif
+Centraliser textes réglementaires, normes et référentiels.
+Composants
+Classement par régime / année / typologie
+Recherche avancée par métadonnées
+Indication version et statut
+Notifications nouvelles publications
+Règles
+Aucune modification directe des versions archivées.
+Accès différencié selon profil.
+Archivage automatique vers GED.
+Figure réservée 3.4 – Maquette Réglementation
+Espace Innovation
+Objectif
+Encourager contribution et idéation.
+Composants
+Dépôt d’idées
+Commentaires
+Vote collaboratif
+Suivi d’évolution
+Règles
+Transparence des contributions.
+Historisation.
+Paramétrage campagnes d’idéation.
+Figure 3.5 – Maquette Innovation
+Espace RSE
+Objectif
+Valoriser :
+Politique RSE
+Rapports
+Actions
+Participation collaborateurs
+Composants
+Référentiel documentaire structuré
+Publications périodiques
+Formulaires participation
+Espace RH & Mobilité
+Objectif
+Centraliser :
+Carrière
+Postes vacants
+Processus mobilité
+Composants
+Publication dynamique postes
+Accès workflow mobilité
+Historique personnel
+Espace CMR Academy
+Objectif
+Structurer formation et développement compétences.
+Composants
+Catalogue formation
+Parcours collaborateurs
+Supports pédagogiques
+Suivi formations projets
+Figure 3.8 – Maquette CMR Academy
+ 
+Espace Projets
+Objectif
+Vision transverse portefeuille projets.
+Composants
+Fiches projets
+Indicateurs avancement
+Classement par domaine
+Dépôt livrables actifs
+Workflow validation livrables
+Figure 3.9 – Maquette Projets
+ 
+Espace Achats
+Objectif
+Support opérationnel au workflow achats.
+Composants
+Accès PPA
+Référentiel fournisseurs
+Tableaux de bord achats
+Espace Vie Sociale
+Objectif
+Renforcer cohésion interne.
+Composants
+Événements
+Galerie photos
+Capsules vidéo
+Figure 3.9 – Maquette Vie Sociale
+Espace Mes Applications
+Objectif
+Centraliser accès applications.
+Composants
+Icônes paramétrables
+Classement par catégorie
+Personnalisation raccourcis
+(Figure 3.12 – Maquette Mes Applications)
+ 
+Espaces Collaboratifs
+Forums
+Groupes
+Partage transversal
+Contributions modérées
+Espaces Documentaires
+Gestion documents actifs
+Métadonnées
+Lien GED
+ 
+Espaces Administration & Pilotage
+Gestion habilitations
+Paramétrage menus
+Reporting usage
+Indicateurs consultation
+ 
+Spécifications Fonctionnelles des Workflows
+Les workflows décrits ci-après constituent les processus métier prioritaires à implémenter via le moteur BPM de la solution VISIATIV PROCESS (EX. MOOVAPPS).
+Ils ont pour finalité :
+La digitalisation des circuits internes.
+La traçabilité complète des décisions.
+La réduction des traitements manuels.
+La sécurisation des validations.
+La mise à disposition d’indicateurs de pilotage en temps réel.
+Chaque workflow est structuré par étapes successives, définies par des états, des transitions conditionnelles et des règles de gestion strictes.
+Workflow – Gestion des Achats
+Le workflow Achats couvre :
+La préparation et la gestion du Plan Prévisionnel des Achats (PPA)
+Le suivi opérationnel des achats
+ 
+Processus 1 : Préparation du Plan Prévisionnel des Achats (PPA)
+ 
+Étape 1 : Recueil des projets budgétisés
+Synthèse
+Cette étape constitue le point d’entrée du processus PPA.
+Le Service Achat procède à l’intégration des projets d’achats validés budgétairement par les services compétents. Ces projets constituent la base initiale du Plan Prévisionnel des Achats.
+L’objectif est de disposer d’un référentiel initial structuré, exploitable par les services métiers pour enrichissement et validation ultérieure.
+ 
+Fonctions attendues
+Import des projets budgétisés via fichier structuré ou interface dédiée
+Saisie manuelle des projets, si nécessaire
+Contrôle de cohérence des données importées
+Association des projets aux structures métiers concernées
+Diffusion automatique des projets vers les services métiers
+ 
+Acteurs
+Service Achat
+ 
+Règles de gestion
+Seuls les projets validés budgétairement peuvent être intégrés
+Chaque projet doit être rattaché à au moins une structure métier
+Toute opération d’import ou de modification est historisée
+La diffusion déclenche automatiquement l’ouverture des sous-processus métiers
+ 
+Étape 2 : Enrichissement des fiches projets par les services métiers
+Synthèse
+À réception des projets, chaque structure métier procède à l’enrichissement des données associées.
+Elle complète les informations techniques et opérationnelles nécessaires à l’instruction du projet et peut, le cas échéant, créer de nouveaux projets hors PPA.
+Cette étape vise à responsabiliser les services métiers dans la définition précise de leurs besoins.
+ 
+Fonctions attendues
+Consultation des projets attribués
+Modification et complétion des fiches projets
+Création de nouveaux projets non budgétisés
+Validation et transmission au Service Achat
+Rejet motivé d’un projet transmis par erreur
+ 
+Acteurs
+Services métiers
+ 
+Règles de gestion
+Les champs obligatoires doivent être complétés avant validation
+Tout rejet doit être accompagné d’un motif explicite
+Les projets non budgétisés sont automatiquement marqués « Hors PPA »
+Toute modification est tracée
+ 
+Étape 3 : Consolidation et validation du PPA
+Synthèse
+Le Service Achat centralise l’ensemble des projets enrichis, procède aux ajustements nécessaires et valide une version consolidée du PPA.
+Cette validation formalise une version officielle servant de référence pour l’exercice en cours.
+ 
+Fonctions attendues
+Visualisation consolidée de tous les projets
+Modification directe des données
+Renvoi ciblé pour correction
+Validation globale du PPA
+Génération d’une version numérotée
+Export Excel / PDF 
+ 
+Acteurs
+Service Achat
+ 
+Règles de gestion
+Toute modification doit être historisée
+La validation fige la version courante
+Chaque validation génère un numéro de version
+ 
+Étape 4 : Actualisation du PPA
+Synthèse
+Cette étape permet la réouverture contrôlée du PPA afin d’intégrer de nouveaux projets ou d’ajuster les projets existants.
+Elle garantit la mise à jour continue du référentiel tout en conservant l’historique des versions.
+ 
+Fonctions attendues
+Réouverture d’une version existante
+Mise à jour des projets
+Envoi ciblé aux services métiers
+Génération d’une nouvelle version
+Export Excel / PDF
+ 
+Acteurs
+Service Achat
+Services métiers
+ 
+Règles de gestion
+Chaque actualisation génère une nouvelle version
+L’historique complet est conservé
+Une version clôturée ne peut être modifiée
+ 
+Étape 5 : Clôture du PPA
+Synthèse
+La clôture formalise définitivement le Plan Prévisionnel des Achats pour l’exercice concerné.
+Elle marque le passage au suivi opérationnel.
+ 
+Fonctions attendues
+Génération du référentiel annuel final
+Validation définitive
+Archivage
+ 
+Acteurs
+Service Achat
+ 
+Règles de gestion
+Une fois clôturé, le PPA est non modifiable
+Archivage automatique de la version finale
+ 
+Workflow – Gestion de la Mobilité du Personnel
+ 
+Étape 1 : Demande de mobilité spontanée
+Synthèse
+Le collaborateur initie librement une demande de mobilité interne via un formulaire structuré.
+Le système récupère automatiquement les données d’identité issues du LDAP et permet au demandeur de formaliser ses motivations.
+Cette étape ouvre formellement le cycle de traitement.
+ 
+Fonctions attendues
+Affichage automatique des données LDAP
+Saisie des motivations
+Sélection optionnelle d’une structure cible
+Ajout de pièces jointes
+Notification automatique aux RH
+ 
+Acteurs
+Collaborateur
+ 
+Règles de gestion
+La demande ne peut être initiée que par le collaborateur concerné
+Les données d’identité sont non modifiables
+Toute demande est automatiquement transmise aux RH
+ 
+Étape 2 : Analyse RH
+Synthèse
+Les RH analysent la demande, évaluent sa recevabilité et procèdent à un matching avec les postes vacants disponibles.
+ 
+Fonctions attendues
+Consultation complète du dossier
+Accès référentiel postes vacants
+Sélection poste cible
+Désignation responsable structure cible
+Notification du demandeur de la bonne réception de la prise en charge de sa demande 
+Annulation motivée si nécessaire
+Alerter le RH par des alertes programmées chaque 2 semaines (Lundi)
+ 
+Acteurs
+RH
+ 
+Règles de gestion
+Toute annulation doit être motivée
+Les actions RH sont historisées
+Traitement de la réaffectation, alors :
+Sélection de la Structure cible (même structure choisie par le demandeur ou autre)
+Sélection du poste relatif à la structure choisie
+Désignation de la date de réaffectation
+Notification des parties prenantes :
+Demandeur 
+Structure cible (responsable)
+Structure initiale (responsable)
+Si la demande correspond à un poste vacant :
+Terminer le traitement de la demande 
+Notification du demandeur de l’annulation motivée de la présence d’un poste vacant via le processus de mobilité – poste vacant
+ 
+Processus 2 : Appel à candidature interne  
+Synthèse
+ 
+Fonctions attendues
+Affichage automatique des données LDAP
+Saisie des motivations
+Sélection optionnelle d’une structure cible
+Ajout de pièces jointes
+Notification automatique aux RH
+ 
+Acteurs
+Collaborateur
+ 
+Règles de gestion
+La demande ne peut être initiée que par le collaborateur concerné
+Les données d’identité sont non modifiables
+Toute demande est automatiquement transmise aux RH
+Étape 4 : Commission d’évaluation
+Synthèse
+Les RH organisent la commission chargée de statuer sur la demande.
+ 
+Fonctions attendues
+Constitution commission
+Planification
+Intégration Outlook
+Ajout PV
+ 
+Acteurs
+RH
+Membres commission
+ 
+Règles de gestion
+Informations commission non visibles demandeur
+Décision enregistrée et archivée
+ 
+Étape 5 : Décision finale
+Synthèse
+La décision de la commission clôt le processus et déclenche, en cas de validation, la mise en œuvre de la mobilité.
+ 
+Fonctions attendues
+Validation réaffectation
+Notifications ciblées
+Archivage dossier
+ 
+Acteurs
+RH
+ 
+Règles de gestion
+Décision définitive pour le cycle en cours
+Archivage complet et traçable
+Workflow – Gestion des Formations
+Le workflow Gestion des Formations a pour finalité de structurer l’ensemble du cycle de vie des demandes de formation, depuis l’expression du besoin par le collaborateur jusqu’au suivi et à la clôture administrative et opérationnelle de la formation.
+Il vise à :
+Formaliser les demandes individuelles et collectives.
+Assurer une validation hiérarchique encadrée.
+Permettre la consolidation RH dans le plan de formation.
+Garantir la traçabilité des décisions.
+Mettre à disposition des indicateurs de pilotage fiables.
+ 
+Étape 1 : Expression du besoin de formation
+Synthèse
+Le collaborateur initie une demande de formation via un formulaire structuré accessible depuis l’espace CMR Academy ou l’espace RH.
+Cette étape permet de formaliser le besoin, d’en préciser les objectifs et d’identifier le type de formation souhaité (formation catalogue, formation projet, formation externe, certification, etc.).
+Le système pré-remplit les données d’identité issues du référentiel RH et permet au collaborateur de décrire précisément son besoin.
+ 
+Fonctions attendues
+Affichage automatique des données du collaborateur (matricule, structure, poste)
+Choix du type de formation 
+Inter-entreprises
+Spontanée 
+Saisie des informations relatives à la formation :
+Intitulé ou thématique
+Organisme (si connu)
+Objectifs
+Justification métier
+Estimation de coût (si applicable)
+Période souhaitée
+Ajout de pièces justificatives (optionnel)
+Soumission de la demande pour validation hiérarchique
+Notification automatique au responsable hiérarchique
+ 
+Acteurs
+Collaborateur
+Responsable hiérarchique (validation)
+ 
+Règles de gestion
+Les données d’identité sont non modifiables
+Les champs obligatoires doivent être complétés avant soumission
+Une demande non validée ne peut être transmise aux RH
+Toute soumission est historisée
+ 
+Étape 2 : Validation hiérarchique
+Synthèse
+Le responsable hiérarchique analyse la demande au regard des priorités opérationnelles du service, de la pertinence du besoin et de la disponibilité du collaborateur.
+Cette étape vise à garantir l’alignement entre le besoin individuel et les objectifs de la structure.
+Le responsable peut valider, rejeter ou demander des compléments d’information.
+ 
+Fonctions attendues
+Consultation complète de la demande
+Visualisation des informations RH du collaborateur
+Validation ou rejet motivé
+Demande de complément (retour au collaborateur)
+Transmission automatique aux RH en cas de validation
+ 
+Acteurs
+Responsable hiérarchique
+ 
+Règles de gestion
+Toute décision (validation ou rejet) doit être motivée
+Une demande rejetée clôt le processus sauf nouvelle soumission
+Un retour pour complément suspend temporairement le traitement
+Les délais de traitement peuvent être paramétrés avec rappel automatique
+ 
+Étape 3 : Analyse et consolidation RH
+Synthèse
+À réception des demandes validées hiérarchiquement, les RH procèdent à leur analyse et à leur consolidation dans le cadre du plan de formation annuel ou pluriannuel.
+Les RH évaluent :
+La cohérence budgétaire.
+La disponibilité des sessions.
+La pertinence stratégique.
+La possibilité d’intégration dans un parcours collectif.
+Cette étape peut aboutir à une validation définitive, un report ou un rejet motivé.
+ 
+Fonctions attendues
+Consultation des demandes validées
+Visualisation consolidée par structure
+Vérification budgétaire
+Affectation à une session existante ou planifiée
+Décision (validation / report / rejet)
+Notification automatique au collaborateur
+ 
+Acteurs
+Service RH / Formation
+ 
+Règles de gestion
+Toute décision doit être tracée
+Les demandes reportées restent actives pour la période suivante
+Les décisions RH sont historisées
+Les demandes validées sont intégrées au plan de formation
+ 
+Étape 4 : Organisation et suivi de la formation
+Synthèse
+Une fois la formation validée, les RH organisent la participation du collaborateur et assurent le suivi administratif et opérationnel.
+Cette étape permet :
+La confirmation de la session.
+La gestion des convocations.
+Le suivi de la participation.
+L’intégration des pièces justificatives (attestation, facture).
+ 
+Fonctions attendues
+Planification des sessions
+Génération des convocations
+Suivi de la participation (présent / absent)
+Ajout des pièces justificatives
+Mise à jour du dossier collaborateur
+ 
+Acteurs
+RH
+Collaborateur
+ 
+Règles de gestion
+La participation doit être confirmée pour clôture
+Les pièces justificatives peuvent être obligatoires selon le type de formation
+Les données sont intégrées dans l’historique carrière
+ 
+Étape 5 : Clôture et évaluation
+Synthèse
+La dernière étape formalise la clôture administrative et qualitative de la formation.
+Elle peut inclure :
+Une évaluation à chaud ou à froid.
+La validation de la conformité administrative.
+L’archivage du dossier.
+Cette étape permet également d’alimenter les indicateurs de pilotage RH.
+ 
+Fonctions attendues
+Saisie d’une évaluation (optionnelle ou obligatoire)
+Validation administrative finale
+Archivage automatique du dossier
+Intégration dans les tableaux de bord RH
+ 
+Acteurs
+Collaborateur (évaluation)
+RH
+ 
+Règles de gestion
+Une formation ne peut être clôturée sans validation RH
+Les données d’évaluation sont conservées à des fins statistiques
+Le dossier est archivé et consultable en lecture seule
+ 
+Demande de participation « Level Up »
+Côté collaborateur :
+Participation à une formation « LevelUp »
+Emission de la demande de participation 
+Backoffice 
+Tableau des demandes de participation
+Tableau des participations :
+Demandeur
+Thème / sujet
+Date de demande de participation
+Participation (Oui / Non)
+Date de participation 
+Exigences Transverses Applicables à l’ensemble des Workflows
+Tous les workflows doivent respecter les exigences suivantes :
+Traçabilité
+Historisation complète des actions
+Journal des transitions d’état
+Archivage sécurisé
+Notifications
+Notifications automatiques à chaque transition
+Rappels paramétrables en cas d’inactivité
+Respect strict des habilitations
+Reporting
+Tableaux de bord dynamiques
+Indicateurs par structure
+Export des données (Excel / PDF)
+Sécurité
+Accès restreint aux dossiers selon rôle
+Masquage des informations sensibles
+Respect des règles internes de confidentialité
+Exigences Fonctionnelles Transverses
+Le présent chapitre formalise les exigences applicables à l’ensemble des modules et workflows du futur intranet de la CMR.
+Ces exigences garantissent :
+La cohérence globale de la solution.
+La sécurisation des accès.
+La performance opérationnelle.
+La capacité d’administration et d’évolution.
+La conformité aux règles internes de gouvernance.
+ 
+Gestion des habilitations et des droits d’accès
+Principe général
+La gestion des habilitations repose sur une logique combinée :
+Groupes liés aux structures organisationnelles.
+Rôles fonctionnels (administrateur, contributeur, validateur, utilisateur).
+Affectations spécifiques pour les workflows (RH, Achat, Commission, etc.).
+L’intégration avec l’annuaire LDAP / Active Directory permet :
+La synchronisation automatique des comptes.
+La mise à jour des appartenances aux structures.
+La désactivation automatique des comptes inactifs.
+ 
+Niveaux d’habilitation
+Les droits peuvent être définis au niveau :
+De l’espace.
+De la rubrique.
+Du contenu.
+Du document.
+Du dossier workflow.
+Chaque contenu ou dossier doit respecter strictement les habilitations configurées.
+ 
+Traçabilité
+Toute modification de droits doit être historisée.
+Les accès aux dossiers sensibles peuvent être journalisés.
+Les profils administrateurs sont limités et identifiés nominativement.
+ 
+Paramétrage et administration fonctionnelle
+Paramétrage des espaces
+La solution doit permettre, sans modification du code source :
+L’ajout ou la suppression de rubriques.
+La modification des menus.
+La gestion des blocs dynamiques.
+L’activation/désactivation de widgets.
+ 
+Paramétrage des workflows
+Les workflows doivent permettre :
+La modification des circuits de validation (si évolution organisationnelle).
+L’ajout de champs complémentaires.
+L’ajustement des délais et rappels.
+Toute modification majeure doit être traçable.
+ 
+Administration des contenus
+Les administrateurs fonctionnels doivent pouvoir :
+Publier, modifier, archiver des contenus.
+Gérer les métadonnées.
+Superviser les contributions.
+Un workflow de validation éditoriale peut être activé selon l’espace.
+Notifications et alertes
+Notifications workflows
+Les notifications doivent être générées automatiquement lors :
+D’une nouvelle demande.
+D’un changement d’état.
+D’un rejet.
+D’un rappel de délai.
+Elles peuvent être transmises :
+Via l’interface intranet.
+Par email interne (si activé). 
+Historisation
+Les notifications sont consultables dans un espace dédié.
+L’utilisateur peut marquer une notification comme lue.
+Les notifications critiques restent visibles jusqu’à consultation.
+Moteur de recherche transversal
+Le moteur de recherche doit permettre :
+Une recherche plein texte.
+L’exploitation des métadonnées.
+Le filtrage par espace, type de contenu, date.
+L’intégration des contenus exposés depuis la GED.
+Les résultats doivent respecter strictement les habilitations.
+Des suggestions automatiques peuvent être proposées lors de la saisie.
+Gestion documentaire et interfaçage GED
+Documents actifs
+Les documents liés aux espaces intranet sont :
+Classés par métadonnées.
+Soumis à règles d’accès.
+Archivage GED
+Les documents passifs ou archivés sont transférés vers la GED OpenText.
+L’intranet peut :
+Exposer des documents GED en consultation.
+Rediriger vers la version officielle archivée sur la GED OpenText.
+La duplication documentaire doit être évitée.
+Tableaux de bord et reporting
+Les modules et workflows doivent permettre :
+La visualisation d’indicateurs en temps réel.
+Des vues par structure.
+Des statistiques d’usage.
+L’export des données (Excel / PDF).
+Exemples :
+Nombre de demandes mobilité en cours.
+Statut des projets achats.
+Taux de participation formations.
+Statistiques de consultation espaces.
+Performance et disponibilité fonctionnelle
+La solution doit garantir :
+Un temps de chargement compatible avec un usage quotidien massif.
+Une navigation fluide.
+Une compatibilité multi-navigateurs.
+Un affichage responsive.
+Les performances ne doivent pas être dégradées par l’activation de widgets dynamiques.
+Conformité et sécurité
+La solution doit intégrer :
+Le respect des principes de confidentialité interne.
+La gestion des accès restreints pour dossiers sensibles.
+La conservation sécurisée des données workflows.
+La journalisation des actions critiques.
+Modalités de Mise en Œuvre et Principes de Validation
+Le présent chapitre précise les principes encadrant la mise en œuvre des spécifications fonctionnelles décrites dans le présent document, ainsi que les modalités générales de validation en phase de réalisation.
+ 
+Transition vers la Phase de Réalisation
+Les spécifications définies dans le présent document constituent :
+La base de référence pour les développements et paramétrages.
+Le socle de modélisation BPM.
+Le cadre d’implémentation des modules intranet.
+Toute évolution ultérieure devra :
+Être analysée en termes d’impact.
+Faire l’objet d’un arbitrage formel.
+Être validée par les instances de gouvernance du projet.
+ 
+Principes de Paramétrage et d’Implémentation
+La mise en œuvre devra respecter :
+L’architecture validée.
+La structuration des espaces décrite.
+Les règles de gestion formalisées.
+Les principes de sécurité et d’habilitation.
+Les développements spécifiques devront être limités au strict nécessaire, en privilégiant le paramétrage natif de la solution.
+Validation Fonctionnelle Progressive
+La validation des fonctionnalités interviendra de manière progressive :
+Validation des modules par lot.
+Validation des workflows par scénario métier.
+Revue des habilitations.
+Vérification des interfaçages.
+Cette validation sera conduite dans un environnement dédié (recette) avant mise en production.
+Gestion des Évolutions
+Toute demande d’évolution postérieure à la validation du présent document :
+Sera formalisée.
+Sera analysée en termes de charge et d’impact.
+Pourra faire l’objet d’un avenant ou d’une priorisation dans un lot ultérieur.
+Gouvernance et Suivi
+Le suivi de la mise en œuvre s’appuiera sur :
+Des comités projet réguliers.
+Des points d’avancement.
+Des démonstrations intermédiaires.
+Les décisions structurantes seront consignées.
+ 
+Annexes
+Les annexes ci-après complètent les spécifications fonctionnelles et constituent des éléments de référence pour la mise en œuvre et le suivi du projet.
+Glossaire
+Cette section vise à harmoniser l’interprétation des termes utilisés dans le présent document.
+Terme
+Définition
+Intranet
+Plateforme collaborative interne basée sur la solution VISIATIV PROCESS (EX. MOOVAPPS)
+Espace
+Module fonctionnel structuré au sein de l’intranet
+Workflow
+Processus métier digitalisé via moteur BPM
+PPA
+Plan Prévisionnel des Achats
+GED
+Gestion Électronique des Documents (OpenText)
+LDAP
+Annuaire central des utilisateurs
+Habilitation
+Ensemble des droits d’accès attribués à un utilisateur
+Commission
+Instance d’évaluation dans le cadre du workflow Mobilité
+Paramétrage
+Configuration fonctionnelle sans développement spécifique
+ 
+Référentiel des Profils et Rôles
+Cette annexe formalise la logique générique des profils utilisateurs.
+Profils transverses
+Profil
+Description
+Administrateur plateforme
+Gestion globale des paramètres et habilitations
+Administrateur fonctionnel
+Gestion d’un espace spécifique
+Contributeur
+Publication et modification de contenus
+Validateur
+Validation éditoriale ou workflow
+Utilisateur standard
+Consultation et participation selon droits
+ 
+Acteurs spécifiques aux workflows
+Workflow
+Acteurs
+Achats
+Service Achat, Services métiers
+Mobilité
+Collaborateur, RH, Structure cible, Commission
+Formations
+Collaborateur, Responsable hiérarchique, RH
+L’attribution des rôles repose sur :
+L’appartenance à une structure.
+L’intégration LDAP.
+La désignation nominative si nécessaire.
+Cartographie des Espaces de l’Intranet
+Cette annexe présente la liste consolidée des espaces entrant dans le périmètre du projet.
+Page d’Accueil
+Espace Institutionnel
+Espace Knowledge Management
+Espace Réglementation
+Espace Innovation
+Espace RSE
+Espace RH & Mobilité
+Espace CMR Academy
+Espace Projets
+Espace Achats
+Espace Vie Sociale
+Espace Mes Applications
+Espaces Collaboratifs
+Espaces Documentaires
+Espaces Administration & Pilotage
+Cette liste constitue le référentiel officiel des modules fonctionnels couverts par le présent SFD.
