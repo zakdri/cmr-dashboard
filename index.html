@@ -2045,10 +2045,15 @@
             color: var(--text-main);
             font-weight: 500;
             white-space: nowrap;
+            cursor: pointer;
         }
 
         .ticker-item strong {
             color: var(--cmr-primary);
+        }
+
+        .ticker-item:hover {
+            text-decoration: underline;
         }
 
         @keyframes ticker {
@@ -2570,6 +2575,123 @@
                         </div>
                     </div>
 
+                    <!-- INDICATEURS RH / KPI SOCIAUX -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue">
+                                    <i data-lucide="heart-handshake" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Indicateurs RH
+                            </div>
+                            <a href="#" class="card-action" onclick="switchView('rh'); return false;">
+                                Voir plus
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="stat-grid">
+                            <div class="stat-item blue">
+                                <div class="stat-value">94%</div>
+                                <div class="stat-label">Engagement</div>
+                                <i data-lucide="smile" class="stat-icon" style="width: 40px; height: 40px;"></i>
+                            </div>
+                            <div class="stat-item green">
+                                <div class="stat-value">4.2</div>
+                                <div class="stat-label">Baromètre</div>
+                                <i data-lucide="gauge" class="stat-icon" style="width: 40px; height: 40px;"></i>
+                            </div>
+                            <div class="stat-item purple">
+                                <div class="stat-value">18</div>
+                                <div class="stat-label">Postes vacants</div>
+                                <i data-lucide="user-plus" class="stat-icon" style="width: 40px; height: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GOUVERNANCE (COMITÉS / COMPTES RENDUS) -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon purple">
+                                    <i data-lucide="landmark" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Gouvernance
+                            </div>
+                            <a href="#" class="card-action" onclick="switchView('institutionnel'); return false;">
+                                Voir plus
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="doc-list">
+                            <div class="doc-item">
+                                <div class="doc-icon pdf">PDF</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Compte rendu — Comité de Direction</div>
+                                    <div class="doc-meta">Mars 2026 • Validé</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                            </div>
+                            <div class="doc-item">
+                                <div class="doc-icon doc">DOC</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Ordre du jour — Conseil d'Administration</div>
+                                    <div class="doc-meta">Avril 2026 • À venir</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                            </div>
+                            <div class="doc-item">
+                                <div class="doc-icon xls">XLS</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Suivi décisions — Comités</div>
+                                    <div class="doc-meta">Mis à jour hier</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VIE RH (NOMINATIONS / RECRUTEMENTS / DÉPARTS) -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green">
+                                    <i data-lucide="users-round" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Vie RH
+                            </div>
+                            <a href="#" class="card-action" onclick="switchView('rh'); return false;">
+                                Voir plus
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="doc-list">
+                            <div class="doc-item">
+                                <div class="doc-icon" style="background: #eff6ff; color: #256cb5; font-weight: 800;">NEW</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Nominations</div>
+                                    <div class="doc-meta">3 mouvements • Cette semaine</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                            </div>
+                            <div class="doc-item">
+                                <div class="doc-icon" style="background: #f0fdf4; color: #16a34a; font-weight: 800;">HR</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Recrutements</div>
+                                    <div class="doc-meta">2 arrivées • Avril 2026</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                            </div>
+                            <div class="doc-item">
+                                <div class="doc-icon" style="background: #fff7ed; color: #ea580c; font-weight: 800;">OUT</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Départs</div>
+                                    <div class="doc-meta">1 départ • Mois en cours</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- ÉQUIPES EN LIGNE -->
                     <div class="dashboard-card">
                         <div class="card-header">
@@ -2740,6 +2862,18 @@
                     </div>
                 </div>
             </div> <!-- END DASHBOARD VIEW -->
+
+            <!-- ===== FLASH INFO DETAIL VIEW ===== -->
+            <div id="view-flash-detail" class="view-section km-container">
+                <button class="actu-back-btn" onclick="switchView('dashboard')">
+                    <i data-lucide="arrow-left" style="width:16px;height:16px;"></i>
+                    Retour à l'accueil
+                </button>
+                <div class="actu-detail-card" id="flashDetailContent">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+            <!-- ===== END FLASH INFO DETAIL VIEW ===== -->
 
             <!-- KM VIEW -->
             <div id="view-km" class="view-section km-container">
@@ -4208,13 +4342,6 @@
 
                 <!-- TAB: ACTIVITÉS (Vie Interne) -->
                 <div id="page-rh-activites" class="km-tab-content" style="display: none;">
-                    <div style="display:flex;align-items:flex-start;gap:12px;background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin-bottom:24px;">
-                        <i data-lucide="alert-triangle" style="width:18px;height:18px;color:#ca8a04;flex-shrink:0;margin-top:1px;"></i>
-                        <div>
-                            <span style="font-weight:700;font-size:13px;color:#92400e;">Arbitrage · Périmètre à clarifier</span>
-                            <p style="font-size:12px;color:#a16207;margin-top:2px;margin-bottom:0;">Le contenu et le périmètre de cette section (activités des services, clubs, associations…) doivent être définis avant développement. Le contenu ci-dessous est indicatif.</p>
-                        </div>
-                    </div>
                     <p style="font-size:13px;color:var(--text-light);margin-bottom:20px;">Mettez en avant les initiatives des services.</p>
                     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
                         <div class="doc-card" style="cursor:pointer;border:1px dashed #e2e8f0;">
@@ -4995,6 +5122,27 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal-overlay" id="tickerDetailModal">
+            <div class="consent-modal" role="dialog" aria-modal="true" aria-labelledby="tickerDetailTitle">
+                <div class="consent-modal-header">
+                    <div class="consent-modal-icon">
+                        <i data-lucide="zap" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="consent-modal-title" id="tickerDetailTitle">
+                        Détail Flash Info
+                        <span class="consent-modal-subtitle" id="tickerDetailSubtitle"></span>
+                    </div>
+                    <button class="consent-modal-close" type="button" onclick="closeTickerDetailModal()" aria-label="Fermer la fenêtre">×</button>
+                </div>
+                <div class="consent-modal-content">
+                    <p id="tickerDetailBody" style="margin-bottom:0;"></p>
+                </div>
+                <div class="consent-modal-footer">
+                    <button class="primary-btn" onclick="goToFlashDetailFromModal()">Consulter</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -5154,19 +5302,85 @@
             });
         });
 
-        // Random News Ticker
+        // Random News Ticker (cliquable -> pop-up)
         const cmrNewsItems = [
-            "<strong>CMR Actualités :</strong> Signature du nouveau contrat programme État-CMR pour la période 2026-2028.",
-            "<strong>RH :</strong> Campagne d'évaluation annuelle lancée – Date limite le 28 février.",
-            "<strong>IT :</strong> Maintenance prévue sur le serveur \"Paie\" ce vendredi à 18h00.",
-            "<strong>Social :</strong> Inscriptions ouvertes pour les colonies de vacances 2026.",
-            "<strong>Innovation :</strong> Félicitations à l'équipe \"Digit-Passe\" pour le prix de l'innovation !",
-            "<strong>Stratégie :</strong> Lancement de la feuille de route digitale 2026.",
-            "<strong>Partenariat :</strong> Accord signé avec la CNOPS pour l'échange de données.",
-            "<strong>Formation :</strong> Nouveaux modules e-learning disponibles sur CMR Academy.",
-            "<strong>Gouvernance :</strong> Réunion du comité d'audit prévue le 15 mars.",
-            "<strong>Climat Social :</strong> Enquête de satisfaction interne : Taux de participation de 85%."
+            { id: 'cmr-actu-contrat', category: 'CMR Actualités', text: "Signature du nouveau contrat programme État-CMR pour la période 2026-2028." },
+            { id: 'rh-eval', category: 'RH', text: "Campagne d'évaluation annuelle lancée – Date limite le 28 février." },
+            { id: 'it-maint-paie', category: 'IT', text: "Maintenance prévue sur le serveur \"Paie\" ce vendredi à 18h00." },
+            { id: 'social-colonies', category: 'Social', text: "Inscriptions ouvertes pour les colonies de vacances 2026." },
+            { id: 'innovation-digitpasse', category: 'Innovation', text: "Félicitations à l'équipe \"Digit-Passe\" pour le prix de l'innovation !" },
+            { id: 'strategie-roadmap', category: 'Stratégie', text: "Lancement de la feuille de route digitale 2026." },
+            { id: 'partenariat-cnops', category: 'Partenariat', text: "Accord signé avec la CNOPS pour l'échange de données." },
+            { id: 'formation-elearning', category: 'Formation', text: "Nouveaux modules e-learning disponibles sur CMR Academy." },
+            { id: 'gouv-audit', category: 'Gouvernance', text: "Réunion du comité d'audit prévue le 15 mars." },
+            { id: 'climat-social', category: 'Climat Social', text: "Enquête de satisfaction interne : Taux de participation de 85%." }
         ];
+
+        function escapeHtml(str) {
+            return String(str)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        function openTickerDetail(newsId) {
+            const item = cmrNewsItems.find(x => x.id === newsId);
+            const modal = document.getElementById('tickerDetailModal');
+            if (!item || !modal) return;
+
+            window.__activeTickerItem = item;
+            const subtitle = document.getElementById('tickerDetailSubtitle');
+            const body = document.getElementById('tickerDetailBody');
+            if (subtitle) subtitle.textContent = item.category;
+            if (body) body.textContent = item.text;
+
+            modal.classList.add('active');
+            lucide.createIcons();
+        }
+
+        function closeTickerDetailModal() {
+            const modal = document.getElementById('tickerDetailModal');
+            if (!modal) return;
+            modal.classList.remove('active');
+        }
+
+        function goToFlashDetailFromModal() {
+            const item = window.__activeTickerItem;
+            if (!item) return;
+
+            const detail = document.getElementById('flashDetailContent');
+            if (detail) {
+                detail.innerHTML = `
+                <div class="actu-detail-body">
+                    <div class="actu-detail-meta-row">
+                        <span class="actu-detail-category">${escapeHtml(item.category)}</span>
+                        <span class="actu-detail-date">
+                            <i data-lucide="zap" style="width:14px;height:14px;"></i>
+                            Flash info
+                        </span>
+                        <span class="actu-detail-author">
+                            <i data-lucide="broadcast" style="width:14px;height:14px;"></i>
+                            Intranet
+                        </span>
+                    </div>
+                    <h1 class="actu-detail-title">Détail Flash Info</h1>
+                    <div class="actu-detail-content">
+                        <p>${escapeHtml(item.text)}</p>
+                        <p>Dans le cadre de l'amelioration continue de la qualite de vie au travail, cette communication vise a partager les premiers indicateurs et a renforcer l'alignement entre les equipes. Les retours collectes montrent une bonne mobilisation et une volonte commune d'avancer sur des actions concretes.</p>
+                        <p>Les principaux points de vigilance concernent la fluidite de l'information, la simplification de certains processus internes et l'accompagnement des collaborateurs dans les phases de changement. Plusieurs propositions ont deja ete remontees par les managers de proximite et feront l'objet d'un suivi structure.</p>
+                        <p>Sur les prochaines semaines, un plan d'action detaille sera deploie avec des jalons clairs, des responsables identifies et des points d'etape periodiques. L'objectif est de transformer ces resultats en mesures visibles et utiles pour l'ensemble des collaborateurs.</p>
+                        <p>Merci a toutes les equipes pour leur implication. Une nouvelle synthese sera partagee prochainement afin de presenter l'avancement, les resultats intermediaires et les ajustements retenus.</p>
+                    </div>
+                </div>`;
+            }
+
+            const modal = document.getElementById('tickerDetailModal');
+            if (modal) modal.classList.remove('active');
+            switchView('flash-detail');
+            lucide.createIcons();
+        }
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -5184,9 +5398,11 @@
             // Take 6 items randomly
             const selectedNews = shuffledNews.slice(0, 6);
 
-            const newsHtml = selectedNews.map(item =>
-                `<span class="ticker-item">${item}</span>`
-            ).join('');
+            const newsHtml = selectedNews.map(item => {
+                const label = escapeHtml(item.category);
+                const text = escapeHtml(item.text);
+                return `<span class="ticker-item" role="button" tabindex="0" data-news-id="${escapeHtml(item.id)}"><strong>${label} :</strong> ${text}</span>`;
+            }).join('');
 
             // Duplicate content for seamless loop
             wrapper.innerHTML = newsHtml + newsHtml;
@@ -5194,6 +5410,23 @@
 
         // Initialize ticker on load
         document.addEventListener('DOMContentLoaded', populateTicker);
+
+        // Click + keyboard access for ticker items (event delegation)
+        document.addEventListener('click', (e) => {
+            const el = e.target.closest?.('.ticker-item');
+            if (!el) return;
+            const id = el.getAttribute('data-news-id');
+            if (id) openTickerDetail(id);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            const el = e.target?.closest?.('.ticker-item');
+            if (!el) return;
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            e.preventDefault();
+            const id = el.getAttribute('data-news-id');
+            if (id) openTickerDetail(id);
+        });
     </script>
 
     <style>
@@ -5435,6 +5668,27 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 14px;
+        }
+
+        .consent-modal-close {
+            margin-left: auto;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 10px;
+            background: #f1f5f9;
+            color: #334155;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+            display: grid;
+            place-items: center;
+            transition: all 0.2s;
+        }
+
+        .consent-modal-close:hover {
+            background: #e2e8f0;
+            color: #0f172a;
         }
 
         .consent-modal-icon {
