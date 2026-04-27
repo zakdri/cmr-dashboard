@@ -1613,19 +1613,19 @@
         }
 
         .stat-item.blue {
-            background: #b8d4f4;
+            background: #e3effe;
         }
 
         .stat-item.green {
-            background: #aceac8;
+            background: #dffced;
         }
 
         .stat-item.purple {
-            background: #dac1f7;
+            background: #f7efff;
         }
 
         .stat-item.orange {
-            background: #ffce99;
+            background: #fff1e0;
         }
 
         .stat-value {
@@ -1653,12 +1653,18 @@
             right: 12px;
             bottom: 12px;
             opacity: 0.9;
-            color: #ffffff;
+            color: #94a3b8;
             pointer-events: none;
             width: clamp(26px, 3.2vw, 40px) !important;
             height: clamp(26px, 3.2vw, 40px) !important;
             z-index: 1; /* behind text */
         }
+
+        /* KPI icon colors (as before reference) */
+        .stat-item.green .stat-icon { color: #aceac8; }
+        .stat-item.orange .stat-icon { color: #ffce99; }
+        .stat-item.blue .stat-icon { color: #b8d4f4; }
+        .stat-item.purple .stat-icon { color: #dac1f7; }
 
         /* Responsive: avoid icon/text overlap on smaller widths */
         @media (max-width: 1320px) {
