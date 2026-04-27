@@ -64,6 +64,7 @@
             width: auto;
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
 
         .header-logo svg {
@@ -486,6 +487,28 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(15, 23, 42, 0.18) transparent;
+        }
+
+        .submenu-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .submenu-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .submenu-list::-webkit-scrollbar-thumb {
+            background: rgba(15, 23, 42, 0.18);
+            border-radius: 10px;
+        }
+
+        .submenu-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(15, 23, 42, 0.28);
         }
 
         .submenu-item {
@@ -1615,7 +1638,9 @@
             position: absolute;
             right: 12px;
             bottom: 12px;
-            opacity: 0.2;
+            opacity: 0.9;
+            color: #ffffff;
+            filter: drop-shadow(0 2px 2px rgba(15, 23, 42, 0.18));
         }
 
         /* TEAM LIST */
@@ -2090,7 +2115,7 @@
 <body>
     <!-- TOP HEADER -->
     <header class="top-header">
-        <div class="header-logo">
+        <div class="header-logo" onclick="switchView('dashboard')">
             <svg viewBox="0 0 207.08 58.4" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <style>
@@ -2308,9 +2333,10 @@
                     <span>Espaces métiers</span>
                     <i data-lucide="chevron-right" class="submenu-indicator"></i>
                 </div>
-                <div id="nav-collaboratifs" class="nav-item" onclick="switchView('collaboratifs')">
+                <div id="nav-collaboratifs" class="nav-item has-submenu" onclick="toggleSidebarSubmenu('collaboratifs')">
                     <i data-lucide="network"></i>
-                    <span>Collaboratifs</span>
+                    <span>Espaces collaboratifs</span>
+                    <i data-lucide="chevron-right" class="submenu-indicator"></i>
                 </div>
                 <div id="nav-projets" class="nav-item" onclick="switchView('projets')">
                     <i data-lucide="briefcase"></i>
@@ -2345,13 +2371,19 @@
                     <span>QSE</span>
                     <i data-lucide="chevron-right" class="submenu-indicator"></i>
                 </div>
+                <div id="nav-mediatheque" class="nav-item has-submenu" onclick="toggleSidebarSubmenu('mediatheque')">
+                    <i data-lucide="clapperboard"></i>
+                    <span>Médiathèque</span>
+                    <i data-lucide="chevron-right" class="submenu-indicator"></i>
+                </div>
                 <div id="nav-innovation" class="nav-item" onclick="switchView('innovation')">
                     <i data-lucide="lightbulb"></i>
                     <span>Innovation</span>
                 </div>
-                <div id="nav-admin" class="nav-item" onclick="switchView('admin')">
+                <div id="nav-admin" class="nav-item has-submenu" onclick="toggleSidebarSubmenu('admin')">
                     <i data-lucide="settings"></i>
                     <span>Administration & Pilotage</span>
+                    <i data-lucide="chevron-right" class="submenu-indicator"></i>
                 </div>
             </nav>
         </aside>
@@ -6026,30 +6058,240 @@
             <!-- COLLABORATIFS VIEW -->
             <div id="view-collaboratifs" class="view-section km-container">
                 <div class="km-header">
-                    <h2>Espaces Collaboratifs</h2>
-                    <p>Forums, groupes de travail et espaces de partage transverses.</p>
+                    <h2>Espaces collaboratifs</h2>
+                    <p>Forums, communautés, échanges, partage (REX) et vie interne.</p>
                 </div>
-                <div class="app-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
-                    <a href="#" class="app-card-large" style="--hover-bg: #f8fafc; --hover-border: #cbd5e1;">
-                        <div class="app-card-icon-large" style="background: #eab308; color: white;">
-                            <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+
+                <!-- Sous‑rubriques (selon rubrique principale choisie via sidebar) -->
+                <div class="km-navbar" id="collabSubNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Discussions -->
+                <div id="page-collab-forums" class="km-tab-content" style="display:block;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.6fr 1.4fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="message-square" style="width:20px;height:20px;"></i></div>
+                                    Forums
+                                </div>
+                                <button class="primary-btn" onclick="toggleForumComposer(true)">Nouveau sujet</button>
+                            </div>
+                            <div style="padding:18px;">
+                                <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                    <i data-lucide="search" style="width: 16px;"></i>
+                                    <input id="collabForumSearch" class="actu-search-input" placeholder="Rechercher un sujet…" oninput="renderCollabForums()">
+                                </div>
+                            </div>
+                            <div id="collabForumList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
                         </div>
-                        <div class="app-card-content">
-                            <span class="app-card-title-large">Communautés Métiers</span>
-                            <p class="app-card-desc">Groupes d'échanges et bonnes pratiques.</p>
-                            <div class="app-card-action">Rejoindre<i data-lucide="arrow-right" style="width: 14px;"></i></div>
+                        <div class="dashboard-card" id="collabForumComposer" style="display:none;">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon green"><i data-lucide="square-pen" style="width:20px;height:20px;"></i></div>
+                                    Publier
+                                </div>
+                                <button class="secondary-btn" onclick="toggleForumComposer(false)">Fermer</button>
+                            </div>
+                            <div style="padding:18px;">
+                                <input id="forumTitle" class="actu-search-input" placeholder="Titre du sujet">
+                                <textarea id="forumBody" class="actu-search-input" style="margin-top:12px;height:130px;padding-top:10px;" placeholder="Votre message…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                    <button class="primary-btn" onclick="postForumThread()">Publier</button>
+                                </div>
+                            </div>
                         </div>
-                    </a>
-                    <a href="#" class="app-card-large" style="--hover-bg: #f0f9ff; --hover-border: #bae6fd;">
-                        <div class="app-card-icon-large" style="background: #0284c7; color: white;">
-                            <i data-lucide="message-square" style="width: 24px; height: 24px;"></i>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon purple"><i data-lucide="messages-square" style="width:20px;height:20px;"></i></div>
+                                    Détail / Répondre
+                                </div>
+                            </div>
+                            <div id="collabForumDetail" style="padding:18px;color:var(--text-light);font-size:13px;">Sélectionnez un sujet.</div>
                         </div>
-                        <div class="app-card-content">
-                            <span class="app-card-title-large">Forums de discussion</span>
-                            <p class="app-card-desc">Questions techniques et entraide interne.</p>
-                            <div class="app-card-action">Consulter<i data-lucide="arrow-right" style="width: 14px;"></i></div>
+                    </div>
+                </div>
+
+                <!-- Communautés -->
+                <div id="page-collab-groupes" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.3fr 1.7fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon orange"><i data-lucide="users" style="width:20px;height:20px;"></i></div>
+                                    Groupes thématiques
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div class="actu-search-wrap">
+                                    <i data-lucide="search" style="width: 16px;"></i>
+                                    <input id="collabGroupSearch" class="actu-search-input" placeholder="Rechercher un groupe…" oninput="renderCollabGroups()">
+                                </div>
+                            </div>
+                            <div id="collabGroupList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
                         </div>
-                    </a>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="activity" style="width:20px;height:20px;"></i></div>
+                                    Espace du groupe
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div id="collabGroupDetail" style="color:var(--text-light);font-size:13px;">Sélectionnez un groupe.</div>
+                                <div style="margin-top:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                                    <div style="font-weight:900;color:#0f172a;">Derniers échanges</div>
+                                    <div id="collabGroupThreads" class="doc-list" style="margin-top:10px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Échanges -->
+                <div id="page-collab-echanges" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.2fr 1.8fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon pink"><i data-lucide="sparkles" style="width:20px;height:20px;"></i></div>
+                                    Discussions libres
+                                </div>
+                                <button class="primary-btn" onclick="toggleCollabPostForm(true)">Publier</button>
+                            </div>
+                            <div id="collabPostForm" style="display:none;padding:18px;border-top:1px solid #f1f5f9;">
+                                <textarea id="collabPostText" class="actu-search-input" style="height:120px;padding-top:10px;" placeholder="Partagez une info, une question, un message…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                    <button class="secondary-btn" onclick="toggleCollabPostForm(false)">Annuler</button>
+                                    <button class="primary-btn" onclick="publishCollabPost()">Publier</button>
+                                </div>
+                            </div>
+                            <div id="collabFeed" class="doc-list" style="padding: 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="message-circle" style="width:20px;height:20px;"></i></div>
+                                    Commentaires
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div id="collabFeedDetail" style="color:var(--text-light);font-size:13px;">Sélectionnez une publication.</div>
+                                <div style="margin-top:12px;display:flex;gap:10px;">
+                                    <input id="collabCommentText" class="actu-search-input" placeholder="Ajouter un commentaire…" style="height:40px;padding-left:14px;">
+                                    <button class="primary-btn" onclick="addCollabComment()">Commenter</button>
+                                </div>
+                                <div id="collabCommentsList" class="doc-list" style="margin-top:12px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Partage -->
+                <div id="page-collab-rex" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.2fr 1.8fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon green"><i data-lucide="book-open" style="width:20px;height:20px;"></i></div>
+                                    Informations / REX
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div class="actu-search-wrap">
+                                    <i data-lucide="search" style="width: 16px;"></i>
+                                    <input id="collabRexSearch" class="actu-search-input" placeholder="Rechercher un article / REX…" oninput="renderCollabRex()">
+                                </div>
+                            </div>
+                            <div id="collabRexList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon purple"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div>
+                                    Lecture
+                                </div>
+                            </div>
+                            <div id="collabRexDetail" style="padding:18px;color:var(--text-light);font-size:13px;">Sélectionnez un article.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animation -->
+                <div id="page-collab-animation" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.5fr 1.5fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon orange"><i data-lucide="party-popper" style="width:20px;height:20px;"></i></div>
+                                    Communautés internes
+                                </div>
+                            </div>
+                            <div id="collabEvents" class="doc-list" style="padding: 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="mic" style="width:20px;height:20px;"></i></div>
+                                    Animer / Participer
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                    <input id="collabEventTitle" class="actu-search-input" placeholder="Titre évènement">
+                                    <input id="collabEventDate" class="actu-search-input" placeholder="Date (ex: 15 Mai 2026)" style="padding-left:14px;">
+                                </div>
+                                <textarea id="collabEventDesc" class="actu-search-input" style="margin-top:12px;height:120px;padding-top:10px;" placeholder="Description…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                    <button class="primary-btn" onclick="createCollabEvent()">Animer</button>
+                                </div>
+                                <div style="margin-top:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                                    <div style="font-weight:900;color:#0f172a;">Évènement sélectionné</div>
+                                    <div id="collabEventDetail" style="margin-top:8px;color:var(--text-light);font-size:13px;">Sélectionnez un évènement.</div>
+                                    <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                                        <button class="primary-btn" onclick="joinCollabEvent()">Participer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vie interne -->
+                <div id="page-collab-vieinterne" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.3fr 1.7fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon pink"><i data-lucide="heart" style="width:20px;height:20px;"></i></div>
+                                    Culture interne
+                                </div>
+                                <button class="primary-btn" onclick="toggleCultureComposer(true)">Publier</button>
+                            </div>
+                            <div id="cultureComposer" style="display:none;padding:18px;border-top:1px solid #f1f5f9;">
+                                <input id="cultureTitle" class="actu-search-input" placeholder="Titre">
+                                <textarea id="cultureBody" class="actu-search-input" style="margin-top:12px;height:120px;padding-top:10px;" placeholder="Message…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                    <button class="secondary-btn" onclick="toggleCultureComposer(false)">Annuler</button>
+                                    <button class="primary-btn" onclick="publishCulturePost()">Publier</button>
+                                </div>
+                            </div>
+                            <div id="collabCultureFeed" class="doc-list" style="padding: 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="image" style="width:20px;height:20px;"></i></div>
+                                    Galerie
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div id="collabCultureGallery" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -6078,6 +6320,211 @@
                         <div class="doc-card-meta">
                             <span>Dernière MAJ: 3 jours</span>
                             <i data-lucide="external-link" style="width: 16px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MÉDIATHÈQUE VIEW -->
+            <div id="view-mediatheque" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Médiathèque</h2>
+                    <p>Accès central aux médias, photothèque, vidéothèque, catégories et intégrations.</p>
+                </div>
+
+                <!-- Sous‑rubriques (selon rubrique principale choisie via sidebar) -->
+                <div class="km-navbar" id="mediaSubNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Accès central -->
+                <div id="page-media-home" class="km-tab-content" style="display:block;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.4fr 1.6fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="compass" style="width:20px;height:20px;"></i></div>
+                                    Page principale
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div style="background:linear-gradient(135deg,#eff6ff,#fff7ed);border:1px solid #e2e8f0;border-radius:16px;padding:16px;">
+                                    <div style="font-weight:900;color:#0f172a;">Point d’entrée Médiathèque</div>
+                                    <div style="margin-top:6px;color:var(--text-light);font-size:13px;line-height:1.7;">Centraliser l’ensemble des contenus multimédias de la CMR.</div>
+                                    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+                                        <button class="primary-btn" onclick="openSubmenuView('mediatheque','photos')">Photothèque</button>
+                                        <button class="secondary-btn" onclick="openSubmenuView('mediatheque','videos')">Vidéothèque</button>
+                                        <button class="secondary-btn" onclick="openSubmenuView('mediatheque','structuration')">Catégories</button>
+                                    </div>
+                                </div>
+                                <div style="margin-top:14px;" class="actu-search-wrap">
+                                    <i data-lucide="search" style="width: 16px;"></i>
+                                    <input id="mediaGlobalSearch" class="actu-search-input" placeholder="Rechercher un média (image, vidéo)…" oninput="renderMediaSearch()">
+                                </div>
+                                <div id="mediaSearchPreview" class="doc-list" style="margin-top:12px;"></div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon pink"><i data-lucide="sparkles" style="width:20px;height:20px;"></i></div>
+                                    À la une
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div id="mediaCarousel" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;"></div>
+                                <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+                                    <button class="actu-filter-btn" onclick="rotateMediaCarousel()">Changer la sélection</button>
+                                    <button class="primary-btn" onclick="openSubmenuView('mediatheque','acces-contenus')">Consulter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photothèque -->
+                <div id="page-media-images" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon pink"><i data-lucide="image" style="width:20px;height:20px;"></i></div>
+                                Images (galerie)
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                <i data-lucide="search" style="width: 16px;"></i>
+                                <input id="mediaImgSearch" class="actu-search-input" placeholder="Rechercher une image…" oninput="renderMediaImages()">
+                            </div>
+                            <div id="mediaImagesGrid" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vidéothèque -->
+                <div id="page-media-videos" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.3fr 1.7fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon orange"><i data-lucide="video" style="width:20px;height:20px;"></i></div>
+                                    Vidéos
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div class="actu-search-wrap">
+                                    <i data-lucide="search" style="width: 16px;"></i>
+                                    <input id="mediaVidSearch" class="actu-search-input" placeholder="Rechercher une vidéo…" oninput="renderMediaVideos()">
+                                </div>
+                            </div>
+                            <div id="mediaVideosList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="play-circle" style="width:20px;height:20px;"></i></div>
+                                    Lecteur vidéo
+                                </div>
+                            </div>
+                            <div id="mediaVideoPlayer" style="padding:18px;color:var(--text-light);font-size:13px;">Sélectionnez une vidéo.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Structuration -->
+                <div id="page-media-categories" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="tags" style="width:20px;height:20px;"></i></div>
+                                Catégories (filtres / navigation)
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                                <button class="actu-filter-btn active" onclick="setMediaCategory('all', this)">Toutes</button>
+                                <button class="actu-filter-btn" onclick="setMediaCategory('Institutionnel', this)">Institutionnel</button>
+                                <button class="actu-filter-btn" onclick="setMediaCategory('Process', this)">Process</button>
+                                <button class="actu-filter-btn" onclick="setMediaCategory('Évènement', this)">Évènement</button>
+                                <button class="actu-filter-btn" onclick="setMediaCategory('SI', this)">SI</button>
+                            </div>
+                            <div id="mediaCategoriesGrid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accès contenus -->
+                <div id="page-media-consultation" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.25fr 1.75fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="gallery-vertical-end" style="width:20px;height:20px;"></i></div>
+                                    Galerie
+                                </div>
+                            </div>
+                            <div id="mediaConsultList" class="doc-list" style="padding: 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon purple"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div>
+                                    Lecteur
+                                </div>
+                            </div>
+                            <div id="mediaConsultDetail" style="padding:18px;color:var(--text-light);font-size:13px;">Sélectionnez un média.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="page-media-telechargement" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="download" style="width:20px;height:20px;"></i></div>
+                                Téléchargement
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:12px;color:#9a3412;font-size:13px;line-height:1.7;">
+                                Espace réservé aux <strong>utilisateurs habilités</strong> (maquette).
+                            </div>
+                            <div id="mediaDownloadList" class="doc-list" style="margin-top:12px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Intégration -->
+                <div id="page-media-integration" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="git-merge" style="width:20px;height:20px;"></i></div>
+                                Espaces intranet (réutilisation)
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="color:var(--text-light);font-size:13px;line-height:1.7;">Permettre la réutilisation des médias dans d’autres espaces (intégration transverse).</div>
+                            <div class="km-grid" style="margin-top:12px;">
+                                <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('Integration_RH.pdf','Intégration – RH')">
+                                    <div class="doc-icon-large" style="background:#eff6ff;color:#1d4ed8;"><i data-lucide="users" style="width:24px;height:24px;"></i></div>
+                                    <div class="doc-card-title">RH & Mobilité</div>
+                                    <div class="doc-card-meta"><span>Réutiliser</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                                </div>
+                                <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('Integration_Communication.pdf','Intégration – Communication')">
+                                    <div class="doc-icon-large" style="background:#fdf4ff;color:#7c3aed;"><i data-lucide="megaphone" style="width:24px;height:24px;"></i></div>
+                                    <div class="doc-card-title">Communication interne</div>
+                                    <div class="doc-card-meta"><span>Réutiliser</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                                </div>
+                                <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('Integration_KM.pdf','Intégration – KM')">
+                                    <div class="doc-icon-large" style="background:#ecfdf5;color:#059669;"><i data-lucide="brain" style="width:24px;height:24px;"></i></div>
+                                    <div class="doc-card-title">Knowledge Management</div>
+                                    <div class="doc-card-meta"><span>Réutiliser</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                                </div>
+                            </div>
+                            <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+                                <button class="primary-btn" onclick="openMockDownload('Media_Embed_Snippet.txt','Snippet d’intégration')">Réutiliser</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -6911,25 +7358,241 @@
                     <h2>Administration & Pilotage</h2>
                     <p>Espace réservé aux administrateurs pour piloter la plateforme, paramétrer les menus et les habilitations.</p>
                 </div>
-                <div class="app-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
-                    <a href="#" class="app-card-large" style="--hover-bg: #fff1f2; --hover-border: #fecdd3;">
-                        <div class="app-card-icon-large" style="background: #be123c; color: white;">
-                            <i data-lucide="key" style="width: 24px; height: 24px;"></i>
+                <div class="km-navbar" id="adminSubNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Utilisateurs -->
+                <div id="page-admin-comptes" class="km-tab-content" style="display:block;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.7fr 1.3fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="users" style="width:20px;height:20px;"></i></div>
+                                    Gestion comptes
+                                </div>
+                                <button class="primary-btn" onclick="toggleAdminUserForm(true)">Créer</button>
+                            </div>
+                            <div style="padding:18px;">
+                                <div class="actu-search-wrap">
+                                    <i data-lucide="search" style="width: 16px;"></i>
+                                    <input id="adminUserSearch" class="actu-search-input" placeholder="Rechercher un utilisateur…" oninput="renderAdminUsers()">
+                                </div>
+                            </div>
+                            <div id="adminUsersTableWrap" style="padding:0 18px 18px 18px;"></div>
                         </div>
-                        <div class="app-card-content">
-                            <span class="app-card-title-large">Gestion des Habilitations</span>
-                            <p class="app-card-desc">Synchronisation LDAP et rôles.</p>
+                        <div class="dashboard-card" id="adminUserFormCard" style="display:none;">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon green"><i data-lucide="user-plus" style="width:20px;height:20px;"></i></div>
+                                    Nouveau compte
+                                </div>
+                                <button class="secondary-btn" onclick="toggleAdminUserForm(false)">Fermer</button>
+                            </div>
+                            <div style="padding:18px;">
+                                <input id="adminNewName" class="actu-search-input" placeholder="Nom complet">
+                                <input id="adminNewEmail" class="actu-search-input" placeholder="Email" style="margin-top:12px;padding-left:14px;">
+                                <select id="adminNewProfil" class="actu-search-input" style="margin-top:12px;height:44px;">
+                                    <option value="Administrateur">Administrateur</option>
+                                    <option value="Contributeur">Contributeur</option>
+                                    <option value="Utilisateur">Utilisateur</option>
+                                </select>
+                                <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+                                    <button class="primary-btn" onclick="adminCreateUser()">Créer</button>
+                                </div>
+                            </div>
                         </div>
-                    </a>
-                    <a href="#" class="app-card-large" style="--hover-bg: #f8fafc; --hover-border: #cbd5e1;">
-                        <div class="app-card-icon-large" style="background: #475569; color: white;">
-                            <i data-lucide="activity" style="width: 24px; height: 24px;"></i>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon purple"><i data-lucide="id-card" style="width:20px;height:20px;"></i></div>
+                                    Détail
+                                </div>
+                            </div>
+                            <div id="adminUserDetail" style="padding:18px;color:var(--text-light);font-size:13px;">Sélectionnez un utilisateur.</div>
                         </div>
-                        <div class="app-card-content">
-                            <span class="app-card-title-large">Reporting & Usages</span>
-                            <p class="app-card-desc">Métrique d'utilisation et statistiques de consultation.</p>
+                    </div>
+                </div>
+
+                <!-- Habilitations -->
+                <div id="page-admin-roles" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.2fr 1.8fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon orange"><i data-lucide="key" style="width:20px;height:20px;"></i></div>
+                                    Rôles
+                                </div>
+                            </div>
+                            <div id="adminRolesList" class="doc-list" style="padding:18px;"></div>
                         </div>
-                    </a>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="user-cog" style="width:20px;height:20px;"></i></div>
+                                    Attribution
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                    <select id="adminRoleUser" class="actu-search-input" style="height:44px;"></select>
+                                    <select id="adminRolePick" class="actu-search-input" style="height:44px;"></select>
+                                </div>
+                                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                    <button class="secondary-btn" onclick="adminRemoveRole()">Retirer</button>
+                                    <button class="primary-btn" onclick="adminAssignRole()">Attribuer</button>
+                                </div>
+                                <div id="adminRoleInfo" style="margin-top:12px;color:var(--text-light);font-size:13px;line-height:1.7;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accès -->
+                <div id="page-admin-acces" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="shield-check" style="width:20px;height:20px;"></i></div>
+                                Droits d’accès
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:12px;">
+                                <select id="adminAccessUser" class="actu-search-input" style="height:44px;"></select>
+                                <select id="adminAccessScope" class="actu-search-input" style="height:44px;">
+                                    <option value="RH">RH</option>
+                                    <option value="KM">KM</option>
+                                    <option value="RSE">RSE</option>
+                                    <option value="QSE">QSE</option>
+                                    <option value="Médiathèque">Médiathèque</option>
+                                    <option value="Administration">Administration</option>
+                                </select>
+                            </div>
+                            <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                <button class="secondary-btn" onclick="adminRestrictAccess()">Restreindre</button>
+                                <button class="primary-btn" onclick="adminGrantAccess()">Attribuer</button>
+                            </div>
+                            <div id="adminAccessTableWrap" style="margin-top:12px;"></div>
+                            <div style="margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:12px;color:#9a3412;font-size:13px;line-height:1.7;">
+                                Zone critique sécurité (maquette).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilotage: usage -->
+                <div id="page-admin-usage" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="bar-chart-3" style="width:20px;height:20px;"></i></div>
+                                Usage plateforme (dashboard)
+                            </div>
+                        </div>
+                        <div id="adminUsageDash" style="padding:18px;"></div>
+                    </div>
+                </div>
+
+                <!-- Pilotage: reporting -->
+                <div id="page-admin-reporting" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon purple"><i data-lucide="gauge" style="width:20px;height:20px;"></i></div>
+                                Reporting & indicateurs (KPI)
+                            </div>
+                        </div>
+                        <div id="adminReportingDash" style="padding:18px;"></div>
+                    </div>
+                </div>
+
+                <!-- CMS -->
+                <div id="page-admin-cms" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="layout-template" style="width:20px;height:20px;"></i></div>
+                                CMS (interface admin)
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                                <button class="primary-btn" onclick="adminCreateCms()">Publier</button>
+                                <button class="secondary-btn" onclick="renderAdminCms()">Rafraîchir</button>
+                            </div>
+                            <div id="adminCmsTableWrap" style="margin-top:12px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sécurité -->
+                <div id="page-admin-securite" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.2fr 1.8fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="lock" style="width:20px;height:20px;"></i></div>
+                                    Accès restreint
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div style="color:var(--text-light);font-size:13px;line-height:1.7;">Limiter l’accès aux fonctionnalités d’administration (maquette).</div>
+                                <div style="margin-top:12px;">
+                                    <input id="adminAuthUser" class="actu-search-input" placeholder="Identifiant admin">
+                                    <input id="adminAuthPass" class="actu-search-input" placeholder="Mot de passe" style="margin-top:12px;padding-left:14px;" type="password">
+                                    <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+                                        <button class="primary-btn" onclick="adminAuthenticate()">Authentifier</button>
+                                    </div>
+                                </div>
+                                <div id="adminAuthState" style="margin-top:12px;color:var(--text-light);font-size:13px;"></div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon green"><i data-lucide="shield" style="width:20px;height:20px;"></i></div>
+                                    Contrôle d’accès
+                                </div>
+                            </div>
+                            <div id="adminAccessControl" style="padding:18px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Traçabilité -->
+                <div id="page-admin-tracabilite" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="history" style="width:20px;height:20px;"></i></div>
+                                Journal des actions (log)
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                                <button class="actu-filter-btn active" onclick="setAdminLogFilter('all', this)">Tout</button>
+                                <button class="actu-filter-btn" onclick="setAdminLogFilter('create', this)">Créer</button>
+                                <button class="actu-filter-btn" onclick="setAdminLogFilter('update', this)">Modifier</button>
+                                <button class="actu-filter-btn" onclick="setAdminLogFilter('auth', this)">Authentifier</button>
+                                <button class="actu-filter-btn" onclick="setAdminLogFilter('access', this)">Accès</button>
+                            </div>
+                            <div id="adminLogList" class="doc-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance -->
+                <div id="page-admin-performance" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="activity" style="width:20px;height:20px;"></i></div>
+                                Performance (dashboard)
+                            </div>
+                        </div>
+                        <div id="adminPerfDash" style="padding:18px;"></div>
+                    </div>
                 </div>
             </div>
 
@@ -8506,6 +9169,42 @@
                     { label: 'Archivage', tab: 'archivage' }
                 ]
             },
+            collaboratifs: {
+                title: 'Espaces collaboratifs',
+                items: [
+                    { label: 'Discussions', tab: 'discussions' },
+                    { label: 'Communautés', tab: 'communautes' },
+                    { label: 'Échanges', tab: 'echanges' },
+                    { label: 'Partage', tab: 'partage' },
+                    { label: 'Animation', tab: 'animation' },
+                    { label: 'Vie interne', tab: 'vieinterne' }
+                ]
+            },
+            mediatheque: {
+                title: 'Médiathèque',
+                items: [
+                    { label: 'Accès central', tab: 'acces' },
+                    { label: 'Photothèque', tab: 'photos' },
+                    { label: 'Vidéothèque', tab: 'videos' },
+                    { label: 'Structuration', tab: 'structuration' },
+                    { label: 'Accès contenus', tab: 'acces-contenus' },
+                    { label: 'Intégration', tab: 'integration' }
+                ]
+            },
+            admin: {
+                title: 'Administration & Pilotage',
+                items: [
+                    { label: 'Utilisateurs', tab: 'utilisateurs' },
+                    { label: 'Habilitations', tab: 'habilitations' },
+                    { label: 'Accès', tab: 'acces' },
+                    { label: 'Pilotage (usage)', tab: 'usage' },
+                    { label: 'Pilotage (reporting)', tab: 'reporting' },
+                    { label: 'Contenus (CMS)', tab: 'cms' },
+                    { label: 'Sécurité', tab: 'securite' },
+                    { label: 'Traçabilité', tab: 'tracabilite' },
+                    { label: 'Pilotage (performance)', tab: 'performance' }
+                ]
+            },
             rse: {
                 title: 'RSE',
                 items: [
@@ -8553,7 +9252,10 @@
             qse: null,
             rh: null,
             reglementation: null,
-            documentaires: null
+            documentaires: null,
+            collaboratifs: null,
+            mediatheque: null,
+            admin: null
         };
 
         function hideSidebarSubmenu() {
@@ -8628,6 +9330,18 @@
 
             if (viewId === 'documentaires') {
                 switchMetiersSection(tabId);
+            }
+
+            if (viewId === 'collaboratifs') {
+                switchCollabSection(tabId);
+            }
+
+            if (viewId === 'mediatheque') {
+                switchMediaSection(tabId);
+            }
+
+            if (viewId === 'admin') {
+                switchAdminSection(tabId);
             }
 
             if (viewId === 'rh') {
@@ -10802,6 +11516,1127 @@
             `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun média.</div>`;
             lucide.createIcons();
         }
+
+        // ===== ESPACES COLLABORATIFS (table conforme, via sidebar -> sous-rubriques) =====
+        const collabPages = ['forums','groupes','echanges','rex','animation','vieinterne'];
+
+        const collabSectionConfig = {
+            discussions: { subs: [{ id: 'forums', label: 'Forums' }], defaultSub: 'forums' },
+            communautes: { subs: [{ id: 'groupes', label: 'Groupes thématiques' }], defaultSub: 'groupes' },
+            echanges: { subs: [{ id: 'echanges', label: 'Discussions libres' }], defaultSub: 'echanges' },
+            partage: { subs: [{ id: 'rex', label: 'Informations / REX' }], defaultSub: 'rex' },
+            animation: { subs: [{ id: 'animation', label: 'Communautés internes' }], defaultSub: 'animation' },
+            vieinterne: { subs: [{ id: 'vieinterne', label: 'Vie interne' }], defaultSub: 'vieinterne' }
+        };
+
+        let collabSection = 'discussions';
+        let collabSub = 'forums';
+
+        let collabForumThreads = [
+            { id: 't1', title: 'Question: procédure archivage', author: 'Collaborateur 07', date: 'Aujourd’hui', body: 'Quel est le bon circuit pour archiver un dossier ?', replies: [
+                { author: 'Collaborateur 03', date: 'Aujourd’hui', text: 'Voir la procédure interne (rubrique réglementaire).' }
+            ]},
+            { id: 't2', title: 'Bonnes pratiques: gestion des mots de passe', author: 'Collaborateur 12', date: 'Hier', body: 'Partagez vos bonnes pratiques.', replies: [] }
+        ];
+        let collabActiveThreadId = null;
+
+        let collabGroups = [
+            { id: 'g1', name: 'Groupe Qualité', members: 56, desc: 'Process, conformité, REX.' },
+            { id: 'g2', name: 'Groupe Data / BI', members: 102, desc: 'Tableaux de bord, KPI, bonnes pratiques.' },
+            { id: 'g3', name: 'Groupe RH', members: 44, desc: 'Mobilité, formation, vie interne.' }
+        ];
+        let collabJoinedGroups = new Set(['g2']);
+        let collabActiveGroupId = null;
+        let collabGroupThreads = [
+            { groupId: 'g2', title: 'Convention de nommage datasets', meta: 'Data/BI • 3j' },
+            { groupId: 'g2', title: 'Bonnes pratiques Power BI', meta: 'Data/BI • 2h' },
+            { groupId: 'g1', title: 'REX audit interne', meta: 'Qualité • hier' }
+        ];
+
+        let collabPosts = [
+            { id: 'p1', author: 'Collaborateur 05', date: 'Aujourd’hui', text: 'Info: réunion technique à 16h (Salle 2).', comments: [{ author: 'Collaborateur 09', date: 'Aujourd’hui', text: 'Merci, je serai présent.' }] },
+            { id: 'p2', author: 'Collaborateur 11', date: 'Hier', text: 'Question: qui a le modèle PV atelier ?', comments: [] }
+        ];
+        let collabActivePostId = null;
+
+        let collabRex = [
+            { id: 'r1', title: 'REX – Mise en production', date: 'Mars 2026', body: 'Points forts: communication. Amélioration: tests automatisés.', file: 'REX_MEP.pdf' },
+            { id: 'r2', title: 'Info – Nouvelle charte interne', date: 'Fév 2026', body: 'La charte interne est disponible en téléchargement.', file: 'Charte_Interne.pdf' }
+        ];
+        let collabActiveRexId = null;
+
+        let collabEvents = [
+            { id: 'e1', title: 'Café communauté Data/BI', date: '15 Mai 2026', desc: 'Partage d’astuces, retours d’expérience.', participants: 18 },
+            { id: 'e2', title: 'Atelier Qualité', date: '28 Mai 2026', desc: 'Amélioration continue: idées & actions.', participants: 12 }
+        ];
+        let collabActiveEventId = null;
+
+        let collabCulturePosts = [
+            { id: 'c1', title: 'Bienvenue aux nouveaux arrivants', date: 'Avr 2026', body: 'Une session d’intégration est prévue cette semaine.' },
+            { id: 'c2', title: 'Semaine bien‑être', date: 'Mars 2026', body: 'Programme: sport, nutrition, échanges.' }
+        ];
+        const collabGallery = [
+            { title: 'Photo – Atelier', file: 'Galerie_Atelier_01.png' },
+            { title: 'Photo – Vie interne', file: 'Galerie_Vie_02.png' },
+            { title: 'Photo – Évènement', file: 'Galerie_Event_03.png' },
+            { title: 'Photo – Team', file: 'Galerie_Team_04.png' },
+            { title: 'Photo – Conférence', file: 'Galerie_Conf_05.png' },
+            { title: 'Photo – Workshop', file: 'Galerie_WS_06.png' }
+        ];
+
+        function switchCollabSection(sectionId) {
+            collabSection = sectionId;
+            const config = collabSectionConfig[sectionId];
+            const subNav = document.getElementById('collabSubNavbar');
+            if (config && subNav) {
+                subNav.innerHTML = config.subs.map((s, idx) => `
+                    ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
+                    <div class="km-nav-item" onclick="switchCollabSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
+                `).join('');
+            }
+            switchCollabSub(config?.defaultSub || config?.subs?.[0]?.id || 'forums');
+            lucide.createIcons();
+        }
+
+        function switchCollabSub(subId) {
+            collabSub = subId;
+            const subNav = document.getElementById('collabSubNavbar');
+            if (subNav) {
+                subNav.querySelectorAll('.km-nav-item').forEach(el => el.classList.remove('active'));
+                const targetNav = subNav.querySelector(`[onclick="switchCollabSub('${subId}')"]`);
+                if (targetNav) targetNav.classList.add('active');
+            }
+
+            collabPages.forEach(p => {
+                const el = document.getElementById('page-collab-' + p);
+                if (el) el.style.display = 'none';
+            });
+            const target = document.getElementById('page-collab-' + subId);
+            if (target) target.style.display = 'block';
+
+            if (subId === 'forums') renderCollabForums();
+            if (subId === 'groupes') renderCollabGroups();
+            if (subId === 'echanges') renderCollabFeed();
+            if (subId === 'rex') renderCollabRex();
+            if (subId === 'animation') renderCollabEvents();
+            if (subId === 'vieinterne') renderCollabCulture();
+            lucide.createIcons();
+        }
+
+        function toggleForumComposer(open) {
+            const card = document.getElementById('collabForumComposer');
+            if (!card) return;
+            card.style.display = open ? 'block' : 'none';
+        }
+
+        function renderCollabForums() {
+            const root = document.getElementById('collabForumList');
+            if (!root) return;
+            const q = (document.getElementById('collabForumSearch')?.value || '').toLowerCase().trim();
+            const items = collabForumThreads.filter(t => !q || (t.title + ' ' + t.body).toLowerCase().includes(q));
+            root.innerHTML = items.map(t => `
+                <div class="doc-item" onclick="openForumThread('${t.id}')">
+                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">FOR</div>
+                    <div class="doc-info"><div class="doc-title">${t.title}</div><div class="doc-meta">${t.author} • ${t.date} • ${t.replies.length} réponse(s)</div></div>
+                    <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 18px 18px;">Aucun sujet.</div>`;
+            if (!collabActiveThreadId && items[0]) openForumThread(items[0].id);
+            lucide.createIcons();
+        }
+
+        function openForumThread(id) {
+            collabActiveThreadId = id;
+            const t = collabForumThreads.find(x => x.id === id);
+            const root = document.getElementById('collabForumDetail');
+            if (!t || !root) return;
+            root.innerHTML = `
+                <div style="font-weight:900;color:#0f172a;">${t.title}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${t.author} • ${t.date}</div>
+                <div style="margin-top:12px;color:#334155;line-height:1.7;font-size:13px;">${t.body}</div>
+                <div style="margin-top:14px;font-weight:900;color:#0f172a;">Réponses</div>
+                <div style="margin-top:8px;">
+                    ${(t.replies.length ? t.replies.map(r => `
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;margin-bottom:10px;">
+                            <div style="font-size:12px;color:var(--text-light);">${r.author} • ${r.date}</div>
+                            <div style="margin-top:6px;font-size:13px;color:#334155;line-height:1.6;">${r.text}</div>
+                        </div>
+                    `).join('') : `<div style="color:var(--text-light);font-size:13px;">Aucune réponse.</div>`)}
+                </div>
+                <div style="margin-top:12px;display:flex;gap:10px;">
+                    <input id="forumReplyText" class="actu-search-input" placeholder="Répondre…" style="height:40px;padding-left:14px;">
+                    <button class="primary-btn" onclick="replyForumThread()">Répondre</button>
+                </div>
+            `;
+        }
+
+        function postForumThread() {
+            const title = (document.getElementById('forumTitle')?.value || '').trim();
+            const body = (document.getElementById('forumBody')?.value || '').trim();
+            if (!title || !body) return;
+            const id = 't' + Date.now();
+            collabForumThreads = [{ id, title, author: 'Moi', date: 'Aujourd’hui', body, replies: [] }, ...collabForumThreads];
+            document.getElementById('forumTitle').value = '';
+            document.getElementById('forumBody').value = '';
+            toggleForumComposer(false);
+            renderCollabForums();
+            openForumThread(id);
+        }
+
+        function replyForumThread() {
+            const txt = (document.getElementById('forumReplyText')?.value || '').trim();
+            if (!txt || !collabActiveThreadId) return;
+            collabForumThreads = collabForumThreads.map(t => {
+                if (t.id !== collabActiveThreadId) return t;
+                return { ...t, replies: [...t.replies, { author: 'Moi', date: 'Aujourd’hui', text: txt }] };
+            });
+            document.getElementById('forumReplyText').value = '';
+            openForumThread(collabActiveThreadId);
+            renderCollabForums();
+        }
+
+        function renderCollabGroups() {
+            const root = document.getElementById('collabGroupList');
+            if (!root) return;
+            const q = (document.getElementById('collabGroupSearch')?.value || '').toLowerCase().trim();
+            const items = collabGroups.filter(g => !q || (g.name + ' ' + g.desc).toLowerCase().includes(q));
+            root.innerHTML = items.map(g => `
+                <div class="doc-item" onclick="openCollabGroup('${g.id}')">
+                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">GRP</div>
+                    <div class="doc-info"><div class="doc-title">${g.name}</div><div class="doc-meta">${g.members} membres • ${g.desc}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); toggleJoinGroup('${g.id}')">${collabJoinedGroups.has(g.id) ? 'Quitter' : 'Rejoindre'}</button>
+                </div>
+            `).join('');
+            if (!collabActiveGroupId && items[0]) openCollabGroup(items[0].id);
+            lucide.createIcons();
+        }
+
+        function toggleJoinGroup(id) {
+            if (collabJoinedGroups.has(id)) collabJoinedGroups.delete(id);
+            else collabJoinedGroups.add(id);
+            renderCollabGroups();
+            renderCollabGroupDetail();
+        }
+
+        function openCollabGroup(id) {
+            collabActiveGroupId = id;
+            renderCollabGroupDetail();
+        }
+
+        function renderCollabGroupDetail() {
+            const g = collabGroups.find(x => x.id === collabActiveGroupId);
+            const detail = document.getElementById('collabGroupDetail');
+            const threads = document.getElementById('collabGroupThreads');
+            if (!g || !detail || !threads) return;
+            detail.innerHTML = `
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                    <div>
+                        <div style="font-weight:900;color:#0f172a;">${g.name}</div>
+                        <div style="margin-top:6px;color:var(--text-light);font-size:13px;line-height:1.7;">${g.desc}</div>
+                        <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${g.members} membres</div>
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <button class="primary-btn" onclick="toggleJoinGroup('${g.id}')">${collabJoinedGroups.has(g.id) ? 'Échanger' : 'Rejoindre, échanger'}</button>
+                    </div>
+                </div>
+            `;
+            const items = collabGroupThreads.filter(t => t.groupId === g.id);
+            threads.innerHTML = items.map(t => `
+                <div class="doc-item">
+                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">MSG</div>
+                    <div class="doc-info"><div class="doc-title">${t.title}</div><div class="doc-meta">${t.meta}</div></div>
+                    <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucun échange.</div>`;
+            lucide.createIcons();
+        }
+
+        function toggleCollabPostForm(open) {
+            const form = document.getElementById('collabPostForm');
+            if (!form) return;
+            form.style.display = open ? 'block' : 'none';
+        }
+
+        function renderCollabFeed() {
+            const root = document.getElementById('collabFeed');
+            if (!root) return;
+            root.innerHTML = collabPosts.map(p => `
+                <div class="doc-item" onclick="openCollabPost('${p.id}')">
+                    <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">PUB</div>
+                    <div class="doc-info"><div class="doc-title">${p.author}</div><div class="doc-meta">${p.date} • ${p.comments.length} commentaire(s)</div><div style="margin-top:6px;color:#334155;font-size:13px;line-height:1.6;">${p.text}</div></div>
+                    <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                </div>
+            `).join('');
+            if (!collabActivePostId && collabPosts[0]) openCollabPost(collabPosts[0].id);
+            lucide.createIcons();
+        }
+
+        function publishCollabPost() {
+            const txt = (document.getElementById('collabPostText')?.value || '').trim();
+            if (!txt) return;
+            const id = 'p' + Date.now();
+            collabPosts = [{ id, author: 'Moi', date: 'Aujourd’hui', text: txt, comments: [] }, ...collabPosts];
+            document.getElementById('collabPostText').value = '';
+            toggleCollabPostForm(false);
+            renderCollabFeed();
+            openCollabPost(id);
+        }
+
+        function openCollabPost(id) {
+            collabActivePostId = id;
+            const p = collabPosts.find(x => x.id === id);
+            const detail = document.getElementById('collabFeedDetail');
+            if (!p || !detail) return;
+            detail.innerHTML = `
+                <div style="font-weight:900;color:#0f172a;">${p.author}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${p.date}</div>
+                <div style="margin-top:12px;color:#334155;line-height:1.7;font-size:13px;">${p.text}</div>
+            `;
+            renderCollabComments();
+        }
+
+        function renderCollabComments() {
+            const p = collabPosts.find(x => x.id === collabActivePostId);
+            const root = document.getElementById('collabCommentsList');
+            if (!p || !root) return;
+            root.innerHTML = p.comments.map(c => `
+                <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;margin-bottom:10px;">
+                    <div style="font-size:12px;color:var(--text-light);">${c.author} • ${c.date}</div>
+                    <div style="margin-top:6px;font-size:13px;color:#334155;line-height:1.6;">${c.text}</div>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucun commentaire.</div>`;
+        }
+
+        function addCollabComment() {
+            const txt = (document.getElementById('collabCommentText')?.value || '').trim();
+            if (!txt || !collabActivePostId) return;
+            collabPosts = collabPosts.map(p => {
+                if (p.id !== collabActivePostId) return p;
+                return { ...p, comments: [...p.comments, { author: 'Moi', date: 'Aujourd’hui', text: txt }] };
+            });
+            document.getElementById('collabCommentText').value = '';
+            renderCollabFeed();
+            openCollabPost(collabActivePostId);
+        }
+
+        function renderCollabRex() {
+            const root = document.getElementById('collabRexList');
+            if (!root) return;
+            const q = (document.getElementById('collabRexSearch')?.value || '').toLowerCase().trim();
+            const items = collabRex.filter(r => !q || (r.title + ' ' + r.body).toLowerCase().includes(q));
+            root.innerHTML = items.map(r => `
+                <div class="doc-item" onclick="openCollabRex('${r.id}')">
+                    <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">REX</div>
+                    <div class="doc-info"><div class="doc-title">${r.title}</div><div class="doc-meta">${r.date}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${r.file}','${r.title}')">Consulter</button>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 18px 18px;">Aucun article.</div>`;
+            if (!collabActiveRexId && items[0]) openCollabRex(items[0].id);
+            lucide.createIcons();
+        }
+
+        function openCollabRex(id) {
+            collabActiveRexId = id;
+            const r = collabRex.find(x => x.id === id);
+            const root = document.getElementById('collabRexDetail');
+            if (!r || !root) return;
+            root.innerHTML = `
+                <div style="font-weight:900;color:#0f172a;">${r.title}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${r.date}</div>
+                <div style="margin-top:12px;color:#334155;line-height:1.7;font-size:13px;">${r.body}</div>
+                <div style="margin-top:12px;display:flex;justify-content:flex-end;">
+                    <button class="primary-btn" onclick="openMockDownload('${r.file}','${r.title}')">Consulter</button>
+                </div>
+            `;
+        }
+
+        function renderCollabEvents() {
+            const root = document.getElementById('collabEvents');
+            if (!root) return;
+            root.innerHTML = collabEvents.map(e => `
+                <div class="doc-item" onclick="openCollabEvent('${e.id}')">
+                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">EVT</div>
+                    <div class="doc-info"><div class="doc-title">${e.title}</div><div class="doc-meta">${e.date} • ${e.participants} participants</div><div style="margin-top:6px;color:#334155;font-size:13px;line-height:1.6;">${e.desc}</div></div>
+                    <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                </div>
+            `).join('');
+            if (!collabActiveEventId && collabEvents[0]) openCollabEvent(collabEvents[0].id);
+            lucide.createIcons();
+        }
+
+        function createCollabEvent() {
+            const title = (document.getElementById('collabEventTitle')?.value || '').trim();
+            const date = (document.getElementById('collabEventDate')?.value || '').trim();
+            const desc = (document.getElementById('collabEventDesc')?.value || '').trim();
+            if (!title || !date || !desc) return;
+            const id = 'e' + Date.now();
+            collabEvents = [{ id, title, date, desc, participants: 0 }, ...collabEvents];
+            document.getElementById('collabEventTitle').value = '';
+            document.getElementById('collabEventDate').value = '';
+            document.getElementById('collabEventDesc').value = '';
+            renderCollabEvents();
+            openCollabEvent(id);
+        }
+
+        function openCollabEvent(id) {
+            collabActiveEventId = id;
+            const e = collabEvents.find(x => x.id === id);
+            const root = document.getElementById('collabEventDetail');
+            if (!e || !root) return;
+            root.innerHTML = `
+                <div style="font-weight:900;color:#0f172a;">${e.title}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${e.date} • ${e.participants} participants</div>
+                <div style="margin-top:10px;color:#334155;font-size:13px;line-height:1.7;">${e.desc}</div>
+            `;
+        }
+
+        function joinCollabEvent() {
+            if (!collabActiveEventId) return;
+            collabEvents = collabEvents.map(e => e.id === collabActiveEventId ? { ...e, participants: e.participants + 1 } : e);
+            renderCollabEvents();
+            openCollabEvent(collabActiveEventId);
+        }
+
+        function toggleCultureComposer(open) {
+            const card = document.getElementById('cultureComposer');
+            if (!card) return;
+            card.style.display = open ? 'block' : 'none';
+        }
+
+        function publishCulturePost() {
+            const title = (document.getElementById('cultureTitle')?.value || '').trim();
+            const body = (document.getElementById('cultureBody')?.value || '').trim();
+            if (!title || !body) return;
+            const id = 'c' + Date.now();
+            collabCulturePosts = [{ id, title, body, date: 'Aujourd’hui' }, ...collabCulturePosts];
+            document.getElementById('cultureTitle').value = '';
+            document.getElementById('cultureBody').value = '';
+            toggleCultureComposer(false);
+            renderCollabCulture();
+        }
+
+        function renderCollabCulture() {
+            const feed = document.getElementById('collabCultureFeed');
+            const gal = document.getElementById('collabCultureGallery');
+            if (!feed || !gal) return;
+            feed.innerHTML = collabCulturePosts.map(p => `
+                <div class="doc-item">
+                    <div class="doc-icon" style="background:#fce7f3;color:#db2777;font-weight:900;">VIE</div>
+                    <div class="doc-info"><div class="doc-title">${p.title}</div><div class="doc-meta">${p.date}</div><div style="margin-top:6px;color:#334155;font-size:13px;line-height:1.6;">${p.body}</div></div>
+                    <button class="actu-filter-btn" onclick="openMockDownload('Culture_${p.title.replace(/\\s+/g,'_')}.pdf','${p.title}')">Consulter</button>
+                </div>
+            `).join('');
+            gal.innerHTML = collabGallery.map(i => `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                    <div style="height:92px;background:linear-gradient(135deg,#eff6ff,#fff7ed);display:flex;align-items:center;justify-content:center;">
+                        <i data-lucide="image" style="width:22px;height:22px;color:#475569;"></i>
+                    </div>
+                    <div style="padding:10px;">
+                        <div style="font-weight:900;color:#0f172a;font-size:12px;line-height:1.4;">${i.title}</div>
+                        <div style="display:flex;justify-content:flex-end;margin-top:8px;">
+                            <button class="actu-filter-btn" onclick="openMockDownload('${i.file}','${i.title}')">Consulter</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // ===== MÉDIATHÈQUE (table conforme, via sidebar -> sous-rubriques) =====
+        const mediaPages = ['home','images','videos','categories','consultation','telechargement','integration'];
+
+        const mediaSectionConfig = {
+            acces: { subs: [{ id: 'home', label: 'Médiathèque' }], defaultSub: 'home' },
+            photos: { subs: [{ id: 'images', label: 'Images' }], defaultSub: 'images' },
+            videos: { subs: [{ id: 'videos', label: 'Vidéos' }], defaultSub: 'videos' },
+            structuration: { subs: [{ id: 'categories', label: 'Catégories' }], defaultSub: 'categories' },
+            'acces-contenus': { subs: [{ id: 'consultation', label: 'Consultation' }, { id: 'telechargement', label: 'Téléchargement' }], defaultSub: 'consultation' },
+            integration: { subs: [{ id: 'integration', label: 'Espaces intranet' }], defaultSub: 'integration' }
+        };
+
+        let mediaSection = 'acces';
+        let mediaSub = 'home';
+        let mediaCategory = 'all';
+        let mediaActiveVideoId = null;
+        let mediaActiveConsultId = null;
+
+        const mediaImages = [
+            { id: 'img1', title: 'Infographie – Parcours assuré', category: 'Institutionnel', date: 'Avr 2026', file: 'Media_Infographie_Parcours.png' },
+            { id: 'img2', title: 'Photo – Atelier', category: 'Évènement', date: 'Mars 2026', file: 'Galerie_Atelier_01.png' },
+            { id: 'img3', title: 'Photo – Vie interne', category: 'Évènement', date: 'Fév 2026', file: 'Galerie_Vie_02.png' },
+            { id: 'img4', title: 'Schéma – Architecture SI', category: 'SI', date: 'Jan 2026', file: 'Schema_Architecture_SI.png' }
+        ];
+        const mediaVideos = [
+            { id: 'vid1', title: 'Capsule – Process liquidation', category: 'Process', date: 'Avr 2026', file: 'Media_Capsule_Liquidation.mp4', desc: 'Présentation du flux de traitement (4 min).' },
+            { id: 'vid2', title: 'Vidéo – Gestes de sécurité', category: 'Institutionnel', date: 'Mars 2026', file: 'Video_Gestes_Securite.mp4', desc: 'Rappel des bons réflexes.' },
+            { id: 'vid3', title: 'Démo – Nouvel Intranet', category: 'SI', date: 'Fév 2026', file: 'Demo_Nouvel_Intranet.mp4', desc: 'Fonctionnalités clés (6 min).' }
+        ];
+
+        function switchMediaSection(sectionId) {
+            mediaSection = sectionId;
+            const config = mediaSectionConfig[sectionId];
+            const subNav = document.getElementById('mediaSubNavbar');
+            if (config && subNav) {
+                subNav.innerHTML = config.subs.map((s, idx) => `
+                    ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
+                    <div class="km-nav-item" onclick="switchMediaSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
+                `).join('');
+            }
+            switchMediaSub(config?.defaultSub || config?.subs?.[0]?.id || 'home');
+            lucide.createIcons();
+        }
+
+        function switchMediaSub(subId) {
+            mediaSub = subId;
+            const subNav = document.getElementById('mediaSubNavbar');
+            if (subNav) {
+                subNav.querySelectorAll('.km-nav-item').forEach(el => el.classList.remove('active'));
+                const targetNav = subNav.querySelector(`[onclick="switchMediaSub('${subId}')"]`);
+                if (targetNav) targetNav.classList.add('active');
+            }
+
+            mediaPages.forEach(p => {
+                const el = document.getElementById('page-media-' + p);
+                if (el) el.style.display = 'none';
+            });
+            const target = document.getElementById('page-media-' + subId);
+            if (target) target.style.display = 'block';
+
+            if (subId === 'home') renderMediaHome();
+            if (subId === 'images') renderMediaImages();
+            if (subId === 'videos') renderMediaVideos();
+            if (subId === 'categories') renderMediaCategories();
+            if (subId === 'consultation') renderMediaConsultation();
+            if (subId === 'telechargement') renderMediaDownloads();
+            if (subId === 'integration') renderMediaIntegration();
+            lucide.createIcons();
+        }
+
+        function renderMediaHome() {
+            rotateMediaCarousel(true);
+            renderMediaSearch();
+        }
+
+        function rotateMediaCarousel(initial) {
+            const root = document.getElementById('mediaCarousel');
+            if (!root) return;
+            const pool = [...mediaImages.slice(0, 2), ...mediaVideos.slice(0, 1)];
+            const shuffled = pool.sort(() => Math.random() - 0.5);
+            root.innerHTML = shuffled.map(it => `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;cursor:pointer;" onclick="openMockDownload('${it.file}','${it.title}')">
+                    <div style="height:90px;background:linear-gradient(135deg,#eff6ff,#fdf4ff);display:flex;align-items:center;justify-content:center;">
+                        <i data-lucide="${it.id?.startsWith('vid') ? 'video' : 'image'}" style="width:22px;height:22px;color:#475569;"></i>
+                    </div>
+                    <div style="padding:10px;">
+                        <div style="font-weight:900;color:#0f172a;font-size:12px;line-height:1.4;">${it.title}</div>
+                        <div style="margin-top:6px;color:var(--text-light);font-size:11px;">${it.category} • ${it.date}</div>
+                    </div>
+                </div>
+            `).join('');
+            if (!initial) lucide.createIcons();
+        }
+
+        function renderMediaSearch() {
+            const root = document.getElementById('mediaSearchPreview');
+            if (!root) return;
+            const q = (document.getElementById('mediaGlobalSearch')?.value || '').toLowerCase().trim();
+            if (!q) {
+                root.innerHTML = `<div style="color:var(--text-light);font-size:13px;">Tapez un mot‑clé pour rechercher.</div>`;
+                return;
+            }
+            const pool = [
+                ...mediaImages.map(i => ({ kind: 'Image', ...i })),
+                ...mediaVideos.map(v => ({ kind: 'Vidéo', ...v }))
+            ].filter(it => (it.title + ' ' + it.category).toLowerCase().includes(q));
+            root.innerHTML = pool.slice(0, 6).map(it => `
+                <div class="doc-item" onclick="openMockDownload('${it.file}','${it.title}')">
+                    <div class="doc-icon" style="background:#f8fafc;color:#475569;font-weight:900;">${it.kind.slice(0,3).toUpperCase()}</div>
+                    <div class="doc-info"><div class="doc-title">${it.title}</div><div class="doc-meta">${it.kind} • ${it.category} • ${it.date}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${it.file}','${it.title}')">Ouvrir</button>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucun résultat.</div>`;
+            lucide.createIcons();
+        }
+
+        function renderMediaImages() {
+            const grid = document.getElementById('mediaImagesGrid');
+            if (!grid) return;
+            const q = (document.getElementById('mediaImgSearch')?.value || '').toLowerCase().trim();
+            const items = mediaImages.filter(i => !q || (i.title + ' ' + i.category).toLowerCase().includes(q));
+            grid.innerHTML = items.map(i => `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                    <div style="height:96px;background:linear-gradient(135deg,#fce7f3,#eff6ff);display:flex;align-items:center;justify-content:center;">
+                        <i data-lucide="image" style="width:22px;height:22px;color:#475569;"></i>
+                    </div>
+                    <div style="padding:10px;">
+                        <div style="font-weight:900;color:#0f172a;font-size:12px;line-height:1.4;">${i.title}</div>
+                        <div style="margin-top:6px;color:var(--text-light);font-size:11px;">${i.category} • ${i.date}</div>
+                        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
+                            <button class="actu-filter-btn" onclick="openMockDownload('${i.file}','${i.title}')">Consulter</button>
+                            <button class="primary-btn" style="padding:8px 12px;" onclick="openMockDownload('${i.file}','Téléchargement – ${i.title}')">Télécharger</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderMediaVideos() {
+            const root = document.getElementById('mediaVideosList');
+            if (!root) return;
+            const q = (document.getElementById('mediaVidSearch')?.value || '').toLowerCase().trim();
+            const items = mediaVideos.filter(v => !q || (v.title + ' ' + v.desc + ' ' + v.category).toLowerCase().includes(q));
+            root.innerHTML = items.map(v => `
+                <div class="doc-item" onclick="openMediaVideo('${v.id}')">
+                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">VID</div>
+                    <div class="doc-info"><div class="doc-title">${v.title}</div><div class="doc-meta">${v.category} • ${v.date}</div></div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMediaVideo('${v.id}')">Lire</button>
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${v.file}','${v.title}')">Consulter</button>
+                    </div>
+                </div>
+            `).join('');
+            if (!mediaActiveVideoId && items[0]) openMediaVideo(items[0].id);
+            lucide.createIcons();
+        }
+
+        function openMediaVideo(id) {
+            mediaActiveVideoId = id;
+            const v = mediaVideos.find(x => x.id === id);
+            const root = document.getElementById('mediaVideoPlayer');
+            if (!v || !root) return;
+            root.innerHTML = `
+                <div style="background:linear-gradient(135deg,#eff6ff,#fff7ed);border:1px solid #e2e8f0;border-radius:16px;height:180px;display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="play" style="width:28px;height:28px;color:#475569;"></i>
+                </div>
+                <div style="margin-top:12px;font-weight:900;color:#0f172a;">${v.title}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${v.category} • ${v.date}</div>
+                <div style="margin-top:10px;color:#334155;font-size:13px;line-height:1.7;">${v.desc}</div>
+                <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:10px;">
+                    <button class="actu-filter-btn" onclick="openMockDownload('${v.file}','${v.title}')">Consulter</button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function setMediaCategory(cat, el) {
+            mediaCategory = cat;
+            document.querySelectorAll('#page-media-categories .actu-filter-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderMediaCategories();
+        }
+
+        function renderMediaCategories() {
+            const grid = document.getElementById('mediaCategoriesGrid');
+            if (!grid) return;
+            const pool = [
+                ...mediaImages.map(i => ({ kind: 'image', ...i })),
+                ...mediaVideos.map(v => ({ kind: 'video', ...v }))
+            ].filter(it => mediaCategory === 'all' || it.category === mediaCategory);
+            grid.innerHTML = pool.map(it => `
+                <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${it.file}','${it.title}')">
+                    <div class="doc-icon-large" style="background:#f8fafc;color:#475569;"><i data-lucide="${it.kind === 'video' ? 'video' : 'image'}" style="width:24px;height:24px;"></i></div>
+                    <div class="doc-card-title">${it.title}</div>
+                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;line-height:1.6;">${it.category} • ${it.date}</p>
+                    <div class="doc-card-meta"><span>Filtrer / naviguer</span><i data-lucide="arrow-right" style="width:16px;color:#94a3b8;"></i></div>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucun contenu.</div>`;
+            lucide.createIcons();
+        }
+
+        function renderMediaConsultation() {
+            const list = document.getElementById('mediaConsultList');
+            const detail = document.getElementById('mediaConsultDetail');
+            if (!list || !detail) return;
+            const pool = [
+                ...mediaImages.map(i => ({ kind: 'Image', ...i })),
+                ...mediaVideos.map(v => ({ kind: 'Vidéo', ...v }))
+            ];
+            list.innerHTML = pool.map(it => `
+                <div class="doc-item" onclick="openMediaConsult('${it.id}')">
+                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${it.kind.slice(0,3).toUpperCase()}</div>
+                    <div class="doc-info"><div class="doc-title">${it.title}</div><div class="doc-meta">${it.kind} • ${it.category} • ${it.date}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMediaConsult('${it.id}')">Consulter</button>
+                </div>
+            `).join('');
+            if (!mediaActiveConsultId && pool[0]) openMediaConsult(pool[0].id);
+        }
+
+        function openMediaConsult(id) {
+            mediaActiveConsultId = id;
+            const it = mediaImages.find(x => x.id === id) || mediaVideos.find(x => x.id === id);
+            const kind = id.startsWith('vid') ? 'Vidéo' : 'Image';
+            const detail = document.getElementById('mediaConsultDetail');
+            if (!it || !detail) return;
+            detail.innerHTML = `
+                <div style="font-weight:900;color:#0f172a;">${it.title}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${kind} • ${it.category} • ${it.date}</div>
+                <div style="margin-top:12px;background:linear-gradient(135deg,#eff6ff,#fdf4ff);border:1px solid #e2e8f0;border-radius:16px;height:160px;display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="${kind === 'Vidéo' ? 'video' : 'image'}" style="width:26px;height:26px;color:#475569;"></i>
+                </div>
+                <div style="margin-top:12px;display:flex;justify-content:flex-end;">
+                    <button class="primary-btn" onclick="openMockDownload('${it.file}','${it.title}')">Consulter</button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderMediaDownloads() {
+            const root = document.getElementById('mediaDownloadList');
+            if (!root) return;
+            const pool = [...mediaImages, ...mediaVideos].slice(0, 6);
+            root.innerHTML = pool.map(it => `
+                <div class="doc-item">
+                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">DL</div>
+                    <div class="doc-info"><div class="doc-title">${it.title}</div><div class="doc-meta">${it.category} • ${it.date}</div></div>
+                    <button class="primary-btn" style="padding:8px 12px;" onclick="openMockDownload('${it.file}','Téléchargement – ${it.title}')">Télécharger</button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderMediaIntegration() {
+            // content is static; ensure icons are refreshed
+            lucide.createIcons();
+        }
+
+        // ===== ADMINISTRATION & PILOTAGE (table conforme, via sidebar -> sous-rubriques) =====
+        const adminPages = ['comptes','roles','acces','usage','reporting','cms','securite','tracabilite','performance'];
+
+        const adminSectionConfig = {
+            utilisateurs: { subs: [{ id: 'comptes', label: 'Gestion comptes' }], defaultSub: 'comptes' },
+            habilitations: { subs: [{ id: 'roles', label: 'Rôles' }], defaultSub: 'roles' },
+            acces: { subs: [{ id: 'acces', label: 'Droits d’accès' }], defaultSub: 'acces' },
+            usage: { subs: [{ id: 'usage', label: 'Usage plateforme' }], defaultSub: 'usage' },
+            reporting: { subs: [{ id: 'reporting', label: 'Reporting' }], defaultSub: 'reporting' },
+            cms: { subs: [{ id: 'cms', label: 'CMS' }], defaultSub: 'cms' },
+            securite: { subs: [{ id: 'securite', label: 'Accès restreint' }], defaultSub: 'securite' },
+            tracabilite: { subs: [{ id: 'tracabilite', label: 'Journal des actions' }], defaultSub: 'tracabilite' },
+            performance: { subs: [{ id: 'performance', label: 'Performance' }], defaultSub: 'performance' }
+        };
+
+        let adminSection = 'utilisateurs';
+        let adminSub = 'comptes';
+        let adminActiveUserId = null;
+        let adminIsAuthenticated = false;
+        let adminLogFilter = 'all';
+
+        let adminUsers = [
+            { id: 'u1', name: 'Admin 01', email: 'admin01@cmr.ma', profil: 'Administrateur', status: 'Actif' },
+            { id: 'u2', name: 'Contributeur 03', email: 'cont03@cmr.ma', profil: 'Contributeur', status: 'Actif' },
+            { id: 'u3', name: 'Utilisateur 12', email: 'user12@cmr.ma', profil: 'Utilisateur', status: 'Désactivé' }
+        ];
+
+        const adminRoles = [
+            { id: 'r_admin', name: 'Administrateur', desc: 'Tous droits (admin).' },
+            { id: 'r_contrib', name: 'Contributeur', desc: 'Publier / modifier contenus.' },
+            { id: 'r_user', name: 'Utilisateur', desc: 'Consulter.' }
+        ];
+
+        let adminUserRoles = {
+            u1: 'Administrateur',
+            u2: 'Contributeur',
+            u3: 'Utilisateur'
+        };
+
+        let adminAccess = [
+            { userId: 'u1', scope: 'Administration', level: 'Accès' },
+            { userId: 'u2', scope: 'KM', level: 'Accès' },
+            { userId: 'u2', scope: 'Médiathèque', level: 'Restreint' }
+        ];
+
+        let adminCmsItems = [
+            { id: 'c1', title: 'Page – Accueil (bannière)', status: 'Publié', updated: 'Avr 2026' },
+            { id: 'c2', title: 'Bloc – Communication interne', status: 'Brouillon', updated: 'Mars 2026' }
+        ];
+
+        let adminLogs = [
+            { id: 'l1', kind: 'access', text: 'Accès attribué: u2 → KM', date: 'Avr 2026' },
+            { id: 'l2', kind: 'update', text: 'CMS modifié: Page – Accueil', date: 'Mars 2026' },
+            { id: 'l3', kind: 'auth', text: 'Authentification admin (OK)', date: 'Fév 2026' }
+        ];
+
+        function switchAdminSection(sectionId) {
+            adminSection = sectionId;
+            const config = adminSectionConfig[sectionId];
+            const subNav = document.getElementById('adminSubNavbar');
+            if (config && subNav) {
+                subNav.innerHTML = config.subs.map((s, idx) => `
+                    ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
+                    <div class="km-nav-item" onclick="switchAdminSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
+                `).join('');
+            }
+            switchAdminSub(config?.defaultSub || config?.subs?.[0]?.id || 'comptes');
+            lucide.createIcons();
+        }
+
+        function switchAdminSub(subId) {
+            adminSub = subId;
+            const subNav = document.getElementById('adminSubNavbar');
+            if (subNav) {
+                subNav.querySelectorAll('.km-nav-item').forEach(el => el.classList.remove('active'));
+                const targetNav = subNav.querySelector(`[onclick="switchAdminSub('${subId}')"]`);
+                if (targetNav) targetNav.classList.add('active');
+            }
+
+            adminPages.forEach(p => {
+                const el = document.getElementById('page-admin-' + p);
+                if (el) el.style.display = 'none';
+            });
+            const target = document.getElementById('page-admin-' + subId);
+            if (target) target.style.display = 'block';
+
+            if (subId === 'comptes') { renderAdminUsers(); renderAdminUserSelectors(); }
+            if (subId === 'roles') { renderAdminRoles(); renderAdminUserSelectors(); }
+            if (subId === 'acces') { renderAdminAccess(); renderAdminUserSelectors(); }
+            if (subId === 'usage') renderAdminUsage();
+            if (subId === 'reporting') renderAdminReporting();
+            if (subId === 'cms') renderAdminCms();
+            if (subId === 'securite') renderAdminSecurity();
+            if (subId === 'tracabilite') renderAdminLogs();
+            if (subId === 'performance') renderAdminPerformance();
+            lucide.createIcons();
+        }
+
+        function pushAdminLog(kind, text) {
+            adminLogs = [{ id: 'l' + Date.now(), kind, text, date: 'Aujourd’hui' }, ...adminLogs];
+        }
+
+        function toggleAdminUserForm(open) {
+            const card = document.getElementById('adminUserFormCard');
+            if (!card) return;
+            card.style.display = open ? 'block' : 'none';
+        }
+
+        function adminCreateUser() {
+            const name = (document.getElementById('adminNewName')?.value || '').trim();
+            const email = (document.getElementById('adminNewEmail')?.value || '').trim();
+            const profil = (document.getElementById('adminNewProfil')?.value || 'Utilisateur').trim();
+            if (!name || !email) return;
+            const id = 'u' + Date.now();
+            adminUsers = [{ id, name, email, profil, status: 'Actif' }, ...adminUsers];
+            adminUserRoles[id] = profil;
+            pushAdminLog('create', `Compte créé: ${name}`);
+            document.getElementById('adminNewName').value = '';
+            document.getElementById('adminNewEmail').value = '';
+            toggleAdminUserForm(false);
+            renderAdminUsers();
+            renderAdminUserSelectors();
+        }
+
+        function setAdminUserStatus(id, status) {
+            adminUsers = adminUsers.map(u => u.id === id ? { ...u, status } : u);
+            pushAdminLog('update', `Compte ${status.toLowerCase()}: ${adminUsers.find(u => u.id === id)?.name || id}`);
+            renderAdminUsers();
+            renderAdminUserSelectors();
+            if (adminActiveUserId === id) openAdminUser(id);
+        }
+
+        function openAdminUser(id) {
+            adminActiveUserId = id;
+            const u = adminUsers.find(x => x.id === id);
+            const root = document.getElementById('adminUserDetail');
+            if (!u || !root) return;
+            const role = adminUserRoles[id] || u.profil;
+            root.innerHTML = `
+                <div style="font-weight:900;color:#0f172a;">${u.name}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${u.email}</div>
+                <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Profil</div>
+                        <div style="margin-top:6px;font-weight:900;color:#0f172a;">${role}</div>
+                    </div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Statut</div>
+                        <div style="margin-top:6px;font-weight:900;color:#0f172a;">${u.status}</div>
+                    </div>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+                    <button class="actu-filter-btn" onclick="setAdminUserStatus('${u.id}','Actif')">Activer</button>
+                    <button class="actu-filter-btn" onclick="setAdminUserStatus('${u.id}','Désactivé')">Désactiver</button>
+                    <button class="primary-btn" onclick="openMockDownload('Profil_${u.name.replace(/\\s+/g,'_')}.pdf','Profil – ${u.name}')">Modifier</button>
+                </div>
+            `;
+        }
+
+        function renderAdminUsers() {
+            const wrap = document.getElementById('adminUsersTableWrap');
+            if (!wrap) return;
+            const q = (document.getElementById('adminUserSearch')?.value || '').toLowerCase().trim();
+            const items = adminUsers.filter(u => !q || (u.name + ' ' + u.email + ' ' + u.profil).toLowerCase().includes(q));
+            wrap.innerHTML = `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                        <thead>
+                            <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Nom</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Profil</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Statut</th>
+                                <th style="padding:12px 16px;text-align:right;font-weight:700;color:#475569;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${items.map(u => `
+                                <tr style="border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="openAdminUser('${u.id}')">
+                                    <td style="padding:12px 16px;color:#0f172a;font-weight:700;">${u.name}<div style="font-size:12px;color:var(--text-light);font-weight:400;margin-top:2px;">${u.email}</div></td>
+                                    <td style="padding:12px 16px;color:var(--text-light);">${adminUserRoles[u.id] || u.profil}</td>
+                                    <td style="padding:12px 16px;color:var(--text-light);">${u.status}</td>
+                                    <td style="padding:12px 16px;text-align:right;">
+                                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('Edit_${u.id}.pdf','Modifier – ${u.name}')">Modifier</button>
+                                        <button class="actu-filter-btn" onclick="event.stopPropagation(); setAdminUserStatus('${u.id}','Désactivé')">Désactiver</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            if (!adminActiveUserId && items[0]) openAdminUser(items[0].id);
+            lucide.createIcons();
+        }
+
+        function renderAdminUserSelectors() {
+            const selUser1 = document.getElementById('adminRoleUser');
+            const selUser2 = document.getElementById('adminAccessUser');
+            if (selUser1) selUser1.innerHTML = adminUsers.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+            if (selUser2) selUser2.innerHTML = adminUsers.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+            const rolePick = document.getElementById('adminRolePick');
+            if (rolePick) rolePick.innerHTML = adminRoles.map(r => `<option value="${r.name}">${r.name}</option>`).join('');
+            if (selUser1) selUser1.onchange = renderAdminRoleInfo;
+            renderAdminRoleInfo();
+        }
+
+        function renderAdminRoles() {
+            const root = document.getElementById('adminRolesList');
+            if (!root) return;
+            root.innerHTML = adminRoles.map(r => `
+                <div class="doc-item">
+                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">ROL</div>
+                    <div class="doc-info"><div class="doc-title">${r.name}</div><div class="doc-meta">${r.desc}</div></div>
+                    <button class="actu-filter-btn" onclick="openMockDownload('Role_${r.name}.pdf','Rôle – ${r.name}')">Détail</button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderAdminRoleInfo() {
+            const userId = document.getElementById('adminRoleUser')?.value;
+            const root = document.getElementById('adminRoleInfo');
+            if (!root || !userId) return;
+            const u = adminUsers.find(x => x.id === userId);
+            const role = adminUserRoles[userId] || u?.profil || '—';
+            root.innerHTML = `Rôle actuel: <strong>${role}</strong>`;
+        }
+
+        function adminAssignRole() {
+            const userId = document.getElementById('adminRoleUser')?.value;
+            const role = document.getElementById('adminRolePick')?.value;
+            if (!userId || !role) return;
+            adminUserRoles[userId] = role;
+            pushAdminLog('update', `Rôle attribué: ${adminUsers.find(u => u.id === userId)?.name || userId} → ${role}`);
+            renderAdminUsers();
+            renderAdminRoleInfo();
+        }
+
+        function adminRemoveRole() {
+            const userId = document.getElementById('adminRoleUser')?.value;
+            if (!userId) return;
+            adminUserRoles[userId] = 'Utilisateur';
+            pushAdminLog('update', `Rôle retiré: ${adminUsers.find(u => u.id === userId)?.name || userId}`);
+            renderAdminUsers();
+            renderAdminRoleInfo();
+        }
+
+        function adminGrantAccess() {
+            const userId = document.getElementById('adminAccessUser')?.value;
+            const scope = document.getElementById('adminAccessScope')?.value;
+            if (!userId || !scope) return;
+            adminAccess = adminAccess.filter(a => !(a.userId === userId && a.scope === scope));
+            adminAccess = [{ userId, scope, level: 'Accès' }, ...adminAccess];
+            pushAdminLog('access', `Accès attribué: ${adminUsers.find(u => u.id === userId)?.name || userId} → ${scope}`);
+            renderAdminAccess();
+        }
+
+        function adminRestrictAccess() {
+            const userId = document.getElementById('adminAccessUser')?.value;
+            const scope = document.getElementById('adminAccessScope')?.value;
+            if (!userId || !scope) return;
+            adminAccess = adminAccess.filter(a => !(a.userId === userId && a.scope === scope));
+            adminAccess = [{ userId, scope, level: 'Restreint' }, ...adminAccess];
+            pushAdminLog('access', `Accès restreint: ${adminUsers.find(u => u.id === userId)?.name || userId} → ${scope}`);
+            renderAdminAccess();
+        }
+
+        function renderAdminAccess() {
+            const wrap = document.getElementById('adminAccessTableWrap');
+            if (!wrap) return;
+            wrap.innerHTML = `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                        <thead>
+                            <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Utilisateur</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Espace</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Niveau</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${adminAccess.map(a => `
+                                <tr style="border-bottom:1px solid #f1f5f9;">
+                                    <td style="padding:12px 16px;color:#0f172a;font-weight:700;">${adminUsers.find(u => u.id === a.userId)?.name || a.userId}</td>
+                                    <td style="padding:12px 16px;color:var(--text-light);">${a.scope}</td>
+                                    <td style="padding:12px 16px;color:${a.level === 'Accès' ? '#16a34a' : '#f97316'};font-weight:800;">${a.level}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function renderAdminUsage() {
+            const root = document.getElementById('adminUsageDash');
+            if (!root) return;
+            root.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Visites</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(800 + Math.random()*500)}</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Utilisateurs actifs</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(120 + Math.random()*80)}</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Temps moyen</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${(3 + Math.random()*3).toFixed(1)}m</div></div>
+                </div>
+                <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">KPI/data (maquette) — consulter.</div>
+            `;
+        }
+
+        function renderAdminReporting() {
+            const root = document.getElementById('adminReportingDash');
+            if (!root) return;
+            root.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;">
+                    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#1d4ed8;font-weight:900;">Docs publiés</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(30 + Math.random()*40)}</div></div>
+                    <div style="background:#ecfdf5;border:1px solid #bbf7d0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#16a34a;font-weight:900;">Téléchargements</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(200 + Math.random()*400)}</div></div>
+                    <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#7c3aed;font-weight:900;">Tickets</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(10 + Math.random()*40)}</div></div>
+                    <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#ea580c;font-weight:900;">Incidents</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(1 + Math.random()*8)}</div></div>
+                </div>
+                <div style="margin-top:12px;display:flex;justify-content:flex-end;">
+                    <button class="primary-btn" onclick="openMockDownload('Reporting_Admin.pdf','Reporting admin')">Analyser</button>
+                </div>
+            `;
+        }
+
+        function adminCreateCms() {
+            const id = 'c' + Date.now();
+            adminCmsItems = [{ id, title: 'Nouveau contenu (CMS)', status: 'Brouillon', updated: 'Aujourd’hui' }, ...adminCmsItems];
+            pushAdminLog('create', 'CMS: nouveau contenu créé');
+            renderAdminCms();
+        }
+
+        function adminCmsSetStatus(id, status) {
+            adminCmsItems = adminCmsItems.map(c => c.id === id ? { ...c, status, updated: 'Aujourd’hui' } : c);
+            pushAdminLog('update', `CMS: ${status} – ${adminCmsItems.find(c => c.id === id)?.title || id}`);
+            renderAdminCms();
+        }
+
+        function renderAdminCms() {
+            const wrap = document.getElementById('adminCmsTableWrap');
+            if (!wrap) return;
+            wrap.innerHTML = `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                        <thead>
+                            <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Contenu</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Statut</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">MAJ</th>
+                                <th style="padding:12px 16px;text-align:right;font-weight:700;color:#475569;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${adminCmsItems.map(c => `
+                                <tr style="border-bottom:1px solid #f1f5f9;">
+                                    <td style="padding:12px 16px;color:#0f172a;font-weight:700;">${c.title}</td>
+                                    <td style="padding:12px 16px;color:var(--text-light);">${c.status}</td>
+                                    <td style="padding:12px 16px;color:var(--text-light);">${c.updated}</td>
+                                    <td style="padding:12px 16px;text-align:right;">
+                                        <button class="actu-filter-btn" onclick="openMockDownload('Edit_${c.id}.pdf','Modifier – ${c.title}')">Modifier</button>
+                                        <button class="actu-filter-btn" onclick="adminCmsSetStatus('${c.id}','Publié')">Publier</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function adminAuthenticate() {
+            const user = (document.getElementById('adminAuthUser')?.value || '').trim();
+            const pass = (document.getElementById('adminAuthPass')?.value || '').trim();
+            adminIsAuthenticated = Boolean(user && pass);
+            pushAdminLog('auth', `Authentification admin (${adminIsAuthenticated ? 'OK' : 'KO'})`);
+            renderAdminSecurity();
+        }
+
+        function renderAdminSecurity() {
+            const state = document.getElementById('adminAuthState');
+            const panel = document.getElementById('adminAccessControl');
+            if (state) state.innerHTML = adminIsAuthenticated ? `<strong style="color:#16a34a;">Authentifié</strong>` : `<strong style="color:#f97316;">Non authentifié</strong>`;
+            if (!panel) return;
+            panel.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Accès restreints</div>
+                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${adminIsAuthenticated ? 'Ouvert' : 'Fermé'}</div>
+                    </div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Tentatives</div>
+                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(1 + Math.random()*4)}</div>
+                    </div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Règles</div>
+                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">3</div>
+                    </div>
+                </div>
+                <div style="margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:12px;color:#9a3412;font-size:13px;line-height:1.7;">
+                    ${adminIsAuthenticated ? 'Accès autorisé aux fonctionnalités d’administration.' : 'Veuillez vous authentifier pour accéder aux fonctions restreintes.'}
+                </div>
+            `;
+        }
+
+        function setAdminLogFilter(kind, el) {
+            adminLogFilter = kind;
+            document.querySelectorAll('#page-admin-tracabilite .actu-filter-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderAdminLogs();
+        }
+
+        function renderAdminLogs() {
+            const root = document.getElementById('adminLogList');
+            if (!root) return;
+            const items = adminLogs.filter(l => adminLogFilter === 'all' || l.kind === adminLogFilter);
+            root.innerHTML = items.map(l => `
+                <div class="doc-item">
+                    <div class="doc-icon" style="background:#f8fafc;color:#475569;font-weight:900;">LOG</div>
+                    <div class="doc-info"><div class="doc-title">${l.text}</div><div class="doc-meta">${l.date}</div></div>
+                    <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucune entrée.</div>`;
+            lucide.createIcons();
+        }
+
+        function renderAdminPerformance() {
+            const root = document.getElementById('adminPerfDash');
+            if (!root) return;
+            root.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Temps réponse</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(120 + Math.random()*120)}ms</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Erreurs</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(Math.random()*6)}</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Disponibilité</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${(99.1 + Math.random()*0.8).toFixed(2)}%</div></div>
+                </div>
+                <div style="margin-top:12px;display:flex;justify-content:flex-end;">
+                    <button class="primary-btn" onclick="openMockDownload('Perf_Admin.pdf','Performance plateforme')">Analyser</button>
+                </div>
+            `;
+        }
         // ===== KM DATA + RENDERS (table conforme) =====
         let kmRefActive = 'metiers';
         const kmReferentiels = [
@@ -11983,6 +13818,15 @@
             }
             if (viewId === 'documentaires') {
                 switchMetiersSection(getActiveSubmenuTab('documentaires') || 'structuration-metier');
+            }
+            if (viewId === 'collaboratifs') {
+                switchCollabSection(getActiveSubmenuTab('collaboratifs') || 'discussions');
+            }
+            if (viewId === 'mediatheque') {
+                switchMediaSection(getActiveSubmenuTab('mediatheque') || 'acces');
+            }
+            if (viewId === 'admin') {
+                switchAdminSection(getActiveSubmenuTab('admin') || 'utilisateurs');
             }
             if (viewId === 'actualites') {
                 const listPanel = document.getElementById('actu-list-panel');
