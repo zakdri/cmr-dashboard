@@ -2303,9 +2303,10 @@
                     <span>Knowledge Management</span>
                     <i data-lucide="chevron-right" class="submenu-indicator"></i>
                 </div>
-                <div id="nav-documentaires" class="nav-item" onclick="switchView('documentaires')">
+                <div id="nav-documentaires" class="nav-item has-submenu" onclick="toggleSidebarSubmenu('documentaires')">
                     <i data-lucide="folder-open"></i>
-                    <span>Documentaires</span>
+                    <span>Espaces métiers</span>
+                    <i data-lucide="chevron-right" class="submenu-indicator"></i>
                 </div>
                 <div id="nav-collaboratifs" class="nav-item" onclick="switchView('collaboratifs')">
                     <i data-lucide="network"></i>
@@ -2325,9 +2326,10 @@
                     <i data-lucide="users"></i>
                     <span>Annuaire</span>
                 </div>
-                <div id="nav-reglementation" class="nav-item" onclick="switchView('reglementation')">
+                <div id="nav-reglementation" class="nav-item has-submenu" onclick="toggleSidebarSubmenu('reglementation')">
                     <i data-lucide="shield-check"></i>
                     <span>Réglementation</span>
+                    <i data-lucide="chevron-right" class="submenu-indicator"></i>
                 </div>
                 <div id="nav-achats" class="nav-item" onclick="switchView('achats')">
                     <i data-lucide="shopping-cart"></i>
@@ -5416,14 +5418,144 @@
             <!-- DOCUMENTAIRES VIEW -->
             <div id="view-documentaires" class="view-section km-container">
                 <div class="km-header">
-                    <h2>Espaces Documentaires</h2>
-                    <p>Gestion des documents actifs avec métadonnées et lien GED.</p>
+                    <h2>Espaces métiers</h2>
+                    <p>Domaines métiers, référentiels, livrables, intégration SI, structuration et médiathèque.</p>
                 </div>
-                <div class="km-grid">
-                    <div class="doc-card">
-                        <div class="doc-icon-large folder"><i data-lucide="folder" style="width: 24px; height: 24px;"></i></div>
-                        <div class="doc-card-title">Documents Publics</div>
-                        <div class="doc-card-meta"><span>12 fichiers</span><i data-lucide="chevron-right" style="width: 16px;"></i></div>
+
+                <!-- Sous‑rubriques (selon rubrique principale choisie via sidebar) -->
+                <div class="km-navbar" id="metiersSubNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Structuration métier -->
+                <div id="page-metiers-domaines" class="km-tab-content" style="display:block;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="network" style="width:20px;height:20px;"></i></div>
+                                Domaines métiers
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="color:var(--text-light);font-size:13px;line-height:1.7;margin-bottom:12px;">Organisation des espaces selon les différents métiers de la CMR (maquette).</div>
+                            <div id="metiersDomainesNav" class="km-grid"></div>
+                            <div id="metiersDomainesDetail" style="margin-top:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;color:var(--text-light);font-size:13px;">Sélectionnez un domaine.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Référentiels métiers -->
+                <div id="page-metiers-referentiels" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="folder-open" style="width:20px;height:20px;"></i></div>
+                                Fournisseurs / projets / applications
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                <i data-lucide="search" style="width: 16px;"></i>
+                                <input id="metiersRefSearch" class="actu-search-input" placeholder="Rechercher (référentiel, application, projet…)…" oninput="renderMetiersReferentiels()">
+                            </div>
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                                <button class="actu-filter-btn active" onclick="setMetiersRefType('all', this)">Tous</button>
+                                <button class="actu-filter-btn" onclick="setMetiersRefType('Fournisseur', this)">Fournisseurs</button>
+                                <button class="actu-filter-btn" onclick="setMetiersRefType('Projet', this)">Projets</button>
+                                <button class="actu-filter-btn" onclick="setMetiersRefType('Application', this)">Applications</button>
+                            </div>
+                            <div id="metiersRefList" class="doc-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documents métiers -->
+                <div id="page-metiers-livrables" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="file-stack" style="width:20px;height:20px;"></i></div>
+                                Livrables
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                <i data-lucide="search" style="width: 16px;"></i>
+                                <input id="metiersLivSearch" class="actu-search-input" placeholder="Rechercher un livrable…" oninput="renderMetiersLivrables()">
+                            </div>
+                            <div id="metiersLivList" class="doc-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Intégration SI -->
+                <div id="page-metiers-si" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon purple"><i data-lucide="plug" style="width:20px;height:20px;"></i></div>
+                                Systèmes existants
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:grid;grid-template-columns:1.4fr .6fr;gap:12px;align-items:start;">
+                                <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                                    <div style="font-weight:900;color:#0f172a;">Accès / intégration SI</div>
+                                    <div style="margin-top:6px;color:var(--text-light);font-size:13px;line-height:1.7;">Permettre l’accès ou l’intégration avec d’autres outils SI (maquette). Dépend SI.</div>
+                                    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+                                        <button class="primary-btn" onclick="openMockDownload('Catalogue_APIs_SI.pdf','Catalogue APIs SI')">Catalogue APIs</button>
+                                        <button class="secondary-btn" onclick="openMockDownload('Guide_SSO_Acces.pdf','Guide SSO & Accès')">Guide accès</button>
+                                    </div>
+                                </div>
+                                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                                    <div style="font-weight:900;color:#0f172a;">Widget état</div>
+                                    <div id="metiersSiWidget" style="margin-top:10px;color:var(--text-light);font-size:13px;line-height:1.7;"></div>
+                                    <button class="actu-filter-btn" style="margin-top:10px;" onclick="renderMetiersSiWidget(true)">Actualiser</button>
+                                </div>
+                            </div>
+                            <div style="margin-top:12px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                                <div style="font-weight:900;color:#0f172a;">Systèmes connectés</div>
+                                <div id="metiersSiList" class="doc-list" style="margin-top:10px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Structuration -->
+                <div id="page-metiers-thematiques" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="tags" style="width:20px;height:20px;"></i></div>
+                                Thématiques
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                <i data-lucide="filter" style="width: 16px;"></i>
+                                <input id="metiersThemeSearch" class="actu-search-input" placeholder="Filtrer / navigation (ex: liquidation, contrôle, SI)…" oninput="renderMetiersThemes()">
+                            </div>
+                            <div class="km-grid" id="metiersThemesGrid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multimédia métier -->
+                <div id="page-metiers-mediatheque" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon pink"><i data-lucide="image" style="width:20px;height:20px;"></i></div>
+                                Médiathèque métier
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                <i data-lucide="search" style="width: 16px;"></i>
+                                <input id="metiersMediaSearch" class="actu-search-input" placeholder="Rechercher un média…" oninput="renderMetiersMedia()">
+                            </div>
+                            <div id="metiersMediaGrid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -5659,29 +5791,233 @@
             </div>
 
 
-            <!-- RÉGLEMENTATION VIEW -->
+            <!-- RÉGLEMENTAIRE VIEW -->
             <div id="view-reglementation" class="view-section km-container">
                 <div class="km-header">
-                    <h2>Espace Réglementation</h2>
-                    <p>Centralisation des textes réglementaires, normes et référentiels officiels.</p>
+                    <h2>Espace Réglementaire</h2>
+                    <p>Textes officiels, structuration, procédures internes, recherche et gouvernance des contenus.</p>
                 </div>
-                <div class="km-grid">
-                    <div class="doc-card" style="cursor: pointer;">
-                        <div class="doc-icon-large pdf" style="color: #dc2626; background: #fee2e2;">
-                            <i data-lucide="scale" style="width: 24px; height: 24px;"></i>
+
+                <!-- Sous‑rubriques (selon rubrique principale choisie via sidebar) -->
+                <div class="km-navbar" id="regSubNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Référentiels réglementaires -->
+                <div id="page-reg-textes" class="km-tab-content" style="display:block;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div>
+                                Textes officiels
+                            </div>
                         </div>
-                        <div class="doc-card-title">Dahirs & Lois</div>
-                        <div class="doc-card-meta">
-                            <span>Sélection Officielle</span>
+                        <div style="padding:18px;">
+                            <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                <i data-lucide="search" style="width: 16px;"></i>
+                                <input id="regTextesSearch" class="actu-search-input" placeholder="Rechercher un texte, une référence, un mot-clé…" oninput="renderRegTextes()">
+                            </div>
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                                <button class="actu-filter-btn active" onclick="setRegTextesType('all', this)">Tous</button>
+                                <button class="actu-filter-btn" onclick="setRegTextesType('Loi', this)">Lois</button>
+                                <button class="actu-filter-btn" onclick="setRegTextesType('Décret', this)">Décrets</button>
+                                <button class="actu-filter-btn" onclick="setRegTextesType('Circulaire', this)">Circulaires</button>
+                                <button class="actu-filter-btn" onclick="setRegTextesType('Décision', this)">Décisions</button>
+                            </div>
+                            <div id="regTextesList" class="doc-list"></div>
                         </div>
                     </div>
-                    <div class="doc-card" style="cursor: pointer;">
-                        <div class="doc-icon-large word" style="color: #2563eb; background: #dbeafe;">
-                            <i data-lucide="book-open" style="width: 24px; height: 24px;"></i>
+                </div>
+
+                <!-- Structuration -->
+                <div id="page-reg-thematiques" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="layout-grid" style="width:20px;height:20px;"></i></div>
+                                Thématiques
+                            </div>
                         </div>
-                        <div class="doc-card-title">Circulaires & Décisions</div>
-                        <div class="doc-card-meta">
-                            <span>Publications par année</span>
+                        <div style="padding:18px;">
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                                <button class="actu-filter-btn active" onclick="setRegTheme('all', this)">Toutes</button>
+                                <button class="actu-filter-btn" onclick="setRegTheme('Retraite', this)">Retraite</button>
+                                <button class="actu-filter-btn" onclick="setRegTheme('Gouvernance', this)">Gouvernance</button>
+                                <button class="actu-filter-btn" onclick="setRegTheme('Finance', this)">Finance</button>
+                                <button class="actu-filter-btn" onclick="setRegTheme('Sécurité', this)">Sécurité</button>
+                            </div>
+                            <div class="km-grid" id="regThematicsGrid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Référentiels internes -->
+                <div id="page-reg-procedures" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="list-checks" style="width:20px;height:20px;"></i></div>
+                                Procédures
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                <i data-lucide="search" style="width: 16px;"></i>
+                                <input id="regProcSearch" class="actu-search-input" placeholder="Rechercher une procédure…" oninput="renderRegProcedures()">
+                            </div>
+                            <div id="regProceduresList" class="doc-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="page-reg-notes" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon pink"><i data-lucide="book-open" style="width:20px;height:20px;"></i></div>
+                                Notes / guides
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div id="regNotesList" class="doc-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recherche -->
+                <div id="page-reg-moteur" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="search" style="width:20px;height:20px;"></i></div>
+                                Moteur de recherche
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div class="actu-search-wrap">
+                                <i data-lucide="search" style="width: 16px;"></i>
+                                <input id="regGlobalSearch" class="actu-search-input" placeholder="Recherche multi-sources (textes, procédures, notes)…" oninput="renderRegGlobalSearch()">
+                            </div>
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+                                <button class="actu-filter-btn active" onclick="setRegGlobalScope('all', this)">Tout</button>
+                                <button class="actu-filter-btn" onclick="setRegGlobalScope('textes', this)">Textes</button>
+                                <button class="actu-filter-btn" onclick="setRegGlobalScope('procedures', this)">Procédures</button>
+                                <button class="actu-filter-btn" onclick="setRegGlobalScope('notes', this)">Notes</button>
+                            </div>
+                            <div id="regGlobalResults" class="doc-list" style="margin-top:12px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GED -->
+                <div id="page-reg-ged" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="database" style="width:20px;height:20px;"></i></div>
+                                Archivage (GED)
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                                <div style="color:var(--text-light);font-size:13px;line-height:1.7;">Accéder aux versions archivées via la GED (maquette).</div>
+                                <button class="primary-btn" onclick="openMockDownload('Lien_GED.pdf','Accès GED')">Lien / accès GED</button>
+                            </div>
+                            <div style="margin-top:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                                <div style="font-weight:900;color:#0f172a;">Dernières versions archivées</div>
+                                <div id="regGedList" class="doc-list" style="margin-top:10px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gouvernance -->
+                <div id="page-reg-gestion" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="settings" style="width:20px;height:20px;"></i></div>
+                                Gestion des contenus (back‑office)
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                                <button class="primary-btn" onclick="regCreateContent()">Créer un contenu</button>
+                                <button class="secondary-btn" onclick="renderRegGestion()">Rafraîchir</button>
+                            </div>
+                            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                                <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                                    <thead>
+                                        <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+                                            <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Contenu</th>
+                                            <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Type</th>
+                                            <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Statut</th>
+                                            <th style="padding:12px 16px;text-align:right;font-weight:700;color:#475569;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="regGestionTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Validation -->
+                <div id="page-reg-workflow" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="check-circle-2" style="width:20px;height:20px;"></i></div>
+                                Workflow validation
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="color:var(--text-light);font-size:13px;line-height:1.7;margin-bottom:12px;">Validation obligatoire avant publication (maquette).</div>
+                            <div id="regWorkflowQueue" class="doc-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Traçabilité -->
+                <div id="page-reg-historique" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="history" style="width:20px;height:20px;"></i></div>
+                                Historique (journal)
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                                <button class="actu-filter-btn active" onclick="setRegHistoryFilter('all', this)">Tout</button>
+                                <button class="actu-filter-btn" onclick="setRegHistoryFilter('create', this)">Créations</button>
+                                <button class="actu-filter-btn" onclick="setRegHistoryFilter('update', this)">Modifications</button>
+                                <button class="actu-filter-btn" onclick="setRegHistoryFilter('validate', this)">Validations</button>
+                            </div>
+                            <div id="regHistoryList" class="doc-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Archivage -->
+                <div id="page-reg-archives" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon pink"><i data-lucide="archive" style="width:20px;height:20px;"></i></div>
+                                Documents actifs / archivés
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                                <button class="actu-filter-btn active" onclick="setRegArchiveMode('actifs', this)">Actifs</button>
+                                <button class="actu-filter-btn" onclick="setRegArchiveMode('archives', this)">Archivés</button>
+                            </div>
+                            <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                <i data-lucide="filter" style="width: 16px;"></i>
+                                <input id="regArchiveTag" class="actu-search-input" placeholder="Filtrer / identifier par tag (ex: 2026, retraite, finance)…" oninput="renderRegArchives()">
+                            </div>
+                            <div id="regArchivesList" class="doc-list"></div>
                         </div>
                     </div>
                 </div>
@@ -7128,7 +7464,7 @@
                     d.classList.remove('active');
                 });
             }
-            if (!event.target.closest('.sidebar-submenu-panel') && !event.target.closest('#nav-km') && !event.target.closest('#nav-rse') && !event.target.closest('#nav-qse') && !event.target.closest('#nav-rh')) {
+            if (!event.target.closest('.sidebar-submenu-panel') && !event.target.closest('.nav-item.has-submenu')) {
                 hideSidebarSubmenu();
             }
             if (event.target.classList.contains('modal-overlay')) {
@@ -8145,6 +8481,31 @@
                     { label: 'Supports pédagogiques', tab: 'supports' }
                 ]
             },
+            documentaires: {
+                title: 'Espaces métiers',
+                items: [
+                    { label: 'Structuration métier', tab: 'structuration-metier' },
+                    { label: 'Référentiels métiers', tab: 'referentiels-metiers' },
+                    { label: 'Documents métiers', tab: 'documents-metiers' },
+                    { label: 'Intégration SI', tab: 'integration-si' },
+                    { label: 'Structuration', tab: 'structuration' },
+                    { label: 'Multimédia métier', tab: 'multimedia' }
+                ]
+            },
+            reglementation: {
+                title: 'Réglementaire',
+                items: [
+                    { label: 'Référentiels réglementaires', tab: 'referentiels' },
+                    { label: 'Structuration', tab: 'structuration' },
+                    { label: 'Référentiels internes', tab: 'internes' },
+                    { label: 'Recherche', tab: 'recherche' },
+                    { label: 'GED', tab: 'ged' },
+                    { label: 'Gouvernance', tab: 'gouvernance' },
+                    { label: 'Validation', tab: 'validation' },
+                    { label: 'Traçabilité', tab: 'tracabilite' },
+                    { label: 'Archivage', tab: 'archivage' }
+                ]
+            },
             rse: {
                 title: 'RSE',
                 items: [
@@ -8190,7 +8551,9 @@
             km: null,
             rse: null,
             qse: null,
-            rh: null
+            rh: null,
+            reglementation: null,
+            documentaires: null
         };
 
         function hideSidebarSubmenu() {
@@ -8257,6 +8620,14 @@
 
             if (viewId === 'qse') {
                 switchQseSection(tabId);
+            }
+
+            if (viewId === 'reglementation') {
+                switchRegSection(tabId);
+            }
+
+            if (viewId === 'documentaires') {
+                switchMetiersSection(tabId);
             }
 
             if (viewId === 'rh') {
@@ -9836,9 +10207,599 @@
                 <div class="doc-item" onclick="openMockDownload('${c.file}','${c.title}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">QSE</div>
                     <div class="doc-info"><div class="doc-title">${c.title}</div><div class="doc-meta">${c.meta}</div></div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${c.file}','${c.title}')">Consulter</button>
+                        <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('Participation_${c.title.replace(/\\s+/g,'_')}.pdf','Participation – ${c.title}')">Participer</button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // ===== RÉGLEMENTAIRE (table conforme, via sidebar -> sous-rubriques) =====
+        const regPages = ['textes','thematiques','procedures','notes','moteur','ged','gestion','workflow','historique','archives'];
+
+        const regSectionConfig = {
+            referentiels: { subs: [{ id: 'textes', label: 'Textes officiels' }], defaultSub: 'textes' },
+            structuration: { subs: [{ id: 'thematiques', label: 'Thématiques' }], defaultSub: 'thematiques' },
+            internes: { subs: [{ id: 'procedures', label: 'Procédures' }, { id: 'notes', label: 'Notes / guides' }], defaultSub: 'procedures' },
+            recherche: { subs: [{ id: 'moteur', label: 'Moteur de recherche' }], defaultSub: 'moteur' },
+            ged: { subs: [{ id: 'ged', label: 'Archivage (GED)' }], defaultSub: 'ged' },
+            gouvernance: { subs: [{ id: 'gestion', label: 'Gestion des contenus' }], defaultSub: 'gestion' },
+            validation: { subs: [{ id: 'workflow', label: 'Workflow validation' }], defaultSub: 'workflow' },
+            tracabilite: { subs: [{ id: 'historique', label: 'Historique' }], defaultSub: 'historique' },
+            archivage: { subs: [{ id: 'archives', label: 'Actifs / archivés' }], defaultSub: 'archives' }
+        };
+
+        let regSection = 'referentiels';
+        let regSub = 'textes';
+        let regTextesType = 'all';
+        let regTheme = 'all';
+        let regGlobalScope = 'all';
+        let regHistoryFilter = 'all';
+        let regArchiveMode = 'actifs';
+
+        const regTextesItems = [
+            { title: 'Loi n° 12-34 – Gouvernance des organismes', type: 'Loi', ref: '12-34', date: '2024', tags: ['gouvernance','cadre'], file: 'Loi_12-34.pdf' },
+            { title: 'Décret n° 2-25-101 – Procédures de contrôle', type: 'Décret', ref: '2-25-101', date: '2025', tags: ['controle','qualite'], file: 'Decret_2-25-101.pdf' },
+            { title: 'Circulaire – Mise à jour reporting', type: 'Circulaire', ref: 'CIR-2026-04', date: 'Avr 2026', tags: ['reporting','finance'], file: 'Circulaire_Reporting_2026.pdf' },
+            { title: 'Décision – Charte éthique (v2)', type: 'Décision', ref: 'DEC-2026-02', date: 'Fév 2026', tags: ['ethique'], file: 'Decision_Charte_Ethique_v2.pdf' }
+        ];
+
+        const regProcedures = [
+            { title: 'Procédure – Gestion des réclamations', meta: 'Procédure interne • v1.3', file: 'Procedure_Reclamations.pdf', tags: ['service','qualite'] },
+            { title: 'Procédure – Contrôle interne', meta: 'Procédure interne • v2.0', file: 'Procedure_Controle_Interne.pdf', tags: ['controle','audit'] },
+            { title: 'Procédure – Archivage des dossiers', meta: 'Procédure interne • v1.1', file: 'Procedure_Archivage_Dossiers.pdf', tags: ['archivage','ged'] }
+        ];
+
+        const regNotes = [
+            { title: 'Guide pratique – Lecture d’un texte officiel', meta: 'Note / guide • 10 pages', file: 'Guide_Lecture_Textes.pdf' },
+            { title: 'Note – Bonnes pratiques de conformité', meta: 'Note • MAJ 2026', file: 'Note_Bonnes_Pratiques_Conformite.pdf' }
+        ];
+
+        const regGedArchives = [
+            { title: 'Loi n° 08-12 – Retraite (archive)', meta: 'GED • version archivée', file: 'Archive_Loi_08-12.pdf' },
+            { title: 'Circulaire – Procédure 2022 (archive)', meta: 'GED • version archivée', file: 'Archive_Circulaire_2022.pdf' }
+        ];
+
+        let regGestionItems = [
+            { id: 'gc1', title: 'Procédure – Contrôle interne', type: 'Procédure', status: 'Publié' },
+            { id: 'gc2', title: 'Note – Conformité (MAJ)', type: 'Note', status: 'Brouillon' },
+            { id: 'gc3', title: 'Texte – Circulaire reporting', type: 'Circulaire', status: 'En validation' }
+        ];
+
+        let regWorkflowQueue = [
+            { id: 'wf1', title: 'Note – Conformité (MAJ)', owner: 'Admin / métier', date: 'Aujourd’hui', action: 'Valider' },
+            { id: 'wf2', title: 'Texte – Circulaire reporting', owner: 'Admin / métier', date: 'Hier', action: 'Valider' }
+        ];
+
+        let regHistory = [
+            { id: 'h1', kind: 'create', text: 'Création: Procédure – Archivage des dossiers', date: 'Mars 2026' },
+            { id: 'h2', kind: 'update', text: 'Mise à jour: Décision – Charte éthique (v2)', date: 'Fév 2026' },
+            { id: 'h3', kind: 'validate', text: 'Validation: Procédure – Contrôle interne', date: 'Jan 2026' }
+        ];
+
+        const regArchiveDocs = [
+            { title: 'Procédure – Contrôle interne', state: 'actifs', tags: ['audit','controle','2026'], file: 'Procedure_Controle_Interne.pdf' },
+            { title: 'Note – Bonnes pratiques de conformité', state: 'actifs', tags: ['conformite','2026'], file: 'Note_Bonnes_Pratiques_Conformite.pdf' },
+            { title: 'Loi n° 08-12 – Retraite', state: 'archives', tags: ['retraite','2022'], file: 'Archive_Loi_08-12.pdf' },
+            { title: 'Circulaire – Procédure 2022', state: 'archives', tags: ['procedures','2022'], file: 'Archive_Circulaire_2022.pdf' }
+        ];
+
+        function switchRegSection(sectionId) {
+            regSection = sectionId;
+            const config = regSectionConfig[sectionId];
+            const subNav = document.getElementById('regSubNavbar');
+            if (config && subNav) {
+                subNav.innerHTML = config.subs.map((s, idx) => `
+                    ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
+                    <div class="km-nav-item" onclick="switchRegSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
+                `).join('');
+            }
+            switchRegSub(config?.defaultSub || config?.subs?.[0]?.id || 'textes');
+            lucide.createIcons();
+        }
+
+        function switchRegSub(subId) {
+            regSub = subId;
+            const subNav = document.getElementById('regSubNavbar');
+            if (subNav) {
+                subNav.querySelectorAll('.km-nav-item').forEach(el => el.classList.remove('active'));
+                const targetNav = subNav.querySelector(`[onclick="switchRegSub('${subId}')"]`);
+                if (targetNav) targetNav.classList.add('active');
+            }
+
+            regPages.forEach(p => {
+                const el = document.getElementById('page-reg-' + p);
+                if (el) el.style.display = 'none';
+            });
+            const target = document.getElementById('page-reg-' + subId);
+            if (target) target.style.display = 'block';
+
+            if (subId === 'textes') renderRegTextes();
+            if (subId === 'thematiques') renderRegThematics();
+            if (subId === 'procedures') renderRegProcedures();
+            if (subId === 'notes') renderRegNotes();
+            if (subId === 'moteur') renderRegGlobalSearch();
+            if (subId === 'ged') renderRegGed();
+            if (subId === 'gestion') renderRegGestion();
+            if (subId === 'workflow') renderRegWorkflow();
+            if (subId === 'historique') renderRegHistory();
+            if (subId === 'archives') renderRegArchives();
+            lucide.createIcons();
+        }
+
+        function setRegTextesType(type, el) {
+            regTextesType = type;
+            document.querySelectorAll('#page-reg-textes .actu-filter-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderRegTextes();
+        }
+        function renderRegTextes() {
+            const root = document.getElementById('regTextesList');
+            if (!root) return;
+            const q = (document.getElementById('regTextesSearch')?.value || '').toLowerCase().trim();
+            const items = regTextesItems.filter(i => {
+                const typeOk = regTextesType === 'all' || i.type === regTextesType;
+                const qOk = !q || (i.title + ' ' + i.ref + ' ' + i.tags.join(' ')).toLowerCase().includes(q);
+                return typeOk && qOk;
+            });
+            root.innerHTML = items.map(i => `
+                <div class="doc-item" onclick="openMockDownload('${i.file}','${i.title}')">
+                    <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">${i.type.slice(0,3).toUpperCase()}</div>
+                    <div class="doc-info">
+                        <div class="doc-title">${i.title}</div>
+                        <div class="doc-meta">${i.type} • ${i.ref} • ${i.date} • tags: ${i.tags.join(', ')}</div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${i.file}','${i.title}')">Consulter</button>
+                        <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('${i.file}','Téléchargement – ${i.title}')">Télécharger</button>
+                    </div>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun résultat.</div>`;
+            lucide.createIcons();
+        }
+
+        function setRegTheme(theme, el) {
+            regTheme = theme;
+            document.querySelectorAll('#page-reg-thematiques .actu-filter-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderRegThematics();
+        }
+        function renderRegThematics() {
+            const grid = document.getElementById('regThematicsGrid');
+            if (!grid) return;
+            const themes = [
+                { title: 'Retraite', desc: 'Textes et procédures liés à la retraite.', icon: 'clock-3' },
+                { title: 'Gouvernance', desc: 'Référentiels, chartes, décisions.', icon: 'landmark' },
+                { title: 'Finance', desc: 'Reporting, conformité financière.', icon: 'wallet' },
+                { title: 'Sécurité', desc: 'Normes, consignes, contrôles.', icon: 'shield' }
+            ].filter(t => regTheme === 'all' || t.title === regTheme);
+            grid.innerHTML = themes.map(t => `
+                <div class="doc-card" style="cursor:pointer;" onclick="setRegTextesType('all', null); switchRegSection('referentiels'); document.getElementById('regTextesSearch').value='${t.title.toLowerCase()}'; renderRegTextes();">
+                    <div class="doc-icon-large" style="background:#f8fafc;color:#475569;"><i data-lucide="${t.icon}" style="width:24px;height:24px;"></i></div>
+                    <div class="doc-card-title">${t.title}</div>
+                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;line-height:1.6;">${t.desc}</p>
+                    <div class="doc-card-meta"><span>Parcourir</span><i data-lucide="arrow-right" style="width:16px;color:#94a3b8;"></i></div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderRegProcedures() {
+            const root = document.getElementById('regProceduresList');
+            if (!root) return;
+            const q = (document.getElementById('regProcSearch')?.value || '').toLowerCase().trim();
+            const items = regProcedures.filter(p => !q || (p.title + ' ' + p.meta + ' ' + (p.tags||[]).join(' ')).toLowerCase().includes(q));
+            root.innerHTML = items.map(p => `
+                <div class="doc-item" onclick="openMockDownload('${p.file}','${p.title}')">
+                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">PRC</div>
+                    <div class="doc-info"><div class="doc-title">${p.title}</div><div class="doc-meta">${p.meta}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${p.file}','${p.title}')">Consulter</button>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucune procédure.</div>`;
+            lucide.createIcons();
+        }
+
+        function renderRegNotes() {
+            const root = document.getElementById('regNotesList');
+            if (!root) return;
+            root.innerHTML = regNotes.map(n => `
+                <div class="doc-item" onclick="openMockDownload('${n.file}','${n.title}')">
+                    <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">GDE</div>
+                    <div class="doc-info"><div class="doc-title">${n.title}</div><div class="doc-meta">${n.meta}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${n.file}','${n.title}')">Consulter</button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function setRegGlobalScope(scope, el) {
+            regGlobalScope = scope;
+            document.querySelectorAll('#page-reg-moteur .actu-filter-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderRegGlobalSearch();
+        }
+        function renderRegGlobalSearch() {
+            const root = document.getElementById('regGlobalResults');
+            if (!root) return;
+            const q = (document.getElementById('regGlobalSearch')?.value || '').toLowerCase().trim();
+            if (!q) {
+                root.innerHTML = `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Tapez un mot-clé pour lancer la recherche.</div>`;
+                return;
+            }
+            const hit = (kind, title, meta, file) => ({ kind, title, meta, file });
+            const all = [
+                ...regTextesItems.map(i => hit('textes', i.title, `${i.type} • ${i.ref} • ${i.date}`, i.file)),
+                ...regProcedures.map(p => hit('procedures', p.title, p.meta, p.file)),
+                ...regNotes.map(n => hit('notes', n.title, n.meta, n.file))
+            ].filter(h => (regGlobalScope === 'all' || h.kind === regGlobalScope) && (h.title + ' ' + h.meta).toLowerCase().includes(q));
+            root.innerHTML = all.map(h => `
+                <div class="doc-item" onclick="openMockDownload('${h.file}','${h.title}')">
+                    <div class="doc-icon" style="background:#f8fafc;color:#475569;font-weight:900;">${h.kind.slice(0,3).toUpperCase()}</div>
+                    <div class="doc-info"><div class="doc-title">${h.title}</div><div class="doc-meta">${h.meta}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${h.file}','${h.title}')">Ouvrir</button>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun résultat.</div>`;
+            lucide.createIcons();
+        }
+
+        function renderRegGed() {
+            const root = document.getElementById('regGedList');
+            if (!root) return;
+            root.innerHTML = regGedArchives.map(a => `
+                <div class="doc-item" onclick="openMockDownload('${a.file}','${a.title}')">
+                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">GED</div>
+                    <div class="doc-info"><div class="doc-title">${a.title}</div><div class="doc-meta">${a.meta}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${a.file}','${a.title}')">Consulter</button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function regCreateContent() {
+            const id = 'gc' + Math.random().toString(16).slice(2, 8);
+            regGestionItems = [{ id, title: 'Nouveau contenu (brouillon)', type: 'Document', status: 'Brouillon' }, ...regGestionItems];
+            regHistory = [{ id: 'h' + Date.now(), kind: 'create', text: 'Création: Nouveau contenu (brouillon)', date: 'Aujourd’hui' }, ...regHistory];
+            renderRegGestion();
+        }
+        function regSetStatus(id, status) {
+            regGestionItems = regGestionItems.map(it => it.id === id ? { ...it, status } : it);
+            regHistory = [{ id: 'h' + Date.now(), kind: status === 'Publié' ? 'validate' : 'update', text: `Statut: ${status} – ${regGestionItems.find(x => x.id === id)?.title || 'Contenu'}`, date: 'Aujourd’hui' }, ...regHistory];
+            renderRegGestion();
+        }
+        function renderRegGestion() {
+            const body = document.getElementById('regGestionTable');
+            if (!body) return;
+            body.innerHTML = regGestionItems.map(it => `
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                    <td style="padding:12px 16px;color:#0f172a;font-weight:700;">${it.title}</td>
+                    <td style="padding:12px 16px;color:var(--text-light);">${it.type}</td>
+                    <td style="padding:12px 16px;color:var(--text-light);">${it.status}</td>
+                    <td style="padding:12px 16px;text-align:right;">
+                        <button class="actu-filter-btn" onclick="regSetStatus('${it.id}','En validation')">Soumettre</button>
+                        <button class="actu-filter-btn" onclick="regSetStatus('${it.id}','Publié')">Publier</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function regValidate(id, approved) {
+            const item = regWorkflowQueue.find(x => x.id === id);
+            regWorkflowQueue = regWorkflowQueue.filter(x => x.id !== id);
+            regHistory = [{ id: 'h' + Date.now(), kind: 'validate', text: `${approved ? 'Validation' : 'Rejet'}: ${item?.title || 'Contenu'}`, date: 'Aujourd’hui' }, ...regHistory];
+            renderRegWorkflow();
+        }
+        function renderRegWorkflow() {
+            const root = document.getElementById('regWorkflowQueue');
+            if (!root) return;
+            root.innerHTML = regWorkflowQueue.map(it => `
+                <div class="doc-item">
+                    <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">WF</div>
+                    <div class="doc-info"><div class="doc-title">${it.title}</div><div class="doc-meta">${it.owner} • ${it.date}</div></div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <button class="actu-filter-btn" onclick="regValidate('${it.id}', false)">Rejeter</button>
+                        <button class="primary-btn" style="padding:8px 12px;" onclick="regValidate('${it.id}', true)">Valider</button>
+                    </div>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun élément en attente.</div>`;
+            lucide.createIcons();
+        }
+
+        function setRegHistoryFilter(kind, el) {
+            regHistoryFilter = kind;
+            document.querySelectorAll('#page-reg-historique .actu-filter-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderRegHistory();
+        }
+        function renderRegHistory() {
+            const root = document.getElementById('regHistoryList');
+            if (!root) return;
+            const items = regHistory.filter(h => regHistoryFilter === 'all' || h.kind === regHistoryFilter);
+            root.innerHTML = items.map(h => `
+                <div class="doc-item">
+                    <div class="doc-icon" style="background:#f8fafc;color:#475569;font-weight:900;">LOG</div>
+                    <div class="doc-info"><div class="doc-title">${h.text}</div><div class="doc-meta">${h.date}</div></div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('');
+            lucide.createIcons();
+        }
+
+        function setRegArchiveMode(mode, el) {
+            regArchiveMode = mode;
+            document.querySelectorAll('#page-reg-archives .actu-filter-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderRegArchives();
+        }
+        function renderRegArchives() {
+            const root = document.getElementById('regArchivesList');
+            if (!root) return;
+            const tag = (document.getElementById('regArchiveTag')?.value || '').toLowerCase().trim();
+            const items = regArchiveDocs.filter(d => d.state === regArchiveMode && (!tag || d.tags.join(' ').toLowerCase().includes(tag)));
+            root.innerHTML = items.map(d => `
+                <div class="doc-item" onclick="openMockDownload('${d.file}','${d.title}')">
+                    <div class="doc-icon" style="background:#fff1f2;color:#be123c;font-weight:900;">ARC</div>
+                    <div class="doc-info"><div class="doc-title">${d.title}</div><div class="doc-meta">Tags: ${d.tags.join(', ')}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${d.file}','${d.title}')">Consulter</button>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun document.</div>`;
+            lucide.createIcons();
+        }
+
+        // ===== ESPACES MÉTIERS (table conforme, via sidebar -> sous-rubriques) =====
+        const metiersPages = ['domaines','referentiels','livrables','si','thematiques','mediatheque'];
+
+        const metiersSectionConfig = {
+            'structuration-metier': { subs: [{ id: 'domaines', label: 'Domaines métiers' }], defaultSub: 'domaines' },
+            'referentiels-metiers': { subs: [{ id: 'referentiels', label: 'Fournisseurs / projets / applications' }], defaultSub: 'referentiels' },
+            'documents-metiers': { subs: [{ id: 'livrables', label: 'Livrables' }], defaultSub: 'livrables' },
+            'integration-si': { subs: [{ id: 'si', label: 'Systèmes existants' }], defaultSub: 'si' },
+            'structuration': { subs: [{ id: 'thematiques', label: 'Thématiques' }], defaultSub: 'thematiques' },
+            'multimedia': { subs: [{ id: 'mediatheque', label: 'Médiathèque métier' }], defaultSub: 'mediatheque' }
+        };
+
+        let metiersSection = 'structuration-metier';
+        let metiersSub = 'domaines';
+        let metiersRefType = 'all';
+
+        const metiersDomains = [
+            { id: 'ret', title: 'Retraite', desc: 'Liquidation, suivi, réclamations, contrôles.' },
+            { id: 'prev', title: 'Prévoyance', desc: 'Prestations, dossiers, conformité.' },
+            { id: 'fin', title: 'Finance & Comptabilité', desc: 'Budgets, reporting, contrôle interne.' },
+            { id: 'gouv', title: 'Gouvernance', desc: 'Décisions, comités, textes et référentiels.' }
+        ];
+
+        const metiersReferentiels = [
+            { title: 'Fournisseur – GED (Editeur X)', type: 'Fournisseur', meta: 'Contrat • Support • SLA', file: 'Referentiel_Fournisseur_GED.pdf' },
+            { title: 'Projet – Refonte Intranet', type: 'Projet', meta: 'Roadmap • livrables • jalons', file: 'Referentiel_Projet_Intranet.pdf' },
+            { title: 'Application – GLPI', type: 'Application', meta: 'Catalogue services • tickets', file: 'Referentiel_App_GLPI.pdf' },
+            { title: 'Application – SIRH', type: 'Application', meta: 'Paie • Mobilité • dossiers', file: 'Referentiel_App_SIRH.pdf' }
+        ];
+
+        const metiersLivrables = [
+            { title: 'SFD – Process liquidation (v1)', meta: 'Document • Dossier / GED‑like', file: 'Livrable_SFD_Liquidation_v1.pdf' },
+            { title: 'PV Atelier métier – Retraite', meta: 'Document • Compte-rendu', file: 'Livrable_PV_Atelier_Retraite.pdf' },
+            { title: 'Modèle – Fiche contrôle', meta: 'Document • Modèle', file: 'Modele_Fiche_Controle.docx' }
+        ];
+
+        const metiersSiSystems = [
+            { title: 'Système – GED', meta: 'Lien / widget • Accès', status: 'Connecté', file: 'Acces_GED.pdf' },
+            { title: 'Système – SIRH', meta: 'Lien / widget • Accès', status: 'Connecté', file: 'Acces_SIRH.pdf' },
+            { title: 'Système – DWH', meta: 'Application / data • Accès', status: 'En cours', file: 'Acces_DWH.pdf' }
+        ];
+
+        const metiersThemes = [
+            { title: 'Liquidation', desc: 'Règles, checklists, livrables.', tag: 'process' },
+            { title: 'Contrôle', desc: 'Contrôle interne, audits, conformité.', tag: 'controle' },
+            { title: 'SI', desc: 'Applications, API, intégrations.', tag: 'si' },
+            { title: 'Réclamations', desc: 'Traitement, SLA, procédures.', tag: 'service' },
+            { title: 'Reporting', desc: 'Indicateurs, publications, tableaux de bord.', tag: 'reporting' }
+        ];
+
+        const metiersMedia = [
+            { title: 'Capsule – Process liquidation', meta: 'Vidéo • 4 min', file: 'Media_Capsule_Liquidation.mp4' },
+            { title: 'Infographie – Parcours assuré', meta: 'Image • PNG', file: 'Media_Infographie_Parcours.png' },
+            { title: 'Album – Atelier métier', meta: 'Galerie • 12 photos', file: 'Media_Album_Atelier.zip' },
+            { title: 'Présentation – Domaine Retraite', meta: 'Slides • PPT', file: 'Media_Presentation_Retraite.pptx' }
+        ];
+
+        function switchMetiersSection(sectionId) {
+            metiersSection = sectionId;
+            const config = metiersSectionConfig[sectionId];
+            const subNav = document.getElementById('metiersSubNavbar');
+            if (config && subNav) {
+                subNav.innerHTML = config.subs.map((s, idx) => `
+                    ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
+                    <div class="km-nav-item" onclick="switchMetiersSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
+                `).join('');
+            }
+            switchMetiersSub(config?.defaultSub || config?.subs?.[0]?.id || 'domaines');
+            lucide.createIcons();
+        }
+
+        function switchMetiersSub(subId) {
+            metiersSub = subId;
+            const subNav = document.getElementById('metiersSubNavbar');
+            if (subNav) {
+                subNav.querySelectorAll('.km-nav-item').forEach(el => el.classList.remove('active'));
+                const targetNav = subNav.querySelector(`[onclick="switchMetiersSub('${subId}')"]`);
+                if (targetNav) targetNav.classList.add('active');
+            }
+
+            metiersPages.forEach(p => {
+                const el = document.getElementById('page-metiers-' + p);
+                if (el) el.style.display = 'none';
+            });
+            const target = document.getElementById('page-metiers-' + subId);
+            if (target) target.style.display = 'block';
+
+            if (subId === 'domaines') renderMetiersDomains();
+            if (subId === 'referentiels') renderMetiersReferentiels();
+            if (subId === 'livrables') renderMetiersLivrables();
+            if (subId === 'si') renderMetiersSi();
+            if (subId === 'thematiques') renderMetiersThemes();
+            if (subId === 'mediatheque') renderMetiersMedia();
+            lucide.createIcons();
+        }
+
+        function renderMetiersDomains() {
+            const grid = document.getElementById('metiersDomainesNav');
+            const detail = document.getElementById('metiersDomainesDetail');
+            if (!grid || !detail) return;
+            grid.innerHTML = metiersDomains.map(d => `
+                <div class="doc-card" style="cursor:pointer;" onclick="openMetiersDomain('${d.id}')">
+                    <div class="doc-icon-large" style="background:#eff6ff;color:#2563eb;"><i data-lucide="folder" style="width:24px;height:24px;"></i></div>
+                    <div class="doc-card-title">${d.title}</div>
+                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;line-height:1.6;">${d.desc}</p>
+                    <div class="doc-card-meta"><span>Naviguer</span><i data-lucide="arrow-right" style="width:16px;color:#94a3b8;"></i></div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+            // default detail
+            openMetiersDomain(metiersDomains[0].id);
+        }
+
+        function openMetiersDomain(id) {
+            const d = metiersDomains.find(x => x.id === id);
+            const detail = document.getElementById('metiersDomainesDetail');
+            if (!d || !detail) return;
+            detail.innerHTML = `
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                    <div>
+                        <div style="font-weight:900;color:#0f172a;">${d.title}</div>
+                        <div style="margin-top:6px;">${d.desc}</div>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="primary-btn" onclick="openMockDownload('Catalogue_${d.title}.pdf','Catalogue – ${d.title}')">Ouvrir l’espace</button>
+                        <button class="secondary-btn" onclick="openMockDownload('Plan_${d.title}.pdf','Plan – ${d.title}')">Plan</button>
+                    </div>
+                </div>
+                <div style="margin-top:12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+                    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Docs</div>
+                        <div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(20 + Math.random()*40)}</div>
+                    </div>
+                    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Référentiels</div>
+                        <div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(5 + Math.random()*15)}</div>
+                    </div>
+                    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Médias</div>
+                        <div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(3 + Math.random()*12)}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setMetiersRefType(type, el) {
+            metiersRefType = type;
+            document.querySelectorAll('#page-metiers-referentiels .actu-filter-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderMetiersReferentiels();
+        }
+
+        function renderMetiersReferentiels() {
+            const root = document.getElementById('metiersRefList');
+            if (!root) return;
+            const q = (document.getElementById('metiersRefSearch')?.value || '').toLowerCase().trim();
+            const items = metiersReferentiels.filter(i => {
+                const typeOk = metiersRefType === 'all' || i.type === metiersRefType;
+                const qOk = !q || (i.title + ' ' + i.meta).toLowerCase().includes(q);
+                return typeOk && qOk;
+            });
+            root.innerHTML = items.map(i => `
+                <div class="doc-item" onclick="openMockDownload('${i.file}','${i.title}')">
+                    <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">${i.type.slice(0,3).toUpperCase()}</div>
+                    <div class="doc-info"><div class="doc-title">${i.title}</div><div class="doc-meta">${i.meta}</div></div>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${i.file}','${i.title}')">Consulter</button>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun résultat.</div>`;
+            lucide.createIcons();
+        }
+
+        function renderMetiersLivrables() {
+            const root = document.getElementById('metiersLivList');
+            if (!root) return;
+            const q = (document.getElementById('metiersLivSearch')?.value || '').toLowerCase().trim();
+            const items = metiersLivrables.filter(l => !q || (l.title + ' ' + l.meta).toLowerCase().includes(q));
+            root.innerHTML = items.map(l => `
+                <div class="doc-item" onclick="openMockDownload('${l.file}','${l.title}')">
+                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">DOC</div>
+                    <div class="doc-info"><div class="doc-title">${l.title}</div><div class="doc-meta">${l.meta}</div></div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${l.file}','${l.title}')">Consulter</button>
+                        <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('${l.file}','Téléchargement – ${l.title}')">Télécharger</button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderMetiersSiWidget(force) {
+            const root = document.getElementById('metiersSiWidget');
+            if (!root) return;
+            const now = new Date();
+            const health = force ? (Math.random() > 0.2 ? 'OK' : 'Dégradé') : 'OK';
+            root.innerHTML = `
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+                    <div style="font-size:12px;color:#94a3b8;">Dernier check</div>
+                    <div style="font-size:12px;color:#94a3b8;">${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+                <div style="margin-top:8px;font-weight:900;color:${health === 'OK' ? '#16a34a' : '#f97316'};">${health}</div>
+                <div style="margin-top:8px;font-size:12px;color:var(--text-light);line-height:1.6;">Accéder aux systèmes existants et leurs intégrations.</div>
+            `;
+        }
+
+        function renderMetiersSi() {
+            renderMetiersSiWidget(false);
+            const root = document.getElementById('metiersSiList');
+            if (!root) return;
+            root.innerHTML = metiersSiSystems.map(s => `
+                <div class="doc-item" onclick="openMockDownload('${s.file}','${s.title}')">
+                    <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">SI</div>
+                    <div class="doc-info"><div class="doc-title">${s.title}</div><div class="doc-meta">${s.meta} • ${s.status}</div></div>
+                    <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('${s.file}','Accéder – ${s.title}')">Accéder</button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderMetiersThemes() {
+            const grid = document.getElementById('metiersThemesGrid');
+            if (!grid) return;
+            const q = (document.getElementById('metiersThemeSearch')?.value || '').toLowerCase().trim();
+            const items = metiersThemes.filter(t => !q || (t.title + ' ' + t.desc + ' ' + t.tag).toLowerCase().includes(q));
+            grid.innerHTML = items.map(t => `
+                <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('Theme_${t.title}.pdf','Thématique – ${t.title}')">
+                    <div class="doc-icon-large" style="background:#f8fafc;color:#475569;"><i data-lucide="tag" style="width:24px;height:24px;"></i></div>
+                    <div class="doc-card-title">${t.title}</div>
+                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;line-height:1.6;">${t.desc}</p>
+                    <div class="doc-card-meta"><span>Filtrer / naviguer</span><i data-lucide="arrow-right" style="width:16px;color:#94a3b8;"></i></div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderMetiersMedia() {
+            const grid = document.getElementById('metiersMediaGrid');
+            if (!grid) return;
+            const q = (document.getElementById('metiersMediaSearch')?.value || '').toLowerCase().trim();
+            const items = metiersMedia.filter(m => !q || (m.title + ' ' + m.meta).toLowerCase().includes(q));
+            grid.innerHTML = items.map(m => `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                    <div style="height:110px;background:linear-gradient(135deg,#fdf4ff,#eff6ff);display:flex;align-items:center;justify-content:center;">
+                        <i data-lucide="play-circle" style="width:28px;height:28px;color:#475569;"></i>
+                    </div>
+                    <div style="padding:12px;">
+                        <div style="font-weight:900;color:#0f172a;font-size:13px;line-height:1.4;">${m.title}</div>
+                        <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${m.meta}</div>
+                        <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                            <button class="actu-filter-btn" onclick="openMockDownload('${m.file}','${m.title}')">Consulter</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun média.</div>`;
             lucide.createIcons();
         }
         // ===== KM DATA + RENDERS (table conforme) =====
@@ -11016,6 +11977,12 @@
             }
             if (viewId === 'qse') {
                 switchQseSection(getActiveSubmenuTab('qse') || 'referentiels');
+            }
+            if (viewId === 'reglementation') {
+                switchRegSection(getActiveSubmenuTab('reglementation') || 'referentiels');
+            }
+            if (viewId === 'documentaires') {
+                switchMetiersSection(getActiveSubmenuTab('documentaires') || 'structuration-metier');
             }
             if (viewId === 'actualites') {
                 const listPanel = document.getElementById('actu-list-panel');
