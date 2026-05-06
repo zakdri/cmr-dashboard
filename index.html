@@ -1378,6 +1378,46 @@
             gap: 12px;
         }
 
+        /* PDF PREVIEW MODAL */
+        .pdf-preview-modal {
+            width: min(980px, calc(100vw - 36px));
+            height: min(86vh, 780px);
+            background: #fff;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pdf-preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+
+        .pdf-preview-title {
+            font-weight: 900;
+            color: #0f172a;
+            font-size: 14px;
+            line-height: 1.2;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .pdf-preview-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #0b1220;
+            flex: 1;
+        }
+
         .primary-btn {
             background: var(--cmr-primary);
             color: white;
@@ -4357,7 +4397,7 @@
                 <div id="page-rh-documents" class="km-tab-content" style="display: none;">
                     <div class="app-category-title" style="margin-bottom: 16px;">Mes Documents RH</div>
                     <div class="km-grid" style="margin-bottom: 36px;">
-                        <div class="doc-card">
+                        <div class="doc-card" style="cursor:pointer;" onclick="openPdfPreviewModal('docs/Demande_Attestation_de_Travail.pdf','Demande d\'Attestation de Travail')">
                             <div class="doc-icon-large pdf">
                                 <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
                             </div>
@@ -4367,7 +4407,7 @@
                                 <i data-lucide="download" style="width: 16px; color: #94a3b8;"></i>
                             </div>
                         </div>
-                        <div class="doc-card">
+                        <div class="doc-card" style="cursor:pointer;" onclick="openPdfPreviewModal('docs/Reglement_Interieur_2026.pdf','Règlement Intérieur 2026')">
                             <div class="doc-icon-large pdf">
                                 <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
                             </div>
@@ -5448,7 +5488,12 @@
                     <p>Domaines métiers, référentiels, livrables, intégration SI, structuration et médiathèque.</p>
                 </div>
 
-                <!-- Sous‑rubriques (selon rubrique principale choisie via sidebar) -->
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="metiersMainNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) -->
                 <div class="km-navbar" id="metiersSubNavbar"
                      style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
                 </div>
@@ -5824,7 +5869,12 @@
                     <p>Textes officiels, structuration, procédures internes, recherche et gouvernance des contenus.</p>
                 </div>
 
-                <!-- Sous‑rubriques (selon rubrique principale choisie via sidebar) -->
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="regMainNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) -->
                 <div class="km-navbar" id="regSubNavbar"
                      style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
                 </div>
@@ -6056,7 +6106,12 @@
                     <p>Forums, communautés, échanges, partage (REX) et vie interne.</p>
                 </div>
 
-                <!-- Sous‑rubriques (selon rubrique principale choisie via sidebar) -->
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="collabMainNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) -->
                 <div class="km-navbar" id="collabSubNavbar"
                      style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
                 </div>
@@ -6326,7 +6381,12 @@
                     <p>Accès central aux médias, photothèque, vidéothèque, catégories et intégrations.</p>
                 </div>
 
-                <!-- Sous‑rubriques (selon rubrique principale choisie via sidebar) -->
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="mediaMainNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) -->
                 <div class="km-navbar" id="mediaSubNavbar"
                      style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
                 </div>
@@ -7009,7 +7069,12 @@
                     <h2>Espace RSE</h2>
                     <p>Référentiels RSE, reporting, initiatives, participation et animation.</p>
                 </div>
-                <!-- Niveau 2: Sous‑rubriques (injectées dynamiquement) -->
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="rseMainNavbar"
+                    style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) -->
                 <div class="km-navbar" id="rseSubNavbar"
                     style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
                 </div>
@@ -7209,7 +7274,12 @@
                     <p>Politiques QSE, SMI, sensibilisation, pilotage et participation.</p>
                 </div>
 
-                <!-- Sous‑rubriques (selon rubrique principale choisie via sidebar) -->
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="qseMainNavbar"
+                    style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) -->
                 <div class="km-navbar" id="qseSubNavbar"
                     style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
                 </div>
@@ -7351,6 +7421,10 @@
                 <div class="km-header">
                     <h2>Administration & Pilotage</h2>
                     <p>Espace réservé aux administrateurs pour piloter la plateforme, paramétrer les menus et les habilitations.</p>
+                </div>
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="adminMainNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
                 </div>
                 <div class="km-navbar" id="adminSubNavbar"
                      style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
@@ -7978,6 +8052,19 @@
                 <div class="consent-modal-footer">
                     <button class="primary-btn" onclick="goToFlashDetailFromModal()">Consulter</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- PDF PREVIEW MODAL -->
+        <div class="modal-overlay" id="pdfPreviewModal">
+            <div class="pdf-preview-modal" role="dialog" aria-modal="true" aria-labelledby="pdfPreviewTitle">
+                <div class="pdf-preview-header">
+                    <div class="pdf-preview-title" id="pdfPreviewTitle">Aperçu document</div>
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <button class="secondary-btn" style="padding:10px 14px;" onclick="closePdfPreview()">Fermer</button>
+                    </div>
+                </div>
+                <iframe class="pdf-preview-frame" id="pdfPreviewFrame" title="Aperçu PDF"></iframe>
             </div>
         </div>
 
@@ -9361,7 +9448,38 @@
                 switchRhPageTab(tabId);
             }
 
+            renderInPageSubmenuNavbar(viewId);
             hideSidebarSubmenu();
+        }
+
+        function renderInPageSubmenuNavbar(viewId) {
+            const config = sidebarSubmenuConfig[viewId];
+            if (!config || !config.items) return;
+
+            const containerMap = {
+                documentaires: 'metiersMainNavbar',
+                reglementation: 'regMainNavbar',
+                collaboratifs: 'collabMainNavbar',
+                mediatheque: 'mediaMainNavbar',
+                rse: 'rseMainNavbar',
+                qse: 'qseMainNavbar',
+                admin: 'adminMainNavbar'
+            };
+
+            const containerId = containerMap[viewId];
+            if (!containerId) return;
+
+            const nav = document.getElementById(containerId);
+            if (!nav) return;
+
+            const selectedTab = getActiveSubmenuTab(viewId) || config.items[0]?.tab || '';
+            nav.innerHTML = config.items.map((it, idx) => {
+                const active = it.tab === selectedTab ? ' active' : '';
+                return `
+                    ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
+                    <div class="km-nav-item${active}" onclick="openSubmenuView('${viewId}','${it.tab}')" style="white-space:nowrap; padding: 12px 16px;">${it.label}</div>
+                `;
+            }).join('');
         }
 
         function getActiveSubmenuTab(type) {
@@ -9392,6 +9510,27 @@
             const activeNavLink = document.getElementById('nav-' + viewId);
             if (activeNavLink) {
                 activeNavLink.classList.add('active');
+            }
+
+            // Render in-page submenus (niveau 1) when available
+            renderInPageSubmenuNavbar(viewId);
+
+            // Ensure a default selection when user enters a view directly
+            const config = sidebarSubmenuConfig[viewId];
+            if (config?.items?.length && submenuSelections[viewId] === null) {
+                submenuSelections[viewId] = config.items[0].tab;
+                // Apply selection without recursion (we are already in switchView)
+                if (viewId === 'rse') switchRseSection(submenuSelections[viewId]);
+                if (viewId === 'qse') switchQseSection(submenuSelections[viewId]);
+                if (viewId === 'reglementation') switchRegSection(submenuSelections[viewId]);
+                if (viewId === 'documentaires') switchMetiersSection(submenuSelections[viewId]);
+                if (viewId === 'collaboratifs') switchCollabSection(submenuSelections[viewId]);
+                if (viewId === 'mediatheque') switchMediaSection(submenuSelections[viewId]);
+                if (viewId === 'admin') switchAdminSection(submenuSelections[viewId]);
+                if (viewId === 'km') switchPageKmTab(submenuSelections[viewId]);
+                if (viewId === 'rh') switchRhPageTab(submenuSelections[viewId]);
+                if (viewId === 'innovation') switchInnovationTab(submenuSelections[viewId]);
+                renderInPageSubmenuNavbar(viewId);
             }
         }
 
@@ -9951,6 +10090,14 @@
 
         // ====== Téléchargement (mock) ======
         function openMockDownload(filename, title) {
+            // Pour tous les PDF consultables: ouvrir un preview modal (pas de redirection)
+            const name = (filename || '').toString();
+            if (/\.pdf(\?.*)?$/i.test(name)) {
+                const url = (/^(https?:)?\/\//i.test(name) || name.includes('/')) ? name : ('docs/' + name);
+                openPdfPreviewModal(url, title || filename);
+                return;
+            }
+
             try {
                 const content = [
                     title || filename,
@@ -9974,6 +10121,72 @@
                 alert('Téléchargement indisponible dans ce navigateur.');
             }
         }
+
+        // ====== Preview PDF (même onglet / viewer PDF navigateur) ======
+        // Exemple: ouvrir un vrai PDF (servi par ton serveur/GED) dans le même onglet.
+        // Le navigateur bascule alors sur son viewer PDF (Chrome/Acrobat).
+        function openPdfPreviewSameTab(pdfUrl) {
+            if (!pdfUrl) return;
+            window.location.assign(pdfUrl);
+        }
+
+        // ====== Preview PDF (MODAL, sans redirection) ======
+        let pdfPreviewObjectUrl = null;
+
+        function closePdfPreview() {
+            const modal = document.getElementById('pdfPreviewModal');
+            const frame = document.getElementById('pdfPreviewFrame');
+            if (frame) frame.src = 'about:blank';
+            if (modal) modal.classList.remove('active');
+            if (pdfPreviewObjectUrl) {
+                URL.revokeObjectURL(pdfPreviewObjectUrl);
+                pdfPreviewObjectUrl = null;
+            }
+        }
+
+        // Petit PDF valide (1 page) encodé en base64 pour l'exemple (fallback).
+        const SAMPLE_PDF_BASE64 =
+            'JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFI+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlL1BhZ2VzL0NvdW50IDEvS2lkc1szIDAgUl0+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL1BhZ2UvUGFyZW50IDIgMCBSL01lZGlhQm94WzAgMCA2MTIgNzkyXS9Db250ZW50cyA0IDAgUi9SZXNvdXJjZXM8PC9Gb250PDwvRjEgNSAwIFI+Pj4+PgplbmRvYmoKNCAwIG9iago8PC9MZW5ndGggMTQ0Pj4Kc3RyZWFtCkJUIAovRjEgMjQgVGYKNzIgNzIwIFRkCihQcmV2aWV3IFBERiAtIEV4ZW1wbGUpIFRqCjAgLTE4IFRkCihSZW1wbGFjZXIgcGFyIHVuIHZyYWkgZmljaGllciApIFRqCkVUCmVuZHN0cmVhbQplbmRvYmoKNSAwIG9iago8PC9UeXBlL0ZvbnQvU3VidHlwZS9UeXBlMS9CYXNlRm9udC9IZWx2ZXRpY2E+PgplbmRvYmoKeHJlZgowIDYKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDAwNjIgMDAwMDAgbiAKMDAwMDAwMDExMiAwMDAwMCBuIAowMDAwMDAwMjQzIDAwMDAwIG4gCjAwMDAwMDA0MjYgMDAwMDAgbiAKdHJhaWxlcgo8PC9TaXplIDYvUm9vdCAxIDAgUj4+CnN0YXJ0eHJlZgo0OTgKJSVFT0Y=';
+
+        function openPdfPreviewModal(pdfUrl, title) {
+            const modal = document.getElementById('pdfPreviewModal');
+            const frame = document.getElementById('pdfPreviewFrame');
+            const ttl = document.getElementById('pdfPreviewTitle');
+            if (!modal || !frame || !ttl) return;
+
+            ttl.textContent = title || 'Aperçu document';
+            modal.classList.add('active');
+
+            // Clean previous object URL if any
+            if (pdfPreviewObjectUrl) {
+                URL.revokeObjectURL(pdfPreviewObjectUrl);
+                pdfPreviewObjectUrl = null;
+            }
+
+            // Try to load real PDF; fallback to sample PDF if missing.
+            const tryFetch = async () => {
+                try {
+                    if (!pdfUrl) throw new Error('missing url');
+                    const res = await fetch(pdfUrl, { cache: 'no-store' });
+                    if (!res.ok) throw new Error('not ok');
+                    const blob = await res.blob();
+                    pdfPreviewObjectUrl = URL.createObjectURL(blob);
+                    frame.src = pdfPreviewObjectUrl;
+                } catch (e) {
+                    const bytes = Uint8Array.from(atob(SAMPLE_PDF_BASE64), c => c.charCodeAt(0));
+                    const blob = new Blob([bytes], { type: 'application/pdf' });
+                    pdfPreviewObjectUrl = URL.createObjectURL(blob);
+                    frame.src = pdfPreviewObjectUrl;
+                }
+            };
+
+            tryFetch();
+        }
+
+        // ESC pour fermer
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePdfPreview();
+        });
 
         // ===== Innovation (table conforme) =====
         const innovationTabs = [
@@ -10356,6 +10569,7 @@
                     ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
                     <div class="km-nav-item" onclick="switchRseSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
                 `).join('');
+                subNav.style.display = (config.subs.length <= 1) ? 'none' : 'flex';
             }
 
             switchRseSub(config?.defaultSub || 'politiques');
@@ -10718,6 +10932,7 @@
                     ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
                     <div class="km-nav-item" onclick="switchQseSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
                 `).join('');
+                subNav.style.display = (config.subs.length <= 1) ? 'none' : 'flex';
             }
             switchQseSub(config?.defaultSub || 'politiques');
             lucide.createIcons();
@@ -11022,6 +11237,7 @@
                     ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
                     <div class="km-nav-item" onclick="switchRegSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
                 `).join('');
+                subNav.style.display = (config.subs.length <= 1) ? 'none' : 'flex';
             }
             switchRegSub(config?.defaultSub || config?.subs?.[0]?.id || 'textes');
             lucide.createIcons();
@@ -11340,6 +11556,7 @@
                     ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
                     <div class="km-nav-item" onclick="switchMetiersSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
                 `).join('');
+                subNav.style.display = (config.subs.length <= 1) ? 'none' : 'flex';
             }
             switchMetiersSub(config?.defaultSub || config?.subs?.[0]?.id || 'domaines');
             lucide.createIcons();
@@ -11606,6 +11823,7 @@
                     ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
                     <div class="km-nav-item" onclick="switchCollabSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
                 `).join('');
+                subNav.style.display = (config.subs.length <= 1) ? 'none' : 'flex';
             }
             switchCollabSub(config?.defaultSub || config?.subs?.[0]?.id || 'forums');
             lucide.createIcons();
@@ -11994,6 +12212,7 @@
                     ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
                     <div class="km-nav-item" onclick="switchMediaSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
                 `).join('');
+                subNav.style.display = (config.subs.length <= 1) ? 'none' : 'flex';
             }
             switchMediaSub(config?.defaultSub || config?.subs?.[0]?.id || 'home');
             lucide.createIcons();
@@ -12278,6 +12497,7 @@
                     ${idx > 0 ? `<span style="color:#cbd5e1;font-weight:300;font-size:18px;line-height:1;align-self:center;flex-shrink:0;">|</span>` : ``}
                     <div class="km-nav-item" onclick="switchAdminSub('${s.id}')" style="white-space:nowrap; padding: 10px 14px;">${s.label}</div>
                 `).join('');
+                subNav.style.display = (config.subs.length <= 1) ? 'none' : 'flex';
             }
             switchAdminSub(config?.defaultSub || config?.subs?.[0]?.id || 'comptes');
             lucide.createIcons();
