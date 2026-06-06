@@ -1,0 +1,66 @@
+<div id="view-actualites" class="view-section actu-container">
+
+                <!-- LIST PANEL -->
+                <div id="actu-list-panel">
+                    <div class="actu-page-header">
+                        <div class="actu-page-title-row">
+                            <div class="card-icon blue" style="width:42px;height:42px;">
+                                <i data-lucide="newspaper" style="width:22px;height:22px;"></i>
+                            </div>
+                            <div>
+                                <h2 class="actu-page-title">Actualités</h2>
+                                <p class="actu-page-sub">Toutes les dernières informations de la CMR</p>
+                            </div>
+                        </div>
+                        <!-- Search Bar -->
+                        <div class="actu-search-wrap">
+                            <i data-lucide="search" class="actu-search-icon"></i>
+                            <input type="text" id="actuSearchInput" class="actu-search-input"
+                                placeholder="Rechercher une actualité..."
+                                oninput="filterActu(this.value)">
+                        </div>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="actu-filters" id="actuFilters">
+                        <button class="actu-filter-btn active" onclick="filterByCategory('all', this)">Toutes</button>
+                        <button class="actu-filter-btn" onclick="filterByCategory('Gouvernance', this)">Gouvernance</button>
+                        <button class="actu-filter-btn" onclick="filterByCategory('Digital', this)">Digital</button>
+                        <button class="actu-filter-btn" onclick="filterByCategory('Innovation', this)">Innovation</button>
+                        <button class="actu-filter-btn" onclick="filterByCategory('Formation', this)">Formation</button>
+                        <button class="actu-filter-btn" onclick="filterByCategory('Social', this)">Social</button>
+                        <button class="actu-filter-btn" onclick="filterByCategory('Stratégie', this)">Stratégie</button>
+                    </div>
+
+                    <!-- Results count -->
+                    <div class="actu-results-info" id="actuResultsInfo">
+                        <span id="actuCount">10</span> actualités trouvées
+                    </div>
+
+                    <!-- Articles Grid -->
+                    <div class="actu-grid" id="actuGrid">
+                        <!-- Rendered by JS -->
+                    </div>
+
+                    <!-- Empty state -->
+                    <div class="actu-empty" id="actuEmpty" style="display:none;">
+                        <i data-lucide="search-x" style="width:48px;height:48px;color:#cbd5e1;"></i>
+                        <p>Aucune actualité ne correspond à votre recherche.</p>
+                    </div>
+                </div>
+
+                <!-- DETAIL PANEL -->
+                <div id="actu-detail-panel" style="display:none;">
+                    <button class="actu-back-btn" onclick="backToActuList()">
+                        <i data-lucide="arrow-left" style="width:16px;height:16px;"></i>
+                        Retour aux actualités
+                    </button>
+                    <div class="actu-detail-card" id="actuDetailContent">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+            </div>
+            <!-- ===== END ACTUALITÉS VIEW ===== -->
+
+            <!-- ===== COMMUNICATION INTERNE VIEW ===== -->

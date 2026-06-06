@@ -1,0 +1,112 @@
+<div id="view-academy" class="view-section km-container">
+                <div class="km-header">
+                    <h2>CMR Academy</h2>
+                    <p>Développez vos compétences avec nos programmes de formation sur-mesure.</p>
+                </div>
+
+                <div class="km-navbar"
+                    style="display: flex; align-items: center; gap: 24px; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 0;">
+                    <div class="km-nav-item active" onclick="switchAcademyPageTab('catalogue')">Catalogue</div>
+                    <div class="km-nav-item" onclick="switchAcademyPageTab('formations')">Mes Formations</div>
+                    <div class="km-nav-item" onclick="switchAcademyPageTab('certificats')">Mes Certificats</div>
+                </div>
+
+                <!-- TAB: CATALOGUE -->
+                <div id="page-academy-catalogue" class="km-tab-content" style="display: block;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #eef2ff; color: #4f46e5;">
+                                <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Management & Leadership</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Développez votre posture de manager et
+                                motivez vos équipes.</p>
+                            <div class="doc-card-meta">
+                                <span>6 parcours</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #f0fdf4; color: #16a34a;">
+                                <i data-lucide="cpu" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Compétences Digitales</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Maîtrisez les outils numériques de
+                                demain.</p>
+                            <div class="doc-card-meta">
+                                <span>12 modules</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #fdf2f8; color: #db2777;">
+                                <i data-lucide="heart" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Soft Skills</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Communication, intelligence
+                                émotionnelle et bien-être.</p>
+                            <div class="doc-card-meta">
+                                <span>8 modules</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #fff7ed; color: #ea580c;">
+                                <i data-lucide="shield-check" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Conformité & Risques</div>
+                            <p style="font-size: 12px; color: var(--text-light);">Réglementations, éthique et sécurité
+                                de l'information.</p>
+                            <div class="doc-card-meta">
+                                <span>4 parcours</span>
+                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: MES FORMATIONS -->
+                <div id="page-academy-formations" class="km-tab-content" style="display: none;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #eff6ff; color: #3b82f6;">
+                                <i data-lucide="play-circle" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Cybersécurité 101</div>
+                            <div style="margin-top: 8px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+                                    <span>Progression</span>
+                                    <span>35%</span>
+                                </div>
+                                <div style="height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden;">
+                                    <div style="width: 35%; height: 100%; background: #3b82f6;"></div>
+                                </div>
+                            </div>
+                            <div class="doc-card-meta">
+                                <span style="color: #3b82f6; font-weight: 700;">En cours</span>
+                                <button
+                                    style="background: #eff6ff; color: #3b82f6; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;">Reprendre</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: MES CERTIFICATS -->
+                <div id="page-academy-certificats" class="km-tab-content" style="display: none;">
+                    <div class="km-grid">
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background: #fdf4ff; color: #a855f7;">
+                                <i data-lucide="award" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div class="doc-card-title">Certification Management 2025</div>
+                            <div class="doc-card-meta">
+                                <span>Délivré le 12/12/2025</span>
+                                <i data-lucide="download" style="width: 16px; color: #94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RH VIEW -->

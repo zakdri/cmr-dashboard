@@ -1,0 +1,183 @@
+<div id="view-qse" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espace QSE</h2>
+                    <p>Qualité, sécurité, environnement — référentiels, SMI, sensibilisation, pilotage, participation et culture QSE, conformément au cadrage CMS.</p>
+                </div>
+
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="qseMainNavbar"
+                    style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) -->
+                <div class="km-navbar" id="qseSubNavbar"
+                    style="display:flex;align-items:center;gap:0;margin-bottom:16px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <div id="page-qse-politiques" class="km-tab-content" style="display:block;">
+                    <div class="km-grid" id="qsePolitiquesGrid"></div>
+                </div>
+                <div id="page-qse-referentiels" class="km-tab-content" style="display:none;">
+                    <div class="km-grid" id="qseReferentielsGrid"></div>
+                </div>
+                <div id="page-qse-docs" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="folder-open" style="width:20px;height:20px;"></i></div>
+                                Documents SMI
+                            </div>
+                        </div>
+                        <div id="qseSmiDocs" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                    </div>
+                </div>
+                <div id="page-qse-contenus" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon pink"><i data-lucide="megaphone" style="width:20px;height:20px;"></i></div>
+                                Contenus pédagogiques
+                            </div>
+                        </div>
+                        <div id="qsePedago" class="km-grid" style="padding:18px;"></div>
+                    </div>
+                </div>
+                <div id="page-qse-audits" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="clipboard-check" style="width:20px;height:20px;"></i></div>
+                                Audits
+                            </div>
+                        </div>
+                        <div style="padding: 18px;">
+                            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                                <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                                    <thead>
+                                        <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+                                            <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Audit</th>
+                                            <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Date</th>
+                                            <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Statut</th>
+                                            <th style="padding:12px 16px;text-align:right;font-weight:700;color:#475569;">Rapport</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="qseAuditsTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="page-qse-resultats-audits" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon purple"><i data-lucide="clipboard-list" style="width:20px;height:20px;"></i></div>
+                                Résultats d'audits — synthèses
+                            </div>
+                        </div>
+                        <div id="qseResultatsAudits" style="padding:18px;"></div>
+                    </div>
+                </div>
+                <div id="page-qse-indicateurs" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="gauge" style="width:20px;height:20px;"></i></div>
+                                Indicateurs QSE
+                            </div>
+                        </div>
+                        <div id="qseKpis" style="padding:18px;"></div>
+                    </div>
+                </div>
+                <div id="page-qse-idees" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon pink"><i data-lucide="lightbulb" style="width:20px;height:20px;"></i></div>
+                                Boîte à idées QSE
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                <input id="qseIdeaTitle" class="actu-search-input" placeholder="Titre">
+                                <select id="qseIdeaType" class="actu-search-input" style="height:40px;">
+                                    <option value="Qualité">Qualité</option>
+                                    <option value="Sécurité">Sécurité</option>
+                                    <option value="Environnement">Environnement</option>
+                                </select>
+                            </div>
+                            <textarea id="qseIdeaDesc" class="actu-search-input" style="margin-top:12px;height:120px;padding-top:10px;" placeholder="Votre idée…"></textarea>
+                            <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+                                <button class="primary-btn" onclick="submitQseIdea()">Soumettre</button>
+                            </div>
+                        </div>
+                        <div id="qseIdeaList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                    </div>
+                </div>
+                <div id="page-qse-contributions" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="users" style="width:20px;height:20px;"></i></div>
+                                Contributions collaborateurs
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div class="km-grid" id="qseContributionsGrid"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="page-qse-remontees" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="alert-triangle" style="width:20px;height:20px;"></i></div>
+                                Remontées terrain
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <input id="qseRemTitle" class="actu-search-input" placeholder="Objet / anomalie">
+                            <textarea id="qseRemDesc" class="actu-search-input" style="margin-top:12px;height:120px;padding-top:10px;" placeholder="Description…"></textarea>
+                            <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+                                <button class="primary-btn" onclick="submitQseRemontee()">Déclarer</button>
+                            </div>
+                        </div>
+                        <div id="qseRemList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                    </div>
+                </div>
+                <div id="page-qse-stats" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="bar-chart-3" style="width:20px;height:20px;"></i></div>
+                                Statistiques
+                            </div>
+                        </div>
+                        <div id="qseStats" style="padding:18px;"></div>
+                    </div>
+                </div>
+                <div id="page-qse-culture" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="sparkles" style="width:20px;height:20px;"></i></div>
+                                Culture QSE — sensibilisation globale
+                            </div>
+                        </div>
+                        <div id="qseCulture" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                    </div>
+                </div>
+                <div id="page-qse-culture-portail" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="layout-grid" style="width:20px;height:20px;"></i></div>
+                                Portail Culture QSE
+                            </div>
+                        </div>
+                        <div id="qseCulturePortail" class="km-grid" style="padding:18px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SITD VIEW (table conforme — onglet 15. Espace SITD) -->

@@ -1,0 +1,277 @@
+<div id="view-communication-interne" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Communication interne</h2>
+                    <p>Informations institutionnelles, flash, événements et contenus éditoriaux.</p>
+                </div>
+
+                <div class="dashboard-grid" style="grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                    <!-- Actualités institutionnelles -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue">
+                                    <i data-lucide="newspaper" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Actualités institutionnelles
+                            </div>
+                            <a href="#" class="card-action" onclick="goToActualites(); return false;" style="white-space: nowrap;">
+                                Voir tout
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="doc-list">
+                            <div class="doc-item" onclick="goToActualites(1); return false;">
+                                <div class="doc-icon" style="background:#eff6ff;color:#256cb5;font-weight:800;">ACTU</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Contrat programme État‑CMR 2026‑2028</div>
+                                    <div class="doc-meta">Organisation &amp; Gouvernance • À la une</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="goToActualites(2); return false;">
+                                <div class="doc-icon" style="background:#f0fdf4;color:#16a34a;font-weight:800;">DIR</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Tenue du Conseil d’Administration</div>
+                                    <div class="doc-meta">Gouvernance • 2 jours</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="goToActualites(8); return false;">
+                                <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:800;">DIG</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Feuille de route digitale 2026</div>
+                                    <div class="doc-meta">Digital • 1 Avril</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flash d'information -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange">
+                                    <i data-lucide="zap" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Flash d’information
+                            </div>
+                            <a href="#" class="card-action" onclick="openCommFlashDetail('strategie-roadmap'); return false;" style="white-space: nowrap;">
+                                Voir
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="doc-list">
+                            <div class="doc-item" onclick="openTickerDetail('it-maint-paie')">
+                                <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:800;">IT</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Maintenance serveur “Paie”</div>
+                                    <div class="doc-meta">Ce vendredi • 18:00</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="openTickerDetail('social-colonies')">
+                                <div class="doc-icon" style="background:#eff6ff;color:#256cb5;font-weight:800;">SOC</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Colonies de vacances 2026</div>
+                                    <div class="doc-meta">Inscriptions ouvertes</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="openTickerDetail('strategie-roadmap')">
+                                <div class="doc-icon" style="background:#f0fdf4;color:#16a34a;font-weight:800;">STR</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Lancement feuille de route 2026</div>
+                                    <div class="doc-meta">Stratégie • Aujourd’hui</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Événements -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue">
+                                    <i data-lucide="calendar" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Événements
+                            </div>
+                            <a href="#" class="card-action" onclick="switchView('agenda-interne'); return false;" style="white-space: nowrap;">
+                                Agenda
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="doc-list">
+                            <div class="doc-item" onclick="switchView('agenda-interne'); return false;">
+                                <div class="doc-icon" style="background:#eff6ff;color:#256cb5;font-weight:800;">EVT</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Comité de pilotage</div>
+                                    <div class="doc-meta">Aujourd’hui • 14:00</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="switchView('agenda-interne'); return false;">
+                                <div class="doc-icon" style="background:#f0fdf4;color:#16a34a;font-weight:800;">RDV</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Point d’avancement</div>
+                                    <div class="doc-meta">Demain • 16:30</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="switchView('agenda-interne'); return false;">
+                                <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:800;">AT</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Atelier cybersécurité</div>
+                                    <div class="doc-meta">12 Mai • 14:30</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenus éditoriaux -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon purple">
+                                    <i data-lucide="file-text" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Contenus éditoriaux
+                            </div>
+                            <a href="#" class="card-action" onclick="goToActualites(); return false;" style="white-space: nowrap;">
+                                Consulter
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="doc-list">
+                            <div class="doc-item" onclick="goToActualites(4); return false;">
+                                <div class="doc-icon" style="background:#fdf4ff;color:#9333ea;font-weight:800;">INT</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Interview — Retour d’expérience “Digit‑Passe”</div>
+                                    <div class="doc-meta">Innovation • 3 jours</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="goToActualites(10); return false;">
+                                <div class="doc-icon" style="background:#eff6ff;color:#256cb5;font-weight:800;">DOS</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Dossier — Comité d’audit</div>
+                                    <div class="doc-meta">Gouvernance • Mars</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="goToActualites(9); return false;">
+                                <div class="doc-icon" style="background:#f0fdf4;color:#16a34a;font-weight:800;">SOC</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Article — Colonies de vacances 2026</div>
+                                    <div class="doc-meta">Social • 28 Mars</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Multimédia -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon pink">
+                                    <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Multimédia
+                            </div>
+                            <a href="#" class="card-action" onclick="switchView('mediatheque'); return false;" style="white-space: nowrap;">
+                                Voir
+                                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
+                        <div class="doc-list">
+                            <div class="doc-item" onclick="openSubmenuView('mediatheque','videos'); return false;">
+                                <div class="doc-icon" style="background:#fdf4ff;color:#d946ef;font-weight:800;">VID</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Capsule vidéo — Rétrospective Q1</div>
+                                    <div class="doc-meta">3 min • À regarder</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="openMockDownload('Podcast_Parlons_Transformation_Episode_2.mp3','Podcast — Parlons transformation'); return false;">
+                                <div class="doc-icon" style="background:#eff6ff;color:#256cb5;font-weight:800;">POD</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Podcast — Parlons transformation</div>
+                                    <div class="doc-meta">Épisode 2 • 12 min</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                            <div class="doc-item" onclick="openSubmenuView('mediatheque','photos'); return false;">
+                                <div class="doc-icon" style="background:#f0fdf4;color:#16a34a;font-weight:800;">IMG</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Galerie photos — Vie CMR</div>
+                                    <div class="doc-meta">Derniers événements</div>
+                                </div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filtrage des contenus -->
+                    <div class="dashboard-card" style="grid-column: 1 / -1;">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green">
+                                    <i data-lucide="sliders-horizontal" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                Filtrage des contenus
+                            </div>
+                        </div>
+                        <div class="actu-page-header" style="padding:0; margin:0;">
+                            <div class="actu-page-title-row" style="gap: 10px;">
+                                <div>
+                                    <p class="actu-page-sub" style="margin:0;">Filtrer par thématique ou entité.</p>
+                                </div>
+                            </div>
+                            <div class="actu-search-wrap" style="max-width: 420px;">
+                                <i data-lucide="search" class="actu-search-icon"></i>
+                                <input id="commInterneSearchInput" type="text" class="actu-search-input"
+                                    placeholder="Rechercher dans la communication interne..."
+                                    oninput="filterCommInternePreview(this.value)">
+                            </div>
+                        </div>
+                        <div style="margin: 16px 0 0 0;">
+                            <div style="font-size:12px;color:var(--text-light);font-weight:700;margin-bottom:8px;">Thématiques</div>
+                        <div id="commInterneThemeFilters" class="actu-filters" style="margin: 0;">
+                            <button class="actu-filter-btn active" onclick="filterCommInterneCategory('all', this)">Toutes</button>
+                            <button class="actu-filter-btn" onclick="filterCommInterneCategory('Gouvernance', this)">Gouvernance</button>
+                            <button class="actu-filter-btn" onclick="filterCommInterneCategory('Digital', this)">Digital</button>
+                            <button class="actu-filter-btn" onclick="filterCommInterneCategory('Innovation', this)">Innovation</button>
+                            <button class="actu-filter-btn" onclick="filterCommInterneCategory('Formation', this)">Formation</button>
+                            <button class="actu-filter-btn" onclick="filterCommInterneCategory('Social', this)">Social</button>
+                            <button class="actu-filter-btn" onclick="filterCommInterneCategory('Stratégie', this)">Stratégie</button>
+                        </div>
+                        </div>
+                        <div style="margin: 12px 0 0 0;">
+                            <div style="font-size:12px;color:var(--text-light);font-weight:700;margin-bottom:8px;">Métiers / entités</div>
+                            <div id="commInterneMetierFilters" class="actu-filters" style="margin: 0;">
+                                <button class="actu-filter-btn active" onclick="filterCommInterneMetier('all', this)">Tous</button>
+                                <button class="actu-filter-btn" onclick="filterCommInterneMetier('direction', this)">Direction</button>
+                                <button class="actu-filter-btn" onclick="filterCommInterneMetier('rh', this)">RH</button>
+                                <button class="actu-filter-btn" onclick="filterCommInterneMetier('digital', this)">Digital</button>
+                                <button class="actu-filter-btn" onclick="filterCommInterneMetier('audit', this)">Audit</button>
+                                <button class="actu-filter-btn" onclick="filterCommInterneMetier('social', this)">Social</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:14px;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
+                                <div style="font-size:12px;color:var(--text-light);font-weight:700;">Aperçu (contenu réel)</div>
+                                <button class="actu-filter-btn" style="padding:8px 12px;" onclick="goToActualitesFromCommInterne();">Voir tous les contenus</button>
+                            </div>
+                            <div id="commInternePreview" class="doc-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ===== END COMMUNICATION INTERNE VIEW ===== -->
+
+            <!-- ===== AGENDA INTERNE VIEW (Communication interne) ===== -->

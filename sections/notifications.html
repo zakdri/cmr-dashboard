@@ -1,0 +1,45 @@
+<div id="view-notifications" class="view-section notif-page-container">
+
+                <div class="notif-page-header">
+                    <div class="notif-page-title-row">
+                        <div class="card-icon blue" style="width:42px;height:42px;">
+                            <i data-lucide="bell" style="width:22px;height:22px;"></i>
+                        </div>
+                        <div>
+                            <h2 class="actu-page-title">Notifications</h2>
+                            <p class="actu-page-sub">Toutes vos notifications et alertes</p>
+                        </div>
+                    </div>
+                    <div class="notif-page-actions">
+                        <button class="notif-mark-all-btn" onclick="markAllNotifsRead()">
+                            <i data-lucide="check-check" style="width:15px;height:15px;"></i>
+                            Tout marquer lu
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter tabs -->
+                <div class="notif-page-tabs" id="notifPageTabs">
+                    <button class="notif-tab active" onclick="filterNotifPage('all', this)">Toutes <span class="notif-tab-badge" id="notifTabAll">15</span></button>
+                    <button class="notif-tab" onclick="filterNotifPage('unread', this)">Non lues <span class="notif-tab-badge unread" id="notifTabUnread">5</span></button>
+                    <button class="notif-tab" onclick="filterNotifPage('document', this)">Documents</button>
+                    <button class="notif-tab" onclick="filterNotifPage('meeting', this)">Réunions</button>
+                    <button class="notif-tab" onclick="filterNotifPage('rh', this)">RH</button>
+                    <button class="notif-tab" onclick="filterNotifPage('system', this)">Système</button>
+                    <button class="notif-tab" onclick="filterNotifPage('innovation', this)">Innovation</button>
+                </div>
+
+                <!-- Notifications list -->
+                <div class="notif-page-list" id="notifPageList">
+                    <!-- Rendered by JS -->
+                </div>
+
+                <div class="actu-empty" id="notifPageEmpty" style="display:none;">
+                    <i data-lucide="bell-off" style="width:48px;height:48px;color:#cbd5e1;"></i>
+                    <p>Aucune notification dans cette catégorie.</p>
+                </div>
+
+            </div>
+            <!-- ===== END NOTIFICATIONS VIEW ===== -->
+
+            <!-- ===== ACTUALITÉS VIEW ===== -->

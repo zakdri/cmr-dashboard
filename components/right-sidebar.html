@@ -1,0 +1,273 @@
+<!-- RIGHT SIDEBAR -->
+        <aside class="sidebar-right" id="rightSidebar">
+            <!-- CITATION DU JOUR -->
+            <div class="quote-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: var(--cmr-primary); color: white;">
+                        <i data-lucide="quote" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <strong>Citation du Jour</strong>
+                </div>
+                <div class="quote-text"
+                    style="color: #1e293b; font-size: 15px; font-style: italic; line-height: 1.6; display: block;">
+                    "L'innovation distingue les leaders des suiveurs. Notre ambition est de transformer chaque défi
+                    en
+                    opportunité de croissance."
+                </div>
+            </div>
+
+            <!-- HUMEUR DU JOUR -->
+            <div class="right-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i data-lucide="smile" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <span id="mood-title">Humeur du jour</span>
+                </div>
+                <div class="mood-results" id="moodResults">
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">🤩</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #22c55e;" data-percent="45"></div>
+                        </div>
+                        <span class="mood-stat-percent">45%</span>
+                    </div>
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">😊</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #84cc16;" data-percent="30"></div>
+                        </div>
+                        <span class="mood-stat-percent">30%</span>
+                    </div>
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">😐</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #eab308;" data-percent="15"></div>
+                        </div>
+                        <span class="mood-stat-percent">15%</span>
+                    </div>
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">🙁</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #f97316;" data-percent="7"></div>
+                        </div>
+                        <span class="mood-stat-percent">7%</span>
+                    </div>
+                    <div class="mood-stat">
+                        <span class="mood-stat-label">😡</span>
+                        <div class="mood-stat-bar-bg">
+                            <div class="mood-stat-bar-fill" style="background: #ef4444;" data-percent="3"></div>
+                        </div>
+                        <span class="mood-stat-percent">3%</span>
+                    </div>
+                    <button class="retry-mood-btn" onclick="resetMood()">
+                        <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+                        Changer d'avis
+                    </button>
+                </div>
+                <div class="mood-buttons" id="moodButtons">
+                    <button class="mood-btn" data-mood="great" onclick="selectMood(this)">
+                        <i data-lucide="laugh" style="width: 20px; height: 20px;"></i>
+                    </button>
+                    <button class="mood-btn" data-mood="good" onclick="selectMood(this)">
+                        <i data-lucide="smile" style="width: 20px; height: 20px;"></i>
+                    </button>
+                    <button class="mood-btn" data-mood="neutral" onclick="selectMood(this)">
+                        <i data-lucide="meh" style="width: 20px; height: 20px;"></i>
+                    </button>
+                    <button class="mood-btn" data-mood="bad" onclick="selectMood(this)">
+                        <i data-lucide="frown" style="width: 20px; height: 20px;"></i>
+                    </button>
+                    <button class="mood-btn" data-mood="terrible" onclick="selectMood(this)">
+                        <i data-lucide="angry" style="width: 20px; height: 20px;"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- AGENDAS WIDGET -->
+            <!-- AGENDAS WIDGET -->
+            <div class="right-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i data-lucide="calendar-check" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <strong>Agendas</strong>
+                    <button class="manage-btn"
+                        style="margin-left: auto; background: rgba(0,0,0,0.03); border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px; color: #64748b; font-size: 11px; font-weight: 600;">
+                        <i data-lucide="settings-2" style="width: 12px; height: 12px;"></i>
+                        Gérer
+                    </button>
+                </div>
+
+                <!-- Pill Tabs -->
+                <div
+                    style="background: #f1f5f9; padding: 4px; border-radius: 12px; display: flex; margin-bottom: 20px;">
+                    <button id="tab-perso-btn" onclick="openAgendaTab('perso')" class="agenda-tab-btn active"
+                        style="flex: 1; text-align: center; padding: 8px; background: white; border: none; border-radius: 10px; font-size: 12px; font-weight: 700; color: #f59e0b; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s;">Ma
+                        Journée</button>
+                    <button id="tab-cmr-btn" onclick="openAgendaTab('cmr')" class="agenda-tab-btn"
+                        style="flex: 1; text-align: center; padding: 8px; background: transparent; border: none; border-radius: 10px; font-size: 12px; font-weight: 500; color: #64748b; cursor: pointer; transition: 0.2s;">Calendrier
+                        CMR</button>
+                </div>
+
+                <!-- CONTENT: PERSO -->
+                <div id="agenda-perso-list" style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Agenda Item 1 -->
+                    <div
+                        style="padding: 16px; border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="background: #eff6ff; color: #3b82f6; width: 45px; height: 45px; border-radius: 14px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <span style="font-size: 11px; font-weight: 800;">14:00</span>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">
+                                Comité
+                                de Pilotage</div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div
+                                    style="font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 4px;">
+                                    <i data-lucide="map-pin" style="width: 10px; height: 10px;"></i> Salle A
+                                </div>
+                                <button
+                                    style="background: #eff6ff; color: #3b82f6; border: none; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                                    <i data-lucide="video" style="width: 12px; height: 12px;"></i>
+                                    Rejoindre
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Agenda Item 2 (Meeting) -->
+                    <div
+                        style="padding: 16px; border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="background: #eff6ff; color: #3b82f6; width: 45px; height: 45px; border-radius: 14px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <span style="font-size: 11px; font-weight: 800;">16:30</span>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Point
+                                d'avancement</div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div
+                                    style="font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 4px;">
+                                    <i data-lucide="video" style="width: 10px; height: 10px;"></i> Teams
+                                </div>
+                                <button
+                                    style="background: #eff6ff; color: #3b82f6; border: none; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                                    <i data-lucide="video" style="width: 12px; height: 12px;"></i>
+                                    Rejoindre
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENT: CMR -->
+                <div id="agenda-cmr-list" style="display: none; flex-direction: column; gap: 12px;">
+                    <!-- Event 1 -->
+                    <div
+                        style="padding: 16px; border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; width: 45px; text-align: center;">
+                            <div
+                                style="background: #ef4444; color: white; font-size: 9px; font-weight: 700; padding: 2px 0;">
+                                FÉV</div>
+                            <div style="padding: 4px 0; font-size: 13px; font-weight: 800; color: #1e293b;">15</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 700; color: #1e293b;">Assemblée Générale</div>
+                            <div style="font-size: 11px; color: #64748b;">Auditorium Principal</div>
+                        </div>
+                    </div>
+                    <!-- Event 2 -->
+                    <div
+                        style="padding: 16px; border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; width: 45px; text-align: center;">
+                            <div
+                                style="background: #3b82f6; color: white; font-size: 9px; font-weight: 700; padding: 2px 0;">
+                                MAR</div>
+                            <div style="padding: 4px 0; font-size: 13px; font-weight: 800; color: #1e293b;">08</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 700; color: #1e293b;">Journée de la Femme
+                            </div>
+                            <div style="font-size: 11px; color: #64748b;">Événement Interne</div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- ANNIVERSAIRES -->
+            <div class="right-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                        <i data-lucide="cake" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    Anniversaires
+                </div>
+                <div class="team-list" style="gap: 16px;">
+                    <div class="team-member"
+                        style="background: white; padding: 16px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: none;">
+                        <div class="member-avatar"
+                            style="background: linear-gradient(135deg, #fbbf24, #f59e0b); width: 44px; height: 44px; color: white; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);">
+                            <i data-lucide="party-popper" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name" style="font-size: 15px;">Yassine Benali</span>
+                            <span class="member-role" style="color: #f59e0b; font-weight: 700;">Aujourd'hui •
+                                Marketing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FLASH INFO -->
+            <div class="flash-info-card">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: #ef4444; color: white;">
+                        <i data-lucide="bell-ring" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <strong>Flash Info</strong>
+                    <span class="live-badge" style="margin-left: auto;">LIVE</span>
+                </div>
+                <div class="flash-content-box">
+                    <div class="flash-subject">Maintenance Serveur</div>
+                    <div class="flash-desc">Ce soir à partir de 18h00. Indisponibilité estimée: 2h.</div>
+                </div>
+            </div>
+
+            <!-- MA FORMATION -->
+            <div class="right-block">
+                <div class="right-block-header">
+                    <div class="right-block-icon" style="background: var(--cmr-primary);">
+                        <i data-lucide="graduation-cap" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <strong>Ma Formation</strong>
+                </div>
+
+                <div class="formation-item">
+                    <div class="formation-icon-box">
+                        <i data-lucide="shield-check" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <div class="member-info">
+                        <span class="member-name" style="font-size: 14px; font-weight: 700;">Cybersécurité
+                            101</span>
+                        <span class="member-role"
+                            style="color: var(--cmr-primary); font-weight: 700; font-size: 11px;">Obligatoire</span>
+                    </div>
+                </div>
+
+                <div class="formation-progress-container">
+                    <div class="formation-label">
+                        <span>Progression</span>
+                        <span>35%</span>
+                    </div>
+                    <div class="formation-bar-bg">
+                        <div class="formation-bar-fill" style="width: 35%;"></div>
+                    </div>
+                    <button class="formation-btn">Reprendre</button>
+                </div>
+            </div>
+        </aside>

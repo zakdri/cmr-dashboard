@@ -1,0 +1,107 @@
+<!-- MODALS (PLACED AT BODY LEVEL FOR FULL-SCREEN BACKDROP) -->
+        <div class="modal-overlay" id="editModal">
+            <div class="edit-modal">
+                <div class="modal-title">
+                    <i data-lucide="layout-grid" style="color: var(--cmr-primary);"></i>
+                    Personnaliser vos raccourcis
+                </div>
+                <div class="edit-grid">
+                    <div class="edit-item active">
+                        <span>Congés</span>
+                        <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                    </div>
+                    <div class="edit-item active">
+                        <span>Réservation</span>
+                        <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                    </div>
+                    <div class="edit-item active">
+                        <span>Note de frais</span>
+                        <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                    </div>
+                    <div class="edit-item">
+                        <span>Annuaire</span>
+                        <i data-lucide="circle" style="width: 18px; color: #cbd5e1;"></i>
+                    </div>
+                    <div class="edit-item active">
+                        <span>Bloc-note</span>
+                        <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                    </div>
+                    <div class="edit-item active">
+                        <span>Documentation</span>
+                        <i data-lucide="check-circle" style="width: 18px; color: var(--cmr-primary);"></i>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="secondary-btn" onclick="toggleModal('editModal')">Annuler</button>
+                    <button class="primary-btn" onclick="toggleModal('editModal')">Enregistrer les modifications</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="consent0908Modal">
+            <div class="consent-modal">
+                <div class="consent-modal-header">
+                    <div class="consent-modal-icon">
+                        <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="consent-modal-title">
+                        Conformité Loi 09-08
+                        <span class="consent-modal-subtitle">Protection des données personnelles</span>
+                    </div>
+                </div>
+                <div class="consent-modal-content">
+                    <p>
+                        Pour accéder à l’Intranet, nous vous informons que certaines données peuvent être traitées
+                        pour assurer le fonctionnement du portail, la sécurité et l’amélioration du service.
+                    </p>
+                    <p>
+                        En cliquant sur <strong>J’accepte</strong>, vous confirmez avoir pris connaissance de cette
+                        information et consentez au traitement de vos données conformément à la Loi 09-08.
+                    </p>
+                    <a class="consent-modal-link" href="#" onclick="return false;">
+                        Lire la politique de confidentialité
+                    </a>
+                    <div class="consent-modal-warning" id="consent0908Warning" style="display:none;">
+                        Pour continuer, vous devez accepter.
+                    </div>
+                </div>
+                <div class="consent-modal-footer">
+                    <button class="secondary-btn" onclick="declineConsent0908()">Je refuse</button>
+                    <button class="primary-btn" onclick="acceptConsent0908()">J’accepte</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="tickerDetailModal">
+            <div class="consent-modal" role="dialog" aria-modal="true" aria-labelledby="tickerDetailTitle">
+                <div class="consent-modal-header">
+                    <div class="consent-modal-icon">
+                        <i data-lucide="zap" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="consent-modal-title" id="tickerDetailTitle">
+                        Détail Flash Info
+                        <span class="consent-modal-subtitle" id="tickerDetailSubtitle"></span>
+                    </div>
+                    <button class="consent-modal-close" type="button" onclick="closeTickerDetailModal()" aria-label="Fermer la fenêtre">×</button>
+                </div>
+                <div class="consent-modal-content">
+                    <p id="tickerDetailBody" style="margin-bottom:0;"></p>
+                </div>
+                <div class="consent-modal-footer">
+                    <button class="primary-btn" onclick="goToFlashDetailFromModal()">Consulter</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PDF PREVIEW MODAL -->
+        <div class="modal-overlay" id="pdfPreviewModal">
+            <div class="pdf-preview-modal" role="dialog" aria-modal="true" aria-labelledby="pdfPreviewTitle">
+                <div class="pdf-preview-header">
+                    <div class="pdf-preview-title" id="pdfPreviewTitle">Aperçu document</div>
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <button class="secondary-btn" style="padding:10px 14px;" onclick="closePdfPreview()">Fermer</button>
+                    </div>
+                </div>
+                <iframe class="pdf-preview-frame" id="pdfPreviewFrame" title="Aperçu PDF"></iframe>
+            </div>
+        </div>

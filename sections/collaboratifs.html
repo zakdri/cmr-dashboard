@@ -1,0 +1,245 @@
+<div id="view-collaboratifs" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espaces collaboratifs</h2>
+                    <p>Forums, communautés, échanges, partage (REX) et vie interne.</p>
+                </div>
+
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="collabMainNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) -->
+                <div class="km-navbar" id="collabSubNavbar"
+                     style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Discussions -->
+                <div id="page-collab-forums" class="km-tab-content" style="display:block;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.6fr 1.4fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="message-square" style="width:20px;height:20px;"></i></div>
+                                    Forums
+                                </div>
+                                <button class="primary-btn" onclick="toggleForumComposer(true)">Nouveau sujet</button>
+                            </div>
+                            <div style="padding:18px;">
+                                <div class="actu-search-wrap" style="margin-bottom:12px;">
+                                    <i data-lucide="search" style="width: 16px;"></i>
+                                    <input id="collabForumSearch" class="actu-search-input" placeholder="Rechercher un sujet…" oninput="renderCollabForums()">
+                                </div>
+                            </div>
+                            <div id="collabForumList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                        </div>
+                        <div class="dashboard-card" id="collabForumComposer" style="display:none;">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon green"><i data-lucide="square-pen" style="width:20px;height:20px;"></i></div>
+                                    Publier
+                                </div>
+                                <button class="secondary-btn" onclick="toggleForumComposer(false)">Fermer</button>
+                            </div>
+                            <div style="padding:18px;">
+                                <input id="forumTitle" class="actu-search-input" placeholder="Titre du sujet">
+                                <textarea id="forumBody" class="actu-search-input" style="margin-top:12px;height:130px;padding-top:10px;" placeholder="Votre message…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                    <button class="primary-btn" onclick="postForumThread()">Publier</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon purple"><i data-lucide="messages-square" style="width:20px;height:20px;"></i></div>
+                                    Détail / Répondre
+                                </div>
+                            </div>
+                            <div id="collabForumDetail" style="padding:18px;color:var(--text-light);font-size:13px;">Sélectionnez un sujet.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Communautés -->
+                <div id="page-collab-groupes" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.3fr 1.7fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon orange"><i data-lucide="users" style="width:20px;height:20px;"></i></div>
+                                    Groupes thématiques
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div class="actu-search-wrap">
+                                    <i data-lucide="search" style="width: 16px;"></i>
+                                    <input id="collabGroupSearch" class="actu-search-input" placeholder="Rechercher un groupe…" oninput="renderCollabGroups()">
+                                </div>
+                            </div>
+                            <div id="collabGroupList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="activity" style="width:20px;height:20px;"></i></div>
+                                    Espace du groupe
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div id="collabGroupDetail" style="color:var(--text-light);font-size:13px;">Sélectionnez un groupe.</div>
+                                <div style="margin-top:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                                    <div style="font-weight:900;color:#0f172a;">Derniers échanges</div>
+                                    <div id="collabGroupThreads" class="doc-list" style="margin-top:10px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Échanges -->
+                <div id="page-collab-echanges" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.2fr 1.8fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon pink"><i data-lucide="sparkles" style="width:20px;height:20px;"></i></div>
+                                    Discussions libres
+                                </div>
+                                <button class="primary-btn" onclick="toggleCollabPostForm(true)">Publier</button>
+                            </div>
+                            <div id="collabPostForm" style="display:none;padding:18px;border-top:1px solid #f1f5f9;">
+                                <textarea id="collabPostText" class="actu-search-input" style="height:120px;padding-top:10px;" placeholder="Partagez une info, une question, un message…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                    <button class="secondary-btn" onclick="toggleCollabPostForm(false)">Annuler</button>
+                                    <button class="primary-btn" onclick="publishCollabPost()">Publier</button>
+                                </div>
+                            </div>
+                            <div id="collabFeed" class="doc-list" style="padding: 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="message-circle" style="width:20px;height:20px;"></i></div>
+                                    Commentaires
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div id="collabFeedDetail" style="color:var(--text-light);font-size:13px;">Sélectionnez une publication.</div>
+                                <div style="margin-top:12px;display:flex;gap:10px;">
+                                    <input id="collabCommentText" class="actu-search-input" placeholder="Ajouter un commentaire…" style="height:40px;padding-left:14px;">
+                                    <button class="primary-btn" onclick="addCollabComment()">Commenter</button>
+                                </div>
+                                <div id="collabCommentsList" class="doc-list" style="margin-top:12px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Partage -->
+                <div id="page-collab-rex" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.2fr 1.8fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon green"><i data-lucide="book-open" style="width:20px;height:20px;"></i></div>
+                                    Informations / REX
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div class="actu-search-wrap">
+                                    <i data-lucide="search" style="width: 16px;"></i>
+                                    <input id="collabRexSearch" class="actu-search-input" placeholder="Rechercher un article / REX…" oninput="renderCollabRex()">
+                                </div>
+                            </div>
+                            <div id="collabRexList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon purple"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div>
+                                    Lecture
+                                </div>
+                            </div>
+                            <div id="collabRexDetail" style="padding:18px;color:var(--text-light);font-size:13px;">Sélectionnez un article.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animation -->
+                <div id="page-collab-animation" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.5fr 1.5fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon orange"><i data-lucide="party-popper" style="width:20px;height:20px;"></i></div>
+                                    Communautés internes
+                                </div>
+                            </div>
+                            <div id="collabEvents" class="doc-list" style="padding: 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="mic" style="width:20px;height:20px;"></i></div>
+                                    Animer / Participer
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                    <input id="collabEventTitle" class="actu-search-input" placeholder="Titre évènement">
+                                    <input id="collabEventDate" class="actu-search-input" placeholder="Date (ex: 15 Mai 2026)" style="padding-left:14px;">
+                                </div>
+                                <textarea id="collabEventDesc" class="actu-search-input" style="margin-top:12px;height:120px;padding-top:10px;" placeholder="Description…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                    <button class="primary-btn" onclick="createCollabEvent()">Animer</button>
+                                </div>
+                                <div style="margin-top:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                                    <div style="font-weight:900;color:#0f172a;">Évènement sélectionné</div>
+                                    <div id="collabEventDetail" style="margin-top:8px;color:var(--text-light);font-size:13px;">Sélectionnez un évènement.</div>
+                                    <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                                        <button class="primary-btn" onclick="joinCollabEvent()">Participer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vie interne -->
+                <div id="page-collab-vieinterne" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.3fr 1.7fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon pink"><i data-lucide="heart" style="width:20px;height:20px;"></i></div>
+                                    Culture interne
+                                </div>
+                                <button class="primary-btn" onclick="toggleCultureComposer(true)">Publier</button>
+                            </div>
+                            <div id="cultureComposer" style="display:none;padding:18px;border-top:1px solid #f1f5f9;">
+                                <input id="cultureTitle" class="actu-search-input" placeholder="Titre">
+                                <textarea id="cultureBody" class="actu-search-input" style="margin-top:12px;height:120px;padding-top:10px;" placeholder="Message…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px;">
+                                    <button class="secondary-btn" onclick="toggleCultureComposer(false)">Annuler</button>
+                                    <button class="primary-btn" onclick="publishCulturePost()">Publier</button>
+                                </div>
+                            </div>
+                            <div id="collabCultureFeed" class="doc-list" style="padding: 18px;"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="image" style="width:20px;height:20px;"></i></div>
+                                    Galerie
+                                </div>
+                            </div>
+                            <div style="padding:18px;">
+                                <div id="collabCultureGallery" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACHATS VIEW -->

@@ -1,0 +1,204 @@
+<div id="view-rse" class="view-section km-container">
+                <div class="km-header">
+                    <h2>Espace RSE</h2>
+                    <p>Référentiels RSE, reporting, initiatives, participation et animation.</p>
+                </div>
+                <!-- Sous‑rubriques (niveau 1) -->
+                <div class="km-navbar" id="rseMainNavbar"
+                    style="display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <!-- Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) -->
+                <div class="km-navbar" id="rseSubNavbar"
+                    style="display:flex;align-items:center;gap:0;margin-bottom:30px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;">
+                </div>
+
+                <div id="page-rse-politiques" class="km-tab-content" style="display:block;">
+                    <div class="km-grid" id="rsePolitiquesGrid"></div>
+                </div>
+                <div id="page-rse-chartes" class="km-tab-content" style="display:none;">
+                    <div class="km-grid" id="rseChartesGrid"></div>
+                </div>
+                <div id="page-rse-codes" class="km-tab-content" style="display:none;">
+                    <div class="km-grid" id="rseCodesGrid"></div>
+                </div>
+                <div id="page-rse-guides" class="km-tab-content" style="display:none;">
+                    <div class="km-grid" id="rseGuidesGrid"></div>
+                </div>
+                <div id="page-rse-rapports" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div>
+                                Rapports RSE
+                            </div>
+                        </div>
+                        <div id="rseRapportsList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                    </div>
+                </div>
+                <div id="page-rse-actions" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="heart-handshake" style="width:20px;height:20px;"></i></div>
+                                Actions RSE
+                            </div>
+                        </div>
+                        <div id="rseActionsGrid" class="km-grid" style="padding:18px;"></div>
+                    </div>
+                </div>
+                <div id="page-rse-infos" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="info" style="width:20px;height:20px;"></i></div>
+                                Information RSE
+                            </div>
+                        </div>
+                        <div id="rseInfos" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                    </div>
+                </div>
+                <div id="page-rse-idees" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.2fr 1.8fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon pink"><i data-lucide="lightbulb" style="width:20px;height:20px;"></i></div>
+                                    Idées RSE
+                                </div>
+                                <button class="primary-btn" onclick="toggleRseIdeaForm(true)">Soumettre</button>
+                            </div>
+                            <div id="rseIdeaList" class="doc-list"></div>
+                        </div>
+                        <div class="dashboard-card" id="rseIdeaForm" style="display:none;">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="square-pen" style="width:20px;height:20px;"></i></div>
+                                    Nouvelle idée RSE
+                                </div>
+                                <button class="secondary-btn" onclick="toggleRseIdeaForm(false)">Fermer</button>
+                            </div>
+                            <div style="padding:18px;">
+                                <input id="rseIdeaTitle" class="actu-search-input" placeholder="Titre">
+                                <textarea id="rseIdeaDesc" class="actu-search-input" style="margin-top:12px;height:120px;padding-top:10px;" placeholder="Description…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+                                    <button class="primary-btn" onclick="submitRseIdea()">Envoyer</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon purple"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div>
+                                    Détail
+                                </div>
+                            </div>
+                            <div id="rseIdeaDetail" style="padding:18px;color:var(--text-light);font-size:13px;">Sélectionnez une idée.</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="page-rse-contributions" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-grid" style="grid-template-columns: 1.2fr 1.8fr; gap: 24px;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon green"><i data-lucide="message-square-plus" style="width:20px;height:20px;"></i></div>
+                                    Contributions
+                                </div>
+                                <button class="primary-btn" onclick="toggleRseContributionForm(true)">Publier</button>
+                            </div>
+                            <div id="rseContribList" class="doc-list"></div>
+                        </div>
+                        <div class="dashboard-card" id="rseContribForm" style="display:none;">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon blue"><i data-lucide="square-pen" style="width:20px;height:20px;"></i></div>
+                                    Nouvelle contribution
+                                </div>
+                                <button class="secondary-btn" onclick="toggleRseContributionForm(false)">Fermer</button>
+                            </div>
+                            <div style="padding:18px;">
+                                <input id="rseContribTitle" class="actu-search-input" placeholder="Titre">
+                                <textarea id="rseContribBody" class="actu-search-input" style="margin-top:12px;height:120px;padding-top:10px;" placeholder="Contenu…"></textarea>
+                                <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+                                    <button class="primary-btn" onclick="submitRseContribution()">Publier</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon purple"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div>
+                                    Détail
+                                </div>
+                            </div>
+                            <div id="rseContribDetail" style="padding:18px;color:var(--text-light);font-size:13px;">Sélectionnez une contribution.</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="page-rse-rex" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="sparkles" style="width:20px;height:20px;"></i></div>
+                                Retours d’expérience RSE
+                            </div>
+                        </div>
+                        <div id="rseRexList" class="doc-list" style="padding: 0 18px 18px 18px;"></div>
+                    </div>
+                </div>
+                <div id="page-rse-axes" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon green"><i data-lucide="sliders-horizontal" style="width:20px;height:20px;"></i></div>
+                                Axes stratégiques (filtres / navigation)
+                            </div>
+                        </div>
+                        <div style="padding:18px;">
+                            <div id="rseAxisFilters" style="display:flex;gap:10px;flex-wrap:wrap;">
+                                <button class="actu-filter-btn active" onclick="filterRseAxis('all', this)">Tous</button>
+                                <button class="actu-filter-btn" onclick="filterRseAxis('Environnement', this)">Environnement</button>
+                                <button class="actu-filter-btn" onclick="filterRseAxis('Social', this)">Social</button>
+                                <button class="actu-filter-btn" onclick="filterRseAxis('Gouvernance', this)">Gouvernance</button>
+                            </div>
+                            <div id="rseAxesGrid" class="km-grid" style="margin-top:18px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="page-rse-echanges" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon blue"><i data-lucide="message-circle" style="width:20px;height:20px;"></i></div>
+                                Échanges participatifs
+                            </div>
+                        </div>
+                        <div id="rseEchanges" style="padding:18px;"></div>
+                    </div>
+                </div>
+                <div id="page-rse-sensibilisation" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon pink"><i data-lucide="megaphone" style="width:20px;height:20px;"></i></div>
+                                Sensibilisation
+                            </div>
+                        </div>
+                        <div id="rseSensibilisation" style="padding:18px;"></div>
+                    </div>
+                </div>
+                <div id="page-rse-animation" class="km-tab-content" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon orange"><i data-lucide="party-popper" style="width:20px;height:20px;"></i></div>
+                                Animation (campagnes / sondages)
+                            </div>
+                        </div>
+                        <div id="rseAnimation" style="padding:18px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QSE VIEW -->
