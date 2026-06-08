@@ -1,0 +1,161 @@
+{
+  "space": "collaboratifs",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "collabForumThreads": [
+      {
+        "id": "t1",
+        "title": "Question: procédure archivage",
+        "author": "Collaborateur 07",
+        "date": "Aujourd’hui",
+        "body": "Quel est le bon circuit pour archiver un dossier ?",
+        "replies": [
+          {
+            "author": "Collaborateur 03",
+            "date": "Aujourd’hui",
+            "text": "Voir la procédure interne (rubrique réglementaire)."
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "title": "Bonnes pratiques: gestion des mots de passe",
+        "author": "Collaborateur 12",
+        "date": "Hier",
+        "body": "Partagez vos bonnes pratiques.",
+        "replies": []
+      }
+    ],
+    "collabGroups": [
+      {
+        "id": "g1",
+        "name": "Groupe Qualité",
+        "members": 56,
+        "desc": "Process, conformité, REX."
+      },
+      {
+        "id": "g2",
+        "name": "Groupe Data / BI",
+        "members": 102,
+        "desc": "Tableaux de bord, KPI, bonnes pratiques."
+      },
+      {
+        "id": "g3",
+        "name": "Groupe RH",
+        "members": 44,
+        "desc": "Mobilité, formation, vie interne."
+      }
+    ],
+    "collabGroupThreads": [
+      {
+        "groupId": "g2",
+        "title": "Convention de nommage datasets",
+        "meta": "Data/BI • 3j"
+      },
+      {
+        "groupId": "g2",
+        "title": "Bonnes pratiques Power BI",
+        "meta": "Data/BI • 2h"
+      },
+      {
+        "groupId": "g1",
+        "title": "REX audit interne",
+        "meta": "Qualité • hier"
+      }
+    ],
+    "collabPosts": [
+      {
+        "id": "p1",
+        "author": "Collaborateur 05",
+        "date": "Aujourd’hui",
+        "text": "Info: réunion technique à 16h (Salle 2).",
+        "comments": [
+          {
+            "author": "Collaborateur 09",
+            "date": "Aujourd’hui",
+            "text": "Merci, je serai présent."
+          }
+        ]
+      },
+      {
+        "id": "p2",
+        "author": "Collaborateur 11",
+        "date": "Hier",
+        "text": "Question: qui a le modèle PV atelier ?",
+        "comments": []
+      }
+    ],
+    "collabRex": [
+      {
+        "id": "r1",
+        "title": "REX – Mise en production",
+        "date": "Mars 2026",
+        "body": "Points forts: communication. Amélioration: tests automatisés.",
+        "file": "REX_MEP.pdf"
+      },
+      {
+        "id": "r2",
+        "title": "Info – Nouvelle charte interne",
+        "date": "Fév 2026",
+        "body": "La charte interne est disponible en téléchargement.",
+        "file": "Charte_Interne.pdf"
+      }
+    ],
+    "collabEvents": [
+      {
+        "id": "e1",
+        "title": "Café communauté Data/BI",
+        "date": "15 Mai 2026",
+        "desc": "Partage d’astuces, retours d’expérience.",
+        "participants": 18
+      },
+      {
+        "id": "e2",
+        "title": "Atelier Qualité",
+        "date": "28 Mai 2026",
+        "desc": "Amélioration continue: idées & actions.",
+        "participants": 12
+      }
+    ],
+    "collabCulturePosts": [
+      {
+        "id": "c1",
+        "title": "Bienvenue aux nouveaux arrivants",
+        "date": "Avr 2026",
+        "body": "Une session d’intégration est prévue cette semaine."
+      },
+      {
+        "id": "c2",
+        "title": "Semaine bien‑être",
+        "date": "Mars 2026",
+        "body": "Programme: sport, nutrition, échanges."
+      }
+    ],
+    "collabGallery": [
+      {
+        "title": "Photo – Atelier",
+        "file": "Galerie_Atelier_01.png"
+      },
+      {
+        "title": "Photo – Vie interne",
+        "file": "Galerie_Vie_02.png"
+      },
+      {
+        "title": "Photo – Évènement",
+        "file": "Galerie_Event_03.png"
+      },
+      {
+        "title": "Photo – Team",
+        "file": "Galerie_Team_04.png"
+      },
+      {
+        "title": "Photo – Conférence",
+        "file": "Galerie_Conf_05.png"
+      },
+      {
+        "title": "Photo – Workshop",
+        "file": "Galerie_WS_06.png"
+      }
+    ]
+  }
+}

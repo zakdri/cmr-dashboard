@@ -1,0 +1,25 @@
+{
+  "generatedFrom": "js/app.js",
+  "updatedAt": "2026-06-08",
+  "mode": "split-by-space",
+  "spaces": [
+    "spaces/dashboard.json",
+    "spaces/applis.json",
+    "spaces/actualites.json",
+    "spaces/notifications.json",
+    "spaces/annuaire.json",
+    "spaces/organisation.json",
+    "spaces/rh.json",
+    "spaces/innovation.json",
+    "spaces/rse.json",
+    "spaces/qse.json",
+    "spaces/sitd.json",
+    "spaces/arc.json",
+    "spaces/reglementation.json",
+    "spaces/documentaires.json",
+    "spaces/collaboratifs.json",
+    "spaces/mediatheque.json",
+    "spaces/admin.json",
+    "spaces/km.json"
+  ]
+}

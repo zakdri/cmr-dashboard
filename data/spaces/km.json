@@ -1,0 +1,419 @@
+{
+  "space": "km",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "kmReferentiels": [
+      {
+        "id": "metiers",
+        "label": "Référentiels métiers",
+        "docs": [
+          {
+            "file": "Guide_Indicateurs_Retraite.pdf",
+            "label": "Guide des indicateurs de retraite",
+            "type": "Document"
+          },
+          {
+            "file": "Guide_Instruction_Dossiers.pdf",
+            "label": "Guide d’instruction des dossiers",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "systemes",
+        "label": "Référentiels SI",
+        "docs": [
+          {
+            "file": "Guide_Espace_Collaborateur.pdf",
+            "label": "Guide espace collaborateur (SI)",
+            "type": "Document"
+          },
+          {
+            "file": "Procédure_SSO.pdf",
+            "label": "Procédure SSO & accès",
+            "type": "Document"
+          }
+        ]
+      }
+    ],
+    "kmGlossaire": [
+      {
+        "term": "SFD",
+        "def": "Spécifications Fonctionnelles Détaillées."
+      },
+      {
+        "term": "REX",
+        "def": "Retour d’expérience (leçons apprises)."
+      },
+      {
+        "term": "GED",
+        "def": "Gestion Électronique des Documents."
+      },
+      {
+        "term": "AMOA",
+        "def": "Assistance à Maîtrise d’Ouvrage."
+      }
+    ],
+    "kmRexData": [
+      {
+        "id": "rx1",
+        "title": "REX – Refonte intranet: adoption",
+        "theme": "Projet",
+        "date": "Avr 2026",
+        "body": "Ce qui a fonctionné: démos courtes, sponsors métier. À améliorer: clarifier les owners dès le début."
+      },
+      {
+        "id": "rx2",
+        "title": "REX – Processus tickets IT",
+        "theme": "Processus",
+        "date": "Mars 2026",
+        "body": "Standardiser les catégories et définir un SLA visible dans GLPI."
+      }
+    ],
+    "kmElearning": [
+      {
+        "title": "Excel avancé (e‑learning)",
+        "meta": "2h30 • Niveau avancé",
+        "cta": "Lancer"
+      },
+      {
+        "title": "Cyber sécurité 101",
+        "meta": "35% • En cours",
+        "cta": "Reprendre"
+      },
+      {
+        "title": "Sensibilisation GED",
+        "meta": "20 min • Micro‑learning",
+        "cta": "Démarrer"
+      }
+    ],
+    "kmPedagogieMetier": [
+      {
+        "title": "Comprendre le parcours liquidation",
+        "meta": "Page métier • Retraite",
+        "desc": "Présentation synthétique des étapes et points de vigilance.",
+        "file": "Pedagogie_Liquidation.pdf"
+      },
+      {
+        "title": "Rôle du contrôle interne dans les régimes",
+        "meta": "Article métier • Contrôle",
+        "desc": "Repères pratiques pour les nouveaux arrivants et les relais métier.",
+        "file": "Pedagogie_Controle_Interne.pdf"
+      },
+      {
+        "title": "Cycle de traitement d’un dossier assuré",
+        "meta": "Fiche métier • Processus",
+        "desc": "Vue simple des acteurs, documents et validations.",
+        "file": "Pedagogie_Dossier_Assure.pdf"
+      }
+    ],
+    "kmCommunautes": [
+      {
+        "id": "co1",
+        "name": "Communauté BI & Data",
+        "members": 128,
+        "threads": 12
+      },
+      {
+        "id": "co2",
+        "name": "Communauté RH",
+        "members": 87,
+        "threads": 6
+      },
+      {
+        "id": "co3",
+        "name": "Communauté Qualité & Process",
+        "members": 54,
+        "threads": 4
+      }
+    ],
+    "kmThreads": [
+      {
+        "communityId": "co1",
+        "title": "Bonnes pratiques Power BI",
+        "meta": "BI & Data • 2h",
+        "badge": "Actif"
+      },
+      {
+        "communityId": "co2",
+        "title": "Mobilité interne – retours",
+        "meta": "RH • hier",
+        "badge": "Nouveau"
+      },
+      {
+        "communityId": "co1",
+        "title": "Convention de nommage datasets",
+        "meta": "BI & Data • 3j",
+        "badge": "En cours"
+      }
+    ],
+    "kmAmoa": [
+      {
+        "id": "a1",
+        "title": "AMOA – Refonte e‑Service",
+        "meta": "Dossier • Digital",
+        "body": "Ateliers, story mapping, backlog. Livrables: SFD, PV ateliers, plan de conduite du changement."
+      },
+      {
+        "id": "a2",
+        "title": "Conduite du changement – GED",
+        "meta": "Kit • Organisation",
+        "body": "Plan de com, supports, formation, accompagnement des référents."
+      }
+    ],
+    "kmDocs": [
+      {
+        "id": "procedures",
+        "label": "Procédures",
+        "docs": [
+          {
+            "file": "Procedure_Traitement_Pension.pdf",
+            "label": "Procédure traitement pension",
+            "type": "Document"
+          },
+          {
+            "file": "Procedure_Accueil_Usager.pdf",
+            "label": "Procédure accueil usager",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "politiques",
+        "label": "Politiques",
+        "docs": [
+          {
+            "file": "Politique_Securite_SI.pdf",
+            "label": "Politique sécurité SI",
+            "type": "Document"
+          }
+        ]
+      }
+    ],
+    "kmContribData": [
+      {
+        "id": "ct1",
+        "title": "Astuce: réduire les doublons GED",
+        "date": "Avr 2026",
+        "body": "Utiliser la convention de nommage + métadonnées obligatoires."
+      },
+      {
+        "id": "ct2",
+        "title": "Check‑list avant PV comité",
+        "date": "Mars 2026",
+        "body": "Ordre du jour, participants, décisions, actions, annexes."
+      }
+    ],
+    "kmCatalogueItems": [
+      {
+        "type": "Document",
+        "title": "Guide des indicateurs de retraite",
+        "meta": "Référentiels métiers"
+      },
+      {
+        "type": "Article",
+        "title": "Bilan – Digital Q1",
+        "meta": "Articles / bilans"
+      },
+      {
+        "type": "Forum",
+        "title": "Bonnes pratiques Power BI",
+        "meta": "Communautés"
+      },
+      {
+        "type": "Media",
+        "title": "Capsule vidéo – GED",
+        "meta": "Supports pédagogiques"
+      },
+      {
+        "type": "Article",
+        "title": "Comprendre le parcours liquidation",
+        "meta": "Pédagogie métier"
+      },
+      {
+        "type": "Article",
+        "title": "Story – Transformation du parcours assuré",
+        "meta": "Sources stories"
+      },
+      {
+        "type": "Document",
+        "title": "Rubrique Audit & conformité",
+        "meta": "KM Audit & Risque"
+      },
+      {
+        "type": "Media",
+        "title": "Capsule UX – Parcours e‑Service",
+        "meta": "Capsules UX"
+      },
+      {
+        "type": "Article",
+        "title": "Régimes de retraite CMR",
+        "meta": "Régimes & processus"
+      }
+    ],
+    "kmLivrables": [
+      {
+        "title": "SFD – Refonte intranet",
+        "file": "SFD_Refonte_Intranet_v1.pdf"
+      },
+      {
+        "title": "PV ateliers – AMOA e‑Service",
+        "file": "PV_Ateliers_eService.pdf"
+      },
+      {
+        "title": "Plan de déploiement",
+        "file": "Plan_Deploiement.pdf"
+      }
+    ],
+    "kmModeles": [
+      {
+        "title": "Modèle PV comité",
+        "file": "Modele_PV_Comite.docx"
+      },
+      {
+        "title": "Modèle note de service",
+        "file": "Modele_Note_Service.docx"
+      },
+      {
+        "title": "Formulaire expression de besoin",
+        "file": "Formulaire_EDB.docx"
+      }
+    ],
+    "kmPublications": [
+      {
+        "title": "Bilan SI – Mars 2026",
+        "meta": "Article • SI",
+        "file": "Bilan_SI_Mars_2026.pdf"
+      },
+      {
+        "title": "Bilan RH – T1 2026",
+        "meta": "Article • RH",
+        "file": "Bilan_RH_T1_2026.pdf"
+      }
+    ],
+    "kmGlpiTickets": [
+      {
+        "id": "t1",
+        "title": "Accès VPN",
+        "meta": "Ouvert • P2"
+      },
+      {
+        "id": "t2",
+        "title": "Incident impression",
+        "meta": "En cours • P3"
+      }
+    ],
+    "kmSupports": [
+      {
+        "title": "Capsule vidéo – GED",
+        "meta": "3 min",
+        "file": "Capsule_GED.mp4"
+      },
+      {
+        "title": "Infographie – Sécurité SI",
+        "meta": "PDF",
+        "file": "Infographie_Securite.pdf"
+      },
+      {
+        "title": "Guide – Bonnes pratiques KM",
+        "meta": "PDF",
+        "file": "Guide_Bonnes_Pratiques_KM.pdf"
+      }
+    ],
+    "kmStories": [
+      {
+        "title": "Story – Transformation du parcours assuré",
+        "type": "Article",
+        "meta": "Communication transverse",
+        "file": "Story_Parcours_Assure.pdf"
+      },
+      {
+        "title": "Story – Refonte intranet en 5 étapes",
+        "type": "Media",
+        "meta": "Projet SI",
+        "file": "Story_Refonte_Intranet.mp4"
+      },
+      {
+        "title": "Story – Modernisation GED",
+        "type": "Article",
+        "meta": "KM transverse",
+        "file": "Story_Modernisation_GED.pdf"
+      }
+    ],
+    "kmCampagnes": [
+      {
+        "id": "cmp1",
+        "title": "Collecte bonnes pratiques accueil",
+        "audience": "Collaborateurs",
+        "type": "Sondage",
+        "responses": 28,
+        "desc": "Recueillir les bonnes pratiques terrain pour enrichir le référentiel accueil."
+      },
+      {
+        "id": "cmp2",
+        "title": "Partage astuces GED",
+        "audience": "Métiers",
+        "type": "Formulaire",
+        "responses": 16,
+        "desc": "Identifier les usages récurrents à capitaliser dans la GED et les conventions de nommage."
+      }
+    ],
+    "kmAuditRisque": [
+      {
+        "title": "Rubrique Audit & conformité",
+        "meta": "Dossiers / articles",
+        "file": "KM_Audit_Conformite.pdf"
+      },
+      {
+        "title": "Bonnes pratiques gestion des risques",
+        "meta": "Documentation métier",
+        "file": "Bonnes_Pratiques_Risques.pdf"
+      },
+      {
+        "title": "Synthèse conformité réglementaire",
+        "meta": "Article de synthèse",
+        "file": "Synthese_Conformite_Reglementaire.pdf"
+      }
+    ],
+    "kmCapsulesUx": [
+      {
+        "title": "Capsule UX – Parcours e‑Service",
+        "meta": "Vidéo projet SI • 4 min",
+        "file": "Capsule_UX_eService.mp4"
+      },
+      {
+        "title": "Capsule UX – Onboarding intranet",
+        "meta": "Vidéo projet SI • 3 min",
+        "file": "Capsule_UX_Intranet.mp4"
+      },
+      {
+        "title": "Capsule UX – Recherche GED",
+        "meta": "Capsule usage • 2 min",
+        "file": "Capsule_UX_GED.mp4"
+      }
+    ],
+    "kmRegimesProcessus": [
+      {
+        "id": "rp1",
+        "title": "Régimes de retraite CMR",
+        "meta": "Page métier • onboarding",
+        "body": "Présentation des principaux régimes, de leurs spécificités et des points d’attention pour les nouvelles recrues.",
+        "file": "Regimes_Retraite_CMR.pdf"
+      },
+      {
+        "id": "rp2",
+        "title": "Processus de liquidation",
+        "meta": "Infographie • processus",
+        "body": "Vue simplifiée des étapes, contrôles et interactions métier nécessaires au traitement d’un dossier.",
+        "file": "Processus_Liquidation_Infographie.pdf"
+      },
+      {
+        "id": "rp3",
+        "title": "Processus de révision / mise à jour",
+        "meta": "Fiche métier • processus",
+        "body": "Repères sur les opérations de mise à jour, pièces justificatives et contrôles associés.",
+        "file": "Processus_Revision_MAJ.pdf"
+      }
+    ]
+  }
+}

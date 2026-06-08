@@ -1,0 +1,199 @@
+{
+  "space": "reglementation",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "regTextesItems": [
+      {
+        "title": "Loi n° 12-34 – Gouvernance des organismes",
+        "type": "Loi",
+        "ref": "12-34",
+        "date": "2024",
+        "tags": [
+          "gouvernance",
+          "cadre"
+        ],
+        "file": "Loi_12-34.pdf"
+      },
+      {
+        "title": "Décret n° 2-25-101 – Procédures de contrôle",
+        "type": "Décret",
+        "ref": "2-25-101",
+        "date": "2025",
+        "tags": [
+          "controle",
+          "qualite"
+        ],
+        "file": "Decret_2-25-101.pdf"
+      },
+      {
+        "title": "Circulaire – Mise à jour reporting",
+        "type": "Circulaire",
+        "ref": "CIR-2026-04",
+        "date": "Avr 2026",
+        "tags": [
+          "reporting",
+          "finance"
+        ],
+        "file": "Circulaire_Reporting_2026.pdf"
+      },
+      {
+        "title": "Décision – Charte éthique (v2)",
+        "type": "Décision",
+        "ref": "DEC-2026-02",
+        "date": "Fév 2026",
+        "tags": [
+          "ethique"
+        ],
+        "file": "Decision_Charte_Ethique_v2.pdf"
+      }
+    ],
+    "regProcedures": [
+      {
+        "title": "Procédure – Gestion des réclamations",
+        "meta": "Procédure interne • v1.3",
+        "file": "Procedure_Reclamations.pdf",
+        "tags": [
+          "service",
+          "qualite"
+        ]
+      },
+      {
+        "title": "Procédure – Contrôle interne",
+        "meta": "Procédure interne • v2.0",
+        "file": "Procedure_Controle_Interne.pdf",
+        "tags": [
+          "controle",
+          "audit"
+        ]
+      },
+      {
+        "title": "Procédure – Archivage des dossiers",
+        "meta": "Procédure interne • v1.1",
+        "file": "Procedure_Archivage_Dossiers.pdf",
+        "tags": [
+          "archivage",
+          "ged"
+        ]
+      }
+    ],
+    "regNotes": [
+      {
+        "title": "Guide pratique – Lecture d’un texte officiel",
+        "meta": "Note / guide • 10 pages",
+        "file": "Guide_Lecture_Textes.pdf"
+      },
+      {
+        "title": "Note – Bonnes pratiques de conformité",
+        "meta": "Note • MAJ 2026",
+        "file": "Note_Bonnes_Pratiques_Conformite.pdf"
+      }
+    ],
+    "regGedArchives": [
+      {
+        "title": "Loi n° 08-12 – Retraite (archive)",
+        "meta": "GED • version archivée",
+        "file": "Archive_Loi_08-12.pdf"
+      },
+      {
+        "title": "Circulaire – Procédure 2022 (archive)",
+        "meta": "GED • version archivée",
+        "file": "Archive_Circulaire_2022.pdf"
+      }
+    ],
+    "regGestionItems": [
+      {
+        "id": "gc1",
+        "title": "Procédure – Contrôle interne",
+        "type": "Procédure",
+        "status": "Publié"
+      },
+      {
+        "id": "gc2",
+        "title": "Note – Conformité (MAJ)",
+        "type": "Note",
+        "status": "Brouillon"
+      },
+      {
+        "id": "gc3",
+        "title": "Texte – Circulaire reporting",
+        "type": "Circulaire",
+        "status": "En validation"
+      }
+    ],
+    "regWorkflowQueue": [
+      {
+        "id": "wf1",
+        "title": "Note – Conformité (MAJ)",
+        "owner": "Admin / métier",
+        "date": "Aujourd’hui",
+        "action": "Valider"
+      },
+      {
+        "id": "wf2",
+        "title": "Texte – Circulaire reporting",
+        "owner": "Admin / métier",
+        "date": "Hier",
+        "action": "Valider"
+      }
+    ],
+    "regHistory": [
+      {
+        "id": "h1",
+        "kind": "create",
+        "text": "Création: Procédure – Archivage des dossiers",
+        "date": "Mars 2026"
+      },
+      {
+        "id": "h2",
+        "kind": "update",
+        "text": "Mise à jour: Décision – Charte éthique (v2)",
+        "date": "Fév 2026"
+      },
+      {
+        "id": "h3",
+        "kind": "validate",
+        "text": "Validation: Procédure – Contrôle interne",
+        "date": "Jan 2026"
+      }
+    ],
+    "regArchiveDocs": [
+      {
+        "title": "Procédure – Contrôle interne",
+        "state": "actifs",
+        "tags": [
+          "audit",
+          "controle",
+          "2026"
+        ],
+        "file": "Procedure_Controle_Interne.pdf"
+      },
+      {
+        "title": "Note – Bonnes pratiques de conformité",
+        "state": "actifs",
+        "tags": [
+          "conformite",
+          "2026"
+        ],
+        "file": "Note_Bonnes_Pratiques_Conformite.pdf"
+      },
+      {
+        "title": "Loi n° 08-12 – Retraite",
+        "state": "archives",
+        "tags": [
+          "retraite",
+          "2022"
+        ],
+        "file": "Archive_Loi_08-12.pdf"
+      },
+      {
+        "title": "Circulaire – Procédure 2022",
+        "state": "archives",
+        "tags": [
+          "procedures",
+          "2022"
+        ],
+        "file": "Archive_Circulaire_2022.pdf"
+      }
+    ]
+  }
+}

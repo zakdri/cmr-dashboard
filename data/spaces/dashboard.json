@@ -1,0 +1,58 @@
+{
+  "space": "dashboard",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "cmrNewsItems": [
+      {
+        "id": "cmr-actu-contrat",
+        "category": "CMR Actualités",
+        "text": "Signature du nouveau contrat programme État-CMR pour la période 2026-2028."
+      },
+      {
+        "id": "rh-eval",
+        "category": "RH",
+        "text": "Campagne d'évaluation annuelle lancée – Date limite le 28 février."
+      },
+      {
+        "id": "it-maint-paie",
+        "category": "IT",
+        "text": "Maintenance prévue sur le serveur \"Paie\" ce vendredi à 18h00."
+      },
+      {
+        "id": "social-colonies",
+        "category": "Social",
+        "text": "Inscriptions ouvertes pour les colonies de vacances 2026."
+      },
+      {
+        "id": "innovation-digitpasse",
+        "category": "Innovation",
+        "text": "Félicitations à l'équipe \"Digit-Passe\" pour le prix de l'innovation !"
+      },
+      {
+        "id": "strategie-roadmap",
+        "category": "Stratégie",
+        "text": "Lancement de la feuille de route digitale 2026."
+      },
+      {
+        "id": "partenariat-cnops",
+        "category": "Partenariat",
+        "text": "Accord signé avec la CNOPS pour l'échange de données."
+      },
+      {
+        "id": "formation-elearning",
+        "category": "Formation",
+        "text": "Nouveaux modules e-learning disponibles sur CMR Academy."
+      },
+      {
+        "id": "gouv-audit",
+        "category": "Gouvernance",
+        "text": "Réunion du comité d'audit prévue le 15 mars."
+      },
+      {
+        "id": "climat-social",
+        "category": "Climat Social",
+        "text": "Enquête de satisfaction interne : Taux de participation de 85%."
+      }
+    ]
+  }
+}

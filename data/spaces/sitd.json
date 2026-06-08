@@ -1,0 +1,325 @@
+{
+  "space": "sitd",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "sitdFeatures": [
+      {
+        "id": "sensibilisation-cyber",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Sécurité du SI",
+        "sousRubrique": "Sensibilisation cybersécurité",
+        "fonctionnalite": "Mise à disposition d'un espace de sensibilisation cybersécurité",
+        "description": "Centraliser les campagnes, supports et communications de sensibilisation à la cybersécurité.",
+        "typeContenu": "Contenu pédagogique",
+        "typeUx": "Portail dynamique / cards",
+        "interactions": "Consulter, suivre les campagnes",
+        "cible": "Tous les collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Structurant SI"
+      },
+      {
+        "id": "modules-elearning",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Sécurité du SI",
+        "sousRubrique": "Modules e-learning",
+        "fonctionnalite": "Intégration des modules e-learning sécurité SI",
+        "description": "Mettre à disposition les parcours de sensibilisation sécurité SI.",
+        "typeContenu": "E-learning",
+        "typeUx": "Catalogue / lecteur",
+        "interactions": "Consulter, suivre",
+        "cible": "Tous les collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "À interfacer avec plateforme existante"
+      },
+      {
+        "id": "supports-pedagogiques",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Sécurité du SI",
+        "sousRubrique": "Supports pédagogiques",
+        "fonctionnalite": "Publication des supports de sensibilisation SI",
+        "description": "Publier guides, procédures, capsules et recommandations cybersécurité.",
+        "typeContenu": "Document / média",
+        "typeUx": "Bibliothèque documentaire",
+        "interactions": "Consulter, télécharger",
+        "cible": "Collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "KM transverse"
+      },
+      {
+        "id": "campagnes-si",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Sécurité du SI",
+        "sousRubrique": "Campagnes SI",
+        "fonctionnalite": "Gestion des campagnes de sensibilisation",
+        "description": "Publier les campagnes institutionnelles liées à la sécurité SI.",
+        "typeContenu": "Communication",
+        "typeUx": "Timeline / actualités",
+        "interactions": "Diffuser, notifier",
+        "cible": "Tous les collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Lié communication interne"
+      },
+      {
+        "id": "bonnes-pratiques-it",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Référentiel IT",
+        "sousRubrique": "Bonnes pratiques IT",
+        "fonctionnalite": "Capitalisation des bonnes pratiques IT",
+        "description": "Structurer les référentiels et pratiques SI.",
+        "typeContenu": "Référentiel",
+        "typeUx": "Dossiers / catégories",
+        "interactions": "Rechercher, consulter",
+        "cible": "SI / métiers",
+        "priorite": "Moyenne",
+        "statutDesign": "À définir",
+        "commentaires": "KMIT"
+      },
+      {
+        "id": "glpi",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Intégration SI",
+        "sousRubrique": "GLPI",
+        "fonctionnalite": "Interfaçage avec GLPI",
+        "description": "Exploiter GLPI pour la capitalisation et le support IT.",
+        "typeContenu": "Application / data",
+        "typeUx": "Widget / lien",
+        "interactions": "Accéder, synchroniser",
+        "cible": "SITD",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Dépend SI"
+      },
+      {
+        "id": "tableaux-bord-si",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Pilotage SI",
+        "sousRubrique": "Tableaux de bord SI",
+        "fonctionnalite": "Mise à disposition d'indicateurs SI",
+        "description": "Afficher indicateurs de performance et qualité de service SI.",
+        "typeContenu": "KPI / dashboard",
+        "typeUx": "Dashboard",
+        "interactions": "Consulter",
+        "cible": "Management / SITD",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Pilotage SI"
+      },
+      {
+        "id": "enquetes-satisfaction",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Pilotage SI",
+        "sousRubrique": "Enquêtes de satisfaction",
+        "fonctionnalite": "Gestion des enquêtes satisfaction SI",
+        "description": "Permettre l'évaluation des services SI.",
+        "typeContenu": "Formulaire / KPI",
+        "typeUx": "Formulaire / dashboard",
+        "interactions": "Répondre, analyser",
+        "cible": "Collaborateurs",
+        "priorite": "Moyenne",
+        "statutDesign": "À définir",
+        "commentaires": "À mutualiser avec RH"
+      },
+      {
+        "id": "sla",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Contrats de services",
+        "sousRubrique": "SLA",
+        "fonctionnalite": "Consultation des SLA et contrats de services",
+        "description": "Centraliser les engagements de service et indicateurs associés.",
+        "typeContenu": "Document / KPI",
+        "typeUx": "Tableau / fiche",
+        "interactions": "Consulter",
+        "cible": "SITD / managers",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Nouveau besoin critique"
+      },
+      {
+        "id": "repertoire-outils",
+        "espace": "Espace SI / SITD",
+        "rubrique": "SEAU",
+        "sousRubrique": "Répertoire des outils",
+        "fonctionnalite": "Répertoire des outils d'exploitation",
+        "description": "Mettre à disposition le catalogue des outils techniques exploités par le SEAU.",
+        "typeContenu": "Référentiel",
+        "typeUx": "Liste / fiches",
+        "interactions": "Consulter",
+        "cible": "Profils habilités",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Accès restreint"
+      },
+      {
+        "id": "documentation-exploitation",
+        "espace": "Espace SI / SITD",
+        "rubrique": "SEAU",
+        "sousRubrique": "Documentation d'exploitation",
+        "fonctionnalite": "Documentation technique associée",
+        "description": "Centraliser les documentations techniques et procédures d'exploitation.",
+        "typeContenu": "Documentation",
+        "typeUx": "GED-like",
+        "interactions": "Consulter, télécharger",
+        "cible": "SI habilités",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Sensible"
+      }
+    ],
+    "sitdCampagnes": [
+      {
+        "title": "Campagne Mots de passe 2026",
+        "date": "Mai 2026",
+        "status": "En cours",
+        "progress": 62
+      },
+      {
+        "title": "Phishing — simulation Q2",
+        "date": "Avr 2026",
+        "status": "Clôturée",
+        "progress": 100
+      },
+      {
+        "title": "Sensibilisation VPN & accès distant",
+        "date": "Juin 2026",
+        "status": "À venir",
+        "progress": 0
+      }
+    ],
+    "sitdElearningModules": [
+      {
+        "title": "Cybersécurité — Fondamentaux",
+        "duree": "45 min",
+        "niveau": "Tous publics",
+        "file": "Elearning_Cyber_Fondamentaux.pdf"
+      },
+      {
+        "title": "Gestion des incidents SI",
+        "duree": "1h20",
+        "niveau": "SITD",
+        "file": "Elearning_Incidents_SI.pdf"
+      },
+      {
+        "title": "Protection des données",
+        "duree": "35 min",
+        "niveau": "Tous publics",
+        "file": "Elearning_Protection_Donnees.pdf"
+      }
+    ],
+    "sitdSupports": [
+      {
+        "title": "Guide — Bonnes pratiques mots de passe",
+        "type": "PDF",
+        "file": "Guide_MDP.pdf"
+      },
+      {
+        "title": "Procédure — Signalement incident",
+        "type": "PDF",
+        "file": "Procedure_Incident.pdf"
+      },
+      {
+        "title": "Capsule — Phishing",
+        "type": "Vidéo",
+        "file": "Capsule_Phishing.mp4"
+      }
+    ],
+    "sitdBonnesPratiques": [
+      {
+        "categorie": "Sécurité",
+        "title": "Gestion des comptes à privilèges",
+        "file": "BP_Comptes_Privileges.pdf"
+      },
+      {
+        "categorie": "Exploitation",
+        "title": "Procédure de sauvegarde",
+        "file": "BP_Sauvegarde.pdf"
+      },
+      {
+        "categorie": "Support",
+        "title": "Qualification des tickets GLPI",
+        "file": "BP_Qualification_GLPI.pdf"
+      }
+    ],
+    "sitdGlpiTickets": [
+      {
+        "id": "INC-2401",
+        "title": "Accès VPN — demande habilitation",
+        "meta": "En cours • Priorité haute"
+      },
+      {
+        "id": "INC-2398",
+        "title": "Poste — lenteur réseau",
+        "meta": "Assigné • Support N2"
+      }
+    ],
+    "sitdEnquetes": [
+      {
+        "title": "Enquête satisfaction support SI — T2 2026",
+        "participation": "68%",
+        "statut": "Ouverte"
+      },
+      {
+        "title": "Enquête qualité des délais — T1 2026",
+        "participation": "91%",
+        "statut": "Clôturée"
+      }
+    ],
+    "sitdSlaRows": [
+      {
+        "service": "Support utilisateur (N1)",
+        "engagement": "Prise en charge < 4h",
+        "indicateur": "96%",
+        "statut": "OK"
+      },
+      {
+        "service": "Incidents critiques",
+        "engagement": "Résolution < 8h",
+        "indicateur": "92%",
+        "statut": "OK"
+      },
+      {
+        "service": "Demandes d’évolution",
+        "engagement": "Analyse < 10 j",
+        "indicateur": "88%",
+        "statut": "Attention"
+      }
+    ],
+    "sitdOutilsSeau": [
+      {
+        "nom": "Supervision — Zabbix",
+        "role": "Monitoring",
+        "acces": "Habilité N2"
+      },
+      {
+        "nom": "Orchestration — Ansible",
+        "role": "Automatisation",
+        "acces": "Habilité N3"
+      },
+      {
+        "nom": "Logs — ELK Stack",
+        "role": "Analyse",
+        "acces": "Habilité N2"
+      }
+    ],
+    "sitdDocsExploitation": [
+      {
+        "title": "Runbook — Incident majeur",
+        "dossier": "Procédures",
+        "file": "Runbook_Incident_Majeur.pdf"
+      },
+      {
+        "title": "Procédure — Restauration BDD",
+        "dossier": "Bases de données",
+        "file": "Procedure_Restauration_BDD.pdf"
+      },
+      {
+        "title": "Documentation — Architecture réseau",
+        "dossier": "Infrastructure",
+        "file": "Doc_Architecture_Reseau.pdf"
+      }
+    ]
+  }
+}

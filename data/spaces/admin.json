@@ -1,0 +1,102 @@
+{
+  "space": "admin",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "adminUsers": [
+      {
+        "id": "u1",
+        "name": "Admin 01",
+        "email": "admin01@cmr.ma",
+        "profil": "Administrateur",
+        "status": "Actif"
+      },
+      {
+        "id": "u2",
+        "name": "Contributeur 03",
+        "email": "cont03@cmr.ma",
+        "profil": "Contributeur",
+        "status": "Actif"
+      },
+      {
+        "id": "u3",
+        "name": "Utilisateur 12",
+        "email": "user12@cmr.ma",
+        "profil": "Utilisateur",
+        "status": "Désactivé"
+      }
+    ],
+    "adminRoles": [
+      {
+        "id": "r_admin",
+        "name": "Administrateur",
+        "desc": "Tous droits (admin)."
+      },
+      {
+        "id": "r_contrib",
+        "name": "Contributeur",
+        "desc": "Publier / modifier contenus."
+      },
+      {
+        "id": "r_user",
+        "name": "Utilisateur",
+        "desc": "Consulter."
+      }
+    ],
+    "adminUserRoles": {
+      "u1": "Administrateur",
+      "u2": "Contributeur",
+      "u3": "Utilisateur"
+    },
+    "adminAccess": [
+      {
+        "userId": "u1",
+        "scope": "Administration",
+        "level": "Accès"
+      },
+      {
+        "userId": "u2",
+        "scope": "KM",
+        "level": "Accès"
+      },
+      {
+        "userId": "u2",
+        "scope": "Médiathèque",
+        "level": "Restreint"
+      }
+    ],
+    "adminCmsItems": [
+      {
+        "id": "c1",
+        "title": "Page – Accueil (bannière)",
+        "status": "Publié",
+        "updated": "Avr 2026"
+      },
+      {
+        "id": "c2",
+        "title": "Bloc – Communication interne",
+        "status": "Brouillon",
+        "updated": "Mars 2026"
+      }
+    ],
+    "adminLogs": [
+      {
+        "id": "l1",
+        "kind": "access",
+        "text": "Accès attribué: u2 → KM",
+        "date": "Avr 2026"
+      },
+      {
+        "id": "l2",
+        "kind": "update",
+        "text": "CMS modifié: Page – Accueil",
+        "date": "Mars 2026"
+      },
+      {
+        "id": "l3",
+        "kind": "auth",
+        "text": "Authentification admin (OK)",
+        "date": "Fév 2026"
+      }
+    ]
+  }
+}

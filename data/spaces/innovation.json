@@ -1,0 +1,141 @@
+{
+  "space": "innovation",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "ideas": [
+      {
+        "id": "i1",
+        "title": "Assistant IA pour tri des demandes",
+        "axis": "Data/IA",
+        "score": 42,
+        "desc": "Automatiser le tri/catégorisation des demandes (GLPI / mail) + routage.",
+        "comments": 5
+      },
+      {
+        "id": "i2",
+        "title": "Dématérialisation PV comités",
+        "axis": "Processus",
+        "score": 28,
+        "desc": "PV standardisés, signature et archivage GED avec métadonnées.",
+        "comments": 2
+      },
+      {
+        "id": "i3",
+        "title": "Tableau de bord satisfaction interne",
+        "axis": "Service",
+        "score": 19,
+        "desc": "KPIs + feedback loop pour actions RH/communication.",
+        "comments": 1
+      }
+    ],
+    "innovationProjects": [
+      {
+        "name": "Portail idées – MVP",
+        "status": "En cours",
+        "progress": 55
+      },
+      {
+        "name": "Démat PV comités",
+        "status": "À lancer",
+        "progress": 0
+      },
+      {
+        "name": "Assistant IA tri demandes",
+        "status": "Étude",
+        "progress": 20
+      }
+    ],
+    "innovationFeed": [
+      {
+        "title": "Tendances IA 2026 (secteur public)",
+        "meta": "Article • 2j",
+        "source": "Veille"
+      },
+      {
+        "title": "Design sprint: réduire le time-to-value",
+        "meta": "Dossier • 1s",
+        "source": "OpenLab"
+      },
+      {
+        "title": "Exemples d’innovation services",
+        "meta": "Note • 3s",
+        "source": "Benchmark"
+      }
+    ],
+    "socialComments": [
+      {
+        "author": "Collaborateur 02",
+        "when": "il y a 2h",
+        "text": "Très bonne idée, on peut commencer par un POC sur une catégorie."
+      },
+      {
+        "author": "Collaborateur 03",
+        "when": "hier",
+        "text": "Attention aux données sensibles, prévoir anonymisation."
+      }
+    ],
+    "socialReactions": {
+      "like": 31,
+      "idea": 12,
+      "fire": 6
+    },
+    "socialVotes": [
+      {
+        "label": "Assistant IA tri demandes",
+        "score": 72
+      },
+      {
+        "label": "Démat PV comités",
+        "score": 54
+      },
+      {
+        "label": "Dashboard satisfaction",
+        "score": 29
+      }
+    ],
+    "innovationEvents": [
+      {
+        "date": "05 Mai 2026",
+        "title": "Atelier Design Sprint",
+        "meta": "Salle Innovation • 09:00"
+      },
+      {
+        "date": "20 Mai 2026",
+        "title": "Challenge idées – Data/IA",
+        "meta": "En ligne • 14:00"
+      }
+    ],
+    "innovationAxes": [
+      {
+        "axis": "Digital",
+        "title": "Automatisation & self‑service",
+        "desc": "Portails, signature, workflows."
+      },
+      {
+        "axis": "Processus",
+        "title": "Simplification",
+        "desc": "Réduire délais, standardiser."
+      },
+      {
+        "axis": "Service",
+        "title": "Expérience usager",
+        "desc": "Feedback, qualité de service."
+      },
+      {
+        "axis": "Data/IA",
+        "title": "Data & IA",
+        "desc": "Analyse, prédiction, assistants."
+      }
+    ],
+    "openlabItems": [
+      {
+        "title": "OpenLab – POC IA",
+        "meta": "En cours • 3 initiatives"
+      },
+      {
+        "title": "Portefeuille 2026",
+        "meta": "12 projets • 4 axes"
+      }
+    ]
+  }
+}

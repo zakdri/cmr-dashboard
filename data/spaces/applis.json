@@ -1,0 +1,164 @@
+{
+  "space": "applis",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "applicationsCategories": [
+      {
+        "id": "rh",
+        "title": "Ressources Humaines",
+        "items": [
+          {
+            "id": "sirh",
+            "title": "SIRH",
+            "description": "Système d'Information Ressources Humaines. Gestion des carrières et congés.",
+            "action": "Accéder",
+            "icon": "users",
+            "href": "#",
+            "hoverBg": "#f0f9ff",
+            "hoverBorder": "#bae6fd",
+            "iconBackground": "linear-gradient(135deg, #0ea5e9, #0284c7)",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "paie",
+            "title": "Paie",
+            "description": "Consultation des bulletins de paie et historique des rémunérations.",
+            "action": "Consulter",
+            "icon": "banknote",
+            "href": "#",
+            "hoverBg": "#eef2ff",
+            "hoverBorder": "#c7d2fe",
+            "iconBackground": "linear-gradient(135deg, #6366f1, #4f46e5)",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "formation",
+            "title": "Formation",
+            "description": "Catalogue de formations et suivi de votre parcours de développement.",
+            "action": "Découvrir",
+            "icon": "graduation-cap",
+            "href": "#",
+            "hoverBg": "#faf5ff",
+            "hoverBorder": "#e9d5ff",
+            "iconBackground": "linear-gradient(135deg, #a855f7, #9333ea)",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "notes-frais",
+            "title": "Notes de Frais",
+            "description": "Saisie et suivi des remboursements de frais professionnels.",
+            "action": "Saisir",
+            "icon": "file-spreadsheet",
+            "href": "#",
+            "hoverBg": "#fdf2f8",
+            "hoverBorder": "#fbcfe8",
+            "iconBackground": "linear-gradient(135deg, #ec4899, #db2777)",
+            "actionIcon": "arrow-right"
+          }
+        ]
+      },
+      {
+        "id": "finance-achat",
+        "title": "Finance & Achat",
+        "items": [
+          {
+            "id": "sage",
+            "title": "Sage",
+            "description": "Gestion financière et comptable. Accès réservé au service finance.",
+            "action": "Ouvrir",
+            "icon": "pie-chart",
+            "href": "#",
+            "hoverBg": "#ecfdf5",
+            "hoverBorder": "#a7f3d0",
+            "iconBackground": "linear-gradient(135deg, #10b981, #059669)",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "achats",
+            "title": "Achats",
+            "description": "Portail des demandes d'achats et gestion des fournisseurs.",
+            "action": "Accéder",
+            "icon": "shopping-cart",
+            "href": "#",
+            "hoverBg": "#fff7ed",
+            "hoverBorder": "#fed7aa",
+            "iconBackground": "linear-gradient(135deg, #f59e0b, #d97706)",
+            "actionIcon": "arrow-right"
+          }
+        ]
+      },
+      {
+        "id": "collaboration",
+        "title": "Outils Collaboratifs",
+        "items": [
+          {
+            "id": "outlook",
+            "title": "Outlook",
+            "description": "Messagerie électronique professionnelle et calendrier.",
+            "action": "Ouvrir",
+            "icon": "mail",
+            "href": "#",
+            "hoverBg": "#f0f9ff",
+            "hoverBorder": "#bae6fd",
+            "iconBackground": "#0078d4",
+            "actionIcon": "external-link"
+          },
+          {
+            "id": "teams",
+            "title": "Teams",
+            "description": "Communication d'équipe, réunions et collaboration en temps réel.",
+            "action": "Ouvrir",
+            "icon": "message-square",
+            "href": "#",
+            "hoverBg": "#eef2ff",
+            "hoverBorder": "#c7d2fe",
+            "iconBackground": "#5059c9",
+            "actionIcon": "external-link"
+          },
+          {
+            "id": "onedrive",
+            "title": "OneDrive",
+            "description": "Stockage personnel sécurisé et partage de fichiers.",
+            "action": "Accéder",
+            "icon": "cloud",
+            "href": "#",
+            "hoverBg": "#f0f9ff",
+            "hoverBorder": "#bae6fd",
+            "iconBackground": "#0078d4",
+            "actionIcon": "external-link"
+          }
+        ]
+      },
+      {
+        "id": "support-it",
+        "title": "Support & IT",
+        "items": [
+          {
+            "id": "helpdesk",
+            "title": "Helpdesk",
+            "description": "Support technique. Signaler un incident ou faire une demande.",
+            "action": "Créer un ticket",
+            "icon": "life-buoy",
+            "href": "#",
+            "hoverBg": "#fef2f2",
+            "hoverBorder": "#fecaca",
+            "iconBackground": "#ef4444",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "glpi",
+            "title": "GLPI",
+            "description": "Gestion de parc informatique et inventaire.",
+            "action": "Consulter",
+            "icon": "monitor",
+            "href": "#",
+            "hoverBg": "#f8fafc",
+            "hoverBorder": "#cbd5e1",
+            "iconBackground": "#64748b",
+            "actionIcon": "arrow-right"
+          }
+        ]
+      }
+    ]
+  }
+}

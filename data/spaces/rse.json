@@ -1,0 +1,170 @@
+{
+  "space": "rse",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "rseReferentiels": {
+      "politiques": [
+        {
+          "title": "Politique RSE CMR",
+          "file": "Politique_RSE.pdf"
+        },
+        {
+          "title": "Politique achats responsables",
+          "file": "Politique_Achats_Responsables.pdf"
+        }
+      ],
+      "chartes": [
+        {
+          "title": "Charte environnementale",
+          "file": "Charte_Environnement.pdf"
+        },
+        {
+          "title": "Charte diversité & inclusion",
+          "file": "Charte_Diversite_Inclusion.pdf"
+        }
+      ],
+      "codes": [
+        {
+          "title": "Code éthique",
+          "file": "Code_Ethique.pdf"
+        },
+        {
+          "title": "Code de conduite",
+          "file": "Code_Conduite.pdf"
+        }
+      ],
+      "guides": [
+        {
+          "title": "Guide éco‑gestes",
+          "file": "Guide_EcoGestes.pdf"
+        },
+        {
+          "title": "Guide mobilité durable",
+          "file": "Guide_Mobilite_Durable.pdf"
+        }
+      ]
+    },
+    "rseRapports": [
+      {
+        "title": "Rapport RSE 2025",
+        "file": "Rapport_RSE_2025.pdf",
+        "meta": "Liste/téléchargement"
+      },
+      {
+        "title": "Bilan carbone (synthèse)",
+        "file": "Bilan_Carbone_Synthese.pdf",
+        "meta": "Liste/téléchargement"
+      }
+    ],
+    "rseActions": [
+      {
+        "title": "Collecte solidaire",
+        "meta": "Article / média",
+        "tag": "Social"
+      },
+      {
+        "title": "Semaine verte",
+        "meta": "Article / média",
+        "tag": "Environnement"
+      },
+      {
+        "title": "Atelier éco‑gestes",
+        "meta": "Article / média",
+        "tag": "Sensibilisation"
+      }
+    ],
+    "rseInfos": [
+      {
+        "title": "Programme RSE 2026",
+        "meta": "Page / liste"
+      },
+      {
+        "title": "FAQ RSE",
+        "meta": "Page / liste"
+      }
+    ],
+    "rseIdeas": [
+      {
+        "id": "rsi1",
+        "title": "Tri sélectif par étage",
+        "desc": "Mettre des bacs dédiés + affichage.",
+        "score": 14
+      },
+      {
+        "id": "rsi2",
+        "title": "Covoiturage interne",
+        "desc": "Groupe/outil pour organiser les trajets.",
+        "score": 9
+      }
+    ],
+    "rseContrib": [
+      {
+        "id": "rsc1",
+        "title": "Photos – Semaine verte",
+        "body": "Partage des moments forts et chiffres clés.",
+        "date": "Avr 2026"
+      }
+    ],
+    "rseRex": [
+      {
+        "title": "Retour d’expérience – Collecte solidaire",
+        "meta": "Article • Social",
+        "file": "REX_Collecte_Solidaire.pdf"
+      },
+      {
+        "title": "Retour d’expérience – Semaine verte",
+        "meta": "Article • Environnement",
+        "file": "REX_Semaine_Verte.pdf"
+      }
+    ],
+    "rseAxes": [
+      {
+        "axis": "Environnement",
+        "title": "Réduction des déchets",
+        "desc": "Tri, dématérialisation, sobriété."
+      },
+      {
+        "axis": "Social",
+        "title": "Solidarité",
+        "desc": "Initiatives internes et partenaires."
+      },
+      {
+        "axis": "Gouvernance",
+        "title": "Éthique",
+        "desc": "Codes, chartes et conformité."
+      }
+    ],
+    "rseEchanges": [
+      {
+        "author": "Collaborateur 04",
+        "when": "il y a 1j",
+        "text": "Proposer un défi “zéro papier” sur un mois ?"
+      },
+      {
+        "author": "Collaborateur 05",
+        "when": "il y a 3j",
+        "text": "Idée: atelier compostage au siège + sensibilisation."
+      }
+    ],
+    "rseSensibilisation": [
+      {
+        "title": "Campagne “Éco‑gestes”",
+        "desc": "Quizz + mini‑capsules."
+      },
+      {
+        "title": "Semaine sécurité & éthique",
+        "desc": "Affiches + sessions courtes."
+      }
+    ],
+    "rseAnimation": [
+      {
+        "title": "Sondage – mobilité durable",
+        "desc": "Répondre (maquette)"
+      },
+      {
+        "title": "Défi – semaine sans plastique",
+        "desc": "Participer (maquette)"
+      }
+    ]
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "space": "qse",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "qsePolitiques": [
+      {
+        "title": "Politique QSE",
+        "file": "Politique_QSE.pdf"
+      },
+      {
+        "title": "Politique sécurité & environnement",
+        "file": "Politique_SSE.pdf"
+      }
+    ],
+    "qseReferentiels": [
+      {
+        "title": "Référentiel QSE – exigences",
+        "file": "Referentiel_QSE_Exigences.pdf"
+      },
+      {
+        "title": "Référentiel QSE – check‑lists",
+        "file": "Referentiel_QSE_Checklists.pdf"
+      }
+    ],
+    "qseSmiDocs": [
+      {
+        "title": "Manuel SMI",
+        "file": "Manuel_SMI.pdf"
+      },
+      {
+        "title": "Procédures & supports",
+        "file": "Procedures_SMI.zip"
+      }
+    ],
+    "qsePedago": [
+      {
+        "title": "Flash sécurité – EPI",
+        "meta": "Média / article",
+        "file": "Flash_Securite_EPI.pdf"
+      },
+      {
+        "title": "Vidéo – gestes de sécurité",
+        "meta": "Média / article",
+        "file": "Video_Gestes_Securite.mp4"
+      }
+    ],
+    "qseAudits": [
+      {
+        "title": "Audit interne QSE",
+        "date": "15 Avr 2026",
+        "status": "Clos",
+        "report": "Rapport_Audit_Interne_QSE.pdf"
+      },
+      {
+        "title": "Audit site – sécurité",
+        "date": "02 Mars 2026",
+        "status": "Actions",
+        "report": "Rapport_Audit_Site_Securite.pdf"
+      }
+    ],
+    "qseCultureItems": [
+      {
+        "title": "Campagne “Zéro accident”",
+        "meta": "Articles / campagnes",
+        "file": "Campagne_Zero_Accident.pdf"
+      },
+      {
+        "title": "Semaine QSE",
+        "meta": "Articles / campagnes",
+        "file": "Semaine_QSE.pdf"
+      }
+    ],
+    "qseCulturePortailItems": [
+      {
+        "title": "Flash info — EPI obligatoires",
+        "type": "Flash",
+        "file": "Flash_EPI.pdf"
+      },
+      {
+        "title": "Vidéo — Gestes posturaux",
+        "type": "Vidéo",
+        "file": "Video_Gestes_Posturaux.mp4"
+      },
+      {
+        "title": "Note — Culture sécurité au quotidien",
+        "type": "Note",
+        "file": "Note_Culture_Securite.pdf"
+      }
+    ],
+    "qseResultatsAudits": [
+      {
+        "title": "Synthèse audit interne QSE — T1 2026",
+        "kpi": "87% actions clôturées",
+        "file": "Synthese_Audit_QSE_T1_2026.pdf"
+      },
+      {
+        "title": "Synthèse audit site sécurité",
+        "kpi": "12 recommandations",
+        "file": "Synthese_Audit_Site_Securite.pdf"
+      }
+    ],
+    "qseContributions": [
+      {
+        "title": "Idée — Signalétique zones à risque",
+        "auteur": "Équipe exploitation",
+        "votes": 24
+      },
+      {
+        "title": "Proposition — Tri sélectif renforcé",
+        "auteur": "Services généraux",
+        "votes": 18
+      }
+    ],
+    "qseIdeaItems": [
+      {
+        "title": "Améliorer la signalétique sécurité",
+        "type": "Sécurité",
+        "date": "Avr 2026"
+      }
+    ],
+    "qseRemontees": [
+      {
+        "title": "Zone glissante – escalier",
+        "date": "Mars 2026"
+      }
+    ]
+  }
+}

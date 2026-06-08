@@ -1,0 +1,409 @@
+{
+  "space": "organisation",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "orgData": {
+      "name": "CMR",
+      "role": "Direction Générale",
+      "children": [
+        {
+          "name": "Direction Digitale",
+          "role": "Digital & SI",
+          "children": [
+            {
+              "name": "Data & Analytics",
+              "role": "BI / Data",
+              "children": []
+            },
+            {
+              "name": "Applications",
+              "role": "Portails & Apps",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Direction RH",
+          "role": "Ressources Humaines",
+          "children": [
+            {
+              "name": "Développement RH",
+              "role": "Compétences",
+              "children": []
+            },
+            {
+              "name": "Administration RH",
+              "role": "Paie / Dossiers",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Direction Financière",
+          "role": "Finance",
+          "children": [
+            {
+              "name": "Contrôle de gestion",
+              "role": "Pilotage",
+              "children": []
+            },
+            {
+              "name": "Comptabilité",
+              "role": "Compta",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    "postesData": [
+      {
+        "id": "p1",
+        "titre": "Chef de projet",
+        "famille": "Digital",
+        "missions": [
+          "Piloter le delivery",
+          "Coordonner les parties prenantes",
+          "Suivre les risques & planning"
+        ],
+        "competences": [
+          "Gestion de projet",
+          "Communication",
+          "Agilité"
+        ],
+        "profil": [
+          "Bac+5",
+          "3+ ans",
+          "Maîtrise outils PM"
+        ]
+      },
+      {
+        "id": "p2",
+        "titre": "Contrôleur de gestion",
+        "famille": "Finance",
+        "missions": [
+          "Produire le reporting",
+          "Analyser les écarts",
+          "Proposer des actions"
+        ],
+        "competences": [
+          "Analyse",
+          "Excel/BI",
+          "Rigueur"
+        ],
+        "profil": [
+          "Bac+5",
+          "2+ ans",
+          "Sens du détail"
+        ]
+      },
+      {
+        "id": "p3",
+        "titre": "Responsable Développement RH",
+        "famille": "RH",
+        "missions": [
+          "Plan de formation",
+          "Gestion des talents",
+          "Accompagnement managers"
+        ],
+        "competences": [
+          "RH",
+          "Pédagogie",
+          "Conduite du changement"
+        ],
+        "profil": [
+          "Bac+5",
+          "5+ ans",
+          "Leadership"
+        ]
+      }
+    ],
+    "referentiels": [
+      {
+        "id": "r1",
+        "dossier": "Organisation",
+        "docs": [
+          {
+            "file": "Politique_Organisationnelle_2026.pdf",
+            "label": "Politique organisationnelle 2026"
+          },
+          {
+            "file": "Processus_Decisionnels.pdf",
+            "label": "Processus décisionnels"
+          }
+        ]
+      },
+      {
+        "id": "r2",
+        "dossier": "Gouvernance",
+        "docs": [
+          {
+            "file": "Charte_Gouvernance.pdf",
+            "label": "Charte de gouvernance"
+          },
+          {
+            "file": "RACI_Decisions_Clés.pdf",
+            "label": "RACI — décisions clés"
+          }
+        ]
+      }
+    ],
+    "comitesData": [
+      {
+        "id": "k1",
+        "nom": "Comité d'audit",
+        "periodicite": "Trimestriel",
+        "docs": [
+          {
+            "file": "PV_Comite_Audit_T1_2026.pdf",
+            "label": "PV T1 2026"
+          },
+          {
+            "file": "PV_Comite_Audit_T4_2025.pdf",
+            "label": "PV T4 2025"
+          }
+        ]
+      },
+      {
+        "id": "k2",
+        "nom": "Comité de pilotage",
+        "periodicite": "Mensuel",
+        "docs": [
+          {
+            "file": "PV_COPIL_Avr_2026.pdf",
+            "label": "PV Avril 2026"
+          },
+          {
+            "file": "PV_COPIL_Mars_2026.pdf",
+            "label": "PV Mars 2026"
+          }
+        ]
+      }
+    ],
+    "orgGovSmiPolitiquesData": [
+      {
+        "title": "Politique SMI — Management intégré",
+        "file": "Politique_SMI_Management_Integre.pdf"
+      },
+      {
+        "title": "Politique qualité & amélioration continue",
+        "file": "Politique_Qualite_AC.pdf"
+      },
+      {
+        "title": "Politique sécurité & santé au travail",
+        "file": "Politique_SST.pdf"
+      },
+      {
+        "title": "Politique environnement",
+        "file": "Politique_Environnement.pdf"
+      },
+      {
+        "title": "Référentiel processus SMI",
+        "file": "Referentiel_Processus_SMI.pdf"
+      }
+    ],
+    "orgGovSmiDossiersData": [
+      {
+        "id": "dp1",
+        "dossier": "Pilotage & stratégie",
+        "docs": [
+          {
+            "file": "Processus_Pilotage_Strategique.pdf",
+            "label": "Processus — Pilotage stratégique"
+          },
+          {
+            "file": "Fiche_Processus_Revues_Direction.pdf",
+            "label": "Fiche processus — Revues de direction"
+          }
+        ]
+      },
+      {
+        "id": "dp2",
+        "dossier": "Ressources & compétences",
+        "docs": [
+          {
+            "file": "Processus_Gestion_Competences.pdf",
+            "label": "Processus — Gestion des compétences"
+          },
+          {
+            "file": "Processus_Formation_Interne.pdf",
+            "label": "Processus — Formation interne"
+          }
+        ]
+      },
+      {
+        "id": "dp3",
+        "dossier": "Réalisation opérationnelle",
+        "docs": [
+          {
+            "file": "Processus_Traitement_Demandes.pdf",
+            "label": "Processus — Traitement des demandes"
+          },
+          {
+            "file": "Processus_Controle_Qualite.pdf",
+            "label": "Processus — Contrôle qualité"
+          }
+        ]
+      }
+    ],
+    "orgGovSmiAuditsData": [
+      {
+        "title": "Audit SMI interne — T1 2026",
+        "date": "Mars 2026",
+        "file": "Audit_SMI_Interne_T1_2026.pdf"
+      },
+      {
+        "title": "Audit certification ISO 9001 — suivi",
+        "date": "Fév 2026",
+        "file": "Audit_ISO9001_Suivi_2026.pdf"
+      },
+      {
+        "title": "Synthèse constats SMI 2025",
+        "date": "Déc 2025",
+        "file": "Synthese_Constats_SMI_2025.pdf"
+      }
+    ],
+    "orgGovProcessusMap": {
+      "pilotage": {
+        "label": "Pilotage",
+        "desc": "Définition des orientations, revues de direction et arbitrages.",
+        "links": [
+          {
+            "id": "gouvernance",
+            "label": "Gouvernance"
+          },
+          {
+            "id": "strategie",
+            "label": "Stratégie"
+          }
+        ]
+      },
+      "strategie": {
+        "label": "Stratégie",
+        "desc": "Plan stratégique, objectifs et indicateurs de performance.",
+        "links": [
+          {
+            "id": "pilotage",
+            "label": "Pilotage"
+          },
+          {
+            "id": "realisation",
+            "label": "Réalisation"
+          }
+        ]
+      },
+      "gouvernance": {
+        "label": "Gouvernance",
+        "desc": "Instances, comités, décisions et reporting.",
+        "links": [
+          {
+            "id": "pilotage",
+            "label": "Pilotage"
+          },
+          {
+            "id": "controle",
+            "label": "Contrôle"
+          }
+        ]
+      },
+      "realisation": {
+        "label": "Réalisation",
+        "desc": "Exécution des activités métiers et prestations aux assurés.",
+        "links": [
+          {
+            "id": "support",
+            "label": "Support"
+          },
+          {
+            "id": "strategie",
+            "label": "Stratégie"
+          }
+        ]
+      },
+      "support": {
+        "label": "Support",
+        "desc": "RH, SI, achats, moyens généraux et fonctions transverses.",
+        "links": [
+          {
+            "id": "realisation",
+            "label": "Réalisation"
+          },
+          {
+            "id": "controle",
+            "label": "Contrôle"
+          }
+        ]
+      },
+      "controle": {
+        "label": "Contrôle",
+        "desc": "Audits, conformité, gestion des risques et amélioration.",
+        "links": [
+          {
+            "id": "gouvernance",
+            "label": "Gouvernance"
+          },
+          {
+            "id": "support",
+            "label": "Support"
+          }
+        ]
+      }
+    },
+    "orgGovComitesTimelineData": [
+      {
+        "date": "Avr 2026",
+        "comite": "Comité de pilotage",
+        "type": "CR",
+        "title": "CR COPIL — priorités T2",
+        "file": "CR_COPIL_Avr_2026.pdf",
+        "kpi": "12 décisions actées"
+      },
+      {
+        "date": "Mar 2026",
+        "comite": "Comité d'audit",
+        "type": "Décision",
+        "title": "Validation plan d'audit 2026",
+        "file": "Decision_Comite_Audit_Mar_2026.pdf",
+        "kpi": "87 % reco. implémentées"
+      },
+      {
+        "date": "Fév 2026",
+        "comite": "Comité de pilotage",
+        "type": "KPI",
+        "title": "Tableau de bord stratégique T1",
+        "file": "KPI_Strategiques_T1_2026.pdf",
+        "kpi": "Satisfaction assurés : 82 %"
+      },
+      {
+        "date": "Jan 2026",
+        "comite": "Comité de pilotage",
+        "type": "CR",
+        "title": "CR COPIL — lancement année",
+        "file": "CR_COPIL_Jan_2026.pdf",
+        "kpi": "Feuille de route validée"
+      }
+    ],
+    "orgGovRapportsGouvernanceData": [
+      {
+        "dossier": "Conseil d'administration",
+        "title": "Rapport CA — T1 2026",
+        "file": "Rapport_CA_T1_2026.pdf"
+      },
+      {
+        "dossier": "Conseil d'administration",
+        "title": "Dossier préparatoire CA Mars 2026",
+        "file": "Dossier_Preparatoire_CA_Mar_2026.pdf"
+      },
+      {
+        "dossier": "Instances de gouvernance",
+        "title": "Synthèse gouvernance 2025",
+        "file": "Synthese_Gouvernance_2025.pdf"
+      },
+      {
+        "dossier": "Instances de gouvernance",
+        "title": "Charte des comités — version 2026",
+        "file": "Charte_Comites_2026.pdf"
+      }
+    ]
+  }
+}

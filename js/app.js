@@ -22,6 +22,17 @@ function openAgendaTab(tabName) {
 // Initialize Lucide icons
         lucide.createIcons();
 
+        const cmrDataStore = window.CMR_DATA?.data || {};
+
+        function getCmrData(key, fallback) {
+            const value = cmrDataStore[key];
+            if (value === undefined) return fallback;
+            if (value && typeof value === 'object') {
+                return JSON.parse(JSON.stringify(value));
+            }
+            return value;
+        }
+
         // Main Carousel functionality
         let currentSlide = 0;
         const mainSlides = document.querySelectorAll('.carousel-section .carousel-slide');
@@ -182,7 +193,7 @@ function openAgendaTab(tabName) {
         });
 
         // Random News Ticker (cliquable -> pop-up)
-        const cmrNewsItems = [
+        const cmrNewsItems = getCmrData('cmrNewsItems', [
             { id: 'cmr-actu-contrat', category: 'CMR Actualités', text: "Signature du nouveau contrat programme État-CMR pour la période 2026-2028." },
             { id: 'rh-eval', category: 'RH', text: "Campagne d'évaluation annuelle lancée – Date limite le 28 février." },
             { id: 'it-maint-paie', category: 'IT', text: "Maintenance prévue sur le serveur \"Paie\" ce vendredi à 18h00." },
@@ -193,7 +204,7 @@ function openAgendaTab(tabName) {
             { id: 'formation-elearning', category: 'Formation', text: "Nouveaux modules e-learning disponibles sur CMR Academy." },
             { id: 'gouv-audit', category: 'Gouvernance', text: "Réunion du comité d'audit prévue le 15 mars." },
             { id: 'climat-social', category: 'Climat Social', text: "Enquête de satisfaction interne : Taux de participation de 85%." }
-        ];
+        ]);
 
         function escapeHtml(str) {
             return String(str)
@@ -952,7 +963,7 @@ function openAgendaTab(tabName) {
         }
 
         // ====== ORGANIGRAMME (simple interactive tree) ======
-        const orgData = {
+        const orgData = getCmrData('orgData', {
             name: "CMR",
             role: "Direction Générale",
             children: [
@@ -969,7 +980,7 @@ function openAgendaTab(tabName) {
                     { name: "Comptabilité", role: "Compta", children: [] }
                 ]}
             ]
-        };
+        });
 
         function renderOrgNode(node, depth = 0) {
             const hasChildren = (node.children || []).length > 0;
@@ -1026,12 +1037,12 @@ function openAgendaTab(tabName) {
         }
 
         // ====== ANNUAIRE (list + detailed profile) ======
-        const annuaireData = [
+        const annuaireData = getCmrData('annuaireData', [
             { id: 'c1', nom: 'Collaborateur 01', direction: 'Direction Digitale', fonction: 'Chef de projet', email: 'collaborateur01@cmr.ma', tel: '+212 5 00 00 00 01', localisation: 'Rabat', managerId: 'c4', managerLabel: 'Laila Harfi', orgPath: ['CMR', 'Direction Digitale', 'Collaborateur 01'] },
             { id: 'c2', nom: 'Nadia Benali', direction: 'Direction RH', fonction: 'Responsable Développement RH', email: 'nadia.benali@cmr.ma', tel: '+212 5 00 00 00 02', localisation: 'Rabat', managerId: null, managerLabel: 'Direction RH', orgPath: ['CMR', 'Direction RH', 'Nadia Benali'] },
             { id: 'c3', nom: 'Karim A.', direction: 'Direction Financière', fonction: 'Contrôleur de gestion', email: 'karim.a@cmr.ma', tel: '+212 5 00 00 00 03', localisation: 'Rabat', managerId: null, managerLabel: 'Direction Financière', orgPath: ['CMR', 'Direction Financière', 'Karim A.'] },
             { id: 'c4', nom: 'Laila Harfi', direction: 'Direction Digitale', fonction: 'Consultante Senior', email: 'laila.harfi@cmr.ma', tel: '+212 5 00 00 00 04', localisation: 'Rabat', managerId: null, managerLabel: 'Direction Digitale', orgPath: ['CMR', 'Direction Digitale', 'Laila Harfi'] }
-        ];
+        ]);
         let annuaireSelectedId = null;
 
         function initAnnuaireFilters() {
@@ -1222,11 +1233,11 @@ function openAgendaTab(tabName) {
         }
 
         // ====== FICHES DE POSTES (list + structured page) ======
-        const postesData = [
+        const postesData = getCmrData('postesData', [
             { id: 'p1', titre: 'Chef de projet', famille: 'Digital', missions: ['Piloter le delivery', 'Coordonner les parties prenantes', 'Suivre les risques & planning'], competences: ['Gestion de projet', 'Communication', 'Agilité'], profil: ['Bac+5', '3+ ans', 'Maîtrise outils PM'] },
             { id: 'p2', titre: 'Contrôleur de gestion', famille: 'Finance', missions: ['Produire le reporting', 'Analyser les écarts', 'Proposer des actions'], competences: ['Analyse', 'Excel/BI', 'Rigueur'], profil: ['Bac+5', '2+ ans', 'Sens du détail'] },
             { id: 'p3', titre: 'Responsable Développement RH', famille: 'RH', missions: ['Plan de formation', 'Gestion des talents', 'Accompagnement managers'], competences: ['RH', 'Pédagogie', 'Conduite du changement'], profil: ['Bac+5', '5+ ans', 'Leadership'] }
-        ];
+        ]);
 
         function renderPostesList(q) {
             const list = document.getElementById('postesList');
@@ -1276,7 +1287,7 @@ function openAgendaTab(tabName) {
         }
 
         // ====== RÉFÉRENTIELS (dossier + documents) ======
-        const referentiels = [
+        const referentiels = getCmrData('referentiels', [
             { id: 'r1', dossier: 'Organisation', docs: [
                 { file: 'Politique_Organisationnelle_2026.pdf', label: 'Politique organisationnelle 2026' },
                 { file: 'Processus_Decisionnels.pdf', label: 'Processus décisionnels' }
@@ -1285,7 +1296,7 @@ function openAgendaTab(tabName) {
                 { file: 'Charte_Gouvernance.pdf', label: 'Charte de gouvernance' },
                 { file: 'RACI_Decisions_Clés.pdf', label: 'RACI — décisions clés' }
             ]}
-        ];
+        ]);
         let currentRef = 'r1';
 
         function renderReferentiels() {
@@ -1325,7 +1336,7 @@ function openAgendaTab(tabName) {
         }
 
         // ====== COMITÉS (liste + dossier) ======
-        const comitesData = [
+        const comitesData = getCmrData('comitesData', [
             { id: 'k1', nom: "Comité d'audit", periodicite: "Trimestriel", docs: [
                 { file: 'PV_Comite_Audit_T1_2026.pdf', label: 'PV T1 2026' },
                 { file: 'PV_Comite_Audit_T4_2025.pdf', label: 'PV T4 2025' }
@@ -1334,7 +1345,7 @@ function openAgendaTab(tabName) {
                 { file: 'PV_COPIL_Avr_2026.pdf', label: 'PV Avril 2026' },
                 { file: 'PV_COPIL_Mars_2026.pdf', label: 'PV Mars 2026' }
             ]}
-        ];
+        ]);
         let currentComite = 'k1';
 
         function renderComites() {
@@ -1381,15 +1392,15 @@ function openAgendaTab(tabName) {
         }
 
         // ====== COMPLÉMENT ORGA & GOUVERNANCE (écrans fonctionnels) ======
-        const orgGovSmiPolitiquesData = [
+        const orgGovSmiPolitiquesData = getCmrData('orgGovSmiPolitiquesData', [
             { title: 'Politique SMI — Management intégré', file: 'Politique_SMI_Management_Integre.pdf' },
             { title: 'Politique qualité & amélioration continue', file: 'Politique_Qualite_AC.pdf' },
             { title: 'Politique sécurité & santé au travail', file: 'Politique_SST.pdf' },
             { title: 'Politique environnement', file: 'Politique_Environnement.pdf' },
             { title: 'Référentiel processus SMI', file: 'Referentiel_Processus_SMI.pdf' }
-        ];
+        ]);
 
-        const orgGovSmiDossiersData = [
+        const orgGovSmiDossiersData = getCmrData('orgGovSmiDossiersData', [
             { id: 'dp1', dossier: 'Pilotage & stratégie', docs: [
                 { file: 'Processus_Pilotage_Strategique.pdf', label: 'Processus — Pilotage stratégique' },
                 { file: 'Fiche_Processus_Revues_Direction.pdf', label: 'Fiche processus — Revues de direction' }
@@ -1402,16 +1413,16 @@ function openAgendaTab(tabName) {
                 { file: 'Processus_Traitement_Demandes.pdf', label: 'Processus — Traitement des demandes' },
                 { file: 'Processus_Controle_Qualite.pdf', label: 'Processus — Contrôle qualité' }
             ]}
-        ];
+        ]);
         let orgGovSmiDossierCurrent = 'dp1';
 
-        const orgGovSmiAuditsData = [
+        const orgGovSmiAuditsData = getCmrData('orgGovSmiAuditsData', [
             { title: 'Audit SMI interne — T1 2026', date: 'Mars 2026', file: 'Audit_SMI_Interne_T1_2026.pdf' },
             { title: 'Audit certification ISO 9001 — suivi', date: 'Fév 2026', file: 'Audit_ISO9001_Suivi_2026.pdf' },
             { title: 'Synthèse constats SMI 2025', date: 'Déc 2025', file: 'Synthese_Constats_SMI_2025.pdf' }
-        ];
+        ]);
 
-        const orgGovProcessusMap = {
+        const orgGovProcessusMap = getCmrData('orgGovProcessusMap', {
             pilotage: {
                 label: 'Pilotage',
                 desc: 'Définition des orientations, revues de direction et arbitrages.',
@@ -1442,22 +1453,22 @@ function openAgendaTab(tabName) {
                 desc: 'Audits, conformité, gestion des risques et amélioration.',
                 links: [{ id: 'gouvernance', label: 'Gouvernance' }, { id: 'support', label: 'Support' }]
             }
-        };
+        });
         let orgGovProcessusSelected = 'pilotage';
 
-        const orgGovComitesTimelineData = [
+        const orgGovComitesTimelineData = getCmrData('orgGovComitesTimelineData', [
             { date: 'Avr 2026', comite: 'Comité de pilotage', type: 'CR', title: 'CR COPIL — priorités T2', file: 'CR_COPIL_Avr_2026.pdf', kpi: '12 décisions actées' },
             { date: 'Mar 2026', comite: "Comité d'audit", type: 'Décision', title: "Validation plan d'audit 2026", file: 'Decision_Comite_Audit_Mar_2026.pdf', kpi: '87 % reco. implémentées' },
             { date: 'Fév 2026', comite: 'Comité de pilotage', type: 'KPI', title: 'Tableau de bord stratégique T1', file: 'KPI_Strategiques_T1_2026.pdf', kpi: 'Satisfaction assurés : 82 %' },
             { date: 'Jan 2026', comite: 'Comité de pilotage', type: 'CR', title: 'CR COPIL — lancement année', file: 'CR_COPIL_Jan_2026.pdf', kpi: 'Feuille de route validée' }
-        ];
+        ]);
 
-        const orgGovRapportsGouvernanceData = [
+        const orgGovRapportsGouvernanceData = getCmrData('orgGovRapportsGouvernanceData', [
             { dossier: "Conseil d'administration", title: 'Rapport CA — T1 2026', file: 'Rapport_CA_T1_2026.pdf' },
             { dossier: "Conseil d'administration", title: 'Dossier préparatoire CA Mars 2026', file: 'Dossier_Preparatoire_CA_Mar_2026.pdf' },
             { dossier: 'Instances de gouvernance', title: 'Synthèse gouvernance 2025', file: 'Synthese_Gouvernance_2025.pdf' },
             { dossier: 'Instances de gouvernance', title: 'Charte des comités — version 2026', file: 'Charte_Comites_2026.pdf' }
-        ];
+        ]);
 
         function renderOrgGovSmiPolitiques() {
             const list = document.getElementById('orgGovSmiPolitiques');
@@ -1813,11 +1824,11 @@ function openAgendaTab(tabName) {
         }
 
         // Ideation: formulaire + liste + détail
-        let ideas = [
+        let ideas = getCmrData('ideas', [
             { id: 'i1', title: 'Assistant IA pour tri des demandes', axis: 'Data/IA', score: 42, desc: 'Automatiser le tri/catégorisation des demandes (GLPI / mail) + routage.', comments: 5 },
             { id: 'i2', title: 'Dématérialisation PV comités', axis: 'Processus', score: 28, desc: 'PV standardisés, signature et archivage GED avec métadonnées.', comments: 2 },
             { id: 'i3', title: 'Tableau de bord satisfaction interne', axis: 'Service', score: 19, desc: 'KPIs + feedback loop pour actions RH/communication.', comments: 1 }
-        ];
+        ]);
         let selectedIdeaId = null;
         function toggleIdeaForm(open) {
             const card = document.getElementById('ideaFormCard');
@@ -1872,11 +1883,11 @@ function openAgendaTab(tabName) {
         }
 
         // Suivi projets: liste/dashboard
-        const innovationProjects = [
+        const innovationProjects = getCmrData('innovationProjects', [
             { name: 'Portail idées – MVP', status: 'En cours', progress: 55 },
             { name: 'Démat PV comités', status: 'À lancer', progress: 0 },
             { name: 'Assistant IA tri demandes', status: 'Étude', progress: 20 }
-        ];
+        ]);
         function renderInnovationProjects() {
             const root = document.getElementById('innovationProjects');
             if (!root) return;
@@ -1895,11 +1906,11 @@ function openAgendaTab(tabName) {
         }
 
         // Veille: flux
-        const innovationFeed = [
+        const innovationFeed = getCmrData('innovationFeed', [
             { title: 'Tendances IA 2026 (secteur public)', meta: 'Article • 2j', source: 'Veille' },
             { title: 'Design sprint: réduire le time-to-value', meta: 'Dossier • 1s', source: 'OpenLab' },
             { title: 'Exemples d’innovation services', meta: 'Note • 3s', source: 'Benchmark' }
-        ];
+        ]);
         function renderInnovationFeed() {
             const list = document.getElementById('innovationFeed');
             if (!list) return;
@@ -1917,16 +1928,16 @@ function openAgendaTab(tabName) {
         }
 
         // Social: commentaires + réactions + votes
-        let socialComments = [
+        let socialComments = getCmrData('socialComments', [
             { author: 'Collaborateur 02', when: 'il y a 2h', text: 'Très bonne idée, on peut commencer par un POC sur une catégorie.' },
             { author: 'Collaborateur 03', when: 'hier', text: 'Attention aux données sensibles, prévoir anonymisation.' }
-        ];
-        let socialReactions = { like: 31, idea: 12, fire: 6 };
-        let socialVotes = [
+        ]);
+        let socialReactions = getCmrData('socialReactions', { like: 31, idea: 12, fire: 6 });
+        let socialVotes = getCmrData('socialVotes', [
             { label: 'Assistant IA tri demandes', score: 72 },
             { label: 'Démat PV comités', score: 54 },
             { label: 'Dashboard satisfaction', score: 29 }
-        ];
+        ]);
         function renderInnovationSocial() {
             const c = document.getElementById('innovationComments');
             const r = document.getElementById('innovationReactions');
@@ -1977,10 +1988,10 @@ function openAgendaTab(tabName) {
         }
 
         // Ateliers/challenges: liste/calendrier
-        const innovationEvents = [
+        const innovationEvents = getCmrData('innovationEvents', [
             { date: '05 Mai 2026', title: 'Atelier Design Sprint', meta: 'Salle Innovation • 09:00' },
             { date: '20 Mai 2026', title: 'Challenge idées – Data/IA', meta: 'En ligne • 14:00' }
-        ];
+        ]);
         function renderInnovationEvents() {
             const root = document.getElementById('innovationEvents');
             if (!root) return;
@@ -1998,12 +2009,12 @@ function openAgendaTab(tabName) {
 
         // Axes: filtres/catégories
         let innovationAxisFilter = 'all';
-        const innovationAxes = [
+        const innovationAxes = getCmrData('innovationAxes', [
             { axis: 'Digital', title: 'Automatisation & self‑service', desc: 'Portails, signature, workflows.' },
             { axis: 'Processus', title: 'Simplification', desc: 'Réduire délais, standardiser.' },
             { axis: 'Service', title: 'Expérience usager', desc: 'Feedback, qualité de service.' },
             { axis: 'Data/IA', title: 'Data & IA', desc: 'Analyse, prédiction, assistants.' }
-        ];
+        ]);
         function filterInnovationAxis(a, btn) {
             innovationAxisFilter = a;
             document.querySelectorAll('#innovationAxesFilters .actu-filter-btn').forEach(b => b.classList.remove('active'));
@@ -2026,10 +2037,10 @@ function openAgendaTab(tabName) {
         }
 
         // OpenLab/portfolio: page/dashboard
-        const openlabItems = [
+        const openlabItems = getCmrData('openlabItems', [
             { title: 'OpenLab – POC IA', meta: 'En cours • 3 initiatives' },
             { title: 'Portefeuille 2026', meta: '12 projets • 4 axes' }
-        ];
+        ]);
         function renderOpenLab() {
             const list = document.getElementById('openlabPortfolio');
             const dash = document.getElementById('openlabDashboard');
@@ -2241,7 +2252,7 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        const rseReferentiels = {
+        const rseReferentiels = getCmrData('rseReferentiels', {
             politiques: [
                 { title: 'Politique RSE CMR', file: 'Politique_RSE.pdf' },
                 { title: 'Politique achats responsables', file: 'Politique_Achats_Responsables.pdf' }
@@ -2258,7 +2269,7 @@ function openAgendaTab(tabName) {
                 { title: 'Guide éco‑gestes', file: 'Guide_EcoGestes.pdf' },
                 { title: 'Guide mobilité durable', file: 'Guide_Mobilite_Durable.pdf' }
             ]
-        };
+        });
 
         function renderRseReferentiels(type) {
             const map = {
@@ -2283,10 +2294,10 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        const rseRapports = [
+        const rseRapports = getCmrData('rseRapports', [
             { title: 'Rapport RSE 2025', file: 'Rapport_RSE_2025.pdf', meta: 'Liste/téléchargement' },
             { title: 'Bilan carbone (synthèse)', file: 'Bilan_Carbone_Synthese.pdf', meta: 'Liste/téléchargement' }
-        ];
+        ]);
         function renderRseRapports() {
             const list = document.getElementById('rseRapportsList');
             if (!list) return;
@@ -2303,11 +2314,11 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        const rseActions = [
+        const rseActions = getCmrData('rseActions', [
             { title: 'Collecte solidaire', meta: 'Article / média', tag: 'Social' },
             { title: 'Semaine verte', meta: 'Article / média', tag: 'Environnement' },
             { title: 'Atelier éco‑gestes', meta: 'Article / média', tag: 'Sensibilisation' }
-        ];
+        ]);
         function renderRseActions() {
             const grid = document.getElementById('rseActionsGrid');
             if (!grid) return;
@@ -2322,10 +2333,10 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        const rseInfos = [
+        const rseInfos = getCmrData('rseInfos', [
             { title: 'Programme RSE 2026', meta: 'Page / liste' },
             { title: 'FAQ RSE', meta: 'Page / liste' }
-        ];
+        ]);
         function renderRseInfos() {
             const list = document.getElementById('rseInfos');
             if (!list) return;
@@ -2342,10 +2353,10 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        let rseIdeas = [
+        let rseIdeas = getCmrData('rseIdeas', [
             { id: 'rsi1', title: 'Tri sélectif par étage', desc: 'Mettre des bacs dédiés + affichage.', score: 14 },
             { id: 'rsi2', title: 'Covoiturage interne', desc: 'Groupe/outil pour organiser les trajets.', score: 9 }
-        ];
+        ]);
         let rseIdeaSelected = null;
         function toggleRseIdeaForm(open) {
             const el = document.getElementById('rseIdeaForm');
@@ -2391,9 +2402,9 @@ function openAgendaTab(tabName) {
             renderRseIdeas();
         }
 
-        let rseContrib = [
+        let rseContrib = getCmrData('rseContrib', [
             { id: 'rsc1', title: 'Photos – Semaine verte', body: 'Partage des moments forts et chiffres clés.', date: 'Avr 2026' }
-        ];
+        ]);
         let rseContribSelected = null;
         function toggleRseContributionForm(open) {
             const el = document.getElementById('rseContribForm');
@@ -2436,10 +2447,10 @@ function openAgendaTab(tabName) {
             renderRseContributions();
         }
 
-        const rseRex = [
+        const rseRex = getCmrData('rseRex', [
             { title: 'Retour d’expérience – Collecte solidaire', meta: 'Article • Social', file: 'REX_Collecte_Solidaire.pdf' },
             { title: 'Retour d’expérience – Semaine verte', meta: 'Article • Environnement', file: 'REX_Semaine_Verte.pdf' }
-        ];
+        ]);
         function renderRseRex() {
             const list = document.getElementById('rseRexList');
             if (!list) return;
@@ -2457,11 +2468,11 @@ function openAgendaTab(tabName) {
         }
 
         let rseAxisFilter = 'all';
-        const rseAxes = [
+        const rseAxes = getCmrData('rseAxes', [
             { axis: 'Environnement', title: 'Réduction des déchets', desc: 'Tri, dématérialisation, sobriété.' },
             { axis: 'Social', title: 'Solidarité', desc: 'Initiatives internes et partenaires.' },
             { axis: 'Gouvernance', title: 'Éthique', desc: 'Codes, chartes et conformité.' }
-        ];
+        ]);
         function filterRseAxis(axis, btn) {
             rseAxisFilter = axis;
             document.querySelectorAll('#rseAxisFilters .actu-filter-btn').forEach(b => b.classList.remove('active'));
@@ -2483,10 +2494,10 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        let rseEchanges = [
+        let rseEchanges = getCmrData('rseEchanges', [
             { author: 'Collaborateur 04', when: 'il y a 1j', text: 'Proposer un défi “zéro papier” sur un mois ?' },
             { author: 'Collaborateur 05', when: 'il y a 3j', text: 'Idée: atelier compostage au siège + sensibilisation.' }
-        ];
+        ]);
         function renderRseEchanges() {
             const root = document.getElementById('rseEchanges');
             if (!root) return;
@@ -2510,10 +2521,10 @@ function openAgendaTab(tabName) {
             renderRseEchanges();
         }
 
-        const rseSensibilisation = [
+        const rseSensibilisation = getCmrData('rseSensibilisation', [
             { title: 'Campagne “Éco‑gestes”', desc: 'Quizz + mini‑capsules.' },
             { title: 'Semaine sécurité & éthique', desc: 'Affiches + sessions courtes.' }
-        ];
+        ]);
         function renderRseSensibilisation() {
             const root = document.getElementById('rseSensibilisation');
             if (!root) return;
@@ -2526,10 +2537,10 @@ function openAgendaTab(tabName) {
             `).join('');
         }
 
-        const rseAnimation = [
+        const rseAnimation = getCmrData('rseAnimation', [
             { title: 'Sondage – mobilité durable', desc: 'Répondre (maquette)' },
             { title: 'Défi – semaine sans plastique', desc: 'Participer (maquette)' }
-        ];
+        ]);
         function renderRseAnimation() {
             const root = document.getElementById('rseAnimation');
             if (!root) return;
@@ -2546,7 +2557,7 @@ function openAgendaTab(tabName) {
         }
 
         // ===== SITD (table conforme — onglet 15. Espace SITD) =====
-        const sitdFeatures = [
+        const sitdFeatures = getCmrData('sitdFeatures', [
             {
                 id: 'sensibilisation-cyber',
                 espace: 'Espace SI / SITD',
@@ -2712,7 +2723,7 @@ function openAgendaTab(tabName) {
                 statutDesign: 'À définir',
                 commentaires: 'Sensible'
             }
-        ];
+        ]);
 
         const sitdFeaturesById = Object.fromEntries(sitdFeatures.map(f => [f.id, f]));
 
@@ -2757,57 +2768,57 @@ function openAgendaTab(tabName) {
         let sitdSection = 'securite-si';
         let sitdSub = 'sensibilisation-cyber';
 
-        let sitdCampagnes = [
+        let sitdCampagnes = getCmrData('sitdCampagnes', [
             { title: 'Campagne Mots de passe 2026', date: 'Mai 2026', status: 'En cours', progress: 62 },
             { title: 'Phishing — simulation Q2', date: 'Avr 2026', status: 'Clôturée', progress: 100 },
             { title: 'Sensibilisation VPN & accès distant', date: 'Juin 2026', status: 'À venir', progress: 0 }
-        ];
+        ]);
 
-        let sitdElearningModules = [
+        let sitdElearningModules = getCmrData('sitdElearningModules', [
             { title: 'Cybersécurité — Fondamentaux', duree: '45 min', niveau: 'Tous publics', file: 'Elearning_Cyber_Fondamentaux.pdf' },
             { title: 'Gestion des incidents SI', duree: '1h20', niveau: 'SITD', file: 'Elearning_Incidents_SI.pdf' },
             { title: 'Protection des données', duree: '35 min', niveau: 'Tous publics', file: 'Elearning_Protection_Donnees.pdf' }
-        ];
+        ]);
 
-        let sitdSupports = [
+        let sitdSupports = getCmrData('sitdSupports', [
             { title: 'Guide — Bonnes pratiques mots de passe', type: 'PDF', file: 'Guide_MDP.pdf' },
             { title: 'Procédure — Signalement incident', type: 'PDF', file: 'Procedure_Incident.pdf' },
             { title: 'Capsule — Phishing', type: 'Vidéo', file: 'Capsule_Phishing.mp4' }
-        ];
+        ]);
 
-        let sitdBonnesPratiques = [
+        let sitdBonnesPratiques = getCmrData('sitdBonnesPratiques', [
             { categorie: 'Sécurité', title: 'Gestion des comptes à privilèges', file: 'BP_Comptes_Privileges.pdf' },
             { categorie: 'Exploitation', title: 'Procédure de sauvegarde', file: 'BP_Sauvegarde.pdf' },
             { categorie: 'Support', title: 'Qualification des tickets GLPI', file: 'BP_Qualification_GLPI.pdf' }
-        ];
+        ]);
 
-        let sitdGlpiTickets = [
+        let sitdGlpiTickets = getCmrData('sitdGlpiTickets', [
             { id: 'INC-2401', title: 'Accès VPN — demande habilitation', meta: 'En cours • Priorité haute' },
             { id: 'INC-2398', title: 'Poste — lenteur réseau', meta: 'Assigné • Support N2' }
-        ];
+        ]);
 
-        let sitdEnquetes = [
+        let sitdEnquetes = getCmrData('sitdEnquetes', [
             { title: 'Enquête satisfaction support SI — T2 2026', participation: '68%', statut: 'Ouverte' },
             { title: 'Enquête qualité des délais — T1 2026', participation: '91%', statut: 'Clôturée' }
-        ];
+        ]);
 
-        const sitdSlaRows = [
+        const sitdSlaRows = getCmrData('sitdSlaRows', [
             { service: 'Support utilisateur (N1)', engagement: 'Prise en charge < 4h', indicateur: '96%', statut: 'OK' },
             { service: 'Incidents critiques', engagement: 'Résolution < 8h', indicateur: '92%', statut: 'OK' },
             { service: 'Demandes d’évolution', engagement: 'Analyse < 10 j', indicateur: '88%', statut: 'Attention' }
-        ];
+        ]);
 
-        const sitdOutilsSeau = [
+        const sitdOutilsSeau = getCmrData('sitdOutilsSeau', [
             { nom: 'Supervision — Zabbix', role: 'Monitoring', acces: 'Habilité N2' },
             { nom: 'Orchestration — Ansible', role: 'Automatisation', acces: 'Habilité N3' },
             { nom: 'Logs — ELK Stack', role: 'Analyse', acces: 'Habilité N2' }
-        ];
+        ]);
 
-        const sitdDocsExploitation = [
+        const sitdDocsExploitation = getCmrData('sitdDocsExploitation', [
             { title: 'Runbook — Incident majeur', dossier: 'Procédures', file: 'Runbook_Incident_Majeur.pdf' },
             { title: 'Procédure — Restauration BDD', dossier: 'Bases de données', file: 'Procedure_Restauration_BDD.pdf' },
             { title: 'Documentation — Architecture réseau', dossier: 'Infrastructure', file: 'Doc_Architecture_Reseau.pdf' }
-        ];
+        ]);
 
         function renderSitdUxContent(f) {
             const id = f.id;
@@ -3106,7 +3117,7 @@ function openAgendaTab(tabName) {
         }
 
         // ===== ARC (table conforme — onglet 16. Audit, Risque & Conformité) =====
-        const arcFeatures = [
+        const arcFeatures = getCmrData('arcFeatures', [
             {
                 id: 'charte-audit',
                 espace: 'Espace Audit, Risque & Conformité',
@@ -3272,7 +3283,7 @@ function openAgendaTab(tabName) {
                 statutDesign: 'À définir',
                 commentaires: 'KM transverse'
             }
-        ];
+        ]);
 
         const arcFeaturesById = Object.fromEntries(arcFeatures.map(f => [f.id, f]));
 
@@ -3311,64 +3322,64 @@ function openAgendaTab(tabName) {
         let arcSection = 'audit-interne';
         let arcSub = 'charte-audit';
 
-        const arcCharteDocs = [
+        const arcCharteDocs = getCmrData('arcCharteDocs', [
             { title: "Charte d'audit interne — version 2026", file: 'Charte_Audit_Interne_2026.pdf', date: 'Jan 2026' }
-        ];
+        ]);
 
-        const arcPlansAudit = [
+        const arcPlansAudit = getCmrData('arcPlansAudit', [
             { periode: '2026', type: 'Annuel', statut: 'Validé', file: 'Plan_Audit_2026.pdf' },
             { periode: '2026-2028', type: 'Pluriannuel', statut: 'En vigueur', file: 'Plan_Audit_Pluriannuel_2026-2028.pdf' },
             { periode: 'T2 2026', type: 'Calendrier missions', statut: 'Publié', file: 'Calendrier_Missions_Audit_T2_2026.pdf' }
-        ];
+        ]);
 
-        let arcRapportsPv = [
+        let arcRapportsPv = getCmrData('arcRapportsPv', [
             { title: 'Rapport — Mission SI & cybersécurité', meta: 'Clôturé • Avr 2026', file: 'Rapport_Audit_SI_2026.pdf', sensibilite: 'Haute' },
             { title: 'PV — Comité d\'audit T1 2026', meta: 'Comité • Mars 2026', file: 'PV_Comite_Audit_T1_2026.pdf', sensibilite: 'Haute' },
             { title: 'Dossier — Contrôles financiers 2025', meta: 'Archivé • Déc 2025', file: 'Dossier_Audit_Finance_2025.pdf', sensibilite: 'Haute' }
-        ];
+        ]);
 
-        const arcPolitiquesChartes = [
+        const arcPolitiquesChartes = getCmrData('arcPolitiquesChartes', [
             { dossier: 'Politiques', title: 'Politique de gestion des risques', file: 'Politique_Gestion_Risques.pdf' },
             { dossier: 'Politiques', title: 'Politique de conformité réglementaire', file: 'Politique_Conformite_Reglementaire.pdf' },
             { dossier: 'Chartes', title: 'Charte éthique & déontologie', file: 'Charte_Ethique_Deontologie.pdf' },
             { dossier: 'Chartes', title: 'Charte de protection des données', file: 'Charte_Protection_Donnees.pdf' }
-        ];
+        ]);
 
-        const arcCndpItems = [
+        const arcCndpItems = getCmrData('arcCndpItems', [
             { ref: 'AUT-2025-14', title: 'Autorisation — Traitement données RH', date: '2025', file: 'CNDP_Autorisation_RH.pdf' },
             { ref: 'AUT-2026-03', title: 'Autorisation — Portail collaborateur', date: 'Fév 2026', file: 'CNDP_Autorisation_Portail.pdf' },
             { ref: 'REF-CNDP', title: 'Référentiel — Registre des traitements', date: 'MAJ 2026', file: 'CNDP_Registre_Traitements.pdf' }
-        ];
+        ]);
 
-        const arcPcaCapsules = [
+        const arcPcaCapsules = getCmrData('arcPcaCapsules', [
             { title: 'PCA — Principes fondamentaux', type: 'Capsule', duree: '8 min', file: 'PCA_Principes_Fondamentaux.pdf' },
             { title: 'PCA — Rôles & responsabilités', type: 'Capsule', duree: '12 min', file: 'PCA_Roles_Responsabilites.pdf' },
             { title: 'PCA — Scénarios & modes dégradés', type: 'Article', duree: 'Lecture 5 min', file: 'PCA_Scenarios_Modes_Degrades.pdf' }
-        ];
+        ]);
 
-        const arcPlansAnnuels = [
+        const arcPlansAnnuels = getCmrData('arcPlansAnnuels', [
             { plan: 'Plan de contrôle permanent 2026', domaine: 'Contrôle interne', statut: 'Validé', file: 'Plan_Controle_Permanent_2026.pdf' },
             { plan: 'Plan de conformité réglementaire 2026', domaine: 'Conformité', statut: 'En cours', file: 'Plan_Conformite_2026.pdf' },
             { plan: 'Plan de suivi recommandations audit', domaine: 'Audit', statut: 'Publié', file: 'Plan_Suivi_Recommandations_2026.pdf' }
-        ];
+        ]);
 
-        const arcManuelsControle = [
+        const arcManuelsControle = getCmrData('arcManuelsControle', [
             { dossier: 'Manuels', title: 'Manuel de contrôle interne — édition 2026', file: 'Manuel_Controle_Interne_2026.pdf' },
             { dossier: 'Référentiels', title: 'Référentiel des contrôles clés', file: 'Referentiel_Controles_Cles.pdf' },
             { dossier: 'Procédures', title: 'Procédure — Exécution des contrôles', file: 'Procedure_Execution_Controles.pdf' }
-        ];
+        ]);
 
-        const arcSmacafItems = [
+        const arcSmacafItems = getCmrData('arcSmacafItems', [
             { title: 'Référentiel SMACAF — cadre général', meta: 'Contrôle permanent • v3.1', file: 'SMACAF_Referentiel_Cadre.pdf' },
             { title: 'Plan SMACAF 2026', meta: 'Plan annuel • Validé', file: 'SMACAF_Plan_2026.pdf' },
             { title: 'Guide — Application SMACAF', meta: 'Documentation métier', file: 'SMACAF_Guide_Application.pdf' }
-        ];
+        ]);
 
-        const arcSensibilisationItems = [
+        const arcSensibilisationItems = getCmrData('arcSensibilisationItems', [
             { title: 'Capsule — Culture du risque', type: 'Vidéo', duree: '6 min', file: 'Sensib_Culture_Risque.mp4' },
             { title: 'Quiz — Conformité au quotidien', type: 'Quiz', duree: '10 questions', file: 'Sensib_Quiz_Conformite.pdf' },
             { title: 'Infographie — Signalement & éthique', type: 'Média', duree: '2 min', file: 'Sensib_Infographie_Ethique.pdf' }
-        ];
+        ]);
 
         function renderArcUxContent(f) {
             const id = f.id;
@@ -3738,43 +3749,43 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        const qsePolitiques = [
+        const qsePolitiques = getCmrData('qsePolitiques', [
             { title: 'Politique QSE', file: 'Politique_QSE.pdf' },
             { title: 'Politique sécurité & environnement', file: 'Politique_SSE.pdf' }
-        ];
-        const qseReferentiels = [
+        ]);
+        const qseReferentiels = getCmrData('qseReferentiels', [
             { title: 'Référentiel QSE – exigences', file: 'Referentiel_QSE_Exigences.pdf' },
             { title: 'Référentiel QSE – check‑lists', file: 'Referentiel_QSE_Checklists.pdf' }
-        ];
-        const qseSmiDocs = [
+        ]);
+        const qseSmiDocs = getCmrData('qseSmiDocs', [
             { title: 'Manuel SMI', file: 'Manuel_SMI.pdf' },
             { title: 'Procédures & supports', file: 'Procedures_SMI.zip' }
-        ];
-        const qsePedago = [
+        ]);
+        const qsePedago = getCmrData('qsePedago', [
             { title: 'Flash sécurité – EPI', meta: 'Média / article', file: 'Flash_Securite_EPI.pdf' },
             { title: 'Vidéo – gestes de sécurité', meta: 'Média / article', file: 'Video_Gestes_Securite.mp4' }
-        ];
-        const qseAudits = [
+        ]);
+        const qseAudits = getCmrData('qseAudits', [
             { title: 'Audit interne QSE', date: '15 Avr 2026', status: 'Clos', report: 'Rapport_Audit_Interne_QSE.pdf' },
             { title: 'Audit site – sécurité', date: '02 Mars 2026', status: 'Actions', report: 'Rapport_Audit_Site_Securite.pdf' }
-        ];
-        const qseCultureItems = [
+        ]);
+        const qseCultureItems = getCmrData('qseCultureItems', [
             { title: 'Campagne “Zéro accident”', meta: 'Articles / campagnes', file: 'Campagne_Zero_Accident.pdf' },
             { title: 'Semaine QSE', meta: 'Articles / campagnes', file: 'Semaine_QSE.pdf' }
-        ];
-        const qseCulturePortailItems = [
+        ]);
+        const qseCulturePortailItems = getCmrData('qseCulturePortailItems', [
             { title: 'Flash info — EPI obligatoires', type: 'Flash', file: 'Flash_EPI.pdf' },
             { title: 'Vidéo — Gestes posturaux', type: 'Vidéo', file: 'Video_Gestes_Posturaux.mp4' },
             { title: 'Note — Culture sécurité au quotidien', type: 'Note', file: 'Note_Culture_Securite.pdf' }
-        ];
-        const qseResultatsAudits = [
+        ]);
+        const qseResultatsAudits = getCmrData('qseResultatsAudits', [
             { title: 'Synthèse audit interne QSE — T1 2026', kpi: '87% actions clôturées', file: 'Synthese_Audit_QSE_T1_2026.pdf' },
             { title: 'Synthèse audit site sécurité', kpi: '12 recommandations', file: 'Synthese_Audit_Site_Securite.pdf' }
-        ];
-        const qseContributions = [
+        ]);
+        const qseContributions = getCmrData('qseContributions', [
             { title: 'Idée — Signalétique zones à risque', auteur: 'Équipe exploitation', votes: 24 },
             { title: 'Proposition — Tri sélectif renforcé', auteur: 'Services généraux', votes: 18 }
-        ];
+        ]);
 
         function renderQsePolitiques() {
             const grid = document.getElementById('qsePolitiquesGrid');
@@ -3856,9 +3867,9 @@ function openAgendaTab(tabName) {
                 <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">Dashboard / widget (maquette) pour pilotage management/QSE.</div>
             `;
         }
-        let qseIdeaItems = [
+        let qseIdeaItems = getCmrData('qseIdeaItems', [
             { title: 'Améliorer la signalétique sécurité', type: 'Sécurité', date: 'Avr 2026' }
-        ];
+        ]);
         function renderQseIdeas() {
             const list = document.getElementById('qseIdeaList');
             if (!list) return;
@@ -3881,9 +3892,9 @@ function openAgendaTab(tabName) {
             renderQseIdeas();
         }
 
-        let qseRemontees = [
+        let qseRemontees = getCmrData('qseRemontees', [
             { title: 'Zone glissante – escalier', date: 'Mars 2026' }
-        ];
+        ]);
         function renderQseRemontees() {
             const list = document.getElementById('qseRemList');
             if (!list) return;
@@ -4007,52 +4018,52 @@ function openAgendaTab(tabName) {
         let regHistoryFilter = 'all';
         let regArchiveMode = 'actifs';
 
-        const regTextesItems = [
+        const regTextesItems = getCmrData('regTextesItems', [
             { title: 'Loi n° 12-34 – Gouvernance des organismes', type: 'Loi', ref: '12-34', date: '2024', tags: ['gouvernance','cadre'], file: 'Loi_12-34.pdf' },
             { title: 'Décret n° 2-25-101 – Procédures de contrôle', type: 'Décret', ref: '2-25-101', date: '2025', tags: ['controle','qualite'], file: 'Decret_2-25-101.pdf' },
             { title: 'Circulaire – Mise à jour reporting', type: 'Circulaire', ref: 'CIR-2026-04', date: 'Avr 2026', tags: ['reporting','finance'], file: 'Circulaire_Reporting_2026.pdf' },
             { title: 'Décision – Charte éthique (v2)', type: 'Décision', ref: 'DEC-2026-02', date: 'Fév 2026', tags: ['ethique'], file: 'Decision_Charte_Ethique_v2.pdf' }
-        ];
+        ]);
 
-        const regProcedures = [
+        const regProcedures = getCmrData('regProcedures', [
             { title: 'Procédure – Gestion des réclamations', meta: 'Procédure interne • v1.3', file: 'Procedure_Reclamations.pdf', tags: ['service','qualite'] },
             { title: 'Procédure – Contrôle interne', meta: 'Procédure interne • v2.0', file: 'Procedure_Controle_Interne.pdf', tags: ['controle','audit'] },
             { title: 'Procédure – Archivage des dossiers', meta: 'Procédure interne • v1.1', file: 'Procedure_Archivage_Dossiers.pdf', tags: ['archivage','ged'] }
-        ];
+        ]);
 
-        const regNotes = [
+        const regNotes = getCmrData('regNotes', [
             { title: 'Guide pratique – Lecture d’un texte officiel', meta: 'Note / guide • 10 pages', file: 'Guide_Lecture_Textes.pdf' },
             { title: 'Note – Bonnes pratiques de conformité', meta: 'Note • MAJ 2026', file: 'Note_Bonnes_Pratiques_Conformite.pdf' }
-        ];
+        ]);
 
-        const regGedArchives = [
+        const regGedArchives = getCmrData('regGedArchives', [
             { title: 'Loi n° 08-12 – Retraite (archive)', meta: 'GED • version archivée', file: 'Archive_Loi_08-12.pdf' },
             { title: 'Circulaire – Procédure 2022 (archive)', meta: 'GED • version archivée', file: 'Archive_Circulaire_2022.pdf' }
-        ];
+        ]);
 
-        let regGestionItems = [
+        let regGestionItems = getCmrData('regGestionItems', [
             { id: 'gc1', title: 'Procédure – Contrôle interne', type: 'Procédure', status: 'Publié' },
             { id: 'gc2', title: 'Note – Conformité (MAJ)', type: 'Note', status: 'Brouillon' },
             { id: 'gc3', title: 'Texte – Circulaire reporting', type: 'Circulaire', status: 'En validation' }
-        ];
+        ]);
 
-        let regWorkflowQueue = [
+        let regWorkflowQueue = getCmrData('regWorkflowQueue', [
             { id: 'wf1', title: 'Note – Conformité (MAJ)', owner: 'Admin / métier', date: 'Aujourd’hui', action: 'Valider' },
             { id: 'wf2', title: 'Texte – Circulaire reporting', owner: 'Admin / métier', date: 'Hier', action: 'Valider' }
-        ];
+        ]);
 
-        let regHistory = [
+        let regHistory = getCmrData('regHistory', [
             { id: 'h1', kind: 'create', text: 'Création: Procédure – Archivage des dossiers', date: 'Mars 2026' },
             { id: 'h2', kind: 'update', text: 'Mise à jour: Décision – Charte éthique (v2)', date: 'Fév 2026' },
             { id: 'h3', kind: 'validate', text: 'Validation: Procédure – Contrôle interne', date: 'Jan 2026' }
-        ];
+        ]);
 
-        const regArchiveDocs = [
+        const regArchiveDocs = getCmrData('regArchiveDocs', [
             { title: 'Procédure – Contrôle interne', state: 'actifs', tags: ['audit','controle','2026'], file: 'Procedure_Controle_Interne.pdf' },
             { title: 'Note – Bonnes pratiques de conformité', state: 'actifs', tags: ['conformite','2026'], file: 'Note_Bonnes_Pratiques_Conformite.pdf' },
             { title: 'Loi n° 08-12 – Retraite', state: 'archives', tags: ['retraite','2022'], file: 'Archive_Loi_08-12.pdf' },
             { title: 'Circulaire – Procédure 2022', state: 'archives', tags: ['procedures','2022'], file: 'Archive_Circulaire_2022.pdf' }
-        ];
+        ]);
 
         function switchRegSection(sectionId) {
             regSection = sectionId;
@@ -4339,46 +4350,46 @@ function openAgendaTab(tabName) {
         let metiersSub = 'domaines';
         let metiersRefType = 'all';
 
-        const metiersDomains = [
+        const metiersDomains = getCmrData('metiersDomains', [
             { id: 'ret', title: 'Retraite', desc: 'Liquidation, suivi, réclamations, contrôles.' },
             { id: 'prev', title: 'Prévoyance', desc: 'Prestations, dossiers, conformité.' },
             { id: 'fin', title: 'Finance & Comptabilité', desc: 'Budgets, reporting, contrôle interne.' },
             { id: 'gouv', title: 'Gouvernance', desc: 'Décisions, comités, textes et référentiels.' }
-        ];
+        ]);
 
-        const metiersReferentiels = [
+        const metiersReferentiels = getCmrData('metiersReferentiels', [
             { title: 'Fournisseur – GED (Editeur X)', type: 'Fournisseur', meta: 'Contrat • Support • SLA', file: 'Referentiel_Fournisseur_GED.pdf' },
             { title: 'Projet – Refonte Intranet', type: 'Projet', meta: 'Roadmap • livrables • jalons', file: 'Referentiel_Projet_Intranet.pdf' },
             { title: 'Application – GLPI', type: 'Application', meta: 'Catalogue services • tickets', file: 'Referentiel_App_GLPI.pdf' },
             { title: 'Application – SIRH', type: 'Application', meta: 'Paie • Mobilité • dossiers', file: 'Referentiel_App_SIRH.pdf' }
-        ];
+        ]);
 
-        const metiersLivrables = [
+        const metiersLivrables = getCmrData('metiersLivrables', [
             { title: 'SFD – Process liquidation (v1)', meta: 'Document • Dossier / GED‑like', file: 'Livrable_SFD_Liquidation_v1.pdf' },
             { title: 'PV Atelier métier – Retraite', meta: 'Document • Compte-rendu', file: 'Livrable_PV_Atelier_Retraite.pdf' },
             { title: 'Modèle – Fiche contrôle', meta: 'Document • Modèle', file: 'Modele_Fiche_Controle.docx' }
-        ];
+        ]);
 
-        const metiersSiSystems = [
+        const metiersSiSystems = getCmrData('metiersSiSystems', [
             { title: 'Système – GED', meta: 'Lien / widget • Accès', status: 'Connecté', file: 'Acces_GED.pdf' },
             { title: 'Système – SIRH', meta: 'Lien / widget • Accès', status: 'Connecté', file: 'Acces_SIRH.pdf' },
             { title: 'Système – DWH', meta: 'Application / data • Accès', status: 'En cours', file: 'Acces_DWH.pdf' }
-        ];
+        ]);
 
-        const metiersThemes = [
+        const metiersThemes = getCmrData('metiersThemes', [
             { title: 'Liquidation', desc: 'Règles, checklists, livrables.', tag: 'process' },
             { title: 'Contrôle', desc: 'Contrôle interne, audits, conformité.', tag: 'controle' },
             { title: 'SI', desc: 'Applications, API, intégrations.', tag: 'si' },
             { title: 'Réclamations', desc: 'Traitement, SLA, procédures.', tag: 'service' },
             { title: 'Reporting', desc: 'Indicateurs, publications, tableaux de bord.', tag: 'reporting' }
-        ];
+        ]);
 
-        const metiersMedia = [
+        const metiersMedia = getCmrData('metiersMedia', [
             { title: 'Capsule – Process liquidation', meta: 'Vidéo • 4 min', file: 'Media_Capsule_Liquidation.mp4' },
             { title: 'Infographie – Parcours assuré', meta: 'Image • PNG', file: 'Media_Infographie_Parcours.png' },
             { title: 'Album – Atelier métier', meta: 'Galerie • 12 photos', file: 'Media_Album_Atelier.zip' },
             { title: 'Présentation – Domaine Retraite', meta: 'Slides • PPT', file: 'Media_Presentation_Retraite.pptx' }
-        ];
+        ]);
 
         function switchMetiersSection(sectionId) {
             metiersSection = sectionId;
@@ -4595,57 +4606,57 @@ function openAgendaTab(tabName) {
         let collabSection = 'discussions';
         let collabSub = 'forums';
 
-        let collabForumThreads = [
+        let collabForumThreads = getCmrData('collabForumThreads', [
             { id: 't1', title: 'Question: procédure archivage', author: 'Collaborateur 07', date: 'Aujourd’hui', body: 'Quel est le bon circuit pour archiver un dossier ?', replies: [
                 { author: 'Collaborateur 03', date: 'Aujourd’hui', text: 'Voir la procédure interne (rubrique réglementaire).' }
             ]},
             { id: 't2', title: 'Bonnes pratiques: gestion des mots de passe', author: 'Collaborateur 12', date: 'Hier', body: 'Partagez vos bonnes pratiques.', replies: [] }
-        ];
+        ]);
         let collabActiveThreadId = null;
 
-        let collabGroups = [
+        let collabGroups = getCmrData('collabGroups', [
             { id: 'g1', name: 'Groupe Qualité', members: 56, desc: 'Process, conformité, REX.' },
             { id: 'g2', name: 'Groupe Data / BI', members: 102, desc: 'Tableaux de bord, KPI, bonnes pratiques.' },
             { id: 'g3', name: 'Groupe RH', members: 44, desc: 'Mobilité, formation, vie interne.' }
-        ];
+        ]);
         let collabJoinedGroups = new Set(['g2']);
         let collabActiveGroupId = null;
-        let collabGroupThreads = [
+        let collabGroupThreads = getCmrData('collabGroupThreads', [
             { groupId: 'g2', title: 'Convention de nommage datasets', meta: 'Data/BI • 3j' },
             { groupId: 'g2', title: 'Bonnes pratiques Power BI', meta: 'Data/BI • 2h' },
             { groupId: 'g1', title: 'REX audit interne', meta: 'Qualité • hier' }
-        ];
+        ]);
 
-        let collabPosts = [
+        let collabPosts = getCmrData('collabPosts', [
             { id: 'p1', author: 'Collaborateur 05', date: 'Aujourd’hui', text: 'Info: réunion technique à 16h (Salle 2).', comments: [{ author: 'Collaborateur 09', date: 'Aujourd’hui', text: 'Merci, je serai présent.' }] },
             { id: 'p2', author: 'Collaborateur 11', date: 'Hier', text: 'Question: qui a le modèle PV atelier ?', comments: [] }
-        ];
+        ]);
         let collabActivePostId = null;
 
-        let collabRex = [
+        let collabRex = getCmrData('collabRex', [
             { id: 'r1', title: 'REX – Mise en production', date: 'Mars 2026', body: 'Points forts: communication. Amélioration: tests automatisés.', file: 'REX_MEP.pdf' },
             { id: 'r2', title: 'Info – Nouvelle charte interne', date: 'Fév 2026', body: 'La charte interne est disponible en téléchargement.', file: 'Charte_Interne.pdf' }
-        ];
+        ]);
         let collabActiveRexId = null;
 
-        let collabEvents = [
+        let collabEvents = getCmrData('collabEvents', [
             { id: 'e1', title: 'Café communauté Data/BI', date: '15 Mai 2026', desc: 'Partage d’astuces, retours d’expérience.', participants: 18 },
             { id: 'e2', title: 'Atelier Qualité', date: '28 Mai 2026', desc: 'Amélioration continue: idées & actions.', participants: 12 }
-        ];
+        ]);
         let collabActiveEventId = null;
 
-        let collabCulturePosts = [
+        let collabCulturePosts = getCmrData('collabCulturePosts', [
             { id: 'c1', title: 'Bienvenue aux nouveaux arrivants', date: 'Avr 2026', body: 'Une session d’intégration est prévue cette semaine.' },
             { id: 'c2', title: 'Semaine bien‑être', date: 'Mars 2026', body: 'Programme: sport, nutrition, échanges.' }
-        ];
-        const collabGallery = [
+        ]);
+        const collabGallery = getCmrData('collabGallery', [
             { title: 'Photo – Atelier', file: 'Galerie_Atelier_01.png' },
             { title: 'Photo – Vie interne', file: 'Galerie_Vie_02.png' },
             { title: 'Photo – Évènement', file: 'Galerie_Event_03.png' },
             { title: 'Photo – Team', file: 'Galerie_Team_04.png' },
             { title: 'Photo – Conférence', file: 'Galerie_Conf_05.png' },
             { title: 'Photo – Workshop', file: 'Galerie_WS_06.png' }
-        ];
+        ]);
 
         function switchCollabSection(sectionId) {
             collabSection = sectionId;
@@ -5039,17 +5050,17 @@ function openAgendaTab(tabName) {
         let mediaActiveVideoId = null;
         let mediaActiveConsultId = null;
 
-        const mediaImages = [
+        const mediaImages = getCmrData('mediaImages', [
             { id: 'img1', title: 'Infographie – Parcours assuré', category: 'Institutionnel', date: 'Avr 2026', file: 'Media_Infographie_Parcours.png' },
             { id: 'img2', title: 'Photo – Atelier', category: 'Évènement', date: 'Mars 2026', file: 'Galerie_Atelier_01.png' },
             { id: 'img3', title: 'Photo – Vie interne', category: 'Évènement', date: 'Fév 2026', file: 'Galerie_Vie_02.png' },
             { id: 'img4', title: 'Schéma – Architecture SI', category: 'SI', date: 'Jan 2026', file: 'Schema_Architecture_SI.png' }
-        ];
-        const mediaVideos = [
+        ]);
+        const mediaVideos = getCmrData('mediaVideos', [
             { id: 'vid1', title: 'Capsule – Process liquidation', category: 'Process', date: 'Avr 2026', file: 'Media_Capsule_Liquidation.mp4', desc: 'Présentation du flux de traitement (4 min).' },
             { id: 'vid2', title: 'Vidéo – Gestes de sécurité', category: 'Institutionnel', date: 'Mars 2026', file: 'Video_Gestes_Securite.mp4', desc: 'Rappel des bons réflexes.' },
             { id: 'vid3', title: 'Démo – Nouvel Intranet', category: 'SI', date: 'Fév 2026', file: 'Demo_Nouvel_Intranet.mp4', desc: 'Fonctionnalités clés (6 min).' }
-        ];
+        ]);
 
         function switchMediaSection(sectionId) {
             mediaSection = sectionId;
@@ -5301,40 +5312,40 @@ function openAgendaTab(tabName) {
         let adminIsAuthenticated = false;
         let adminLogFilter = 'all';
 
-        let adminUsers = [
+        let adminUsers = getCmrData('adminUsers', [
             { id: 'u1', name: 'Admin 01', email: 'admin01@cmr.ma', profil: 'Administrateur', status: 'Actif' },
             { id: 'u2', name: 'Contributeur 03', email: 'cont03@cmr.ma', profil: 'Contributeur', status: 'Actif' },
             { id: 'u3', name: 'Utilisateur 12', email: 'user12@cmr.ma', profil: 'Utilisateur', status: 'Désactivé' }
-        ];
+        ]);
 
-        const adminRoles = [
+        const adminRoles = getCmrData('adminRoles', [
             { id: 'r_admin', name: 'Administrateur', desc: 'Tous droits (admin).' },
             { id: 'r_contrib', name: 'Contributeur', desc: 'Publier / modifier contenus.' },
             { id: 'r_user', name: 'Utilisateur', desc: 'Consulter.' }
-        ];
+        ]);
 
-        let adminUserRoles = {
+        let adminUserRoles = getCmrData('adminUserRoles', {
             u1: 'Administrateur',
             u2: 'Contributeur',
             u3: 'Utilisateur'
-        };
+        });
 
-        let adminAccess = [
+        let adminAccess = getCmrData('adminAccess', [
             { userId: 'u1', scope: 'Administration', level: 'Accès' },
             { userId: 'u2', scope: 'KM', level: 'Accès' },
             { userId: 'u2', scope: 'Médiathèque', level: 'Restreint' }
-        ];
+        ]);
 
-        let adminCmsItems = [
+        let adminCmsItems = getCmrData('adminCmsItems', [
             { id: 'c1', title: 'Page – Accueil (bannière)', status: 'Publié', updated: 'Avr 2026' },
             { id: 'c2', title: 'Bloc – Communication interne', status: 'Brouillon', updated: 'Mars 2026' }
-        ];
+        ]);
 
-        let adminLogs = [
+        let adminLogs = getCmrData('adminLogs', [
             { id: 'l1', kind: 'access', text: 'Accès attribué: u2 → KM', date: 'Avr 2026' },
             { id: 'l2', kind: 'update', text: 'CMS modifié: Page – Accueil', date: 'Mars 2026' },
             { id: 'l3', kind: 'auth', text: 'Authentification admin (OK)', date: 'Fév 2026' }
-        ];
+        ]);
 
         function switchAdminSection(sectionId) {
             adminSection = sectionId;
@@ -5730,7 +5741,7 @@ function openAgendaTab(tabName) {
         }
         // ===== KM DATA + RENDERS (table conforme) =====
         let kmRefActive = 'metiers';
-        const kmReferentiels = [
+        const kmReferentiels = getCmrData('kmReferentiels', [
             { id: 'metiers', label: 'Référentiels métiers', docs: [
                 { file: 'Guide_Indicateurs_Retraite.pdf', label: 'Guide des indicateurs de retraite', type: 'Document' },
                 { file: 'Guide_Instruction_Dossiers.pdf', label: 'Guide d’instruction des dossiers', type: 'Document' }
@@ -5739,52 +5750,52 @@ function openAgendaTab(tabName) {
                 { file: 'Guide_Espace_Collaborateur.pdf', label: 'Guide espace collaborateur (SI)', type: 'Document' },
                 { file: 'Procédure_SSO.pdf', label: 'Procédure SSO & accès', type: 'Document' }
             ]}
-        ];
+        ]);
 
-        const kmGlossaire = [
+        const kmGlossaire = getCmrData('kmGlossaire', [
             { term: 'SFD', def: 'Spécifications Fonctionnelles Détaillées.' },
             { term: 'REX', def: 'Retour d’expérience (leçons apprises).' },
             { term: 'GED', def: 'Gestion Électronique des Documents.' },
             { term: 'AMOA', def: 'Assistance à Maîtrise d’Ouvrage.' }
-        ];
+        ]);
 
-        let kmRexData = [
+        let kmRexData = getCmrData('kmRexData', [
             { id: 'rx1', title: 'REX – Refonte intranet: adoption', theme: 'Projet', date: 'Avr 2026', body: 'Ce qui a fonctionné: démos courtes, sponsors métier. À améliorer: clarifier les owners dès le début.' },
             { id: 'rx2', title: 'REX – Processus tickets IT', theme: 'Processus', date: 'Mars 2026', body: 'Standardiser les catégories et définir un SLA visible dans GLPI.' }
-        ];
+        ]);
         let kmRexSelected = null;
 
-        const kmElearning = [
+        const kmElearning = getCmrData('kmElearning', [
             { title: 'Excel avancé (e‑learning)', meta: '2h30 • Niveau avancé', cta: 'Lancer' },
             { title: 'Cyber sécurité 101', meta: '35% • En cours', cta: 'Reprendre' },
             { title: 'Sensibilisation GED', meta: '20 min • Micro‑learning', cta: 'Démarrer' }
-        ];
+        ]);
 
-        const kmPedagogieMetier = [
+        const kmPedagogieMetier = getCmrData('kmPedagogieMetier', [
             { title: 'Comprendre le parcours liquidation', meta: 'Page métier • Retraite', desc: 'Présentation synthétique des étapes et points de vigilance.', file: 'Pedagogie_Liquidation.pdf' },
             { title: 'Rôle du contrôle interne dans les régimes', meta: 'Article métier • Contrôle', desc: 'Repères pratiques pour les nouveaux arrivants et les relais métier.', file: 'Pedagogie_Controle_Interne.pdf' },
             { title: 'Cycle de traitement d’un dossier assuré', meta: 'Fiche métier • Processus', desc: 'Vue simple des acteurs, documents et validations.', file: 'Pedagogie_Dossier_Assure.pdf' }
-        ];
+        ]);
 
-        const kmCommunautes = [
+        const kmCommunautes = getCmrData('kmCommunautes', [
             { id: 'co1', name: 'Communauté BI & Data', members: 128, threads: 12 },
             { id: 'co2', name: 'Communauté RH', members: 87, threads: 6 },
             { id: 'co3', name: 'Communauté Qualité & Process', members: 54, threads: 4 }
-        ];
-        const kmThreads = [
+        ]);
+        const kmThreads = getCmrData('kmThreads', [
             { communityId: 'co1', title: 'Bonnes pratiques Power BI', meta: 'BI & Data • 2h', badge: 'Actif' },
             { communityId: 'co2', title: 'Mobilité interne – retours', meta: 'RH • hier', badge: 'Nouveau' },
             { communityId: 'co1', title: 'Convention de nommage datasets', meta: 'BI & Data • 3j', badge: 'En cours' }
-        ];
+        ]);
 
-        const kmAmoa = [
+        const kmAmoa = getCmrData('kmAmoa', [
             { id: 'a1', title: 'AMOA – Refonte e‑Service', meta: 'Dossier • Digital', body: 'Ateliers, story mapping, backlog. Livrables: SFD, PV ateliers, plan de conduite du changement.' },
             { id: 'a2', title: 'Conduite du changement – GED', meta: 'Kit • Organisation', body: 'Plan de com, supports, formation, accompagnement des référents.' }
-        ];
+        ]);
         let kmAmoaSelected = null;
 
         let kmDocsActive = 'procedures';
-        const kmDocs = [
+        const kmDocs = getCmrData('kmDocs', [
             { id: 'procedures', label: 'Procédures', docs: [
                 { file: 'Procedure_Traitement_Pension.pdf', label: 'Procédure traitement pension', type: 'Document' },
                 { file: 'Procedure_Accueil_Usager.pdf', label: 'Procédure accueil usager', type: 'Document' }
@@ -5792,16 +5803,16 @@ function openAgendaTab(tabName) {
             { id: 'politiques', label: 'Politiques', docs: [
                 { file: 'Politique_Securite_SI.pdf', label: 'Politique sécurité SI', type: 'Document' }
             ]}
-        ];
+        ]);
 
-        let kmContribData = [
+        let kmContribData = getCmrData('kmContribData', [
             { id: 'ct1', title: 'Astuce: réduire les doublons GED', date: 'Avr 2026', body: 'Utiliser la convention de nommage + métadonnées obligatoires.' },
             { id: 'ct2', title: 'Check‑list avant PV comité', date: 'Mars 2026', body: 'Ordre du jour, participants, décisions, actions, annexes.' }
-        ];
+        ]);
         let kmContribSelected = null;
 
         let kmCatalogueType = 'all';
-        const kmCatalogueItems = [
+        const kmCatalogueItems = getCmrData('kmCatalogueItems', [
             { type: 'Document', title: 'Guide des indicateurs de retraite', meta: 'Référentiels métiers' },
             { type: 'Article', title: 'Bilan – Digital Q1', meta: 'Articles / bilans' },
             { type: 'Forum', title: 'Bonnes pratiques Power BI', meta: 'Communautés' },
@@ -5811,66 +5822,66 @@ function openAgendaTab(tabName) {
             { type: 'Document', title: 'Rubrique Audit & conformité', meta: 'KM Audit & Risque' },
             { type: 'Media', title: 'Capsule UX – Parcours e‑Service', meta: 'Capsules UX' },
             { type: 'Article', title: 'Régimes de retraite CMR', meta: 'Régimes & processus' }
-        ];
+        ]);
 
-        const kmLivrables = [
+        const kmLivrables = getCmrData('kmLivrables', [
             { title: 'SFD – Refonte intranet', file: 'SFD_Refonte_Intranet_v1.pdf' },
             { title: 'PV ateliers – AMOA e‑Service', file: 'PV_Ateliers_eService.pdf' },
             { title: 'Plan de déploiement', file: 'Plan_Deploiement.pdf' }
-        ];
+        ]);
 
-        const kmModeles = [
+        const kmModeles = getCmrData('kmModeles', [
             { title: 'Modèle PV comité', file: 'Modele_PV_Comite.docx' },
             { title: 'Modèle note de service', file: 'Modele_Note_Service.docx' },
             { title: 'Formulaire expression de besoin', file: 'Formulaire_EDB.docx' }
-        ];
+        ]);
 
-        const kmPublications = [
+        const kmPublications = getCmrData('kmPublications', [
             { title: 'Bilan SI – Mars 2026', meta: 'Article • SI', file: 'Bilan_SI_Mars_2026.pdf' },
             { title: 'Bilan RH – T1 2026', meta: 'Article • RH', file: 'Bilan_RH_T1_2026.pdf' }
-        ];
+        ]);
 
-        let kmGlpiTickets = [
+        let kmGlpiTickets = getCmrData('kmGlpiTickets', [
             { id: 't1', title: 'Accès VPN', meta: 'Ouvert • P2' },
             { id: 't2', title: 'Incident impression', meta: 'En cours • P3' }
-        ];
+        ]);
 
-        const kmSupports = [
+        const kmSupports = getCmrData('kmSupports', [
             { title: 'Capsule vidéo – GED', meta: '3 min', file: 'Capsule_GED.mp4' },
             { title: 'Infographie – Sécurité SI', meta: 'PDF', file: 'Infographie_Securite.pdf' },
             { title: 'Guide – Bonnes pratiques KM', meta: 'PDF', file: 'Guide_Bonnes_Pratiques_KM.pdf' }
-        ];
+        ]);
 
-        const kmStories = [
+        const kmStories = getCmrData('kmStories', [
             { title: 'Story – Transformation du parcours assuré', type: 'Article', meta: 'Communication transverse', file: 'Story_Parcours_Assure.pdf' },
             { title: 'Story – Refonte intranet en 5 étapes', type: 'Media', meta: 'Projet SI', file: 'Story_Refonte_Intranet.mp4' },
             { title: 'Story – Modernisation GED', type: 'Article', meta: 'KM transverse', file: 'Story_Modernisation_GED.pdf' }
-        ];
+        ]);
 
         let kmCampagnesSelected = 'cmp1';
-        let kmCampagnes = [
+        let kmCampagnes = getCmrData('kmCampagnes', [
             { id: 'cmp1', title: 'Collecte bonnes pratiques accueil', audience: 'Collaborateurs', type: 'Sondage', responses: 28, desc: 'Recueillir les bonnes pratiques terrain pour enrichir le référentiel accueil.' },
             { id: 'cmp2', title: 'Partage astuces GED', audience: 'Métiers', type: 'Formulaire', responses: 16, desc: 'Identifier les usages récurrents à capitaliser dans la GED et les conventions de nommage.' }
-        ];
+        ]);
 
-        const kmAuditRisque = [
+        const kmAuditRisque = getCmrData('kmAuditRisque', [
             { title: 'Rubrique Audit & conformité', meta: 'Dossiers / articles', file: 'KM_Audit_Conformite.pdf' },
             { title: 'Bonnes pratiques gestion des risques', meta: 'Documentation métier', file: 'Bonnes_Pratiques_Risques.pdf' },
             { title: 'Synthèse conformité réglementaire', meta: 'Article de synthèse', file: 'Synthese_Conformite_Reglementaire.pdf' }
-        ];
+        ]);
 
-        const kmCapsulesUx = [
+        const kmCapsulesUx = getCmrData('kmCapsulesUx', [
             { title: 'Capsule UX – Parcours e‑Service', meta: 'Vidéo projet SI • 4 min', file: 'Capsule_UX_eService.mp4' },
             { title: 'Capsule UX – Onboarding intranet', meta: 'Vidéo projet SI • 3 min', file: 'Capsule_UX_Intranet.mp4' },
             { title: 'Capsule UX – Recherche GED', meta: 'Capsule usage • 2 min', file: 'Capsule_UX_GED.mp4' }
-        ];
+        ]);
 
         let kmRegimesProcessSelected = 'rp1';
-        const kmRegimesProcessus = [
+        const kmRegimesProcessus = getCmrData('kmRegimesProcessus', [
             { id: 'rp1', title: 'Régimes de retraite CMR', meta: 'Page métier • onboarding', body: 'Présentation des principaux régimes, de leurs spécificités et des points d’attention pour les nouvelles recrues.', file: 'Regimes_Retraite_CMR.pdf' },
             { id: 'rp2', title: 'Processus de liquidation', meta: 'Infographie • processus', body: 'Vue simplifiée des étapes, contrôles et interactions métier nécessaires au traitement d’un dossier.', file: 'Processus_Liquidation_Infographie.pdf' },
             { id: 'rp3', title: 'Processus de révision / mise à jour', meta: 'Fiche métier • processus', body: 'Repères sur les opérations de mise à jour, pièces justificatives et contrôles associés.', file: 'Processus_Revision_MAJ.pdf' }
-        ];
+        ]);
 
         function renderKmReferentiels() {
             const folders = document.getElementById('kmRefFolders');
@@ -6404,7 +6415,7 @@ function openAgendaTab(tabName) {
         }
 
         // ===== POSTES VACANTS – 3-STEP FLOW =====
-        const offresData = {
+        const offresData = getCmrData('offresData', {
             bi: {
                 titre: 'Chef de Projet BI (H/F)',
                 direction: 'Direction des Systèmes d\'Information',
@@ -6432,7 +6443,7 @@ function openAgendaTab(tabName) {
                 mission: 'Réaliser les études actuarielles et les modélisations de risques nécessaires à la gestion des régimes de retraite : projections financières, provisionnement, stress tests et reporting réglementaire.',
                 profil: ['Bac+5 en Actuariat, Mathématiques ou Statistiques', 'Minimum 4 ans d\'expérience en actuariat retraite ou assurance', 'Maîtrise de R, Python et des outils actuariels', 'Connaissance de la réglementation des régimes de retraite au Maroc', 'Aptitude à synthétiser des analyses complexes']
             }
-        };
+        });
         let currentOffre = null;
 
         function showOffrefiche(id) {
@@ -6472,7 +6483,7 @@ function openAgendaTab(tabName) {
 
         // ===== ACTUALITÉS PAGE LOGIC =====
 
-        const actuData = [
+        const actuData = getCmrData('actuData', [
             {
                 id: 1,
                 title: "Signature du nouveau contrat programme État-CMR 2026-2028",
@@ -6633,7 +6644,7 @@ function openAgendaTab(tabName) {
                 ],
                 tags: ["Gouvernance", "Audit", "Risques", "Contrôle Interne"]
             }
-        ];
+        ]);
 
         let actuCurrentCategory = 'all';
         let actuCurrentSearch = '';
@@ -6887,7 +6898,7 @@ function openAgendaTab(tabName) {
 
         // ===== NOTIFICATIONS PAGE LOGIC =====
 
-        const notifData = [
+        const notifData = getCmrData('notifData', [
             { id: 1,  type: 'document',    title: 'Nouveau document publié',         desc: 'La procédure RH 2026 est maintenant disponible dans KM.',         time: 'Il y a 10 min',  date: "Aujourd'hui",  unread: true  },
             { id: 2,  type: 'meeting',     title: 'Réunion Direction',               desc: 'La réunion du CODIR commencera dans 15 minutes.',                  time: 'Il y a 25 min',  date: "Aujourd'hui",  unread: true  },
             { id: 3,  type: 'innovation',  title: 'Félicitations !',                 desc: 'Votre idée "Digit-Passe" a été validée par le comité.',            time: 'Hier, 16:45',    date: 'Hier',         unread: true  },
@@ -6903,15 +6914,15 @@ function openAgendaTab(tabName) {
             { id: 13, type: 'rh',          title: 'Formation disponible',            desc: 'Nouveau module "Management Agile" disponible sur CMR Academy.',    time: '14 Avr, 10:00',  date: '14 Avr',       unread: false },
             { id: 14, type: 'system',      title: 'Alerte sécurité',                 desc: 'Connexion depuis un nouvel appareil détectée sur votre compte.',   time: '12 Avr, 22:10',  date: '12 Avr',       unread: false },
             { id: 15, type: 'document',    title: 'Procédure IT mise à jour',        desc: 'La charte informatique 2026 a été mise à jour. Merci de la signer.','time': '10 Avr, 08:00', date: '10 Avr',       unread: false }
-        ];
+        ]);
 
-        const notifIcons = {
+        const notifIcons = getCmrData('notifIcons', {
             document:   { bg: '#dbeafe', color: '#2563eb', icon: 'file-text' },
             meeting:    { bg: '#fef3c7', color: '#d97706', icon: 'calendar' },
             rh:         { bg: '#f0fdf4', color: '#16a34a', icon: 'user-check' },
             innovation: { bg: '#fdf4ff', color: '#9333ea', icon: 'lightbulb' },
             system:     { bg: '#fff1f2', color: '#dc2626', icon: 'settings' }
-        };
+        });
 
         let notifCurrentFilter = 'all';
 

@@ -1,0 +1,140 @@
+{
+  "space": "documentaires",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "metiersDomains": [
+      {
+        "id": "ret",
+        "title": "Retraite",
+        "desc": "Liquidation, suivi, réclamations, contrôles."
+      },
+      {
+        "id": "prev",
+        "title": "Prévoyance",
+        "desc": "Prestations, dossiers, conformité."
+      },
+      {
+        "id": "fin",
+        "title": "Finance & Comptabilité",
+        "desc": "Budgets, reporting, contrôle interne."
+      },
+      {
+        "id": "gouv",
+        "title": "Gouvernance",
+        "desc": "Décisions, comités, textes et référentiels."
+      }
+    ],
+    "metiersReferentiels": [
+      {
+        "title": "Fournisseur – GED (Editeur X)",
+        "type": "Fournisseur",
+        "meta": "Contrat • Support • SLA",
+        "file": "Referentiel_Fournisseur_GED.pdf"
+      },
+      {
+        "title": "Projet – Refonte Intranet",
+        "type": "Projet",
+        "meta": "Roadmap • livrables • jalons",
+        "file": "Referentiel_Projet_Intranet.pdf"
+      },
+      {
+        "title": "Application – GLPI",
+        "type": "Application",
+        "meta": "Catalogue services • tickets",
+        "file": "Referentiel_App_GLPI.pdf"
+      },
+      {
+        "title": "Application – SIRH",
+        "type": "Application",
+        "meta": "Paie • Mobilité • dossiers",
+        "file": "Referentiel_App_SIRH.pdf"
+      }
+    ],
+    "metiersLivrables": [
+      {
+        "title": "SFD – Process liquidation (v1)",
+        "meta": "Document • Dossier / GED‑like",
+        "file": "Livrable_SFD_Liquidation_v1.pdf"
+      },
+      {
+        "title": "PV Atelier métier – Retraite",
+        "meta": "Document • Compte-rendu",
+        "file": "Livrable_PV_Atelier_Retraite.pdf"
+      },
+      {
+        "title": "Modèle – Fiche contrôle",
+        "meta": "Document • Modèle",
+        "file": "Modele_Fiche_Controle.docx"
+      }
+    ],
+    "metiersSiSystems": [
+      {
+        "title": "Système – GED",
+        "meta": "Lien / widget • Accès",
+        "status": "Connecté",
+        "file": "Acces_GED.pdf"
+      },
+      {
+        "title": "Système – SIRH",
+        "meta": "Lien / widget • Accès",
+        "status": "Connecté",
+        "file": "Acces_SIRH.pdf"
+      },
+      {
+        "title": "Système – DWH",
+        "meta": "Application / data • Accès",
+        "status": "En cours",
+        "file": "Acces_DWH.pdf"
+      }
+    ],
+    "metiersThemes": [
+      {
+        "title": "Liquidation",
+        "desc": "Règles, checklists, livrables.",
+        "tag": "process"
+      },
+      {
+        "title": "Contrôle",
+        "desc": "Contrôle interne, audits, conformité.",
+        "tag": "controle"
+      },
+      {
+        "title": "SI",
+        "desc": "Applications, API, intégrations.",
+        "tag": "si"
+      },
+      {
+        "title": "Réclamations",
+        "desc": "Traitement, SLA, procédures.",
+        "tag": "service"
+      },
+      {
+        "title": "Reporting",
+        "desc": "Indicateurs, publications, tableaux de bord.",
+        "tag": "reporting"
+      }
+    ],
+    "metiersMedia": [
+      {
+        "title": "Capsule – Process liquidation",
+        "meta": "Vidéo • 4 min",
+        "file": "Media_Capsule_Liquidation.mp4"
+      },
+      {
+        "title": "Infographie – Parcours assuré",
+        "meta": "Image • PNG",
+        "file": "Media_Infographie_Parcours.png"
+      },
+      {
+        "title": "Album – Atelier métier",
+        "meta": "Galerie • 12 photos",
+        "file": "Media_Album_Atelier.zip"
+      },
+      {
+        "title": "Présentation – Domaine Retraite",
+        "meta": "Slides • PPT",
+        "file": "Media_Presentation_Retraite.pptx"
+      }
+    ]
+  }
+}

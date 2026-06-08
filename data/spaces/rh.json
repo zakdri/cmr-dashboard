@@ -1,0 +1,53 @@
+{
+  "space": "rh",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "offresData": {
+      "bi": {
+        "titre": "Chef de Projet BI (H/F)",
+        "direction": "Direction des Systèmes d'Information",
+        "lieu": "Casablanca",
+        "niveau": "Cadre",
+        "date": "15/05/2026",
+        "mission": "Piloter les projets de Business Intelligence de la DSI : recueil des besoins métiers, conception des tableaux de bord, supervision des développements et suivi de la qualité des livrables.",
+        "profil": [
+          "Bac+5 en Informatique, Data ou équivalent",
+          "Minimum 5 ans d'expérience en BI / Data",
+          "Maîtrise de Power BI, SQL, et des architectures datawarehouse",
+          "Capacité à fédérer des équipes transverses",
+          "Certifications PMP ou PRINCE2 appréciées"
+        ]
+      },
+      "comdig": {
+        "titre": "Responsable Communication Digital (H/F)",
+        "direction": "Direction de la Communication",
+        "lieu": "Siège – Rabat",
+        "niveau": "Manager",
+        "date": "20/05/2026",
+        "mission": "Définir et piloter la stratégie de communication digitale de la CMR : gestion des canaux numériques, production de contenus, animation des communautés en ligne et reporting des performances.",
+        "profil": [
+          "Bac+5 en Communication, Marketing Digital ou équivalent",
+          "Minimum 7 ans d'expérience dont 3 en management",
+          "Maîtrise des outils CMS, réseaux sociaux, SEO et analytics",
+          "Excellentes capacités rédactionnelles (français/arabe)",
+          "Créativité et sens de l'innovation"
+        ]
+      },
+      "actuariat": {
+        "titre": "Analyste Risques & Actuariat (H/F)",
+        "direction": "Direction Technique",
+        "lieu": "Casablanca",
+        "niveau": "Expert",
+        "date": "30/04/2026",
+        "mission": "Réaliser les études actuarielles et les modélisations de risques nécessaires à la gestion des régimes de retraite : projections financières, provisionnement, stress tests et reporting réglementaire.",
+        "profil": [
+          "Bac+5 en Actuariat, Mathématiques ou Statistiques",
+          "Minimum 4 ans d'expérience en actuariat retraite ou assurance",
+          "Maîtrise de R, Python et des outils actuariels",
+          "Connaissance de la réglementation des régimes de retraite au Maroc",
+          "Aptitude à synthétiser des analyses complexes"
+        ]
+      }
+    }
+  }
+}

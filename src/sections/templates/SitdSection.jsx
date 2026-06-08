@@ -1,0 +1,8 @@
+import React from 'react';
+import HtmlBlock from '../../components/HtmlBlock.jsx';
+
+const html = "<div id=\"view-sitd\" class=\"view-section km-container\">\n                <div class=\"km-header\">\n                    <h2>Espace SI / SITD</h2>\n                    <p>Sécurité du SI, référentiel IT, intégration, pilotage, contrats de services et SEAU — conformément au cadrage CMS.</p>\n                </div>\n\n                <div class=\"km-navbar\" id=\"sitdMainNavbar\"\n                    style=\"display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;\">\n                </div>\n\n                <div class=\"km-navbar\" id=\"sitdSubNavbar\"\n                    style=\"display:flex;align-items:center;gap:0;margin-bottom:24px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;\">\n                </div>\n\n                <div id=\"sitdPageHost\"></div>\n            </div>\n\n            <!-- ARC VIEW (table conforme — onglet 16. Audit, Risque & Conformité) -->\n";
+
+export default function SitdSection() {
+  return <HtmlBlock html={html} />;
+}

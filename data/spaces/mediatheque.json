@@ -1,0 +1,62 @@
+{
+  "space": "mediatheque",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "mediaImages": [
+      {
+        "id": "img1",
+        "title": "Infographie – Parcours assuré",
+        "category": "Institutionnel",
+        "date": "Avr 2026",
+        "file": "Media_Infographie_Parcours.png"
+      },
+      {
+        "id": "img2",
+        "title": "Photo – Atelier",
+        "category": "Évènement",
+        "date": "Mars 2026",
+        "file": "Galerie_Atelier_01.png"
+      },
+      {
+        "id": "img3",
+        "title": "Photo – Vie interne",
+        "category": "Évènement",
+        "date": "Fév 2026",
+        "file": "Galerie_Vie_02.png"
+      },
+      {
+        "id": "img4",
+        "title": "Schéma – Architecture SI",
+        "category": "SI",
+        "date": "Jan 2026",
+        "file": "Schema_Architecture_SI.png"
+      }
+    ],
+    "mediaVideos": [
+      {
+        "id": "vid1",
+        "title": "Capsule – Process liquidation",
+        "category": "Process",
+        "date": "Avr 2026",
+        "file": "Media_Capsule_Liquidation.mp4",
+        "desc": "Présentation du flux de traitement (4 min)."
+      },
+      {
+        "id": "vid2",
+        "title": "Vidéo – Gestes de sécurité",
+        "category": "Institutionnel",
+        "date": "Mars 2026",
+        "file": "Video_Gestes_Securite.mp4",
+        "desc": "Rappel des bons réflexes."
+      },
+      {
+        "id": "vid3",
+        "title": "Démo – Nouvel Intranet",
+        "category": "SI",
+        "date": "Fév 2026",
+        "file": "Demo_Nouvel_Intranet.mp4",
+        "desc": "Fonctionnalités clés (6 min)."
+      }
+    ]
+  }
+}

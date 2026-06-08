@@ -1,0 +1,170 @@
+{
+  "space": "notifications",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "notifData": [
+      {
+        "id": 1,
+        "type": "document",
+        "title": "Nouveau document publié",
+        "desc": "La procédure RH 2026 est maintenant disponible dans KM.",
+        "time": "Il y a 10 min",
+        "date": "Aujourd'hui",
+        "unread": true
+      },
+      {
+        "id": 2,
+        "type": "meeting",
+        "title": "Réunion Direction",
+        "desc": "La réunion du CODIR commencera dans 15 minutes.",
+        "time": "Il y a 25 min",
+        "date": "Aujourd'hui",
+        "unread": true
+      },
+      {
+        "id": 3,
+        "type": "innovation",
+        "title": "Félicitations !",
+        "desc": "Votre idée \"Digit-Passe\" a été validée par le comité.",
+        "time": "Hier, 16:45",
+        "date": "Hier",
+        "unread": true
+      },
+      {
+        "id": 4,
+        "type": "rh",
+        "title": "Évaluation annuelle ouverte",
+        "desc": "La campagne d'évaluation 2026 est lancée. Date limite : 28 fév.",
+        "time": "Hier, 10:00",
+        "date": "Hier",
+        "unread": false
+      },
+      {
+        "id": 5,
+        "type": "system",
+        "title": "Maintenance planifiée",
+        "desc": "Maintenance du serveur Paie vendredi à 18h00.",
+        "time": "Hier, 08:30",
+        "date": "Hier",
+        "unread": false
+      },
+      {
+        "id": 6,
+        "type": "document",
+        "title": "Note de service partagée",
+        "desc": "La note de service N°12/2026 relative aux congés a été publiée.",
+        "time": "22 Avr, 14:00",
+        "date": "22 Avr",
+        "unread": false
+      },
+      {
+        "id": 7,
+        "type": "meeting",
+        "title": "Compte-rendu disponible",
+        "desc": "Le compte-rendu de la réunion du 20 avril est disponible.",
+        "time": "21 Avr, 09:15",
+        "date": "21 Avr",
+        "unread": false
+      },
+      {
+        "id": 8,
+        "type": "rh",
+        "title": "Solde de congés mis à jour",
+        "desc": "Votre solde de congés annuels a été actualisé pour 2026.",
+        "time": "20 Avr, 16:00",
+        "date": "20 Avr",
+        "unread": false
+      },
+      {
+        "id": 9,
+        "type": "innovation",
+        "title": "Nouvelle idée soumise",
+        "desc": "Une nouvelle idée \"Smart Archivage\" a été soumise à votre équipe.",
+        "time": "19 Avr, 11:00",
+        "date": "19 Avr",
+        "unread": false
+      },
+      {
+        "id": 10,
+        "type": "system",
+        "title": "Mise à jour système",
+        "desc": "Le portail intranet a été mis à jour vers la version 4.2.",
+        "time": "18 Avr, 07:00",
+        "date": "18 Avr",
+        "unread": false
+      },
+      {
+        "id": 11,
+        "type": "document",
+        "title": "Rapport mensuel disponible",
+        "desc": "Le rapport de performance de mars 2026 est disponible.",
+        "time": "17 Avr, 15:30",
+        "date": "17 Avr",
+        "unread": false
+      },
+      {
+        "id": 12,
+        "type": "meeting",
+        "title": "Invitation : Comité d'audit",
+        "desc": "Vous êtes invité(e) à la réunion du comité d'audit le 15 mai.",
+        "time": "15 Avr, 09:00",
+        "date": "15 Avr",
+        "unread": false
+      },
+      {
+        "id": 13,
+        "type": "rh",
+        "title": "Formation disponible",
+        "desc": "Nouveau module \"Management Agile\" disponible sur CMR Academy.",
+        "time": "14 Avr, 10:00",
+        "date": "14 Avr",
+        "unread": false
+      },
+      {
+        "id": 14,
+        "type": "system",
+        "title": "Alerte sécurité",
+        "desc": "Connexion depuis un nouvel appareil détectée sur votre compte.",
+        "time": "12 Avr, 22:10",
+        "date": "12 Avr",
+        "unread": false
+      },
+      {
+        "id": 15,
+        "type": "document",
+        "title": "Procédure IT mise à jour",
+        "desc": "La charte informatique 2026 a été mise à jour. Merci de la signer.",
+        "time": "10 Avr, 08:00",
+        "date": "10 Avr",
+        "unread": false
+      }
+    ],
+    "notifIcons": {
+      "document": {
+        "bg": "#dbeafe",
+        "color": "#2563eb",
+        "icon": "file-text"
+      },
+      "meeting": {
+        "bg": "#fef3c7",
+        "color": "#d97706",
+        "icon": "calendar"
+      },
+      "rh": {
+        "bg": "#f0fdf4",
+        "color": "#16a34a",
+        "icon": "user-check"
+      },
+      "innovation": {
+        "bg": "#fdf4ff",
+        "color": "#9333ea",
+        "icon": "lightbulb"
+      },
+      "system": {
+        "bg": "#fff1f2",
+        "color": "#dc2626",
+        "icon": "settings"
+      }
+    }
+  }
+}
