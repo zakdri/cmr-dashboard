@@ -9,16 +9,12 @@ import { loadLegacyScript } from './legacy/loadLegacyScript.js';
 import { sections } from './sections/index.jsx';
 import { loadApplicationData } from './services/cmrData.js';
 
-function LoadingState({ error }) {
+function ErrorState() {
   return (
     <div style={{ padding: 24, maxWidth: 760, background: 'white', borderRadius: 16 }}>
-      <div style={{ marginBottom: 10, fontWeight: 800 }}>
-        {error ? 'Chargement impossible' : 'Chargement des rubriques...'}
-      </div>
+      <div style={{ marginBottom: 10, fontWeight: 800 }}>Chargement impossible</div>
       <p style={{ color: 'var(--text-light)', lineHeight: 1.7 }}>
-        {error
-          ? 'Une erreur est survenue pendant le chargement de l’application React.'
-          : 'Initialisation de l’application React.'}
+        Une erreur est survenue pendant le chargement de l’application.
       </p>
     </div>
   );
@@ -85,7 +81,7 @@ export default function App() {
         </div>
 
         <main className="main-content" id="sections-root">
-          {error || !ready ? <LoadingState error={error} /> : null}
+          {error ? <ErrorState /> : null}
           {sections.map(({ id, Component }) => (
             <Component key={id} />
           ))}
