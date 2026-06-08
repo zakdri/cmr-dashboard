@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-const staticDirs = ['data', 'images', 'js'];
+const staticDirs = ['data', 'images'];
 
 function copyStaticAssets() {
   return {
