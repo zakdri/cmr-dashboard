@@ -1,8 +1,0 @@
-import React from 'react';
-import HtmlBlock from '../../components/HtmlBlock.jsx';
-
-const html = "<div id=\"view-projets\" class=\"view-section km-container\">\n                <div class=\"km-header\">\n                    <h2>Espace Projets</h2>\n                    <p>Vision transverse du portefeuille projets (Fiches, Indicateurs, Livrables).</p>\n                </div>\n                <div class=\"km-grid\">\n                    <div class=\"doc-card\">\n                        <div class=\"doc-icon-large\" style=\"background: #eff6ff; color: #3b82f6;\"><i data-lucide=\"briefcase\" style=\"width: 24px; height: 24px;\"></i></div>\n                        <div class=\"doc-card-title\">Projet Refonte Intranet</div>\n                        <p style=\"font-size: 13px; margin-top: 8px;\">Phase 2 : Conception SFD / Maquettes</p>\n                        <div style=\"height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; margin-top: 10px;\">\n                            <div style=\"width: 70%; height: 100%; background: #3b82f6;\"></div>\n                        </div>\n                        <div class=\"doc-card-meta\"><span style=\"font-weight: 600;\">Ouvert</span><span>Progression: 70%</span></div>\n                    </div>\n                </div>\n            </div>\n\n            <!-- DOCUMENTAIRES VIEW -->\n";
-
-export default function ProjetsSection() {
-  return <HtmlBlock html={html} />;
-}

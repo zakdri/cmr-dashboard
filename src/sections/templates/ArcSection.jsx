@@ -1,8 +1,0 @@
-import React from 'react';
-import HtmlBlock from '../../components/HtmlBlock.jsx';
-
-const html = "<div id=\"view-arc\" class=\"view-section km-container\">\n                <div class=\"km-header\">\n                    <h2>Espace Audit, Risque &amp; Conformité</h2>\n                    <p>Audit interne, risque &amp; conformité, contrôle permanent et sensibilisation — conformément au cadrage CMS.</p>\n                </div>\n\n                <div class=\"km-navbar\" id=\"arcMainNavbar\"\n                    style=\"display:flex;align-items:center;gap:0;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;\">\n                </div>\n\n                <div class=\"km-navbar\" id=\"arcSubNavbar\"\n                    style=\"display:flex;align-items:center;gap:0;margin-bottom:24px;border-bottom:1px solid #e2e8f0;padding-bottom:0;overflow-x:auto;flex-wrap:nowrap;\">\n                </div>\n\n                <div id=\"arcPageHost\"></div>\n            </div>\n\n            <!-- ADMINISTRATION VIEW -->\n";
-
-export default function ArcSection() {
-  return <HtmlBlock html={html} />;
-}

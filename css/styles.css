@@ -61,6 +61,18 @@
             width: auto;
         }
 
+        .header-logo .cls-1 {
+            fill: #18385f;
+        }
+
+        .header-logo .cls-2 {
+            fill: #256cb5;
+        }
+
+        .header-logo .cls-3 {
+            fill: #758693;
+        }
+
         .search-container {
             flex: 0 1 500px;
             position: relative;

@@ -4,7 +4,7 @@ import {
   SidebarTemplate,
   RightSidebarTemplate,
   ModalsTemplate
-} from './components/templates/index.jsx';
+} from './components/layout/index.jsx';
 import { loadLegacyScript } from './legacy/loadLegacyScript.js';
 import { sections } from './sections/index.jsx';
 import { loadApplicationData } from './services/cmrData.js';
