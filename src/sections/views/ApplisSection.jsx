@@ -1,21 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-function getApplicationCategories() {
-  return window.CMR_DATA?.data?.applicationsCategories || [];
+function getApplicationsData() {
+  return {
+    header: window.CMR_DATA?.data?.applicationsHeader || {},
+    categories: window.CMR_DATA?.data?.applicationsCategories || []
+  };
 }
 
 export default function ApplisSection() {
-  const categories = getApplicationCategories();
-
-  useEffect(() => {
-    window.lucide?.createIcons();
-  }, [categories]);
+  const { header, categories } = getApplicationsData();
 
   return (
     <div id="view-applis" className="view-section">
       <div className="km-header">
-        <h2>Mes Applications</h2>
-        <p>Accédez rapidement à tous vos outils métiers et services.</p>
+        <h2>{header.title}</h2>
+        <p>{header.description}</p>
       </div>
 
       {categories.map((category, categoryIndex) => (

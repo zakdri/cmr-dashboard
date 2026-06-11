@@ -1,0 +1,190 @@
+{
+  "space": "communication-interne",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "communicationInterneHeader": {
+      "title": "Communication interne",
+      "description": "Informations institutionnelles, flash, événements et contenus éditoriaux."
+    },
+    "communicationInterneCards": [
+      {
+        "title": "Actualités institutionnelles",
+        "icon": "newspaper",
+        "iconClass": "blue",
+        "action": "Voir tout",
+        "actionHandler": "goToActualites(); return false;",
+        "items": [
+          {
+            "label": "ACTU",
+            "labelStyle": { "background": "#eff6ff", "color": "#256cb5", "fontWeight": 800 },
+            "title": "Contrat programme État‑CMR 2026‑2028",
+            "meta": "Organisation & Gouvernance • À la une",
+            "handler": "goToActualites(1); return false;"
+          },
+          {
+            "label": "DIR",
+            "labelStyle": { "background": "#f0fdf4", "color": "#16a34a", "fontWeight": 800 },
+            "title": "Tenue du Conseil d’Administration",
+            "meta": "Gouvernance • 2 jours",
+            "handler": "goToActualites(2); return false;"
+          },
+          {
+            "label": "DIG",
+            "labelStyle": { "background": "#fff7ed", "color": "#ea580c", "fontWeight": 800 },
+            "title": "Feuille de route digitale 2026",
+            "meta": "Digital • 1 Avril",
+            "handler": "goToActualites(8); return false;"
+          }
+        ]
+      },
+      {
+        "title": "Flash d’information",
+        "icon": "zap",
+        "iconClass": "orange",
+        "action": "Voir",
+        "actionHandler": "openCommFlashDetail('strategie-roadmap'); return false;",
+        "items": [
+          {
+            "label": "IT",
+            "labelStyle": { "background": "#fff7ed", "color": "#ea580c", "fontWeight": 800 },
+            "title": "Maintenance serveur “Paie”",
+            "meta": "Ce vendredi • 18:00",
+            "handler": "openTickerDetail('it-maint-paie')"
+          },
+          {
+            "label": "SOC",
+            "labelStyle": { "background": "#eff6ff", "color": "#256cb5", "fontWeight": 800 },
+            "title": "Colonies de vacances 2026",
+            "meta": "Inscriptions ouvertes",
+            "handler": "openTickerDetail('social-colonies')"
+          },
+          {
+            "label": "STR",
+            "labelStyle": { "background": "#f0fdf4", "color": "#16a34a", "fontWeight": 800 },
+            "title": "Lancement feuille de route 2026",
+            "meta": "Stratégie • Aujourd’hui",
+            "handler": "openTickerDetail('strategie-roadmap')"
+          }
+        ]
+      },
+      {
+        "title": "Événements",
+        "icon": "calendar",
+        "iconClass": "blue",
+        "action": "Agenda",
+        "actionHandler": "switchView('agenda-interne'); return false;",
+        "items": [
+          {
+            "label": "EVT",
+            "labelStyle": { "background": "#eff6ff", "color": "#256cb5", "fontWeight": 800 },
+            "title": "Comité de pilotage",
+            "meta": "Aujourd’hui • 14:00",
+            "handler": "switchView('agenda-interne'); return false;"
+          },
+          {
+            "label": "RDV",
+            "labelStyle": { "background": "#f0fdf4", "color": "#16a34a", "fontWeight": 800 },
+            "title": "Point d’avancement",
+            "meta": "Demain • 16:30",
+            "handler": "switchView('agenda-interne'); return false;"
+          },
+          {
+            "label": "AT",
+            "labelStyle": { "background": "#fff7ed", "color": "#ea580c", "fontWeight": 800 },
+            "title": "Atelier cybersécurité",
+            "meta": "12 Mai • 14:30",
+            "handler": "switchView('agenda-interne'); return false;"
+          }
+        ]
+      },
+      {
+        "title": "Contenus éditoriaux",
+        "icon": "file-text",
+        "iconClass": "purple",
+        "action": "Consulter",
+        "actionHandler": "goToActualites(); return false;",
+        "items": [
+          {
+            "label": "INT",
+            "labelStyle": { "background": "#fdf4ff", "color": "#9333ea", "fontWeight": 800 },
+            "title": "Interview — Retour d’expérience “Digit‑Passe”",
+            "meta": "Innovation • 3 jours",
+            "handler": "goToActualites(4); return false;"
+          },
+          {
+            "label": "DOS",
+            "labelStyle": { "background": "#eff6ff", "color": "#256cb5", "fontWeight": 800 },
+            "title": "Dossier — Comité d’audit",
+            "meta": "Gouvernance • Mars",
+            "handler": "goToActualites(10); return false;"
+          },
+          {
+            "label": "SOC",
+            "labelStyle": { "background": "#f0fdf4", "color": "#16a34a", "fontWeight": 800 },
+            "title": "Article — Colonies de vacances 2026",
+            "meta": "Social • 28 Mars",
+            "handler": "goToActualites(9); return false;"
+          }
+        ]
+      },
+      {
+        "title": "Multimédia",
+        "icon": "play-circle",
+        "iconClass": "pink",
+        "action": "Voir",
+        "actionHandler": "switchView('mediatheque'); return false;",
+        "items": [
+          {
+            "label": "VID",
+            "labelStyle": { "background": "#fdf4ff", "color": "#d946ef", "fontWeight": 800 },
+            "title": "Capsule vidéo — Rétrospective Q1",
+            "meta": "3 min • À regarder",
+            "handler": "openSubmenuView('mediatheque','videos'); return false;"
+          },
+          {
+            "label": "POD",
+            "labelStyle": { "background": "#eff6ff", "color": "#256cb5", "fontWeight": 800 },
+            "title": "Podcast — Parlons transformation",
+            "meta": "Épisode 2 • 12 min",
+            "handler": "openMockDownload('Podcast_Parlons_Transformation_Episode_2.mp3','Podcast — Parlons transformation'); return false;"
+          },
+          {
+            "label": "IMG",
+            "labelStyle": { "background": "#f0fdf4", "color": "#16a34a", "fontWeight": 800 },
+            "title": "Galerie photos — Vie CMR",
+            "meta": "Derniers événements",
+            "handler": "openSubmenuView('mediatheque','photos'); return false;"
+          }
+        ]
+      }
+    ],
+    "communicationInterneFilterCard": {
+      "title": "Filtrage des contenus",
+      "icon": "sliders-horizontal",
+      "iconClass": "green",
+      "subtitle": "Filtrer par thématique ou entité.",
+      "searchPlaceholder": "Rechercher dans la communication interne...",
+      "themesTitle": "Thématiques",
+      "themes": [
+        { "id": "all", "label": "Toutes", "active": true },
+        { "id": "Gouvernance", "label": "Gouvernance" },
+        { "id": "Digital", "label": "Digital" },
+        { "id": "Innovation", "label": "Innovation" },
+        { "id": "Formation", "label": "Formation" },
+        { "id": "Social", "label": "Social" },
+        { "id": "Stratégie", "label": "Stratégie" }
+      ],
+      "entitiesTitle": "Métiers / entités",
+      "entities": [
+        { "id": "all", "label": "Tous", "active": true },
+        { "id": "direction", "label": "Direction" },
+        { "id": "rh", "label": "RH" },
+        { "id": "digital", "label": "Digital" },
+        { "id": "audit", "label": "Audit" },
+        { "id": "social", "label": "Social" }
+      ],
+      "previewTitle": "Aperçu (contenu réel)",
+      "previewAction": "Voir tous les contenus"
+    }
+  }
+}

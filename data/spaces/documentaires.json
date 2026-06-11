@@ -2,6 +2,102 @@
   "space": "documentaires",
   "updatedAt": "2026-06-08",
   "data": {
+    "metiersHeader": {
+      "title": "Espaces métiers",
+      "description": "Domaines métiers, référentiels, livrables, intégration SI, structuration et médiathèque."
+    },
+    "metiersMainTabs": [
+      { "label": "Structuration métier", "tab": "structuration-metier" },
+      { "label": "Référentiels métiers", "tab": "referentiels-metiers" },
+      { "label": "Documents métiers", "tab": "documents-metiers" },
+      { "label": "Intégration SI", "tab": "integration-si" },
+      { "label": "Structuration", "tab": "structuration" },
+      { "label": "Multimédia métier", "tab": "multimedia" }
+    ],
+    "metiersSectionConfig": {
+      "structuration-metier": {
+        "subs": [{ "id": "domaines", "label": "Domaines métiers" }],
+        "defaultSub": "domaines"
+      },
+      "referentiels-metiers": {
+        "subs": [{ "id": "referentiels", "label": "Fournisseurs / projets / applications" }],
+        "defaultSub": "referentiels"
+      },
+      "documents-metiers": {
+        "subs": [{ "id": "livrables", "label": "Livrables" }],
+        "defaultSub": "livrables"
+      },
+      "integration-si": {
+        "subs": [{ "id": "si", "label": "Systèmes existants" }],
+        "defaultSub": "si"
+      },
+      "structuration": {
+        "subs": [{ "id": "thematiques", "label": "Thématiques" }],
+        "defaultSub": "thematiques"
+      },
+      "multimedia": {
+        "subs": [{ "id": "mediatheque", "label": "Médiathèque métier" }],
+        "defaultSub": "mediatheque"
+      }
+    },
+    "metiersPages": {
+      "domaines": {
+        "title": "Domaines métiers",
+        "icon": "network",
+        "iconClass": "blue",
+        "intro": "Organisation des espaces selon les différents métiers de la CMR (maquette).",
+        "emptyDetail": "Sélectionnez un domaine."
+      },
+      "referentiels": {
+        "title": "Fournisseurs / projets / applications",
+        "icon": "folder-open",
+        "iconClass": "green",
+        "searchPlaceholder": "Rechercher (référentiel, application, projet…)…",
+        "filters": [
+          { "label": "Tous", "type": "all", "active": true },
+          { "label": "Fournisseurs", "type": "Fournisseur" },
+          { "label": "Projets", "type": "Projet" },
+          { "label": "Applications", "type": "Application" }
+        ]
+      },
+      "livrables": {
+        "title": "Livrables",
+        "icon": "file-stack",
+        "iconClass": "orange",
+        "searchPlaceholder": "Rechercher un livrable…"
+      },
+      "si": {
+        "title": "Systèmes existants",
+        "icon": "plug",
+        "iconClass": "purple",
+        "integrationTitle": "Accès / intégration SI",
+        "integrationDescription": "Permettre l’accès ou l’intégration avec d’autres outils SI (maquette). Dépend SI.",
+        "primaryAction": {
+          "label": "Catalogue APIs",
+          "handler": "openMockDownload('Catalogue_APIs_SI.pdf','Catalogue APIs SI')"
+        },
+        "secondaryAction": {
+          "label": "Guide accès",
+          "handler": "openMockDownload('Guide_SSO_Acces.pdf','Guide SSO & Accès')"
+        },
+        "widgetTitle": "Widget état",
+        "widgetDescription": "Accéder aux systèmes existants et leurs intégrations.",
+        "refreshLabel": "Actualiser",
+        "systemsTitle": "Systèmes connectés"
+      },
+      "thematiques": {
+        "title": "Thématiques",
+        "icon": "tags",
+        "iconClass": "blue",
+        "searchPlaceholder": "Filtrer / navigation (ex: liquidation, contrôle, SI)…"
+      },
+      "mediatheque": {
+        "title": "Médiathèque métier",
+        "icon": "image",
+        "iconClass": "pink",
+        "searchPlaceholder": "Rechercher un média…"
+      }
+    },
     "metiersDomains": [
       {
         "id": "ret",

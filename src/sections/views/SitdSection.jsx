@@ -1,16 +1,21 @@
 import React from "react";
-import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+
+function getSitdData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.sitdHeader || {},
+  };
+}
 
 export default function SitdSection() {
+  const { header } = getSitdData();
+
   return (
     <>
       <div id="view-sitd" className="view-section km-container">
         <div className="km-header">
-          <h2>Espace SI / SITD</h2>
-          <p>
-            Sécurité du SI, référentiel IT, intégration, pilotage, contrats de
-            services et SEAU — conformément au cadrage CMS.
-          </p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
         <div
           className="km-navbar"

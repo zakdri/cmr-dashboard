@@ -1,16 +1,144 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getOrgGovData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.orgGovHeader || {},
+    tabs: data.orgGovMainTabs || [],
+    overview: data.orgGovOverview || [],
+    smallCards: data.orgGovSmallCards || [],
+    pages: data.orgGovPages || {},
+    strategieDocs: data.orgGovStrategieDocs || [],
+  };
+}
+
+function CardTitle({ title, icon, iconClass }) {
+  return (
+    <div className="card-title">
+      <div className={`card-icon ${iconClass}`}>
+        <i data-lucide={icon} style={{ width: 20, height: 20 }} />
+      </div>
+      {title}
+    </div>
+  );
+}
+
+function OverviewCard({ card }) {
+  return (
+    <a
+      href="#"
+      className="app-card-large"
+      onClick={(event) => runLegacyHandler(event, card.handler)}
+      style={{ "--hover-bg": card.hoverBg, "--hover-border": card.hoverBorder }}
+    >
+      <div
+        className="app-card-icon-large"
+        style={{ background: card.iconBackground }}
+      >
+        <i data-lucide={card.icon} style={{ width: 24, height: 24 }} />
+      </div>
+      <div className="app-card-content">
+        <span className="app-card-title-large">{card.title}</span>
+        <p className="app-card-desc">{card.desc}</p>
+        <div className="app-card-action">
+          {card.action}
+          <i data-lucide="arrow-right" style={{ width: 14 }} />
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function SmallCard({ card }) {
+  return (
+    <>
+      <div className="app-category-title">{card.sectionTitle}</div>
+      <div className="km-grid" style={{ marginBottom: 40 }}>
+        <div
+          className="doc-card"
+          style={{ cursor: "pointer" }}
+          onClick={(event) => runLegacyHandler(event, card.handler)}
+        >
+          <div className="doc-icon-large" style={card.iconStyle}>
+            <i data-lucide={card.icon} style={{ width: 24, height: 24 }} />
+          </div>
+          <div className="doc-card-title">{card.title}</div>
+          <p
+            style={{
+              fontSize: 13,
+              color: "var(--text-light)",
+              marginTop: 8,
+            }}
+          >
+            {card.desc}
+          </p>
+          <div className="doc-card-meta">
+            <span style={{ color: card.actionColor, fontWeight: 700 }}>
+              {card.action}
+            </span>
+            <i data-lucide="arrow-right" style={{ width: 16 }} />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function SimpleDocCard({ doc }) {
+  return (
+    <div
+      className="doc-card"
+      style={{ cursor: "pointer" }}
+      onClick={(event) =>
+        runLegacyHandler(
+          event,
+          `openMockDownload('${doc.file}','${doc.downloadTitle}');`,
+        )
+      }
+    >
+      <div className="doc-icon-large pdf">
+        <i data-lucide="file-text" style={{ width: 24, height: 24 }} />
+      </div>
+      <div className="doc-card-title">{doc.title}</div>
+      <p
+        style={{
+          fontSize: 12,
+          color: "var(--text-light)",
+          marginTop: 8,
+        }}
+      >
+        {doc.description}
+      </p>
+      <div className="doc-card-meta">
+        <span>{doc.action}</span>
+        <i data-lucide="download" style={{ width: 16, color: "#94a3b8" }} />
+      </div>
+    </div>
+  );
+}
+
+function DynamicCardPage({ page, children }) {
+  return (
+    <div className="dashboard-card">
+      <div className="card-header">
+        <CardTitle title={page.title} icon={page.icon} iconClass={page.iconClass} />
+      </div>
+      {children}
+    </div>
+  );
+}
+
 export default function InstitutionnelSection() {
+  const { header, tabs, overview, smallCards, pages, strategieDocs } =
+    getOrgGovData();
+
   return (
     <>
       <div id="view-institutionnel" className="view-section km-container">
         <div className="km-header">
-          <h2>Organisation &amp; Gouvernance</h2>
-          <p>
-            Organisation, gouvernance, référentiel SMI, cartographie des
-            processus et pilotage stratégique.
-          </p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
         <div
           className="km-navbar"
@@ -26,120 +154,33 @@ export default function InstitutionnelSection() {
             flexWrap: "nowrap",
           }}
         >
-          <div
-            className="km-nav-item active"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchOrgGovSection('overview')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Vue d’ensemble
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchOrgGovSection('organisation')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Organisation
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchOrgGovSection('referentiel-smi')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Référentiel SMI
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchOrgGovSection('cartographie')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Cartographie
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchOrgGovSection('gouvernance')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Gouvernance
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchOrgGovSection('direction')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Direction
-          </div>
+          {tabs.map((tab, index) => (
+            <React.Fragment key={tab.id}>
+              {index > 0 && (
+                <span
+                  style={{
+                    color: "#cbd5e1",
+                    fontWeight: 300,
+                    fontSize: 18,
+                    lineHeight: 1,
+                    alignSelf: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  |
+                </span>
+              )}
+              <div
+                className={`km-nav-item${index === 0 ? " active" : ""}`}
+                onClick={(event) =>
+                  runLegacyHandler(event, `switchOrgGovSection('${tab.id}')`)
+                }
+                style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
+              >
+                {tab.label}
+              </div>
+            </React.Fragment>
+          ))}
         </div>
         <div
           className="km-navbar"
@@ -155,532 +196,34 @@ export default function InstitutionnelSection() {
             flexWrap: "nowrap",
           }}
         ></div>
-        {/* TAB: OVERVIEW */}
+
         <div
           id="page-orggov-overview"
           className="km-tab-content"
           style={{ display: "block" }}
         >
-          <div className="app-category-title">Organisation</div>
-          <div
-            className="app-grid"
-            style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: 24,
-              marginBottom: 40,
-            }}
-          >
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('organigramme'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#f0f9ff", "--hover-border": "#bae6fd" }}
-            >
+          {overview.map((section) => (
+            <React.Fragment key={section.title}>
+              <div className="app-category-title">{section.title}</div>
               <div
-                className="app-card-icon-large"
+                className="app-grid"
                 style={{
-                  background: "linear-gradient(135deg, #0ea5e9, #0284c7)",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                  gap: 24,
+                  marginBottom: 40,
                 }}
               >
-                <i data-lucide="network" style={{ width: 24, height: 24 }} />
+                {(section.cards || []).map((card) => (
+                  <OverviewCard key={card.title} card={card} />
+                ))}
               </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">Organigramme</span>
-                <p className="app-card-desc">
-                  Organigramme interactif (directions, entités, rattachements).
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(event, "switchView('annuaire'); return false;")
-              }
-              style={{ "--hover-bg": "#f8fafc", "--hover-border": "#cbd5e1" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #64748b, #475569)",
-                }}
-              >
-                <i data-lucide="id-card" style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">
-                  Fiches collaborateurs
-                </span>
-                <p className="app-card-desc">
-                  Annuaire interne (profil, contact, fonction, rattachement).
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('postes'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#f0fdf4", "--hover-border": "#bbf7d0" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #16a34a, #15803d)",
-                }}
-              >
-                <i data-lucide="briefcase" style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">Fiches de postes</span>
-                <p className="app-card-desc">
-                  Responsabilités et missions (page structurée).
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-          </div>
-          <div className="app-category-title">Gouvernance</div>
-          <div
-            className="app-grid"
-            style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: 24,
-              marginBottom: 40,
-            }}
-          >
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('presentation'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#eff6ff", "--hover-border": "#bfdbfe" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #2563eb, #1d4ed8)",
-                }}
-              >
-                <i
-                  data-lucide="presentation"
-                  style={{ width: 24, height: 24 }}
-                />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">
-                  Présentation globale
-                </span>
-                <p className="app-card-desc">
-                  Instances, rôles, périmètres (page dédiée).
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('strategie'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#fff7ed", "--hover-border": "#fed7aa" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #f59e0b, #d97706)",
-                }}
-              >
-                <i data-lucide="target" style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">Plan stratégique</span>
-                <p className="app-card-desc">
-                  Consultation + téléchargement des documents structurants.
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('referentiels'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#fdf4ff", "--hover-border": "#e9d5ff" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #a855f7, #7c3aed)",
-                }}
-              >
-                <i data-lucide="book-open" style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">
-                  Référentiels organisationnels
-                </span>
-                <p className="app-card-desc">
-                  Référentiels / politiques / documents (liste + dossier).
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('comites'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#f8fafc", "--hover-border": "#cbd5e1" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #334155, #0f172a)",
-                }}
-              >
-                <i
-                  data-lucide="users-round"
-                  style={{ width: 24, height: 24 }}
-                />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">Comités</span>
-                <p className="app-card-desc">
-                  Instances (liste/dossier) + PV (téléchargement).
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('kpi-strategiques'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#f0fdf4", "--hover-border": "#bbf7d0" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #16a34a, #059669)",
-                }}
-              >
-                <i data-lucide="gauge" style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">KPI stratégiques</span>
-                <p className="app-card-desc">
-                  Tableaux de bord et indicateurs de pilotage.
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('rapports-gouvernance'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#fef2f2", "--hover-border": "#fecaca" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #dc2626, #991b1b)",
-                }}
-              >
-                <i
-                  data-lucide="folder-lock"
-                  style={{ width: 24, height: 24 }}
-                />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">
-                  Rapports gouvernance
-                </span>
-                <p className="app-card-desc">
-                  Dossiers CA et rapports de gouvernance.
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-          </div>
-          <div className="app-category-title">
-            Référentiel SMI &amp; cartographie
-          </div>
-          <div
-            className="app-grid"
-            style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: 24,
-              marginBottom: 40,
-            }}
-          >
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('smi-politiques'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#f0fdf4", "--hover-border": "#bbf7d0" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #22c55e, #16a34a)",
-                }}
-              >
-                <i
-                  data-lucide="shield-check"
-                  style={{ width: 24, height: 24 }}
-                />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">Politiques SMI</span>
-                <p className="app-card-desc">
-                  Politiques et référentiels SMI centralisés.
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('smi-dossiers'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#eff6ff", "--hover-border": "#bfdbfe" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #3b82f6, #1d4ed8)",
-                }}
-              >
-                <i
-                  data-lucide="folder-tree"
-                  style={{ width: 24, height: 24 }}
-                />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">Dossiers processus</span>
-                <p className="app-card-desc">
-                  Documentation processus métier (GED-like).
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('smi-audits'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#fff7ed", "--hover-border": "#fed7aa" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #f97316, #ea580c)",
-                }}
-              >
-                <i
-                  data-lucide="clipboard-check"
-                  style={{ width: 24, height: 24 }}
-                />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">Audits SMI</span>
-                <p className="app-card-desc">Audits et constats SMI publiés.</p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="app-card-large"
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('cartographie'); return false;",
-                )
-              }
-              style={{ "--hover-bg": "#fdf4ff", "--hover-border": "#e9d5ff" }}
-            >
-              <div
-                className="app-card-icon-large"
-                style={{
-                  background: "linear-gradient(135deg, #a855f7, #7c3aed)",
-                }}
-              >
-                <i data-lucide="git-branch" style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="app-card-content">
-                <span className="app-card-title-large">
-                  Cartographie des processus
-                </span>
-                <p className="app-card-desc">
-                  Vue graphique interactive des processus.
-                </p>
-                <div className="app-card-action">
-                  Consulter
-                  <i data-lucide="arrow-right" style={{ width: 14 }} />
-                </div>
-              </div>
-            </a>
-          </div>
-          <div className="app-category-title">Direction</div>
-          <div className="km-grid" style={{ marginBottom: 40 }}>
-            <div
-              className="doc-card"
-              style={{ cursor: "pointer" }}
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchOrgGovTab('direction'); return false;",
-                )
-              }
-            >
-              <div
-                className="doc-icon-large"
-                style={{ background: "#eff6ff", color: "#1d4ed8" }}
-              >
-                <i
-                  data-lucide="message-square-text"
-                  style={{ width: 24, height: 24 }}
-                />
-              </div>
-              <div className="doc-card-title">Mot de la Direction</div>
-              <p
-                style={{
-                  fontSize: 13,
-                  color: "var(--text-light)",
-                  marginTop: 8,
-                }}
-              >
-                Message institutionnel (page dédiée).
-              </p>
-              <div className="doc-card-meta">
-                <span style={{ color: "#1d4ed8", fontWeight: 700 }}>Lire</span>
-                <i data-lucide="arrow-right" style={{ width: 16 }} />
-              </div>
-            </div>
-          </div>
-          <div className="app-category-title">Accueil espace</div>
-          <div className="km-grid">
-            <div
-              className="doc-card"
-              style={{ cursor: "pointer" }}
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "switchView('dashboard'); return false;",
-                )
-              }
-            >
-              <div
-                className="doc-icon-large"
-                style={{ background: "#f0fdf4", color: "#15803d" }}
-              >
-                <i data-lucide="home" style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="doc-card-title">Accueil intranet</div>
-              <p
-                style={{
-                  fontSize: 13,
-                  color: "var(--text-light)",
-                  marginTop: 8,
-                }}
-              >
-                Accès à l’accueil et aux raccourcis principaux.
-              </p>
-              <div className="doc-card-meta">
-                <span style={{ color: "#15803d", fontWeight: 700 }}>
-                  Ouvrir
-                </span>
-                <i data-lucide="arrow-right" style={{ width: 16 }} />
-              </div>
-            </div>
-          </div>
+            </React.Fragment>
+          ))}
+          {smallCards.map((card) => (
+            <SmallCard key={card.title} card={card} />
+          ))}
         </div>
-        {/* TAB: ORGANIGRAMME (Organigramme interactif) */}
+
         <div
           id="page-orggov-organigramme"
           className="km-tab-content"
@@ -698,7 +241,7 @@ export default function InstitutionnelSection() {
           >
             <div>
               <div className="app-category-title" style={{ margin: 0 }}>
-                Organigramme
+                {pages.organigramme?.title}
               </div>
               <p
                 style={{
@@ -707,8 +250,7 @@ export default function InstitutionnelSection() {
                   color: "var(--text-light)",
                 }}
               >
-                Naviguer dans les directions et entités. Cliquer pour
-                développer/réduire.
+                {pages.organigramme?.description}
               </p>
             </div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -716,13 +258,13 @@ export default function InstitutionnelSection() {
                 className="secondary-btn"
                 onClick={(event) => runLegacyHandler(event, "expandAllOrg()")}
               >
-                Développer tout
+                {pages.organigramme?.expandLabel}
               </button>
               <button
                 className="secondary-btn"
                 onClick={(event) => runLegacyHandler(event, "collapseAllOrg()")}
               >
-                Réduire
+                {pages.organigramme?.collapseLabel}
               </button>
             </div>
           </div>
@@ -737,7 +279,7 @@ export default function InstitutionnelSection() {
             <div id="orgTree" />
           </div>
         </div>
-        {/* TAB: POSTES (Page structurée) */}
+
         <div
           id="page-orggov-postes"
           className="km-tab-content"
@@ -755,7 +297,7 @@ export default function InstitutionnelSection() {
           >
             <div>
               <div className="app-category-title" style={{ margin: 0 }}>
-                Fiches de postes
+                {pages.postes?.title}
               </div>
               <p
                 style={{
@@ -764,8 +306,7 @@ export default function InstitutionnelSection() {
                   color: "var(--text-light)",
                 }}
               >
-                Consulter une fiche de poste (missions, responsabilités,
-                compétences).
+                {pages.postes?.description}
               </p>
             </div>
             <div className="actu-search-wrap" style={{ maxWidth: 420 }}>
@@ -774,7 +315,7 @@ export default function InstitutionnelSection() {
                 id="postesSearchInput"
                 type="text"
                 className="actu-search-input"
-                placeholder="Rechercher un poste…"
+                placeholder={pages.postes?.searchPlaceholder}
                 onInput={(event) =>
                   runLegacyHandler(event, "renderPostesList(this.value)")
                 }
@@ -787,29 +328,21 @@ export default function InstitutionnelSection() {
           >
             <div className="dashboard-card">
               <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon purple">
-                    <i
-                      data-lucide="briefcase"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Liste
-                </div>
+                <CardTitle
+                  title={pages.postes?.listTitle}
+                  icon="briefcase"
+                  iconClass="purple"
+                />
               </div>
               <div id="postesList" className="doc-list" />
             </div>
             <div className="dashboard-card">
               <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon orange">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Fiche de poste
-                </div>
+                <CardTitle
+                  title={pages.postes?.detailTitle}
+                  icon="file-text"
+                  iconClass="orange"
+                />
               </div>
               <div
                 id="postesDetail"
@@ -819,19 +352,19 @@ export default function InstitutionnelSection() {
                   fontSize: 13,
                 }}
               >
-                Sélectionnez un poste dans la liste.
+                {pages.postes?.emptyDetail}
               </div>
             </div>
           </div>
         </div>
-        {/* TAB: PRÉSENTATION GLOBALE (Page dédiée) */}
+
         <div
           id="page-orggov-presentation"
           className="km-tab-content"
           style={{ display: "none" }}
         >
           <div className="app-category-title" style={{ marginBottom: 14 }}>
-            Présentation globale
+            {pages.presentation?.title}
           </div>
           <div
             style={{
@@ -854,16 +387,11 @@ export default function InstitutionnelSection() {
                   flexShrink: 0,
                 }}
               >
-                <i
-                  data-lucide="presentation"
-                  style={{ width: 20, height: 20 }}
-                />
+                <i data-lucide="presentation" style={{ width: 20, height: 20 }} />
               </div>
               <div style={{ flex: 1 }}>
-                <div
-                  style={{ fontWeight: 800, fontSize: 18, color: "#0f172a" }}
-                >
-                  Gouvernance interne
+                <div style={{ fontWeight: 800, fontSize: 18, color: "#0f172a" }}>
+                  {pages.presentation?.panelTitle}
                 </div>
                 <p
                   style={{
@@ -873,10 +401,7 @@ export default function InstitutionnelSection() {
                     lineHeight: "1.7",
                   }}
                 >
-                  Accédez à la structure de gouvernance : instances, comités,
-                  responsabilités, et processus de décision. Cette page
-                  centralise les éléments de référence pour comprendre “qui
-                  décide quoi” et “comment”.
+                  {pages.presentation?.description}
                 </p>
               </div>
             </div>
@@ -894,159 +419,57 @@ export default function InstitutionnelSection() {
                 gap: 14,
               }}
             >
-              <div
-                style={{
-                  background: "#f8fafc",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 12,
-                  padding: 16,
-                }}
-              >
-                <div style={{ fontWeight: 800, color: "#1e293b" }}>
-                  Instances
-                </div>
+              {(pages.presentation?.items || []).map((item) => (
                 <div
+                  key={item.title}
                   style={{
-                    marginTop: 6,
-                    fontSize: 12,
-                    color: "var(--text-light)",
-                    lineHeight: "1.6",
+                    background: "#f8fafc",
+                    border: "1px solid #e2e8f0",
+                    borderRadius: 12,
+                    padding: 16,
                   }}
                 >
-                  Conseil, comités, réunions de pilotage.
+                  <div style={{ fontWeight: 800, color: "#1e293b" }}>
+                    {item.title}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 6,
+                      fontSize: 12,
+                      color: "var(--text-light)",
+                      lineHeight: "1.6",
+                    }}
+                  >
+                    {item.desc}
+                  </div>
                 </div>
-              </div>
-              <div
-                style={{
-                  background: "#f8fafc",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 12,
-                  padding: 16,
-                }}
-              >
-                <div style={{ fontWeight: 800, color: "#1e293b" }}>
-                  Rôles &amp; responsabilités
-                </div>
-                <div
-                  style={{
-                    marginTop: 6,
-                    fontSize: 12,
-                    color: "var(--text-light)",
-                    lineHeight: "1.6",
-                  }}
-                >
-                  RACI simplifié des décisions clés.
-                </div>
-              </div>
-              <div
-                style={{
-                  background: "#f8fafc",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 12,
-                  padding: 16,
-                }}
-              >
-                <div style={{ fontWeight: 800, color: "#1e293b" }}>
-                  Documents
-                </div>
-                <div
-                  style={{
-                    marginTop: 6,
-                    fontSize: 12,
-                    color: "var(--text-light)",
-                    lineHeight: "1.6",
-                  }}
-                >
-                  Référentiels, charte, PV, notes.
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
-        {/* TAB: STRATÉGIE (Consultation / téléchargement) */}
+
         <div
           id="page-orggov-strategie"
           className="km-tab-content"
           style={{ display: "none" }}
         >
           <div className="app-category-title" style={{ marginBottom: 14 }}>
-            Plan stratégique
+            {pages.strategie?.title}
           </div>
           <div className="km-grid">
-            <div
-              className="doc-card"
-              style={{ cursor: "pointer" }}
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "openMockDownload('Plan_Strategique_CMR_2026-2028.pdf','Plan stratégique 2026-2028 (version de référence)');",
-                )
-              }
-            >
-              <div className="doc-icon-large pdf">
-                <i data-lucide="file-text" style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="doc-card-title">
-                Plan_Strategique_CMR_2026-2028.pdf
-              </div>
-              <p
-                style={{
-                  fontSize: 12,
-                  color: "var(--text-light)",
-                  marginTop: 8,
-                }}
-              >
-                Document structurant (consultation / téléchargement).
-              </p>
-              <div className="doc-card-meta">
-                <span>Télécharger</span>
-                <i
-                  data-lucide="download"
-                  style={{ width: 16, color: "#94a3b8" }}
-                />
-              </div>
-            </div>
-            <div
-              className="doc-card"
-              style={{ cursor: "pointer" }}
-              onClick={(event) =>
-                runLegacyHandler(
-                  event,
-                  "openMockDownload('Feuille_de_route_2026.pdf','Feuille de route 2026 (projets majeurs)');",
-                )
-              }
-            >
-              <div className="doc-icon-large pdf">
-                <i data-lucide="file-text" style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="doc-card-title">Feuille_de_route_2026.pdf</div>
-              <p
-                style={{
-                  fontSize: 12,
-                  color: "var(--text-light)",
-                  marginTop: 8,
-                }}
-              >
-                Calendrier, jalons et indicateurs.
-              </p>
-              <div className="doc-card-meta">
-                <span>Télécharger</span>
-                <i
-                  data-lucide="download"
-                  style={{ width: 16, color: "#94a3b8" }}
-                />
-              </div>
-            </div>
+            {strategieDocs.map((doc) => (
+              <SimpleDocCard key={doc.file} doc={doc} />
+            ))}
           </div>
         </div>
-        {/* TAB: RÉFÉRENTIELS (Liste / dossier) */}
+
         <div
           id="page-orggov-referentiels"
           className="km-tab-content"
           style={{ display: "none" }}
         >
           <div className="app-category-title" style={{ marginBottom: 14 }}>
-            Référentiels organisationnels
+            {pages.referentiels?.title}
           </div>
           <div
             className="dashboard-grid"
@@ -1054,39 +477,34 @@ export default function InstitutionnelSection() {
           >
             <div className="dashboard-card">
               <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon purple">
-                    <i data-lucide="folder" style={{ width: 20, height: 20 }} />
-                  </div>
-                  Dossiers
-                </div>
+                <CardTitle
+                  title={pages.referentiels?.foldersTitle}
+                  icon="folder"
+                  iconClass="purple"
+                />
               </div>
               <div id="refDossiers" className="doc-list" />
             </div>
             <div className="dashboard-card">
               <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Documents
-                </div>
+                <CardTitle
+                  title={pages.referentiels?.documentsTitle}
+                  icon="file-text"
+                  iconClass="blue"
+                />
               </div>
               <div id="refDocs" className="doc-list" />
             </div>
           </div>
         </div>
-        {/* TAB: COMITÉS (Rubrique Comités) */}
+
         <div
           id="page-orggov-comites"
           className="km-tab-content"
           style={{ display: "none" }}
         >
           <div className="app-category-title" style={{ marginBottom: 14 }}>
-            Rubrique Comités
+            {pages.comites?.title}
           </div>
           <div
             className="dashboard-grid"
@@ -1098,29 +516,21 @@ export default function InstitutionnelSection() {
           >
             <div className="dashboard-card">
               <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon orange">
-                    <i
-                      data-lucide="users-round"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Liste des comités
-                </div>
+                <CardTitle
+                  title={pages.comites?.listTitle}
+                  icon="users-round"
+                  iconClass="orange"
+                />
               </div>
               <div id="comitesList" className="doc-list" />
             </div>
             <div className="dashboard-card">
               <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon green">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Dossier du comité
-                </div>
+                <CardTitle
+                  title={pages.comites?.detailTitle}
+                  icon="file-text"
+                  iconClass="green"
+                />
               </div>
               <div
                 id="comitesDetail"
@@ -1130,168 +540,62 @@ export default function InstitutionnelSection() {
                   fontSize: 13,
                 }}
               >
-                Sélectionnez un comité.
+                {pages.comites?.emptyDetail}
               </div>
             </div>
           </div>
           <div className="dashboard-card">
             <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i
-                    data-lucide="calendar-range"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Décisions &amp; comptes rendus
-              </div>
+              <CardTitle
+                title={pages.comites?.timelineTitle}
+                icon="calendar-range"
+                iconClass="blue"
+              />
             </div>
             <div style={{ padding: 18 }}>
               <div id="orgGovComitesTimeline" />
             </div>
           </div>
         </div>
-        <div
-          id="page-orggov-smi-politiques"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon green">
-                  <i
-                    data-lucide="shield-check"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Politiques SMI
-              </div>
-            </div>
-            <div
-              id="orgGovSmiPolitiques"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
+
+        <div id="page-orggov-smi-politiques" className="km-tab-content" style={{ display: "none" }}>
+          <DynamicCardPage page={pages["smi-politiques"] || {}}>
+            <div id="orgGovSmiPolitiques" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
+          </DynamicCardPage>
         </div>
-        <div
-          id="page-orggov-smi-dossiers"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i
-                    data-lucide="folder-tree"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Dossiers processus
-              </div>
-            </div>
-            <div
-              id="orgGovSmiDossiers"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
+        <div id="page-orggov-smi-dossiers" className="km-tab-content" style={{ display: "none" }}>
+          <DynamicCardPage page={pages["smi-dossiers"] || {}}>
+            <div id="orgGovSmiDossiers" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
+          </DynamicCardPage>
         </div>
-        <div
-          id="page-orggov-smi-audits"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon orange">
-                  <i
-                    data-lucide="clipboard-check"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Audits SMI
-              </div>
-            </div>
-            <div
-              id="orgGovSmiAudits"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
+        <div id="page-orggov-smi-audits" className="km-tab-content" style={{ display: "none" }}>
+          <DynamicCardPage page={pages["smi-audits"] || {}}>
+            <div id="orgGovSmiAudits" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
+          </DynamicCardPage>
         </div>
-        <div
-          id="page-orggov-cartographie"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon purple">
-                  <i
-                    data-lucide="git-branch"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Cartographie des processus
-              </div>
-            </div>
+        <div id="page-orggov-cartographie" className="km-tab-content" style={{ display: "none" }}>
+          <DynamicCardPage page={pages.cartographie || {}}>
             <div id="orgGovCartographie" style={{ padding: 18 }} />
-          </div>
+          </DynamicCardPage>
         </div>
-        <div
-          id="page-orggov-kpi-strategiques"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon green">
-                  <i data-lucide="gauge" style={{ width: 20, height: 20 }} />
-                </div>
-                KPI stratégiques
-              </div>
-            </div>
+        <div id="page-orggov-kpi-strategiques" className="km-tab-content" style={{ display: "none" }}>
+          <DynamicCardPage page={pages["kpi-strategiques"] || {}}>
             <div id="orgGovKpiStrategiques" style={{ padding: 18 }} />
-          </div>
+          </DynamicCardPage>
         </div>
-        <div
-          id="page-orggov-rapports-gouvernance"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i
-                    data-lucide="folder-lock"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Rapports gouvernance
-              </div>
-            </div>
-            <div
-              id="orgGovRapportsGouvernance"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
+        <div id="page-orggov-rapports-gouvernance" className="km-tab-content" style={{ display: "none" }}>
+          <DynamicCardPage page={pages["rapports-gouvernance"] || {}}>
+            <div id="orgGovRapportsGouvernance" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
+          </DynamicCardPage>
         </div>
-        {/* TAB: DIRECTION (Mot de la Direction) */}
+
         <div
           id="page-orggov-direction"
           className="km-tab-content"
           style={{ display: "none" }}
         >
           <div className="app-category-title" style={{ marginBottom: 14 }}>
-            Mot de la Direction
+            {pages.direction?.title}
           </div>
           <div
             style={{
@@ -1336,7 +640,7 @@ export default function InstitutionnelSection() {
                       borderRadius: 999,
                     }}
                   >
-                    Organisation &amp; Gouvernance
+                    {pages.direction?.badge}
                   </span>
                   <span
                     style={{
@@ -1347,11 +651,8 @@ export default function InstitutionnelSection() {
                       gap: 6,
                     }}
                   >
-                    <i
-                      data-lucide="calendar"
-                      style={{ width: 14, height: 14 }}
-                    />{" "}
-                    25 Avril 2026
+                    <i data-lucide="calendar" style={{ width: 14, height: 14 }} />
+                    {pages.direction?.date}
                   </span>
                 </div>
                 <div
@@ -1362,7 +663,7 @@ export default function InstitutionnelSection() {
                     marginTop: 10,
                   }}
                 >
-                  Point d’étape sur la feuille de route 2026
+                  {pages.direction?.messageTitle}
                 </div>
                 <div
                   style={{
@@ -1372,10 +673,7 @@ export default function InstitutionnelSection() {
                     lineHeight: "1.8",
                   }}
                 >
-                  Chers collaborateurs, nous poursuivons la modernisation de nos
-                  processus et de notre organisation. L’objectif de ce trimestre
-                  est de renforcer la gouvernance des projets, d’améliorer la
-                  qualité de service et de consolider nos référentiels.
+                  {pages.direction?.message}
                 </div>
                 <div
                   style={{
@@ -1388,21 +686,18 @@ export default function InstitutionnelSection() {
                   <button
                     className="secondary-btn"
                     onClick={(event) =>
-                      runLegacyHandler(
-                        event,
-                        "openMockDownload('Note_DG_2026_T2.pdf','Note DG — priorités du trimestre');",
-                      )
+                      runLegacyHandler(event, pages.direction?.downloadHandler)
                     }
                   >
-                    Télécharger la note
+                    {pages.direction?.downloadLabel}
                   </button>
                   <button
                     className="primary-btn"
                     onClick={(event) =>
-                      runLegacyHandler(event, "goToActualites(1);")
+                      runLegacyHandler(event, pages.direction?.newsHandler)
                     }
                   >
-                    Voir l’actualité liée
+                    {pages.direction?.newsLabel}
                   </button>
                 </div>
               </div>
@@ -1410,7 +705,6 @@ export default function InstitutionnelSection() {
           </div>
         </div>
       </div>
-      {/* ANNUAIRE VIEW (rubrique séparée) */}
     </>
   );
 }

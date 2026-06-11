@@ -2,6 +2,140 @@
   "space": "collaboratifs",
   "updatedAt": "2026-06-08",
   "data": {
+    "collabHeader": {
+      "title": "Espaces collaboratifs",
+      "description": "Forums, communautés, échanges, partage (REX) et vie interne."
+    },
+    "collabMainTabs": [
+      { "label": "Discussions", "tab": "discussions" },
+      { "label": "Communautés", "tab": "communautes" },
+      { "label": "Échanges", "tab": "echanges" },
+      { "label": "Partage", "tab": "partage" },
+      { "label": "Animation", "tab": "animation" },
+      { "label": "Vie interne", "tab": "vieinterne" }
+    ],
+    "collabSectionConfig": {
+      "discussions": {
+        "subs": [{ "id": "forums", "label": "Forums" }],
+        "defaultSub": "forums"
+      },
+      "communautes": {
+        "subs": [{ "id": "groupes", "label": "Groupes thématiques" }],
+        "defaultSub": "groupes"
+      },
+      "echanges": {
+        "subs": [{ "id": "echanges", "label": "Discussions libres" }],
+        "defaultSub": "echanges"
+      },
+      "partage": {
+        "subs": [{ "id": "rex", "label": "Informations / REX" }],
+        "defaultSub": "rex"
+      },
+      "animation": {
+        "subs": [{ "id": "animation", "label": "Communautés internes" }],
+        "defaultSub": "animation"
+      },
+      "vieinterne": {
+        "subs": [{ "id": "vieinterne", "label": "Vie interne" }],
+        "defaultSub": "vieinterne"
+      }
+    },
+    "collabPages": {
+      "forums": {
+        "title": "Forums",
+        "icon": "message-square",
+        "iconClass": "blue",
+        "newTopicLabel": "Nouveau sujet",
+        "searchPlaceholder": "Rechercher un sujet…",
+        "composerTitle": "Publier",
+        "composerIcon": "square-pen",
+        "composerIconClass": "green",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre du sujet",
+        "bodyPlaceholder": "Votre message…",
+        "publishLabel": "Publier",
+        "detailTitle": "Détail / Répondre",
+        "detailIcon": "messages-square",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez un sujet.",
+        "replyTitle": "Réponses",
+        "replyPlaceholder": "Répondre…",
+        "replyLabel": "Répondre",
+        "emptyReplies": "Aucune réponse.",
+        "emptyList": "Aucun sujet."
+      },
+      "groupes": {
+        "title": "Groupes thématiques",
+        "icon": "users",
+        "iconClass": "orange",
+        "searchPlaceholder": "Rechercher un groupe…",
+        "detailTitle": "Espace du groupe",
+        "detailIcon": "activity",
+        "detailIconClass": "blue",
+        "emptyDetail": "Sélectionnez un groupe.",
+        "latestTitle": "Derniers échanges",
+        "joinLabel": "Rejoindre",
+        "leaveLabel": "Quitter",
+        "exchangeLabel": "Échanger",
+        "joinExchangeLabel": "Rejoindre, échanger",
+        "emptyThreads": "Aucun échange."
+      },
+      "echanges": {
+        "title": "Discussions libres",
+        "icon": "sparkles",
+        "iconClass": "pink",
+        "publishLabel": "Publier",
+        "postPlaceholder": "Partagez une info, une question, un message…",
+        "cancelLabel": "Annuler",
+        "commentsTitle": "Commentaires",
+        "commentsIcon": "message-circle",
+        "commentsIconClass": "blue",
+        "emptyDetail": "Sélectionnez une publication.",
+        "commentPlaceholder": "Ajouter un commentaire…",
+        "commentLabel": "Commenter",
+        "emptyComments": "Aucun commentaire."
+      },
+      "rex": {
+        "title": "Informations / REX",
+        "icon": "book-open",
+        "iconClass": "green",
+        "searchPlaceholder": "Rechercher un article / REX…",
+        "detailTitle": "Lecture",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez un article.",
+        "consultLabel": "Consulter",
+        "emptyList": "Aucun article."
+      },
+      "animation": {
+        "title": "Communautés internes",
+        "icon": "party-popper",
+        "iconClass": "orange",
+        "formTitle": "Animer / Participer",
+        "formIcon": "mic",
+        "formIconClass": "blue",
+        "eventTitlePlaceholder": "Titre évènement",
+        "eventDatePlaceholder": "Date (ex: 15 Mai 2026)",
+        "eventDescriptionPlaceholder": "Description…",
+        "createLabel": "Animer",
+        "selectedTitle": "Évènement sélectionné",
+        "emptyDetail": "Sélectionnez un évènement.",
+        "joinLabel": "Participer"
+      },
+      "vieinterne": {
+        "title": "Culture interne",
+        "icon": "heart",
+        "iconClass": "pink",
+        "publishLabel": "Publier",
+        "titlePlaceholder": "Titre",
+        "bodyPlaceholder": "Message…",
+        "cancelLabel": "Annuler",
+        "galleryTitle": "Galerie",
+        "galleryIcon": "image",
+        "galleryIconClass": "blue",
+        "consultLabel": "Consulter"
+      }
+    },
     "collabForumThreads": [
       {
         "id": "t1",

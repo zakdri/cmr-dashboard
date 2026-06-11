@@ -1,26 +1,44 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getVieSocialeData() {
+  return {
+    header: window.CMR_DATA?.data?.vieSocialeHeader || {},
+    intro: window.CMR_DATA?.data?.vieSocialeIntro || "",
+    eventsTitle: window.CMR_DATA?.data?.vieSocialeEventsTitle || "",
+    events: window.CMR_DATA?.data?.vieSocialeEvents || [],
+    galleryTitle: window.CMR_DATA?.data?.vieSocialeGalleryTitle || "",
+    gallery: window.CMR_DATA?.data?.vieSocialeGallery || [],
+    galleryMoreLabel: window.CMR_DATA?.data?.vieSocialeGalleryMoreLabel || ""
+  };
+}
+
 export default function VieSocialeSection() {
+  const {
+    header,
+    intro,
+    eventsTitle,
+    events,
+    galleryTitle,
+    gallery,
+    galleryMoreLabel
+  } = getVieSocialeData();
+
   return (
     <>
       <div id="view-vie-sociale" className="view-section km-container">
         <div className="km-header">
-          <h2>Espace Vie Sociale</h2>
-          <p>
-            Renforcez la cohésion interne : Événements, Galerie photos et
-            Capsules vidéo.
-          </p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
         <p
           style={{ fontSize: 13, color: "var(--text-light)", marginBottom: 24 }}
         >
-          Valorisez la vie interne et l'engagement collaborateur : événements,
-          photos et initiatives collaboratives.
+          {intro}
         </p>
         {/* Feed événements */}
         <div className="app-category-title" style={{ marginBottom: 16 }}>
-          Événements &amp; Initiatives
+          {eventsTitle}
         </div>
         <div
           style={{
@@ -30,276 +48,98 @@ export default function VieSocialeSection() {
             marginBottom: 32,
           }}
         >
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #e2e8f0",
-              borderRadius: 12,
-              overflow: "hidden",
-              display: "flex",
-            }}
-          >
+          {events.map((eventItem) => (
             <div
+              key={eventItem.title}
               style={{
-                width: 110,
-                minHeight: 100,
-                background: "linear-gradient(135deg,#ec4899,#db2777)",
+                background: "#fff",
+                border: "1px solid #e2e8f0",
+                borderRadius: 12,
+                overflow: "hidden",
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
               }}
             >
-              <div style={{ fontSize: 28, fontWeight: 800, color: "#fff" }}>
-                05
-              </div>
               <div
                 style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "rgba(255,255,255,0.85)",
-                }}
-              >
-                MAI 2026
-              </div>
-            </div>
-            <div style={{ padding: "16px 20px", flex: 1 }}>
-              <div
-                style={{
+                  width: 110,
+                  minHeight: 100,
+                  background: eventItem.dateBackground,
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
-                  justifyContent: "space-between",
+                  justifyContent: "center",
+                  flexShrink: 0,
                 }}
               >
-                <div
-                  style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
-                >
-                  Journée Portes Ouvertes CMR
+                <div style={{ fontSize: 28, fontWeight: 800, color: "#fff" }}>
+                  {eventItem.day}
                 </div>
-                <span
+                <div
                   style={{
-                    background: "#fdf2f8",
-                    color: "#be185d",
-                    padding: "3px 10px",
-                    borderRadius: 20,
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 600,
+                    color: "rgba(255,255,255,0.85)",
                   }}
                 >
-                  Événement
-                </span>
-              </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  color: "var(--text-light)",
-                  marginTop: 4,
-                }}
-              >
-                Siège CMR · 9h00 – 17h00 · Ouvert à tous
-              </div>
-              <div style={{ fontSize: 12, color: "#475569", marginTop: 8 }}>
-                Découvrez les coulisses de la CMR et les projets en cours lors
-                de notre grande journée annuelle.
-              </div>
-              <button
-                style={{
-                  marginTop: 12,
-                  background: "#db2777",
-                  color: "#fff",
-                  border: "none",
-                  padding: "7px 16px",
-                  borderRadius: 6,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                Participer
-              </button>
-            </div>
-          </div>
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #e2e8f0",
-              borderRadius: 12,
-              overflow: "hidden",
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                width: 110,
-                minHeight: 100,
-                background: "linear-gradient(135deg,#3b82f6,#2563eb)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <div style={{ fontSize: 28, fontWeight: 800, color: "#fff" }}>
-                20
-              </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "rgba(255,255,255,0.85)",
-                }}
-              >
-                MAI 2026
-              </div>
-            </div>
-            <div style={{ padding: "16px 20px", flex: 1 }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div
-                  style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
-                >
-                  Team Building Digital 2026
+                  {eventItem.month}
                 </div>
-                <span
+              </div>
+              <div style={{ padding: "16px 20px", flex: 1 }}>
+                <div
                   style={{
-                    background: "#eff6ff",
-                    color: "#1d4ed8",
-                    padding: "3px 10px",
-                    borderRadius: 20,
-                    fontSize: 11,
-                    fontWeight: 600,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  Initiative
-                </span>
-              </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  color: "var(--text-light)",
-                  marginTop: 4,
-                }}
-              >
-                Salle Innovation · Direction Digital &amp; IT
-              </div>
-              <div style={{ fontSize: 12, color: "#475569", marginTop: 8 }}>
-                Hackathon interne, défis collaboratifs et remise des trophées
-                CMR Digital Awards.
-              </div>
-              <button
-                style={{
-                  marginTop: 12,
-                  background: "#2563eb",
-                  color: "#fff",
-                  border: "none",
-                  padding: "7px 16px",
-                  borderRadius: 6,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                Participer
-              </button>
-            </div>
-          </div>
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #e2e8f0",
-              borderRadius: 12,
-              overflow: "hidden",
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                width: 110,
-                minHeight: 100,
-                background: "linear-gradient(135deg,#f59e0b,#d97706)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <div style={{ fontSize: 28, fontWeight: 800, color: "#fff" }}>
-                12
-              </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "rgba(255,255,255,0.85)",
-                }}
-              >
-                JUIN 2026
-              </div>
-            </div>
-            <div style={{ padding: "16px 20px", flex: 1 }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div
-                  style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
-                >
-                  Fête de Fin d'Année CMR
+                  <div
+                    style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
+                  >
+                    {eventItem.title}
+                  </div>
+                  <span
+                    style={{
+                      background: eventItem.tagStyle?.background,
+                      color: eventItem.tagStyle?.color,
+                      padding: "3px 10px",
+                      borderRadius: 20,
+                      fontSize: 11,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {eventItem.tag}
+                  </span>
                 </div>
-                <span
+                <div
                   style={{
-                    background: "#fef3c7",
-                    color: "#92400e",
-                    padding: "3px 10px",
-                    borderRadius: 20,
-                    fontSize: 11,
-                    fontWeight: 600,
+                    fontSize: 12,
+                    color: "var(--text-light)",
+                    marginTop: 4,
                   }}
                 >
-                  Événement
-                </span>
+                  {eventItem.meta}
+                </div>
+                <div style={{ fontSize: 12, color: "#475569", marginTop: 8 }}>
+                  {eventItem.description}
+                </div>
+                <button
+                  style={{
+                    marginTop: 12,
+                    background: eventItem.buttonBackground,
+                    color: "#fff",
+                    border: "none",
+                    padding: "7px 16px",
+                    borderRadius: 6,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  {eventItem.button}
+                </button>
               </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  color: "var(--text-light)",
-                  marginTop: 4,
-                }}
-              >
-                Hôtel Sofitel Rabat · 19h00 · Sur invitation
-              </div>
-              <div style={{ fontSize: 12, color: "#475569", marginTop: 8 }}>
-                Soirée annuelle de célébration des réussites et de cohésion
-                entre toutes les équipes CMR.
-              </div>
-              <button
-                style={{
-                  marginTop: 12,
-                  background: "#d97706",
-                  color: "#fff",
-                  border: "none",
-                  padding: "7px 16px",
-                  borderRadius: 6,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                Participer
-              </button>
             </div>
-          </div>
+          ))}
         </div>
         {/* Galerie photos */}
         <div
@@ -315,7 +155,7 @@ export default function VieSocialeSection() {
             style={{ width: 16, height: 16, color: "#64748b" }}
           />
           <span style={{ fontWeight: 700, fontSize: 14, color: "#1e293b" }}>
-            Galerie Photos
+            {galleryTitle}
           </span>
         </div>
         <div
@@ -325,230 +165,41 @@ export default function VieSocialeSection() {
             gap: 8,
           }}
         >
-          <div
-            style={{
-              aspectRatio: 1,
-              borderRadius: 8,
-              overflow: "hidden",
-              cursor: "pointer",
-              background: "#e2e8f0",
-            }}
-            onMouseOver={(event) =>
-              runLegacyHandler(event, "this.style.opacity='0.88'")
-            }
-            onMouseOut={(event) =>
-              runLegacyHandler(event, "this.style.opacity='1'")
-            }
-          >
-            <img
-              src="images/intranet/news_contract.jpg"
-              alt="Signature du contrat programme"
+          {gallery.map((image) => (
+            <div
+              key={image.src}
               style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
+                aspectRatio: 1,
+                borderRadius: 8,
+                overflow: "hidden",
+                cursor: "pointer",
+                background: "#e2e8f0",
               }}
-              onError={(event) =>
-                runLegacyHandler(
-                  event,
-                  "this.src='images/intranet/slider1.png'",
-                )
+              onMouseOver={(event) =>
+                runLegacyHandler(event, "this.style.opacity='0.88'")
               }
-            />
-          </div>
-          <div
-            style={{
-              aspectRatio: 1,
-              borderRadius: 8,
-              overflow: "hidden",
-              cursor: "pointer",
-              background: "#e2e8f0",
-            }}
-            onMouseOver={(event) =>
-              runLegacyHandler(event, "this.style.opacity='0.88'")
-            }
-            onMouseOut={(event) =>
-              runLegacyHandler(event, "this.style.opacity='1'")
-            }
-          >
-            <img
-              src="images/intranet/news_board.jpg"
-              alt="Conseil d'administration CMR"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-              }}
-              onError={(event) =>
-                runLegacyHandler(
-                  event,
-                  "this.src='images/intranet/slider1.png'",
-                )
+              onMouseOut={(event) =>
+                runLegacyHandler(event, "this.style.opacity='1'")
               }
-            />
-          </div>
-          <div
-            style={{
-              aspectRatio: 1,
-              borderRadius: 8,
-              overflow: "hidden",
-              cursor: "pointer",
-              background: "#e2e8f0",
-            }}
-            onMouseOver={(event) =>
-              runLegacyHandler(event, "this.style.opacity='0.88'")
-            }
-            onMouseOut={(event) =>
-              runLegacyHandler(event, "this.style.opacity='1'")
-            }
-          >
-            <img
-              src="images/intranet/news_academy.jpg"
-              alt="Session CMR Academy"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-              }}
-              onError={(event) =>
-                runLegacyHandler(
-                  event,
-                  "this.src='images/intranet/slider1.png'",
-                )
-              }
-            />
-          </div>
-          <div
-            style={{
-              aspectRatio: 1,
-              borderRadius: 8,
-              overflow: "hidden",
-              cursor: "pointer",
-              background: "#e2e8f0",
-            }}
-            onMouseOver={(event) =>
-              runLegacyHandler(event, "this.style.opacity='0.88'")
-            }
-            onMouseOut={(event) =>
-              runLegacyHandler(event, "this.style.opacity='1'")
-            }
-          >
-            <img
-              src="images/intranet/slider_cmr_tech.png"
-              alt="Innovation et transformation digitale"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-              }}
-              onError={(event) =>
-                runLegacyHandler(
-                  event,
-                  "this.src='images/intranet/slider1.png'",
-                )
-              }
-            />
-          </div>
-          <div
-            style={{
-              aspectRatio: 1,
-              borderRadius: 8,
-              overflow: "hidden",
-              cursor: "pointer",
-              background: "#e2e8f0",
-            }}
-            onMouseOver={(event) =>
-              runLegacyHandler(event, "this.style.opacity='0.88'")
-            }
-            onMouseOut={(event) =>
-              runLegacyHandler(event, "this.style.opacity='1'")
-            }
-          >
-            <img
-              src="images/intranet/slider_partnership.png"
-              alt="Partenariat CMR"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-              }}
-              onError={(event) =>
-                runLegacyHandler(
-                  event,
-                  "this.src='images/intranet/slider1.png'",
-                )
-              }
-            />
-          </div>
-          <div
-            style={{
-              aspectRatio: 1,
-              borderRadius: 8,
-              overflow: "hidden",
-              cursor: "pointer",
-              background: "#e2e8f0",
-            }}
-            onMouseOver={(event) =>
-              runLegacyHandler(event, "this.style.opacity='0.88'")
-            }
-            onMouseOut={(event) =>
-              runLegacyHandler(event, "this.style.opacity='1'")
-            }
-          >
-            <img
-              src="images/intranet/slider3.png"
-              alt="Temps fort vie sociale"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-              }}
-              onError={(event) =>
-                runLegacyHandler(
-                  event,
-                  "this.src='images/intranet/slider1.png'",
-                )
-              }
-            />
-          </div>
-          <div
-            style={{
-              aspectRatio: 1,
-              borderRadius: 8,
-              overflow: "hidden",
-              cursor: "pointer",
-              background: "#e2e8f0",
-            }}
-            onMouseOver={(event) =>
-              runLegacyHandler(event, "this.style.opacity='0.88'")
-            }
-            onMouseOut={(event) =>
-              runLegacyHandler(event, "this.style.opacity='1'")
-            }
-          >
-            <img
-              src="images/intranet/slider2.png"
-              alt="Initiative collaborateurs"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-              }}
-              onError={(event) =>
-                runLegacyHandler(
-                  event,
-                  "this.src='images/intranet/slider1.png'",
-                )
-              }
-            />
-          </div>
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+                onError={(event) =>
+                  runLegacyHandler(
+                    event,
+                    "this.src='images/intranet/slider1.png'",
+                  )
+                }
+              />
+            </div>
+          ))}
           <div
             style={{
               aspectRatio: 1,
@@ -567,11 +218,13 @@ export default function VieSocialeSection() {
               data-lucide="plus-circle"
               style={{ width: 24, height: 24, color: "#94a3b8" }}
             />
-            <span style={{ fontSize: 11, color: "#94a3b8" }}>Voir tout</span>
+            <span style={{ fontSize: 11, color: "#94a3b8" }}>
+              {galleryMoreLabel}
+            </span>
           </div>
         </div>
       </div>
-      {/* ORGANISATION & GOUVERNANCE VIEW (id technique conservé) */}
+      {/* VIE SOCIALE VIEW */}
     </>
   );
 }

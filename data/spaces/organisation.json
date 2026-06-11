@@ -2,6 +2,116 @@
   "space": "organisation",
   "updatedAt": "2026-06-08",
   "data": {
+    "orgGovHeader": {
+      "title": "Organisation & Gouvernance",
+      "description": "Organisation, gouvernance, référentiel SMI, cartographie des processus et pilotage stratégique."
+    },
+    "orgGovMainTabs": [
+      { "id": "overview", "label": "Vue d’ensemble" },
+      { "id": "organisation", "label": "Organisation" },
+      { "id": "referentiel-smi", "label": "Référentiel SMI" },
+      { "id": "cartographie", "label": "Cartographie" },
+      { "id": "gouvernance", "label": "Gouvernance" },
+      { "id": "direction", "label": "Direction" }
+    ],
+    "orgGovSectionConfig": {
+      "overview": { "page": "overview" },
+      "organisation": {
+        "subs": [
+          { "id": "organigramme", "label": "Organigramme" },
+          { "id": "postes", "label": "Fiches de postes" },
+          { "id": "presentation", "label": "Présentation globale" },
+          { "id": "strategie", "label": "Plan stratégique" },
+          { "id": "referentiels", "label": "Référentiels" }
+        ],
+        "defaultSub": "organigramme"
+      },
+      "referentiel-smi": {
+        "subs": [
+          { "id": "smi-politiques", "label": "Politiques SMI" },
+          { "id": "smi-dossiers", "label": "Dossiers processus" },
+          { "id": "smi-audits", "label": "Audits SMI" }
+        ],
+        "defaultSub": "smi-politiques"
+      },
+      "cartographie": { "page": "cartographie" },
+      "gouvernance": {
+        "subs": [
+          { "id": "comites", "label": "Rubrique Comités" },
+          { "id": "kpi-strategiques", "label": "KPI stratégiques" },
+          { "id": "rapports-gouvernance", "label": "Rapports gouvernance" }
+        ],
+        "defaultSub": "comites"
+      },
+      "direction": { "page": "direction" }
+    },
+    "orgGovOverview": [
+      {
+        "title": "Organisation",
+        "cards": [
+          { "title": "Organigramme", "desc": "Organigramme interactif (directions, entités, rattachements).", "icon": "network", "handler": "switchOrgGovTab('organigramme'); return false;", "hoverBg": "#f0f9ff", "hoverBorder": "#bae6fd", "iconBackground": "linear-gradient(135deg, #0ea5e9, #0284c7)", "action": "Consulter" },
+          { "title": "Fiches collaborateurs", "desc": "Annuaire interne (profil, contact, fonction, rattachement).", "icon": "id-card", "handler": "switchView('annuaire'); return false;", "hoverBg": "#f8fafc", "hoverBorder": "#cbd5e1", "iconBackground": "linear-gradient(135deg, #64748b, #475569)", "action": "Consulter" },
+          { "title": "Fiches de postes", "desc": "Responsabilités et missions (page structurée).", "icon": "briefcase", "handler": "switchOrgGovTab('postes'); return false;", "hoverBg": "#f0fdf4", "hoverBorder": "#bbf7d0", "iconBackground": "linear-gradient(135deg, #16a34a, #15803d)", "action": "Consulter" }
+        ]
+      },
+      {
+        "title": "Gouvernance",
+        "cards": [
+          { "title": "Présentation globale", "desc": "Instances, rôles, périmètres (page dédiée).", "icon": "presentation", "handler": "switchOrgGovTab('presentation'); return false;", "hoverBg": "#eff6ff", "hoverBorder": "#bfdbfe", "iconBackground": "linear-gradient(135deg, #2563eb, #1d4ed8)", "action": "Consulter" },
+          { "title": "Plan stratégique", "desc": "Consultation + téléchargement des documents structurants.", "icon": "target", "handler": "switchOrgGovTab('strategie'); return false;", "hoverBg": "#fff7ed", "hoverBorder": "#fed7aa", "iconBackground": "linear-gradient(135deg, #f59e0b, #d97706)", "action": "Consulter" },
+          { "title": "Référentiels organisationnels", "desc": "Référentiels / politiques / documents (liste + dossier).", "icon": "book-open", "handler": "switchOrgGovTab('referentiels'); return false;", "hoverBg": "#fdf4ff", "hoverBorder": "#e9d5ff", "iconBackground": "linear-gradient(135deg, #a855f7, #7c3aed)", "action": "Consulter" },
+          { "title": "Comités", "desc": "Instances (liste/dossier) + PV (téléchargement).", "icon": "users-round", "handler": "switchOrgGovTab('comites'); return false;", "hoverBg": "#f8fafc", "hoverBorder": "#cbd5e1", "iconBackground": "linear-gradient(135deg, #334155, #0f172a)", "action": "Consulter" },
+          { "title": "KPI stratégiques", "desc": "Tableaux de bord et indicateurs de pilotage.", "icon": "gauge", "handler": "switchOrgGovTab('kpi-strategiques'); return false;", "hoverBg": "#f0fdf4", "hoverBorder": "#bbf7d0", "iconBackground": "linear-gradient(135deg, #16a34a, #059669)", "action": "Consulter" },
+          { "title": "Rapports gouvernance", "desc": "Dossiers CA et rapports de gouvernance.", "icon": "folder-lock", "handler": "switchOrgGovTab('rapports-gouvernance'); return false;", "hoverBg": "#fef2f2", "hoverBorder": "#fecaca", "iconBackground": "linear-gradient(135deg, #dc2626, #991b1b)", "action": "Consulter" }
+        ]
+      },
+      {
+        "title": "Référentiel SMI & cartographie",
+        "cards": [
+          { "title": "Politiques SMI", "desc": "Politiques et référentiels SMI centralisés.", "icon": "shield-check", "handler": "switchOrgGovTab('smi-politiques'); return false;", "hoverBg": "#f0fdf4", "hoverBorder": "#bbf7d0", "iconBackground": "linear-gradient(135deg, #22c55e, #16a34a)", "action": "Consulter" },
+          { "title": "Dossiers processus", "desc": "Documentation processus métier (GED-like).", "icon": "folder-tree", "handler": "switchOrgGovTab('smi-dossiers'); return false;", "hoverBg": "#eff6ff", "hoverBorder": "#bfdbfe", "iconBackground": "linear-gradient(135deg, #3b82f6, #1d4ed8)", "action": "Consulter" },
+          { "title": "Audits SMI", "desc": "Audits et constats SMI publiés.", "icon": "clipboard-check", "handler": "switchOrgGovTab('smi-audits'); return false;", "hoverBg": "#fff7ed", "hoverBorder": "#fed7aa", "iconBackground": "linear-gradient(135deg, #f97316, #ea580c)", "action": "Consulter" },
+          { "title": "Cartographie des processus", "desc": "Vue graphique interactive des processus.", "icon": "git-branch", "handler": "switchOrgGovTab('cartographie'); return false;", "hoverBg": "#fdf4ff", "hoverBorder": "#e9d5ff", "iconBackground": "linear-gradient(135deg, #a855f7, #7c3aed)", "action": "Consulter" }
+        ]
+      }
+    ],
+    "orgGovSmallCards": [
+      { "sectionTitle": "Direction", "title": "Mot de la Direction", "desc": "Message institutionnel (page dédiée).", "icon": "message-square-text", "handler": "switchOrgGovTab('direction'); return false;", "iconStyle": { "background": "#eff6ff", "color": "#1d4ed8" }, "action": "Lire", "actionColor": "#1d4ed8" },
+      { "sectionTitle": "Accueil espace", "title": "Accueil intranet", "desc": "Accès à l’accueil et aux raccourcis principaux.", "icon": "home", "handler": "switchView('dashboard'); return false;", "iconStyle": { "background": "#f0fdf4", "color": "#15803d" }, "action": "Ouvrir", "actionColor": "#15803d" }
+    ],
+    "orgGovPages": {
+      "organigramme": { "title": "Organigramme", "description": "Naviguer dans les directions et entités. Cliquer pour développer/réduire.", "expandLabel": "Développer tout", "collapseLabel": "Réduire" },
+      "postes": { "title": "Fiches de postes", "description": "Consulter une fiche de poste (missions, responsabilités, compétences).", "searchPlaceholder": "Rechercher un poste…", "listTitle": "Liste", "detailTitle": "Fiche de poste", "emptyDetail": "Sélectionnez un poste dans la liste." },
+      "presentation": { "title": "Présentation globale", "panelTitle": "Gouvernance interne", "description": "Accédez à la structure de gouvernance : instances, comités, responsabilités, et processus de décision. Cette page centralise les éléments de référence pour comprendre “qui décide quoi” et “comment”.", "items": [{ "title": "Instances", "desc": "Conseil, comités, réunions de pilotage." }, { "title": "Rôles & responsabilités", "desc": "RACI simplifié des décisions clés." }, { "title": "Documents", "desc": "Référentiels, charte, PV, notes." }] },
+      "strategie": { "title": "Plan stratégique" },
+      "referentiels": { "title": "Référentiels organisationnels", "foldersTitle": "Dossiers", "documentsTitle": "Documents" },
+      "comites": { "title": "Rubrique Comités", "listTitle": "Liste des comités", "detailTitle": "Dossier du comité", "emptyDetail": "Sélectionnez un comité.", "timelineTitle": "Décisions & comptes rendus" },
+      "smi-politiques": { "title": "Politiques SMI", "icon": "shield-check", "iconClass": "green" },
+      "smi-dossiers": { "title": "Dossiers processus", "icon": "folder-tree", "iconClass": "blue" },
+      "smi-audits": { "title": "Audits SMI", "icon": "clipboard-check", "iconClass": "orange" },
+      "cartographie": { "title": "Cartographie des processus", "icon": "git-branch", "iconClass": "purple" },
+      "kpi-strategiques": { "title": "KPI stratégiques", "icon": "gauge", "iconClass": "green" },
+      "rapports-gouvernance": { "title": "Rapports gouvernance", "icon": "folder-lock", "iconClass": "blue" },
+      "direction": { "title": "Mot de la Direction", "badge": "Organisation & Gouvernance", "date": "25 Avril 2026", "messageTitle": "Point d’étape sur la feuille de route 2026", "message": "Chers collaborateurs, nous poursuivons la modernisation de nos processus et de notre organisation. L’objectif de ce trimestre est de renforcer la gouvernance des projets, d’améliorer la qualité de service et de consolider nos référentiels.", "downloadLabel": "Télécharger la note", "downloadHandler": "openMockDownload('Note_DG_2026_T2.pdf','Note DG — priorités du trimestre');", "newsLabel": "Voir l’actualité liée", "newsHandler": "goToActualites(1);" }
+    },
+    "orgGovStrategieDocs": [
+      { "title": "Plan_Strategique_CMR_2026-2028.pdf", "description": "Document structurant (consultation / téléchargement).", "file": "Plan_Strategique_CMR_2026-2028.pdf", "downloadTitle": "Plan stratégique 2026-2028 (version de référence)", "action": "Télécharger" },
+      { "title": "Feuille_de_route_2026.pdf", "description": "Calendrier, jalons et indicateurs.", "file": "Feuille_de_route_2026.pdf", "downloadTitle": "Feuille de route 2026 (projets majeurs)", "action": "Télécharger" }
+    ],
+    "orgGovKpiStrategiquesData": {
+      "metrics": [
+        { "label": "Satisfaction assurés", "value": "82%" },
+        { "label": "Délai moyen traitement", "value": "4,2 j" },
+        { "label": "Projets stratégiques", "value": "14" },
+        { "label": "Taux réalisation feuille de route", "value": "68%" }
+      ],
+      "chartTitle": "Tableau de bord stratégique",
+      "chartPlaceholder": "Courbes & tendances (maquette)",
+      "documents": [
+        { "title": "Dashboard stratégique T1 2026", "meta": "Export PDF · Management", "file": "Dashboard_Strategique_T1_2026.pdf" },
+        { "title": "Indicateurs pilotage DG", "meta": "Mise à jour mensuelle", "file": "Indicateurs_Pilotage_DG.pdf" }
+      ]
+    },
     "orgData": {
       "name": "CMR",
       "role": "Direction Générale",

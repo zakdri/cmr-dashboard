@@ -1,101 +1,48 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getAnnuaireData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.annuaireHeader || {},
+    cards: data.annuaireQuickCards || [],
+    labels: data.annuaireLabels || {},
+  };
+}
+
 export default function AnnuaireSection() {
+  const { header, cards, labels } = getAnnuaireData();
+
   return (
     <>
       <div id="view-annuaire" className="view-section km-container">
         <div className="km-header">
-          <h2>Annuaire</h2>
-          <p>
-            Recherche multicritère (nom, entité, fonction) + fiche profil +
-            rattachement hiérarchique + coordonnées.
-          </p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
         <div className="km-grid" style={{ marginBottom: 20 }}>
-          <div
-            className="doc-card"
-            style={{ cursor: "pointer" }}
-            onClick={(event) =>
-              runLegacyHandler(
-                event,
-                "document.getElementById('annuaireSearchInput')?.focus()",
-              )
-            }
-          >
+          {cards.map((card) => (
             <div
-              className="doc-icon-large"
-              style={{ background: "#eff6ff", color: "#2563eb" }}
+              className="doc-card"
+              key={card.title}
+              style={{ cursor: "pointer" }}
+              onClick={(event) => runLegacyHandler(event, card.handler)}
             >
-              <i data-lucide="search" style={{ width: 24, height: 24 }} />
+              <div className="doc-icon-large" style={card.iconStyle}>
+                <i data-lucide={card.icon} style={{ width: 24, height: 24 }} />
+              </div>
+              <div className="doc-card-title">{card.title}</div>
+              <p
+                style={{
+                  fontSize: 13,
+                  color: "var(--text-light)",
+                  marginTop: 8,
+                }}
+              >
+                {card.description}
+              </p>
             </div>
-            <div className="doc-card-title">Recherche collaborateurs</div>
-            <p
-              style={{ fontSize: 13, color: "var(--text-light)", marginTop: 8 }}
-            >
-              Nom, entité, fonction et coordonnées.
-            </p>
-          </div>
-          <div
-            className="doc-card"
-            style={{ cursor: "pointer" }}
-            onClick={(event) =>
-              runLegacyHandler(event, "focusAnnuaireDetail()")
-            }
-          >
-            <div
-              className="doc-icon-large"
-              style={{ background: "#f0fdf4", color: "#16a34a" }}
-            >
-              <i data-lucide="id-card" style={{ width: 24, height: 24 }} />
-            </div>
-            <div className="doc-card-title">Profil collaborateur</div>
-            <p
-              style={{ fontSize: 13, color: "var(--text-light)", marginTop: 8 }}
-            >
-              Fiche profil détaillée du collaborateur sélectionné.
-            </p>
-          </div>
-          <div
-            className="doc-card"
-            style={{ cursor: "pointer" }}
-            onClick={(event) =>
-              runLegacyHandler(event, "switchOrgGovTab('organigramme')")
-            }
-          >
-            <div
-              className="doc-icon-large"
-              style={{ background: "#fdf4ff", color: "#9333ea" }}
-            >
-              <i data-lucide="network" style={{ width: 24, height: 24 }} />
-            </div>
-            <div className="doc-card-title">Rattachement hiérarchique</div>
-            <p
-              style={{ fontSize: 13, color: "var(--text-light)", marginTop: 8 }}
-            >
-              Vue hiérarchique et lien direct vers l’organigramme.
-            </p>
-          </div>
-          <div
-            className="doc-card"
-            style={{ cursor: "pointer" }}
-            onClick={(event) =>
-              runLegacyHandler(event, "focusAnnuaireDetail()")
-            }
-          >
-            <div
-              className="doc-icon-large"
-              style={{ background: "#fff7ed", color: "#ea580c" }}
-            >
-              <i data-lucide="mail" style={{ width: 24, height: 24 }} />
-            </div>
-            <div className="doc-card-title">Coordonnées pro</div>
-            <p
-              style={{ fontSize: 13, color: "var(--text-light)", marginTop: 8 }}
-            >
-              Email, téléphone et localisation professionnelle.
-            </p>
-          </div>
+          ))}
         </div>
         <div
           style={{
@@ -108,7 +55,7 @@ export default function AnnuaireSection() {
           }}
         >
           <div className="app-category-title" style={{ margin: 0 }}>
-            Recherche collaborateurs
+            {labels.searchTitle}
           </div>
           <div
             style={{
@@ -120,16 +67,13 @@ export default function AnnuaireSection() {
               flex: 1,
             }}
           >
-            <div
-              className="actu-search-wrap"
-              style={{ maxWidth: 360, flex: 1 }}
-            >
+            <div className="actu-search-wrap" style={{ maxWidth: 360, flex: 1 }}>
               <i data-lucide="search" className="actu-search-icon" />
               <input
                 id="annuaireSearchInput"
                 type="text"
                 className="actu-search-input"
-                placeholder="Rechercher (nom, entité, fonction)…"
+                placeholder={labels.searchPlaceholder}
                 onInput={(event) =>
                   runLegacyHandler(event, "renderAnnuaireList()")
                 }
@@ -151,7 +95,7 @@ export default function AnnuaireSection() {
                 minWidth: 190,
               }}
             >
-              <option value>Toutes les entités</option>
+              <option value="">{labels.allDirectionsLabel}</option>
             </select>
             <select
               id="annuaireFonctionFilter"
@@ -169,7 +113,7 @@ export default function AnnuaireSection() {
                 minWidth: 190,
               }}
             >
-              <option value>Toutes les fonctions</option>
+              <option value="">{labels.allFunctionsLabel}</option>
             </select>
             <button
               className="secondary-btn"
@@ -177,7 +121,7 @@ export default function AnnuaireSection() {
                 runLegacyHandler(event, "resetAnnuaireFilters()")
               }
             >
-              Réinitialiser
+              {labels.resetLabel}
             </button>
           </div>
         </div>
@@ -191,7 +135,7 @@ export default function AnnuaireSection() {
                 <div className="card-icon blue">
                   <i data-lucide="users" style={{ width: 20, height: 20 }} />
                 </div>
-                Résultats
+                {labels.resultsTitle}
               </div>
               <div
                 id="annuaireCount"
@@ -201,7 +145,7 @@ export default function AnnuaireSection() {
                   fontWeight: 700,
                 }}
               >
-                0 collaborateur
+                {labels.initialCount}
               </div>
             </div>
             <div id="annuaireList" className="doc-list" />
@@ -212,19 +156,18 @@ export default function AnnuaireSection() {
                 <div className="card-icon green">
                   <i data-lucide="user" style={{ width: 20, height: 20 }} />
                 </div>
-                Profil collaborateur
+                {labels.profileTitle}
               </div>
             </div>
             <div
               id="annuaireDetail"
               style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}
             >
-              Sélectionnez un collaborateur dans la liste.
+              {labels.emptyDetail}
             </div>
           </div>
         </div>
       </div>
-      {/* PROJETS VIEW */}
     </>
   );
 }

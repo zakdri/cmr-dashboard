@@ -1,15 +1,53 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getCollabData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.collabHeader || {},
+    pages: data.collabPages || {},
+  };
+}
+
+function CardTitle({ page }) {
+  return (
+    <div className="card-title">
+      <div className={`card-icon ${page.iconClass}`}>
+        <i data-lucide={page.icon} style={{ width: 20, height: 20 }} />
+      </div>
+      {page.title}
+    </div>
+  );
+}
+
+function TitledCard({ page, children, headerAction }) {
+  return (
+    <div className="dashboard-card">
+      <div className="card-header">
+        <CardTitle page={page} />
+        {headerAction}
+      </div>
+      {children}
+    </div>
+  );
+}
+
 export default function CollaboratifsSection() {
+  const { header, pages } = getCollabData();
+  const forums = pages.forums || {};
+  const groupes = pages.groupes || {};
+  const echanges = pages.echanges || {};
+  const rex = pages.rex || {};
+  const animation = pages.animation || {};
+  const vieinterne = pages.vieinterne || {};
+
   return (
     <>
       <div id="view-collaboratifs" className="view-section km-container">
         <div className="km-header">
-          <h2>Espaces collaboratifs</h2>
-          <p>Forums, communautés, échanges, partage (REX) et vie interne.</p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
-        {/* Sous‑rubriques (niveau 1) */}
         <div
           className="km-navbar"
           id="collabMainNavbar"
@@ -24,7 +62,6 @@ export default function CollaboratifsSection() {
             flexWrap: "nowrap",
           }}
         ></div>
-        {/* Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) */}
         <div
           className="km-navbar"
           id="collabSubNavbar"
@@ -39,7 +76,7 @@ export default function CollaboratifsSection() {
             flexWrap: "nowrap",
           }}
         ></div>
-        {/* Discussions */}
+
         <div
           id="page-collab-forums"
           className="km-tab-content"
@@ -49,33 +86,26 @@ export default function CollaboratifsSection() {
             className="dashboard-grid"
             style={{ gridTemplateColumns: "1.6fr 1.4fr", gap: 24 }}
           >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="message-square"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Forums
-                </div>
+            <TitledCard
+              page={forums}
+              headerAction={
                 <button
                   className="primary-btn"
                   onClick={(event) =>
                     runLegacyHandler(event, "toggleForumComposer(true)")
                   }
                 >
-                  Nouveau sujet
+                  {forums.newTopicLabel}
                 </button>
-              </div>
+              }
+            >
               <div style={{ padding: 18 }}>
                 <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
                   <i data-lucide="search" style={{ width: 16 }} />
                   <input
                     id="collabForumSearch"
                     className="actu-search-input"
-                    placeholder="Rechercher un sujet…"
+                    placeholder={forums.searchPlaceholder}
                     onInput={(event) =>
                       runLegacyHandler(event, "renderCollabForums()")
                     }
@@ -87,42 +117,40 @@ export default function CollaboratifsSection() {
                 className="doc-list"
                 style={{ padding: "0 18px 18px 18px" }}
               />
-            </div>
+            </TitledCard>
             <div
               className="dashboard-card"
               id="collabForumComposer"
               style={{ display: "none" }}
             >
               <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon green">
-                    <i
-                      data-lucide="square-pen"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Publier
-                </div>
+                <CardTitle
+                  page={{
+                    title: forums.composerTitle,
+                    icon: forums.composerIcon,
+                    iconClass: forums.composerIconClass,
+                  }}
+                />
                 <button
                   className="secondary-btn"
                   onClick={(event) =>
                     runLegacyHandler(event, "toggleForumComposer(false)")
                   }
                 >
-                  Fermer
+                  {forums.closeLabel}
                 </button>
               </div>
               <div style={{ padding: 18 }}>
                 <input
                   id="forumTitle"
                   className="actu-search-input"
-                  placeholder="Titre du sujet"
+                  placeholder={forums.titlePlaceholder}
                 />
                 <textarea
                   id="forumBody"
                   className="actu-search-input"
                   style={{ marginTop: 12, height: 130, paddingTop: 10 }}
-                  placeholder="Votre message…"
+                  placeholder={forums.bodyPlaceholder}
                   defaultValue={""}
                 />
                 <div
@@ -139,23 +167,18 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "postForumThread()")
                     }
                   >
-                    Publier
+                    {forums.publishLabel}
                   </button>
                 </div>
               </div>
             </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon purple">
-                    <i
-                      data-lucide="messages-square"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Détail / Répondre
-                </div>
-              </div>
+            <TitledCard
+              page={{
+                title: forums.detailTitle,
+                icon: forums.detailIcon,
+                iconClass: forums.detailIconClass,
+              }}
+            >
               <div
                 id="collabForumDetail"
                 style={{
@@ -164,12 +187,12 @@ export default function CollaboratifsSection() {
                   fontSize: 13,
                 }}
               >
-                Sélectionnez un sujet.
+                {forums.emptyDetail}
               </div>
-            </div>
+            </TitledCard>
           </div>
         </div>
-        {/* Communautés */}
+
         <div
           id="page-collab-groupes"
           className="km-tab-content"
@@ -179,22 +202,14 @@ export default function CollaboratifsSection() {
             className="dashboard-grid"
             style={{ gridTemplateColumns: "1.3fr 1.7fr", gap: 24 }}
           >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon orange">
-                    <i data-lucide="users" style={{ width: 20, height: 20 }} />
-                  </div>
-                  Groupes thématiques
-                </div>
-              </div>
+            <TitledCard page={groupes}>
               <div style={{ padding: 18 }}>
                 <div className="actu-search-wrap">
                   <i data-lucide="search" style={{ width: 16 }} />
                   <input
                     id="collabGroupSearch"
                     className="actu-search-input"
-                    placeholder="Rechercher un groupe…"
+                    placeholder={groupes.searchPlaceholder}
                     onInput={(event) =>
                       runLegacyHandler(event, "renderCollabGroups()")
                     }
@@ -206,25 +221,20 @@ export default function CollaboratifsSection() {
                 className="doc-list"
                 style={{ padding: "0 18px 18px 18px" }}
               />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="activity"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Espace du groupe
-                </div>
-              </div>
+            </TitledCard>
+            <TitledCard
+              page={{
+                title: groupes.detailTitle,
+                icon: groupes.detailIcon,
+                iconClass: groupes.detailIconClass,
+              }}
+            >
               <div style={{ padding: 18 }}>
                 <div
                   id="collabGroupDetail"
                   style={{ color: "var(--text-light)", fontSize: 13 }}
                 >
-                  Sélectionnez un groupe.
+                  {groupes.emptyDetail}
                 </div>
                 <div
                   style={{
@@ -236,7 +246,7 @@ export default function CollaboratifsSection() {
                   }}
                 >
                   <div style={{ fontWeight: 900, color: "#0f172a" }}>
-                    Derniers échanges
+                    {groupes.latestTitle}
                   </div>
                   <div
                     id="collabGroupThreads"
@@ -245,10 +255,10 @@ export default function CollaboratifsSection() {
                   />
                 </div>
               </div>
-            </div>
+            </TitledCard>
           </div>
         </div>
-        {/* Échanges */}
+
         <div
           id="page-collab-echanges"
           className="km-tab-content"
@@ -258,26 +268,19 @@ export default function CollaboratifsSection() {
             className="dashboard-grid"
             style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
           >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon pink">
-                    <i
-                      data-lucide="sparkles"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Discussions libres
-                </div>
+            <TitledCard
+              page={echanges}
+              headerAction={
                 <button
                   className="primary-btn"
                   onClick={(event) =>
                     runLegacyHandler(event, "toggleCollabPostForm(true)")
                   }
                 >
-                  Publier
+                  {echanges.publishLabel}
                 </button>
-              </div>
+              }
+            >
               <div
                 id="collabPostForm"
                 style={{
@@ -290,7 +293,7 @@ export default function CollaboratifsSection() {
                   id="collabPostText"
                   className="actu-search-input"
                   style={{ height: 120, paddingTop: 10 }}
-                  placeholder="Partagez une info, une question, un message…"
+                  placeholder={echanges.postPlaceholder}
                   defaultValue={""}
                 />
                 <div
@@ -307,7 +310,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "toggleCollabPostForm(false)")
                     }
                   >
-                    Annuler
+                    {echanges.cancelLabel}
                   </button>
                   <button
                     className="primary-btn"
@@ -315,7 +318,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "publishCollabPost()")
                     }
                   >
-                    Publier
+                    {echanges.publishLabel}
                   </button>
                 </div>
               </div>
@@ -324,31 +327,26 @@ export default function CollaboratifsSection() {
                 className="doc-list"
                 style={{ padding: 18 }}
               />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="message-circle"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Commentaires
-                </div>
-              </div>
+            </TitledCard>
+            <TitledCard
+              page={{
+                title: echanges.commentsTitle,
+                icon: echanges.commentsIcon,
+                iconClass: echanges.commentsIconClass,
+              }}
+            >
               <div style={{ padding: 18 }}>
                 <div
                   id="collabFeedDetail"
                   style={{ color: "var(--text-light)", fontSize: 13 }}
                 >
-                  Sélectionnez une publication.
+                  {echanges.emptyDetail}
                 </div>
                 <div style={{ marginTop: 12, display: "flex", gap: 10 }}>
                   <input
                     id="collabCommentText"
                     className="actu-search-input"
-                    placeholder="Ajouter un commentaire…"
+                    placeholder={echanges.commentPlaceholder}
                     style={{ height: 40, paddingLeft: 14 }}
                   />
                   <button
@@ -357,7 +355,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "addCollabComment()")
                     }
                   >
-                    Commenter
+                    {echanges.commentLabel}
                   </button>
                 </div>
                 <div
@@ -366,10 +364,10 @@ export default function CollaboratifsSection() {
                   style={{ marginTop: 12 }}
                 />
               </div>
-            </div>
+            </TitledCard>
           </div>
         </div>
-        {/* Partage */}
+
         <div
           id="page-collab-rex"
           className="km-tab-content"
@@ -379,25 +377,14 @@ export default function CollaboratifsSection() {
             className="dashboard-grid"
             style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
           >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon green">
-                    <i
-                      data-lucide="book-open"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Informations / REX
-                </div>
-              </div>
+            <TitledCard page={rex}>
               <div style={{ padding: 18 }}>
                 <div className="actu-search-wrap">
                   <i data-lucide="search" style={{ width: 16 }} />
                   <input
                     id="collabRexSearch"
                     className="actu-search-input"
-                    placeholder="Rechercher un article / REX…"
+                    placeholder={rex.searchPlaceholder}
                     onInput={(event) =>
                       runLegacyHandler(event, "renderCollabRex()")
                     }
@@ -409,19 +396,14 @@ export default function CollaboratifsSection() {
                 className="doc-list"
                 style={{ padding: "0 18px 18px 18px" }}
               />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon purple">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Lecture
-                </div>
-              </div>
+            </TitledCard>
+            <TitledCard
+              page={{
+                title: rex.detailTitle,
+                icon: rex.detailIcon,
+                iconClass: rex.detailIconClass,
+              }}
+            >
               <div
                 id="collabRexDetail"
                 style={{
@@ -430,12 +412,12 @@ export default function CollaboratifsSection() {
                   fontSize: 13,
                 }}
               >
-                Sélectionnez un article.
+                {rex.emptyDetail}
               </div>
-            </div>
+            </TitledCard>
           </div>
         </div>
-        {/* Animation */}
+
         <div
           id="page-collab-animation"
           className="km-tab-content"
@@ -445,33 +427,20 @@ export default function CollaboratifsSection() {
             className="dashboard-grid"
             style={{ gridTemplateColumns: "1.5fr 1.5fr", gap: 24 }}
           >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon orange">
-                    <i
-                      data-lucide="party-popper"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Communautés internes
-                </div>
-              </div>
+            <TitledCard page={animation}>
               <div
                 id="collabEvents"
                 className="doc-list"
                 style={{ padding: 18 }}
               />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i data-lucide="mic" style={{ width: 20, height: 20 }} />
-                  </div>
-                  Animer / Participer
-                </div>
-              </div>
+            </TitledCard>
+            <TitledCard
+              page={{
+                title: animation.formTitle,
+                icon: animation.formIcon,
+                iconClass: animation.formIconClass,
+              }}
+            >
               <div style={{ padding: 18 }}>
                 <div
                   style={{
@@ -483,12 +452,12 @@ export default function CollaboratifsSection() {
                   <input
                     id="collabEventTitle"
                     className="actu-search-input"
-                    placeholder="Titre évènement"
+                    placeholder={animation.eventTitlePlaceholder}
                   />
                   <input
                     id="collabEventDate"
                     className="actu-search-input"
-                    placeholder="Date (ex: 15 Mai 2026)"
+                    placeholder={animation.eventDatePlaceholder}
                     style={{ paddingLeft: 14 }}
                   />
                 </div>
@@ -496,7 +465,7 @@ export default function CollaboratifsSection() {
                   id="collabEventDesc"
                   className="actu-search-input"
                   style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                  placeholder="Description…"
+                  placeholder={animation.eventDescriptionPlaceholder}
                   defaultValue={""}
                 />
                 <div
@@ -513,7 +482,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "createCollabEvent()")
                     }
                   >
-                    Animer
+                    {animation.createLabel}
                   </button>
                 </div>
                 <div
@@ -526,7 +495,7 @@ export default function CollaboratifsSection() {
                   }}
                 >
                   <div style={{ fontWeight: 900, color: "#0f172a" }}>
-                    Évènement sélectionné
+                    {animation.selectedTitle}
                   </div>
                   <div
                     id="collabEventDetail"
@@ -536,7 +505,7 @@ export default function CollaboratifsSection() {
                       fontSize: 13,
                     }}
                   >
-                    Sélectionnez un évènement.
+                    {animation.emptyDetail}
                   </div>
                   <div
                     style={{
@@ -551,15 +520,15 @@ export default function CollaboratifsSection() {
                         runLegacyHandler(event, "joinCollabEvent()")
                       }
                     >
-                      Participer
+                      {animation.joinLabel}
                     </button>
                   </div>
                 </div>
               </div>
-            </div>
+            </TitledCard>
           </div>
         </div>
-        {/* Vie interne */}
+
         <div
           id="page-collab-vieinterne"
           className="km-tab-content"
@@ -569,23 +538,19 @@ export default function CollaboratifsSection() {
             className="dashboard-grid"
             style={{ gridTemplateColumns: "1.3fr 1.7fr", gap: 24 }}
           >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon pink">
-                    <i data-lucide="heart" style={{ width: 20, height: 20 }} />
-                  </div>
-                  Culture interne
-                </div>
+            <TitledCard
+              page={vieinterne}
+              headerAction={
                 <button
                   className="primary-btn"
                   onClick={(event) =>
                     runLegacyHandler(event, "toggleCultureComposer(true)")
                   }
                 >
-                  Publier
+                  {vieinterne.publishLabel}
                 </button>
-              </div>
+              }
+            >
               <div
                 id="cultureComposer"
                 style={{
@@ -597,13 +562,13 @@ export default function CollaboratifsSection() {
                 <input
                   id="cultureTitle"
                   className="actu-search-input"
-                  placeholder="Titre"
+                  placeholder={vieinterne.titlePlaceholder}
                 />
                 <textarea
                   id="cultureBody"
                   className="actu-search-input"
                   style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                  placeholder="Message…"
+                  placeholder={vieinterne.bodyPlaceholder}
                   defaultValue={""}
                 />
                 <div
@@ -620,7 +585,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "toggleCultureComposer(false)")
                     }
                   >
-                    Annuler
+                    {vieinterne.cancelLabel}
                   </button>
                   <button
                     className="primary-btn"
@@ -628,7 +593,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "publishCulturePost()")
                     }
                   >
-                    Publier
+                    {vieinterne.publishLabel}
                   </button>
                 </div>
               </div>
@@ -637,16 +602,14 @@ export default function CollaboratifsSection() {
                 className="doc-list"
                 style={{ padding: 18 }}
               />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i data-lucide="image" style={{ width: 20, height: 20 }} />
-                  </div>
-                  Galerie
-                </div>
-              </div>
+            </TitledCard>
+            <TitledCard
+              page={{
+                title: vieinterne.galleryTitle,
+                icon: vieinterne.galleryIcon,
+                iconClass: vieinterne.galleryIconClass,
+              }}
+            >
               <div style={{ padding: 18 }}>
                 <div
                   id="collabCultureGallery"
@@ -657,11 +620,10 @@ export default function CollaboratifsSection() {
                   }}
                 />
               </div>
-            </div>
+            </TitledCard>
           </div>
         </div>
       </div>
-      {/* ACHATS VIEW */}
     </>
   );
 }

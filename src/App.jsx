@@ -82,9 +82,9 @@ export default function App() {
 
         <main className="main-content" id="sections-root">
           {error ? <ErrorState /> : null}
-          {sections.map(({ id, Component }) => (
-            <Component key={id} />
-          ))}
+          {ready && !error
+            ? sections.map(({ id, Component }) => <Component key={id} />)
+            : null}
         </main>
 
         <div id="right-sidebar-root">

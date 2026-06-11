@@ -2,6 +2,193 @@
   "space": "sitd",
   "updatedAt": "2026-06-08",
   "data": {
+    "sitdHeader": {
+      "title": "Espace SI / SITD",
+      "description": "Sécurité du SI, référentiel IT, intégration, pilotage, contrats de services et SEAU — conformément au cadrage CMS."
+    },
+    "sitdMainTabs": [
+      {
+        "label": "Sécurité du SI",
+        "tab": "securite-si"
+      },
+      {
+        "label": "Référentiel IT",
+        "tab": "referentiel-it"
+      },
+      {
+        "label": "Intégration SI",
+        "tab": "integration-si"
+      },
+      {
+        "label": "Pilotage SI",
+        "tab": "pilotage-si"
+      },
+      {
+        "label": "Contrats de services",
+        "tab": "contrats-services"
+      },
+      {
+        "label": "SEAU",
+        "tab": "seau"
+      }
+    ],
+    "sitdSectionConfig": {
+      "securite-si": {
+        "subs": [
+          {
+            "id": "sensibilisation-cyber",
+            "label": "Sensibilisation cybersécurité"
+          },
+          {
+            "id": "modules-elearning",
+            "label": "Modules e-learning"
+          },
+          {
+            "id": "supports-pedagogiques",
+            "label": "Supports pédagogiques"
+          },
+          {
+            "id": "campagnes-si",
+            "label": "Campagnes SI"
+          }
+        ],
+        "defaultSub": "sensibilisation-cyber"
+      },
+      "referentiel-it": {
+        "subs": [
+          {
+            "id": "bonnes-pratiques-it",
+            "label": "Bonnes pratiques IT"
+          }
+        ],
+        "defaultSub": "bonnes-pratiques-it"
+      },
+      "integration-si": {
+        "subs": [
+          {
+            "id": "glpi",
+            "label": "GLPI"
+          }
+        ],
+        "defaultSub": "glpi"
+      },
+      "pilotage-si": {
+        "subs": [
+          {
+            "id": "tableaux-bord-si",
+            "label": "Tableaux de bord SI"
+          },
+          {
+            "id": "enquetes-satisfaction",
+            "label": "Enquêtes de satisfaction"
+          }
+        ],
+        "defaultSub": "tableaux-bord-si"
+      },
+      "contrats-services": {
+        "subs": [
+          {
+            "id": "sla",
+            "label": "SLA"
+          }
+        ],
+        "defaultSub": "sla"
+      },
+      "seau": {
+        "subs": [
+          {
+            "id": "repertoire-outils",
+            "label": "Répertoire des outils"
+          },
+          {
+            "id": "documentation-exploitation",
+            "label": "Documentation d'exploitation"
+          }
+        ],
+        "defaultSub": "repertoire-outils"
+      }
+    },
+    "sitdLabels": {
+      "accessLabel": "Accéder",
+      "startLabel": "Démarrer",
+      "detailLabel": "Voir détail",
+      "campaignProgressPrefix": "Progression campagne :",
+      "elearningNote": "À interfacer avec la plateforme e-learning existante (maquette).",
+      "elearningMetaSuffix": "Catalogue / lecteur",
+      "sensibilisationMeta": "Portail dynamique — consulter & suivre",
+      "supportMetaPrefix": "Bibliothèque documentaire",
+      "searchBpPlaceholder": "Rechercher une bonne pratique…",
+      "emptyResult": "Aucun résultat.",
+      "bpMetaSuffix": "Dossiers / catégories",
+      "glpiWidgetTitle": "Widget GLPI — tickets",
+      "glpiTitlePlaceholder": "Objet du ticket",
+      "glpiDescriptionPlaceholder": "Description…",
+      "glpiCreateLabel": "Créer ticket (maquette)",
+      "glpiAccessTitle": "Accès GLPI",
+      "glpiAccessDescription": "Interfaçage widget / lien — synchronisation SI (maquette).",
+      "glpiOpenLabel": "Ouvrir GLPI",
+      "glpiOpenFile": "Guide_Acces_GLPI.pdf",
+      "glpiOpenTitle": "Guide accès GLPI",
+      "newTicketPrefix": "Nouveau • ",
+      "withDescriptionLabel": "Avec description",
+      "withoutDescriptionLabel": "Sans description",
+      "dashboardNote": "Dashboard KPI — pilotage SI (maquette).",
+      "participationPrefix": "Participation :",
+      "respondLabel": "Répondre",
+      "analyzeLabel": "Analyser",
+      "surveyThanks": "Merci pour votre participation (maquette).",
+      "surveyResultsFile": "Resultats_Enquete_SI.pdf",
+      "surveyResultsTitle": "Résultats enquête",
+      "surveyNote": "À mutualiser avec l’espace RH (enquêtes).",
+      "slaColumns": [
+        "Service",
+        "Engagement SLA",
+        "Indicateur",
+        "Statut",
+        "Fiche"
+      ],
+      "consultLabel": "Consulter",
+      "consultSheetLabel": "Consulter la fiche",
+      "docMetaPrefix": "GED-like"
+    },
+    "sitdSensibilisationCards": [
+      {
+        "title": "Phishing & emails frauduleux",
+        "icon": "mail",
+        "color": "#eff6ff",
+        "iconColor": "#1d4ed8"
+      },
+      {
+        "title": "Mots de passe & MFA",
+        "icon": "key-round",
+        "color": "#f0fdf4",
+        "iconColor": "#16a34a"
+      },
+      {
+        "title": "Protection des données",
+        "icon": "shield",
+        "color": "#fdf4ff",
+        "iconColor": "#7c3aed"
+      }
+    ],
+    "sitdDashboardKpis": [
+      {
+        "label": "Disponibilité SI",
+        "value": "99,2%"
+      },
+      {
+        "label": "Tickets ouverts",
+        "value": "47"
+      },
+      {
+        "label": "Délai moyen N1",
+        "value": "3,4 h"
+      },
+      {
+        "label": "Satisfaction SI",
+        "value": "4,1/5"
+      }
+    ],
     "sitdFeatures": [
       {
         "id": "sensibilisation-cyber",

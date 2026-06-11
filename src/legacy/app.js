@@ -358,40 +358,16 @@ function openAgendaTab(tabName) {
                 ]
             },
             documentaires: {
-                title: 'Espaces métiers',
-                items: [
-                    { label: 'Structuration métier', tab: 'structuration-metier' },
-                    { label: 'Référentiels métiers', tab: 'referentiels-metiers' },
-                    { label: 'Documents métiers', tab: 'documents-metiers' },
-                    { label: 'Intégration SI', tab: 'integration-si' },
-                    { label: 'Structuration', tab: 'structuration' },
-                    { label: 'Multimédia métier', tab: 'multimedia' }
-                ]
+                title: getCmrData('metiersHeader', {}).title || '',
+                items: getCmrData('metiersMainTabs', [])
             },
             reglementation: {
-                title: 'Réglementaire',
-                items: [
-                    { label: 'Référentiels réglementaires', tab: 'referentiels' },
-                    { label: 'Structuration', tab: 'structuration' },
-                    { label: 'Référentiels internes', tab: 'internes' },
-                    { label: 'Recherche', tab: 'recherche' },
-                    { label: 'GED', tab: 'ged' },
-                    { label: 'Gouvernance', tab: 'gouvernance' },
-                    { label: 'Validation', tab: 'validation' },
-                    { label: 'Traçabilité', tab: 'tracabilite' },
-                    { label: 'Archivage', tab: 'archivage' }
-                ]
+                title: getCmrData('regHeader', {}).title || '',
+                items: getCmrData('regMainTabs', [])
             },
             collaboratifs: {
-                title: 'Espaces collaboratifs',
-                items: [
-                    { label: 'Discussions', tab: 'discussions' },
-                    { label: 'Communautés', tab: 'communautes' },
-                    { label: 'Échanges', tab: 'echanges' },
-                    { label: 'Partage', tab: 'partage' },
-                    { label: 'Animation', tab: 'animation' },
-                    { label: 'Vie interne', tab: 'vieinterne' }
-                ]
+                title: getCmrData('collabHeader', {}).title || '',
+                items: getCmrData('collabMainTabs', [])
             },
             mediatheque: {
                 title: 'Médiathèque',
@@ -433,38 +409,16 @@ function openAgendaTab(tabName) {
                 ]
             },
             rse: {
-                title: 'RSE',
-                items: [
-                    { label: 'Référentiels RSE', tab: 'referentiels' },
-                    { label: 'Reporting', tab: 'reporting' },
-                    { label: 'Initiatives', tab: 'initiatives' },
-                    { label: 'Communication', tab: 'communication' },
-                    { label: 'Participation', tab: 'participation' },
-                    { label: 'Structuration', tab: 'structuration' },
-                    { label: 'Interactivité', tab: 'interactivite' }
-                ]
+                title: getCmrData('rseHeader', {}).title || '',
+                items: getCmrData('rseMainTabs', [])
             },
             qse: {
-                title: 'QSE',
-                items: [
-                    { label: 'Référentiels QSE', tab: 'referentiels' },
-                    { label: 'SMI', tab: 'smi' },
-                    { label: 'Sensibilisation', tab: 'sensibilisation' },
-                    { label: 'Pilotage', tab: 'pilotage' },
-                    { label: 'Participation', tab: 'participation' },
-                    { label: 'Culture QSE', tab: 'culture' }
-                ]
+                title: getCmrData('qseHeader', {}).title || '',
+                items: getCmrData('qseMainTabs', [])
             },
             sitd: {
-                title: 'Espace SI / SITD',
-                items: [
-                    { label: 'Sécurité du SI', tab: 'securite-si' },
-                    { label: 'Référentiel IT', tab: 'referentiel-it' },
-                    { label: 'Intégration SI', tab: 'integration-si' },
-                    { label: 'Pilotage SI', tab: 'pilotage-si' },
-                    { label: 'Contrats de services', tab: 'contrats-services' },
-                    { label: 'SEAU', tab: 'seau' }
-                ]
+                title: getCmrData('sitdHeader', {}).title || '',
+                items: getCmrData('sitdMainTabs', [])
             },
             arc: {
                 title: 'Audit, Risque & Conformité',
@@ -844,37 +798,7 @@ function openAgendaTab(tabName) {
         }
 
         // ORGANISATION & GOUVERNANCE (complément Orga & Gouvernance intégré)
-        const orgGovSectionConfig = {
-            overview: { page: 'overview' },
-            organisation: {
-                subs: [
-                    { id: 'organigramme', label: 'Organigramme' },
-                    { id: 'postes', label: 'Fiches de postes' },
-                    { id: 'presentation', label: 'Présentation globale' },
-                    { id: 'strategie', label: 'Plan stratégique' },
-                    { id: 'referentiels', label: 'Référentiels' }
-                ],
-                defaultSub: 'organigramme'
-            },
-            'referentiel-smi': {
-                subs: [
-                    { id: 'smi-politiques', label: 'Politiques SMI' },
-                    { id: 'smi-dossiers', label: 'Dossiers processus' },
-                    { id: 'smi-audits', label: 'Audits SMI' }
-                ],
-                defaultSub: 'smi-politiques'
-            },
-            cartographie: { page: 'cartographie' },
-            gouvernance: {
-                subs: [
-                    { id: 'comites', label: 'Rubrique Comités' },
-                    { id: 'kpi-strategiques', label: 'KPI stratégiques' },
-                    { id: 'rapports-gouvernance', label: 'Rapports gouvernance' }
-                ],
-                defaultSub: 'comites'
-            },
-            direction: { page: 'direction' }
-        };
+        const orgGovSectionConfig = getCmrData('orgGovSectionConfig', {});
 
         let orgGovSection = 'overview';
 
@@ -963,24 +887,7 @@ function openAgendaTab(tabName) {
         }
 
         // ====== ORGANIGRAMME (simple interactive tree) ======
-        const orgData = getCmrData('orgData', {
-            name: "CMR",
-            role: "Direction Générale",
-            children: [
-                { name: "Direction Digitale", role: "Digital & SI", children: [
-                    { name: "Data & Analytics", role: "BI / Data", children: [] },
-                    { name: "Applications", role: "Portails & Apps", children: [] }
-                ]},
-                { name: "Direction RH", role: "Ressources Humaines", children: [
-                    { name: "Développement RH", role: "Compétences", children: [] },
-                    { name: "Administration RH", role: "Paie / Dossiers", children: [] }
-                ]},
-                { name: "Direction Financière", role: "Finance", children: [
-                    { name: "Contrôle de gestion", role: "Pilotage", children: [] },
-                    { name: "Comptabilité", role: "Compta", children: [] }
-                ]}
-            ]
-        });
+        const orgData = getCmrData('orgData', {});
 
         function renderOrgNode(node, depth = 0) {
             const hasChildren = (node.children || []).length > 0;
@@ -1037,12 +944,8 @@ function openAgendaTab(tabName) {
         }
 
         // ====== ANNUAIRE (list + detailed profile) ======
-        const annuaireData = getCmrData('annuaireData', [
-            { id: 'c1', nom: 'Collaborateur 01', direction: 'Direction Digitale', fonction: 'Chef de projet', email: 'collaborateur01@cmr.ma', tel: '+212 5 00 00 00 01', localisation: 'Rabat', managerId: 'c4', managerLabel: 'Laila Harfi', orgPath: ['CMR', 'Direction Digitale', 'Collaborateur 01'] },
-            { id: 'c2', nom: 'Nadia Benali', direction: 'Direction RH', fonction: 'Responsable Développement RH', email: 'nadia.benali@cmr.ma', tel: '+212 5 00 00 00 02', localisation: 'Rabat', managerId: null, managerLabel: 'Direction RH', orgPath: ['CMR', 'Direction RH', 'Nadia Benali'] },
-            { id: 'c3', nom: 'Karim A.', direction: 'Direction Financière', fonction: 'Contrôleur de gestion', email: 'karim.a@cmr.ma', tel: '+212 5 00 00 00 03', localisation: 'Rabat', managerId: null, managerLabel: 'Direction Financière', orgPath: ['CMR', 'Direction Financière', 'Karim A.'] },
-            { id: 'c4', nom: 'Laila Harfi', direction: 'Direction Digitale', fonction: 'Consultante Senior', email: 'laila.harfi@cmr.ma', tel: '+212 5 00 00 00 04', localisation: 'Rabat', managerId: null, managerLabel: 'Direction Digitale', orgPath: ['CMR', 'Direction Digitale', 'Laila Harfi'] }
-        ]);
+        const annuaireData = getCmrData('annuaireData', []);
+        const annuaireLabels = getCmrData('annuaireLabels', {});
         let annuaireSelectedId = null;
 
         function initAnnuaireFilters() {
@@ -1055,8 +958,8 @@ function openAgendaTab(tabName) {
             const dirs = uniq(annuaireData.map(a => a.direction).filter(Boolean));
             const fns = uniq(annuaireData.map(a => a.fonction).filter(Boolean));
 
-            dirSel.innerHTML = `<option value="">Toutes les entités</option>` + dirs.map(d => `<option value="${d}">${d}</option>`).join('');
-            fnSel.innerHTML = `<option value="">Toutes les fonctions</option>` + fns.map(f => `<option value="${f}">${f}</option>`).join('');
+            dirSel.innerHTML = `<option value="">${annuaireLabels.allDirectionsLabel || ''}</option>` + dirs.map(d => `<option value="${d}">${d}</option>`).join('');
+            fnSel.innerHTML = `<option value="">${annuaireLabels.allFunctionsLabel || ''}</option>` + fns.map(f => `<option value="${f}">${f}</option>`).join('');
         }
 
         function resetAnnuaireFilters() {
@@ -1086,14 +989,14 @@ function openAgendaTab(tabName) {
             });
 
             if (count) {
-                count.textContent = `${items.length} collaborateur${items.length > 1 ? 's' : ''}`;
+                count.textContent = `${items.length} ${items.length > 1 ? (annuaireLabels.collaboratorPlural || '') : (annuaireLabels.collaboratorSingular || '')}`;
             }
 
             if (items.length === 0) {
-                list.innerHTML = `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">Aucun résultat.</div>`;
+                list.innerHTML = `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">${annuaireLabels.emptyResult || ''}</div>`;
                 annuaireSelectedId = null;
                 if (detail) {
-                    detail.innerHTML = `Aucun collaborateur ne correspond aux filtres sélectionnés.`;
+                    detail.innerHTML = `${annuaireLabels.emptyFilteredDetail || ''}`;
                 }
                 return;
             }
@@ -1154,10 +1057,10 @@ function openAgendaTab(tabName) {
             return `
                 <div style="margin-top:14px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
                     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-                        <div style="font-weight:900;color:#0f172a;font-size:13px;">Rattachement hiérarchique</div>
-                        <button class="actu-filter-btn" style="padding:8px 10px;" onclick="switchOrgGovTab('organigramme')">Ouvrir l’organigramme</button>
+                        <div style="font-weight:900;color:#0f172a;font-size:13px;">${annuaireLabels.hierarchyTitle || ''}</div>
+                        <button class="actu-filter-btn" style="padding:8px 10px;" onclick="switchOrgGovTab('organigramme')">${annuaireLabels.openOrgLabel || ''}</button>
                     </div>
-                    <div style="margin-top:10px;color:var(--text-light);font-size:12px;">Manager / Rattachement : <strong style="color:#0f172a;">${managerName}</strong></div>
+                    <div style="margin-top:10px;color:var(--text-light);font-size:12px;">${annuaireLabels.managerLabel || ''} : <strong style="color:#0f172a;">${managerName}</strong></div>
                     <div style="margin-top:12px;padding:12px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;">
                         ${nodes}
                     </div>
@@ -1193,35 +1096,35 @@ function openAgendaTab(tabName) {
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">Email</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">${annuaireLabels.emailLabel || ''}</div>
                         <div style="margin-top:6px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
                             <div style="font-size:12px;color:#0f172a;font-weight:700;word-break:break-word;">${p.email}</div>
                             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                                <a class="actu-filter-btn" style="padding:8px 10px;text-decoration:none;" href="mailto:${p.email}">Écrire</a>
-                                <button class="actu-filter-btn" style="padding:8px 10px;" onclick="copyText('${p.email}')">Copier</button>
+                                <a class="actu-filter-btn" style="padding:8px 10px;text-decoration:none;" href="mailto:${p.email}">${annuaireLabels.writeLabel || ''}</a>
+                                <button class="actu-filter-btn" style="padding:8px 10px;" onclick="copyText('${p.email}')">${annuaireLabels.copyLabel || ''}</button>
                             </div>
                         </div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">Téléphone</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">${annuaireLabels.phoneLabel || ''}</div>
                         <div style="margin-top:6px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
                             <div style="font-size:12px;color:#0f172a;font-weight:700;word-break:break-word;">${p.tel}</div>
                             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                                <a class="actu-filter-btn" style="padding:8px 10px;text-decoration:none;" href="tel:${p.tel.replace(/\s+/g,'')}">Appeler</a>
-                                <button class="actu-filter-btn" style="padding:8px 10px;" onclick="copyText('${p.tel}')">Copier</button>
+                                <a class="actu-filter-btn" style="padding:8px 10px;text-decoration:none;" href="tel:${p.tel.replace(/\s+/g,'')}">${annuaireLabels.callLabel || ''}</a>
+                                <button class="actu-filter-btn" style="padding:8px 10px;" onclick="copyText('${p.tel}')">${annuaireLabels.copyLabel || ''}</button>
                             </div>
                         </div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">Localisation</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">${annuaireLabels.locationLabel || ''}</div>
                         <div style="margin-top:4px;font-size:12px;color:#0f172a;font-weight:700;">${p.localisation}</div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">Entité</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">${annuaireLabels.entityLabel || ''}</div>
                         <div style="margin-top:4px;font-size:12px;color:#0f172a;font-weight:700;">${p.direction}</div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;grid-column:1/-1;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">Manager / rattachement</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:800;">${annuaireLabels.managerDetailLabel || ''}</div>
                         <div style="margin-top:4px;font-size:12px;color:#0f172a;font-weight:700;">${p.managerLabel || p.direction || '—'}</div>
                     </div>
                 </div>
@@ -1233,11 +1136,7 @@ function openAgendaTab(tabName) {
         }
 
         // ====== FICHES DE POSTES (list + structured page) ======
-        const postesData = getCmrData('postesData', [
-            { id: 'p1', titre: 'Chef de projet', famille: 'Digital', missions: ['Piloter le delivery', 'Coordonner les parties prenantes', 'Suivre les risques & planning'], competences: ['Gestion de projet', 'Communication', 'Agilité'], profil: ['Bac+5', '3+ ans', 'Maîtrise outils PM'] },
-            { id: 'p2', titre: 'Contrôleur de gestion', famille: 'Finance', missions: ['Produire le reporting', 'Analyser les écarts', 'Proposer des actions'], competences: ['Analyse', 'Excel/BI', 'Rigueur'], profil: ['Bac+5', '2+ ans', 'Sens du détail'] },
-            { id: 'p3', titre: 'Responsable Développement RH', famille: 'RH', missions: ['Plan de formation', 'Gestion des talents', 'Accompagnement managers'], competences: ['RH', 'Pédagogie', 'Conduite du changement'], profil: ['Bac+5', '5+ ans', 'Leadership'] }
-        ]);
+        const postesData = getCmrData('postesData', []);
 
         function renderPostesList(q) {
             const list = document.getElementById('postesList');
@@ -1287,16 +1186,7 @@ function openAgendaTab(tabName) {
         }
 
         // ====== RÉFÉRENTIELS (dossier + documents) ======
-        const referentiels = getCmrData('referentiels', [
-            { id: 'r1', dossier: 'Organisation', docs: [
-                { file: 'Politique_Organisationnelle_2026.pdf', label: 'Politique organisationnelle 2026' },
-                { file: 'Processus_Decisionnels.pdf', label: 'Processus décisionnels' }
-            ]},
-            { id: 'r2', dossier: 'Gouvernance', docs: [
-                { file: 'Charte_Gouvernance.pdf', label: 'Charte de gouvernance' },
-                { file: 'RACI_Decisions_Clés.pdf', label: 'RACI — décisions clés' }
-            ]}
-        ]);
+        const referentiels = getCmrData('referentiels', []);
         let currentRef = 'r1';
 
         function renderReferentiels() {
@@ -1336,16 +1226,7 @@ function openAgendaTab(tabName) {
         }
 
         // ====== COMITÉS (liste + dossier) ======
-        const comitesData = getCmrData('comitesData', [
-            { id: 'k1', nom: "Comité d'audit", periodicite: "Trimestriel", docs: [
-                { file: 'PV_Comite_Audit_T1_2026.pdf', label: 'PV T1 2026' },
-                { file: 'PV_Comite_Audit_T4_2025.pdf', label: 'PV T4 2025' }
-            ]},
-            { id: 'k2', nom: "Comité de pilotage", periodicite: "Mensuel", docs: [
-                { file: 'PV_COPIL_Avr_2026.pdf', label: 'PV Avril 2026' },
-                { file: 'PV_COPIL_Mars_2026.pdf', label: 'PV Mars 2026' }
-            ]}
-        ]);
+        const comitesData = getCmrData('comitesData', []);
         let currentComite = 'k1';
 
         function renderComites() {
@@ -1392,83 +1273,20 @@ function openAgendaTab(tabName) {
         }
 
         // ====== COMPLÉMENT ORGA & GOUVERNANCE (écrans fonctionnels) ======
-        const orgGovSmiPolitiquesData = getCmrData('orgGovSmiPolitiquesData', [
-            { title: 'Politique SMI — Management intégré', file: 'Politique_SMI_Management_Integre.pdf' },
-            { title: 'Politique qualité & amélioration continue', file: 'Politique_Qualite_AC.pdf' },
-            { title: 'Politique sécurité & santé au travail', file: 'Politique_SST.pdf' },
-            { title: 'Politique environnement', file: 'Politique_Environnement.pdf' },
-            { title: 'Référentiel processus SMI', file: 'Referentiel_Processus_SMI.pdf' }
-        ]);
+        const orgGovSmiPolitiquesData = getCmrData('orgGovSmiPolitiquesData', []);
 
-        const orgGovSmiDossiersData = getCmrData('orgGovSmiDossiersData', [
-            { id: 'dp1', dossier: 'Pilotage & stratégie', docs: [
-                { file: 'Processus_Pilotage_Strategique.pdf', label: 'Processus — Pilotage stratégique' },
-                { file: 'Fiche_Processus_Revues_Direction.pdf', label: 'Fiche processus — Revues de direction' }
-            ]},
-            { id: 'dp2', dossier: 'Ressources & compétences', docs: [
-                { file: 'Processus_Gestion_Competences.pdf', label: 'Processus — Gestion des compétences' },
-                { file: 'Processus_Formation_Interne.pdf', label: 'Processus — Formation interne' }
-            ]},
-            { id: 'dp3', dossier: 'Réalisation opérationnelle', docs: [
-                { file: 'Processus_Traitement_Demandes.pdf', label: 'Processus — Traitement des demandes' },
-                { file: 'Processus_Controle_Qualite.pdf', label: 'Processus — Contrôle qualité' }
-            ]}
-        ]);
+        const orgGovSmiDossiersData = getCmrData('orgGovSmiDossiersData', []);
         let orgGovSmiDossierCurrent = 'dp1';
 
-        const orgGovSmiAuditsData = getCmrData('orgGovSmiAuditsData', [
-            { title: 'Audit SMI interne — T1 2026', date: 'Mars 2026', file: 'Audit_SMI_Interne_T1_2026.pdf' },
-            { title: 'Audit certification ISO 9001 — suivi', date: 'Fév 2026', file: 'Audit_ISO9001_Suivi_2026.pdf' },
-            { title: 'Synthèse constats SMI 2025', date: 'Déc 2025', file: 'Synthese_Constats_SMI_2025.pdf' }
-        ]);
+        const orgGovSmiAuditsData = getCmrData('orgGovSmiAuditsData', []);
 
-        const orgGovProcessusMap = getCmrData('orgGovProcessusMap', {
-            pilotage: {
-                label: 'Pilotage',
-                desc: 'Définition des orientations, revues de direction et arbitrages.',
-                links: [{ id: 'gouvernance', label: 'Gouvernance' }, { id: 'strategie', label: 'Stratégie' }]
-            },
-            strategie: {
-                label: 'Stratégie',
-                desc: 'Plan stratégique, objectifs et indicateurs de performance.',
-                links: [{ id: 'pilotage', label: 'Pilotage' }, { id: 'realisation', label: 'Réalisation' }]
-            },
-            gouvernance: {
-                label: 'Gouvernance',
-                desc: 'Instances, comités, décisions et reporting.',
-                links: [{ id: 'pilotage', label: 'Pilotage' }, { id: 'controle', label: 'Contrôle' }]
-            },
-            realisation: {
-                label: 'Réalisation',
-                desc: 'Exécution des activités métiers et prestations aux assurés.',
-                links: [{ id: 'support', label: 'Support' }, { id: 'strategie', label: 'Stratégie' }]
-            },
-            support: {
-                label: 'Support',
-                desc: 'RH, SI, achats, moyens généraux et fonctions transverses.',
-                links: [{ id: 'realisation', label: 'Réalisation' }, { id: 'controle', label: 'Contrôle' }]
-            },
-            controle: {
-                label: 'Contrôle',
-                desc: 'Audits, conformité, gestion des risques et amélioration.',
-                links: [{ id: 'gouvernance', label: 'Gouvernance' }, { id: 'support', label: 'Support' }]
-            }
-        });
+        const orgGovProcessusMap = getCmrData('orgGovProcessusMap', {});
         let orgGovProcessusSelected = 'pilotage';
 
-        const orgGovComitesTimelineData = getCmrData('orgGovComitesTimelineData', [
-            { date: 'Avr 2026', comite: 'Comité de pilotage', type: 'CR', title: 'CR COPIL — priorités T2', file: 'CR_COPIL_Avr_2026.pdf', kpi: '12 décisions actées' },
-            { date: 'Mar 2026', comite: "Comité d'audit", type: 'Décision', title: "Validation plan d'audit 2026", file: 'Decision_Comite_Audit_Mar_2026.pdf', kpi: '87 % reco. implémentées' },
-            { date: 'Fév 2026', comite: 'Comité de pilotage', type: 'KPI', title: 'Tableau de bord stratégique T1', file: 'KPI_Strategiques_T1_2026.pdf', kpi: 'Satisfaction assurés : 82 %' },
-            { date: 'Jan 2026', comite: 'Comité de pilotage', type: 'CR', title: 'CR COPIL — lancement année', file: 'CR_COPIL_Jan_2026.pdf', kpi: 'Feuille de route validée' }
-        ]);
+        const orgGovComitesTimelineData = getCmrData('orgGovComitesTimelineData', []);
 
-        const orgGovRapportsGouvernanceData = getCmrData('orgGovRapportsGouvernanceData', [
-            { dossier: "Conseil d'administration", title: 'Rapport CA — T1 2026', file: 'Rapport_CA_T1_2026.pdf' },
-            { dossier: "Conseil d'administration", title: 'Dossier préparatoire CA Mars 2026', file: 'Dossier_Preparatoire_CA_Mar_2026.pdf' },
-            { dossier: 'Instances de gouvernance', title: 'Synthèse gouvernance 2025', file: 'Synthese_Gouvernance_2025.pdf' },
-            { dossier: 'Instances de gouvernance', title: 'Charte des comités — version 2026', file: 'Charte_Comites_2026.pdf' }
-        ]);
+        const orgGovRapportsGouvernanceData = getCmrData('orgGovRapportsGouvernanceData', []);
+        const orgGovKpiStrategiquesData = getCmrData('orgGovKpiStrategiquesData', { metrics: [], documents: [] });
 
         function renderOrgGovSmiPolitiques() {
             const list = document.getElementById('orgGovSmiPolitiques');
@@ -1595,47 +1413,31 @@ function openAgendaTab(tabName) {
             if (!root) return;
             root.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;">
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Satisfaction assurés</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">82%</div>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Délai moyen traitement</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">4,2 j</div>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Projets stratégiques</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">14</div>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Taux réalisation feuille de route</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">68%</div>
-                    </div>
+                    ${(orgGovKpiStrategiquesData.metrics || []).map(metric => `
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">${metric.label}</div>
+                            <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${metric.value}</div>
+                        </div>
+                    `).join('')}
                 </div>
                 <div style="margin-top:16px;display:grid;grid-template-columns:1.4fr 1fr;gap:14px;">
                     <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
-                        <div style="font-weight:900;color:#0f172a;font-size:13px;">Tableau de bord stratégique</div>
+                        <div style="font-weight:900;color:#0f172a;font-size:13px;">${orgGovKpiStrategiquesData.chartTitle || ''}</div>
                         <div style="margin-top:12px;height:140px;border-radius:12px;background:linear-gradient(180deg,#eff6ff,#fff);border:1px dashed #bfdbfe;display:grid;place-items:center;color:#64748b;font-size:12px;">
-                            Courbes &amp; tendances (maquette)
+                            ${orgGovKpiStrategiquesData.chartPlaceholder || ''}
                         </div>
                     </div>
                     <div class="doc-list" style="margin:0;">
-                        <div class="doc-item" onclick="openMockDownload('Dashboard_Strategique_T1_2026.pdf','Dashboard stratégique T1 2026')">
-                            <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">KPI</div>
-                            <div class="doc-info">
-                                <div class="doc-title">Dashboard stratégique T1 2026</div>
-                                <div class="doc-meta">Export PDF · Management</div>
+                        ${(orgGovKpiStrategiquesData.documents || []).map(doc => `
+                            <div class="doc-item" onclick="openMockDownload('${doc.file}','${doc.title}')">
+                                <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">KPI</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">${doc.title}</div>
+                                    <div class="doc-meta">${doc.meta}</div>
+                                </div>
+                                <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                             </div>
-                            <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
-                        </div>
-                        <div class="doc-item" onclick="openMockDownload('Indicateurs_Pilotage_DG.pdf','Indicateurs pilotage DG')">
-                            <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">KPI</div>
-                            <div class="doc-info">
-                                <div class="doc-title">Indicateurs pilotage DG</div>
-                                <div class="doc-meta">Mise à jour mensuelle</div>
-                            </div>
-                            <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
-                        </div>
+                        `).join('')}
                     </div>
                 </div>
             `;
@@ -2151,56 +1953,7 @@ function openAgendaTab(tabName) {
         let rseSection = 'referentiels';
         let rseSub = 'politiques';
 
-        const rseSectionConfig = {
-            referentiels: {
-                label: 'Référentiels RSE',
-                subs: [
-                    { id: 'politiques', label: 'Politiques' },
-                    { id: 'chartes', label: 'Chartes' },
-                    { id: 'codes', label: 'Codes éthiques' },
-                    { id: 'guides', label: 'Guides pratiques' }
-                ],
-                defaultSub: 'politiques'
-            },
-            reporting: {
-                label: 'Reporting',
-                subs: [{ id: 'rapports', label: 'Rapports RSE' }],
-                defaultSub: 'rapports'
-            },
-            initiatives: {
-                label: 'Initiatives',
-                subs: [{ id: 'actions', label: 'Actions RSE' }],
-                defaultSub: 'actions'
-            },
-            communication: {
-                label: 'Communication',
-                subs: [{ id: 'infos', label: 'Information RSE' }],
-                defaultSub: 'infos'
-            },
-            participation: {
-                label: 'Participation',
-                subs: [
-                    { id: 'idees', label: 'Idées' },
-                    { id: 'contributions', label: 'Contributions' },
-                    { id: 'rex', label: 'Retours d’expérience' }
-                ],
-                defaultSub: 'idees'
-            },
-            structuration: {
-                label: 'Structuration',
-                subs: [{ id: 'axes', label: 'Axes stratégiques' }],
-                defaultSub: 'axes'
-            },
-            interactivite: {
-                label: 'Interactivité',
-                subs: [
-                    { id: 'echanges', label: 'Échanges' },
-                    { id: 'sensibilisation', label: 'Sensibilisation' },
-                    { id: 'animation', label: 'Animation' }
-                ],
-                defaultSub: 'echanges'
-            }
-        };
+        const rseSectionConfig = getCmrData('rseSectionConfig', {});
 
         function switchRseSection(sectionId) {
             rseSection = sectionId;
@@ -2252,24 +2005,8 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        const rseReferentiels = getCmrData('rseReferentiels', {
-            politiques: [
-                { title: 'Politique RSE CMR', file: 'Politique_RSE.pdf' },
-                { title: 'Politique achats responsables', file: 'Politique_Achats_Responsables.pdf' }
-            ],
-            chartes: [
-                { title: 'Charte environnementale', file: 'Charte_Environnement.pdf' },
-                { title: 'Charte diversité & inclusion', file: 'Charte_Diversite_Inclusion.pdf' }
-            ],
-            codes: [
-                { title: 'Code éthique', file: 'Code_Ethique.pdf' },
-                { title: 'Code de conduite', file: 'Code_Conduite.pdf' }
-            ],
-            guides: [
-                { title: 'Guide éco‑gestes', file: 'Guide_EcoGestes.pdf' },
-                { title: 'Guide mobilité durable', file: 'Guide_Mobilite_Durable.pdf' }
-            ]
-        });
+        const rseLabels = getCmrData('rseLabels', {});
+        const rseReferentiels = getCmrData('rseReferentiels', {});
 
         function renderRseReferentiels(type) {
             const map = {
@@ -2288,16 +2025,13 @@ function openAgendaTab(tabName) {
                         <i data-lucide="${icon}" style="width:24px;height:24px;"></i>
                     </div>
                     <div class="doc-card-title">${d.title}</div>
-                    <div class="doc-card-meta"><span>Consulter</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
+                    <div class="doc-card-meta"><span>${rseLabels.consultLabel || ''}</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
                 </div>
             `).join('');
             lucide.createIcons();
         }
 
-        const rseRapports = getCmrData('rseRapports', [
-            { title: 'Rapport RSE 2025', file: 'Rapport_RSE_2025.pdf', meta: 'Liste/téléchargement' },
-            { title: 'Bilan carbone (synthèse)', file: 'Bilan_Carbone_Synthese.pdf', meta: 'Liste/téléchargement' }
-        ]);
+        const rseRapports = getCmrData('rseRapports', []);
         function renderRseRapports() {
             const list = document.getElementById('rseRapportsList');
             if (!list) return;
@@ -2314,11 +2048,7 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        const rseActions = getCmrData('rseActions', [
-            { title: 'Collecte solidaire', meta: 'Article / média', tag: 'Social' },
-            { title: 'Semaine verte', meta: 'Article / média', tag: 'Environnement' },
-            { title: 'Atelier éco‑gestes', meta: 'Article / média', tag: 'Sensibilisation' }
-        ]);
+        const rseActions = getCmrData('rseActions', []);
         function renderRseActions() {
             const grid = document.getElementById('rseActionsGrid');
             if (!grid) return;
@@ -2333,10 +2063,7 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        const rseInfos = getCmrData('rseInfos', [
-            { title: 'Programme RSE 2026', meta: 'Page / liste' },
-            { title: 'FAQ RSE', meta: 'Page / liste' }
-        ]);
+        const rseInfos = getCmrData('rseInfos', []);
         function renderRseInfos() {
             const list = document.getElementById('rseInfos');
             if (!list) return;
@@ -2353,10 +2080,7 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        let rseIdeas = getCmrData('rseIdeas', [
-            { id: 'rsi1', title: 'Tri sélectif par étage', desc: 'Mettre des bacs dédiés + affichage.', score: 14 },
-            { id: 'rsi2', title: 'Covoiturage interne', desc: 'Groupe/outil pour organiser les trajets.', score: 9 }
-        ]);
+        let rseIdeas = getCmrData('rseIdeas', []);
         let rseIdeaSelected = null;
         function toggleRseIdeaForm(open) {
             const el = document.getElementById('rseIdeaForm');
@@ -2374,7 +2098,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">IDE</div>
                     <div class="doc-info">
                         <div class="doc-title">${i.title}</div>
-                        <div class="doc-meta">Score ${i.score}</div>
+                        <div class="doc-meta">${rseLabels.scoreLabel || ''} ${i.score}</div>
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -2384,10 +2108,10 @@ function openAgendaTab(tabName) {
                 <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
                 <div style="margin-top:10px;color:#475569;font-size:13px;line-height:1.8;">${sel.desc}</div>
                 <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-                    <button class="actu-filter-btn" onclick="voteRseIdea('${sel.id}',1)">Voter +1</button>
-                    <button class="actu-filter-btn" onclick="voteRseIdea('${sel.id}',-1)">Voter -1</button>
+                    <button class="actu-filter-btn" onclick="voteRseIdea('${sel.id}',1)">${rseLabels.voteUpLabel || ''}</button>
+                    <button class="actu-filter-btn" onclick="voteRseIdea('${sel.id}',-1)">${rseLabels.voteDownLabel || ''}</button>
                 </div>
-            ` : 'Sélectionnez une idée.';
+            ` : (getCmrData('rsePages', {}).idees?.emptyDetail || '');
             lucide.createIcons();
         }
         function voteRseIdea(id, d) { rseIdeas = rseIdeas.map(i => i.id===id ? { ...i, score: Math.max(0, i.score + d) } : i); renderRseIdeas(); }
@@ -2402,9 +2126,7 @@ function openAgendaTab(tabName) {
             renderRseIdeas();
         }
 
-        let rseContrib = getCmrData('rseContrib', [
-            { id: 'rsc1', title: 'Photos – Semaine verte', body: 'Partage des moments forts et chiffres clés.', date: 'Avr 2026' }
-        ]);
+        let rseContrib = getCmrData('rseContrib', []);
         let rseContribSelected = null;
         function toggleRseContributionForm(open) {
             const el = document.getElementById('rseContribForm');
@@ -2433,24 +2155,21 @@ function openAgendaTab(tabName) {
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.date}</div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.body}</div>
-            ` : 'Sélectionnez une contribution.';
+            ` : (getCmrData('rsePages', {}).contributions?.emptyDetail || '');
             lucide.createIcons();
         }
         function submitRseContribution() {
             const title = (document.getElementById('rseContribTitle')?.value || '').trim();
             const body = (document.getElementById('rseContribBody')?.value || '').trim();
             if (!title || !body) return;
-            rseContrib = [{ id: 'rsc'+Math.random().toString(16).slice(2), title, body, date: 'Aujourd’hui' }, ...rseContrib];
+            rseContrib = [{ id: 'rsc'+Math.random().toString(16).slice(2), title, body, date: rseLabels.todayLabel || '' }, ...rseContrib];
             document.getElementById('rseContribTitle').value = '';
             document.getElementById('rseContribBody').value = '';
             toggleRseContributionForm(false);
             renderRseContributions();
         }
 
-        const rseRex = getCmrData('rseRex', [
-            { title: 'Retour d’expérience – Collecte solidaire', meta: 'Article • Social', file: 'REX_Collecte_Solidaire.pdf' },
-            { title: 'Retour d’expérience – Semaine verte', meta: 'Article • Environnement', file: 'REX_Semaine_Verte.pdf' }
-        ]);
+        const rseRex = getCmrData('rseRex', []);
         function renderRseRex() {
             const list = document.getElementById('rseRexList');
             if (!list) return;
@@ -2468,11 +2187,7 @@ function openAgendaTab(tabName) {
         }
 
         let rseAxisFilter = 'all';
-        const rseAxes = getCmrData('rseAxes', [
-            { axis: 'Environnement', title: 'Réduction des déchets', desc: 'Tri, dématérialisation, sobriété.' },
-            { axis: 'Social', title: 'Solidarité', desc: 'Initiatives internes et partenaires.' },
-            { axis: 'Gouvernance', title: 'Éthique', desc: 'Codes, chartes et conformité.' }
-        ]);
+        const rseAxes = getCmrData('rseAxes', []);
         function filterRseAxis(axis, btn) {
             rseAxisFilter = axis;
             document.querySelectorAll('#rseAxisFilters .actu-filter-btn').forEach(b => b.classList.remove('active'));
@@ -2488,23 +2203,20 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon-large" style="background:#f0fdf4;color:#15803d;"><i data-lucide="target" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${a.axis} — ${a.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:8px;line-height:1.6;">${a.desc}</p>
-                    <div class="doc-card-meta"><span>Filtrer</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                    <div class="doc-card-meta"><span>${rseLabels.filterLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                 </div>
             `).join('');
             lucide.createIcons();
         }
 
-        let rseEchanges = getCmrData('rseEchanges', [
-            { author: 'Collaborateur 04', when: 'il y a 1j', text: 'Proposer un défi “zéro papier” sur un mois ?' },
-            { author: 'Collaborateur 05', when: 'il y a 3j', text: 'Idée: atelier compostage au siège + sensibilisation.' }
-        ]);
+        let rseEchanges = getCmrData('rseEchanges', []);
         function renderRseEchanges() {
             const root = document.getElementById('rseEchanges');
             if (!root) return;
             root.innerHTML = `
                 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-                    <input id="rseEchangeInput" class="actu-search-input" placeholder="Écrire un message…">
-                    <button class="primary-btn" onclick="addRseEchange()">Commenter</button>
+                    <input id="rseEchangeInput" class="actu-search-input" placeholder="${rseLabels.messagePlaceholder || ''}">
+                    <button class="primary-btn" onclick="addRseEchange()">${rseLabels.commentLabel || ''}</button>
                 </div>
                 ${rseEchanges.map(x => `
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;margin-bottom:10px;">
@@ -2517,14 +2229,11 @@ function openAgendaTab(tabName) {
         function addRseEchange() {
             const v = (document.getElementById('rseEchangeInput')?.value || '').trim();
             if (!v) return;
-            rseEchanges = [{ author: 'Vous', when: 'à l’instant', text: v }, ...rseEchanges];
+            rseEchanges = [{ author: rseLabels.currentUserLabel || '', when: rseLabels.nowLabel || '', text: v }, ...rseEchanges];
             renderRseEchanges();
         }
 
-        const rseSensibilisation = getCmrData('rseSensibilisation', [
-            { title: 'Campagne “Éco‑gestes”', desc: 'Quizz + mini‑capsules.' },
-            { title: 'Semaine sécurité & éthique', desc: 'Affiches + sessions courtes.' }
-        ]);
+        const rseSensibilisation = getCmrData('rseSensibilisation', []);
         function renderRseSensibilisation() {
             const root = document.getElementById('rseSensibilisation');
             if (!root) return;
@@ -2532,15 +2241,12 @@ function openAgendaTab(tabName) {
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;margin-bottom:12px;">
                     <div style="font-weight:900;color:#0f172a;">${s.title}</div>
                     <div style="margin-top:6px;color:var(--text-light);font-size:12px;line-height:1.7;">${s.desc}</div>
-                    <button class="primary-btn" style="margin-top:10px;" onclick="openMockDownload('Sensibilisation_${s.title.replace(/\\s+/g,'_')}.pdf','${s.title}')">Participer</button>
+                    <button class="primary-btn" style="margin-top:10px;" onclick="openMockDownload('Sensibilisation_${s.title.replace(/\\s+/g,'_')}.pdf','${s.title}')">${rseLabels.participateLabel || ''}</button>
                 </div>
             `).join('');
         }
 
-        const rseAnimation = getCmrData('rseAnimation', [
-            { title: 'Sondage – mobilité durable', desc: 'Répondre (maquette)' },
-            { title: 'Défi – semaine sans plastique', desc: 'Participer (maquette)' }
-        ]);
+        const rseAnimation = getCmrData('rseAnimation', []);
         function renderRseAnimation() {
             const root = document.getElementById('rseAnimation');
             if (!root) return;
@@ -2549,293 +2255,55 @@ function openAgendaTab(tabName) {
                     <div style="font-weight:900;color:#0f172a;">${a.title}</div>
                     <div style="margin-top:6px;color:var(--text-light);font-size:12px;line-height:1.7;">${a.desc}</div>
                     <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
-                        <button class="primary-btn" onclick="openMockDownload('Animation_${a.title.replace(/\\s+/g,'_')}.pdf','${a.title}')">Participer</button>
-                        <button class="secondary-btn" onclick="openMockDownload('Resultats_${a.title.replace(/\\s+/g,'_')}.pdf','Résultats – ${a.title}')">Voir résultats</button>
+                        <button class="primary-btn" onclick="openMockDownload('Animation_${a.title.replace(/\\s+/g,'_')}.pdf','${a.title}')">${rseLabels.participateLabel || ''}</button>
+                        <button class="secondary-btn" onclick="openMockDownload('Resultats_${a.title.replace(/\\s+/g,'_')}.pdf','${rseLabels.resultsPrefix || ''} – ${a.title}')">${rseLabels.resultsLabel || ''}</button>
                     </div>
                 </div>
             `).join('');
         }
 
         // ===== SITD (table conforme — onglet 15. Espace SITD) =====
-        const sitdFeatures = getCmrData('sitdFeatures', [
-            {
-                id: 'sensibilisation-cyber',
-                espace: 'Espace SI / SITD',
-                rubrique: 'Sécurité du SI',
-                sousRubrique: 'Sensibilisation cybersécurité',
-                fonctionnalite: "Mise à disposition d'un espace de sensibilisation cybersécurité",
-                description: 'Centraliser les campagnes, supports et communications de sensibilisation à la cybersécurité.',
-                typeContenu: 'Contenu pédagogique',
-                typeUx: 'Portail dynamique / cards',
-                interactions: 'Consulter, suivre les campagnes',
-                cible: 'Tous les collaborateurs',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Structurant SI'
-            },
-            {
-                id: 'modules-elearning',
-                espace: 'Espace SI / SITD',
-                rubrique: 'Sécurité du SI',
-                sousRubrique: 'Modules e-learning',
-                fonctionnalite: 'Intégration des modules e-learning sécurité SI',
-                description: 'Mettre à disposition les parcours de sensibilisation sécurité SI.',
-                typeContenu: 'E-learning',
-                typeUx: 'Catalogue / lecteur',
-                interactions: 'Consulter, suivre',
-                cible: 'Tous les collaborateurs',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'À interfacer avec plateforme existante'
-            },
-            {
-                id: 'supports-pedagogiques',
-                espace: 'Espace SI / SITD',
-                rubrique: 'Sécurité du SI',
-                sousRubrique: 'Supports pédagogiques',
-                fonctionnalite: 'Publication des supports de sensibilisation SI',
-                description: 'Publier guides, procédures, capsules et recommandations cybersécurité.',
-                typeContenu: 'Document / média',
-                typeUx: 'Bibliothèque documentaire',
-                interactions: 'Consulter, télécharger',
-                cible: 'Collaborateurs',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'KM transverse'
-            },
-            {
-                id: 'campagnes-si',
-                espace: 'Espace SI / SITD',
-                rubrique: 'Sécurité du SI',
-                sousRubrique: 'Campagnes SI',
-                fonctionnalite: 'Gestion des campagnes de sensibilisation',
-                description: 'Publier les campagnes institutionnelles liées à la sécurité SI.',
-                typeContenu: 'Communication',
-                typeUx: 'Timeline / actualités',
-                interactions: 'Diffuser, notifier',
-                cible: 'Tous les collaborateurs',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Lié communication interne'
-            },
-            {
-                id: 'bonnes-pratiques-it',
-                espace: 'Espace SI / SITD',
-                rubrique: 'Référentiel IT',
-                sousRubrique: 'Bonnes pratiques IT',
-                fonctionnalite: 'Capitalisation des bonnes pratiques IT',
-                description: 'Structurer les référentiels et pratiques SI.',
-                typeContenu: 'Référentiel',
-                typeUx: 'Dossiers / catégories',
-                interactions: 'Rechercher, consulter',
-                cible: 'SI / métiers',
-                priorite: 'Moyenne',
-                statutDesign: 'À définir',
-                commentaires: 'KMIT'
-            },
-            {
-                id: 'glpi',
-                espace: 'Espace SI / SITD',
-                rubrique: 'Intégration SI',
-                sousRubrique: 'GLPI',
-                fonctionnalite: 'Interfaçage avec GLPI',
-                description: 'Exploiter GLPI pour la capitalisation et le support IT.',
-                typeContenu: 'Application / data',
-                typeUx: 'Widget / lien',
-                interactions: 'Accéder, synchroniser',
-                cible: 'SITD',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Dépend SI'
-            },
-            {
-                id: 'tableaux-bord-si',
-                espace: 'Espace SI / SITD',
-                rubrique: 'Pilotage SI',
-                sousRubrique: 'Tableaux de bord SI',
-                fonctionnalite: "Mise à disposition d'indicateurs SI",
-                description: 'Afficher indicateurs de performance et qualité de service SI.',
-                typeContenu: 'KPI / dashboard',
-                typeUx: 'Dashboard',
-                interactions: 'Consulter',
-                cible: 'Management / SITD',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Pilotage SI'
-            },
-            {
-                id: 'enquetes-satisfaction',
-                espace: 'Espace SI / SITD',
-                rubrique: 'Pilotage SI',
-                sousRubrique: 'Enquêtes de satisfaction',
-                fonctionnalite: 'Gestion des enquêtes satisfaction SI',
-                description: "Permettre l'évaluation des services SI.",
-                typeContenu: 'Formulaire / KPI',
-                typeUx: 'Formulaire / dashboard',
-                interactions: 'Répondre, analyser',
-                cible: 'Collaborateurs',
-                priorite: 'Moyenne',
-                statutDesign: 'À définir',
-                commentaires: 'À mutualiser avec RH'
-            },
-            {
-                id: 'sla',
-                espace: 'Espace SI / SITD',
-                rubrique: 'Contrats de services',
-                sousRubrique: 'SLA',
-                fonctionnalite: 'Consultation des SLA et contrats de services',
-                description: 'Centraliser les engagements de service et indicateurs associés.',
-                typeContenu: 'Document / KPI',
-                typeUx: 'Tableau / fiche',
-                interactions: 'Consulter',
-                cible: 'SITD / managers',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Nouveau besoin critique'
-            },
-            {
-                id: 'repertoire-outils',
-                espace: 'Espace SI / SITD',
-                rubrique: 'SEAU',
-                sousRubrique: 'Répertoire des outils',
-                fonctionnalite: "Répertoire des outils d'exploitation",
-                description: 'Mettre à disposition le catalogue des outils techniques exploités par le SEAU.',
-                typeContenu: 'Référentiel',
-                typeUx: 'Liste / fiches',
-                interactions: 'Consulter',
-                cible: 'Profils habilités',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Accès restreint'
-            },
-            {
-                id: 'documentation-exploitation',
-                espace: 'Espace SI / SITD',
-                rubrique: 'SEAU',
-                sousRubrique: "Documentation d'exploitation",
-                fonctionnalite: 'Documentation technique associée',
-                description: "Centraliser les documentations techniques et procédures d'exploitation.",
-                typeContenu: 'Documentation',
-                typeUx: 'GED-like',
-                interactions: 'Consulter, télécharger',
-                cible: 'SI habilités',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Sensible'
-            }
-        ]);
+        const sitdFeatures = getCmrData('sitdFeatures', []);
 
         const sitdFeaturesById = Object.fromEntries(sitdFeatures.map(f => [f.id, f]));
 
-        const sitdSectionConfig = {
-            'securite-si': {
-                subs: [
-                    { id: 'sensibilisation-cyber', label: 'Sensibilisation cybersécurité' },
-                    { id: 'modules-elearning', label: 'Modules e-learning' },
-                    { id: 'supports-pedagogiques', label: 'Supports pédagogiques' },
-                    { id: 'campagnes-si', label: 'Campagnes SI' }
-                ],
-                defaultSub: 'sensibilisation-cyber'
-            },
-            'referentiel-it': {
-                subs: [{ id: 'bonnes-pratiques-it', label: 'Bonnes pratiques IT' }],
-                defaultSub: 'bonnes-pratiques-it'
-            },
-            'integration-si': {
-                subs: [{ id: 'glpi', label: 'GLPI' }],
-                defaultSub: 'glpi'
-            },
-            'pilotage-si': {
-                subs: [
-                    { id: 'tableaux-bord-si', label: 'Tableaux de bord SI' },
-                    { id: 'enquetes-satisfaction', label: 'Enquêtes de satisfaction' }
-                ],
-                defaultSub: 'tableaux-bord-si'
-            },
-            'contrats-services': {
-                subs: [{ id: 'sla', label: 'SLA' }],
-                defaultSub: 'sla'
-            },
-            seau: {
-                subs: [
-                    { id: 'repertoire-outils', label: 'Répertoire des outils' },
-                    { id: 'documentation-exploitation', label: "Documentation d'exploitation" }
-                ],
-                defaultSub: 'repertoire-outils'
-            }
-        };
+        const sitdSectionConfig = getCmrData('sitdSectionConfig', {});
+        const sitdLabels = getCmrData('sitdLabels', {});
+        const sitdSensibilisationCards = getCmrData('sitdSensibilisationCards', []);
+        const sitdDashboardKpis = getCmrData('sitdDashboardKpis', []);
 
         let sitdSection = 'securite-si';
         let sitdSub = 'sensibilisation-cyber';
 
-        let sitdCampagnes = getCmrData('sitdCampagnes', [
-            { title: 'Campagne Mots de passe 2026', date: 'Mai 2026', status: 'En cours', progress: 62 },
-            { title: 'Phishing — simulation Q2', date: 'Avr 2026', status: 'Clôturée', progress: 100 },
-            { title: 'Sensibilisation VPN & accès distant', date: 'Juin 2026', status: 'À venir', progress: 0 }
-        ]);
+        let sitdCampagnes = getCmrData('sitdCampagnes', []);
 
-        let sitdElearningModules = getCmrData('sitdElearningModules', [
-            { title: 'Cybersécurité — Fondamentaux', duree: '45 min', niveau: 'Tous publics', file: 'Elearning_Cyber_Fondamentaux.pdf' },
-            { title: 'Gestion des incidents SI', duree: '1h20', niveau: 'SITD', file: 'Elearning_Incidents_SI.pdf' },
-            { title: 'Protection des données', duree: '35 min', niveau: 'Tous publics', file: 'Elearning_Protection_Donnees.pdf' }
-        ]);
+        let sitdElearningModules = getCmrData('sitdElearningModules', []);
 
-        let sitdSupports = getCmrData('sitdSupports', [
-            { title: 'Guide — Bonnes pratiques mots de passe', type: 'PDF', file: 'Guide_MDP.pdf' },
-            { title: 'Procédure — Signalement incident', type: 'PDF', file: 'Procedure_Incident.pdf' },
-            { title: 'Capsule — Phishing', type: 'Vidéo', file: 'Capsule_Phishing.mp4' }
-        ]);
+        let sitdSupports = getCmrData('sitdSupports', []);
 
-        let sitdBonnesPratiques = getCmrData('sitdBonnesPratiques', [
-            { categorie: 'Sécurité', title: 'Gestion des comptes à privilèges', file: 'BP_Comptes_Privileges.pdf' },
-            { categorie: 'Exploitation', title: 'Procédure de sauvegarde', file: 'BP_Sauvegarde.pdf' },
-            { categorie: 'Support', title: 'Qualification des tickets GLPI', file: 'BP_Qualification_GLPI.pdf' }
-        ]);
+        let sitdBonnesPratiques = getCmrData('sitdBonnesPratiques', []);
 
-        let sitdGlpiTickets = getCmrData('sitdGlpiTickets', [
-            { id: 'INC-2401', title: 'Accès VPN — demande habilitation', meta: 'En cours • Priorité haute' },
-            { id: 'INC-2398', title: 'Poste — lenteur réseau', meta: 'Assigné • Support N2' }
-        ]);
+        let sitdGlpiTickets = getCmrData('sitdGlpiTickets', []);
 
-        let sitdEnquetes = getCmrData('sitdEnquetes', [
-            { title: 'Enquête satisfaction support SI — T2 2026', participation: '68%', statut: 'Ouverte' },
-            { title: 'Enquête qualité des délais — T1 2026', participation: '91%', statut: 'Clôturée' }
-        ]);
+        let sitdEnquetes = getCmrData('sitdEnquetes', []);
 
-        const sitdSlaRows = getCmrData('sitdSlaRows', [
-            { service: 'Support utilisateur (N1)', engagement: 'Prise en charge < 4h', indicateur: '96%', statut: 'OK' },
-            { service: 'Incidents critiques', engagement: 'Résolution < 8h', indicateur: '92%', statut: 'OK' },
-            { service: 'Demandes d’évolution', engagement: 'Analyse < 10 j', indicateur: '88%', statut: 'Attention' }
-        ]);
+        const sitdSlaRows = getCmrData('sitdSlaRows', []);
 
-        const sitdOutilsSeau = getCmrData('sitdOutilsSeau', [
-            { nom: 'Supervision — Zabbix', role: 'Monitoring', acces: 'Habilité N2' },
-            { nom: 'Orchestration — Ansible', role: 'Automatisation', acces: 'Habilité N3' },
-            { nom: 'Logs — ELK Stack', role: 'Analyse', acces: 'Habilité N2' }
-        ]);
+        const sitdOutilsSeau = getCmrData('sitdOutilsSeau', []);
 
-        const sitdDocsExploitation = getCmrData('sitdDocsExploitation', [
-            { title: 'Runbook — Incident majeur', dossier: 'Procédures', file: 'Runbook_Incident_Majeur.pdf' },
-            { title: 'Procédure — Restauration BDD', dossier: 'Bases de données', file: 'Procedure_Restauration_BDD.pdf' },
-            { title: 'Documentation — Architecture réseau', dossier: 'Infrastructure', file: 'Doc_Architecture_Reseau.pdf' }
-        ]);
+        const sitdDocsExploitation = getCmrData('sitdDocsExploitation', []);
 
         function renderSitdUxContent(f) {
             const id = f.id;
             if (id === 'sensibilisation-cyber') {
-                const cards = [
-                    { title: 'Phishing & emails frauduleux', icon: 'mail', color: '#eff6ff', ic: '#1d4ed8' },
-                    { title: 'Mots de passe & MFA', icon: 'key-round', color: '#f0fdf4', ic: '#16a34a' },
-                    { title: 'Protection des données', icon: 'shield', color: '#fdf4ff', ic: '#7c3aed' }
-                ];
                 return `
                     <div class="km-grid">
-                        ${cards.map(c => `
+                        ${sitdSensibilisationCards.map(c => `
                             <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('Sensibilisation_${c.title.replace(/\\s+/g,'_')}.pdf','${c.title}')">
-                                <div class="doc-icon-large" style="background:${c.color};color:${c.ic};"><i data-lucide="${c.icon}" style="width:24px;height:24px;"></i></div>
+                                <div class="doc-icon-large" style="background:${c.color};color:${c.iconColor};"><i data-lucide="${c.icon}" style="width:24px;height:24px;"></i></div>
                                 <div class="doc-card-title">${c.title}</div>
-                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">Portail dynamique — consulter & suivre</p>
-                                <div class="doc-card-meta"><span style="color:${c.ic};font-weight:600;">Accéder</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${sitdLabels.sensibilisationMeta || ''}</p>
+                                <div class="doc-card-meta"><span style="color:${c.iconColor};font-weight:600;">${sitdLabels.accessLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                             </div>
                         `).join('')}
                     </div>
@@ -2848,12 +2316,12 @@ function openAgendaTab(tabName) {
                             <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${m.file}','${m.title}')">
                                 <div class="doc-icon-large" style="background:#eff6ff;color:#3b82f6;"><i data-lucide="play-circle" style="width:24px;height:24px;"></i></div>
                                 <div class="doc-card-title">${m.title}</div>
-                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${m.duree} · ${m.niveau} · Catalogue / lecteur</p>
-                                <div class="doc-card-meta"><span style="color:#3b82f6;font-weight:600;">Démarrer</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${m.duree} · ${m.niveau} · ${sitdLabels.elearningMetaSuffix || ''}</p>
+                                <div class="doc-card-meta"><span style="color:#3b82f6;font-weight:600;">${sitdLabels.startLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                             </div>
                         `).join('')}
                     </div>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">À interfacer avec la plateforme e-learning existante (maquette).</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">${sitdLabels.elearningNote || ''}</p>
                 `;
             }
             if (id === 'supports-pedagogiques') {
@@ -2862,7 +2330,7 @@ function openAgendaTab(tabName) {
                         ${sitdSupports.map(s => `
                             <div class="doc-item" onclick="openMockDownload('${s.file}','${s.title}')">
                                 <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${s.type}</div>
-                                <div class="doc-info"><div class="doc-title">${s.title}</div><div class="doc-meta">Bibliothèque documentaire · ${s.type}</div></div>
+                                <div class="doc-info"><div class="doc-title">${s.title}</div><div class="doc-meta">${sitdLabels.supportMetaPrefix || ''} · ${s.type}</div></div>
                                 <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                             </div>
                         `).join('')}
@@ -2879,12 +2347,12 @@ function openAgendaTab(tabName) {
                                         <div style="font-weight:900;color:#0f172a;">${c.title}</div>
                                         <div style="margin-top:4px;font-size:12px;color:var(--text-light);">${c.date} · ${c.status}</div>
                                     </div>
-                                    <button class="actu-filter-btn" onclick="openMockDownload('Campagne_${c.title.replace(/\\s+/g,'_')}.pdf','${c.title}')">Voir détail</button>
+                                    <button class="actu-filter-btn" onclick="openMockDownload('Campagne_${c.title.replace(/\\s+/g,'_')}.pdf','${c.title}')">${sitdLabels.detailLabel || ''}</button>
                                 </div>
                                 <div style="margin-top:10px;height:8px;background:#f1f5f9;border-radius:999px;overflow:hidden;">
                                     <div style="width:${c.progress}%;height:100%;background:linear-gradient(90deg,#3b82f6,#6366f1);"></div>
                                 </div>
-                                <div style="margin-top:6px;font-size:11px;color:#64748b;">Progression campagne : ${c.progress}%</div>
+                                <div style="margin-top:6px;font-size:11px;color:#64748b;">${sitdLabels.campaignProgressPrefix || ''} ${c.progress}%</div>
                             </div>
                         `).join('')}
                     </div>
@@ -2894,7 +2362,7 @@ function openAgendaTab(tabName) {
                 return `
                     <div class="actu-search-wrap" style="max-width:420px;margin-bottom:14px;">
                         <i data-lucide="search" class="actu-search-icon"></i>
-                        <input id="sitdBpSearch" class="actu-search-input" placeholder="Rechercher une bonne pratique…" oninput="renderSitdBonnesPratiques()">
+                        <input id="sitdBpSearch" class="actu-search-input" placeholder="${sitdLabels.searchBpPlaceholder || ''}" oninput="renderSitdBonnesPratiques()">
                     </div>
                     <div id="sitdBpList" class="doc-list"></div>
                 `;
@@ -2903,18 +2371,18 @@ function openAgendaTab(tabName) {
                 return `
                     <div style="display:grid;grid-template-columns:1.4fr .6fr;gap:12px;align-items:start;">
                         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
-                            <div style="font-weight:900;color:#0f172a;">Widget GLPI — tickets</div>
+                            <div style="font-weight:900;color:#0f172a;">${sitdLabels.glpiWidgetTitle || ''}</div>
                             <div id="sitdGlpiList" class="doc-list" style="margin-top:12px;"></div>
                             <div style="margin-top:12px;display:grid;gap:10px;">
-                                <input id="sitdGlpiTitle" class="actu-search-input" placeholder="Objet du ticket">
-                                <textarea id="sitdGlpiDesc" class="actu-search-input" style="height:90px;padding-top:10px;" placeholder="Description…"></textarea>
-                                <button class="primary-btn" onclick="submitSitdGlpi()">Créer ticket (maquette)</button>
+                                <input id="sitdGlpiTitle" class="actu-search-input" placeholder="${sitdLabels.glpiTitlePlaceholder || ''}">
+                                <textarea id="sitdGlpiDesc" class="actu-search-input" style="height:90px;padding-top:10px;" placeholder="${sitdLabels.glpiDescriptionPlaceholder || ''}"></textarea>
+                                <button class="primary-btn" onclick="submitSitdGlpi()">${sitdLabels.glpiCreateLabel || ''}</button>
                             </div>
                         </div>
                         <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
-                            <div style="font-weight:900;color:#0f172a;">Accès GLPI</div>
-                            <p style="margin-top:8px;font-size:12px;color:var(--text-light);line-height:1.6;">Interfaçage widget / lien — synchronisation SI (maquette).</p>
-                            <button class="primary-btn" style="margin-top:12px;width:100%;" onclick="openMockDownload('Guide_Acces_GLPI.pdf','Guide accès GLPI')">Ouvrir GLPI</button>
+                            <div style="font-weight:900;color:#0f172a;">${sitdLabels.glpiAccessTitle || ''}</div>
+                            <p style="margin-top:8px;font-size:12px;color:var(--text-light);line-height:1.6;">${sitdLabels.glpiAccessDescription || ''}</p>
+                            <button class="primary-btn" style="margin-top:12px;width:100%;" onclick="openMockDownload('${sitdLabels.glpiOpenFile || ''}','${sitdLabels.glpiOpenTitle || ''}')">${sitdLabels.glpiOpenLabel || ''}</button>
                         </div>
                     </div>
                 `;
@@ -2922,24 +2390,14 @@ function openAgendaTab(tabName) {
             if (id === 'tableaux-bord-si') {
                 return `
                     <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;">
-                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">Disponibilité SI</div>
-                            <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">99,2%</div>
-                        </div>
-                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">Tickets ouverts</div>
-                            <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">47</div>
-                        </div>
-                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">Délai moyen N1</div>
-                            <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">3,4 h</div>
-                        </div>
-                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">Satisfaction SI</div>
-                            <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">4,1/5</div>
-                        </div>
+                        ${sitdDashboardKpis.map(kpi => `
+                            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                                <div style="font-size:11px;color:#94a3b8;font-weight:900;">${kpi.label}</div>
+                                <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${kpi.value}</div>
+                            </div>
+                        `).join('')}
                     </div>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">Dashboard KPI — pilotage SI (maquette).</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">${sitdLabels.dashboardNote || ''}</p>
                 `;
             }
             if (id === 'enquetes-satisfaction') {
@@ -2948,16 +2406,16 @@ function openAgendaTab(tabName) {
                         ${sitdEnquetes.map(e => `
                             <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
                                 <div style="font-weight:900;color:#0f172a;">${e.title}</div>
-                                <div style="margin-top:6px;font-size:12px;color:var(--text-light);">Participation : ${e.participation} · ${e.statut}</div>
+                                <div style="margin-top:6px;font-size:12px;color:var(--text-light);">${sitdLabels.participationPrefix || ''} ${e.participation} · ${e.statut}</div>
                                 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
                                     ${e.statut === 'Ouverte'
-                                        ? '<button class="primary-btn" onclick="alert(\'Merci pour votre participation (maquette).\')">Répondre</button>'
-                                        : '<button class="secondary-btn" onclick="openMockDownload(\'Resultats_Enquete_SI.pdf\',\'Résultats enquête\')">Analyser</button>'}
+                                        ? `<button class="primary-btn" onclick="alert('${sitdLabels.surveyThanks || ''}')">${sitdLabels.respondLabel || ''}</button>`
+                                        : `<button class="secondary-btn" onclick="openMockDownload('${sitdLabels.surveyResultsFile || ''}','${sitdLabels.surveyResultsTitle || ''}')">${sitdLabels.analyzeLabel || ''}</button>`}
                                 </div>
                             </div>
                         `).join('')}
                     </div>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">À mutualiser avec l’espace RH (enquêtes).</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">${sitdLabels.surveyNote || ''}</p>
                 `;
             }
             if (id === 'sla') {
@@ -2966,11 +2424,9 @@ function openAgendaTab(tabName) {
                         <table style="width:100%;border-collapse:collapse;font-size:13px;">
                             <thead>
                                 <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
-                                    <th style="padding:12px 16px;text-align:left;">Service</th>
-                                    <th style="padding:12px 16px;text-align:left;">Engagement SLA</th>
-                                    <th style="padding:12px 16px;text-align:left;">Indicateur</th>
-                                    <th style="padding:12px 16px;text-align:left;">Statut</th>
-                                    <th style="padding:12px 16px;text-align:right;">Fiche</th>
+                                    ${(sitdLabels.slaColumns || []).map((column, index, columns) => `
+                                        <th style="padding:12px 16px;text-align:${index === columns.length - 1 ? 'right' : 'left'};">${column}</th>
+                                    `).join('')}
                                 </tr>
                             </thead>
                             <tbody>
@@ -2981,7 +2437,7 @@ function openAgendaTab(tabName) {
                                         <td style="padding:12px 16px;color:var(--text-light);">${r.indicateur}</td>
                                         <td style="padding:12px 16px;color:var(--text-light);">${r.statut}</td>
                                         <td style="padding:12px 16px;text-align:right;">
-                                            <button class="actu-filter-btn" onclick="openMockDownload('SLA_${r.service.replace(/\\s+/g,'_')}.pdf','${r.service}')">Consulter</button>
+                                            <button class="actu-filter-btn" onclick="openMockDownload('SLA_${r.service.replace(/\\s+/g,'_')}.pdf','${r.service}')">${sitdLabels.consultLabel || ''}</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -2998,7 +2454,7 @@ function openAgendaTab(tabName) {
                                 <div class="doc-icon-large" style="background:#f8fafc;color:#475569;"><i data-lucide="wrench" style="width:24px;height:24px;"></i></div>
                                 <div class="doc-card-title">${o.nom}</div>
                                 <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${o.role} · ${o.acces}</p>
-                                <div class="doc-card-meta"><span>Consulter la fiche</span><i data-lucide="external-link" style="width:16px;"></i></div>
+                                <div class="doc-card-meta"><span>${sitdLabels.consultSheetLabel || ''}</span><i data-lucide="external-link" style="width:16px;"></i></div>
                             </div>
                         `).join('')}
                     </div>
@@ -3012,7 +2468,7 @@ function openAgendaTab(tabName) {
                                 <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">DOC</div>
                                 <div class="doc-info">
                                     <div class="doc-title">${d.title}</div>
-                                    <div class="doc-meta">GED-like · ${d.dossier}</div>
+                                    <div class="doc-meta">${sitdLabels.docMetaPrefix || ''} · ${d.dossier}</div>
                                 </div>
                                 <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                             </div>
@@ -3035,11 +2491,11 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">${bp.categorie.slice(0, 3).toUpperCase()}</div>
                     <div class="doc-info">
                         <div class="doc-title">${bp.title}</div>
-                        <div class="doc-meta">${bp.categorie} · Dossiers / catégories</div>
+                        <div class="doc-meta">${bp.categorie} · ${sitdLabels.bpMetaSuffix || ''}</div>
                     </div>
                     <i data-lucide="folder-open" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('') || '<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun résultat.</div>';
+            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">${sitdLabels.emptyResult || ''}</div>`;
         }
 
         function renderSitdGlpi() {
@@ -3057,7 +2513,7 @@ function openAgendaTab(tabName) {
             const title = (document.getElementById('sitdGlpiTitle')?.value || '').trim();
             const desc = (document.getElementById('sitdGlpiDesc')?.value || '').trim();
             if (!title) return;
-            sitdGlpiTickets = [{ id: 'INC-' + Math.floor(2400 + Math.random() * 100), title, meta: 'Nouveau • ' + (desc ? 'Avec description' : 'Sans description') }, ...sitdGlpiTickets];
+            sitdGlpiTickets = [{ id: 'INC-' + Math.floor(2400 + Math.random() * 100), title, meta: (sitdLabels.newTicketPrefix || '') + (desc ? sitdLabels.withDescriptionLabel || '' : sitdLabels.withoutDescriptionLabel || '') }, ...sitdGlpiTickets];
             const t = document.getElementById('sitdGlpiTitle');
             const d = document.getElementById('sitdGlpiDesc');
             if (t) t.value = '';
@@ -3677,26 +3133,7 @@ function openAgendaTab(tabName) {
         // ===== QSE (table conforme — onglet 9. QSE + Complément QSE) =====
         const qsePages = ['politiques','referentiels','docs','contenus','audits','resultats-audits','indicateurs','idees','contributions','remontees','stats','culture','culture-portail'];
 
-        const qseSectionConfig = {
-            referentiels: { subs: [{ id: 'politiques', label: 'Politiques' }, { id: 'referentiels', label: 'Référentiels' }], defaultSub: 'politiques' },
-            smi: { subs: [{ id: 'docs', label: 'Documents SMI' }], defaultSub: 'docs' },
-            sensibilisation: { subs: [{ id: 'contenus', label: 'Contenus pédagogiques' }], defaultSub: 'contenus' },
-            pilotage: { subs: [
-                { id: 'audits', label: 'Audits' },
-                { id: 'resultats-audits', label: "Résultats d'audits" },
-                { id: 'indicateurs', label: 'Indicateurs QSE' },
-                { id: 'stats', label: 'Statistiques' }
-            ], defaultSub: 'audits' },
-            participation: { subs: [
-                { id: 'idees', label: 'Boîte à idées' },
-                { id: 'contributions', label: 'Contributions' },
-                { id: 'remontees', label: 'Remontées terrain' }
-            ], defaultSub: 'idees' },
-            culture: { subs: [
-                { id: 'culture', label: 'Dynamique QSE' },
-                { id: 'culture-portail', label: 'Portail sensibilisation' }
-            ], defaultSub: 'culture' }
-        };
+        const qseSectionConfig = getCmrData('qseSectionConfig', {});
 
         let qseSection = 'referentiels';
         let qseSub = 'politiques';
@@ -3749,43 +3186,18 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        const qsePolitiques = getCmrData('qsePolitiques', [
-            { title: 'Politique QSE', file: 'Politique_QSE.pdf' },
-            { title: 'Politique sécurité & environnement', file: 'Politique_SSE.pdf' }
-        ]);
-        const qseReferentiels = getCmrData('qseReferentiels', [
-            { title: 'Référentiel QSE – exigences', file: 'Referentiel_QSE_Exigences.pdf' },
-            { title: 'Référentiel QSE – check‑lists', file: 'Referentiel_QSE_Checklists.pdf' }
-        ]);
-        const qseSmiDocs = getCmrData('qseSmiDocs', [
-            { title: 'Manuel SMI', file: 'Manuel_SMI.pdf' },
-            { title: 'Procédures & supports', file: 'Procedures_SMI.zip' }
-        ]);
-        const qsePedago = getCmrData('qsePedago', [
-            { title: 'Flash sécurité – EPI', meta: 'Média / article', file: 'Flash_Securite_EPI.pdf' },
-            { title: 'Vidéo – gestes de sécurité', meta: 'Média / article', file: 'Video_Gestes_Securite.mp4' }
-        ]);
-        const qseAudits = getCmrData('qseAudits', [
-            { title: 'Audit interne QSE', date: '15 Avr 2026', status: 'Clos', report: 'Rapport_Audit_Interne_QSE.pdf' },
-            { title: 'Audit site – sécurité', date: '02 Mars 2026', status: 'Actions', report: 'Rapport_Audit_Site_Securite.pdf' }
-        ]);
-        const qseCultureItems = getCmrData('qseCultureItems', [
-            { title: 'Campagne “Zéro accident”', meta: 'Articles / campagnes', file: 'Campagne_Zero_Accident.pdf' },
-            { title: 'Semaine QSE', meta: 'Articles / campagnes', file: 'Semaine_QSE.pdf' }
-        ]);
-        const qseCulturePortailItems = getCmrData('qseCulturePortailItems', [
-            { title: 'Flash info — EPI obligatoires', type: 'Flash', file: 'Flash_EPI.pdf' },
-            { title: 'Vidéo — Gestes posturaux', type: 'Vidéo', file: 'Video_Gestes_Posturaux.mp4' },
-            { title: 'Note — Culture sécurité au quotidien', type: 'Note', file: 'Note_Culture_Securite.pdf' }
-        ]);
-        const qseResultatsAudits = getCmrData('qseResultatsAudits', [
-            { title: 'Synthèse audit interne QSE — T1 2026', kpi: '87% actions clôturées', file: 'Synthese_Audit_QSE_T1_2026.pdf' },
-            { title: 'Synthèse audit site sécurité', kpi: '12 recommandations', file: 'Synthese_Audit_Site_Securite.pdf' }
-        ]);
-        const qseContributions = getCmrData('qseContributions', [
-            { title: 'Idée — Signalétique zones à risque', auteur: 'Équipe exploitation', votes: 24 },
-            { title: 'Proposition — Tri sélectif renforcé', auteur: 'Services généraux', votes: 18 }
-        ]);
+        const qseLabels = getCmrData('qseLabels', {});
+        const qseKpisData = getCmrData('qseKpisData', {});
+        const qseStatsData = getCmrData('qseStatsData', {});
+        const qsePolitiques = getCmrData('qsePolitiques', []);
+        const qseReferentiels = getCmrData('qseReferentiels', []);
+        const qseSmiDocs = getCmrData('qseSmiDocs', []);
+        const qsePedago = getCmrData('qsePedago', []);
+        const qseAudits = getCmrData('qseAudits', []);
+        const qseCultureItems = getCmrData('qseCultureItems', []);
+        const qseCulturePortailItems = getCmrData('qseCulturePortailItems', []);
+        const qseResultatsAudits = getCmrData('qseResultatsAudits', []);
+        const qseContributions = getCmrData('qseContributions', []);
 
         function renderQsePolitiques() {
             const grid = document.getElementById('qsePolitiquesGrid');
@@ -3794,7 +3206,7 @@ function openAgendaTab(tabName) {
                 <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${d.file}','${d.title}')">
                     <div class="doc-icon-large pdf" style="background:#f8fafc;color:#475569;"><i data-lucide="file-text" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${d.title}</div>
-                    <div class="doc-card-meta"><span>Consulter</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
+                    <div class="doc-card-meta"><span>${qseLabels.consultLabel || ''}</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
                 </div>
             `).join('');
         }
@@ -3805,7 +3217,7 @@ function openAgendaTab(tabName) {
                 <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${d.file}','${d.title}')">
                     <div class="doc-icon-large pdf" style="background:#f8fafc;color:#475569;"><i data-lucide="shield-check" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${d.title}</div>
-                    <div class="doc-card-meta"><span>Consulter</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
+                    <div class="doc-card-meta"><span>${qseLabels.consultLabel || ''}</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
                 </div>
             `).join('');
         }
@@ -3815,7 +3227,7 @@ function openAgendaTab(tabName) {
             list.innerHTML = qseSmiDocs.map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.title}')">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">SMI</div>
-                    <div class="doc-info"><div class="doc-title">${d.title}</div><div class="doc-meta">Dossier / GED‑like</div></div>
+                    <div class="doc-info"><div class="doc-title">${d.title}</div><div class="doc-meta">${qseLabels.smiMeta || ''}</div></div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('');
@@ -3828,7 +3240,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon-large" style="background:#fdf4ff;color:#7c3aed;"><i data-lucide="megaphone" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${p.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${p.meta}</p>
-                    <div class="doc-card-meta"><span>Consulter</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                    <div class="doc-card-meta"><span>${qseLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                 </div>
             `).join('');
         }
@@ -3841,7 +3253,7 @@ function openAgendaTab(tabName) {
                     <td style="padding:12px 16px;color:var(--text-light);">${a.date}</td>
                     <td style="padding:12px 16px;color:var(--text-light);">${a.status}</td>
                     <td style="padding:12px 16px;text-align:right;">
-                        <button class="actu-filter-btn" onclick="openMockDownload('${a.report}','${a.title}')">Télécharger</button>
+                        <button class="actu-filter-btn" onclick="openMockDownload('${a.report}','${a.title}')">${qseLabels.downloadLabel || ''}</button>
                     </td>
                 </tr>
             `).join('');
@@ -3851,25 +3263,17 @@ function openAgendaTab(tabName) {
             if (!root) return;
             root.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Non‑conformités</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">4</div>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Audits réalisés</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">2</div>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Taux actions clôturées</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">78%</div>
-                    </div>
+                    ${(qseKpisData.items || []).map(kpi => `
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">${kpi.label}</div>
+                            <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${kpi.value}</div>
+                        </div>
+                    `).join('')}
                 </div>
-                <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">Dashboard / widget (maquette) pour pilotage management/QSE.</div>
+                <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">${qseKpisData.description || ''}</div>
             `;
         }
-        let qseIdeaItems = getCmrData('qseIdeaItems', [
-            { title: 'Améliorer la signalétique sécurité', type: 'Sécurité', date: 'Avr 2026' }
-        ]);
+        let qseIdeaItems = getCmrData('qseIdeaItems', []);
         function renderQseIdeas() {
             const list = document.getElementById('qseIdeaList');
             if (!list) return;
@@ -3883,18 +3287,16 @@ function openAgendaTab(tabName) {
         }
         function submitQseIdea() {
             const t = (document.getElementById('qseIdeaTitle')?.value || '').trim();
-            const ty = (document.getElementById('qseIdeaType')?.value || 'Qualité').trim();
+            const ty = (document.getElementById('qseIdeaType')?.value || qseLabels.defaultIdeaType || '').trim();
             const d = (document.getElementById('qseIdeaDesc')?.value || '').trim();
             if (!t || !d) return;
-            qseIdeaItems = [{ title: t, type: ty, date: 'Aujourd’hui' }, ...qseIdeaItems];
+            qseIdeaItems = [{ title: t, type: ty, date: qseLabels.todayLabel || '' }, ...qseIdeaItems];
             document.getElementById('qseIdeaTitle').value = '';
             document.getElementById('qseIdeaDesc').value = '';
             renderQseIdeas();
         }
 
-        let qseRemontees = getCmrData('qseRemontees', [
-            { title: 'Zone glissante – escalier', date: 'Mars 2026' }
-        ]);
+        let qseRemontees = getCmrData('qseRemontees', []);
         function renderQseRemontees() {
             const list = document.getElementById('qseRemList');
             if (!list) return;
@@ -3911,7 +3313,7 @@ function openAgendaTab(tabName) {
             const t2 = (document.getElementById('qseRemTitle')?.value || '').trim();
             const d2 = (document.getElementById('qseRemDesc')?.value || '').trim();
             if (!t2 || !d2) return;
-            qseRemontees = [{ title: t2, date: 'Aujourd’hui' }, ...qseRemontees];
+            qseRemontees = [{ title: t2, date: qseLabels.todayLabel || '' }, ...qseRemontees];
             document.getElementById('qseRemTitle').value = '';
             document.getElementById('qseRemDesc').value = '';
             renderQseRemontees();
@@ -3919,22 +3321,21 @@ function openAgendaTab(tabName) {
         function renderQseStats() {
             const root = document.getElementById('qseStats');
             if (!root) return;
+            const statsCounts = {
+                remontees: qseRemontees.length,
+                idees: qseIdeaItems.length,
+                audits: qseAudits.length
+            };
             root.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Remontées</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${qseRemontees.length}</div>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Idées</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${qseIdeaItems.length}</div>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Audits</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${qseAudits.length}</div>
-                    </div>
+                    ${(qseStatsData.items || []).map(stat => `
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
+                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">${stat.label}</div>
+                            <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${statsCounts[stat.source] || 0}</div>
+                        </div>
+                    `).join('')}
                 </div>
-                <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">Dashboard (maquette) — Admin/QSE.</div>
+                <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">${qseStatsData.description || ''}</div>
             `;
         }
         function renderQseCulture() {
@@ -3945,8 +3346,8 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">QSE</div>
                     <div class="doc-info"><div class="doc-title">${c.title}</div><div class="doc-meta">${c.meta}</div></div>
                     <div style="display:flex;gap:8px;align-items:center;">
-                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${c.file}','${c.title}')">Consulter</button>
-                        <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('Participation_${c.title.replace(/\\s+/g,'_')}.pdf','Participation – ${c.title}')">Participer</button>
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${c.file}','${c.title}')">${qseLabels.consultLabel || ''}</button>
+                        <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('Participation_${c.title.replace(/\\s+/g,'_')}.pdf','Participation – ${c.title}')">${qseLabels.participateLabel || ''}</button>
                     </div>
                 </div>
             `).join('');
@@ -3959,8 +3360,8 @@ function openAgendaTab(tabName) {
                 <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${c.file}','${c.title}')">
                     <div class="doc-icon-large" style="background:#eff6ff;color:#2563eb;"><i data-lucide="${c.type === 'Vidéo' ? 'play-circle' : 'megaphone'}" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${c.title}</div>
-                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.type} · Portail dynamique</p>
-                    <div class="doc-card-meta"><span>Consulter</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.type} · ${qseLabels.portalMetaSuffix || ''}</p>
+                    <div class="doc-card-meta"><span>${qseLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -3973,8 +3374,8 @@ function openAgendaTab(tabName) {
                     ${qseResultatsAudits.map(r => `
                         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
                             <div style="font-weight:900;color:#0f172a;">${r.title}</div>
-                            <div style="margin-top:6px;font-size:12px;color:var(--text-light);">KPI : ${r.kpi}</div>
-                            <button class="primary-btn" style="margin-top:10px;" onclick="openMockDownload('${r.file}','${r.title}')">Dashboard / PDF</button>
+                            <div style="margin-top:6px;font-size:12px;color:var(--text-light);">${qseLabels.kpiPrefix || ''} ${r.kpi}</div>
+                            <button class="primary-btn" style="margin-top:10px;" onclick="openMockDownload('${r.file}','${r.title}')">${qseLabels.resultDownloadLabel || ''}</button>
                         </div>
                     `).join('')}
                 </div>
@@ -3985,11 +3386,11 @@ function openAgendaTab(tabName) {
             const grid = document.getElementById('qseContributionsGrid');
             if (!grid) return;
             grid.innerHTML = qseContributions.map(c => `
-                <div class="doc-card" style="cursor:pointer;" onclick="alert('Merci pour votre contribution (maquette).')">
+                <div class="doc-card" style="cursor:pointer;" onclick="alert('${qseLabels.contributionAlert || ''}')">
                     <div class="doc-icon-large" style="background:#f0fdf4;color:#16a34a;"><i data-lucide="lightbulb" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${c.title}</div>
-                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.auteur} · ${c.votes} votes · Boîte à idées</p>
-                    <div class="doc-card-meta"><span>Participer</span><i data-lucide="heart" style="width:16px;"></i></div>
+                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.auteur} · ${c.votes} votes · ${qseLabels.contributionMetaSuffix || ''}</p>
+                    <div class="doc-card-meta"><span>${qseLabels.participateLabel || ''}</span><i data-lucide="heart" style="width:16px;"></i></div>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -3998,17 +3399,7 @@ function openAgendaTab(tabName) {
         // ===== RÉGLEMENTAIRE (table conforme — onglet 10. Réglementaire) =====
         const regPages = ['textes','thematiques','procedures','notes','moteur','ged','gestion','workflow','historique','archives'];
 
-        const regSectionConfig = {
-            referentiels: { subs: [{ id: 'textes', label: 'Textes officiels' }], defaultSub: 'textes' },
-            structuration: { subs: [{ id: 'thematiques', label: 'Thématiques' }], defaultSub: 'thematiques' },
-            internes: { subs: [{ id: 'procedures', label: 'Procédures' }, { id: 'notes', label: 'Notes / guides' }], defaultSub: 'procedures' },
-            recherche: { subs: [{ id: 'moteur', label: 'Moteur de recherche' }], defaultSub: 'moteur' },
-            ged: { subs: [{ id: 'ged', label: 'Archivage' }], defaultSub: 'ged' },
-            gouvernance: { subs: [{ id: 'gestion', label: 'Gestion des contenus' }], defaultSub: 'gestion' },
-            validation: { subs: [{ id: 'workflow', label: 'Workflow validation' }], defaultSub: 'workflow' },
-            tracabilite: { subs: [{ id: 'historique', label: 'Historique' }], defaultSub: 'historique' },
-            archivage: { subs: [{ id: 'archives', label: 'Documents actifs / archivés' }], defaultSub: 'archives' }
-        };
+        const regSectionConfig = getCmrData('regSectionConfig', {});
 
         let regSection = 'referentiels';
         let regSub = 'textes';
@@ -4018,52 +3409,17 @@ function openAgendaTab(tabName) {
         let regHistoryFilter = 'all';
         let regArchiveMode = 'actifs';
 
-        const regTextesItems = getCmrData('regTextesItems', [
-            { title: 'Loi n° 12-34 – Gouvernance des organismes', type: 'Loi', ref: '12-34', date: '2024', tags: ['gouvernance','cadre'], file: 'Loi_12-34.pdf' },
-            { title: 'Décret n° 2-25-101 – Procédures de contrôle', type: 'Décret', ref: '2-25-101', date: '2025', tags: ['controle','qualite'], file: 'Decret_2-25-101.pdf' },
-            { title: 'Circulaire – Mise à jour reporting', type: 'Circulaire', ref: 'CIR-2026-04', date: 'Avr 2026', tags: ['reporting','finance'], file: 'Circulaire_Reporting_2026.pdf' },
-            { title: 'Décision – Charte éthique (v2)', type: 'Décision', ref: 'DEC-2026-02', date: 'Fév 2026', tags: ['ethique'], file: 'Decision_Charte_Ethique_v2.pdf' }
-        ]);
-
-        const regProcedures = getCmrData('regProcedures', [
-            { title: 'Procédure – Gestion des réclamations', meta: 'Procédure interne • v1.3', file: 'Procedure_Reclamations.pdf', tags: ['service','qualite'] },
-            { title: 'Procédure – Contrôle interne', meta: 'Procédure interne • v2.0', file: 'Procedure_Controle_Interne.pdf', tags: ['controle','audit'] },
-            { title: 'Procédure – Archivage des dossiers', meta: 'Procédure interne • v1.1', file: 'Procedure_Archivage_Dossiers.pdf', tags: ['archivage','ged'] }
-        ]);
-
-        const regNotes = getCmrData('regNotes', [
-            { title: 'Guide pratique – Lecture d’un texte officiel', meta: 'Note / guide • 10 pages', file: 'Guide_Lecture_Textes.pdf' },
-            { title: 'Note – Bonnes pratiques de conformité', meta: 'Note • MAJ 2026', file: 'Note_Bonnes_Pratiques_Conformite.pdf' }
-        ]);
-
-        const regGedArchives = getCmrData('regGedArchives', [
-            { title: 'Loi n° 08-12 – Retraite (archive)', meta: 'GED • version archivée', file: 'Archive_Loi_08-12.pdf' },
-            { title: 'Circulaire – Procédure 2022 (archive)', meta: 'GED • version archivée', file: 'Archive_Circulaire_2022.pdf' }
-        ]);
-
-        let regGestionItems = getCmrData('regGestionItems', [
-            { id: 'gc1', title: 'Procédure – Contrôle interne', type: 'Procédure', status: 'Publié' },
-            { id: 'gc2', title: 'Note – Conformité (MAJ)', type: 'Note', status: 'Brouillon' },
-            { id: 'gc3', title: 'Texte – Circulaire reporting', type: 'Circulaire', status: 'En validation' }
-        ]);
-
-        let regWorkflowQueue = getCmrData('regWorkflowQueue', [
-            { id: 'wf1', title: 'Note – Conformité (MAJ)', owner: 'Admin / métier', date: 'Aujourd’hui', action: 'Valider' },
-            { id: 'wf2', title: 'Texte – Circulaire reporting', owner: 'Admin / métier', date: 'Hier', action: 'Valider' }
-        ]);
-
-        let regHistory = getCmrData('regHistory', [
-            { id: 'h1', kind: 'create', text: 'Création: Procédure – Archivage des dossiers', date: 'Mars 2026' },
-            { id: 'h2', kind: 'update', text: 'Mise à jour: Décision – Charte éthique (v2)', date: 'Fév 2026' },
-            { id: 'h3', kind: 'validate', text: 'Validation: Procédure – Contrôle interne', date: 'Jan 2026' }
-        ]);
-
-        const regArchiveDocs = getCmrData('regArchiveDocs', [
-            { title: 'Procédure – Contrôle interne', state: 'actifs', tags: ['audit','controle','2026'], file: 'Procedure_Controle_Interne.pdf' },
-            { title: 'Note – Bonnes pratiques de conformité', state: 'actifs', tags: ['conformite','2026'], file: 'Note_Bonnes_Pratiques_Conformite.pdf' },
-            { title: 'Loi n° 08-12 – Retraite', state: 'archives', tags: ['retraite','2022'], file: 'Archive_Loi_08-12.pdf' },
-            { title: 'Circulaire – Procédure 2022', state: 'archives', tags: ['procedures','2022'], file: 'Archive_Circulaire_2022.pdf' }
-        ]);
+        const regPagesConfig = getCmrData('regPages', {});
+        const regThemes = getCmrData('regThemes', []);
+        const regLabels = getCmrData('regLabels', {});
+        const regTextesItems = getCmrData('regTextesItems', []);
+        const regProcedures = getCmrData('regProcedures', []);
+        const regNotes = getCmrData('regNotes', []);
+        const regGedArchives = getCmrData('regGedArchives', []);
+        let regGestionItems = getCmrData('regGestionItems', []);
+        let regWorkflowQueue = getCmrData('regWorkflowQueue', []);
+        let regHistory = getCmrData('regHistory', []);
+        const regArchiveDocs = getCmrData('regArchiveDocs', []);
 
         function switchRegSection(sectionId) {
             regSection = sectionId;
@@ -4130,14 +3486,14 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">${i.type.slice(0,3).toUpperCase()}</div>
                     <div class="doc-info">
                         <div class="doc-title">${i.title}</div>
-                        <div class="doc-meta">${i.type} • ${i.ref} • ${i.date} • tags: ${i.tags.join(', ')}</div>
+                        <div class="doc-meta">${i.type} • ${i.ref} • ${i.date} • ${regLabels.tagsLabel || ''}: ${i.tags.join(', ')}</div>
                     </div>
                     <div style="display:flex;gap:8px;align-items:center;">
-                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${i.file}','${i.title}')">Consulter</button>
-                        <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('${i.file}','Téléchargement – ${i.title}')">Télécharger</button>
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${i.file}','${i.title}')">${regLabels.consultLabel || ''}</button>
+                        <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('${i.file}','${regLabels.downloadLabel || ''} – ${i.title}')">${regLabels.downloadLabel || ''}</button>
                     </div>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun résultat.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noResult || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -4150,18 +3506,13 @@ function openAgendaTab(tabName) {
         function renderRegThematics() {
             const grid = document.getElementById('regThematicsGrid');
             if (!grid) return;
-            const themes = [
-                { title: 'Retraite', desc: 'Textes et procédures liés à la retraite.', icon: 'clock-3' },
-                { title: 'Gouvernance', desc: 'Référentiels, chartes, décisions.', icon: 'landmark' },
-                { title: 'Finance', desc: 'Reporting, conformité financière.', icon: 'wallet' },
-                { title: 'Sécurité', desc: 'Normes, consignes, contrôles.', icon: 'shield' }
-            ].filter(t => regTheme === 'all' || t.title === regTheme);
+            const themes = regThemes.filter(t => regTheme === 'all' || t.title === regTheme);
             grid.innerHTML = themes.map(t => `
                 <div class="doc-card" style="cursor:pointer;" onclick="setRegTextesType('all', null); switchRegSection('referentiels'); document.getElementById('regTextesSearch').value='${t.title.toLowerCase()}'; renderRegTextes();">
                     <div class="doc-icon-large" style="background:#f8fafc;color:#475569;"><i data-lucide="${t.icon}" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${t.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:6px;line-height:1.6;">${t.desc}</p>
-                    <div class="doc-card-meta"><span>Parcourir</span><i data-lucide="arrow-right" style="width:16px;color:#94a3b8;"></i></div>
+                    <div class="doc-card-meta"><span>${regLabels.browseLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;color:#94a3b8;"></i></div>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -4176,9 +3527,9 @@ function openAgendaTab(tabName) {
                 <div class="doc-item" onclick="openMockDownload('${p.file}','${p.title}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">PRC</div>
                     <div class="doc-info"><div class="doc-title">${p.title}</div><div class="doc-meta">${p.meta}</div></div>
-                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${p.file}','${p.title}')">Consulter</button>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${p.file}','${p.title}')">${regLabels.consultLabel || ''}</button>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucune procédure.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noProcedure || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -4189,7 +3540,7 @@ function openAgendaTab(tabName) {
                 <div class="doc-item" onclick="openMockDownload('${n.file}','${n.title}')">
                     <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">GDE</div>
                     <div class="doc-info"><div class="doc-title">${n.title}</div><div class="doc-meta">${n.meta}</div></div>
-                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${n.file}','${n.title}')">Consulter</button>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${n.file}','${n.title}')">${regLabels.consultLabel || ''}</button>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -4206,7 +3557,7 @@ function openAgendaTab(tabName) {
             if (!root) return;
             const q = (document.getElementById('regGlobalSearch')?.value || '').toLowerCase().trim();
             if (!q) {
-                root.innerHTML = `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Tapez un mot-clé pour lancer la recherche.</div>`;
+                root.innerHTML = `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.searchPrompt || ''}</div>`;
                 return;
             }
             const hit = (kind, title, meta, file) => ({ kind, title, meta, file });
@@ -4219,9 +3570,9 @@ function openAgendaTab(tabName) {
                 <div class="doc-item" onclick="openMockDownload('${h.file}','${h.title}')">
                     <div class="doc-icon" style="background:#f8fafc;color:#475569;font-weight:900;">${h.kind.slice(0,3).toUpperCase()}</div>
                     <div class="doc-info"><div class="doc-title">${h.title}</div><div class="doc-meta">${h.meta}</div></div>
-                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${h.file}','${h.title}')">Ouvrir</button>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${h.file}','${h.title}')">${regLabels.openLabel || ''}</button>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun résultat.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noResult || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -4232,7 +3583,7 @@ function openAgendaTab(tabName) {
                 <div class="doc-item" onclick="openMockDownload('${a.file}','${a.title}')">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">GED</div>
                     <div class="doc-info"><div class="doc-title">${a.title}</div><div class="doc-meta">${a.meta}</div></div>
-                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${a.file}','${a.title}')">Consulter</button>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${a.file}','${a.title}')">${regLabels.consultLabel || ''}</button>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -4240,13 +3591,13 @@ function openAgendaTab(tabName) {
 
         function regCreateContent() {
             const id = 'gc' + Math.random().toString(16).slice(2, 8);
-            regGestionItems = [{ id, title: 'Nouveau contenu (brouillon)', type: 'Document', status: 'Brouillon' }, ...regGestionItems];
-            regHistory = [{ id: 'h' + Date.now(), kind: 'create', text: 'Création: Nouveau contenu (brouillon)', date: 'Aujourd’hui' }, ...regHistory];
+            regGestionItems = [{ id, title: regLabels.newContentTitle || '', type: regLabels.newContentType || '', status: regLabels.draftStatus || '' }, ...regGestionItems];
+            regHistory = [{ id: 'h' + Date.now(), kind: 'create', text: `${regLabels.createdPrefix || ''} ${regLabels.newContentTitle || ''}`, date: regLabels.todayLabel || '' }, ...regHistory];
             renderRegGestion();
         }
         function regSetStatus(id, status) {
             regGestionItems = regGestionItems.map(it => it.id === id ? { ...it, status } : it);
-            regHistory = [{ id: 'h' + Date.now(), kind: status === 'Publié' ? 'validate' : 'update', text: `Statut: ${status} – ${regGestionItems.find(x => x.id === id)?.title || 'Contenu'}`, date: 'Aujourd’hui' }, ...regHistory];
+            regHistory = [{ id: 'h' + Date.now(), kind: status === (regLabels.publishedStatus || '') ? 'validate' : 'update', text: `${regLabels.statusPrefix || ''} ${status} – ${regGestionItems.find(x => x.id === id)?.title || regLabels.contentFallback || ''}`, date: regLabels.todayLabel || '' }, ...regHistory];
             renderRegGestion();
         }
         function renderRegGestion() {
@@ -4258,8 +3609,8 @@ function openAgendaTab(tabName) {
                     <td style="padding:12px 16px;color:var(--text-light);">${it.type}</td>
                     <td style="padding:12px 16px;color:var(--text-light);">${it.status}</td>
                     <td style="padding:12px 16px;text-align:right;">
-                        <button class="actu-filter-btn" onclick="regSetStatus('${it.id}','En validation')">Soumettre</button>
-                        <button class="actu-filter-btn" onclick="regSetStatus('${it.id}','Publié')">Publier</button>
+                        <button class="actu-filter-btn" onclick="regSetStatus('${it.id}','${regLabels.validationStatus || ''}')">${regLabels.submitLabel || ''}</button>
+                        <button class="actu-filter-btn" onclick="regSetStatus('${it.id}','${regLabels.publishedStatus || ''}')">${regLabels.publishLabel || ''}</button>
                     </td>
                 </tr>
             `).join('');
@@ -4268,7 +3619,7 @@ function openAgendaTab(tabName) {
         function regValidate(id, approved) {
             const item = regWorkflowQueue.find(x => x.id === id);
             regWorkflowQueue = regWorkflowQueue.filter(x => x.id !== id);
-            regHistory = [{ id: 'h' + Date.now(), kind: 'validate', text: `${approved ? 'Validation' : 'Rejet'}: ${item?.title || 'Contenu'}`, date: 'Aujourd’hui' }, ...regHistory];
+            regHistory = [{ id: 'h' + Date.now(), kind: 'validate', text: `${approved ? (regLabels.validationPrefix || '') : (regLabels.rejectionPrefix || '')}: ${item?.title || regLabels.contentFallback || ''}`, date: regLabels.todayLabel || '' }, ...regHistory];
             renderRegWorkflow();
         }
         function renderRegWorkflow() {
@@ -4279,11 +3630,11 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">WF</div>
                     <div class="doc-info"><div class="doc-title">${it.title}</div><div class="doc-meta">${it.owner} • ${it.date}</div></div>
                     <div style="display:flex;gap:8px;align-items:center;">
-                        <button class="actu-filter-btn" onclick="regValidate('${it.id}', false)">Rejeter</button>
-                        <button class="primary-btn" style="padding:8px 12px;" onclick="regValidate('${it.id}', true)">Valider</button>
+                        <button class="actu-filter-btn" onclick="regValidate('${it.id}', false)">${regLabels.rejectLabel || ''}</button>
+                        <button class="primary-btn" style="padding:8px 12px;" onclick="regValidate('${it.id}', true)">${regLabels.validateLabel || ''}</button>
                     </div>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun élément en attente.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noPending || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -4324,72 +3675,32 @@ function openAgendaTab(tabName) {
                     <div class="doc-info">
                         <div class="doc-title">${d.title}</div>
                         <div class="doc-meta">
-                            <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:800;background:${d.state === 'actifs' ? '#ecfdf5' : '#f1f5f9'};color:${d.state === 'actifs' ? '#047857' : '#64748b'};margin-right:6px;">${d.state === 'actifs' ? 'Actif' : 'Archivé'}</span>
-                            Tags: ${d.tags.join(', ')}
+                            <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:800;background:${d.state === 'actifs' ? '#ecfdf5' : '#f1f5f9'};color:${d.state === 'actifs' ? '#047857' : '#64748b'};margin-right:6px;">${d.state === 'actifs' ? (regLabels.activeLabel || '') : (regLabels.archivedLabel || '')}</span>
+                            ${regLabels.archiveTagsLabel || ''}: ${d.tags.join(', ')}
                         </div>
                     </div>
-                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${d.file}','${d.title}')">Consulter</button>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${d.file}','${d.title}')">${regLabels.consultLabel || ''}</button>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun document.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noDocument || ''}</div>`;
             lucide.createIcons();
         }
 
         // ===== ESPACES MÉTIERS (table conforme, via sidebar -> sous-rubriques) =====
         const metiersPages = ['domaines','referentiels','livrables','si','thematiques','mediatheque'];
 
-        const metiersSectionConfig = {
-            'structuration-metier': { subs: [{ id: 'domaines', label: 'Domaines métiers' }], defaultSub: 'domaines' },
-            'referentiels-metiers': { subs: [{ id: 'referentiels', label: 'Fournisseurs / projets / applications' }], defaultSub: 'referentiels' },
-            'documents-metiers': { subs: [{ id: 'livrables', label: 'Livrables' }], defaultSub: 'livrables' },
-            'integration-si': { subs: [{ id: 'si', label: 'Systèmes existants' }], defaultSub: 'si' },
-            'structuration': { subs: [{ id: 'thematiques', label: 'Thématiques' }], defaultSub: 'thematiques' },
-            'multimedia': { subs: [{ id: 'mediatheque', label: 'Médiathèque métier' }], defaultSub: 'mediatheque' }
-        };
+        const metiersSectionConfig = getCmrData('metiersSectionConfig', {});
 
         let metiersSection = 'structuration-metier';
         let metiersSub = 'domaines';
         let metiersRefType = 'all';
 
-        const metiersDomains = getCmrData('metiersDomains', [
-            { id: 'ret', title: 'Retraite', desc: 'Liquidation, suivi, réclamations, contrôles.' },
-            { id: 'prev', title: 'Prévoyance', desc: 'Prestations, dossiers, conformité.' },
-            { id: 'fin', title: 'Finance & Comptabilité', desc: 'Budgets, reporting, contrôle interne.' },
-            { id: 'gouv', title: 'Gouvernance', desc: 'Décisions, comités, textes et référentiels.' }
-        ]);
-
-        const metiersReferentiels = getCmrData('metiersReferentiels', [
-            { title: 'Fournisseur – GED (Editeur X)', type: 'Fournisseur', meta: 'Contrat • Support • SLA', file: 'Referentiel_Fournisseur_GED.pdf' },
-            { title: 'Projet – Refonte Intranet', type: 'Projet', meta: 'Roadmap • livrables • jalons', file: 'Referentiel_Projet_Intranet.pdf' },
-            { title: 'Application – GLPI', type: 'Application', meta: 'Catalogue services • tickets', file: 'Referentiel_App_GLPI.pdf' },
-            { title: 'Application – SIRH', type: 'Application', meta: 'Paie • Mobilité • dossiers', file: 'Referentiel_App_SIRH.pdf' }
-        ]);
-
-        const metiersLivrables = getCmrData('metiersLivrables', [
-            { title: 'SFD – Process liquidation (v1)', meta: 'Document • Dossier / GED‑like', file: 'Livrable_SFD_Liquidation_v1.pdf' },
-            { title: 'PV Atelier métier – Retraite', meta: 'Document • Compte-rendu', file: 'Livrable_PV_Atelier_Retraite.pdf' },
-            { title: 'Modèle – Fiche contrôle', meta: 'Document • Modèle', file: 'Modele_Fiche_Controle.docx' }
-        ]);
-
-        const metiersSiSystems = getCmrData('metiersSiSystems', [
-            { title: 'Système – GED', meta: 'Lien / widget • Accès', status: 'Connecté', file: 'Acces_GED.pdf' },
-            { title: 'Système – SIRH', meta: 'Lien / widget • Accès', status: 'Connecté', file: 'Acces_SIRH.pdf' },
-            { title: 'Système – DWH', meta: 'Application / data • Accès', status: 'En cours', file: 'Acces_DWH.pdf' }
-        ]);
-
-        const metiersThemes = getCmrData('metiersThemes', [
-            { title: 'Liquidation', desc: 'Règles, checklists, livrables.', tag: 'process' },
-            { title: 'Contrôle', desc: 'Contrôle interne, audits, conformité.', tag: 'controle' },
-            { title: 'SI', desc: 'Applications, API, intégrations.', tag: 'si' },
-            { title: 'Réclamations', desc: 'Traitement, SLA, procédures.', tag: 'service' },
-            { title: 'Reporting', desc: 'Indicateurs, publications, tableaux de bord.', tag: 'reporting' }
-        ]);
-
-        const metiersMedia = getCmrData('metiersMedia', [
-            { title: 'Capsule – Process liquidation', meta: 'Vidéo • 4 min', file: 'Media_Capsule_Liquidation.mp4' },
-            { title: 'Infographie – Parcours assuré', meta: 'Image • PNG', file: 'Media_Infographie_Parcours.png' },
-            { title: 'Album – Atelier métier', meta: 'Galerie • 12 photos', file: 'Media_Album_Atelier.zip' },
-            { title: 'Présentation – Domaine Retraite', meta: 'Slides • PPT', file: 'Media_Presentation_Retraite.pptx' }
-        ]);
+        const metiersPagesConfig = getCmrData('metiersPages', {});
+        const metiersDomains = getCmrData('metiersDomains', []);
+        const metiersReferentiels = getCmrData('metiersReferentiels', []);
+        const metiersLivrables = getCmrData('metiersLivrables', []);
+        const metiersSiSystems = getCmrData('metiersSiSystems', []);
+        const metiersThemes = getCmrData('metiersThemes', []);
+        const metiersMedia = getCmrData('metiersMedia', []);
 
         function switchMetiersSection(sectionId) {
             metiersSection = sectionId;
@@ -4445,7 +3756,7 @@ function openAgendaTab(tabName) {
             `).join('');
             lucide.createIcons();
             // default detail
-            openMetiersDomain(metiersDomains[0].id);
+            if (metiersDomains[0]) openMetiersDomain(metiersDomains[0].id);
         }
 
         function openMetiersDomain(id) {
@@ -4535,7 +3846,7 @@ function openAgendaTab(tabName) {
                     <div style="font-size:12px;color:#94a3b8;">${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 </div>
                 <div style="margin-top:8px;font-weight:900;color:${health === 'OK' ? '#16a34a' : '#f97316'};">${health}</div>
-                <div style="margin-top:8px;font-size:12px;color:var(--text-light);line-height:1.6;">Accéder aux systèmes existants et leurs intégrations.</div>
+                <div style="margin-top:8px;font-size:12px;color:var(--text-light);line-height:1.6;">${metiersPagesConfig.si?.widgetDescription || ''}</div>
             `;
         }
 
@@ -4593,70 +3904,31 @@ function openAgendaTab(tabName) {
 
         // ===== ESPACES COLLABORATIFS (table conforme, via sidebar -> sous-rubriques) =====
         const collabPages = ['forums','groupes','echanges','rex','animation','vieinterne'];
-
-        const collabSectionConfig = {
-            discussions: { subs: [{ id: 'forums', label: 'Forums' }], defaultSub: 'forums' },
-            communautes: { subs: [{ id: 'groupes', label: 'Groupes thématiques' }], defaultSub: 'groupes' },
-            echanges: { subs: [{ id: 'echanges', label: 'Discussions libres' }], defaultSub: 'echanges' },
-            partage: { subs: [{ id: 'rex', label: 'Informations / REX' }], defaultSub: 'rex' },
-            animation: { subs: [{ id: 'animation', label: 'Communautés internes' }], defaultSub: 'animation' },
-            vieinterne: { subs: [{ id: 'vieinterne', label: 'Vie interne' }], defaultSub: 'vieinterne' }
-        };
+        const collabText = getCmrData('collabPages', {});
+        const collabSectionConfig = getCmrData('collabSectionConfig', {});
 
         let collabSection = 'discussions';
         let collabSub = 'forums';
 
-        let collabForumThreads = getCmrData('collabForumThreads', [
-            { id: 't1', title: 'Question: procédure archivage', author: 'Collaborateur 07', date: 'Aujourd’hui', body: 'Quel est le bon circuit pour archiver un dossier ?', replies: [
-                { author: 'Collaborateur 03', date: 'Aujourd’hui', text: 'Voir la procédure interne (rubrique réglementaire).' }
-            ]},
-            { id: 't2', title: 'Bonnes pratiques: gestion des mots de passe', author: 'Collaborateur 12', date: 'Hier', body: 'Partagez vos bonnes pratiques.', replies: [] }
-        ]);
+        let collabForumThreads = getCmrData('collabForumThreads', []);
         let collabActiveThreadId = null;
 
-        let collabGroups = getCmrData('collabGroups', [
-            { id: 'g1', name: 'Groupe Qualité', members: 56, desc: 'Process, conformité, REX.' },
-            { id: 'g2', name: 'Groupe Data / BI', members: 102, desc: 'Tableaux de bord, KPI, bonnes pratiques.' },
-            { id: 'g3', name: 'Groupe RH', members: 44, desc: 'Mobilité, formation, vie interne.' }
-        ]);
+        let collabGroups = getCmrData('collabGroups', []);
         let collabJoinedGroups = new Set(['g2']);
         let collabActiveGroupId = null;
-        let collabGroupThreads = getCmrData('collabGroupThreads', [
-            { groupId: 'g2', title: 'Convention de nommage datasets', meta: 'Data/BI • 3j' },
-            { groupId: 'g2', title: 'Bonnes pratiques Power BI', meta: 'Data/BI • 2h' },
-            { groupId: 'g1', title: 'REX audit interne', meta: 'Qualité • hier' }
-        ]);
+        let collabGroupThreads = getCmrData('collabGroupThreads', []);
 
-        let collabPosts = getCmrData('collabPosts', [
-            { id: 'p1', author: 'Collaborateur 05', date: 'Aujourd’hui', text: 'Info: réunion technique à 16h (Salle 2).', comments: [{ author: 'Collaborateur 09', date: 'Aujourd’hui', text: 'Merci, je serai présent.' }] },
-            { id: 'p2', author: 'Collaborateur 11', date: 'Hier', text: 'Question: qui a le modèle PV atelier ?', comments: [] }
-        ]);
+        let collabPosts = getCmrData('collabPosts', []);
         let collabActivePostId = null;
 
-        let collabRex = getCmrData('collabRex', [
-            { id: 'r1', title: 'REX – Mise en production', date: 'Mars 2026', body: 'Points forts: communication. Amélioration: tests automatisés.', file: 'REX_MEP.pdf' },
-            { id: 'r2', title: 'Info – Nouvelle charte interne', date: 'Fév 2026', body: 'La charte interne est disponible en téléchargement.', file: 'Charte_Interne.pdf' }
-        ]);
+        let collabRex = getCmrData('collabRex', []);
         let collabActiveRexId = null;
 
-        let collabEvents = getCmrData('collabEvents', [
-            { id: 'e1', title: 'Café communauté Data/BI', date: '15 Mai 2026', desc: 'Partage d’astuces, retours d’expérience.', participants: 18 },
-            { id: 'e2', title: 'Atelier Qualité', date: '28 Mai 2026', desc: 'Amélioration continue: idées & actions.', participants: 12 }
-        ]);
+        let collabEvents = getCmrData('collabEvents', []);
         let collabActiveEventId = null;
 
-        let collabCulturePosts = getCmrData('collabCulturePosts', [
-            { id: 'c1', title: 'Bienvenue aux nouveaux arrivants', date: 'Avr 2026', body: 'Une session d’intégration est prévue cette semaine.' },
-            { id: 'c2', title: 'Semaine bien‑être', date: 'Mars 2026', body: 'Programme: sport, nutrition, échanges.' }
-        ]);
-        const collabGallery = getCmrData('collabGallery', [
-            { title: 'Photo – Atelier', file: 'Galerie_Atelier_01.png' },
-            { title: 'Photo – Vie interne', file: 'Galerie_Vie_02.png' },
-            { title: 'Photo – Évènement', file: 'Galerie_Event_03.png' },
-            { title: 'Photo – Team', file: 'Galerie_Team_04.png' },
-            { title: 'Photo – Conférence', file: 'Galerie_Conf_05.png' },
-            { title: 'Photo – Workshop', file: 'Galerie_WS_06.png' }
-        ]);
+        let collabCulturePosts = getCmrData('collabCulturePosts', []);
+        const collabGallery = getCmrData('collabGallery', []);
 
         function switchCollabSection(sectionId) {
             collabSection = sectionId;
@@ -4718,7 +3990,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-info"><div class="doc-title">${t.title}</div><div class="doc-meta">${t.author} • ${t.date} • ${t.replies.length} réponse(s)</div></div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 18px 18px;">Aucun sujet.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 18px 18px;">${collabText.forums?.emptyList || ''}</div>`;
             if (collabActiveThreadId) openForumThread(collabActiveThreadId);
             lucide.createIcons();
         }
@@ -4732,18 +4004,18 @@ function openAgendaTab(tabName) {
                 <div style="font-weight:900;color:#0f172a;">${t.title}</div>
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${t.author} • ${t.date}</div>
                 <div style="margin-top:12px;color:#334155;line-height:1.7;font-size:13px;">${t.body}</div>
-                <div style="margin-top:14px;font-weight:900;color:#0f172a;">Réponses</div>
+                <div style="margin-top:14px;font-weight:900;color:#0f172a;">${collabText.forums?.replyTitle || ''}</div>
                 <div style="margin-top:8px;">
                     ${(t.replies.length ? t.replies.map(r => `
                         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;margin-bottom:10px;">
                             <div style="font-size:12px;color:var(--text-light);">${r.author} • ${r.date}</div>
                             <div style="margin-top:6px;font-size:13px;color:#334155;line-height:1.6;">${r.text}</div>
                         </div>
-                    `).join('') : `<div style="color:var(--text-light);font-size:13px;">Aucune réponse.</div>`)}
+                    `).join('') : `<div style="color:var(--text-light);font-size:13px;">${collabText.forums?.emptyReplies || ''}</div>`)}
                 </div>
                 <div style="margin-top:12px;display:flex;gap:10px;">
-                    <input id="forumReplyText" class="actu-search-input" placeholder="Répondre…" style="height:40px;padding-left:14px;">
-                    <button class="primary-btn" onclick="replyForumThread()">Répondre</button>
+                    <input id="forumReplyText" class="actu-search-input" placeholder="${collabText.forums?.replyPlaceholder || ''}" style="height:40px;padding-left:14px;">
+                    <button class="primary-btn" onclick="replyForumThread()">${collabText.forums?.replyLabel || ''}</button>
                 </div>
             `;
         }
@@ -4785,7 +4057,7 @@ function openAgendaTab(tabName) {
                 <div class="doc-item" onclick="openCollabGroup('${g.id}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">GRP</div>
                     <div class="doc-info"><div class="doc-title">${g.name}</div><div class="doc-meta">${g.members} membres • ${g.desc}</div></div>
-                    <button class="actu-filter-btn" onclick="event.stopPropagation(); toggleJoinGroup('${g.id}')">${collabJoinedGroups.has(g.id) ? 'Quitter' : 'Rejoindre'}</button>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); toggleJoinGroup('${g.id}')">${collabJoinedGroups.has(g.id) ? (collabText.groupes?.leaveLabel || '') : (collabText.groupes?.joinLabel || '')}</button>
                 </div>
             `).join('');
             if (collabActiveGroupId) openCollabGroup(collabActiveGroupId);
@@ -4817,7 +4089,7 @@ function openAgendaTab(tabName) {
                         <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${g.members} membres</div>
                     </div>
                     <div style="display:flex;gap:10px;">
-                        <button class="primary-btn" onclick="toggleJoinGroup('${g.id}')">${collabJoinedGroups.has(g.id) ? 'Échanger' : 'Rejoindre, échanger'}</button>
+                        <button class="primary-btn" onclick="toggleJoinGroup('${g.id}')">${collabJoinedGroups.has(g.id) ? (collabText.groupes?.exchangeLabel || '') : (collabText.groupes?.joinExchangeLabel || '')}</button>
                     </div>
                 </div>
             `;
@@ -4828,7 +4100,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-info"><div class="doc-title">${t.title}</div><div class="doc-meta">${t.meta}</div></div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucun échange.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">${collabText.groupes?.emptyThreads || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -4888,7 +4160,7 @@ function openAgendaTab(tabName) {
                     <div style="font-size:12px;color:var(--text-light);">${c.author} • ${c.date}</div>
                     <div style="margin-top:6px;font-size:13px;color:#334155;line-height:1.6;">${c.text}</div>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucun commentaire.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">${collabText.echanges?.emptyComments || ''}</div>`;
         }
 
         function addCollabComment() {
@@ -4915,9 +4187,9 @@ function openAgendaTab(tabName) {
                 <div class="doc-item" onclick="openCollabRex('${r.id}')">
                     <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">REX</div>
                     <div class="doc-info"><div class="doc-title">${r.title}</div><div class="doc-meta">${r.date}</div></div>
-                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${r.file}','${r.title}')">Consulter</button>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${r.file}','${r.title}')">${collabText.rex?.consultLabel || ''}</button>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 18px 18px;">Aucun article.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 18px 18px;">${collabText.rex?.emptyList || ''}</div>`;
             if (collabActiveRexId) openCollabRex(collabActiveRexId);
             lucide.createIcons();
         }
@@ -4932,7 +4204,7 @@ function openAgendaTab(tabName) {
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${r.date}</div>
                 <div style="margin-top:12px;color:#334155;line-height:1.7;font-size:13px;">${r.body}</div>
                 <div style="margin-top:12px;display:flex;justify-content:flex-end;">
-                    <button class="primary-btn" onclick="openMockDownload('${r.file}','${r.title}')">Consulter</button>
+                    <button class="primary-btn" onclick="openMockDownload('${r.file}','${r.title}')">${collabText.rex?.consultLabel || ''}</button>
                 </div>
             `;
         }
@@ -5013,7 +4285,7 @@ function openAgendaTab(tabName) {
                 <div class="doc-item">
                     <div class="doc-icon" style="background:#fce7f3;color:#db2777;font-weight:900;">VIE</div>
                     <div class="doc-info"><div class="doc-title">${p.title}</div><div class="doc-meta">${p.date}</div><div style="margin-top:6px;color:#334155;font-size:13px;line-height:1.6;">${p.body}</div></div>
-                    <button class="actu-filter-btn" onclick="openMockDownload('Culture_${p.title.replace(/\\s+/g,'_')}.pdf','${p.title}')">Consulter</button>
+                    <button class="actu-filter-btn" onclick="openMockDownload('Culture_${p.title.replace(/\\s+/g,'_')}.pdf','${p.title}')">${collabText.vieinterne?.consultLabel || ''}</button>
                 </div>
             `).join('');
             gal.innerHTML = collabGallery.map(i => `
@@ -5024,7 +4296,7 @@ function openAgendaTab(tabName) {
                     <div style="padding:10px;">
                         <div style="font-weight:900;color:#0f172a;font-size:12px;line-height:1.4;">${i.title}</div>
                         <div style="display:flex;justify-content:flex-end;margin-top:8px;">
-                            <button class="actu-filter-btn" onclick="openMockDownload('${i.file}','${i.title}')">Consulter</button>
+                            <button class="actu-filter-btn" onclick="openMockDownload('${i.file}','${i.title}')">${collabText.vieinterne?.consultLabel || ''}</button>
                         </div>
                     </div>
                 </div>

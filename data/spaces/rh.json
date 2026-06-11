@@ -2,6 +2,615 @@
   "space": "rh",
   "updatedAt": "2026-06-08",
   "data": {
+    "rhHeader": {
+      "title": "Ressources Humaines",
+      "description": "Gérez votre carrière, accédez à vos documents et découvrez nos opportunités internes."
+    },
+    "rhTabs": [
+      {
+        "id": "carriere",
+        "label": "Ma Carrière"
+      },
+      {
+        "id": "formation",
+        "label": "Formation"
+      },
+      {
+        "id": "documents",
+        "label": "Documents RH"
+      },
+      {
+        "id": "offres",
+        "label": "Postes Vacants"
+      },
+      {
+        "id": "managers",
+        "label": "Espace Managers"
+      },
+      {
+        "id": "enquetes",
+        "label": "Enquêtes RH"
+      },
+      {
+        "id": "applis",
+        "label": "Mes Applis"
+      },
+      {
+        "id": "forums",
+        "label": "Forums & Groupes"
+      },
+      {
+        "id": "viesociale",
+        "label": "Vie Sociale"
+      },
+      {
+        "id": "activites",
+        "label": "Activités"
+      }
+    ],
+    "rhOffresIntro": "Consultez et postulez aux postes vacants en interne.",
+    "rhOffresFilters": {
+      "directions": [
+        "Toutes les directions",
+        "DSI",
+        "Direction Financière",
+        "Direction de la Communication",
+        "Direction Technique"
+      ],
+      "niveaux": [
+        "Tous les niveaux",
+        "Cadre",
+        "Expert",
+        "Manager"
+      ]
+    },
+    "rhOffresList": [
+      {
+        "id": "bi",
+        "title": "Chef de Projet BI (H/F)",
+        "meta": "Direction des Systèmes d'Information · Casablanca · Cadre",
+        "published": "Publié il y a 3 jours · 2 candidatures",
+        "status": "Ouvert",
+        "statusBackground": "#dcfce7",
+        "statusColor": "#15803d"
+      },
+      {
+        "id": "comdig",
+        "title": "Responsable Communication Digital (H/F)",
+        "meta": "Direction de la Communication · Siège · Manager",
+        "published": "Publié il y a 5 jours · 4 candidatures",
+        "status": "Ouvert",
+        "statusBackground": "#dcfce7",
+        "statusColor": "#15803d"
+      },
+      {
+        "id": "actuariat",
+        "title": "Analyste Risques & Actuariat (H/F)",
+        "meta": "Direction Technique · Casablanca · Expert",
+        "published": "Clôture le 30/04/2026 · 7 candidatures",
+        "status": "Clôture imminente",
+        "statusBackground": "#fef3c7",
+        "statusColor": "#92400e"
+      }
+    ],
+    "rhPages": {
+      "carriere": {
+        "cards": [
+          {
+            "title": "Profil Collaborateur",
+            "fields": [
+              { "label": "Poste :", "value": "Consultant Senior" },
+              { "label": "Département :", "value": "Digital & Innovation" },
+              { "label": "Ancienneté :", "value": "4 ans" }
+            ],
+            "action": "Modifier le profil"
+          },
+          {
+            "title": "Évolution & Objectifs",
+            "fields": [
+              { "label": "Entretien Annuel :", "value": "Réalisé le 15/01/2026" },
+              { "label": "Objectifs fixés :", "value": "5/5" },
+              { "label": "Bonus atteint :", "value": "100%" }
+            ],
+            "action": "Voir le compte-rendu"
+          },
+          {
+            "title": "Compétences & Badges",
+            "badges": ["Agilité", "Design Thinking", "Tech Expert"],
+            "action": "Espace Compétences"
+          }
+        ],
+        "timelineTitle": "Parcours Collaborateur",
+        "timelineIntro": "Suivez les différentes étapes du cycle de vie du collaborateur : onboarding, mobilité, départ.",
+        "timeline": [
+          {
+            "title": "Onboarding",
+            "description": "Intégration & accueil",
+            "status": "Complété"
+          },
+          {
+            "title": "Prise de poste",
+            "description": "Objectifs & formation",
+            "status": "En cours"
+          },
+          {
+            "title": "Mobilité",
+            "description": "Interne / promotion",
+            "status": "À venir"
+          },
+          {
+            "title": "Départ",
+            "description": "Offboarding",
+            "status": "N/A"
+          }
+        ]
+      },
+      "formation": {
+        "catalogueTitle": "Catalogue de Formation",
+        "catalogue": [
+          {
+            "title": "Leadership & Management",
+            "description": "12 modules · 18h · Interne",
+            "theme": "management",
+            "type": "interne",
+            "duree": "moyen",
+            "icon": "book-open",
+            "iconStyle": { "background": "#eff6ff", "color": "#3b82f6" },
+            "action": "S'inscrire",
+            "actionStyle": { "color": "#3b82f6", "fontWeight": 600 }
+          },
+          {
+            "title": "Data & Intelligence Artificielle",
+            "description": "8 modules · 12h · e-Learning",
+            "theme": "data",
+            "type": "elearning",
+            "duree": "moyen",
+            "icon": "bar-chart-2",
+            "iconStyle": { "background": "#f0fdf4", "color": "#16a34a" },
+            "action": "S'inscrire",
+            "actionStyle": { "color": "#16a34a", "fontWeight": 600 }
+          },
+          {
+            "title": "Conformité & Réglementation",
+            "description": "5 modules · 8h · Externe",
+            "theme": "conformite",
+            "type": "externe",
+            "duree": "court",
+            "icon": "shield",
+            "iconStyle": { "background": "#fff7ed", "color": "#ea580c" },
+            "action": "S'inscrire",
+            "actionStyle": { "color": "#ea580c", "fontWeight": 600 }
+          },
+          {
+            "title": "Soft Skills & Communication",
+            "description": "10 modules · 15h · Interne",
+            "theme": "softskills",
+            "type": "interne",
+            "duree": "moyen",
+            "icon": "users",
+            "iconStyle": { "background": "#fdf2f8", "color": "#db2777" },
+            "action": "S'inscrire",
+            "actionStyle": { "color": "#db2777", "fontWeight": 600 }
+          }
+        ],
+        "supportsTitle": "Supports Pédagogiques & e-Learning",
+        "supports": [
+          {
+            "title": "Module e-Learning : Excel Avancé",
+            "description": "Vidéo · 2h30",
+            "icon": "video",
+            "iconStyle": { "background": "#fef3c7", "color": "#d97706" },
+            "action": "Lire",
+            "actionIcon": "play",
+            "actionStyle": { "color": "#d97706", "fontWeight": 600 }
+          },
+          {
+            "title": "Guide Agilité – CMR Way.pdf",
+            "description": "Document · 34 pages",
+            "iconClass": "doc-icon-large pdf",
+            "icon": "file-text",
+            "action": "Télécharger",
+            "actionIcon": "download",
+            "actionIconStyle": { "width": 16, "color": "#94a3b8" }
+          },
+          {
+            "title": "Podcast : Intelligence Émotionnelle",
+            "description": "Audio · 45min",
+            "icon": "mic",
+            "iconStyle": { "background": "#f0fdf4", "color": "#16a34a" },
+            "action": "Écouter",
+            "actionIcon": "headphones",
+            "actionStyle": { "color": "#16a34a", "fontWeight": 600 }
+          }
+        ],
+        "demandeTitle": "Demande de Formation",
+        "demandeIntro": "Renseignez les informations de votre demande. Elle sera transmise à votre manager puis à la RH.",
+        "demandesTable": {
+          "columns": ["Formation demandée", "Type", "Date souhaitée", "Soumise le", "Statut"],
+          "rows": [
+            {
+              "cells": ["Power BI – Tableaux de bord avancés", "e-Learning", "Mai 2026", "10/04/2026"],
+              "status": "Validée RH",
+              "statusBackground": "#dcfce7",
+              "statusColor": "#15803d"
+            },
+            {
+              "cells": ["Leadership & Influence", "Externe", "Juin 2026", "18/04/2026"],
+              "status": "En attente manager",
+              "statusBackground": "#fef3c7",
+              "statusColor": "#92400e"
+            },
+            {
+              "cells": ["Certification PMP", "Certification", "Sept 2026", "22/04/2026"],
+              "status": "Refusée",
+              "statusBackground": "#fee2e2",
+              "statusColor": "#991b1b"
+            }
+          ]
+        },
+        "workflowTitle": "Circuit de validation d'une demande",
+        "workflow": [
+          { "label": "Collaborateur", "description": "Soumet", "icon": "user", "background": "#3b82f6" },
+          { "label": "Manager", "description": "Valide / refuse", "icon": "users", "background": "#f59e0b" },
+          { "label": "RH", "description": "Valide & planifie", "icon": "shield-check", "background": "#16a34a" },
+          { "label": "Confirmée", "description": "Notification", "icon": "check-circle", "background": "#8b5cf6" }
+        ],
+        "historiqueTitle": "Historique des Formations",
+        "historiqueTable": {
+          "columns": ["Formation", "Type", "Date", "Durée", "Statut"],
+          "rows": [
+            {
+              "cells": ["Design Thinking & Innovation", "Externe", "10–12 Jan 2026", "3 jours"],
+              "status": "Validée",
+              "statusBackground": "#dcfce7",
+              "statusColor": "#15803d"
+            },
+            {
+              "cells": ["Gestion de Projet Agile (PMI-ACP)", "Certification", "5 Mars 2025", "5 jours"],
+              "status": "Validée",
+              "statusBackground": "#dcfce7",
+              "statusColor": "#15803d"
+            },
+            {
+              "cells": ["Power BI – Tableau de bord avancé", "e-Learning", "Avr 2026", "6h"],
+              "status": "En cours",
+              "statusBackground": "#fef3c7",
+              "statusColor": "#92400e"
+            }
+          ]
+        }
+      },
+      "documents": {
+        "documentsTitle": "Mes Documents RH",
+        "documents": [
+          {
+            "title": "Demande d'Attestation de Travail.pdf",
+            "iconClass": "doc-icon-large pdf",
+            "icon": "file-text",
+            "action": "Formulaire",
+            "actionIcon": "download",
+            "actionIconStyle": { "width": 16, "color": "#94a3b8" },
+            "onClick": "openPdfPreviewModal('docs/Demande_Attestation_de_Travail.pdf','Demande d\\'Attestation de Travail')"
+          },
+          {
+            "title": "Règlement Intérieur 2026.pdf",
+            "iconClass": "doc-icon-large pdf",
+            "icon": "file-text",
+            "action": "Information",
+            "actionIcon": "download",
+            "actionIconStyle": { "width": 16, "color": "#94a3b8" },
+            "onClick": "openPdfPreviewModal('docs/Reglement_Interieur_2026.pdf','Règlement Intérieur 2026')"
+          },
+          {
+            "title": "Modèle Demande de Congé Exceptionnel.docx",
+            "iconClass": "doc-icon-large word",
+            "icon": "file-text",
+            "action": "Formulaire",
+            "actionIcon": "download",
+            "actionIconStyle": { "width": 16, "color": "#94a3b8" }
+          }
+        ],
+        "chartesTitle": "Valeurs & Chartes RH",
+        "chartes": [
+          {
+            "title": "Charte des Valeurs CMR",
+            "description": "Les 5 valeurs fondatrices qui guident notre organisation.",
+            "action": "Consulter",
+            "icon": "heart",
+            "hoverBg": "#fffbeb",
+            "hoverBorder": "#fde68a",
+            "iconBackground": "linear-gradient(135deg, #f59e0b, #d97706)"
+          },
+          {
+            "title": "Charte Éthique & Déontologie",
+            "description": "Principes d'intégrité et comportements attendus.",
+            "action": "Consulter",
+            "icon": "shield-check",
+            "hoverBg": "#f5f3ff",
+            "hoverBorder": "#ddd6fe",
+            "iconBackground": "linear-gradient(135deg, #8b5cf6, #7c3aed)"
+          },
+          {
+            "title": "Charte RSE",
+            "description": "Engagements sociaux et environnementaux de la CMR.",
+            "action": "Consulter",
+            "icon": "leaf",
+            "hoverBg": "#f0fdf4",
+            "hoverBorder": "#bbf7d0",
+            "iconBackground": "linear-gradient(135deg, #22c55e, #16a34a)"
+          }
+        ],
+        "referentielsTitle": "Référentiels RH Réglementaires",
+        "referentiels": [
+          {
+            "title": "Statut du Personnel CMR",
+            "description": "Texte réglementaire · Mise à jour 2026",
+            "icon": "scale",
+            "iconStyle": { "background": "#fef2f2", "color": "#dc2626" },
+            "action": "Dossier",
+            "actionIcon": "folder-open",
+            "actionIconStyle": { "width": 16, "color": "#94a3b8" }
+          },
+          {
+            "title": "Procédures RH Internes",
+            "description": "Procédures · 15 documents",
+            "icon": "book",
+            "iconStyle": { "background": "#fef2f2", "color": "#dc2626" },
+            "action": "Dossier",
+            "actionIcon": "folder-open",
+            "actionIconStyle": { "width": 16, "color": "#94a3b8" }
+          },
+          {
+            "title": "Référentiel des Emplois & Compétences",
+            "description": "GPEC · Version 2025",
+            "icon": "list-checks",
+            "iconStyle": { "background": "#fef2f2", "color": "#dc2626" },
+            "action": "Dossier",
+            "actionIcon": "folder-open",
+            "actionIconStyle": { "width": 16, "color": "#94a3b8" }
+          }
+        ]
+      },
+      "managers": {
+        "intro": "Ressources dédiées aux managers : guides, outils et boîte à outils RH.",
+        "guidesTitle": "Guides & Outils",
+        "guides": [
+          {
+            "title": "Guide du Manager CMR",
+            "description": "Toutes les pratiques RH essentielles pour bien manager.",
+            "action": "Consulter",
+            "icon": "book-open",
+            "hoverBg": "#f0f9ff",
+            "hoverBorder": "#bae6fd",
+            "iconBackground": "linear-gradient(135deg, #0ea5e9, #0284c7)"
+          },
+          {
+            "title": "Conduite des Entretiens",
+            "description": "Grilles et bonnes pratiques pour l'entretien annuel.",
+            "action": "Télécharger",
+            "actionIcon": "download",
+            "icon": "clipboard-list",
+            "hoverBg": "#f0fdf4",
+            "hoverBorder": "#bbf7d0",
+            "iconBackground": "linear-gradient(135deg, #22c55e, #16a34a)"
+          },
+          {
+            "title": "Gestion des Absences",
+            "description": "Procédures et formulaires de gestion des absences.",
+            "action": "Accéder",
+            "icon": "users",
+            "hoverBg": "#fff7ed",
+            "hoverBorder": "#fed7aa",
+            "iconBackground": "linear-gradient(135deg, #f97316, #ea580c)"
+          },
+          {
+            "title": "Tableaux de Bord RH",
+            "description": "Suivi des indicateurs d'équipe : turnover, absentéisme, formation.",
+            "action": "Voir",
+            "icon": "bar-chart",
+            "hoverBg": "#fdf2f8",
+            "hoverBorder": "#fbcfe8",
+            "iconBackground": "linear-gradient(135deg, #ec4899, #db2777)"
+          }
+        ],
+        "calendarTitle": "Calendrier RH Manager",
+        "calendar": [
+          {
+            "day": "30",
+            "month": "AVRL",
+            "title": "Clôture des évaluations de performance T1",
+            "meta": "Tous les managers · En ligne",
+            "background": "#eff6ff",
+            "color": "#2563eb"
+          },
+          {
+            "day": "15",
+            "month": "MAI",
+            "title": "Atelier Managers : Feedback 360°",
+            "meta": "Salle A · 9h00–12h00",
+            "background": "#f0fdf4",
+            "color": "#16a34a"
+          }
+        ]
+      },
+      "enquetes": {
+        "intro": "Baromètres sociaux, enquêtes d'engagement et indicateurs RH.",
+        "kpis": [
+          { "value": "87%", "label": "Taux d'engagement", "trend": "↑ +3% vs 2025", "color": "#16a34a" },
+          { "value": "4.2/5", "label": "Satisfaction manager", "trend": "↑ +0.4 vs 2025", "color": "#3b82f6" },
+          { "value": "92%", "label": "Taux de participation", "trend": "Baromètre 2025", "color": "#f59e0b", "trendColor": "#64748b" },
+          { "value": "3.8%", "label": "Taux d'absentéisme", "trend": "↓ -0.5% vs 2025", "color": "#8b5cf6", "trendColor": "#16a34a" }
+        ],
+        "activeTitle": "Enquêtes en cours",
+        "active": [
+          {
+            "title": "Baromètre Social 2026",
+            "description": "Clôture le 05/05/2026 · 156 répondants",
+            "icon": "clipboard",
+            "iconStyle": { "background": "#eff6ff", "color": "#3b82f6" },
+            "cardStyle": { "borderLeft": "4px solid #3b82f6" },
+            "progress": 65,
+            "progressColor": "#3b82f6",
+            "action": "Répondre",
+            "actionStyle": { "color": "#3b82f6", "fontWeight": 600 }
+          },
+          {
+            "title": "Enquête Bien-être au Travail",
+            "description": "Clôture le 10/05/2026 · 89 répondants",
+            "icon": "smile",
+            "iconStyle": { "background": "#f0fdf4", "color": "#16a34a" },
+            "cardStyle": { "borderLeft": "4px solid #16a34a" },
+            "progress": 40,
+            "progressColor": "#16a34a",
+            "action": "Répondre",
+            "actionStyle": { "color": "#16a34a", "fontWeight": 600 }
+          }
+        ],
+        "resultsTitle": "Résultats des Enquêtes Précédentes",
+        "results": [
+          {
+            "title": "Baromètre Social 2025 – Résultats",
+            "iconClass": "doc-icon-large pdf",
+            "icon": "file-bar-chart",
+            "action": "Rapport",
+            "actionIcon": "download",
+            "actionIconStyle": { "width": 16, "color": "#94a3b8" }
+          },
+          {
+            "title": "Enquête Télétravail 2025 – Synthèse",
+            "iconClass": "doc-icon-large pdf",
+            "icon": "file-bar-chart",
+            "action": "Rapport",
+            "actionIcon": "download",
+            "actionIconStyle": { "width": 16, "color": "#94a3b8" }
+          }
+        ]
+      },
+      "applis": {
+        "intro": "Accédez à l'ensemble des applications RH depuis un point unique.",
+        "title": "Applications RH",
+        "items": [
+          { "title": "SIRH", "description": "Gestion RH", "icon": "user-check", "background": "linear-gradient(135deg, #3b82f6, #2563eb)" },
+          { "title": "Congés", "description": "Gestion absences", "icon": "calendar", "background": "linear-gradient(135deg, #16a34a, #15803d)" },
+          { "title": "Paie", "description": "Bulletins de paie", "icon": "dollar-sign", "background": "linear-gradient(135deg, #f59e0b, #d97706)" },
+          { "title": "LMS", "description": "Formations en ligne", "icon": "graduation-cap", "background": "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
+          { "title": "Performance", "description": "Objectifs & éval.", "icon": "target", "background": "linear-gradient(135deg, #ec4899, #db2777)" },
+          { "title": "Helpdesk RH", "description": "Support & tickets", "icon": "message-circle", "background": "linear-gradient(135deg, #14b8a6, #0d9488)" }
+        ]
+      },
+      "forums": {
+        "intro": "Échangez sur les sujets RH avec vos collègues et les communautés métier.",
+        "buttonLabel": "Nouveau post",
+        "items": [
+          {
+            "title": "Forum Bien-être & QVT",
+            "meta": "243 membres · 12 discussions actives",
+            "status": "Actif",
+            "author": "Sarah B.",
+            "when": "il y a 2h",
+            "avatar": "SB",
+            "message": "Quelles sont vos pratiques pour maintenir l'équilibre travail / vie perso en télétravail ?",
+            "likes": "14",
+            "commentLabel": "Commenter"
+          },
+          {
+            "title": "Communauté Managers",
+            "meta": "87 membres · 6 discussions actives",
+            "status": "Actif",
+            "author": "Karim A.",
+            "when": "hier",
+            "avatar": "KA",
+            "message": "Partage de la nouvelle grille d'entretien annuel 2026 — vos retours sont les bienvenus.",
+            "likes": "31",
+            "commentLabel": "Commenter"
+          },
+          {
+            "title": "Communauté Innovation RH",
+            "meta": "134 membres · 8 discussions actives",
+            "status": "Actif",
+            "author": "Nadia B.",
+            "when": "il y a 3 jours",
+            "avatar": "NB",
+            "message": "Comment intégrez-vous l'IA dans vos processus RH ? Retours d'expérience bienvenus.",
+            "likes": "22",
+            "commentLabel": "Commenter"
+          }
+        ]
+      },
+      "viesociale": {
+        "intro": "Valorisez la vie interne et l'engagement collaborateur : événements, photos et initiatives collaboratives.",
+        "eventsTitle": "Événements & Initiatives",
+        "events": [
+          {
+            "day": "05",
+            "month": "MAI 2026",
+            "title": "Journée Portes Ouvertes CMR",
+            "tag": "Événement",
+            "meta": "Siège CMR · 9h00 – 17h00 · Ouvert à tous",
+            "description": "Découvrez les coulisses de la CMR et les projets en cours lors de notre grande journée annuelle.",
+            "button": "Participer"
+          },
+          {
+            "day": "20",
+            "month": "MAI 2026",
+            "title": "Team Building Digital 2026",
+            "tag": "Initiative",
+            "meta": "Salle Innovation · Direction Digital & IT",
+            "description": "Hackathon interne, défis collaboratifs et remise des trophées CMR Digital Awards.",
+            "button": "Participer"
+          },
+          {
+            "day": "12",
+            "month": "JUIN 2026",
+            "title": "Fête de Fin d'Année CMR",
+            "tag": "Événement",
+            "meta": "Hôtel Sofitel Rabat · 19h00 · Sur invitation",
+            "description": "Soirée annuelle de célébration des réussites et de cohésion entre toutes les équipes CMR.",
+            "button": "Participer"
+          }
+        ],
+        "galleryTitle": "Galerie Photos",
+        "gallery": [
+          { "src": "images/intranet/news_contract.jpg", "alt": "Signature du contrat programme" },
+          { "src": "images/intranet/news_board.jpg", "alt": "Conseil d'administration CMR" },
+          { "src": "images/intranet/news_academy.jpg", "alt": "Session CMR Academy" },
+          { "src": "images/intranet/slider_cmr_tech.png", "alt": "Innovation et transformation digitale" },
+          { "src": "images/intranet/slider_partnership.png", "alt": "Partenariat CMR" },
+          { "src": "images/intranet/slider1.png", "alt": "Temps fort intranet CMR" },
+          { "src": "images/intranet/slider2.png", "alt": "Initiative collaborateurs" }
+        ],
+        "galleryMoreLabel": "Voir tout"
+      },
+      "activites": {
+        "intro": "Mettez en avant les initiatives des services.",
+        "items": [
+          {
+            "title": "Association Solidarité CMR",
+            "description": "Collecte de dons pour les employés en difficulté. Jusqu'au 30/04/2026.",
+            "icon": "heart",
+            "iconBackground": "#fdf2f8",
+            "iconColor": "#db2777",
+            "action": "Consulter"
+          },
+          {
+            "title": "Tournoi Sportif CMR 2026",
+            "description": "Football, tennis de table, course à pied. Inscriptions ouvertes jusqu'au 15/05.",
+            "icon": "trophy",
+            "iconBackground": "#eff6ff",
+            "iconColor": "#3b82f6",
+            "action": "Consulter"
+          },
+          {
+            "title": "Petit-déjeuner Métiers",
+            "description": "Rencontres mensuelles inter-directions. Prochain : 05/05/2026, Cafétéria Siège.",
+            "icon": "coffee",
+            "iconBackground": "#fef3c7",
+            "iconColor": "#d97706",
+            "action": "Consulter"
+          }
+        ]
+      }
+    },
     "offresData": {
       "bi": {
         "titre": "Chef de Projet BI (H/F)",

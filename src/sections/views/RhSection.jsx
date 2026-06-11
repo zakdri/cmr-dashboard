@@ -1,16 +1,174 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getRhData() {
+  return {
+    header: window.CMR_DATA?.data?.rhHeader || {},
+    tabs: window.CMR_DATA?.data?.rhTabs || [],
+    pages: window.CMR_DATA?.data?.rhPages || {},
+    offresIntro: window.CMR_DATA?.data?.rhOffresIntro || "",
+    offresFilters: window.CMR_DATA?.data?.rhOffresFilters || {},
+    offresList: window.CMR_DATA?.data?.rhOffresList || []
+  };
+}
+
+function DocCard({ card, className = "doc-card" }) {
+  return (
+    <div
+      className={className}
+      data-theme={card.theme}
+      data-type={card.type}
+      data-duree={card.duree}
+      style={card.cardStyle || { cursor: "pointer" }}
+      onClick={
+        card.onClick
+          ? (event) => runLegacyHandler(event, card.onClick)
+          : undefined
+      }
+    >
+      <div
+        className={card.iconClass || "doc-icon-large"}
+        style={card.iconStyle}
+      >
+        <i
+          data-lucide={card.icon || "file-text"}
+          style={{ width: 24, height: 24 }}
+        />
+      </div>
+      <div className="doc-card-title">{card.title}</div>
+      {card.description ? (
+        <p
+          style={{
+            fontSize: 12,
+            color: "var(--text-light)",
+            marginTop: 6,
+          }}
+        >
+          {card.description}
+        </p>
+      ) : null}
+      <div className="doc-card-meta">
+        <span style={card.actionStyle}>{card.action}</span>
+        <i
+          data-lucide={card.actionIcon || "arrow-right"}
+          style={card.actionIconStyle || { width: 16 }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function AppLargeCard({ card }) {
+  return (
+    <a
+      href={card.href || "#"}
+      className="app-card-large"
+      style={{
+        "--hover-bg": card.hoverBg,
+        "--hover-border": card.hoverBorder,
+        textDecoration: "none",
+      }}
+    >
+      <div
+        className="app-card-icon-large"
+        style={{ background: card.iconBackground }}
+      >
+        <i data-lucide={card.icon} style={{ width: 24, height: 24 }} />
+      </div>
+      <div className="app-card-content">
+        <span className="app-card-title-large">{card.title}</span>
+        <p className="app-card-desc">{card.description}</p>
+        <div className="app-card-action">
+          {card.action}
+          <i data-lucide={card.actionIcon || "arrow-right"} style={{ width: 14 }} />
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function StatusTable({ table }) {
+  return (
+    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+      <thead>
+        <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0" }}>
+          {(table.columns || []).map((column) => (
+            <th
+              key={column}
+              style={{
+                padding: "12px 16px",
+                textAlign: "left",
+                fontWeight: 600,
+                color: "#475569",
+              }}
+            >
+              {column}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {(table.rows || []).map((row, rowIndex) => (
+          <tr
+            key={`${row.title}-${rowIndex}`}
+            style={
+              rowIndex < table.rows.length - 1
+                ? { borderBottom: "1px solid #f1f5f9" }
+                : undefined
+            }
+          >
+            {(row.cells || []).map((cell, cellIndex) => (
+              <td
+                key={`${cell}-${cellIndex}`}
+                style={{
+                  padding: "12px 16px",
+                  color: cellIndex === 0 ? "#1e293b" : "var(--text-light)",
+                  fontWeight: cellIndex === 0 ? 500 : undefined,
+                }}
+              >
+                {cell}
+              </td>
+            ))}
+            <td style={{ padding: "12px 16px" }}>
+              <span
+                style={{
+                  background: row.statusBackground,
+                  color: row.statusColor,
+                  padding: "3px 10px",
+                  borderRadius: 20,
+                  fontSize: 11,
+                  fontWeight: 600,
+                }}
+              >
+                {row.status}
+              </span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 export default function RhSection() {
+  const { header, tabs, pages, offresIntro, offresFilters, offresList } =
+    getRhData();
+  const carrierePage = pages.carriere || {};
+  const formationPage = pages.formation || {};
+  const documentsPage = pages.documents || {};
+  const managersPage = pages.managers || {};
+  const enquetesPage = pages.enquetes || {};
+  const rhApplisPage = pages.applis || {};
+  const forumsPage = pages.forums || {};
+  const vieSocialePage = pages.viesociale || {};
+  const activitesPage = pages.activites || {};
+
   return (
     <>
       <div id="view-rh" className="view-section km-container">
         <div className="km-header">
-          <h2>Ressources Humaines</h2>
-          <p>
-            Gérez votre carrière, accédez à vos documents et découvrez nos
-            opportunités internes.
-          </p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
         <div
           className="km-navbar"
@@ -25,204 +183,33 @@ export default function RhSection() {
             flexWrap: "nowrap",
           }}
         >
-          <div
-            className="km-nav-item active"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('carriere')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Ma Carrière
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('formation')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Formation
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('documents')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Documents RH
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('offres')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Postes Vacants
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('managers')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Espace Managers
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('enquetes')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Enquêtes RH
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('applis')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Mes Applis
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('forums')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Forums &amp; Groupes
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('viesociale')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Vie Sociale
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchRhPageTab('activites')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Activités
-          </div>
+          {tabs.map((tab, index) => (
+            <React.Fragment key={tab.id}>
+              <div
+                className={`km-nav-item${index === 0 ? " active" : ""}`}
+                onClick={(event) =>
+                  runLegacyHandler(event, `switchRhPageTab('${tab.id}')`)
+                }
+                style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
+              >
+                {tab.label}
+              </div>
+              {index < tabs.length - 1 ? (
+                <span
+                  style={{
+                    color: "#cbd5e1",
+                    fontWeight: 300,
+                    fontSize: 18,
+                    lineHeight: 1,
+                    alignSelf: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  |
+                </span>
+              ) : null}
+            </React.Fragment>
+          ))}
         </div>
         {/* TAB: MA CARRIÈRE */}
         <div
@@ -238,7 +225,9 @@ export default function RhSection() {
               >
                 <i data-lucide="user" style={{ width: 24, height: 24 }} />
               </div>
-              <div className="doc-card-title">Profil Collaborateur</div>
+              <div className="doc-card-title">
+                {carrierePage.cards?.[0]?.title}
+              </div>
               <div
                 style={{
                   fontSize: 13,
@@ -247,18 +236,21 @@ export default function RhSection() {
                 }}
               >
                 <p>
-                  <strong>Poste :</strong> Consultant Senior
+                  <strong>{carrierePage.cards?.[0]?.fields?.[0]?.label}</strong>{" "}
+                  {carrierePage.cards?.[0]?.fields?.[0]?.value}
                 </p>
                 <p>
-                  <strong>Département :</strong> Digital &amp; Innovation
+                  <strong>{carrierePage.cards?.[0]?.fields?.[1]?.label}</strong>{" "}
+                  {carrierePage.cards?.[0]?.fields?.[1]?.value}
                 </p>
                 <p>
-                  <strong>Ancienneté :</strong> 4 ans
+                  <strong>{carrierePage.cards?.[0]?.fields?.[2]?.label}</strong>{" "}
+                  {carrierePage.cards?.[0]?.fields?.[2]?.value}
                 </p>
               </div>
               <div className="doc-card-meta">
                 <span style={{ color: "#3b82f6", fontWeight: 600 }}>
-                  Modifier le profil
+                  {carrierePage.cards?.[0]?.action}
                 </span>
                 <i data-lucide="external-link" style={{ width: 16 }} />
               </div>
@@ -273,7 +265,9 @@ export default function RhSection() {
                   style={{ width: 24, height: 24 }}
                 />
               </div>
-              <div className="doc-card-title">Évolution &amp; Objectifs</div>
+              <div className="doc-card-title">
+                {carrierePage.cards?.[1]?.title}
+              </div>
               <div
                 style={{
                   fontSize: 13,
@@ -282,18 +276,21 @@ export default function RhSection() {
                 }}
               >
                 <p>
-                  <strong>Entretien Annuel :</strong> Réalisé le 15/01/2026
+                  <strong>{carrierePage.cards?.[1]?.fields?.[0]?.label}</strong>{" "}
+                  {carrierePage.cards?.[1]?.fields?.[0]?.value}
                 </p>
                 <p>
-                  <strong>Objectifs fixés :</strong> 5/5
+                  <strong>{carrierePage.cards?.[1]?.fields?.[1]?.label}</strong>{" "}
+                  {carrierePage.cards?.[1]?.fields?.[1]?.value}
                 </p>
                 <p>
-                  <strong>Bonus atteint :</strong> 100%
+                  <strong>{carrierePage.cards?.[1]?.fields?.[2]?.label}</strong>{" "}
+                  {carrierePage.cards?.[1]?.fields?.[2]?.value}
                 </p>
               </div>
               <div className="doc-card-meta">
                 <span style={{ color: "#16a34a", fontWeight: 600 }}>
-                  Voir le compte-rendu
+                  {carrierePage.cards?.[1]?.action}
                 </span>
                 <i data-lucide="file-text" style={{ width: 16 }} />
               </div>
@@ -305,7 +302,9 @@ export default function RhSection() {
               >
                 <i data-lucide="award" style={{ width: 24, height: 24 }} />
               </div>
-              <div className="doc-card-title">Compétences &amp; Badges</div>
+              <div className="doc-card-title">
+                {carrierePage.cards?.[2]?.title}
+              </div>
               <div
                 style={{
                   display: "flex",
@@ -324,7 +323,7 @@ export default function RhSection() {
                     color: "#be185d",
                   }}
                 >
-                  Agilité
+                  {carrierePage.cards?.[2]?.badges?.[0]}
                 </span>
                 <span
                   style={{
@@ -336,7 +335,7 @@ export default function RhSection() {
                     color: "#be185d",
                   }}
                 >
-                  Design Thinking
+                  {carrierePage.cards?.[2]?.badges?.[1]}
                 </span>
                 <span
                   style={{
@@ -348,12 +347,12 @@ export default function RhSection() {
                     color: "#be185d",
                   }}
                 >
-                  Tech Expert
+                  {carrierePage.cards?.[2]?.badges?.[2]}
                 </span>
               </div>
               <div className="doc-card-meta">
                 <span style={{ color: "#db2777", fontWeight: 600 }}>
-                  Espace Compétences
+                  {carrierePage.cards?.[2]?.action}
                 </span>
                 <i data-lucide="chevron-right" style={{ width: 16 }} />
               </div>
@@ -362,7 +361,7 @@ export default function RhSection() {
           {/* Parcours Collaborateur Timeline */}
           <div style={{ marginTop: 36 }}>
             <div className="app-category-title" style={{ marginBottom: 20 }}>
-              Parcours Collaborateur
+              {carrierePage.timelineTitle}
             </div>
             <div
               style={{
@@ -379,8 +378,7 @@ export default function RhSection() {
                   marginBottom: 28,
                 }}
               >
-                Suivez les différentes étapes du cycle de vie du collaborateur :
-                onboarding, mobilité, départ.
+                {carrierePage.timelineIntro}
               </p>
               <div
                 style={{
@@ -440,7 +438,7 @@ export default function RhSection() {
                         color: "#1e293b",
                       }}
                     >
-                      Onboarding
+                      {carrierePage.timeline?.[0]?.title}
                     </div>
                     <div
                       style={{
@@ -449,7 +447,7 @@ export default function RhSection() {
                         marginTop: 4,
                       }}
                     >
-                      Intégration &amp; accueil
+                      {carrierePage.timeline?.[0]?.description}
                     </div>
                     <span
                       style={{
@@ -463,7 +461,7 @@ export default function RhSection() {
                         fontWeight: 600,
                       }}
                     >
-                      Complété
+                      {carrierePage.timeline?.[0]?.status}
                     </span>
                   </div>
                 </div>
@@ -502,7 +500,7 @@ export default function RhSection() {
                         color: "#1e293b",
                       }}
                     >
-                      Prise de poste
+                      {carrierePage.timeline?.[1]?.title}
                     </div>
                     <div
                       style={{
@@ -511,7 +509,7 @@ export default function RhSection() {
                         marginTop: 4,
                       }}
                     >
-                      Objectifs &amp; formation
+                      {carrierePage.timeline?.[1]?.description}
                     </div>
                     <span
                       style={{
@@ -525,7 +523,7 @@ export default function RhSection() {
                         fontWeight: 600,
                       }}
                     >
-                      En cours
+                      {carrierePage.timeline?.[1]?.status}
                     </span>
                   </div>
                 </div>
@@ -564,7 +562,7 @@ export default function RhSection() {
                         color: "#1e293b",
                       }}
                     >
-                      Mobilité
+                      {carrierePage.timeline?.[2]?.title}
                     </div>
                     <div
                       style={{
@@ -573,7 +571,7 @@ export default function RhSection() {
                         marginTop: 4,
                       }}
                     >
-                      Interne / promotion
+                      {carrierePage.timeline?.[2]?.description}
                     </div>
                     <span
                       style={{
@@ -587,7 +585,7 @@ export default function RhSection() {
                         fontWeight: 600,
                       }}
                     >
-                      À venir
+                      {carrierePage.timeline?.[2]?.status}
                     </span>
                   </div>
                 </div>
@@ -626,7 +624,7 @@ export default function RhSection() {
                         color: "#1e293b",
                       }}
                     >
-                      Départ
+                      {carrierePage.timeline?.[3]?.title}
                     </div>
                     <div
                       style={{
@@ -635,7 +633,7 @@ export default function RhSection() {
                         marginTop: 4,
                       }}
                     >
-                      Offboarding
+                      {carrierePage.timeline?.[3]?.description}
                     </div>
                     <span
                       style={{
@@ -649,7 +647,7 @@ export default function RhSection() {
                         fontWeight: 600,
                       }}
                     >
-                      N/A
+                      {carrierePage.timeline?.[3]?.status}
                     </span>
                   </div>
                 </div>
@@ -665,7 +663,7 @@ export default function RhSection() {
         >
           {/* Catalogue de formation */}
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Catalogue de Formation
+            {formationPage.catalogueTitle}
           </div>
           {/* Filtres */}
           <div
@@ -784,9 +782,14 @@ export default function RhSection() {
                 className="doc-icon-large"
                 style={{ background: "#eff6ff", color: "#3b82f6" }}
               >
-                <i data-lucide="book-open" style={{ width: 24, height: 24 }} />
+                <i
+                  data-lucide={formationPage.catalogue?.[0]?.icon || "book-open"}
+                  style={{ width: 24, height: 24 }}
+                />
               </div>
-              <div className="doc-card-title">Leadership &amp; Management</div>
+              <div className="doc-card-title">
+                {formationPage.catalogue?.[0]?.title}
+              </div>
               <p
                 style={{
                   fontSize: 12,
@@ -794,11 +797,11 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                12 modules · 18h · Interne
+                {formationPage.catalogue?.[0]?.description}
               </p>
               <div className="doc-card-meta">
                 <span style={{ color: "#3b82f6", fontWeight: 600 }}>
-                  S'inscrire
+                  {formationPage.catalogue?.[0]?.action}
                 </span>
                 <i data-lucide="arrow-right" style={{ width: 16 }} />
               </div>
@@ -815,12 +818,12 @@ export default function RhSection() {
                 style={{ background: "#f0fdf4", color: "#16a34a" }}
               >
                 <i
-                  data-lucide="bar-chart-2"
+                  data-lucide={formationPage.catalogue?.[1]?.icon || "bar-chart-2"}
                   style={{ width: 24, height: 24 }}
                 />
               </div>
               <div className="doc-card-title">
-                Data &amp; Intelligence Artificielle
+                {formationPage.catalogue?.[1]?.title}
               </div>
               <p
                 style={{
@@ -829,11 +832,11 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                8 modules · 12h · e-Learning
+                {formationPage.catalogue?.[1]?.description}
               </p>
               <div className="doc-card-meta">
                 <span style={{ color: "#16a34a", fontWeight: 600 }}>
-                  S'inscrire
+                  {formationPage.catalogue?.[1]?.action}
                 </span>
                 <i data-lucide="arrow-right" style={{ width: 16 }} />
               </div>
@@ -849,10 +852,13 @@ export default function RhSection() {
                 className="doc-icon-large"
                 style={{ background: "#fff7ed", color: "#ea580c" }}
               >
-                <i data-lucide="shield" style={{ width: 24, height: 24 }} />
+                <i
+                  data-lucide={formationPage.catalogue?.[2]?.icon || "shield"}
+                  style={{ width: 24, height: 24 }}
+                />
               </div>
               <div className="doc-card-title">
-                Conformité &amp; Réglementation
+                {formationPage.catalogue?.[2]?.title}
               </div>
               <p
                 style={{
@@ -861,11 +867,11 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                5 modules · 8h · Externe
+                {formationPage.catalogue?.[2]?.description}
               </p>
               <div className="doc-card-meta">
                 <span style={{ color: "#ea580c", fontWeight: 600 }}>
-                  S'inscrire
+                  {formationPage.catalogue?.[2]?.action}
                 </span>
                 <i data-lucide="arrow-right" style={{ width: 16 }} />
               </div>
@@ -881,10 +887,13 @@ export default function RhSection() {
                 className="doc-icon-large"
                 style={{ background: "#fdf2f8", color: "#db2777" }}
               >
-                <i data-lucide="users" style={{ width: 24, height: 24 }} />
+                <i
+                  data-lucide={formationPage.catalogue?.[3]?.icon || "users"}
+                  style={{ width: 24, height: 24 }}
+                />
               </div>
               <div className="doc-card-title">
-                Soft Skills &amp; Communication
+                {formationPage.catalogue?.[3]?.title}
               </div>
               <p
                 style={{
@@ -893,11 +902,11 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                10 modules · 15h · Interne
+                {formationPage.catalogue?.[3]?.description}
               </p>
               <div className="doc-card-meta">
                 <span style={{ color: "#db2777", fontWeight: 600 }}>
-                  S'inscrire
+                  {formationPage.catalogue?.[3]?.action}
                 </span>
                 <i data-lucide="arrow-right" style={{ width: 16 }} />
               </div>
@@ -905,7 +914,7 @@ export default function RhSection() {
           </div>
           {/* Supports Pédagogiques */}
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Supports Pédagogiques &amp; e-Learning
+            {formationPage.supportsTitle}
           </div>
           <div className="km-grid" style={{ marginBottom: 36 }}>
             <div className="doc-card">
@@ -913,10 +922,13 @@ export default function RhSection() {
                 className="doc-icon-large"
                 style={{ background: "#fef3c7", color: "#d97706" }}
               >
-                <i data-lucide="video" style={{ width: 24, height: 24 }} />
+                <i
+                  data-lucide={formationPage.supports?.[0]?.icon || "video"}
+                  style={{ width: 24, height: 24 }}
+                />
               </div>
               <div className="doc-card-title">
-                Module e-Learning : Excel Avancé
+                {formationPage.supports?.[0]?.title}
               </div>
               <p
                 style={{
@@ -925,10 +937,12 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                Vidéo · 2h30
+                {formationPage.supports?.[0]?.description}
               </p>
               <div className="doc-card-meta">
-                <span style={{ color: "#d97706", fontWeight: 600 }}>Lire</span>
+                <span style={{ color: "#d97706", fontWeight: 600 }}>
+                  {formationPage.supports?.[0]?.action}
+                </span>
                 <i data-lucide="play" style={{ width: 16 }} />
               </div>
             </div>
@@ -936,7 +950,9 @@ export default function RhSection() {
               <div className="doc-icon-large pdf">
                 <i data-lucide="file-text" style={{ width: 24, height: 24 }} />
               </div>
-              <div className="doc-card-title">Guide Agilité – CMR Way.pdf</div>
+              <div className="doc-card-title">
+                {formationPage.supports?.[1]?.title}
+              </div>
               <p
                 style={{
                   fontSize: 12,
@@ -944,10 +960,10 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                Document · 34 pages
+                {formationPage.supports?.[1]?.description}
               </p>
               <div className="doc-card-meta">
-                <span>Télécharger</span>
+                <span>{formationPage.supports?.[1]?.action}</span>
                 <i
                   data-lucide="download"
                   style={{ width: 16, color: "#94a3b8" }}
@@ -959,10 +975,13 @@ export default function RhSection() {
                 className="doc-icon-large"
                 style={{ background: "#f0fdf4", color: "#16a34a" }}
               >
-                <i data-lucide="mic" style={{ width: 24, height: 24 }} />
+                <i
+                  data-lucide={formationPage.supports?.[2]?.icon || "mic"}
+                  style={{ width: 24, height: 24 }}
+                />
               </div>
               <div className="doc-card-title">
-                Podcast : Intelligence Émotionnelle
+                {formationPage.supports?.[2]?.title}
               </div>
               <p
                 style={{
@@ -971,11 +990,11 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                Audio · 45min
+                {formationPage.supports?.[2]?.description}
               </p>
               <div className="doc-card-meta">
                 <span style={{ color: "#16a34a", fontWeight: 600 }}>
-                  Écouter
+                  {formationPage.supports?.[2]?.action}
                 </span>
                 <i data-lucide="headphones" style={{ width: 16 }} />
               </div>
@@ -991,7 +1010,7 @@ export default function RhSection() {
             }}
           >
             <div className="app-category-title" style={{ marginBottom: 0 }}>
-              Demande de Formation
+              {formationPage.demandeTitle}
             </div>
             <div style={{ display: "flex", gap: 8 }}>
               <button
@@ -1057,8 +1076,7 @@ export default function RhSection() {
                 marginBottom: 20,
               }}
             >
-              Renseignez les informations de votre demande. Elle sera transmise
-              à votre manager puis à la RH.
+              {formationPage.demandeIntro}
             </p>
             <div
               style={{
@@ -1218,7 +1236,7 @@ export default function RhSection() {
                         color: "#475569",
                       }}
                     >
-                      Formation demandée
+                      {formationPage.demandesTable?.columns?.[0]}
                     </th>
                     <th
                       style={{
@@ -1228,7 +1246,7 @@ export default function RhSection() {
                         color: "#475569",
                       }}
                     >
-                      Type
+                      {formationPage.demandesTable?.columns?.[1]}
                     </th>
                     <th
                       style={{
@@ -1238,7 +1256,7 @@ export default function RhSection() {
                         color: "#475569",
                       }}
                     >
-                      Date souhaitée
+                      {formationPage.demandesTable?.columns?.[2]}
                     </th>
                     <th
                       style={{
@@ -1248,7 +1266,7 @@ export default function RhSection() {
                         color: "#475569",
                       }}
                     >
-                      Soumise le
+                      {formationPage.demandesTable?.columns?.[3]}
                     </th>
                     <th
                       style={{
@@ -1258,7 +1276,7 @@ export default function RhSection() {
                         color: "#475569",
                       }}
                     >
-                      Statut
+                      {formationPage.demandesTable?.columns?.[4]}
                     </th>
                   </tr>
                 </thead>
@@ -1271,7 +1289,7 @@ export default function RhSection() {
                         fontWeight: 500,
                       }}
                     >
-                      Power BI – Tableaux de bord avancés
+                      {formationPage.demandesTable?.rows?.[0]?.cells?.[0]}
                     </td>
                     <td
                       style={{
@@ -1279,7 +1297,7 @@ export default function RhSection() {
                         color: "var(--text-light)",
                       }}
                     >
-                      e-Learning
+                      {formationPage.demandesTable?.rows?.[0]?.cells?.[1]}
                     </td>
                     <td
                       style={{
@@ -1287,7 +1305,7 @@ export default function RhSection() {
                         color: "var(--text-light)",
                       }}
                     >
-                      Mai 2026
+                      {formationPage.demandesTable?.rows?.[0]?.cells?.[2]}
                     </td>
                     <td
                       style={{
@@ -1295,7 +1313,7 @@ export default function RhSection() {
                         color: "var(--text-light)",
                       }}
                     >
-                      10/04/2026
+                      {formationPage.demandesTable?.rows?.[0]?.cells?.[3]}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       <span
@@ -1308,7 +1326,7 @@ export default function RhSection() {
                           fontWeight: 600,
                         }}
                       >
-                        Validée RH
+                        {formationPage.demandesTable?.rows?.[0]?.status}
                       </span>
                     </td>
                   </tr>
@@ -1320,7 +1338,7 @@ export default function RhSection() {
                         fontWeight: 500,
                       }}
                     >
-                      Leadership &amp; Influence
+                      {formationPage.demandesTable?.rows?.[1]?.cells?.[0]}
                     </td>
                     <td
                       style={{
@@ -1328,7 +1346,7 @@ export default function RhSection() {
                         color: "var(--text-light)",
                       }}
                     >
-                      Externe
+                      {formationPage.demandesTable?.rows?.[1]?.cells?.[1]}
                     </td>
                     <td
                       style={{
@@ -1336,7 +1354,7 @@ export default function RhSection() {
                         color: "var(--text-light)",
                       }}
                     >
-                      Juin 2026
+                      {formationPage.demandesTable?.rows?.[1]?.cells?.[2]}
                     </td>
                     <td
                       style={{
@@ -1344,7 +1362,7 @@ export default function RhSection() {
                         color: "var(--text-light)",
                       }}
                     >
-                      18/04/2026
+                      {formationPage.demandesTable?.rows?.[1]?.cells?.[3]}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       <span
@@ -1357,7 +1375,7 @@ export default function RhSection() {
                           fontWeight: 600,
                         }}
                       >
-                        En attente manager
+                        {formationPage.demandesTable?.rows?.[1]?.status}
                       </span>
                     </td>
                   </tr>
@@ -1369,7 +1387,7 @@ export default function RhSection() {
                         fontWeight: 500,
                       }}
                     >
-                      Certification PMP
+                      {formationPage.demandesTable?.rows?.[2]?.cells?.[0]}
                     </td>
                     <td
                       style={{
@@ -1377,7 +1395,7 @@ export default function RhSection() {
                         color: "var(--text-light)",
                       }}
                     >
-                      Certification
+                      {formationPage.demandesTable?.rows?.[2]?.cells?.[1]}
                     </td>
                     <td
                       style={{
@@ -1385,7 +1403,7 @@ export default function RhSection() {
                         color: "var(--text-light)",
                       }}
                     >
-                      Sept 2026
+                      {formationPage.demandesTable?.rows?.[2]?.cells?.[2]}
                     </td>
                     <td
                       style={{
@@ -1393,7 +1411,7 @@ export default function RhSection() {
                         color: "var(--text-light)",
                       }}
                     >
-                      22/04/2026
+                      {formationPage.demandesTable?.rows?.[2]?.cells?.[3]}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       <span
@@ -1406,7 +1424,7 @@ export default function RhSection() {
                           fontWeight: 600,
                         }}
                       >
-                        Refusée
+                        {formationPage.demandesTable?.rows?.[2]?.status}
                       </span>
                     </td>
                   </tr>
@@ -1433,7 +1451,7 @@ export default function RhSection() {
                   letterSpacing: "0.5px",
                 }}
               >
-                Circuit de validation d'une demande
+                {formationPage.workflowTitle}
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
                 <div style={{ textAlign: "center", flex: 1 }}>
@@ -1462,9 +1480,11 @@ export default function RhSection() {
                       marginTop: 6,
                     }}
                   >
-                    Collaborateur
+                    {formationPage.workflow?.[0]?.label}
                   </div>
-                  <div style={{ fontSize: 10, color: "#94a3b8" }}>Soumet</div>
+                  <div style={{ fontSize: 10, color: "#94a3b8" }}>
+                    {formationPage.workflow?.[0]?.description}
+                  </div>
                 </div>
                 <div style={{ flex: 1, height: 2, background: "#e2e8f0" }} />
                 <div style={{ textAlign: "center", flex: 1 }}>
@@ -1493,10 +1513,10 @@ export default function RhSection() {
                       marginTop: 6,
                     }}
                   >
-                    Manager
+                    {formationPage.workflow?.[1]?.label}
                   </div>
                   <div style={{ fontSize: 10, color: "#94a3b8" }}>
-                    Valide / refuse
+                    {formationPage.workflow?.[1]?.description}
                   </div>
                 </div>
                 <div style={{ flex: 1, height: 2, background: "#e2e8f0" }} />
@@ -1526,10 +1546,10 @@ export default function RhSection() {
                       marginTop: 6,
                     }}
                   >
-                    RH
+                    {formationPage.workflow?.[2]?.label}
                   </div>
                   <div style={{ fontSize: 10, color: "#94a3b8" }}>
-                    Valide &amp; planifie
+                    {formationPage.workflow?.[2]?.description}
                   </div>
                 </div>
                 <div style={{ flex: 1, height: 2, background: "#e2e8f0" }} />
@@ -1559,10 +1579,10 @@ export default function RhSection() {
                       marginTop: 6,
                     }}
                   >
-                    Confirmée
+                    {formationPage.workflow?.[3]?.label}
                   </div>
                   <div style={{ fontSize: 10, color: "#94a3b8" }}>
-                    Notification
+                    {formationPage.workflow?.[3]?.description}
                   </div>
                 </div>
               </div>
@@ -1570,7 +1590,7 @@ export default function RhSection() {
           </div>
           {/* Historique des formations */}
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Historique des Formations
+            {formationPage.historiqueTitle}
           </div>
           <div
             style={{
@@ -1602,7 +1622,7 @@ export default function RhSection() {
                       color: "#475569",
                     }}
                   >
-                    Formation
+                    {formationPage.historiqueTable?.columns?.[0]}
                   </th>
                   <th
                     style={{
@@ -1612,7 +1632,7 @@ export default function RhSection() {
                       color: "#475569",
                     }}
                   >
-                    Type
+                    {formationPage.historiqueTable?.columns?.[1]}
                   </th>
                   <th
                     style={{
@@ -1622,7 +1642,7 @@ export default function RhSection() {
                       color: "#475569",
                     }}
                   >
-                    Date
+                    {formationPage.historiqueTable?.columns?.[2]}
                   </th>
                   <th
                     style={{
@@ -1632,7 +1652,7 @@ export default function RhSection() {
                       color: "#475569",
                     }}
                   >
-                    Durée
+                    {formationPage.historiqueTable?.columns?.[3]}
                   </th>
                   <th
                     style={{
@@ -1642,7 +1662,7 @@ export default function RhSection() {
                       color: "#475569",
                     }}
                   >
-                    Statut
+                    {formationPage.historiqueTable?.columns?.[4]}
                   </th>
                 </tr>
               </thead>
@@ -1655,22 +1675,22 @@ export default function RhSection() {
                       fontWeight: 500,
                     }}
                   >
-                    Design Thinking &amp; Innovation
+                    {formationPage.historiqueTable?.rows?.[0]?.cells?.[0]}
                   </td>
                   <td
                     style={{ padding: "12px 16px", color: "var(--text-light)" }}
                   >
-                    Externe
+                    {formationPage.historiqueTable?.rows?.[0]?.cells?.[1]}
                   </td>
                   <td
                     style={{ padding: "12px 16px", color: "var(--text-light)" }}
                   >
-                    10–12 Jan 2026
+                    {formationPage.historiqueTable?.rows?.[0]?.cells?.[2]}
                   </td>
                   <td
                     style={{ padding: "12px 16px", color: "var(--text-light)" }}
                   >
-                    3 jours
+                    {formationPage.historiqueTable?.rows?.[0]?.cells?.[3]}
                   </td>
                   <td style={{ padding: "12px 16px" }}>
                     <span
@@ -1683,7 +1703,7 @@ export default function RhSection() {
                         fontWeight: 600,
                       }}
                     >
-                      Validée
+                      {formationPage.historiqueTable?.rows?.[0]?.status}
                     </span>
                   </td>
                 </tr>
@@ -1695,22 +1715,22 @@ export default function RhSection() {
                       fontWeight: 500,
                     }}
                   >
-                    Gestion de Projet Agile (PMI-ACP)
+                    {formationPage.historiqueTable?.rows?.[1]?.cells?.[0]}
                   </td>
                   <td
                     style={{ padding: "12px 16px", color: "var(--text-light)" }}
                   >
-                    Certification
+                    {formationPage.historiqueTable?.rows?.[1]?.cells?.[1]}
                   </td>
                   <td
                     style={{ padding: "12px 16px", color: "var(--text-light)" }}
                   >
-                    5 Mars 2025
+                    {formationPage.historiqueTable?.rows?.[1]?.cells?.[2]}
                   </td>
                   <td
                     style={{ padding: "12px 16px", color: "var(--text-light)" }}
                   >
-                    5 jours
+                    {formationPage.historiqueTable?.rows?.[1]?.cells?.[3]}
                   </td>
                   <td style={{ padding: "12px 16px" }}>
                     <span
@@ -1723,7 +1743,7 @@ export default function RhSection() {
                         fontWeight: 600,
                       }}
                     >
-                      Validée
+                      {formationPage.historiqueTable?.rows?.[1]?.status}
                     </span>
                   </td>
                 </tr>
@@ -1735,22 +1755,22 @@ export default function RhSection() {
                       fontWeight: 500,
                     }}
                   >
-                    Power BI – Tableau de bord avancé
+                    {formationPage.historiqueTable?.rows?.[2]?.cells?.[0]}
                   </td>
                   <td
                     style={{ padding: "12px 16px", color: "var(--text-light)" }}
                   >
-                    e-Learning
+                    {formationPage.historiqueTable?.rows?.[2]?.cells?.[1]}
                   </td>
                   <td
                     style={{ padding: "12px 16px", color: "var(--text-light)" }}
                   >
-                    Avr 2026
+                    {formationPage.historiqueTable?.rows?.[2]?.cells?.[2]}
                   </td>
                   <td
                     style={{ padding: "12px 16px", color: "var(--text-light)" }}
                   >
-                    6h
+                    {formationPage.historiqueTable?.rows?.[2]?.cells?.[3]}
                   </td>
                   <td style={{ padding: "12px 16px" }}>
                     <span
@@ -1763,7 +1783,7 @@ export default function RhSection() {
                         fontWeight: 600,
                       }}
                     >
-                      En cours
+                      {formationPage.historiqueTable?.rows?.[2]?.status}
                     </span>
                   </td>
                 </tr>
@@ -1778,7 +1798,7 @@ export default function RhSection() {
           style={{ display: "none" }}
         >
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Mes Documents RH
+            {documentsPage.documentsTitle}
           </div>
           <div className="km-grid" style={{ marginBottom: 36 }}>
             <div
@@ -1795,10 +1815,10 @@ export default function RhSection() {
                 <i data-lucide="file-text" style={{ width: 24, height: 24 }} />
               </div>
               <div className="doc-card-title">
-                Demande d'Attestation de Travail.pdf
+                {documentsPage.documents?.[0]?.title}
               </div>
               <div className="doc-card-meta">
-                <span>Formulaire</span>
+                <span>{documentsPage.documents?.[0]?.action}</span>
                 <i
                   data-lucide="download"
                   style={{ width: 16, color: "#94a3b8" }}
@@ -1818,9 +1838,11 @@ export default function RhSection() {
               <div className="doc-icon-large pdf">
                 <i data-lucide="file-text" style={{ width: 24, height: 24 }} />
               </div>
-              <div className="doc-card-title">Règlement Intérieur 2026.pdf</div>
+              <div className="doc-card-title">
+                {documentsPage.documents?.[1]?.title}
+              </div>
               <div className="doc-card-meta">
-                <span>Information</span>
+                <span>{documentsPage.documents?.[1]?.action}</span>
                 <i
                   data-lucide="download"
                   style={{ width: 16, color: "#94a3b8" }}
@@ -1832,10 +1854,10 @@ export default function RhSection() {
                 <i data-lucide="file-text" style={{ width: 24, height: 24 }} />
               </div>
               <div className="doc-card-title">
-                Modèle Demande de Congé Exceptionnel.docx
+                {documentsPage.documents?.[2]?.title}
               </div>
               <div className="doc-card-meta">
-                <span>Formulaire</span>
+                <span>{documentsPage.documents?.[2]?.action}</span>
                 <i
                   data-lucide="download"
                   style={{ width: 16, color: "#94a3b8" }}
@@ -1845,7 +1867,7 @@ export default function RhSection() {
           </div>
           {/* Valeurs & Chartes */}
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Valeurs &amp; Chartes RH
+            {documentsPage.chartesTitle}
           </div>
           <div
             style={{
@@ -1874,13 +1896,13 @@ export default function RhSection() {
               </div>
               <div className="app-card-content">
                 <span className="app-card-title-large">
-                  Charte des Valeurs CMR
+                  {documentsPage.chartes?.[0]?.title}
                 </span>
                 <p className="app-card-desc">
-                  Les 5 valeurs fondatrices qui guident notre organisation.
+                  {documentsPage.chartes?.[0]?.description}
                 </p>
                 <div className="app-card-action">
-                  Consulter
+                  {documentsPage.chartes?.[0]?.action}
                   <i data-lucide="arrow-right" style={{ width: 14 }} />
                 </div>
               </div>
@@ -1907,13 +1929,13 @@ export default function RhSection() {
               </div>
               <div className="app-card-content">
                 <span className="app-card-title-large">
-                  Charte Éthique &amp; Déontologie
+                  {documentsPage.chartes?.[1]?.title}
                 </span>
                 <p className="app-card-desc">
-                  Principes d'intégrité et comportements attendus.
+                  {documentsPage.chartes?.[1]?.description}
                 </p>
                 <div className="app-card-action">
-                  Consulter
+                  {documentsPage.chartes?.[1]?.action}
                   <i data-lucide="arrow-right" style={{ width: 14 }} />
                 </div>
               </div>
@@ -1936,12 +1958,14 @@ export default function RhSection() {
                 <i data-lucide="leaf" style={{ width: 24, height: 24 }} />
               </div>
               <div className="app-card-content">
-                <span className="app-card-title-large">Charte RSE</span>
+                <span className="app-card-title-large">
+                  {documentsPage.chartes?.[2]?.title}
+                </span>
                 <p className="app-card-desc">
-                  Engagements sociaux et environnementaux de la CMR.
+                  {documentsPage.chartes?.[2]?.description}
                 </p>
                 <div className="app-card-action">
-                  Consulter
+                  {documentsPage.chartes?.[2]?.action}
                   <i data-lucide="arrow-right" style={{ width: 14 }} />
                 </div>
               </div>
@@ -1949,7 +1973,7 @@ export default function RhSection() {
           </div>
           {/* Référentiels RH */}
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Référentiels RH Réglementaires
+            {documentsPage.referentielsTitle}
           </div>
           <div className="km-grid">
             <div className="doc-card" style={{ cursor: "pointer" }}>
@@ -1959,7 +1983,9 @@ export default function RhSection() {
               >
                 <i data-lucide="scale" style={{ width: 24, height: 24 }} />
               </div>
-              <div className="doc-card-title">Statut du Personnel CMR</div>
+              <div className="doc-card-title">
+                {documentsPage.referentiels?.[0]?.title}
+              </div>
               <p
                 style={{
                   fontSize: 12,
@@ -1967,10 +1993,10 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                Texte réglementaire · Mise à jour 2026
+                {documentsPage.referentiels?.[0]?.description}
               </p>
               <div className="doc-card-meta">
-                <span>Dossier</span>
+                <span>{documentsPage.referentiels?.[0]?.action}</span>
                 <i
                   data-lucide="folder-open"
                   style={{ width: 16, color: "#94a3b8" }}
@@ -1984,7 +2010,9 @@ export default function RhSection() {
               >
                 <i data-lucide="book" style={{ width: 24, height: 24 }} />
               </div>
-              <div className="doc-card-title">Procédures RH Internes</div>
+              <div className="doc-card-title">
+                {documentsPage.referentiels?.[1]?.title}
+              </div>
               <p
                 style={{
                   fontSize: 12,
@@ -1992,10 +2020,10 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                Procédures · 15 documents
+                {documentsPage.referentiels?.[1]?.description}
               </p>
               <div className="doc-card-meta">
-                <span>Dossier</span>
+                <span>{documentsPage.referentiels?.[1]?.action}</span>
                 <i
                   data-lucide="folder-open"
                   style={{ width: 16, color: "#94a3b8" }}
@@ -2013,7 +2041,7 @@ export default function RhSection() {
                 />
               </div>
               <div className="doc-card-title">
-                Référentiel des Emplois &amp; Compétences
+                {documentsPage.referentiels?.[2]?.title}
               </div>
               <p
                 style={{
@@ -2022,10 +2050,10 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                GPEC · Version 2025
+                {documentsPage.referentiels?.[2]?.description}
               </p>
               <div className="doc-card-meta">
-                <span>Dossier</span>
+                <span>{documentsPage.referentiels?.[2]?.action}</span>
                 <i
                   data-lucide="folder-open"
                   style={{ width: 16, color: "#94a3b8" }}
@@ -2051,7 +2079,7 @@ export default function RhSection() {
               }}
             >
               <div style={{ fontSize: 14, color: "var(--text-light)" }}>
-                Consultez et postulez aux postes vacants en interne.
+                {offresIntro}
               </div>
               <div style={{ display: "flex", gap: 10 }}>
                 <select
@@ -2063,11 +2091,9 @@ export default function RhSection() {
                     color: "#475569",
                   }}
                 >
-                  <option>Toutes les directions</option>
-                  <option>DSI</option>
-                  <option>Direction Financière</option>
-                  <option>Direction de la Communication</option>
-                  <option>Direction Technique</option>
+                  {(offresFilters.directions || []).map((direction) => (
+                    <option key={direction}>{direction}</option>
+                  ))}
                 </select>
                 <select
                   style={{
@@ -2078,221 +2104,91 @@ export default function RhSection() {
                     color: "#475569",
                   }}
                 >
-                  <option>Tous les niveaux</option>
-                  <option>Cadre</option>
-                  <option>Expert</option>
-                  <option>Manager</option>
+                  {(offresFilters.niveaux || []).map((niveau) => (
+                    <option key={niveau}>{niveau}</option>
+                  ))}
                 </select>
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <div
-                style={{
-                  background: "#fff",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 12,
-                  padding: "20px 24px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 20,
-                  cursor: "pointer",
-                }}
-                onClick={(event) =>
-                  runLegacyHandler(event, "showOffrefiche('bi')")
-                }
-              >
+              {offresList.map((offre) => (
                 <div
+                  key={offre.id}
                   style={{
-                    width: 48,
-                    height: 48,
-                    background: "#fff7ed",
-                    borderRadius: 10,
+                    background: "#fff",
+                    border: "1px solid #e2e8f0",
+                    borderRadius: 12,
+                    padding: "20px 24px",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
+                    gap: 20,
+                    cursor: "pointer",
                   }}
+                  onClick={(event) =>
+                    runLegacyHandler(event, `showOffrefiche('${offre.id}')`)
+                  }
                 >
-                  <i
-                    data-lucide="briefcase"
-                    style={{ width: 22, height: 22, color: "#ea580c" }}
-                  />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div
-                    style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
-                  >
-                    Chef de Projet BI (H/F)
-                  </div>
                   <div
                     style={{
-                      fontSize: 12,
-                      color: "var(--text-light)",
-                      marginTop: 3,
+                      width: 48,
+                      height: 48,
+                      background: "#fff7ed",
+                      borderRadius: 10,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
                     }}
                   >
-                    Direction des Systèmes d'Information · Casablanca · Cadre
+                    <i
+                      data-lucide="briefcase"
+                      style={{ width: 22, height: 22, color: "#ea580c" }}
+                    />
                   </div>
-                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 3 }}>
-                    Publié il y a 3 jours · 2 candidatures
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        fontWeight: 700,
+                        fontSize: 15,
+                        color: "#1e293b",
+                      }}
+                    >
+                      {offre.title}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: "var(--text-light)",
+                        marginTop: 3,
+                      }}
+                    >
+                      {offre.meta}
+                    </div>
+                    <div
+                      style={{ fontSize: 11, color: "#94a3b8", marginTop: 3 }}
+                    >
+                      {offre.published}
+                    </div>
                   </div>
-                </div>
-                <span
-                  style={{
-                    background: "#dcfce7",
-                    color: "#15803d",
-                    padding: "4px 12px",
-                    borderRadius: 20,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    flexShrink: 0,
-                  }}
-                >
-                  Ouvert
-                </span>
-                <i
-                  data-lucide="chevron-right"
-                  style={{ width: 18, color: "#94a3b8", flexShrink: 0 }}
-                />
-              </div>
-              <div
-                style={{
-                  background: "#fff",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 12,
-                  padding: "20px 24px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 20,
-                  cursor: "pointer",
-                }}
-                onClick={(event) =>
-                  runLegacyHandler(event, "showOffrefiche('comdig')")
-                }
-              >
-                <div
-                  style={{
-                    width: 48,
-                    height: 48,
-                    background: "#fff7ed",
-                    borderRadius: 10,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                >
+                  <span
+                    style={{
+                      background: offre.statusBackground,
+                      color: offre.statusColor,
+                      padding: "4px 12px",
+                      borderRadius: 20,
+                      fontSize: 11,
+                      fontWeight: 600,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {offre.status}
+                  </span>
                   <i
-                    data-lucide="briefcase"
-                    style={{ width: 22, height: 22, color: "#ea580c" }}
+                    data-lucide="chevron-right"
+                    style={{ width: 18, color: "#94a3b8", flexShrink: 0 }}
                   />
                 </div>
-                <div style={{ flex: 1 }}>
-                  <div
-                    style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
-                  >
-                    Responsable Communication Digital (H/F)
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: "var(--text-light)",
-                      marginTop: 3,
-                    }}
-                  >
-                    Direction de la Communication · Siège · Manager
-                  </div>
-                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 3 }}>
-                    Publié il y a 5 jours · 4 candidatures
-                  </div>
-                </div>
-                <span
-                  style={{
-                    background: "#dcfce7",
-                    color: "#15803d",
-                    padding: "4px 12px",
-                    borderRadius: 20,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    flexShrink: 0,
-                  }}
-                >
-                  Ouvert
-                </span>
-                <i
-                  data-lucide="chevron-right"
-                  style={{ width: 18, color: "#94a3b8", flexShrink: 0 }}
-                />
-              </div>
-              <div
-                style={{
-                  background: "#fff",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 12,
-                  padding: "20px 24px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 20,
-                  cursor: "pointer",
-                }}
-                onClick={(event) =>
-                  runLegacyHandler(event, "showOffrefiche('actuariat')")
-                }
-              >
-                <div
-                  style={{
-                    width: 48,
-                    height: 48,
-                    background: "#fff7ed",
-                    borderRadius: 10,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                >
-                  <i
-                    data-lucide="briefcase"
-                    style={{ width: 22, height: 22, color: "#ea580c" }}
-                  />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div
-                    style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
-                  >
-                    Analyste Risques &amp; Actuariat (H/F)
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: "var(--text-light)",
-                      marginTop: 3,
-                    }}
-                  >
-                    Direction Technique · Casablanca · Expert
-                  </div>
-                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 3 }}>
-                    Clôture le 30/04/2026 · 7 candidatures
-                  </div>
-                </div>
-                <span
-                  style={{
-                    background: "#fef3c7",
-                    color: "#92400e",
-                    padding: "4px 12px",
-                    borderRadius: 20,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    flexShrink: 0,
-                  }}
-                >
-                  Clôture imminente
-                </span>
-                <i
-                  data-lucide="chevron-right"
-                  style={{ width: 18, color: "#94a3b8", flexShrink: 0 }}
-                />
-              </div>
+              ))}
             </div>
           </div>
           {/* ÉTAPE 2 : FICHE POSTE */}
@@ -2868,11 +2764,10 @@ export default function RhSection() {
               marginBottom: 24,
             }}
           >
-            Ressources dédiées aux managers : guides, outils et boîte à outils
-            RH.
+            {managersPage.intro}
           </p>
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Guides &amp; Outils
+            {managersPage.guidesTitle}
           </div>
           <div
             style={{
@@ -2901,13 +2796,13 @@ export default function RhSection() {
               </div>
               <div className="app-card-content">
                 <span className="app-card-title-large">
-                  Guide du Manager CMR
+                  {managersPage.guides?.[0]?.title}
                 </span>
                 <p className="app-card-desc">
-                  Toutes les pratiques RH essentielles pour bien manager.
+                  {managersPage.guides?.[0]?.description}
                 </p>
                 <div className="app-card-action">
-                  Consulter
+                  {managersPage.guides?.[0]?.action}
                   <i data-lucide="arrow-right" style={{ width: 14 }} />
                 </div>
               </div>
@@ -2934,13 +2829,13 @@ export default function RhSection() {
               </div>
               <div className="app-card-content">
                 <span className="app-card-title-large">
-                  Conduite des Entretiens
+                  {managersPage.guides?.[1]?.title}
                 </span>
                 <p className="app-card-desc">
-                  Grilles et bonnes pratiques pour l'entretien annuel.
+                  {managersPage.guides?.[1]?.description}
                 </p>
                 <div className="app-card-action">
-                  Télécharger
+                  {managersPage.guides?.[1]?.action}
                   <i data-lucide="download" style={{ width: 14 }} />
                 </div>
               </div>
@@ -2964,13 +2859,13 @@ export default function RhSection() {
               </div>
               <div className="app-card-content">
                 <span className="app-card-title-large">
-                  Gestion des Absences
+                  {managersPage.guides?.[2]?.title}
                 </span>
                 <p className="app-card-desc">
-                  Procédures et formulaires de gestion des absences.
+                  {managersPage.guides?.[2]?.description}
                 </p>
                 <div className="app-card-action">
-                  Accéder
+                  {managersPage.guides?.[2]?.action}
                   <i data-lucide="arrow-right" style={{ width: 14 }} />
                 </div>
               </div>
@@ -2994,21 +2889,20 @@ export default function RhSection() {
               </div>
               <div className="app-card-content">
                 <span className="app-card-title-large">
-                  Tableaux de Bord RH
+                  {managersPage.guides?.[3]?.title}
                 </span>
                 <p className="app-card-desc">
-                  Suivi des indicateurs d'équipe : turnover, absentéisme,
-                  formation.
+                  {managersPage.guides?.[3]?.description}
                 </p>
                 <div className="app-card-action">
-                  Voir
+                  {managersPage.guides?.[3]?.action}
                   <i data-lucide="arrow-right" style={{ width: 14 }} />
                 </div>
               </div>
             </a>
           </div>
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Calendrier RH Manager
+            {managersPage.calendarTitle}
           </div>
           <div
             style={{
@@ -3033,15 +2927,17 @@ export default function RhSection() {
                   <div
                     style={{ fontSize: 18, fontWeight: 700, color: "#2563eb" }}
                   >
-                    30
+                    {managersPage.calendar?.[0]?.day}
                   </div>
-                  <div style={{ fontSize: 10, color: "#64748b" }}>AVRL</div>
+                  <div style={{ fontSize: 10, color: "#64748b" }}>
+                    {managersPage.calendar?.[0]?.month}
+                  </div>
                 </div>
                 <div>
                   <div
                     style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                   >
-                    Clôture des évaluations de performance T1
+                    {managersPage.calendar?.[0]?.title}
                   </div>
                   <div
                     style={{
@@ -3050,7 +2946,7 @@ export default function RhSection() {
                       marginTop: 2,
                     }}
                   >
-                    Tous les managers · En ligne
+                    {managersPage.calendar?.[0]?.meta}
                   </div>
                 </div>
               </div>
@@ -3068,15 +2964,17 @@ export default function RhSection() {
                   <div
                     style={{ fontSize: 18, fontWeight: 700, color: "#16a34a" }}
                   >
-                    15
+                    {managersPage.calendar?.[1]?.day}
                   </div>
-                  <div style={{ fontSize: 10, color: "#64748b" }}>MAI</div>
+                  <div style={{ fontSize: 10, color: "#64748b" }}>
+                    {managersPage.calendar?.[1]?.month}
+                  </div>
                 </div>
                 <div>
                   <div
                     style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                   >
-                    Atelier Managers : Feedback 360°
+                    {managersPage.calendar?.[1]?.title}
                   </div>
                   <div
                     style={{
@@ -3085,7 +2983,7 @@ export default function RhSection() {
                       marginTop: 2,
                     }}
                   >
-                    Salle A · 9h00–12h00
+                    {managersPage.calendar?.[1]?.meta}
                   </div>
                 </div>
               </div>
@@ -3105,7 +3003,7 @@ export default function RhSection() {
               marginBottom: 24,
             }}
           >
-            Baromètres sociaux, enquêtes d'engagement et indicateurs RH.
+            {enquetesPage.intro}
           </p>
           {/* Dashboard KPIs */}
           <div
@@ -3126,7 +3024,7 @@ export default function RhSection() {
               }}
             >
               <div style={{ fontSize: 32, fontWeight: 700, color: "#16a34a" }}>
-                87%
+                {enquetesPage.kpis?.[0]?.value}
               </div>
               <div
                 style={{
@@ -3135,10 +3033,10 @@ export default function RhSection() {
                   marginTop: 4,
                 }}
               >
-                Taux d'engagement
+                {enquetesPage.kpis?.[0]?.label}
               </div>
               <div style={{ fontSize: 11, color: "#16a34a", marginTop: 4 }}>
-                ↑ +3% vs 2025
+                {enquetesPage.kpis?.[0]?.trend}
               </div>
             </div>
             <div
@@ -3151,7 +3049,7 @@ export default function RhSection() {
               }}
             >
               <div style={{ fontSize: 32, fontWeight: 700, color: "#3b82f6" }}>
-                4.2/5
+                {enquetesPage.kpis?.[1]?.value}
               </div>
               <div
                 style={{
@@ -3160,10 +3058,10 @@ export default function RhSection() {
                   marginTop: 4,
                 }}
               >
-                Satisfaction manager
+                {enquetesPage.kpis?.[1]?.label}
               </div>
               <div style={{ fontSize: 11, color: "#3b82f6", marginTop: 4 }}>
-                ↑ +0.4 vs 2025
+                {enquetesPage.kpis?.[1]?.trend}
               </div>
             </div>
             <div
@@ -3176,7 +3074,7 @@ export default function RhSection() {
               }}
             >
               <div style={{ fontSize: 32, fontWeight: 700, color: "#f59e0b" }}>
-                92%
+                {enquetesPage.kpis?.[2]?.value}
               </div>
               <div
                 style={{
@@ -3185,10 +3083,10 @@ export default function RhSection() {
                   marginTop: 4,
                 }}
               >
-                Taux de participation
+                {enquetesPage.kpis?.[2]?.label}
               </div>
               <div style={{ fontSize: 11, color: "#64748b", marginTop: 4 }}>
-                Baromètre 2025
+                {enquetesPage.kpis?.[2]?.trend}
               </div>
             </div>
             <div
@@ -3201,7 +3099,7 @@ export default function RhSection() {
               }}
             >
               <div style={{ fontSize: 32, fontWeight: 700, color: "#8b5cf6" }}>
-                3.8%
+                {enquetesPage.kpis?.[3]?.value}
               </div>
               <div
                 style={{
@@ -3210,16 +3108,16 @@ export default function RhSection() {
                   marginTop: 4,
                 }}
               >
-                Taux d'absentéisme
+                {enquetesPage.kpis?.[3]?.label}
               </div>
               <div style={{ fontSize: 11, color: "#16a34a", marginTop: 4 }}>
-                ↓ -0.5% vs 2025
+                {enquetesPage.kpis?.[3]?.trend}
               </div>
             </div>
           </div>
           {/* Enquêtes actives */}
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Enquêtes en cours
+            {enquetesPage.activeTitle}
           </div>
           <div className="km-grid" style={{ marginBottom: 32 }}>
             <div
@@ -3232,7 +3130,9 @@ export default function RhSection() {
               >
                 <i data-lucide="clipboard" style={{ width: 24, height: 24 }} />
               </div>
-              <div className="doc-card-title">Baromètre Social 2026</div>
+              <div className="doc-card-title">
+                {enquetesPage.active?.[0]?.title}
+              </div>
               <p
                 style={{
                   fontSize: 12,
@@ -3240,7 +3140,7 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                Clôture le 05/05/2026 · 156 répondants
+                {enquetesPage.active?.[0]?.description}
               </p>
               <div
                 style={{
@@ -3261,7 +3161,7 @@ export default function RhSection() {
               </div>
               <div className="doc-card-meta">
                 <span style={{ color: "#3b82f6", fontWeight: 600 }}>
-                  Répondre
+                  {enquetesPage.active?.[0]?.action}
                 </span>
                 <i data-lucide="arrow-right" style={{ width: 16 }} />
               </div>
@@ -3276,7 +3176,9 @@ export default function RhSection() {
               >
                 <i data-lucide="smile" style={{ width: 24, height: 24 }} />
               </div>
-              <div className="doc-card-title">Enquête Bien-être au Travail</div>
+              <div className="doc-card-title">
+                {enquetesPage.active?.[1]?.title}
+              </div>
               <p
                 style={{
                   fontSize: 12,
@@ -3284,7 +3186,7 @@ export default function RhSection() {
                   marginTop: 6,
                 }}
               >
-                Clôture le 10/05/2026 · 89 répondants
+                {enquetesPage.active?.[1]?.description}
               </p>
               <div
                 style={{
@@ -3305,7 +3207,7 @@ export default function RhSection() {
               </div>
               <div className="doc-card-meta">
                 <span style={{ color: "#16a34a", fontWeight: 600 }}>
-                  Répondre
+                  {enquetesPage.active?.[1]?.action}
                 </span>
                 <i data-lucide="arrow-right" style={{ width: 16 }} />
               </div>
@@ -3313,7 +3215,7 @@ export default function RhSection() {
           </div>
           {/* Résultats précédents */}
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Résultats des Enquêtes Précédentes
+            {enquetesPage.resultsTitle}
           </div>
           <div className="km-grid">
             <div className="doc-card">
@@ -3324,10 +3226,10 @@ export default function RhSection() {
                 />
               </div>
               <div className="doc-card-title">
-                Baromètre Social 2025 – Résultats
+                {enquetesPage.results?.[0]?.title}
               </div>
               <div className="doc-card-meta">
-                <span>Rapport</span>
+                <span>{enquetesPage.results?.[0]?.action}</span>
                 <i
                   data-lucide="download"
                   style={{ width: 16, color: "#94a3b8" }}
@@ -3342,10 +3244,10 @@ export default function RhSection() {
                 />
               </div>
               <div className="doc-card-title">
-                Enquête Télétravail 2025 – Synthèse
+                {enquetesPage.results?.[1]?.title}
               </div>
               <div className="doc-card-meta">
-                <span>Rapport</span>
+                <span>{enquetesPage.results?.[1]?.action}</span>
                 <i
                   data-lucide="download"
                   style={{ width: 16, color: "#94a3b8" }}
@@ -3367,10 +3269,10 @@ export default function RhSection() {
               marginBottom: 24,
             }}
           >
-            Accédez à l'ensemble des applications RH depuis un point unique.
+            {rhApplisPage.intro}
           </p>
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Applications RH
+            {rhApplisPage.title}
           </div>
           <div
             style={{
@@ -3424,7 +3326,7 @@ export default function RhSection() {
                 <div
                   style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                 >
-                  SIRH
+                  {rhApplisPage.items?.[0]?.title}
                 </div>
                 <div
                   style={{
@@ -3433,7 +3335,7 @@ export default function RhSection() {
                     marginTop: 2,
                   }}
                 >
-                  Gestion RH
+                  {rhApplisPage.items?.[0]?.description}
                 </div>
               </div>
             </a>
@@ -3481,7 +3383,7 @@ export default function RhSection() {
                 <div
                   style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                 >
-                  Congés
+                  {rhApplisPage.items?.[1]?.title}
                 </div>
                 <div
                   style={{
@@ -3490,7 +3392,7 @@ export default function RhSection() {
                     marginTop: 2,
                   }}
                 >
-                  Gestion absences
+                  {rhApplisPage.items?.[1]?.description}
                 </div>
               </div>
             </a>
@@ -3538,7 +3440,7 @@ export default function RhSection() {
                 <div
                   style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                 >
-                  Paie
+                  {rhApplisPage.items?.[2]?.title}
                 </div>
                 <div
                   style={{
@@ -3547,7 +3449,7 @@ export default function RhSection() {
                     marginTop: 2,
                   }}
                 >
-                  Bulletins de paie
+                  {rhApplisPage.items?.[2]?.description}
                 </div>
               </div>
             </a>
@@ -3595,7 +3497,7 @@ export default function RhSection() {
                 <div
                   style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                 >
-                  LMS
+                  {rhApplisPage.items?.[3]?.title}
                 </div>
                 <div
                   style={{
@@ -3604,7 +3506,7 @@ export default function RhSection() {
                     marginTop: 2,
                   }}
                 >
-                  Formations en ligne
+                  {rhApplisPage.items?.[3]?.description}
                 </div>
               </div>
             </a>
@@ -3652,7 +3554,7 @@ export default function RhSection() {
                 <div
                   style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                 >
-                  Performance
+                  {rhApplisPage.items?.[4]?.title}
                 </div>
                 <div
                   style={{
@@ -3661,7 +3563,7 @@ export default function RhSection() {
                     marginTop: 2,
                   }}
                 >
-                  Objectifs &amp; éval.
+                  {rhApplisPage.items?.[4]?.description}
                 </div>
               </div>
             </a>
@@ -3709,7 +3611,7 @@ export default function RhSection() {
                 <div
                   style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                 >
-                  Helpdesk RH
+                  {rhApplisPage.items?.[5]?.title}
                 </div>
                 <div
                   style={{
@@ -3718,7 +3620,7 @@ export default function RhSection() {
                     marginTop: 2,
                   }}
                 >
-                  Support &amp; tickets
+                  {rhApplisPage.items?.[5]?.description}
                 </div>
               </div>
             </a>
@@ -3740,8 +3642,7 @@ export default function RhSection() {
           >
             <div>
               <div style={{ fontSize: 14, color: "var(--text-light)" }}>
-                Échangez sur les sujets RH avec vos collègues et les communautés
-                métier.
+                {forumsPage.intro}
               </div>
             </div>
             <button
@@ -3759,8 +3660,8 @@ export default function RhSection() {
                 cursor: "pointer",
               }}
             >
-              <i data-lucide="plus" style={{ width: 15, height: 15 }} /> Nouveau
-              post
+              <i data-lucide="plus" style={{ width: 15, height: 15 }} />{" "}
+              {forumsPage.buttonLabel}
             </button>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -3803,7 +3704,7 @@ export default function RhSection() {
                   <div
                     style={{ fontWeight: 700, fontSize: 14, color: "#1e293b" }}
                   >
-                    Forum Bien-être &amp; QVT
+                    {forumsPage.items?.[0]?.title}
                   </div>
                   <div
                     style={{
@@ -3812,7 +3713,7 @@ export default function RhSection() {
                       marginTop: 2,
                     }}
                   >
-                    243 membres · 12 discussions actives
+                    {forumsPage.items?.[0]?.meta}
                   </div>
                 </div>
                 <span
@@ -3825,7 +3726,7 @@ export default function RhSection() {
                     fontWeight: 600,
                   }}
                 >
-                  Actif
+                  {forumsPage.items?.[0]?.status}
                 </span>
               </div>
               <div
@@ -3852,20 +3753,19 @@ export default function RhSection() {
                     color: "#fff",
                   }}
                 >
-                  SB
+                  {forumsPage.items?.[0]?.avatar}
                 </div>
                 <div style={{ flex: 1 }}>
                   <div
                     style={{ fontSize: 13, fontWeight: 600, color: "#1e293b" }}
                   >
-                    Sarah B. ·{" "}
+                    {forumsPage.items?.[0]?.author} ·{" "}
                     <span style={{ fontWeight: 400, color: "#94a3b8" }}>
-                      il y a 2h
+                      {forumsPage.items?.[0]?.when}
                     </span>
                   </div>
                   <div style={{ fontSize: 12, color: "#475569", marginTop: 3 }}>
-                    "Quelles sont vos pratiques pour maintenir l'équilibre
-                    travail / vie perso en télétravail ?"
+                    "{forumsPage.items?.[0]?.message}"
                   </div>
                   <div style={{ display: "flex", gap: 16, marginTop: 8 }}>
                     <button
@@ -3880,7 +3780,8 @@ export default function RhSection() {
                         cursor: "pointer",
                       }}
                     >
-                      <i data-lucide="thumbs-up" style={{ width: 13 }} /> 14
+                      <i data-lucide="thumbs-up" style={{ width: 13 }} />{" "}
+                      {forumsPage.items?.[0]?.likes}
                     </button>
                     <button
                       style={{
@@ -3896,7 +3797,7 @@ export default function RhSection() {
                       }}
                     >
                       <i data-lucide="message-circle" style={{ width: 13 }} />{" "}
-                      Commenter
+                      {forumsPage.items?.[0]?.commentLabel}
                     </button>
                   </div>
                 </div>
@@ -3941,7 +3842,7 @@ export default function RhSection() {
                   <div
                     style={{ fontWeight: 700, fontSize: 14, color: "#1e293b" }}
                   >
-                    Communauté Managers
+                    {forumsPage.items?.[1]?.title}
                   </div>
                   <div
                     style={{
@@ -3950,7 +3851,7 @@ export default function RhSection() {
                       marginTop: 2,
                     }}
                   >
-                    87 membres · 6 discussions actives
+                    {forumsPage.items?.[1]?.meta}
                   </div>
                 </div>
                 <span
@@ -3963,7 +3864,7 @@ export default function RhSection() {
                     fontWeight: 600,
                   }}
                 >
-                  Actif
+                  {forumsPage.items?.[1]?.status}
                 </span>
               </div>
               <div
@@ -3990,20 +3891,19 @@ export default function RhSection() {
                     color: "#fff",
                   }}
                 >
-                  KA
+                  {forumsPage.items?.[1]?.avatar}
                 </div>
                 <div style={{ flex: 1 }}>
                   <div
                     style={{ fontSize: 13, fontWeight: 600, color: "#1e293b" }}
                   >
-                    Karim A. ·{" "}
+                    {forumsPage.items?.[1]?.author} ·{" "}
                     <span style={{ fontWeight: 400, color: "#94a3b8" }}>
-                      hier
+                      {forumsPage.items?.[1]?.when}
                     </span>
                   </div>
                   <div style={{ fontSize: 12, color: "#475569", marginTop: 3 }}>
-                    "Partage de la nouvelle grille d'entretien annuel 2026 — vos
-                    retours sont les bienvenus."
+                    "{forumsPage.items?.[1]?.message}"
                   </div>
                   <div style={{ display: "flex", gap: 16, marginTop: 8 }}>
                     <button
@@ -4018,7 +3918,8 @@ export default function RhSection() {
                         cursor: "pointer",
                       }}
                     >
-                      <i data-lucide="thumbs-up" style={{ width: 13 }} /> 31
+                      <i data-lucide="thumbs-up" style={{ width: 13 }} />{" "}
+                      {forumsPage.items?.[1]?.likes}
                     </button>
                     <button
                       style={{
@@ -4034,7 +3935,7 @@ export default function RhSection() {
                       }}
                     >
                       <i data-lucide="message-circle" style={{ width: 13 }} />{" "}
-                      Commenter
+                      {forumsPage.items?.[1]?.commentLabel}
                     </button>
                   </div>
                 </div>
@@ -4079,7 +3980,7 @@ export default function RhSection() {
                   <div
                     style={{ fontWeight: 700, fontSize: 14, color: "#1e293b" }}
                   >
-                    Communauté Innovation RH
+                    {forumsPage.items?.[2]?.title}
                   </div>
                   <div
                     style={{
@@ -4088,7 +3989,7 @@ export default function RhSection() {
                       marginTop: 2,
                     }}
                   >
-                    134 membres · 8 discussions actives
+                    {forumsPage.items?.[2]?.meta}
                   </div>
                 </div>
                 <span
@@ -4101,7 +4002,7 @@ export default function RhSection() {
                     fontWeight: 600,
                   }}
                 >
-                  Actif
+                  {forumsPage.items?.[2]?.status}
                 </span>
               </div>
               <div
@@ -4128,20 +4029,19 @@ export default function RhSection() {
                     color: "#fff",
                   }}
                 >
-                  NB
+                  {forumsPage.items?.[2]?.avatar}
                 </div>
                 <div style={{ flex: 1 }}>
                   <div
                     style={{ fontSize: 13, fontWeight: 600, color: "#1e293b" }}
                   >
-                    Nadia B. ·{" "}
+                    {forumsPage.items?.[2]?.author} ·{" "}
                     <span style={{ fontWeight: 400, color: "#94a3b8" }}>
-                      il y a 3 jours
+                      {forumsPage.items?.[2]?.when}
                     </span>
                   </div>
                   <div style={{ fontSize: 12, color: "#475569", marginTop: 3 }}>
-                    "Comment intégrez-vous l'IA dans vos processus RH ? Retours
-                    d'expérience bienvenus."
+                    "{forumsPage.items?.[2]?.message}"
                   </div>
                   <div style={{ display: "flex", gap: 16, marginTop: 8 }}>
                     <button
@@ -4156,7 +4056,8 @@ export default function RhSection() {
                         cursor: "pointer",
                       }}
                     >
-                      <i data-lucide="thumbs-up" style={{ width: 13 }} /> 22
+                      <i data-lucide="thumbs-up" style={{ width: 13 }} />{" "}
+                      {forumsPage.items?.[2]?.likes}
                     </button>
                     <button
                       style={{
@@ -4172,7 +4073,7 @@ export default function RhSection() {
                       }}
                     >
                       <i data-lucide="message-circle" style={{ width: 13 }} />{" "}
-                      Commenter
+                      {forumsPage.items?.[2]?.commentLabel}
                     </button>
                   </div>
                 </div>
@@ -4193,12 +4094,11 @@ export default function RhSection() {
               marginBottom: 24,
             }}
           >
-            Valorisez la vie interne et l'engagement collaborateur : événements,
-            photos et initiatives collaboratives.
+            {vieSocialePage.intro}
           </p>
           {/* Feed événements */}
           <div className="app-category-title" style={{ marginBottom: 16 }}>
-            Événements &amp; Initiatives
+            {vieSocialePage.eventsTitle}
           </div>
           <div
             style={{
@@ -4230,7 +4130,7 @@ export default function RhSection() {
                 }}
               >
                 <div style={{ fontSize: 28, fontWeight: 800, color: "#fff" }}>
-                  05
+                  {vieSocialePage.events?.[0]?.day}
                 </div>
                 <div
                   style={{
@@ -4239,7 +4139,7 @@ export default function RhSection() {
                     color: "rgba(255,255,255,0.85)",
                   }}
                 >
-                  MAI 2026
+                  {vieSocialePage.events?.[0]?.month}
                 </div>
               </div>
               <div style={{ padding: "16px 20px", flex: 1 }}>
@@ -4253,7 +4153,7 @@ export default function RhSection() {
                   <div
                     style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
                   >
-                    Journée Portes Ouvertes CMR
+                    {vieSocialePage.events?.[0]?.title}
                   </div>
                   <span
                     style={{
@@ -4265,7 +4165,7 @@ export default function RhSection() {
                       fontWeight: 600,
                     }}
                   >
-                    Événement
+                    {vieSocialePage.events?.[0]?.tag}
                   </span>
                 </div>
                 <div
@@ -4275,11 +4175,10 @@ export default function RhSection() {
                     marginTop: 4,
                   }}
                 >
-                  Siège CMR · 9h00 – 17h00 · Ouvert à tous
+                  {vieSocialePage.events?.[0]?.meta}
                 </div>
                 <div style={{ fontSize: 12, color: "#475569", marginTop: 8 }}>
-                  Découvrez les coulisses de la CMR et les projets en cours lors
-                  de notre grande journée annuelle.
+                  {vieSocialePage.events?.[0]?.description}
                 </div>
                 <button
                   style={{
@@ -4294,7 +4193,7 @@ export default function RhSection() {
                     cursor: "pointer",
                   }}
                 >
-                  Participer
+                  {vieSocialePage.events?.[0]?.button}
                 </button>
               </div>
             </div>
@@ -4320,7 +4219,7 @@ export default function RhSection() {
                 }}
               >
                 <div style={{ fontSize: 28, fontWeight: 800, color: "#fff" }}>
-                  20
+                  {vieSocialePage.events?.[1]?.day}
                 </div>
                 <div
                   style={{
@@ -4329,7 +4228,7 @@ export default function RhSection() {
                     color: "rgba(255,255,255,0.85)",
                   }}
                 >
-                  MAI 2026
+                  {vieSocialePage.events?.[1]?.month}
                 </div>
               </div>
               <div style={{ padding: "16px 20px", flex: 1 }}>
@@ -4343,7 +4242,7 @@ export default function RhSection() {
                   <div
                     style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
                   >
-                    Team Building Digital 2026
+                    {vieSocialePage.events?.[1]?.title}
                   </div>
                   <span
                     style={{
@@ -4355,7 +4254,7 @@ export default function RhSection() {
                       fontWeight: 600,
                     }}
                   >
-                    Initiative
+                    {vieSocialePage.events?.[1]?.tag}
                   </span>
                 </div>
                 <div
@@ -4365,11 +4264,10 @@ export default function RhSection() {
                     marginTop: 4,
                   }}
                 >
-                  Salle Innovation · Direction Digital &amp; IT
+                  {vieSocialePage.events?.[1]?.meta}
                 </div>
                 <div style={{ fontSize: 12, color: "#475569", marginTop: 8 }}>
-                  Hackathon interne, défis collaboratifs et remise des trophées
-                  CMR Digital Awards.
+                  {vieSocialePage.events?.[1]?.description}
                 </div>
                 <button
                   style={{
@@ -4384,7 +4282,7 @@ export default function RhSection() {
                     cursor: "pointer",
                   }}
                 >
-                  Participer
+                  {vieSocialePage.events?.[1]?.button}
                 </button>
               </div>
             </div>
@@ -4410,7 +4308,7 @@ export default function RhSection() {
                 }}
               >
                 <div style={{ fontSize: 28, fontWeight: 800, color: "#fff" }}>
-                  12
+                  {vieSocialePage.events?.[2]?.day}
                 </div>
                 <div
                   style={{
@@ -4419,7 +4317,7 @@ export default function RhSection() {
                     color: "rgba(255,255,255,0.85)",
                   }}
                 >
-                  JUIN 2026
+                  {vieSocialePage.events?.[2]?.month}
                 </div>
               </div>
               <div style={{ padding: "16px 20px", flex: 1 }}>
@@ -4433,7 +4331,7 @@ export default function RhSection() {
                   <div
                     style={{ fontWeight: 700, fontSize: 15, color: "#1e293b" }}
                   >
-                    Fête de Fin d'Année CMR
+                    {vieSocialePage.events?.[2]?.title}
                   </div>
                   <span
                     style={{
@@ -4445,7 +4343,7 @@ export default function RhSection() {
                       fontWeight: 600,
                     }}
                   >
-                    Événement
+                    {vieSocialePage.events?.[2]?.tag}
                   </span>
                 </div>
                 <div
@@ -4455,11 +4353,10 @@ export default function RhSection() {
                     marginTop: 4,
                   }}
                 >
-                  Hôtel Sofitel Rabat · 19h00 · Sur invitation
+                  {vieSocialePage.events?.[2]?.meta}
                 </div>
                 <div style={{ fontSize: 12, color: "#475569", marginTop: 8 }}>
-                  Soirée annuelle de célébration des réussites et de cohésion
-                  entre toutes les équipes CMR.
+                  {vieSocialePage.events?.[2]?.description}
                 </div>
                 <button
                   style={{
@@ -4474,7 +4371,7 @@ export default function RhSection() {
                     cursor: "pointer",
                   }}
                 >
-                  Participer
+                  {vieSocialePage.events?.[2]?.button}
                 </button>
               </div>
             </div>
@@ -4493,7 +4390,7 @@ export default function RhSection() {
               style={{ width: 16, height: 16, color: "#64748b" }}
             />
             <span style={{ fontWeight: 700, fontSize: 14, color: "#1e293b" }}>
-              Galerie Photos
+              {vieSocialePage.galleryTitle}
             </span>
           </div>
           <div
@@ -4519,8 +4416,8 @@ export default function RhSection() {
               }
             >
               <img
-                src="images/intranet/news_contract.jpg"
-                alt="Signature du contrat programme"
+                src={vieSocialePage.gallery?.[0]?.src}
+                alt={vieSocialePage.gallery?.[0]?.alt}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -4551,8 +4448,8 @@ export default function RhSection() {
               }
             >
               <img
-                src="images/intranet/news_board.jpg"
-                alt="Conseil d'administration CMR"
+                src={vieSocialePage.gallery?.[1]?.src}
+                alt={vieSocialePage.gallery?.[1]?.alt}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -4583,8 +4480,8 @@ export default function RhSection() {
               }
             >
               <img
-                src="images/intranet/news_academy.jpg"
-                alt="Session CMR Academy"
+                src={vieSocialePage.gallery?.[2]?.src}
+                alt={vieSocialePage.gallery?.[2]?.alt}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -4615,8 +4512,8 @@ export default function RhSection() {
               }
             >
               <img
-                src="images/intranet/slider_cmr_tech.png"
-                alt="Innovation et transformation digitale"
+                src={vieSocialePage.gallery?.[3]?.src}
+                alt={vieSocialePage.gallery?.[3]?.alt}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -4647,8 +4544,8 @@ export default function RhSection() {
               }
             >
               <img
-                src="images/intranet/slider_partnership.png"
-                alt="Partenariat CMR"
+                src={vieSocialePage.gallery?.[4]?.src}
+                alt={vieSocialePage.gallery?.[4]?.alt}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -4679,8 +4576,8 @@ export default function RhSection() {
               }
             >
               <img
-                src="images/intranet/slider1.png"
-                alt="Temps fort intranet CMR"
+                src={vieSocialePage.gallery?.[5]?.src}
+                alt={vieSocialePage.gallery?.[5]?.alt}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -4705,8 +4602,8 @@ export default function RhSection() {
               }
             >
               <img
-                src="images/intranet/slider2.png"
-                alt="Initiative collaborateurs"
+                src={vieSocialePage.gallery?.[6]?.src}
+                alt={vieSocialePage.gallery?.[6]?.alt}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -4739,7 +4636,9 @@ export default function RhSection() {
                 data-lucide="plus-circle"
                 style={{ width: 24, height: 24, color: "#94a3b8" }}
               />
-              <span style={{ fontSize: 11, color: "#94a3b8" }}>Voir tout</span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>
+                {vieSocialePage.galleryMoreLabel}
+              </span>
             </div>
           </div>
         </div>
@@ -4756,7 +4655,7 @@ export default function RhSection() {
               marginBottom: 20,
             }}
           >
-            Mettez en avant les initiatives des services.
+            {activitesPage.intro}
           </p>
           <div
             style={{
@@ -4796,16 +4695,15 @@ export default function RhSection() {
                 <div
                   style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                 >
-                  Association Solidarité CMR
+                  {activitesPage.items?.[0]?.title}
                 </div>
               </div>
               <p style={{ fontSize: 12, color: "var(--text-light)" }}>
-                Collecte de dons pour les employés en difficulté. Jusqu'au
-                30/04/2026.
+                {activitesPage.items?.[0]?.description}
               </p>
               <div className="doc-card-meta">
                 <span style={{ color: "#db2777", fontWeight: 600 }}>
-                  Consulter
+                  {activitesPage.items?.[0]?.action}
                 </span>
                 <i data-lucide="arrow-right" style={{ width: 16 }} />
               </div>
@@ -4841,16 +4739,15 @@ export default function RhSection() {
                 <div
                   style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                 >
-                  Tournoi Sportif CMR 2026
+                  {activitesPage.items?.[1]?.title}
                 </div>
               </div>
               <p style={{ fontSize: 12, color: "var(--text-light)" }}>
-                Football, tennis de table, course à pied. Inscriptions ouvertes
-                jusqu'au 15/05.
+                {activitesPage.items?.[1]?.description}
               </p>
               <div className="doc-card-meta">
                 <span style={{ color: "#3b82f6", fontWeight: 600 }}>
-                  Consulter
+                  {activitesPage.items?.[1]?.action}
                 </span>
                 <i data-lucide="arrow-right" style={{ width: 16 }} />
               </div>
@@ -4886,16 +4783,15 @@ export default function RhSection() {
                 <div
                   style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}
                 >
-                  Petit-déjeuner Métiers
+                  {activitesPage.items?.[2]?.title}
                 </div>
               </div>
               <p style={{ fontSize: 12, color: "var(--text-light)" }}>
-                Rencontres mensuelles inter-directions. Prochain : 05/05/2026,
-                Cafétéria Siège.
+                {activitesPage.items?.[2]?.description}
               </p>
               <div className="doc-card-meta">
                 <span style={{ color: "#d97706", fontWeight: 600 }}>
-                  Consulter
+                  {activitesPage.items?.[2]?.action}
                 </span>
                 <i data-lucide="arrow-right" style={{ width: 16 }} />
               </div>

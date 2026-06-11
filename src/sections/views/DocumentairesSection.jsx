@@ -1,18 +1,41 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getMetiersData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.metiersHeader || {},
+    pages: data.metiersPages || {},
+  };
+}
+
+function CardTitle({ page }) {
+  return (
+    <div className="card-title">
+      <div className={`card-icon ${page.iconClass}`}>
+        <i data-lucide={page.icon} style={{ width: 20, height: 20 }} />
+      </div>
+      {page.title}
+    </div>
+  );
+}
+
 export default function DocumentairesSection() {
+  const { header, pages } = getMetiersData();
+  const domaines = pages.domaines || {};
+  const referentiels = pages.referentiels || {};
+  const livrables = pages.livrables || {};
+  const si = pages.si || {};
+  const thematiques = pages.thematiques || {};
+  const mediatheque = pages.mediatheque || {};
+
   return (
     <>
       <div id="view-documentaires" className="view-section km-container">
         <div className="km-header">
-          <h2>Espaces métiers</h2>
-          <p>
-            Domaines métiers, référentiels, livrables, intégration SI,
-            structuration et médiathèque.
-          </p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
-        {/* Sous‑rubriques (niveau 1) */}
         <div
           className="km-navbar"
           id="metiersMainNavbar"
@@ -27,7 +50,6 @@ export default function DocumentairesSection() {
             flexWrap: "nowrap",
           }}
         ></div>
-        {/* Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) */}
         <div
           className="km-navbar"
           id="metiersSubNavbar"
@@ -42,7 +64,6 @@ export default function DocumentairesSection() {
             flexWrap: "nowrap",
           }}
         ></div>
-        {/* Structuration métier */}
         <div
           id="page-metiers-domaines"
           className="km-tab-content"
@@ -50,12 +71,7 @@ export default function DocumentairesSection() {
         >
           <div className="dashboard-card">
             <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i data-lucide="network" style={{ width: 20, height: 20 }} />
-                </div>
-                Domaines métiers
-              </div>
+              <CardTitle page={domaines} />
             </div>
             <div style={{ padding: 18 }}>
               <div
@@ -66,8 +82,7 @@ export default function DocumentairesSection() {
                   marginBottom: 12,
                 }}
               >
-                Organisation des espaces selon les différents métiers de la CMR
-                (maquette).
+                {domaines.intro}
               </div>
               <div id="metiersDomainesNav" className="km-grid" />
               <div
@@ -82,12 +97,11 @@ export default function DocumentairesSection() {
                   fontSize: 13,
                 }}
               >
-                Sélectionnez un domaine.
+                {domaines.emptyDetail}
               </div>
             </div>
           </div>
         </div>
-        {/* Référentiels métiers */}
         <div
           id="page-metiers-referentiels"
           className="km-tab-content"
@@ -95,15 +109,7 @@ export default function DocumentairesSection() {
         >
           <div className="dashboard-card">
             <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon green">
-                  <i
-                    data-lucide="folder-open"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Fournisseurs / projets / applications
-              </div>
+              <CardTitle page={referentiels} />
             </div>
             <div style={{ padding: 18 }}>
               <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
@@ -111,7 +117,7 @@ export default function DocumentairesSection() {
                 <input
                   id="metiersRefSearch"
                   className="actu-search-input"
-                  placeholder="Rechercher (référentiel, application, projet…)…"
+                  placeholder={referentiels.searchPlaceholder}
                   onInput={(event) =>
                     runLegacyHandler(event, "renderMetiersReferentiels()")
                   }
@@ -125,50 +131,25 @@ export default function DocumentairesSection() {
                   marginBottom: 12,
                 }}
               >
-                <button
-                  className="actu-filter-btn active"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setMetiersRefType('all', this)")
-                  }
-                >
-                  Tous
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "setMetiersRefType('Fournisseur', this)",
-                    )
-                  }
-                >
-                  Fournisseurs
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setMetiersRefType('Projet', this)")
-                  }
-                >
-                  Projets
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "setMetiersRefType('Application', this)",
-                    )
-                  }
-                >
-                  Applications
-                </button>
+                {(referentiels.filters || []).map((filter) => (
+                  <button
+                    key={filter.type}
+                    className={`actu-filter-btn${filter.active ? " active" : ""}`}
+                    onClick={(event) =>
+                      runLegacyHandler(
+                        event,
+                        `setMetiersRefType('${filter.type}', this)`,
+                      )
+                    }
+                  >
+                    {filter.label}
+                  </button>
+                ))}
               </div>
               <div id="metiersRefList" className="doc-list" />
             </div>
           </div>
         </div>
-        {/* Documents métiers */}
         <div
           id="page-metiers-livrables"
           className="km-tab-content"
@@ -176,15 +157,7 @@ export default function DocumentairesSection() {
         >
           <div className="dashboard-card">
             <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon orange">
-                  <i
-                    data-lucide="file-stack"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Livrables
-              </div>
+              <CardTitle page={livrables} />
             </div>
             <div style={{ padding: 18 }}>
               <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
@@ -192,7 +165,7 @@ export default function DocumentairesSection() {
                 <input
                   id="metiersLivSearch"
                   className="actu-search-input"
-                  placeholder="Rechercher un livrable…"
+                  placeholder={livrables.searchPlaceholder}
                   onInput={(event) =>
                     runLegacyHandler(event, "renderMetiersLivrables()")
                   }
@@ -202,7 +175,6 @@ export default function DocumentairesSection() {
             </div>
           </div>
         </div>
-        {/* Intégration SI */}
         <div
           id="page-metiers-si"
           className="km-tab-content"
@@ -210,12 +182,7 @@ export default function DocumentairesSection() {
         >
           <div className="dashboard-card">
             <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon purple">
-                  <i data-lucide="plug" style={{ width: 20, height: 20 }} />
-                </div>
-                Systèmes existants
-              </div>
+              <CardTitle page={si} />
             </div>
             <div style={{ padding: 18 }}>
               <div
@@ -235,7 +202,7 @@ export default function DocumentairesSection() {
                   }}
                 >
                   <div style={{ fontWeight: 900, color: "#0f172a" }}>
-                    Accès / intégration SI
+                    {si.integrationTitle}
                   </div>
                   <div
                     style={{
@@ -245,8 +212,7 @@ export default function DocumentairesSection() {
                       lineHeight: "1.7",
                     }}
                   >
-                    Permettre l’accès ou l’intégration avec d’autres outils SI
-                    (maquette). Dépend SI.
+                    {si.integrationDescription}
                   </div>
                   <div
                     style={{
@@ -259,24 +225,18 @@ export default function DocumentairesSection() {
                     <button
                       className="primary-btn"
                       onClick={(event) =>
-                        runLegacyHandler(
-                          event,
-                          "openMockDownload('Catalogue_APIs_SI.pdf','Catalogue APIs SI')",
-                        )
+                        runLegacyHandler(event, si.primaryAction?.handler)
                       }
                     >
-                      Catalogue APIs
+                      {si.primaryAction?.label}
                     </button>
                     <button
                       className="secondary-btn"
                       onClick={(event) =>
-                        runLegacyHandler(
-                          event,
-                          "openMockDownload('Guide_SSO_Acces.pdf','Guide SSO & Accès')",
-                        )
+                        runLegacyHandler(event, si.secondaryAction?.handler)
                       }
                     >
-                      Guide accès
+                      {si.secondaryAction?.label}
                     </button>
                   </div>
                 </div>
@@ -289,7 +249,7 @@ export default function DocumentairesSection() {
                   }}
                 >
                   <div style={{ fontWeight: 900, color: "#0f172a" }}>
-                    Widget état
+                    {si.widgetTitle}
                   </div>
                   <div
                     id="metiersSiWidget"
@@ -307,7 +267,7 @@ export default function DocumentairesSection() {
                       runLegacyHandler(event, "renderMetiersSiWidget(true)")
                     }
                   >
-                    Actualiser
+                    {si.refreshLabel}
                   </button>
                 </div>
               </div>
@@ -321,7 +281,7 @@ export default function DocumentairesSection() {
                 }}
               >
                 <div style={{ fontWeight: 900, color: "#0f172a" }}>
-                  Systèmes connectés
+                  {si.systemsTitle}
                 </div>
                 <div
                   id="metiersSiList"
@@ -332,7 +292,6 @@ export default function DocumentairesSection() {
             </div>
           </div>
         </div>
-        {/* Structuration */}
         <div
           id="page-metiers-thematiques"
           className="km-tab-content"
@@ -340,12 +299,7 @@ export default function DocumentairesSection() {
         >
           <div className="dashboard-card">
             <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i data-lucide="tags" style={{ width: 20, height: 20 }} />
-                </div>
-                Thématiques
-              </div>
+              <CardTitle page={thematiques} />
             </div>
             <div style={{ padding: 18 }}>
               <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
@@ -353,7 +307,7 @@ export default function DocumentairesSection() {
                 <input
                   id="metiersThemeSearch"
                   className="actu-search-input"
-                  placeholder="Filtrer / navigation (ex: liquidation, contrôle, SI)…"
+                  placeholder={thematiques.searchPlaceholder}
                   onInput={(event) =>
                     runLegacyHandler(event, "renderMetiersThemes()")
                   }
@@ -363,7 +317,6 @@ export default function DocumentairesSection() {
             </div>
           </div>
         </div>
-        {/* Multimédia métier */}
         <div
           id="page-metiers-mediatheque"
           className="km-tab-content"
@@ -371,12 +324,7 @@ export default function DocumentairesSection() {
         >
           <div className="dashboard-card">
             <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon pink">
-                  <i data-lucide="image" style={{ width: 20, height: 20 }} />
-                </div>
-                Médiathèque métier
-              </div>
+              <CardTitle page={mediatheque} />
             </div>
             <div style={{ padding: 18 }}>
               <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
@@ -384,7 +332,7 @@ export default function DocumentairesSection() {
                 <input
                   id="metiersMediaSearch"
                   className="actu-search-input"
-                  placeholder="Rechercher un média…"
+                  placeholder={mediatheque.searchPlaceholder}
                   onInput={(event) =>
                     runLegacyHandler(event, "renderMetiersMedia()")
                   }
@@ -402,7 +350,6 @@ export default function DocumentairesSection() {
           </div>
         </div>
       </div>
-      {/* INNOVATION VIEW */}
     </>
   );
 }

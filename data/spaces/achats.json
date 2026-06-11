@@ -1,0 +1,32 @@
+{
+  "space": "achats",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "achatsHeader": {
+      "title": "Espace Achats",
+      "description": "Support opérationnel, accès PPA et référentiel fournisseurs."
+    },
+    "achatsCards": [
+      {
+        "title": "Plan Prévisionnel des Achats (PPA)",
+        "meta": "Version 2026 consolidée",
+        "icon": "shopping-bag",
+        "iconStyle": {
+          "background": "#fdf2f8",
+          "color": "#db2777"
+        },
+        "actionIcon": "download"
+      },
+      {
+        "title": "Référentiel Fournisseurs",
+        "meta": "Dernière MAJ: 3 jours",
+        "icon": "book-check",
+        "iconStyle": {
+          "background": "#eff6ff",
+          "color": "#3b82f6"
+        },
+        "actionIcon": "external-link"
+      }
+    ]
+  }
+}

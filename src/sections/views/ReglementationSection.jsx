@@ -1,19 +1,90 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getRegData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.regHeader || {},
+    pages: data.regPages || {},
+  };
+}
+
+function CardTitle({ page }) {
+  return (
+    <div className="card-title">
+      <div className={`card-icon ${page.iconClass}`}>
+        <i data-lucide={page.icon} style={{ width: 20, height: 20 }} />
+      </div>
+      {page.title}
+    </div>
+  );
+}
+
+function FilterButtons({ filters = [], handler }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: 10,
+        flexWrap: "wrap",
+        marginBottom: 12,
+      }}
+    >
+      {filters.map((filter) => (
+        <button
+          key={filter.value}
+          className={`actu-filter-btn${filter.active ? " active" : ""}`}
+          onClick={(event) =>
+            runLegacyHandler(event, `${handler}('${filter.value}', this)`)
+          }
+        >
+          {filter.label}{" "}
+          {filter.suffix && (
+            <span style={{ opacity: ".7", fontSize: 10 }}>
+              {filter.suffix}
+            </span>
+          )}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function SearchInput({ id, icon = "search", placeholder, onInput }) {
+  return (
+    <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
+      <i data-lucide={icon} style={{ width: 16 }} />
+      <input
+        id={id}
+        className="actu-search-input"
+        placeholder={placeholder}
+        onInput={(event) => runLegacyHandler(event, onInput)}
+      />
+    </div>
+  );
+}
+
+function SimpleCardPage({ page, children }) {
+  return (
+    <div className="dashboard-card">
+      <div className="card-header">
+        <CardTitle page={page} />
+      </div>
+      {children}
+    </div>
+  );
+}
+
 export default function ReglementationSection() {
+  const { header, pages } = getRegData();
+
   return (
     <>
       <div id="view-reglementation" className="view-section km-container">
         <div className="km-header">
-          <h2>Espace Réglementaire</h2>
-          <p>
-            Référentiels réglementaires et internes, structuration, recherche,
-            GED, gouvernance, validation, traçabilité et archivage —
-            conformément au cadrage CMS.
-          </p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
-        {/* Sous‑rubriques (niveau 1) */}
         <div
           className="km-navbar"
           id="regMainNavbar"
@@ -28,7 +99,6 @@ export default function ReglementationSection() {
             flexWrap: "nowrap",
           }}
         ></div>
-        {/* Sous‑rubriques (niveau 2 — selon sous‑rubrique principale) */}
         <div
           className="km-navbar"
           id="regSubNavbar"
@@ -43,293 +113,76 @@ export default function ReglementationSection() {
             flexWrap: "nowrap",
           }}
         ></div>
-        {/* Référentiels réglementaires */}
-        <div
-          id="page-reg-textes"
-          className="km-tab-content"
-          style={{ display: "block" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon green">
-                  <i
-                    data-lucide="file-text"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Textes officiels
-              </div>
-            </div>
+
+        <div id="page-reg-textes" className="km-tab-content" style={{ display: "block" }}>
+          <SimpleCardPage page={pages.textes || {}}>
             <div style={{ padding: 18 }}>
-              <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
-                <i data-lucide="search" style={{ width: 16 }} />
-                <input
-                  id="regTextesSearch"
-                  className="actu-search-input"
-                  placeholder="Rechercher un texte, une référence, un mot-clé…"
-                  onInput={(event) =>
-                    runLegacyHandler(event, "renderRegTextes()")
-                  }
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 10,
-                  flexWrap: "wrap",
-                  marginBottom: 12,
-                }}
-              >
-                <button
-                  className="actu-filter-btn active"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegTextesType('all', this)")
-                  }
-                >
-                  Tous
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegTextesType('Loi', this)")
-                  }
-                >
-                  Lois
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegTextesType('Décret', this)")
-                  }
-                >
-                  Décrets
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "setRegTextesType('Circulaire', this)",
-                    )
-                  }
-                >
-                  Circulaires
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "setRegTextesType('Décision', this)",
-                    )
-                  }
-                >
-                  Décisions
-                </button>
-              </div>
+              <SearchInput
+                id="regTextesSearch"
+                placeholder={pages.textes?.searchPlaceholder}
+                onInput="renderRegTextes()"
+              />
+              <FilterButtons
+                filters={pages.textes?.filters}
+                handler="setRegTextesType"
+              />
               <div id="regTextesList" className="doc-list" />
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
-        {/* Structuration */}
-        <div
-          id="page-reg-thematiques"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i
-                    data-lucide="layout-grid"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Thématiques
-              </div>
-            </div>
+
+        <div id="page-reg-thematiques" className="km-tab-content" style={{ display: "none" }}>
+          <SimpleCardPage page={pages.thematiques || {}}>
             <div style={{ padding: 18 }}>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 10,
-                  flexWrap: "wrap",
-                  marginBottom: 12,
-                }}
-              >
-                <button
-                  className="actu-filter-btn active"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegTheme('all', this)")
-                  }
-                >
-                  Toutes
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegTheme('Retraite', this)")
-                  }
-                >
-                  Retraite
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegTheme('Gouvernance', this)")
-                  }
-                >
-                  Gouvernance
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegTheme('Finance', this)")
-                  }
-                >
-                  Finance
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegTheme('Sécurité', this)")
-                  }
-                >
-                  Sécurité
-                </button>
-              </div>
+              <FilterButtons
+                filters={pages.thematiques?.filters}
+                handler="setRegTheme"
+              />
               <div className="km-grid" id="regThematicsGrid" />
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
-        {/* Référentiels internes */}
-        <div
-          id="page-reg-procedures"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon orange">
-                  <i
-                    data-lucide="list-checks"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Procédures
-              </div>
-            </div>
+
+        <div id="page-reg-procedures" className="km-tab-content" style={{ display: "none" }}>
+          <SimpleCardPage page={pages.procedures || {}}>
             <div style={{ padding: 18 }}>
-              <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
-                <i data-lucide="search" style={{ width: 16 }} />
-                <input
-                  id="regProcSearch"
-                  className="actu-search-input"
-                  placeholder="Rechercher une procédure…"
-                  onInput={(event) =>
-                    runLegacyHandler(event, "renderRegProcedures()")
-                  }
-                />
-              </div>
+              <SearchInput
+                id="regProcSearch"
+                placeholder={pages.procedures?.searchPlaceholder}
+                onInput="renderRegProcedures()"
+              />
               <div id="regProceduresList" className="doc-list" />
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
-        <div
-          id="page-reg-notes"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon pink">
-                  <i
-                    data-lucide="book-open"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Notes / guides
-              </div>
-            </div>
+
+        <div id="page-reg-notes" className="km-tab-content" style={{ display: "none" }}>
+          <SimpleCardPage page={pages.notes || {}}>
             <div style={{ padding: 18 }}>
               <div id="regNotesList" className="doc-list" />
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
-        {/* Recherche */}
-        <div
-          id="page-reg-moteur"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon green">
-                  <i data-lucide="search" style={{ width: 20, height: 20 }} />
-                </div>
-                Moteur de recherche
-              </div>
-            </div>
+
+        <div id="page-reg-moteur" className="km-tab-content" style={{ display: "none" }}>
+          <SimpleCardPage page={pages.moteur || {}}>
             <div style={{ padding: 18 }}>
               <div className="actu-search-wrap">
                 <i data-lucide="search" style={{ width: 16 }} />
                 <input
                   id="regGlobalSearch"
                   className="actu-search-input"
-                  placeholder="Recherche multi-sources (textes, procédures, notes)…"
+                  placeholder={pages.moteur?.searchPlaceholder}
                   onInput={(event) =>
                     runLegacyHandler(event, "renderRegGlobalSearch()")
                   }
                 />
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 10,
-                  flexWrap: "wrap",
-                  marginTop: 12,
-                }}
-              >
-                <button
-                  className="actu-filter-btn active"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegGlobalScope('all', this)")
-                  }
-                >
-                  Tout
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegGlobalScope('textes', this)")
-                  }
-                >
-                  Textes
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "setRegGlobalScope('procedures', this)",
-                    )
-                  }
-                >
-                  Procédures
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegGlobalScope('notes', this)")
-                  }
-                >
-                  Notes
-                </button>
+              <div style={{ marginTop: 12 }}>
+                <FilterButtons
+                  filters={pages.moteur?.filters}
+                  handler="setRegGlobalScope"
+                />
               </div>
               <div
                 id="regGlobalResults"
@@ -337,23 +190,11 @@ export default function ReglementationSection() {
                 style={{ marginTop: 12 }}
               />
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
-        {/* GED */}
-        <div
-          id="page-reg-ged"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i data-lucide="database" style={{ width: 20, height: 20 }} />
-                </div>
-                Archivage — lien GED
-              </div>
-            </div>
+
+        <div id="page-reg-ged" className="km-tab-content" style={{ display: "none" }}>
+          <SimpleCardPage page={pages.ged || {}}>
             <div style={{ padding: 18 }}>
               <div
                 style={{
@@ -371,18 +212,15 @@ export default function ReglementationSection() {
                     lineHeight: "1.7",
                   }}
                 >
-                  Accéder aux versions archivées via la GED (maquette).
+                  {pages.ged?.description}
                 </div>
                 <button
                   className="primary-btn"
                   onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "openMockDownload('Lien_GED.pdf','Accès GED')",
-                    )
+                    runLegacyHandler(event, pages.ged?.actionHandler)
                   }
                 >
-                  Lien / accès GED
+                  {pages.ged?.action}
                 </button>
               </div>
               <div
@@ -395,7 +233,7 @@ export default function ReglementationSection() {
                 }}
               >
                 <div style={{ fontWeight: 900, color: "#0f172a" }}>
-                  Dernières versions archivées
+                  {pages.ged?.latestTitle}
                 </div>
                 <div
                   id="regGedList"
@@ -404,23 +242,11 @@ export default function ReglementationSection() {
                 />
               </div>
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
-        {/* Gouvernance */}
-        <div
-          id="page-reg-gestion"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon orange">
-                  <i data-lucide="settings" style={{ width: 20, height: 20 }} />
-                </div>
-                Gestion des contenus (back‑office)
-              </div>
-            </div>
+
+        <div id="page-reg-gestion" className="km-tab-content" style={{ display: "none" }}>
+          <SimpleCardPage page={pages.gestion || {}}>
             <div style={{ padding: 18 }}>
               <div
                 style={{
@@ -436,7 +262,7 @@ export default function ReglementationSection() {
                     runLegacyHandler(event, "regCreateContent()")
                   }
                 >
-                  Créer un contenu
+                  {pages.gestion?.createLabel}
                 </button>
                 <button
                   className="secondary-btn"
@@ -444,7 +270,7 @@ export default function ReglementationSection() {
                     runLegacyHandler(event, "renderRegGestion()")
                   }
                 >
-                  Rafraîchir
+                  {pages.gestion?.refreshLabel}
                 </button>
               </div>
               <div
@@ -469,72 +295,33 @@ export default function ReglementationSection() {
                         borderBottom: "1px solid #e2e8f0",
                       }}
                     >
-                      <th
-                        style={{
-                          padding: "12px 16px",
-                          textAlign: "left",
-                          fontWeight: 700,
-                          color: "#475569",
-                        }}
-                      >
-                        Contenu
-                      </th>
-                      <th
-                        style={{
-                          padding: "12px 16px",
-                          textAlign: "left",
-                          fontWeight: 700,
-                          color: "#475569",
-                        }}
-                      >
-                        Type
-                      </th>
-                      <th
-                        style={{
-                          padding: "12px 16px",
-                          textAlign: "left",
-                          fontWeight: 700,
-                          color: "#475569",
-                        }}
-                      >
-                        Statut
-                      </th>
-                      <th
-                        style={{
-                          padding: "12px 16px",
-                          textAlign: "right",
-                          fontWeight: 700,
-                          color: "#475569",
-                        }}
-                      >
-                        Actions
-                      </th>
+                      {(pages.gestion?.columns || []).map((column, index) => (
+                        <th
+                          key={column}
+                          style={{
+                            padding: "12px 16px",
+                            textAlign:
+                              index === (pages.gestion?.columns || []).length - 1
+                                ? "right"
+                                : "left",
+                            fontWeight: 700,
+                            color: "#475569",
+                          }}
+                        >
+                          {column}
+                        </th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody id="regGestionTable" />
                 </table>
               </div>
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
-        {/* Validation */}
-        <div
-          id="page-reg-workflow"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon green">
-                  <i
-                    data-lucide="check-circle-2"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Workflow validation
-              </div>
-            </div>
+
+        <div id="page-reg-workflow" className="km-tab-content" style={{ display: "none" }}>
+          <SimpleCardPage page={pages.workflow || {}}>
             <div style={{ padding: 18 }}>
               <div
                 style={{
@@ -544,149 +331,43 @@ export default function ReglementationSection() {
                   marginBottom: 12,
                 }}
               >
-                Validation obligatoire avant publication (maquette).
+                {pages.workflow?.description}
               </div>
               <div id="regWorkflowQueue" className="doc-list" />
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
-        {/* Traçabilité */}
-        <div
-          id="page-reg-historique"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i data-lucide="history" style={{ width: 20, height: 20 }} />
-                </div>
-                Historique (journal)
-              </div>
-            </div>
+
+        <div id="page-reg-historique" className="km-tab-content" style={{ display: "none" }}>
+          <SimpleCardPage page={pages.historique || {}}>
             <div style={{ padding: 18 }}>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 10,
-                  flexWrap: "wrap",
-                  marginBottom: 12,
-                }}
-              >
-                <button
-                  className="actu-filter-btn active"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegHistoryFilter('all', this)")
-                  }
-                >
-                  Tout
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "setRegHistoryFilter('create', this)",
-                    )
-                  }
-                >
-                  Créations
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "setRegHistoryFilter('update', this)",
-                    )
-                  }
-                >
-                  Modifications
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "setRegHistoryFilter('validate', this)",
-                    )
-                  }
-                >
-                  Validations
-                </button>
-              </div>
+              <FilterButtons
+                filters={pages.historique?.filters}
+                handler="setRegHistoryFilter"
+              />
               <div id="regHistoryList" className="doc-list" />
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
-        {/* Archivage */}
-        <div
-          id="page-reg-archives"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon pink">
-                  <i data-lucide="archive" style={{ width: 20, height: 20 }} />
-                </div>
-                Documents actifs / archivés
-              </div>
-            </div>
+
+        <div id="page-reg-archives" className="km-tab-content" style={{ display: "none" }}>
+          <SimpleCardPage page={pages.archives || {}}>
             <div style={{ padding: 18 }}>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 10,
-                  flexWrap: "wrap",
-                  marginBottom: 12,
-                }}
-              >
-                <button
-                  className="actu-filter-btn active"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "setRegArchiveMode('actifs', this)")
-                  }
-                >
-                  Actifs{" "}
-                  <span style={{ opacity: ".7", fontSize: 10 }}>
-                    (en vigueur)
-                  </span>
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "setRegArchiveMode('archives', this)",
-                    )
-                  }
-                >
-                  Archivés{" "}
-                  <span style={{ opacity: ".7", fontSize: 10 }}>
-                    (indicateur)
-                  </span>
-                </button>
-              </div>
-              <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
-                <i data-lucide="filter" style={{ width: 16 }} />
-                <input
-                  id="regArchiveTag"
-                  className="actu-search-input"
-                  placeholder="Filtrer / identifier par tag (ex: 2026, retraite, finance)…"
-                  onInput={(event) =>
-                    runLegacyHandler(event, "renderRegArchives()")
-                  }
-                />
-              </div>
+              <FilterButtons
+                filters={pages.archives?.filters}
+                handler="setRegArchiveMode"
+              />
+              <SearchInput
+                id="regArchiveTag"
+                icon="filter"
+                placeholder={pages.archives?.searchPlaceholder}
+                onInput="renderRegArchives()"
+              />
               <div id="regArchivesList" className="doc-list" />
             </div>
-          </div>
+          </SimpleCardPage>
         </div>
       </div>
-      {/* COLLABORATIFS VIEW */}
     </>
   );
 }

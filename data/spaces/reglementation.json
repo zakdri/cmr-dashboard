@@ -2,6 +2,162 @@
   "space": "reglementation",
   "updatedAt": "2026-06-08",
   "data": {
+    "regHeader": {
+      "title": "Espace Réglementaire",
+      "description": "Référentiels réglementaires et internes, structuration, recherche, GED, gouvernance, validation, traçabilité et archivage — conformément au cadrage CMS."
+    },
+    "regMainTabs": [
+      { "label": "Référentiels réglementaires", "tab": "referentiels" },
+      { "label": "Structuration", "tab": "structuration" },
+      { "label": "Référentiels internes", "tab": "internes" },
+      { "label": "Recherche", "tab": "recherche" },
+      { "label": "GED", "tab": "ged" },
+      { "label": "Gouvernance", "tab": "gouvernance" },
+      { "label": "Validation", "tab": "validation" },
+      { "label": "Traçabilité", "tab": "tracabilite" },
+      { "label": "Archivage", "tab": "archivage" }
+    ],
+    "regSectionConfig": {
+      "referentiels": { "subs": [{ "id": "textes", "label": "Textes officiels" }], "defaultSub": "textes" },
+      "structuration": { "subs": [{ "id": "thematiques", "label": "Thématiques" }], "defaultSub": "thematiques" },
+      "internes": { "subs": [{ "id": "procedures", "label": "Procédures" }, { "id": "notes", "label": "Notes / guides" }], "defaultSub": "procedures" },
+      "recherche": { "subs": [{ "id": "moteur", "label": "Moteur de recherche" }], "defaultSub": "moteur" },
+      "ged": { "subs": [{ "id": "ged", "label": "Archivage" }], "defaultSub": "ged" },
+      "gouvernance": { "subs": [{ "id": "gestion", "label": "Gestion des contenus" }], "defaultSub": "gestion" },
+      "validation": { "subs": [{ "id": "workflow", "label": "Workflow validation" }], "defaultSub": "workflow" },
+      "tracabilite": { "subs": [{ "id": "historique", "label": "Historique" }], "defaultSub": "historique" },
+      "archivage": { "subs": [{ "id": "archives", "label": "Documents actifs / archivés" }], "defaultSub": "archives" }
+    },
+    "regPages": {
+      "textes": {
+        "title": "Textes officiels",
+        "icon": "file-text",
+        "iconClass": "green",
+        "searchPlaceholder": "Rechercher un texte, une référence, un mot-clé…",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Lois", "value": "Loi" },
+          { "label": "Décrets", "value": "Décret" },
+          { "label": "Circulaires", "value": "Circulaire" },
+          { "label": "Décisions", "value": "Décision" }
+        ]
+      },
+      "thematiques": {
+        "title": "Thématiques",
+        "icon": "layout-grid",
+        "iconClass": "blue",
+        "filters": [
+          { "label": "Toutes", "value": "all", "active": true },
+          { "label": "Retraite", "value": "Retraite" },
+          { "label": "Gouvernance", "value": "Gouvernance" },
+          { "label": "Finance", "value": "Finance" },
+          { "label": "Sécurité", "value": "Sécurité" }
+        ]
+      },
+      "procedures": {
+        "title": "Procédures",
+        "icon": "list-checks",
+        "iconClass": "orange",
+        "searchPlaceholder": "Rechercher une procédure…"
+      },
+      "notes": {
+        "title": "Notes / guides",
+        "icon": "book-open",
+        "iconClass": "pink"
+      },
+      "moteur": {
+        "title": "Moteur de recherche",
+        "icon": "search",
+        "iconClass": "green",
+        "searchPlaceholder": "Recherche multi-sources (textes, procédures, notes)…",
+        "filters": [
+          { "label": "Tout", "value": "all", "active": true },
+          { "label": "Textes", "value": "textes" },
+          { "label": "Procédures", "value": "procedures" },
+          { "label": "Notes", "value": "notes" }
+        ]
+      },
+      "ged": {
+        "title": "Archivage — lien GED",
+        "icon": "database",
+        "iconClass": "blue",
+        "description": "Accéder aux versions archivées via la GED (maquette).",
+        "action": "Lien / accès GED",
+        "actionHandler": "openMockDownload('Lien_GED.pdf','Accès GED')",
+        "latestTitle": "Dernières versions archivées"
+      },
+      "gestion": {
+        "title": "Gestion des contenus (back‑office)",
+        "icon": "settings",
+        "iconClass": "orange",
+        "createLabel": "Créer un contenu",
+        "refreshLabel": "Rafraîchir",
+        "columns": ["Contenu", "Type", "Statut", "Actions"]
+      },
+      "workflow": {
+        "title": "Workflow validation",
+        "icon": "check-circle-2",
+        "iconClass": "green",
+        "description": "Validation obligatoire avant publication (maquette)."
+      },
+      "historique": {
+        "title": "Historique (journal)",
+        "icon": "history",
+        "iconClass": "blue",
+        "filters": [
+          { "label": "Tout", "value": "all", "active": true },
+          { "label": "Créations", "value": "create" },
+          { "label": "Modifications", "value": "update" },
+          { "label": "Validations", "value": "validate" }
+        ]
+      },
+      "archives": {
+        "title": "Documents actifs / archivés",
+        "icon": "archive",
+        "iconClass": "pink",
+        "filters": [
+          { "label": "Actifs", "suffix": "(en vigueur)", "value": "actifs", "active": true },
+          { "label": "Archivés", "suffix": "(indicateur)", "value": "archives" }
+        ],
+        "searchPlaceholder": "Filtrer / identifier par tag (ex: 2026, retraite, finance)…"
+      }
+    },
+    "regThemes": [
+      { "title": "Retraite", "desc": "Textes et procédures liés à la retraite.", "icon": "clock-3" },
+      { "title": "Gouvernance", "desc": "Référentiels, chartes, décisions.", "icon": "landmark" },
+      { "title": "Finance", "desc": "Reporting, conformité financière.", "icon": "wallet" },
+      { "title": "Sécurité", "desc": "Normes, consignes, contrôles.", "icon": "shield" }
+    ],
+    "regLabels": {
+      "consultLabel": "Consulter",
+      "downloadLabel": "Télécharger",
+      "openLabel": "Ouvrir",
+      "browseLabel": "Parcourir",
+      "submitLabel": "Soumettre",
+      "publishLabel": "Publier",
+      "rejectLabel": "Rejeter",
+      "validateLabel": "Valider",
+      "newContentTitle": "Nouveau contenu (brouillon)",
+      "newContentType": "Document",
+      "draftStatus": "Brouillon",
+      "validationStatus": "En validation",
+      "publishedStatus": "Publié",
+      "createdPrefix": "Création:",
+      "statusPrefix": "Statut:",
+      "validationPrefix": "Validation",
+      "rejectionPrefix": "Rejet",
+      "contentFallback": "Contenu",
+      "todayLabel": "Aujourd’hui",
+      "tagsLabel": "tags",
+      "archiveTagsLabel": "Tags",
+      "activeLabel": "Actif",
+      "archivedLabel": "Archivé",
+      "noResult": "Aucun résultat.",
+      "noProcedure": "Aucune procédure.",
+      "searchPrompt": "Tapez un mot-clé pour lancer la recherche.",
+      "noPending": "Aucun élément en attente.",
+      "noDocument": "Aucun document."
+    },
     "regTextesItems": [
       {
         "title": "Loi n° 12-34 – Gouvernance des organismes",

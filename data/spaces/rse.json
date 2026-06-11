@@ -2,6 +2,137 @@
   "space": "rse",
   "updatedAt": "2026-06-08",
   "data": {
+    "rseHeader": {
+      "title": "Espace RSE",
+      "description": "Référentiels RSE, reporting, initiatives, participation et animation."
+    },
+    "rseMainTabs": [
+      { "label": "Référentiels RSE", "tab": "referentiels" },
+      { "label": "Reporting", "tab": "reporting" },
+      { "label": "Initiatives", "tab": "initiatives" },
+      { "label": "Communication", "tab": "communication" },
+      { "label": "Participation", "tab": "participation" },
+      { "label": "Structuration", "tab": "structuration" },
+      { "label": "Interactivité", "tab": "interactivite" }
+    ],
+    "rseSectionConfig": {
+      "referentiels": {
+        "label": "Référentiels RSE",
+        "subs": [
+          { "id": "politiques", "label": "Politiques" },
+          { "id": "chartes", "label": "Chartes" },
+          { "id": "codes", "label": "Codes éthiques" },
+          { "id": "guides", "label": "Guides pratiques" }
+        ],
+        "defaultSub": "politiques"
+      },
+      "reporting": {
+        "label": "Reporting",
+        "subs": [{ "id": "rapports", "label": "Rapports RSE" }],
+        "defaultSub": "rapports"
+      },
+      "initiatives": {
+        "label": "Initiatives",
+        "subs": [{ "id": "actions", "label": "Actions RSE" }],
+        "defaultSub": "actions"
+      },
+      "communication": {
+        "label": "Communication",
+        "subs": [{ "id": "infos", "label": "Information RSE" }],
+        "defaultSub": "infos"
+      },
+      "participation": {
+        "label": "Participation",
+        "subs": [
+          { "id": "idees", "label": "Idées" },
+          { "id": "contributions", "label": "Contributions" },
+          { "id": "rex", "label": "Retours d’expérience" }
+        ],
+        "defaultSub": "idees"
+      },
+      "structuration": {
+        "label": "Structuration",
+        "subs": [{ "id": "axes", "label": "Axes stratégiques" }],
+        "defaultSub": "axes"
+      },
+      "interactivite": {
+        "label": "Interactivité",
+        "subs": [
+          { "id": "echanges", "label": "Échanges" },
+          { "id": "sensibilisation", "label": "Sensibilisation" },
+          { "id": "animation", "label": "Animation" }
+        ],
+        "defaultSub": "echanges"
+      }
+    },
+    "rsePages": {
+      "rapports": { "title": "Rapports RSE", "icon": "file-text", "iconClass": "green" },
+      "actions": { "title": "Actions RSE", "icon": "heart-handshake", "iconClass": "orange" },
+      "infos": { "title": "Information RSE", "icon": "info", "iconClass": "blue" },
+      "idees": {
+        "title": "Idées RSE",
+        "icon": "lightbulb",
+        "iconClass": "pink",
+        "submitLabel": "Soumettre",
+        "formTitle": "Nouvelle idée RSE",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre",
+        "descriptionPlaceholder": "Description…",
+        "sendLabel": "Envoyer",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une idée."
+      },
+      "contributions": {
+        "title": "Contributions",
+        "icon": "message-square-plus",
+        "iconClass": "green",
+        "publishLabel": "Publier",
+        "formTitle": "Nouvelle contribution",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre",
+        "bodyPlaceholder": "Contenu…",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une contribution."
+      },
+      "rex": { "title": "Retours d’expérience RSE", "icon": "sparkles", "iconClass": "orange" },
+      "axes": {
+        "title": "Axes stratégiques (filtres / navigation)",
+        "icon": "sliders-horizontal",
+        "iconClass": "green",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Environnement", "value": "Environnement" },
+          { "label": "Social", "value": "Social" },
+          { "label": "Gouvernance", "value": "Gouvernance" }
+        ]
+      },
+      "echanges": { "title": "Échanges participatifs", "icon": "message-circle", "iconClass": "blue" },
+      "sensibilisation": { "title": "Sensibilisation", "icon": "megaphone", "iconClass": "pink" },
+      "animation": { "title": "Animation (campagnes / sondages)", "icon": "party-popper", "iconClass": "orange" }
+    },
+    "rseLabels": {
+      "consultLabel": "Consulter",
+      "scoreLabel": "Score",
+      "voteUpLabel": "Voter +1",
+      "voteDownLabel": "Voter -1",
+      "todayLabel": "Aujourd’hui",
+      "filterLabel": "Filtrer",
+      "messagePlaceholder": "Écrire un message…",
+      "commentLabel": "Commenter",
+      "currentUserLabel": "Vous",
+      "nowLabel": "à l’instant",
+      "participateLabel": "Participer",
+      "resultsLabel": "Voir résultats",
+      "resultsPrefix": "Résultats"
+    },
     "rseReferentiels": {
       "politiques": [
         {

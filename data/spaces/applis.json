@@ -2,6 +2,10 @@
   "space": "applis",
   "updatedAt": "2026-06-08",
   "data": {
+    "applicationsHeader": {
+      "title": "Mes Applications",
+      "description": "Accédez rapidement à tous vos outils métiers et services."
+    },
     "applicationsCategories": [
       {
         "id": "rh",
