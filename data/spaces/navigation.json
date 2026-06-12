@@ -1,0 +1,584 @@
+{
+  "space": "navigation",
+  "updatedAt": "2026-06-12",
+  "data": {
+    "sidebarLabels": {
+      "submenuTitle": "Sous-menu"
+    },
+    "sidebarMainItems": [
+      {
+        "id": "dashboard",
+        "label": "Accueil",
+        "icon": "home",
+        "handler": "switchView('dashboard')",
+        "active": true
+      },
+      {
+        "id": "applis",
+        "label": "Mes Applications",
+        "icon": "layers",
+        "handler": "switchView('applis')"
+      },
+      {
+        "id": "rh",
+        "label": "RH & Mobilité",
+        "icon": "users",
+        "handler": "toggleSidebarSubmenu('rh')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "academy",
+        "label": "CMR Academy",
+        "icon": "graduation-cap",
+        "handler": "switchView('academy')"
+      },
+      {
+        "id": "vie-sociale",
+        "label": "Vie Sociale",
+        "icon": "coffee",
+        "handler": "switchView('vie-sociale')"
+      },
+      {
+        "id": "communication-interne",
+        "label": "Communication interne",
+        "icon": "megaphone",
+        "handler": "switchView('communication-interne')"
+      },
+      {
+        "id": "km",
+        "label": "Knowledge Management",
+        "icon": "brain",
+        "handler": "toggleSidebarSubmenu('km')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "documentaires",
+        "label": "Espaces métiers",
+        "icon": "folder-open",
+        "handler": "toggleSidebarSubmenu('documentaires')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "collaboratifs",
+        "label": "Espaces collaboratifs",
+        "icon": "network",
+        "handler": "toggleSidebarSubmenu('collaboratifs')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "projets",
+        "label": "Projets",
+        "icon": "briefcase",
+        "handler": "switchView('projets')"
+      },
+      {
+        "id": "institutionnel",
+        "label": "Organisation & Gouvernance",
+        "icon": "landmark",
+        "handler": "switchView('institutionnel')"
+      },
+      {
+        "id": "annuaire",
+        "label": "Annuaire",
+        "icon": "users",
+        "handler": "switchView('annuaire')"
+      },
+      {
+        "id": "reglementation",
+        "label": "Réglementation",
+        "icon": "shield-check",
+        "handler": "toggleSidebarSubmenu('reglementation')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "achats",
+        "label": "Achats",
+        "icon": "shopping-cart",
+        "handler": "switchView('achats')"
+      },
+      {
+        "id": "rse",
+        "label": "RSE",
+        "icon": "leaf",
+        "handler": "toggleSidebarSubmenu('rse')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "qse",
+        "label": "QSE",
+        "icon": "badge-check",
+        "handler": "toggleSidebarSubmenu('qse')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "sitd",
+        "label": "Espace SI / SITD",
+        "icon": "server",
+        "handler": "toggleSidebarSubmenu('sitd')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "arc",
+        "label": "Audit, Risque & Conformité",
+        "icon": "shield-check",
+        "handler": "toggleSidebarSubmenu('arc')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "mediatheque",
+        "label": "Médiathèque",
+        "icon": "clapperboard",
+        "handler": "toggleSidebarSubmenu('mediatheque')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "innovation",
+        "label": "Innovation",
+        "icon": "lightbulb",
+        "handler": "toggleSidebarSubmenu('innovation')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "admin",
+        "label": "Administration & Pilotage",
+        "icon": "settings",
+        "handler": "toggleSidebarSubmenu('admin')",
+        "hasSubmenu": true
+      }
+    ],
+    "sidebarSubmenus": {
+      "km": {
+        "title": "Knowledge Management",
+        "items": [
+          {
+            "label": "Référentiels métiers",
+            "tab": "referentiels"
+          },
+          {
+            "label": "Glossaire",
+            "tab": "glossaire"
+          },
+          {
+            "label": "REX",
+            "tab": "rex"
+          },
+          {
+            "label": "E‑learning",
+            "tab": "elearning"
+          },
+          {
+            "label": "Communautés",
+            "tab": "communautes"
+          },
+          {
+            "label": "AMOA / Changement",
+            "tab": "amoa"
+          },
+          {
+            "label": "Docs formalisés",
+            "tab": "docs"
+          },
+          {
+            "label": "Contributions",
+            "tab": "contributions"
+          },
+          {
+            "label": "Catégorisation",
+            "tab": "categorisation"
+          },
+          {
+            "label": "Livrables projets",
+            "tab": "livrables"
+          },
+          {
+            "label": "Modèles / formulaires",
+            "tab": "modeles"
+          },
+          {
+            "label": "Articles / bilans",
+            "tab": "publications"
+          },
+          {
+            "label": "GED",
+            "tab": "ged"
+          },
+          {
+            "label": "GLPI",
+            "tab": "glpi"
+          },
+          {
+            "label": "Supports pédagogiques",
+            "tab": "supports"
+          }
+        ]
+      },
+      "documentaires": {
+        "title": "Espaces métiers",
+        "items": [
+          {
+            "label": "Structuration métier",
+            "tab": "structuration-metier"
+          },
+          {
+            "label": "Référentiels métiers",
+            "tab": "referentiels-metiers"
+          },
+          {
+            "label": "Documents métiers",
+            "tab": "documents-metiers"
+          },
+          {
+            "label": "Intégration SI",
+            "tab": "integration-si"
+          },
+          {
+            "label": "Structuration",
+            "tab": "structuration"
+          },
+          {
+            "label": "Multimédia métier",
+            "tab": "multimedia"
+          }
+        ]
+      },
+      "reglementation": {
+        "title": "Espace Réglementaire",
+        "items": [
+          {
+            "label": "Référentiels réglementaires",
+            "tab": "referentiels"
+          },
+          {
+            "label": "Structuration",
+            "tab": "structuration"
+          },
+          {
+            "label": "Référentiels internes",
+            "tab": "internes"
+          },
+          {
+            "label": "Recherche",
+            "tab": "recherche"
+          },
+          {
+            "label": "GED",
+            "tab": "ged"
+          },
+          {
+            "label": "Gouvernance",
+            "tab": "gouvernance"
+          },
+          {
+            "label": "Validation",
+            "tab": "validation"
+          },
+          {
+            "label": "Traçabilité",
+            "tab": "tracabilite"
+          },
+          {
+            "label": "Archivage",
+            "tab": "archivage"
+          }
+        ]
+      },
+      "collaboratifs": {
+        "title": "Espaces collaboratifs",
+        "items": [
+          {
+            "label": "Discussions",
+            "tab": "discussions"
+          },
+          {
+            "label": "Communautés",
+            "tab": "communautes"
+          },
+          {
+            "label": "Échanges",
+            "tab": "echanges"
+          },
+          {
+            "label": "Partage",
+            "tab": "partage"
+          },
+          {
+            "label": "Animation",
+            "tab": "animation"
+          },
+          {
+            "label": "Vie interne",
+            "tab": "vieinterne"
+          }
+        ]
+      },
+      "mediatheque": {
+        "title": "Médiathèque",
+        "items": [
+          {
+            "label": "Accès central",
+            "tab": "acces"
+          },
+          {
+            "label": "Photothèque",
+            "tab": "photos"
+          },
+          {
+            "label": "Vidéothèque",
+            "tab": "videos"
+          },
+          {
+            "label": "Structuration",
+            "tab": "structuration"
+          },
+          {
+            "label": "Accès contenus",
+            "tab": "acces-contenus"
+          },
+          {
+            "label": "Intégration",
+            "tab": "integration"
+          }
+        ]
+      },
+      "innovation": {
+        "title": "Innovation",
+        "items": [
+          {
+            "label": "Boîte à idées",
+            "tab": "ideation"
+          },
+          {
+            "label": "Suivi des projets",
+            "tab": "suivi"
+          },
+          {
+            "label": "Veille",
+            "tab": "veille"
+          },
+          {
+            "label": "Interactions sociales",
+            "tab": "social"
+          },
+          {
+            "label": "Ateliers / Challenges",
+            "tab": "ateliers"
+          },
+          {
+            "label": "Axes d’innovation",
+            "tab": "axes"
+          },
+          {
+            "label": "OpenLab / Portefeuille",
+            "tab": "openlab"
+          },
+          {
+            "label": "ExcelWay",
+            "tab": "excelway"
+          },
+          {
+            "label": "Gestion des droits",
+            "tab": "droits"
+          }
+        ]
+      },
+      "admin": {
+        "title": "Administration & Pilotage",
+        "items": [
+          {
+            "label": "Utilisateurs",
+            "tab": "utilisateurs"
+          },
+          {
+            "label": "Habilitations",
+            "tab": "habilitations"
+          },
+          {
+            "label": "Accès",
+            "tab": "acces"
+          },
+          {
+            "label": "Pilotage (usage)",
+            "tab": "usage"
+          },
+          {
+            "label": "Pilotage (reporting)",
+            "tab": "reporting"
+          },
+          {
+            "label": "Contenus (CMS)",
+            "tab": "cms"
+          },
+          {
+            "label": "Sécurité",
+            "tab": "securite"
+          },
+          {
+            "label": "Traçabilité",
+            "tab": "tracabilite"
+          },
+          {
+            "label": "Pilotage (performance)",
+            "tab": "performance"
+          }
+        ]
+      },
+      "rse": {
+        "title": "Espace RSE",
+        "items": [
+          {
+            "label": "Référentiels RSE",
+            "tab": "referentiels"
+          },
+          {
+            "label": "Reporting",
+            "tab": "reporting"
+          },
+          {
+            "label": "Initiatives",
+            "tab": "initiatives"
+          },
+          {
+            "label": "Communication",
+            "tab": "communication"
+          },
+          {
+            "label": "Participation",
+            "tab": "participation"
+          },
+          {
+            "label": "Structuration",
+            "tab": "structuration"
+          },
+          {
+            "label": "Interactivité",
+            "tab": "interactivite"
+          }
+        ]
+      },
+      "qse": {
+        "title": "Espace QSE",
+        "items": [
+          {
+            "label": "Référentiels QSE",
+            "tab": "referentiels"
+          },
+          {
+            "label": "SMI",
+            "tab": "smi"
+          },
+          {
+            "label": "Sensibilisation",
+            "tab": "sensibilisation"
+          },
+          {
+            "label": "Pilotage",
+            "tab": "pilotage"
+          },
+          {
+            "label": "Participation",
+            "tab": "participation"
+          },
+          {
+            "label": "Culture QSE",
+            "tab": "culture"
+          }
+        ]
+      },
+      "sitd": {
+        "title": "Espace SI / SITD",
+        "items": [
+          {
+            "label": "Sécurité du SI",
+            "tab": "securite-si"
+          },
+          {
+            "label": "Référentiel IT",
+            "tab": "referentiel-it"
+          },
+          {
+            "label": "Intégration SI",
+            "tab": "integration-si"
+          },
+          {
+            "label": "Pilotage SI",
+            "tab": "pilotage-si"
+          },
+          {
+            "label": "Contrats de services",
+            "tab": "contrats-services"
+          },
+          {
+            "label": "SEAU",
+            "tab": "seau"
+          }
+        ]
+      },
+      "arc": {
+        "title": "Espace Audit, Risque & Conformité",
+        "items": [
+          {
+            "label": "Audit interne",
+            "tab": "audit-interne"
+          },
+          {
+            "label": "Risque & conformité",
+            "tab": "risque-conformite"
+          },
+          {
+            "label": "Contrôle permanent",
+            "tab": "controle-permanent"
+          },
+          {
+            "label": "Sensibilisation",
+            "tab": "sensibilisation"
+          }
+        ]
+      },
+      "rh": {
+        "title": "Ressources Humaines",
+        "items": [
+          {
+            "label": "Ma Carrière",
+            "tab": "carriere"
+          },
+          {
+            "label": "Formation",
+            "tab": "formation"
+          },
+          {
+            "label": "Documents RH",
+            "tab": "documents"
+          },
+          {
+            "label": "Postes Vacants",
+            "tab": "offres"
+          },
+          {
+            "label": "Espace Managers",
+            "tab": "managers"
+          },
+          {
+            "label": "Enquêtes RH",
+            "tab": "enquetes"
+          },
+          {
+            "label": "Mes Applis",
+            "tab": "applis"
+          },
+          {
+            "label": "Forums & Groupes",
+            "tab": "forums"
+          },
+          {
+            "label": "Vie Sociale",
+            "tab": "viesociale"
+          },
+          {
+            "label": "Activités",
+            "tab": "activites"
+          }
+        ]
+      }
+    }
+  }
+}

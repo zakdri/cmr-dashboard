@@ -193,18 +193,7 @@ function openAgendaTab(tabName) {
         });
 
         // Random News Ticker (cliquable -> pop-up)
-        const cmrNewsItems = getCmrData('cmrNewsItems', [
-            { id: 'cmr-actu-contrat', category: 'CMR Actualités', text: "Signature du nouveau contrat programme État-CMR pour la période 2026-2028." },
-            { id: 'rh-eval', category: 'RH', text: "Campagne d'évaluation annuelle lancée – Date limite le 28 février." },
-            { id: 'it-maint-paie', category: 'IT', text: "Maintenance prévue sur le serveur \"Paie\" ce vendredi à 18h00." },
-            { id: 'social-colonies', category: 'Social', text: "Inscriptions ouvertes pour les colonies de vacances 2026." },
-            { id: 'innovation-digitpasse', category: 'Innovation', text: "Félicitations à l'équipe \"Digit-Passe\" pour le prix de l'innovation !" },
-            { id: 'strategie-roadmap', category: 'Stratégie', text: "Lancement de la feuille de route digitale 2026." },
-            { id: 'partenariat-cnops', category: 'Partenariat', text: "Accord signé avec la CNOPS pour l'échange de données." },
-            { id: 'formation-elearning', category: 'Formation', text: "Nouveaux modules e-learning disponibles sur CMR Academy." },
-            { id: 'gouv-audit', category: 'Gouvernance', text: "Réunion du comité d'audit prévue le 15 mars." },
-            { id: 'climat-social', category: 'Climat Social', text: "Enquête de satisfaction interne : Taux de participation de 85%." }
-        ]);
+        const cmrNewsItems = getCmrData('cmrNewsItems', []);
 
         function escapeHtml(str) {
             return String(str)
@@ -336,115 +325,7 @@ function openAgendaTab(tabName) {
 
 // ... (existing scripts) ...
 
-        const sidebarSubmenuConfig = {
-            km: {
-                title: 'Knowledge Management',
-                items: [
-                    { label: 'Référentiels métiers', tab: 'referentiels' },
-                    { label: 'Glossaire', tab: 'glossaire' },
-                    { label: 'REX', tab: 'rex' },
-                    { label: 'E‑learning', tab: 'elearning' },
-                    { label: 'Communautés', tab: 'communautes' },
-                    { label: 'AMOA / Changement', tab: 'amoa' },
-                    { label: 'Docs formalisés', tab: 'docs' },
-                    { label: 'Contributions', tab: 'contributions' },
-                    { label: 'Catégorisation', tab: 'categorisation' },
-                    { label: 'Livrables projets', tab: 'livrables' },
-                    { label: 'Modèles / formulaires', tab: 'modeles' },
-                    { label: 'Articles / bilans', tab: 'publications' },
-                    { label: 'GED', tab: 'ged' },
-                    { label: 'GLPI', tab: 'glpi' },
-                    { label: 'Supports pédagogiques', tab: 'supports' }
-                ]
-            },
-            documentaires: {
-                title: getCmrData('metiersHeader', {}).title || '',
-                items: getCmrData('metiersMainTabs', [])
-            },
-            reglementation: {
-                title: getCmrData('regHeader', {}).title || '',
-                items: getCmrData('regMainTabs', [])
-            },
-            collaboratifs: {
-                title: getCmrData('collabHeader', {}).title || '',
-                items: getCmrData('collabMainTabs', [])
-            },
-            mediatheque: {
-                title: 'Médiathèque',
-                items: [
-                    { label: 'Accès central', tab: 'acces' },
-                    { label: 'Photothèque', tab: 'photos' },
-                    { label: 'Vidéothèque', tab: 'videos' },
-                    { label: 'Structuration', tab: 'structuration' },
-                    { label: 'Accès contenus', tab: 'acces-contenus' },
-                    { label: 'Intégration', tab: 'integration' }
-                ]
-            },
-            innovation: {
-                title: 'Innovation',
-                items: [
-                    { label: 'Boîte à idées', tab: 'ideation' },
-                    { label: 'Suivi des projets', tab: 'suivi' },
-                    { label: 'Veille', tab: 'veille' },
-                    { label: 'Interactions sociales', tab: 'social' },
-                    { label: 'Ateliers / Challenges', tab: 'ateliers' },
-                    { label: 'Axes d’innovation', tab: 'axes' },
-                    { label: 'OpenLab / Portefeuille', tab: 'openlab' },
-                    { label: 'ExcelWay', tab: 'excelway' },
-                    { label: 'Gestion des droits', tab: 'droits' }
-                ]
-            },
-            admin: {
-                title: 'Administration & Pilotage',
-                items: [
-                    { label: 'Utilisateurs', tab: 'utilisateurs' },
-                    { label: 'Habilitations', tab: 'habilitations' },
-                    { label: 'Accès', tab: 'acces' },
-                    { label: 'Pilotage (usage)', tab: 'usage' },
-                    { label: 'Pilotage (reporting)', tab: 'reporting' },
-                    { label: 'Contenus (CMS)', tab: 'cms' },
-                    { label: 'Sécurité', tab: 'securite' },
-                    { label: 'Traçabilité', tab: 'tracabilite' },
-                    { label: 'Pilotage (performance)', tab: 'performance' }
-                ]
-            },
-            rse: {
-                title: getCmrData('rseHeader', {}).title || '',
-                items: getCmrData('rseMainTabs', [])
-            },
-            qse: {
-                title: getCmrData('qseHeader', {}).title || '',
-                items: getCmrData('qseMainTabs', [])
-            },
-            sitd: {
-                title: getCmrData('sitdHeader', {}).title || '',
-                items: getCmrData('sitdMainTabs', [])
-            },
-            arc: {
-                title: 'Audit, Risque & Conformité',
-                items: [
-                    { label: 'Audit interne', tab: 'audit-interne' },
-                    { label: 'Risque & conformité', tab: 'risque-conformite' },
-                    { label: 'Contrôle permanent', tab: 'controle-permanent' },
-                    { label: 'Sensibilisation', tab: 'sensibilisation' }
-                ]
-            },
-            rh: {
-                title: 'Ressources Humaines',
-                items: [
-                    { label: 'Ma Carrière', tab: 'carriere' },
-                    { label: 'Formation', tab: 'formation' },
-                    { label: 'Documents RH', tab: 'documents' },
-                    { label: 'Postes Vacants', tab: 'offres' },
-                    { label: 'Espace Managers', tab: 'managers' },
-                    { label: 'Enquêtes RH', tab: 'enquetes' },
-                    { label: 'Mes Applis', tab: 'applis' },
-                    { label: 'Forums & Groupes', tab: 'forums' },
-                    { label: 'Vie Sociale', tab: 'viesociale' },
-                    { label: 'Activités', tab: 'activites' }
-                ]
-            }
-        };
+        const sidebarSubmenuConfig = getCmrData('sidebarSubmenus', {});
 
         let activeSidebarSubmenu = null;
         const submenuSelections = {
@@ -2573,269 +2454,36 @@ function openAgendaTab(tabName) {
         }
 
         // ===== ARC (table conforme — onglet 16. Audit, Risque & Conformité) =====
-        const arcFeatures = getCmrData('arcFeatures', [
-            {
-                id: 'charte-audit',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Audit interne',
-                sousRubrique: 'Charte Audit',
-                fonctionnalite: "Publication de la charte d'audit",
-                description: "Mettre à disposition la charte d'audit institutionnelle.",
-                typeContenu: 'Document',
-                typeUx: 'Page / PDF',
-                interactions: 'Consulter',
-                cible: 'Collaborateurs',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Institutionnel'
-            },
-            {
-                id: 'plan-audit',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Audit interne',
-                sousRubrique: "Plan d'audit",
-                fonctionnalite: "Publication des plans d'audit",
-                description: "Publier les plans annuels et pluriannuels d'audit.",
-                typeContenu: 'Document',
-                typeUx: 'Tableau / calendrier',
-                interactions: 'Consulter',
-                cible: 'Profils habilités',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Accès restreint'
-            },
-            {
-                id: 'rapports-pv',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Audit interne',
-                sousRubrique: 'Rapports & PV',
-                fonctionnalite: 'Gestion documentaire audit',
-                description: "Centraliser les rapports, PV et dossiers d'audit.",
-                typeContenu: 'Document sensible',
-                typeUx: 'Espace documentaire',
-                interactions: 'Consulter, télécharger',
-                cible: 'Audit interne',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Cloisonnement fort'
-            },
-            {
-                id: 'presentation-activites',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Risque & conformité',
-                sousRubrique: 'Présentation des activités',
-                fonctionnalite: 'Présentation institutionnelle',
-                description: 'Valoriser les missions et activités de gestion des risques.',
-                typeContenu: 'Contenu institutionnel',
-                typeUx: 'Pages éditoriales',
-                interactions: 'Consulter',
-                cible: 'Collaborateurs',
-                priorite: 'Moyenne',
-                statutDesign: 'À définir',
-                commentaires: 'Institutionnel'
-            },
-            {
-                id: 'politiques-chartes',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Risque & conformité',
-                sousRubrique: 'Politiques & chartes',
-                fonctionnalite: 'Référentiel conformité',
-                description: 'Centraliser les politiques et chartes de conformité.',
-                typeContenu: 'Référentiel',
-                typeUx: 'Dossiers documentaires',
-                interactions: 'Consulter',
-                cible: 'Collaborateurs',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Sensible'
-            },
-            {
-                id: 'cndp',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Risque & conformité',
-                sousRubrique: 'CNDP',
-                fonctionnalite: 'Rubrique autorisations CNDP',
-                description: 'Publier les autorisations et référentiels CNDP.',
-                typeContenu: 'Document réglementaire',
-                typeUx: 'Fiches / documents',
-                interactions: 'Consulter',
-                cible: 'Collaborateurs',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Conformité réglementaire'
-            },
-            {
-                id: 'pca',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Risque & conformité',
-                sousRubrique: 'PCA',
-                fonctionnalite: 'Sensibilisation PCA',
-                description: "Sensibiliser aux principes du Plan de Continuité d'Activité.",
-                typeContenu: 'Capsule / contenu',
-                typeUx: 'Portail éditorial',
-                interactions: 'Consulter',
-                cible: 'Collaborateurs',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Sans documents sensibles'
-            },
-            {
-                id: 'plans-annuels',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Contrôle permanent',
-                sousRubrique: 'Plans annuels',
-                fonctionnalite: 'Publication des plans annuels',
-                description: 'Centraliser les plans de contrôle et de conformité.',
-                typeContenu: 'Document',
-                typeUx: 'Tableau / GED-like',
-                interactions: 'Consulter',
-                cible: 'Contrôle permanent',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Structurant'
-            },
-            {
-                id: 'manuels-controle',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Contrôle permanent',
-                sousRubrique: 'Manuels de contrôle',
-                fonctionnalite: 'Gestion des référentiels contrôle',
-                description: 'Mettre à disposition les manuels et référentiels de contrôle.',
-                typeContenu: 'Documentation',
-                typeUx: 'Dossiers',
-                interactions: 'Consulter',
-                cible: 'Profils habilités',
-                priorite: 'Haute',
-                statutDesign: 'À définir',
-                commentaires: 'Accès restreint'
-            },
-            {
-                id: 'smacaf',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Contrôle permanent',
-                sousRubrique: 'SMACAF',
-                fonctionnalite: 'Référentiel SMACAF',
-                description: 'Publier les référentiels et plans SMACAF.',
-                typeContenu: 'Documentation',
-                typeUx: 'Dossiers',
-                interactions: 'Consulter',
-                cible: 'Contrôle permanent',
-                priorite: 'Moyenne',
-                statutDesign: 'À définir',
-                commentaires: 'Métier spécifique'
-            },
-            {
-                id: 'culture-risque-conformite',
-                espace: 'Espace Audit, Risque & Conformité',
-                rubrique: 'Sensibilisation',
-                sousRubrique: 'Culture risque & conformité',
-                fonctionnalite: 'Capsules et sensibilisation',
-                description: 'Diffuser les contenus de sensibilisation risque et conformité.',
-                typeContenu: 'Média / quiz',
-                typeUx: 'Cards / vidéos',
-                interactions: 'Consulter, participer',
-                cible: 'Collaborateurs',
-                priorite: 'Moyenne',
-                statutDesign: 'À définir',
-                commentaires: 'KM transverse'
-            }
-        ]);
+        const arcFeatures = getCmrData('arcFeatures', []);
 
         const arcFeaturesById = Object.fromEntries(arcFeatures.map(f => [f.id, f]));
 
-        const arcSectionConfig = {
-            'audit-interne': {
-                subs: [
-                    { id: 'charte-audit', label: 'Charte Audit' },
-                    { id: 'plan-audit', label: "Plan d'audit" },
-                    { id: 'rapports-pv', label: 'Rapports & PV' }
-                ],
-                defaultSub: 'charte-audit'
-            },
-            'risque-conformite': {
-                subs: [
-                    { id: 'presentation-activites', label: 'Présentation des activités' },
-                    { id: 'politiques-chartes', label: 'Politiques & chartes' },
-                    { id: 'cndp', label: 'CNDP' },
-                    { id: 'pca', label: 'PCA' }
-                ],
-                defaultSub: 'presentation-activites'
-            },
-            'controle-permanent': {
-                subs: [
-                    { id: 'plans-annuels', label: 'Plans annuels' },
-                    { id: 'manuels-controle', label: 'Manuels de contrôle' },
-                    { id: 'smacaf', label: 'SMACAF' }
-                ],
-                defaultSub: 'plans-annuels'
-            },
-            sensibilisation: {
-                subs: [{ id: 'culture-risque-conformite', label: 'Culture risque & conformité' }],
-                defaultSub: 'culture-risque-conformite'
-            }
-        };
+        const arcSectionConfig = getCmrData('arcSectionConfig', {});
+        const arcLabels = getCmrData('arcLabels', {});
+        const arcPresentation = getCmrData('arcPresentation', {});
 
         let arcSection = 'audit-interne';
         let arcSub = 'charte-audit';
 
-        const arcCharteDocs = getCmrData('arcCharteDocs', [
-            { title: "Charte d'audit interne — version 2026", file: 'Charte_Audit_Interne_2026.pdf', date: 'Jan 2026' }
-        ]);
+        const arcCharteDocs = getCmrData('arcCharteDocs', []);
 
-        const arcPlansAudit = getCmrData('arcPlansAudit', [
-            { periode: '2026', type: 'Annuel', statut: 'Validé', file: 'Plan_Audit_2026.pdf' },
-            { periode: '2026-2028', type: 'Pluriannuel', statut: 'En vigueur', file: 'Plan_Audit_Pluriannuel_2026-2028.pdf' },
-            { periode: 'T2 2026', type: 'Calendrier missions', statut: 'Publié', file: 'Calendrier_Missions_Audit_T2_2026.pdf' }
-        ]);
+        const arcPlansAudit = getCmrData('arcPlansAudit', []);
 
-        let arcRapportsPv = getCmrData('arcRapportsPv', [
-            { title: 'Rapport — Mission SI & cybersécurité', meta: 'Clôturé • Avr 2026', file: 'Rapport_Audit_SI_2026.pdf', sensibilite: 'Haute' },
-            { title: 'PV — Comité d\'audit T1 2026', meta: 'Comité • Mars 2026', file: 'PV_Comite_Audit_T1_2026.pdf', sensibilite: 'Haute' },
-            { title: 'Dossier — Contrôles financiers 2025', meta: 'Archivé • Déc 2025', file: 'Dossier_Audit_Finance_2025.pdf', sensibilite: 'Haute' }
-        ]);
+        let arcRapportsPv = getCmrData('arcRapportsPv', []);
 
-        const arcPolitiquesChartes = getCmrData('arcPolitiquesChartes', [
-            { dossier: 'Politiques', title: 'Politique de gestion des risques', file: 'Politique_Gestion_Risques.pdf' },
-            { dossier: 'Politiques', title: 'Politique de conformité réglementaire', file: 'Politique_Conformite_Reglementaire.pdf' },
-            { dossier: 'Chartes', title: 'Charte éthique & déontologie', file: 'Charte_Ethique_Deontologie.pdf' },
-            { dossier: 'Chartes', title: 'Charte de protection des données', file: 'Charte_Protection_Donnees.pdf' }
-        ]);
+        const arcPolitiquesChartes = getCmrData('arcPolitiquesChartes', []);
 
-        const arcCndpItems = getCmrData('arcCndpItems', [
-            { ref: 'AUT-2025-14', title: 'Autorisation — Traitement données RH', date: '2025', file: 'CNDP_Autorisation_RH.pdf' },
-            { ref: 'AUT-2026-03', title: 'Autorisation — Portail collaborateur', date: 'Fév 2026', file: 'CNDP_Autorisation_Portail.pdf' },
-            { ref: 'REF-CNDP', title: 'Référentiel — Registre des traitements', date: 'MAJ 2026', file: 'CNDP_Registre_Traitements.pdf' }
-        ]);
+        const arcCndpItems = getCmrData('arcCndpItems', []);
 
-        const arcPcaCapsules = getCmrData('arcPcaCapsules', [
-            { title: 'PCA — Principes fondamentaux', type: 'Capsule', duree: '8 min', file: 'PCA_Principes_Fondamentaux.pdf' },
-            { title: 'PCA — Rôles & responsabilités', type: 'Capsule', duree: '12 min', file: 'PCA_Roles_Responsabilites.pdf' },
-            { title: 'PCA — Scénarios & modes dégradés', type: 'Article', duree: 'Lecture 5 min', file: 'PCA_Scenarios_Modes_Degrades.pdf' }
-        ]);
+        const arcPcaCapsules = getCmrData('arcPcaCapsules', []);
 
-        const arcPlansAnnuels = getCmrData('arcPlansAnnuels', [
-            { plan: 'Plan de contrôle permanent 2026', domaine: 'Contrôle interne', statut: 'Validé', file: 'Plan_Controle_Permanent_2026.pdf' },
-            { plan: 'Plan de conformité réglementaire 2026', domaine: 'Conformité', statut: 'En cours', file: 'Plan_Conformite_2026.pdf' },
-            { plan: 'Plan de suivi recommandations audit', domaine: 'Audit', statut: 'Publié', file: 'Plan_Suivi_Recommandations_2026.pdf' }
-        ]);
+        const arcPlansAnnuels = getCmrData('arcPlansAnnuels', []);
 
-        const arcManuelsControle = getCmrData('arcManuelsControle', [
-            { dossier: 'Manuels', title: 'Manuel de contrôle interne — édition 2026', file: 'Manuel_Controle_Interne_2026.pdf' },
-            { dossier: 'Référentiels', title: 'Référentiel des contrôles clés', file: 'Referentiel_Controles_Cles.pdf' },
-            { dossier: 'Procédures', title: 'Procédure — Exécution des contrôles', file: 'Procedure_Execution_Controles.pdf' }
-        ]);
+        const arcManuelsControle = getCmrData('arcManuelsControle', []);
 
-        const arcSmacafItems = getCmrData('arcSmacafItems', [
-            { title: 'Référentiel SMACAF — cadre général', meta: 'Contrôle permanent • v3.1', file: 'SMACAF_Referentiel_Cadre.pdf' },
-            { title: 'Plan SMACAF 2026', meta: 'Plan annuel • Validé', file: 'SMACAF_Plan_2026.pdf' },
-            { title: 'Guide — Application SMACAF', meta: 'Documentation métier', file: 'SMACAF_Guide_Application.pdf' }
-        ]);
+        const arcSmacafItems = getCmrData('arcSmacafItems', []);
 
-        const arcSensibilisationItems = getCmrData('arcSensibilisationItems', [
-            { title: 'Capsule — Culture du risque', type: 'Vidéo', duree: '6 min', file: 'Sensib_Culture_Risque.mp4' },
-            { title: 'Quiz — Conformité au quotidien', type: 'Quiz', duree: '10 questions', file: 'Sensib_Quiz_Conformite.pdf' },
-            { title: 'Infographie — Signalement & éthique', type: 'Média', duree: '2 min', file: 'Sensib_Infographie_Ethique.pdf' }
-        ]);
+        const arcSensibilisationItems = getCmrData('arcSensibilisationItems', []);
 
         function renderArcUxContent(f) {
             const id = f.id;
@@ -2847,7 +2495,7 @@ function openAgendaTab(tabName) {
                                 <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
                                 <div class="doc-info">
                                     <div class="doc-title">${d.title}</div>
-                                    <div class="doc-meta">Page / PDF · ${d.date} · Institutionnel</div>
+                                    <div class="doc-meta">Page / PDF · ${d.date} · ${arcLabels.charteMetaSuffix || ''}</div>
                                 </div>
                                 <i data-lucide="eye" style="width:16px;height:16px;color:#94a3b8;"></i>
                             </div>
@@ -2861,10 +2509,9 @@ function openAgendaTab(tabName) {
                         <table style="width:100%;border-collapse:collapse;font-size:13px;">
                             <thead>
                                 <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
-                                    <th style="padding:12px 16px;text-align:left;">Période</th>
-                                    <th style="padding:12px 16px;text-align:left;">Type</th>
-                                    <th style="padding:12px 16px;text-align:left;">Statut</th>
-                                    <th style="padding:12px 16px;text-align:right;">Document</th>
+                                    ${(arcLabels.planAuditColumns || []).map((column, index, columns) => `
+                                        <th style="padding:12px 16px;text-align:${index === columns.length - 1 ? 'right' : 'left'};">${column}</th>
+                                    `).join('')}
                                 </tr>
                             </thead>
                             <tbody>
@@ -2874,14 +2521,14 @@ function openAgendaTab(tabName) {
                                         <td style="padding:12px 16px;color:var(--text-light);">${p.type}</td>
                                         <td style="padding:12px 16px;color:var(--text-light);">${p.statut}</td>
                                         <td style="padding:12px 16px;text-align:right;">
-                                            <button class="actu-filter-btn" onclick="openMockDownload('${p.file}','Plan audit ${p.periode}')">Consulter</button>
+                                            <button class="actu-filter-btn" onclick="openMockDownload('${p.file}','${arcLabels.planAuditTitlePrefix || ''} ${p.periode}')">${arcLabels.consultLabel || ''}</button>
                                         </td>
                                     </tr>
                                 `).join('')}
                             </tbody>
                         </table>
                     </div>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">Tableau / calendrier — plans annuels et pluriannuels.</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">${arcLabels.planAuditNote || ''}</p>
                 `;
             }
             if (id === 'rapports-pv') {
@@ -2893,28 +2540,22 @@ function openAgendaTab(tabName) {
                 return `
                     <div style="display:flex;flex-direction:column;gap:14px;">
                         <div style="background:linear-gradient(135deg,#eff6ff,#f8fafc);border:1px solid #bfdbfe;border-radius:14px;padding:20px;">
-                            <div style="font-size:11px;font-weight:900;color:#1d4ed8;text-transform:uppercase;letter-spacing:.04em;">Mission</div>
-                            <div style="margin-top:8px;font-size:16px;font-weight:900;color:#0f172a;">Gestion des risques &amp; conformité</div>
+                            <div style="font-size:11px;font-weight:900;color:#1d4ed8;text-transform:uppercase;letter-spacing:.04em;">${arcPresentation.eyebrow || ''}</div>
+                            <div style="margin-top:8px;font-size:16px;font-weight:900;color:#0f172a;">${arcPresentation.title || ''}</div>
                             <p style="margin-top:10px;font-size:13px;color:#475569;line-height:1.7;">
-                                Piloter la cartographie des risques, assurer la conformité réglementaire et accompagner les directions dans la maîtrise de leurs expositions.
+                                ${arcPresentation.description || ''}
                             </p>
                         </div>
                         <div class="km-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">
-                            <div class="doc-card" style="cursor:default;">
-                                <div class="doc-card-title">Cartographie des risques</div>
-                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">Mise à jour semestrielle, revue comités.</p>
-                            </div>
-                            <div class="doc-card" style="cursor:default;">
-                                <div class="doc-card-title">Conformité réglementaire</div>
-                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">Veille, autorisations, reporting.</p>
-                            </div>
-                            <div class="doc-card" style="cursor:default;">
-                                <div class="doc-card-title">Continuité d'activité</div>
-                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">PCA, tests, sensibilisation.</p>
-                            </div>
+                            ${(arcPresentation.cards || []).map(card => `
+                                <div class="doc-card" style="cursor:default;">
+                                    <div class="doc-card-title">${card.title}</div>
+                                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${card.description}</p>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">Pages éditoriales — présentation institutionnelle.</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">${arcPresentation.note || ''}</p>
                 `;
             }
             if (id === 'politiques-chartes') {
@@ -2929,12 +2570,12 @@ function openAgendaTab(tabName) {
                             <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${c.file}','${c.title}')">
                                 <div class="doc-icon-large" style="background:#f0fdf4;color:#166534;"><i data-lucide="file-text" style="width:24px;height:24px;"></i></div>
                                 <div class="doc-card-title">${c.title}</div>
-                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.ref} · ${c.date} · Fiche document</p>
-                                <div class="doc-card-meta"><span>Consulter</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.ref} · ${c.date} · ${arcLabels.cndpMetaSuffix || ''}</p>
+                                <div class="doc-card-meta"><span>${arcLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                             </div>
                         `).join('')}
                     </div>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">Conformité réglementaire — autorisations CNDP.</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">${arcLabels.cndpNote || ''}</p>
                 `;
             }
             if (id === 'pca') {
@@ -2944,12 +2585,12 @@ function openAgendaTab(tabName) {
                             <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${c.file}','${c.title}')">
                                 <div class="doc-icon-large" style="background:#eff6ff;color:#2563eb;"><i data-lucide="life-buoy" style="width:24px;height:24px;"></i></div>
                                 <div class="doc-card-title">${c.title}</div>
-                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.type} · ${c.duree} · Portail éditorial</p>
-                                <div class="doc-card-meta"><span>Consulter</span><i data-lucide="play" style="width:16px;"></i></div>
+                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.type} · ${c.duree} · ${arcLabels.pcaMetaSuffix || ''}</p>
+                                <div class="doc-card-meta"><span>${arcLabels.consultLabel || ''}</span><i data-lucide="play" style="width:16px;"></i></div>
                             </div>
                         `).join('')}
                     </div>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">Sensibilisation PCA — sans documents sensibles.</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">${arcLabels.pcaNote || ''}</p>
                 `;
             }
             if (id === 'plans-annuels') {
@@ -2958,10 +2599,9 @@ function openAgendaTab(tabName) {
                         <table style="width:100%;border-collapse:collapse;font-size:13px;">
                             <thead>
                                 <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
-                                    <th style="padding:12px 16px;text-align:left;">Plan</th>
-                                    <th style="padding:12px 16px;text-align:left;">Domaine</th>
-                                    <th style="padding:12px 16px;text-align:left;">Statut</th>
-                                    <th style="padding:12px 16px;text-align:right;">GED</th>
+                                    ${(arcLabels.plansAnnuelsColumns || []).map((column, index, columns) => `
+                                        <th style="padding:12px 16px;text-align:${index === columns.length - 1 ? 'right' : 'left'};">${column}</th>
+                                    `).join('')}
                                 </tr>
                             </thead>
                             <tbody>
@@ -2971,7 +2611,7 @@ function openAgendaTab(tabName) {
                                         <td style="padding:12px 16px;color:var(--text-light);">${p.domaine}</td>
                                         <td style="padding:12px 16px;color:var(--text-light);">${p.statut}</td>
                                         <td style="padding:12px 16px;text-align:right;">
-                                            <button class="actu-filter-btn" onclick="openMockDownload('${p.file}','${p.plan}')">Consulter</button>
+                                            <button class="actu-filter-btn" onclick="openMockDownload('${p.file}','${p.plan}')">${arcLabels.consultLabel || ''}</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -2984,7 +2624,7 @@ function openAgendaTab(tabName) {
                 return `
                     <div class="actu-search-wrap" style="max-width:420px;margin-bottom:14px;">
                         <i data-lucide="search" class="actu-search-icon"></i>
-                        <input id="arcManuelsSearch" class="actu-search-input" placeholder="Rechercher un manuel…" oninput="renderArcManuels()">
+                        <input id="arcManuelsSearch" class="actu-search-input" placeholder="${arcLabels.searchManuelsPlaceholder || ''}" oninput="renderArcManuels()">
                     </div>
                     <div id="arcManuelsList" class="doc-list"></div>
                 `;
@@ -2997,13 +2637,13 @@ function openAgendaTab(tabName) {
                                 <div class="doc-icon" style="background:#f5f3ff;color:#6d28d9;font-weight:900;">SM</div>
                                 <div class="doc-info">
                                     <div class="doc-title">${s.title}</div>
-                                    <div class="doc-meta">${s.meta} · Dossiers</div>
+                                    <div class="doc-meta">${s.meta} · ${arcLabels.smacafMetaSuffix || ''}</div>
                                 </div>
                                 <i data-lucide="folder-open" style="width:16px;height:16px;color:#94a3b8;"></i>
                             </div>
                         `).join('')}
                     </div>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">Métier spécifique — référentiels SMACAF.</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">${arcLabels.smacafNote || ''}</p>
                 `;
             }
             if (id === 'culture-risque-conformite') {
@@ -3011,19 +2651,19 @@ function openAgendaTab(tabName) {
                     <div class="km-grid">
                         ${arcSensibilisationItems.map(s => {
                             const click = s.type === 'Quiz'
-                                ? "alert('Merci pour votre participation au quiz (maquette).')"
+                                ? `alert('${arcLabels.quizAlert || ''}')`
                                 : `openMockDownload('${s.file}','${s.title.replace(/'/g, "\\'")}')`;
                             const icon = s.type === 'Vidéo' ? 'play-circle' : s.type === 'Quiz' ? 'help-circle' : 'image';
                             return `
                             <div class="doc-card" style="cursor:pointer;" onclick="${click}">
                                 <div class="doc-icon-large" style="background:#fdf4ff;color:#7c3aed;"><i data-lucide="${icon}" style="width:24px;height:24px;"></i></div>
                                 <div class="doc-card-title">${s.title}</div>
-                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${s.type} · ${s.duree} · Cards / vidéos</p>
-                                <div class="doc-card-meta"><span>${s.type === 'Quiz' ? 'Participer' : 'Consulter'}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                                <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${s.type} · ${s.duree} · ${arcLabels.sensibilisationMetaSuffix || ''}</p>
+                                <div class="doc-card-meta"><span>${s.type === 'Quiz' ? arcLabels.participateLabel || '' : arcLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                             </div>`;
                         }).join('')}
                     </div>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">KM transverse — sensibilisation risque &amp; conformité.</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-light);">${arcLabels.sensibilisationNote || ''}</p>
                 `;
             }
             return '';
@@ -3037,7 +2677,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#fef2f2;color:#b91c1c;font-weight:900;">S</div>
                     <div class="doc-info">
                         <div class="doc-title">${r.title}</div>
-                        <div class="doc-meta">${r.meta} · Espace documentaire · ${r.sensibilite}</div>
+                        <div class="doc-meta">${r.meta} · ${arcLabels.rapportsMetaSuffix || ''} · ${r.sensibilite}</div>
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -3052,7 +2692,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${p.dossier.slice(0, 3).toUpperCase()}</div>
                     <div class="doc-info">
                         <div class="doc-title">${p.title}</div>
-                        <div class="doc-meta">${p.dossier} · Dossiers documentaires</div>
+                        <div class="doc-meta">${p.dossier} · ${arcLabels.politiquesMetaSuffix || ''}</div>
                     </div>
                     <i data-lucide="folder" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -3071,11 +2711,11 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">${m.dossier.slice(0, 3).toUpperCase()}</div>
                     <div class="doc-info">
                         <div class="doc-title">${m.title}</div>
-                        <div class="doc-meta">${m.dossier} · Documentation</div>
+                        <div class="doc-meta">${m.dossier} · ${arcLabels.manuelsMetaSuffix || ''}</div>
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('') || '<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun résultat.</div>';
+            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">${arcLabels.emptyResult || ''}</div>`;
         }
 
         function renderArcPage(subId) {
@@ -4307,14 +3947,7 @@ function openAgendaTab(tabName) {
         // ===== MÉDIATHÈQUE (table conforme, via sidebar -> sous-rubriques) =====
         const mediaPages = ['home','images','videos','categories','consultation','telechargement','integration'];
 
-        const mediaSectionConfig = {
-            acces: { subs: [{ id: 'home', label: 'Médiathèque' }], defaultSub: 'home' },
-            photos: { subs: [{ id: 'images', label: 'Images' }], defaultSub: 'images' },
-            videos: { subs: [{ id: 'videos', label: 'Vidéos' }], defaultSub: 'videos' },
-            structuration: { subs: [{ id: 'categories', label: 'Catégories' }], defaultSub: 'categories' },
-            'acces-contenus': { subs: [{ id: 'consultation', label: 'Consultation' }, { id: 'telechargement', label: 'Téléchargement' }], defaultSub: 'consultation' },
-            integration: { subs: [{ id: 'integration', label: 'Espaces intranet' }], defaultSub: 'integration' }
-        };
+        const mediaSectionConfig = getCmrData('mediaSectionConfig', {});
 
         let mediaSection = 'acces';
         let mediaSub = 'home';
@@ -4322,17 +3955,9 @@ function openAgendaTab(tabName) {
         let mediaActiveVideoId = null;
         let mediaActiveConsultId = null;
 
-        const mediaImages = getCmrData('mediaImages', [
-            { id: 'img1', title: 'Infographie – Parcours assuré', category: 'Institutionnel', date: 'Avr 2026', file: 'Media_Infographie_Parcours.png' },
-            { id: 'img2', title: 'Photo – Atelier', category: 'Évènement', date: 'Mars 2026', file: 'Galerie_Atelier_01.png' },
-            { id: 'img3', title: 'Photo – Vie interne', category: 'Évènement', date: 'Fév 2026', file: 'Galerie_Vie_02.png' },
-            { id: 'img4', title: 'Schéma – Architecture SI', category: 'SI', date: 'Jan 2026', file: 'Schema_Architecture_SI.png' }
-        ]);
-        const mediaVideos = getCmrData('mediaVideos', [
-            { id: 'vid1', title: 'Capsule – Process liquidation', category: 'Process', date: 'Avr 2026', file: 'Media_Capsule_Liquidation.mp4', desc: 'Présentation du flux de traitement (4 min).' },
-            { id: 'vid2', title: 'Vidéo – Gestes de sécurité', category: 'Institutionnel', date: 'Mars 2026', file: 'Video_Gestes_Securite.mp4', desc: 'Rappel des bons réflexes.' },
-            { id: 'vid3', title: 'Démo – Nouvel Intranet', category: 'SI', date: 'Fév 2026', file: 'Demo_Nouvel_Intranet.mp4', desc: 'Fonctionnalités clés (6 min).' }
-        ]);
+        const mediaLabels = getCmrData('mediaLabels', {});
+        const mediaImages = getCmrData('mediaImages', []);
+        const mediaVideos = getCmrData('mediaVideos', []);
 
         function switchMediaSection(sectionId) {
             mediaSection = sectionId;
@@ -4404,20 +4029,20 @@ function openAgendaTab(tabName) {
             if (!root) return;
             const q = (document.getElementById('mediaGlobalSearch')?.value || '').toLowerCase().trim();
             if (!q) {
-                root.innerHTML = `<div style="color:var(--text-light);font-size:13px;">Tapez un mot‑clé pour rechercher.</div>`;
+                root.innerHTML = `<div style="color:var(--text-light);font-size:13px;">${mediaLabels.searchPrompt || ''}</div>`;
                 return;
             }
             const pool = [
-                ...mediaImages.map(i => ({ kind: 'Image', ...i })),
-                ...mediaVideos.map(v => ({ kind: 'Vidéo', ...v }))
+                ...mediaImages.map(i => ({ kind: mediaLabels.kindImage || '', ...i })),
+                ...mediaVideos.map(v => ({ kind: mediaLabels.kindVideo || '', ...v }))
             ].filter(it => (it.title + ' ' + it.category).toLowerCase().includes(q));
             root.innerHTML = pool.slice(0, 6).map(it => `
                 <div class="doc-item" onclick="openMockDownload('${it.file}','${it.title}')">
                     <div class="doc-icon" style="background:#f8fafc;color:#475569;font-weight:900;">${it.kind.slice(0,3).toUpperCase()}</div>
                     <div class="doc-info"><div class="doc-title">${it.title}</div><div class="doc-meta">${it.kind} • ${it.category} • ${it.date}</div></div>
-                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${it.file}','${it.title}')">Ouvrir</button>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${it.file}','${it.title}')">${mediaLabels.openLabel || ''}</button>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucun résultat.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">${mediaLabels.emptyResult || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -4435,8 +4060,8 @@ function openAgendaTab(tabName) {
                         <div style="font-weight:900;color:#0f172a;font-size:12px;line-height:1.4;">${i.title}</div>
                         <div style="margin-top:6px;color:var(--text-light);font-size:11px;">${i.category} • ${i.date}</div>
                         <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
-                            <button class="actu-filter-btn" onclick="openMockDownload('${i.file}','${i.title}')">Consulter</button>
-                            <button class="primary-btn" style="padding:8px 12px;" onclick="openMockDownload('${i.file}','Téléchargement – ${i.title}')">Télécharger</button>
+                            <button class="actu-filter-btn" onclick="openMockDownload('${i.file}','${i.title}')">${mediaLabels.consultLabel || ''}</button>
+                            <button class="primary-btn" style="padding:8px 12px;" onclick="openMockDownload('${i.file}','${mediaLabels.downloadPrefix || ''} ${i.title}')">${mediaLabels.downloadLabel || ''}</button>
                         </div>
                     </div>
                 </div>
@@ -4454,8 +4079,8 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">VID</div>
                     <div class="doc-info"><div class="doc-title">${v.title}</div><div class="doc-meta">${v.category} • ${v.date}</div></div>
                     <div style="display:flex;gap:8px;align-items:center;">
-                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMediaVideo('${v.id}')">Lire</button>
-                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${v.file}','${v.title}')">Consulter</button>
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMediaVideo('${v.id}')">${mediaLabels.readLabel || ''}</button>
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${v.file}','${v.title}')">${mediaLabels.consultLabel || ''}</button>
                     </div>
                 </div>
             `).join('');
@@ -4476,7 +4101,7 @@ function openAgendaTab(tabName) {
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${v.category} • ${v.date}</div>
                 <div style="margin-top:10px;color:#334155;font-size:13px;line-height:1.7;">${v.desc}</div>
                 <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:10px;">
-                    <button class="actu-filter-btn" onclick="openMockDownload('${v.file}','${v.title}')">Consulter</button>
+                    <button class="actu-filter-btn" onclick="openMockDownload('${v.file}','${v.title}')">${mediaLabels.consultLabel || ''}</button>
                 </div>
             `;
             lucide.createIcons();
@@ -4501,9 +4126,9 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon-large" style="background:#f8fafc;color:#475569;"><i data-lucide="${it.kind === 'video' ? 'video' : 'image'}" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${it.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:6px;line-height:1.6;">${it.category} • ${it.date}</p>
-                    <div class="doc-card-meta"><span>Filtrer / naviguer</span><i data-lucide="arrow-right" style="width:16px;color:#94a3b8;"></i></div>
+                    <div class="doc-card-meta"><span>${mediaLabels.filterLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;color:#94a3b8;"></i></div>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucun contenu.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">${mediaLabels.emptyContent || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -4512,14 +4137,14 @@ function openAgendaTab(tabName) {
             const detail = document.getElementById('mediaConsultDetail');
             if (!list || !detail) return;
             const pool = [
-                ...mediaImages.map(i => ({ kind: 'Image', ...i })),
-                ...mediaVideos.map(v => ({ kind: 'Vidéo', ...v }))
+                ...mediaImages.map(i => ({ kind: mediaLabels.kindImage || '', ...i })),
+                ...mediaVideos.map(v => ({ kind: mediaLabels.kindVideo || '', ...v }))
             ];
             list.innerHTML = pool.map(it => `
                 <div class="doc-item" onclick="openMediaConsult('${it.id}')">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${it.kind.slice(0,3).toUpperCase()}</div>
                     <div class="doc-info"><div class="doc-title">${it.title}</div><div class="doc-meta">${it.kind} • ${it.category} • ${it.date}</div></div>
-                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMediaConsult('${it.id}')">Consulter</button>
+                    <button class="actu-filter-btn" onclick="event.stopPropagation(); openMediaConsult('${it.id}')">${mediaLabels.consultLabel || ''}</button>
                 </div>
             `).join('');
             if (!mediaActiveConsultId && pool[0]) openMediaConsult(pool[0].id);
@@ -4528,7 +4153,7 @@ function openAgendaTab(tabName) {
         function openMediaConsult(id) {
             mediaActiveConsultId = id;
             const it = mediaImages.find(x => x.id === id) || mediaVideos.find(x => x.id === id);
-            const kind = id.startsWith('vid') ? 'Vidéo' : 'Image';
+            const kind = id.startsWith('vid') ? mediaLabels.kindVideo || '' : mediaLabels.kindImage || '';
             const detail = document.getElementById('mediaConsultDetail');
             if (!it || !detail) return;
             detail.innerHTML = `
@@ -4538,7 +4163,7 @@ function openAgendaTab(tabName) {
                     <i data-lucide="${kind === 'Vidéo' ? 'video' : 'image'}" style="width:26px;height:26px;color:#475569;"></i>
                 </div>
                 <div style="margin-top:12px;display:flex;justify-content:flex-end;">
-                    <button class="primary-btn" onclick="openMockDownload('${it.file}','${it.title}')">Consulter</button>
+                    <button class="primary-btn" onclick="openMockDownload('${it.file}','${it.title}')">${mediaLabels.consultLabel || ''}</button>
                 </div>
             `;
             lucide.createIcons();
@@ -4552,7 +4177,7 @@ function openAgendaTab(tabName) {
                 <div class="doc-item">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">DL</div>
                     <div class="doc-info"><div class="doc-title">${it.title}</div><div class="doc-meta">${it.category} • ${it.date}</div></div>
-                    <button class="primary-btn" style="padding:8px 12px;" onclick="openMockDownload('${it.file}','Téléchargement – ${it.title}')">Télécharger</button>
+                    <button class="primary-btn" style="padding:8px 12px;" onclick="openMockDownload('${it.file}','${mediaLabels.downloadPrefix || ''} ${it.title}')">${mediaLabels.downloadLabel || ''}</button>
                 </div>
             `).join('');
             lucide.createIcons();

@@ -3,6 +3,7 @@
   "updatedAt": "2026-06-08",
   "mode": "split-by-space",
   "spaces": [
+    "spaces/navigation.json",
     "spaces/dashboard.json",
     "spaces/applis.json",
     "spaces/achats.json",

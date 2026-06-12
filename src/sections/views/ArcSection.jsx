@@ -1,16 +1,21 @@
 import React from "react";
-import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+
+function getArcData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.arcHeader || {},
+  };
+}
 
 export default function ArcSection() {
+  const { header } = getArcData();
+
   return (
     <>
       <div id="view-arc" className="view-section km-container">
         <div className="km-header">
-          <h2>Espace Audit, Risque &amp; Conformité</h2>
-          <p>
-            Audit interne, risque &amp; conformité, contrôle permanent et
-            sensibilisation — conformément au cadrage CMS.
-          </p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
         <div
           className="km-navbar"
