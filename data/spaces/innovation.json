@@ -2,6 +2,151 @@
   "space": "innovation",
   "updatedAt": "2026-06-08",
   "data": {
+    "innovationHeader": {
+      "title": "Espace Innovation",
+      "description": "Idéation, suivi des projets, veille, interactions sociales, ateliers/challenges et gouvernance d’accès."
+    },
+    "innovationTabs": [
+      { "id": "ideation", "label": "Boîte à idées" },
+      { "id": "suivi", "label": "Suivi des projets" },
+      { "id": "veille", "label": "Veille" },
+      { "id": "social", "label": "Interactions sociales" },
+      { "id": "ateliers", "label": "Ateliers / Challenges" },
+      { "id": "axes", "label": "Axes d’innovation" },
+      { "id": "openlab", "label": "OpenLab / Portefeuille" },
+      { "id": "excelway", "label": "ExcelWay" },
+      { "id": "droits", "label": "Gestion des droits" }
+    ],
+    "innovationPages": {
+      "ideation": {
+        "title": "Boîte à idées",
+        "icon": "lightbulb",
+        "iconClass": "pink",
+        "submitLabel": "Déposer une idée",
+        "formTitle": "Nouvelle idée",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre de l’idée",
+        "axisOptions": ["Digital", "Processus", "Service", "Data/IA"],
+        "descriptionPlaceholder": "Décrivez l’idée, le bénéfice, les risques…",
+        "sendLabel": "Envoyer",
+        "detailTitle": "Détail idée",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une idée."
+      },
+      "suivi": {
+        "title": "Suivi des projets d’innovation",
+        "icon": "kanban",
+        "iconClass": "blue"
+      },
+      "veille": {
+        "title": "Veille stratégique",
+        "icon": "newspaper",
+        "iconClass": "green"
+      },
+      "social": {
+        "commentsTitle": "Commentaires",
+        "commentsIcon": "message-circle",
+        "commentsIconClass": "orange",
+        "reactionsTitle": "Réactions & votes",
+        "reactionsIcon": "heart",
+        "reactionsIconClass": "pink"
+      },
+      "ateliers": {
+        "title": "Ateliers / challenges",
+        "icon": "calendar",
+        "iconClass": "blue"
+      },
+      "axes": {
+        "title": "Axes d’innovation",
+        "icon": "sliders-horizontal",
+        "iconClass": "green"
+      },
+      "openlab": {
+        "portfolioTitle": "OpenLab / Portefeuille",
+        "portfolioIcon": "layers",
+        "portfolioIconClass": "purple",
+        "dashboardTitle": "Tableau de bord",
+        "dashboardIcon": "bar-chart-3",
+        "dashboardIconClass": "blue"
+      },
+      "excelway": {
+        "listTitle": "ExcelWay (intégration)",
+        "listIcon": "app-window",
+        "listIconClass": "green",
+        "panelTitle": "Widget intégré",
+        "panelIcon": "workflow",
+        "panelIconClass": "blue"
+      },
+      "droits": {
+        "title": "Gestion des droits",
+        "icon": "key",
+        "iconClass": "blue",
+        "description": "Affichage conditionnel (maquette) : filtrer/restreindre selon profil."
+      }
+    },
+    "innovationLabels": {
+      "scoreLabel": "Score",
+      "commentsLabel": "commentaires",
+      "axisLabel": "Axe:",
+      "voteUpLabel": "Voter +1",
+      "voteDownLabel": "Voter -1",
+      "exportLabel": "Exporter",
+      "ideaExportPrefix": "Dossier idée –",
+      "defaultAxis": "Digital",
+      "progressLabel": "Avancement:",
+      "commentPlaceholder": "Ajouter un commentaire…",
+      "commentButton": "Commenter",
+      "currentUser": "Vous",
+      "nowLabel": "à l’instant",
+      "likeLabel": "Like",
+      "ideaReactionLabel": "Idée",
+      "wowLabel": "Wow",
+      "votePriorityTitle": "Vote / priorisation",
+      "participateLabel": "Participer",
+      "registrationPrefix": "Inscription –",
+      "axisCtaLabel": "Voir les idées",
+      "openlabIdeasLabel": "Idées",
+      "openlabProjectsLabel": "Projets",
+      "openlabWorkshopsLabel": "Ateliers",
+      "openlabDashboardNote": "Tableau de bord (maquette) — à brancher sur les données réelles OpenLab/portefeuille.",
+      "excelwayExportPrefix": "Export ExcelWay –",
+      "excelwayWidgetTitle": "Widget ExcelWay (maquette)",
+      "excelwayWidgetDescription": "Publication et gestion des idées via outil externe intégré. Remplacer par iframe / API sécurisée.",
+      "excelwayIdeasLabel": "Idées synchronisées",
+      "excelwayProjectsLabel": "Projets suivis",
+      "excelwayConnectorLabel": "Connecteur",
+      "excelwayConnectorValue": "Actif (mock)",
+      "excelwayGuideLabel": "Guide intégration",
+      "excelwayGuideFile": "ExcelWay_Integration_Guide.pdf",
+      "excelwayGuideTitle": "Guide intégration ExcelWay",
+      "excelwayApiLabel": "Spécification API",
+      "excelwayApiFile": "ExcelWay_API_Spec.pdf",
+      "excelwayApiTitle": "Spécification API ExcelWay",
+      "excelwayConfigLabel": "Configurer",
+      "excelwayConfigFile": "ExcelWay_Widget_Config.pdf",
+      "excelwayConfigTitle": "Configuration widget ExcelWay",
+      "activeProfileLabel": "Profil actif :"
+    },
+    "innovationAxisFilters": [
+      { "label": "Tous", "value": "all", "active": true },
+      { "label": "Digital", "value": "Digital" },
+      { "label": "Processus", "value": "Processus" },
+      { "label": "Service", "value": "Service" },
+      { "label": "Data/IA", "value": "Data/IA" }
+    ],
+    "innovationRoleFilters": [
+      { "label": "Collaborateur", "value": "collaborateur", "active": true },
+      { "label": "Manager", "value": "manager" },
+      { "label": "Admin", "value": "admin" }
+    ],
+    "innovationAccessProfiles": {
+      "collaborateur": ["Soumettre une idée", "Consulter la veille", "Commenter"],
+      "manager": ["Tout collaborateur", "Prioriser / classer", "Voir suivi projets"],
+      "admin": ["Tout manager", "Gérer axes", "Gérer droits", "Intégration ExcelWay"]
+    },
     "ideas": [
       {
         "id": "i1",
@@ -29,38 +174,14 @@
       }
     ],
     "innovationProjects": [
-      {
-        "name": "Portail idées – MVP",
-        "status": "En cours",
-        "progress": 55
-      },
-      {
-        "name": "Démat PV comités",
-        "status": "À lancer",
-        "progress": 0
-      },
-      {
-        "name": "Assistant IA tri demandes",
-        "status": "Étude",
-        "progress": 20
-      }
+      { "name": "Portail idées – MVP", "status": "En cours", "progress": 55 },
+      { "name": "Démat PV comités", "status": "À lancer", "progress": 0 },
+      { "name": "Assistant IA tri demandes", "status": "Étude", "progress": 20 }
     ],
     "innovationFeed": [
-      {
-        "title": "Tendances IA 2026 (secteur public)",
-        "meta": "Article • 2j",
-        "source": "Veille"
-      },
-      {
-        "title": "Design sprint: réduire le time-to-value",
-        "meta": "Dossier • 1s",
-        "source": "OpenLab"
-      },
-      {
-        "title": "Exemples d’innovation services",
-        "meta": "Note • 3s",
-        "source": "Benchmark"
-      }
+      { "title": "Tendances IA 2026 (secteur public)", "meta": "Article • 2j", "source": "Veille" },
+      { "title": "Design sprint: réduire le time-to-value", "meta": "Dossier • 1s", "source": "OpenLab" },
+      { "title": "Exemples d’innovation services", "meta": "Note • 3s", "source": "Benchmark" }
     ],
     "socialComments": [
       {
@@ -74,68 +195,25 @@
         "text": "Attention aux données sensibles, prévoir anonymisation."
       }
     ],
-    "socialReactions": {
-      "like": 31,
-      "idea": 12,
-      "fire": 6
-    },
+    "socialReactions": { "like": 31, "idea": 12, "fire": 6 },
     "socialVotes": [
-      {
-        "label": "Assistant IA tri demandes",
-        "score": 72
-      },
-      {
-        "label": "Démat PV comités",
-        "score": 54
-      },
-      {
-        "label": "Dashboard satisfaction",
-        "score": 29
-      }
+      { "label": "Assistant IA tri demandes", "score": 72 },
+      { "label": "Démat PV comités", "score": 54 },
+      { "label": "Dashboard satisfaction", "score": 29 }
     ],
     "innovationEvents": [
-      {
-        "date": "05 Mai 2026",
-        "title": "Atelier Design Sprint",
-        "meta": "Salle Innovation • 09:00"
-      },
-      {
-        "date": "20 Mai 2026",
-        "title": "Challenge idées – Data/IA",
-        "meta": "En ligne • 14:00"
-      }
+      { "date": "05 Mai 2026", "title": "Atelier Design Sprint", "meta": "Salle Innovation • 09:00" },
+      { "date": "20 Mai 2026", "title": "Challenge idées – Data/IA", "meta": "En ligne • 14:00" }
     ],
     "innovationAxes": [
-      {
-        "axis": "Digital",
-        "title": "Automatisation & self‑service",
-        "desc": "Portails, signature, workflows."
-      },
-      {
-        "axis": "Processus",
-        "title": "Simplification",
-        "desc": "Réduire délais, standardiser."
-      },
-      {
-        "axis": "Service",
-        "title": "Expérience usager",
-        "desc": "Feedback, qualité de service."
-      },
-      {
-        "axis": "Data/IA",
-        "title": "Data & IA",
-        "desc": "Analyse, prédiction, assistants."
-      }
+      { "axis": "Digital", "title": "Automatisation & self‑service", "desc": "Portails, signature, workflows." },
+      { "axis": "Processus", "title": "Simplification", "desc": "Réduire délais, standardiser." },
+      { "axis": "Service", "title": "Expérience usager", "desc": "Feedback, qualité de service." },
+      { "axis": "Data/IA", "title": "Data & IA", "desc": "Analyse, prédiction, assistants." }
     ],
     "openlabItems": [
-      {
-        "title": "OpenLab – POC IA",
-        "meta": "En cours • 3 initiatives"
-      },
-      {
-        "title": "Portefeuille 2026",
-        "meta": "12 projets • 4 axes"
-      }
+      { "title": "OpenLab – POC IA", "meta": "En cours • 3 initiatives" },
+      { "title": "Portefeuille 2026", "meta": "12 projets • 4 axes" }
     ]
   }
 }

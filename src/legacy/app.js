@@ -1466,17 +1466,7 @@ function openAgendaTab(tabName) {
         });
 
         // ===== Innovation (table conforme) =====
-        const innovationTabs = [
-            'page-innovation-ideation',
-            'page-innovation-suivi',
-            'page-innovation-veille',
-            'page-innovation-social',
-            'page-innovation-ateliers',
-            'page-innovation-axes',
-            'page-innovation-openlab',
-            'page-innovation-excelway',
-            'page-innovation-droits'
-        ];
+        const innovationTabs = getCmrData('innovationTabs', []).map(tab => `page-innovation-${tab.id}`);
 
         function switchInnovationTab(tabId) {
             const nav = document.querySelector('#view-innovation .km-navbar');
@@ -1507,11 +1497,10 @@ function openAgendaTab(tabName) {
         }
 
         // Ideation: formulaire + liste + détail
-        let ideas = getCmrData('ideas', [
-            { id: 'i1', title: 'Assistant IA pour tri des demandes', axis: 'Data/IA', score: 42, desc: 'Automatiser le tri/catégorisation des demandes (GLPI / mail) + routage.', comments: 5 },
-            { id: 'i2', title: 'Dématérialisation PV comités', axis: 'Processus', score: 28, desc: 'PV standardisés, signature et archivage GED avec métadonnées.', comments: 2 },
-            { id: 'i3', title: 'Tableau de bord satisfaction interne', axis: 'Service', score: 19, desc: 'KPIs + feedback loop pour actions RH/communication.', comments: 1 }
-        ]);
+        const innovationLabels = getCmrData('innovationLabels', {});
+        const innovationPagesConfig = getCmrData('innovationPages', {});
+        const innovationAccessProfiles = getCmrData('innovationAccessProfiles', {});
+        let ideas = getCmrData('ideas', []);
         let selectedIdeaId = null;
         function toggleIdeaForm(open) {
             const card = document.getElementById('ideaFormCard');
@@ -1529,7 +1518,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">ID</div>
                     <div class="doc-info">
                         <div class="doc-title">${i.title}</div>
-                        <div class="doc-meta">${i.axis} • Score ${i.score} • ${i.comments} commentaires</div>
+                        <div class="doc-meta">${i.axis} • ${innovationLabels.scoreLabel || ''} ${i.score} • ${i.comments} ${innovationLabels.commentsLabel || ''}</div>
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -1537,15 +1526,15 @@ function openAgendaTab(tabName) {
             const sel = ideas.find(x => x.id === selectedIdeaId) || null;
             detail.innerHTML = sel ? `
                 <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
-                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">Axe: <strong>${sel.axis}</strong> • Score: <strong>${sel.score}</strong></div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${innovationLabels.axisLabel || ''} <strong>${sel.axis}</strong> • ${innovationLabels.scoreLabel || ''}: <strong>${sel.score}</strong></div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.desc}</div>
                 <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-                    <button class="actu-filter-btn" onclick="voteIdea('${sel.id}', 1)">Voter +1</button>
-                    <button class="actu-filter-btn" onclick="voteIdea('${sel.id}', -1)">Voter -1</button>
-                    <button class="actu-filter-btn" onclick="openMockDownload('Dossier_Idee_${sel.id}.pdf','Dossier idée – ${sel.title}')">Exporter</button>
+                    <button class="actu-filter-btn" onclick="voteIdea('${sel.id}', 1)">${innovationLabels.voteUpLabel || ''}</button>
+                    <button class="actu-filter-btn" onclick="voteIdea('${sel.id}', -1)">${innovationLabels.voteDownLabel || ''}</button>
+                    <button class="actu-filter-btn" onclick="openMockDownload('Dossier_Idee_${sel.id}.pdf','${innovationLabels.ideaExportPrefix || ''} ${sel.title}')">${innovationLabels.exportLabel || ''}</button>
                 </div>
-            ` : 'Sélectionnez une idée.';
+            ` : (innovationPagesConfig.ideation?.emptyDetail || '');
             lucide.createIcons();
         }
         function voteIdea(id, delta) {
@@ -1554,7 +1543,7 @@ function openAgendaTab(tabName) {
         }
         function submitIdea() {
             const title = (document.getElementById('ideaTitle')?.value || '').trim();
-            const axis = (document.getElementById('ideaAxis')?.value || 'Digital').trim();
+            const axis = (document.getElementById('ideaAxis')?.value || innovationLabels.defaultAxis || '').trim();
             const desc = (document.getElementById('ideaDesc')?.value || '').trim();
             if (!title || !desc) return;
             const id = 'i' + Math.random().toString(16).slice(2);
@@ -1566,11 +1555,7 @@ function openAgendaTab(tabName) {
         }
 
         // Suivi projets: liste/dashboard
-        const innovationProjects = getCmrData('innovationProjects', [
-            { name: 'Portail idées – MVP', status: 'En cours', progress: 55 },
-            { name: 'Démat PV comités', status: 'À lancer', progress: 0 },
-            { name: 'Assistant IA tri demandes', status: 'Étude', progress: 20 }
-        ]);
+        const innovationProjects = getCmrData('innovationProjects', []);
         function renderInnovationProjects() {
             const root = document.getElementById('innovationProjects');
             if (!root) return;
@@ -1583,17 +1568,13 @@ function openAgendaTab(tabName) {
                     <div style="margin-top:10px;height:6px;background:#f1f5f9;border-radius:999px;overflow:hidden;">
                         <div style="width:${p.progress}%;height:100%;background:#3b82f6;"></div>
                     </div>
-                    <div style="margin-top:8px;color:var(--text-light);font-size:12px;">Avancement: ${p.progress}%</div>
+                    <div style="margin-top:8px;color:var(--text-light);font-size:12px;">${innovationLabels.progressLabel || ''} ${p.progress}%</div>
                 </div>
             `).join('');
         }
 
         // Veille: flux
-        const innovationFeed = getCmrData('innovationFeed', [
-            { title: 'Tendances IA 2026 (secteur public)', meta: 'Article • 2j', source: 'Veille' },
-            { title: 'Design sprint: réduire le time-to-value', meta: 'Dossier • 1s', source: 'OpenLab' },
-            { title: 'Exemples d’innovation services', meta: 'Note • 3s', source: 'Benchmark' }
-        ]);
+        const innovationFeed = getCmrData('innovationFeed', []);
         function renderInnovationFeed() {
             const list = document.getElementById('innovationFeed');
             if (!list) return;
@@ -1611,24 +1592,17 @@ function openAgendaTab(tabName) {
         }
 
         // Social: commentaires + réactions + votes
-        let socialComments = getCmrData('socialComments', [
-            { author: 'Collaborateur 02', when: 'il y a 2h', text: 'Très bonne idée, on peut commencer par un POC sur une catégorie.' },
-            { author: 'Collaborateur 03', when: 'hier', text: 'Attention aux données sensibles, prévoir anonymisation.' }
-        ]);
-        let socialReactions = getCmrData('socialReactions', { like: 31, idea: 12, fire: 6 });
-        let socialVotes = getCmrData('socialVotes', [
-            { label: 'Assistant IA tri demandes', score: 72 },
-            { label: 'Démat PV comités', score: 54 },
-            { label: 'Dashboard satisfaction', score: 29 }
-        ]);
+        let socialComments = getCmrData('socialComments', []);
+        let socialReactions = getCmrData('socialReactions', {});
+        let socialVotes = getCmrData('socialVotes', []);
         function renderInnovationSocial() {
             const c = document.getElementById('innovationComments');
             const r = document.getElementById('innovationReactions');
             if (!c || !r) return;
             c.innerHTML = `
                 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-                    <input id="socialCommentInput" class="actu-search-input" placeholder="Ajouter un commentaire…">
-                    <button class="primary-btn" onclick="addInnovationComment()">Commenter</button>
+                    <input id="socialCommentInput" class="actu-search-input" placeholder="${innovationLabels.commentPlaceholder || ''}">
+                    <button class="primary-btn" onclick="addInnovationComment()">${innovationLabels.commentButton || ''}</button>
                 </div>
                 ${socialComments.map(x => `
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;margin-bottom:10px;">
@@ -1639,12 +1613,12 @@ function openAgendaTab(tabName) {
             `;
             r.innerHTML = `
                 <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <button class="actu-filter-btn" onclick="react('like')">👍 Like (${socialReactions.like})</button>
-                    <button class="actu-filter-btn" onclick="react('idea')">💡 Idée (${socialReactions.idea})</button>
-                    <button class="actu-filter-btn" onclick="react('fire')">🔥 Wow (${socialReactions.fire})</button>
+                    <button class="actu-filter-btn" onclick="react('like')">👍 ${innovationLabels.likeLabel || ''} (${socialReactions.like || 0})</button>
+                    <button class="actu-filter-btn" onclick="react('idea')">💡 ${innovationLabels.ideaReactionLabel || ''} (${socialReactions.idea || 0})</button>
+                    <button class="actu-filter-btn" onclick="react('fire')">🔥 ${innovationLabels.wowLabel || ''} (${socialReactions.fire || 0})</button>
                 </div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:14px 0;">
-                <div style="font-weight:900;color:#0f172a;margin-bottom:10px;">Vote / priorisation</div>
+                <div style="font-weight:900;color:#0f172a;margin-bottom:10px;">${innovationLabels.votePriorityTitle || ''}</div>
                 ${socialVotes.map(v => `
                     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;margin-bottom:10px;">
                         <div style="font-weight:800;color:#0f172a;font-size:12px;">${v.label}</div>
@@ -1661,7 +1635,7 @@ function openAgendaTab(tabName) {
         function addInnovationComment() {
             const v = (document.getElementById('socialCommentInput')?.value || '').trim();
             if (!v) return;
-            socialComments = [{ author: 'Vous', when: 'à l’instant', text: v }, ...socialComments];
+            socialComments = [{ author: innovationLabels.currentUser || '', when: innovationLabels.nowLabel || '', text: v }, ...socialComments];
             renderInnovationSocial();
         }
         function react(k) { socialReactions[k] = (socialReactions[k] || 0) + 1; renderInnovationSocial(); }
@@ -1671,10 +1645,7 @@ function openAgendaTab(tabName) {
         }
 
         // Ateliers/challenges: liste/calendrier
-        const innovationEvents = getCmrData('innovationEvents', [
-            { date: '05 Mai 2026', title: 'Atelier Design Sprint', meta: 'Salle Innovation • 09:00' },
-            { date: '20 Mai 2026', title: 'Challenge idées – Data/IA', meta: 'En ligne • 14:00' }
-        ]);
+        const innovationEvents = getCmrData('innovationEvents', []);
         function renderInnovationEvents() {
             const root = document.getElementById('innovationEvents');
             if (!root) return;
@@ -1684,7 +1655,7 @@ function openAgendaTab(tabName) {
                     <div style="flex:1;">
                         <div style="font-weight:900;color:#0f172a;">${e.title}</div>
                         <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${e.meta}</div>
-                        <button class="primary-btn" style="margin-top:10px;" onclick="openMockDownload('Inscription_${e.title.replace(/\\s+/g,'_')}.pdf','Inscription – ${e.title}')">Participer</button>
+                        <button class="primary-btn" style="margin-top:10px;" onclick="openMockDownload('Inscription_${e.title.replace(/\\s+/g,'_')}.pdf','${innovationLabels.registrationPrefix || ''} ${e.title}')">${innovationLabels.participateLabel || ''}</button>
                     </div>
                 </div>
             `).join('');
@@ -1692,12 +1663,7 @@ function openAgendaTab(tabName) {
 
         // Axes: filtres/catégories
         let innovationAxisFilter = 'all';
-        const innovationAxes = getCmrData('innovationAxes', [
-            { axis: 'Digital', title: 'Automatisation & self‑service', desc: 'Portails, signature, workflows.' },
-            { axis: 'Processus', title: 'Simplification', desc: 'Réduire délais, standardiser.' },
-            { axis: 'Service', title: 'Expérience usager', desc: 'Feedback, qualité de service.' },
-            { axis: 'Data/IA', title: 'Data & IA', desc: 'Analyse, prédiction, assistants.' }
-        ]);
+        const innovationAxes = getCmrData('innovationAxes', []);
         function filterInnovationAxis(a, btn) {
             innovationAxisFilter = a;
             document.querySelectorAll('#innovationAxesFilters .actu-filter-btn').forEach(b => b.classList.remove('active'));
@@ -1713,17 +1679,14 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon-large" style="background:#f0fdf4;color:#15803d;"><i data-lucide="target" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${x.axis} — ${x.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:8px;line-height:1.6;">${x.desc}</p>
-                    <div class="doc-card-meta"><span style="color:#15803d;font-weight:800;">Voir les idées</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                    <div class="doc-card-meta"><span style="color:#15803d;font-weight:800;">${innovationLabels.axisCtaLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                 </div>
             `).join('');
             lucide.createIcons();
         }
 
         // OpenLab/portfolio: page/dashboard
-        const openlabItems = getCmrData('openlabItems', [
-            { title: 'OpenLab – POC IA', meta: 'En cours • 3 initiatives' },
-            { title: 'Portefeuille 2026', meta: '12 projets • 4 axes' }
-        ]);
+        const openlabItems = getCmrData('openlabItems', []);
         function renderOpenLab() {
             const list = document.getElementById('openlabPortfolio');
             const dash = document.getElementById('openlabDashboard');
@@ -1741,19 +1704,19 @@ function openAgendaTab(tabName) {
             dash.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Idées</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${innovationLabels.openlabIdeasLabel || ''}</div>
                         <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${ideas.length}</div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Projets</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${innovationLabels.openlabProjectsLabel || ''}</div>
                         <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${innovationProjects.length}</div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Ateliers</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${innovationLabels.openlabWorkshopsLabel || ''}</div>
                         <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${innovationEvents.length}</div>
                     </div>
                 </div>
-                <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">Tableau de bord (maquette) — à brancher sur les données réelles OpenLab/portefeuille.</div>
+                <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">${innovationLabels.openlabDashboardNote || ''}</div>
             `;
             lucide.createIcons();
         }
@@ -1764,7 +1727,7 @@ function openAgendaTab(tabName) {
             if (!list || !panel) return;
 
             list.innerHTML = ideas.map(i => `
-                <div class="doc-item" onclick="openMockDownload('ExcelWay_Idee_${i.id}.pdf','Export ExcelWay – ${i.title}')">
+                <div class="doc-item" onclick="openMockDownload('ExcelWay_Idee_${i.id}.pdf','${innovationLabels.excelwayExportPrefix || ''} ${i.title}')">
                     <div class="doc-icon" style="background:#ecfdf5;color:#16a34a;font-weight:900;">EXW</div>
                     <div class="doc-info">
                         <div class="doc-title">${i.title}</div>
@@ -1776,26 +1739,26 @@ function openAgendaTab(tabName) {
 
             panel.innerHTML = `
                 <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
-                    <div style="font-weight:900;color:#0f172a;">Widget ExcelWay (maquette)</div>
-                    <p style="margin:8px 0 0 0;color:var(--text-light);font-size:12px;line-height:1.6;">Publication et gestion des idées via outil externe intégré. Remplacer par iframe / API sécurisée.</p>
+                    <div style="font-weight:900;color:#0f172a;">${innovationLabels.excelwayWidgetTitle || ''}</div>
+                    <p style="margin:8px 0 0 0;color:var(--text-light);font-size:12px;line-height:1.6;">${innovationLabels.excelwayWidgetDescription || ''}</p>
                     <div style="margin-top:14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
                         <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">Idées synchronisées</div>
+                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">${innovationLabels.excelwayIdeasLabel || ''}</div>
                             <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${ideas.length}</div>
                         </div>
                         <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">Projets suivis</div>
+                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">${innovationLabels.excelwayProjectsLabel || ''}</div>
                             <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${innovationProjects.length}</div>
                         </div>
                         <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">Connecteur</div>
-                            <div style="margin-top:6px;font-size:14px;font-weight:900;color:#16a34a;">Actif (mock)</div>
+                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">${innovationLabels.excelwayConnectorLabel || ''}</div>
+                            <div style="margin-top:6px;font-size:14px;font-weight:900;color:#16a34a;">${innovationLabels.excelwayConnectorValue || ''}</div>
                         </div>
                     </div>
                     <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-                        <button class="primary-btn" onclick="openMockDownload('ExcelWay_Integration_Guide.pdf','Guide intégration ExcelWay')">Guide intégration</button>
-                        <button class="secondary-btn" onclick="openMockDownload('ExcelWay_API_Spec.pdf','Spécification API ExcelWay')">Spécification API</button>
-                        <button class="secondary-btn" onclick="openMockDownload('ExcelWay_Widget_Config.pdf','Configuration widget ExcelWay')">Configurer</button>
+                        <button class="primary-btn" onclick="openMockDownload('${innovationLabels.excelwayGuideFile || ''}','${innovationLabels.excelwayGuideTitle || ''}')">${innovationLabels.excelwayGuideLabel || ''}</button>
+                        <button class="secondary-btn" onclick="openMockDownload('${innovationLabels.excelwayApiFile || ''}','${innovationLabels.excelwayApiTitle || ''}')">${innovationLabels.excelwayApiLabel || ''}</button>
+                        <button class="secondary-btn" onclick="openMockDownload('${innovationLabels.excelwayConfigFile || ''}','${innovationLabels.excelwayConfigTitle || ''}')">${innovationLabels.excelwayConfigLabel || ''}</button>
                     </div>
                 </div>
             `;
@@ -1813,15 +1776,10 @@ function openAgendaTab(tabName) {
         function renderInnovationAccess() {
             const panel = document.getElementById('innovationAccessPanel');
             if (!panel) return;
-            const access = {
-                collaborateur: ['Soumettre une idée', 'Consulter la veille', 'Commenter'],
-                manager: ['Tout collaborateur', 'Prioriser / classer', 'Voir suivi projets'],
-                admin: ['Tout manager', 'Gérer axes', 'Gérer droits', 'Intégration ExcelWay']
-            };
-            const items = access[innovationRole] || [];
+            const items = innovationAccessProfiles[innovationRole] || [];
             panel.innerHTML = `
                 <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
-                    <div style="font-weight:900;color:#0f172a;">Profil actif : ${innovationRole}</div>
+                    <div style="font-weight:900;color:#0f172a;">${innovationLabels.activeProfileLabel || ''} ${innovationRole}</div>
                     <ul style="margin:10px 0 0 18px;color:#475569;font-size:12px;line-height:1.9;">
                         ${items.map(x => `<li>${x}</li>`).join('')}
                     </ul>
