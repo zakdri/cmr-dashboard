@@ -101,7 +101,7 @@ export default function CommunicationInterneSection() {
                   id="commInterneSearchInput"
                   type="text"
                   className="actu-search-input"
-                  placeholder={filterCard.searchPlaceholder}
+                  placeholder="Rechercher un contenu..."
                   onInput={(event) =>
                     runLegacyHandler(
                       event,

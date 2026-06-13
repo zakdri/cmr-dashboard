@@ -120,7 +120,7 @@ export default function RseSection() {
               page={idees}
               action={
                 <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "toggleRseIdeaForm(true)")}>
-                  {idees.submitLabel}
+                  Soumettre
                 </button>
               }
             >
@@ -130,15 +130,15 @@ export default function RseSection() {
               <div className="card-header">
                 <CardTitle page={{ title: idees.formTitle, icon: idees.formIcon, iconClass: idees.formIconClass }} />
                 <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "toggleRseIdeaForm(false)")}>
-                  {idees.closeLabel}
+                  Fermer
                 </button>
               </div>
               <div style={{ padding: 18 }}>
-                <input id="rseIdeaTitle" className="actu-search-input" placeholder={idees.titlePlaceholder} />
-                <textarea id="rseIdeaDesc" className="actu-search-input" style={{ marginTop: 12, height: 120, paddingTop: 10 }} placeholder={idees.descriptionPlaceholder} defaultValue={""} />
+                <input id="rseIdeaTitle" className="actu-search-input" placeholder="Titre de l'idée" />
+                <textarea id="rseIdeaDesc" className="actu-search-input" style={{ marginTop: 12, height: 120, paddingTop: 10 }} placeholder="Décrire l'idée..." defaultValue={""} />
                 <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
                   <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitRseIdea()")}>
-                    {idees.sendLabel}
+                    Envoyer
                   </button>
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default function RseSection() {
               page={contributions}
               action={
                 <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "toggleRseContributionForm(true)")}>
-                  {contributions.publishLabel}
+                  Publier
                 </button>
               }
             >
@@ -162,15 +162,15 @@ export default function RseSection() {
               <div className="card-header">
                 <CardTitle page={{ title: contributions.formTitle, icon: contributions.formIcon, iconClass: contributions.formIconClass }} />
                 <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "toggleRseContributionForm(false)")}>
-                  {contributions.closeLabel}
+                  Fermer
                 </button>
               </div>
               <div style={{ padding: 18 }}>
-                <input id="rseContribTitle" className="actu-search-input" placeholder={contributions.titlePlaceholder} />
-                <textarea id="rseContribBody" className="actu-search-input" style={{ marginTop: 12, height: 120, paddingTop: 10 }} placeholder={contributions.bodyPlaceholder} defaultValue={""} />
+                <input id="rseContribTitle" className="actu-search-input" placeholder="Titre de la contribution" />
+                <textarea id="rseContribBody" className="actu-search-input" style={{ marginTop: 12, height: 120, paddingTop: 10 }} placeholder="Contenu de la contribution..." defaultValue={""} />
                 <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
                   <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitRseContribution()")}>
-                    {contributions.publishLabel}
+                    Publier
                   </button>
                 </div>
               </div>

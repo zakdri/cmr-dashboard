@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+
+const QUICK_ACCESS_STORAGE_KEY = "cmr.quickAccess.selectedLabels";
 
 function getDashboardData() {
   const data = window.CMR_DATA?.data || {};
@@ -9,10 +11,32 @@ function getDashboardData() {
     dgMessage: data.dashboardDgMessage || {},
     quickAccess: data.dashboardQuickAccess || {},
     cards: data.dashboardCards || [],
+    vieSocialeEvents: data.vieSocialeEvents || [],
   };
 }
 
+function getSavedQuickAccessLabels(items) {
+  const fallbackLabels = items.map((item) => item.label);
+
+  try {
+    const savedLabels = JSON.parse(
+      window.localStorage.getItem(QUICK_ACCESS_STORAGE_KEY) || "null",
+    );
+    if (!Array.isArray(savedLabels)) return fallbackLabels;
+
+    const availableLabels = new Set(fallbackLabels);
+    const validSavedLabels = savedLabels.filter((label) =>
+      availableLabels.has(label),
+    );
+
+    return validSavedLabels.length > 0 ? validSavedLabels : fallbackLabels;
+  } catch {
+    return fallbackLabels;
+  }
+}
+
 function CardHeader({ card }) {
+  const actionLabel = card.actionIcon === "refresh-cw" ? "Actualiser" : "Voir plus";
   return (
     <div className="card-header">
       <div className="card-title">
@@ -32,7 +56,7 @@ function CardHeader({ card }) {
               : undefined
           }
         >
-          {card.actionLabel}
+          {actionLabel}
           <i
             data-lucide={card.actionIcon || "arrow-right"}
             style={{ width: 14, height: 14 }}
@@ -74,25 +98,39 @@ function DocIcon({ item }) {
 function DocList({ items = [] }) {
   return (
     <div className="doc-list">
-      {items.map((item) => (
-        <div className="doc-item" key={`${item.title}-${item.meta}`}>
-          <DocIcon item={item} />
-          <div className="doc-info">
-            <div className="doc-title">{item.title}</div>
-            <div className="doc-meta">{item.meta}</div>
-          </div>
-          {item.icon && (
-            <i
-              data-lucide={item.icon}
-              style={{
-                width: 16,
-                height: 16,
-                color: item.iconColor || "#94a3b8",
-              }}
-            />
-          )}
-        </div>
-      ))}
+      {items.map((item) => {
+        const ItemWrapper = item.handler ? "a" : "div";
+
+        return (
+          <ItemWrapper
+            className="doc-item"
+            href={item.handler ? "#" : undefined}
+            key={`${item.title}-${item.meta}`}
+            onClick={
+              item.handler
+                ? (event) => runLegacyHandler(event, item.handler)
+                : undefined
+            }
+            style={item.handler ? { color: "inherit", textDecoration: "none" } : undefined}
+          >
+            <DocIcon item={item} />
+            <div className="doc-info">
+              <div className="doc-title">{item.title}</div>
+              <div className="doc-meta">{item.meta}</div>
+            </div>
+            {item.icon && (
+              <i
+                data-lucide={item.icon}
+                style={{
+                  width: 16,
+                  height: 16,
+                  color: item.iconColor || "#94a3b8",
+                }}
+              />
+            )}
+          </ItemWrapper>
+        );
+      })}
     </div>
   );
 }
@@ -102,7 +140,7 @@ function AppsCard({ card }) {
     <div className="dashboard-card">
       <CardHeader card={card} />
       <div className="app-grid">
-        {(card.items || []).map((item) => (
+        {(card.items || []).slice(0, 4).map((item) => (
           <div className="app-item" key={item.label}>
             <div className="app-icon" style={{ background: item.background }}>
               <i data-lucide={item.icon} style={{ width: 22, height: 22 }} />
@@ -116,11 +154,13 @@ function AppsCard({ card }) {
 }
 
 function StatsCard({ card }) {
+  const maxItems = Number.isInteger(card.maxItems) ? card.maxItems : card.items?.length;
+
   return (
     <div className="dashboard-card">
       <CardHeader card={card} />
       <div className="stat-grid">
-        {(card.items || []).map((item) => (
+        {(card.items || []).slice(0, maxItems).map((item) => (
           <div className={`stat-item ${item.className}`} key={item.label}>
             <div className="stat-value">{item.value}</div>
             <div className="stat-label">{item.label}</div>
@@ -143,6 +183,66 @@ function DocListCard({ card }) {
       <DocList items={card.items} />
     </div>
   );
+}
+
+const monthIndexes = {
+  JANVIER: 0,
+  FÉVRIER: 1,
+  FEVRIER: 1,
+  MARS: 2,
+  AVRIL: 3,
+  MAI: 4,
+  JUIN: 5,
+  JUILLET: 6,
+  AOÛT: 7,
+  AOUT: 7,
+  SEPTEMBRE: 8,
+  OCTOBRE: 9,
+  NOVEMBRE: 10,
+  DÉCEMBRE: 11,
+  DECEMBRE: 11,
+};
+
+function parseVieSocialeEventDate(event) {
+  const [monthName, year] = (event.month || "").split(" ");
+  return new Date(
+    Number(year) || 0,
+    monthIndexes[monthName] ?? 0,
+    Number(event.day) || 1,
+  ).getTime();
+}
+
+function formatVieSocialeEventDate(event) {
+  const [monthName = "", year = ""] = (event.month || "").split(" ");
+  const monthLabel = monthName.charAt(0) + monthName.slice(1).toLowerCase();
+  return `${event.day} ${monthLabel} ${year}`.trim();
+}
+
+function buildVieSocialeDashboardItems(events, maxItems) {
+  return [...events]
+    .sort((eventA, eventB) => parseVieSocialeEventDate(eventB) - parseVieSocialeEventDate(eventA))
+    .slice(0, maxItems)
+    .map((event) => ({
+      badge: event.tag === "Initiative" ? "INI" : "EVT",
+      title: event.title,
+      meta: `${formatVieSocialeEventDate(event)} • ${event.meta}`,
+      background: event.tagStyle?.background || "#eff6ff",
+      color: event.tagStyle?.color || "#256cb5",
+      icon: "chevron-right",
+      handler: "switchView('vie-sociale'); return false;",
+    }));
+}
+
+function hydrateDashboardCard(card, dataSources) {
+  if (card.source !== "vieSocialeEvents") return card;
+
+  return {
+    ...card,
+    items: buildVieSocialeDashboardItems(
+      dataSources.vieSocialeEvents,
+      card.maxItems || 3,
+    ),
+  };
 }
 
 function ShortcutsCard({ card }) {
@@ -308,7 +408,7 @@ function NewsBlock({ news }) {
             className="card-action"
             onClick={(event) => runLegacyHandler(event, news.actionHandler)}
           >
-            {news.actionLabel}
+            Voir tout
             <i data-lucide="arrow-right" style={{ width: 14, height: 14 }} />
           </a>
         </div>
@@ -460,7 +560,7 @@ function DgMessage({ message }) {
                   whiteSpace: "nowrap",
                 }}
               >
-                {message.markReadLabel}
+                Marquer comme lu
               </button>
               <a
                 href="#"
@@ -475,7 +575,7 @@ function DgMessage({ message }) {
                   runLegacyHandler(event, "goToDgMessage(); return false;")
                 }
               >
-                {message.readLabel}
+                Lire le message
                 <i data-lucide="arrow-right" style={{ width: 14, height: 14 }} />
               </a>
             </div>
@@ -506,7 +606,7 @@ function QuickAccess({ quickAccess }) {
           onClick={(event) => runLegacyHandler(event, "toggleModal('editModal')")}
         >
           <i data-lucide="settings-2" style={{ width: 14, height: 14 }} />
-          {quickAccess.manageLabel}
+          Gérer
         </button>
       </div>
       <div className="quick-access-grid">
@@ -524,7 +624,50 @@ function QuickAccess({ quickAccess }) {
 }
 
 export default function DashboardSection() {
-  const { ticker, news, dgMessage, quickAccess, cards } = getDashboardData();
+  const { ticker, news, dgMessage, quickAccess, cards, vieSocialeEvents } = getDashboardData();
+  const quickAccessItems = quickAccess.items || [];
+  const [selectedQuickAccessLabels, setSelectedQuickAccessLabels] = useState(
+    () => getSavedQuickAccessLabels(quickAccessItems),
+  );
+
+  useEffect(() => {
+    setSelectedQuickAccessLabels(getSavedQuickAccessLabels(quickAccessItems));
+  }, [quickAccessItems]);
+
+  useEffect(() => {
+    function handleQuickAccessUpdated(event) {
+      setSelectedQuickAccessLabels(event.detail?.labels || []);
+    }
+
+    window.addEventListener(
+      "cmr:quick-access-updated",
+      handleQuickAccessUpdated,
+    );
+    return () => {
+      window.removeEventListener(
+        "cmr:quick-access-updated",
+        handleQuickAccessUpdated,
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    window.lucide?.createIcons();
+  }, [selectedQuickAccessLabels]);
+
+  const visibleQuickAccess = useMemo(
+    () => ({
+      ...quickAccess,
+      items: quickAccessItems.filter((item) =>
+        selectedQuickAccessLabels.includes(item.label),
+      ),
+    }),
+    [quickAccess, quickAccessItems, selectedQuickAccessLabels],
+  );
+  const hydratedCards = useMemo(
+    () => cards.map((card) => hydrateDashboardCard(card, { vieSocialeEvents })),
+    [cards, vieSocialeEvents],
+  );
 
   return (
     <>
@@ -532,15 +675,15 @@ export default function DashboardSection() {
         <div className="news-ticker-container">
           <div className="ticker-label">
             <i data-lucide="zap" style={{ width: 16, height: 16 }} />
-            {ticker.label}
+            FLASH INFO
           </div>
           <div className="ticker-wrapper" id="tickerWrapper"></div>
         </div>
         <NewsBlock news={news} />
         <DgMessage message={dgMessage} />
-        <QuickAccess quickAccess={quickAccess} />
+        <QuickAccess quickAccess={visibleQuickAccess} />
         <div className="dashboard-grid">
-          {cards.map((card) => (
+          {hydratedCards.map((card) => (
             <DashboardCard card={card} key={card.title} />
           ))}
         </div>

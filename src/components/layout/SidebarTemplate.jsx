@@ -4,13 +4,12 @@ import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 function getSidebarData() {
   const data = window.CMR_DATA?.data || {};
   return {
-    labels: data.sidebarLabels || {},
     items: data.sidebarMainItems || [],
   };
 }
 
 export default function SidebarTemplate() {
-  const { labels, items } = getSidebarData();
+  const { items } = getSidebarData();
 
   return (
     <>
@@ -41,7 +40,7 @@ export default function SidebarTemplate() {
         </aside>
         <aside className="sidebar-submenu-panel" id="sidebarSubmenu">
           <div className="submenu-title" id="submenuTitle">
-            {labels.submenuTitle}
+            Sous-menu
           </div>
           <div className="submenu-list" id="submenuList" />
         </aside>

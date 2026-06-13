@@ -2,6 +2,29 @@
   "space": "actualites",
   "updatedAt": "2026-06-08",
   "data": {
+    "actualitesHeader": {
+      "title": "Actualités",
+      "description": "Toutes les dernières informations de la CMR",
+      "icon": "newspaper",
+      "iconClass": "blue"
+    },
+    "actualitesLabels": {
+      "searchPlaceholder": "Rechercher une actualité...",
+      "resultsSuffix": "actualités trouvées",
+      "emptyMessage": "Aucune actualité ne correspond à votre recherche.",
+      "backLabel": "Retour aux actualités",
+      "readMoreLabel": "Lire plus",
+      "fallbackImage": "images/intranet/slider1.png"
+    },
+    "actualitesFilters": [
+      { "label": "Toutes", "value": "all", "active": true },
+      { "label": "Gouvernance", "value": "Gouvernance" },
+      { "label": "Digital", "value": "Digital" },
+      { "label": "Innovation", "value": "Innovation" },
+      { "label": "Formation", "value": "Formation" },
+      { "label": "Social", "value": "Social" },
+      { "label": "Stratégie", "value": "Stratégie" }
+    ],
     "actuData": [
       {
         "id": 1,

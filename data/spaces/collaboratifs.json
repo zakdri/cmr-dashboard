@@ -4,7 +4,7 @@
   "data": {
     "collabHeader": {
       "title": "Espaces collaboratifs",
-      "description": "Forums, communautés, échanges, partage (REX) et vie interne."
+      "description": "Forums, communautés, échanges, partage (REX) et vie sociale."
     },
     "collabMainTabs": [
       { "label": "Discussions", "tab": "discussions" },
@@ -177,7 +177,7 @@
         "id": "g3",
         "name": "Groupe RH",
         "members": 44,
-        "desc": "Mobilité, formation, vie interne."
+        "desc": "Mobilité, formation, vie sociale."
       }
     ],
     "collabGroupThreads": [

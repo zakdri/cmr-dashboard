@@ -117,7 +117,7 @@ export default function DocumentairesSection() {
                 <input
                   id="metiersRefSearch"
                   className="actu-search-input"
-                  placeholder={referentiels.searchPlaceholder}
+                  placeholder="Rechercher un référentiel..."
                   onInput={(event) =>
                     runLegacyHandler(event, "renderMetiersReferentiels()")
                   }
@@ -165,7 +165,7 @@ export default function DocumentairesSection() {
                 <input
                   id="metiersLivSearch"
                   className="actu-search-input"
-                  placeholder={livrables.searchPlaceholder}
+                  placeholder="Rechercher un livrable..."
                   onInput={(event) =>
                     runLegacyHandler(event, "renderMetiersLivrables()")
                   }
@@ -228,7 +228,7 @@ export default function DocumentairesSection() {
                         runLegacyHandler(event, si.primaryAction?.handler)
                       }
                     >
-                      {si.primaryAction?.label}
+                      Voir les règles d’intégration
                     </button>
                     <button
                       className="secondary-btn"
@@ -236,7 +236,7 @@ export default function DocumentairesSection() {
                         runLegacyHandler(event, si.secondaryAction?.handler)
                       }
                     >
-                      {si.secondaryAction?.label}
+                      Ouvrir le guide SI
                     </button>
                   </div>
                 </div>
@@ -267,7 +267,7 @@ export default function DocumentairesSection() {
                       runLegacyHandler(event, "renderMetiersSiWidget(true)")
                     }
                   >
-                    {si.refreshLabel}
+                    Actualiser
                   </button>
                 </div>
               </div>
@@ -307,7 +307,7 @@ export default function DocumentairesSection() {
                 <input
                   id="metiersThemeSearch"
                   className="actu-search-input"
-                  placeholder={thematiques.searchPlaceholder}
+                  placeholder="Rechercher une thématique..."
                   onInput={(event) =>
                     runLegacyHandler(event, "renderMetiersThemes()")
                   }
@@ -332,7 +332,7 @@ export default function DocumentairesSection() {
                 <input
                   id="metiersMediaSearch"
                   className="actu-search-input"
-                  placeholder={mediatheque.searchPlaceholder}
+                  placeholder="Rechercher un média..."
                   onInput={(event) =>
                     runLegacyHandler(event, "renderMetiersMedia()")
                   }

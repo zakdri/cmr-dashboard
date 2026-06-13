@@ -5,6 +5,75 @@
     "dashboardTicker": {
       "label": "FLASH INFO"
     },
+    "dashboardRightSidebar": {
+      "quote": {
+        "title": "Citation hebdomadaire",
+        "icon": "quote",
+        "iconStyle": { "background": "var(--cmr-primary)", "color": "white" },
+        "text": "\"L'innovation distingue les leaders des suiveurs. Notre ambition est de transformer chaque défi en opportunité de croissance.\""
+      },
+      "mood": {
+        "title": "Humeur du jour",
+        "resultsTitle": "L'humeur de l'équipe",
+        "icon": "smile",
+        "iconStyle": { "background": "linear-gradient(135deg, #f59e0b, #d97706)" },
+        "results": [
+          { "emoji": "🤩", "percent": 45, "color": "#22c55e" },
+          { "emoji": "😊", "percent": 30, "color": "#84cc16" },
+          { "emoji": "😐", "percent": 15, "color": "#eab308" },
+          { "emoji": "🙁", "percent": 7, "color": "#f97316" },
+          { "emoji": "😡", "percent": 3, "color": "#ef4444" }
+        ],
+        "buttons": [
+          { "mood": "great", "icon": "laugh" },
+          { "mood": "good", "icon": "smile" },
+          { "mood": "neutral", "icon": "meh" },
+          { "mood": "bad", "icon": "frown" },
+          { "mood": "terrible", "icon": "angry" }
+        ]
+      },
+      "agenda": {
+        "title": "Agendas",
+        "icon": "calendar-check",
+        "iconStyle": { "background": "linear-gradient(135deg, #f59e0b, #d97706)" },
+        "tabs": [
+          { "id": "perso", "buttonId": "tab-perso-btn", "listId": "agenda-perso-list", "label": "Ma Journée", "active": true },
+          { "id": "cmr", "buttonId": "tab-cmr-btn", "listId": "agenda-cmr-list", "label": "Calendrier CMR", "active": false }
+        ],
+        "personalItems": [
+          { "time": "14:00", "title": "Comité de Pilotage", "meta": "Salle A", "metaIcon": "map-pin" },
+          { "time": "16:30", "title": "Point d'avancement", "meta": "Teams", "metaIcon": "video" }
+        ],
+        "cmrItems": [
+          { "month": "FÉV", "day": "15", "monthBackground": "#ef4444", "title": "Assemblée Générale", "meta": "Auditorium Principal" },
+          { "month": "MAR", "day": "08", "monthBackground": "#3b82f6", "title": "Journée de la Femme", "meta": "Événement Interne" }
+        ]
+      },
+      "birthdays": {
+        "title": "Anniversaires",
+        "icon": "cake",
+        "iconStyle": { "background": "linear-gradient(135deg, #ec4899, #db2777)" },
+        "avatarIcon": "party-popper",
+        "avatarStyle": {
+          "background": "linear-gradient(135deg, #fbbf24, #f59e0b)",
+          "width": 44,
+          "height": 44,
+          "color": "white",
+          "boxShadow": "0 4px 10px rgba(245, 158, 11, 0.2)"
+        },
+        "items": [
+          { "name": "Yassine Benali", "role": "Aujourd'hui • Marketing" }
+        ]
+      },
+      "flashInfo": {
+        "title": "Info Express",
+        "icon": "bell-ring",
+        "iconStyle": { "background": "#ef4444", "color": "white" },
+        "badge": "LIVE",
+        "subject": "Maintenance Serveur",
+        "description": "Ce soir à partir de 18h00. Indisponibilité estimée: 2h."
+      }
+    },
     "cmrNewsItems": [
       {
         "id": "cmr-actu-contrat",
@@ -122,18 +191,29 @@
       "author": "Direction Générale",
       "organization": "CMR Maroc",
       "markReadLabel": "Marquer comme lu",
-      "readLabel": "Lire le message"
+      "readLabel": "Lire le message",
+      "detail": {
+        "dateIcon": "calendar",
+        "authorIcon": "user",
+        "paragraphs": [
+          "Chers collaborateurs,",
+          "Je souhaite partager les priorités du trimestre et remercier les équipes mobilisées sur les chantiers de transformation. Notre ambition est de renforcer la qualité de service, de moderniser nos outils et d’accélérer la simplification de nos processus.",
+          "Les prochaines semaines seront consacrées au déploiement progressif des évolutions de l’intranet, à la consolidation des référentiels institutionnels et au suivi des décisions des comités."
+        ],
+        "signature": {
+          "author": "Direction Générale",
+          "organization": "CMR Maroc"
+        }
+      }
     },
     "dashboardQuickAccess": {
-      "title": "Accès Rapides",
-      "manageLabel": "Gérer",
+      "title": "Services & Accès utiles",
       "items": [
-        { "label": "Congés", "icon": "calendar-plus" },
-        { "label": "Réservation", "icon": "door-open" },
-        { "label": "Note de frais", "icon": "file-text" },
-        { "label": "Bloc-note", "icon": "sticky-note" },
-        { "label": "Support IT", "icon": "ticket" },
-        { "label": "Documentation", "icon": "book-open" }
+        { "label": "HelpDesk", "icon": "life-buoy" },
+        { "label": "Mobilité spontanée", "icon": "route" },
+        { "label": "Formation spontanée", "icon": "graduation-cap" },
+        { "label": "Réservation de salles", "icon": "door-open" },
+        { "label": "Outlook", "icon": "mail" }
       ]
     },
     "dashboardCards": [
@@ -160,6 +240,7 @@
         "iconClass": "green",
         "actionLabel": "Actualiser",
         "actionIcon": "refresh-cw",
+        "maxItems": 4,
         "items": [
           { "className": "blue", "value": "87%", "label": "Productivité", "icon": "trending-up" },
           { "className": "green", "value": "152", "label": "Utilisateurs", "icon": "users" },
@@ -174,6 +255,7 @@
         "iconClass": "blue",
         "actionLabel": "Voir plus",
         "actionHandler": "switchView('rh'); return false;",
+        "maxItems": 4,
         "items": [
           { "className": "blue", "value": "94%", "label": "Engagement", "icon": "smile" },
           { "className": "green", "value": "4.2", "label": "Baromètre", "icon": "gauge" },
@@ -189,8 +271,7 @@
         "actionIcon": "refresh-cw",
         "actionNoWrap": true,
         "items": [
-          { "badge": "EVT", "title": "Événements", "meta": "À venir • Agenda & inscriptions", "background": "#eff6ff", "color": "#256cb5", "icon": "chevron-right" },
-          { "badge": "FOR", "title": "Formations", "meta": "Nouveautés • Parcours & e-learning", "background": "#f0fdf4", "color": "#16a34a", "icon": "chevron-right" },
+          { "badge": "EVT", "title": "Événements", "meta": "À venir • Agenda personnel & Calendrier CMR", "background": "#eff6ff", "color": "#256cb5", "icon": "chevron-right", "handler": "switchView('agenda-interne'); return false;" },
           { "badge": "ALT", "title": "Alertes", "meta": "Infos importantes • À surveiller", "background": "#fff7ed", "color": "#ea580c", "icon": "chevron-right" }
         ]
       },
@@ -209,20 +290,6 @@
       },
       {
         "type": "docList",
-        "title": "Publication croisée",
-        "icon": "share-2",
-        "iconClass": "blue",
-        "actionLabel": "Gérer",
-        "actionHandler": "switchView('admin'); return false;",
-        "actionNoWrap": true,
-        "items": [
-          { "badge": "AUTO", "title": "Actualités → Accueil + Rubrique “Organisation & Gouvernance”", "meta": "Règle active • Affichage en double entrée", "background": "#eff6ff", "color": "#256cb5", "icon": "check-circle", "iconColor": "#16a34a" },
-          { "badge": "RH", "title": "Vie RH → Accueil + RH & Mobilité", "meta": "Règle active • Visibilité collaborateurs", "background": "#f0fdf4", "color": "#16a34a", "icon": "check-circle", "iconColor": "#16a34a" },
-          { "badge": "OPT", "title": "Événements → Accueil + Vie sociale", "meta": "Optionnel • Selon type d’événement", "background": "#fff7ed", "color": "#ea580c", "icon": "chevron-right" }
-        ]
-      },
-      {
-        "type": "docList",
         "title": "Vie RH",
         "icon": "users-round",
         "iconClass": "green",
@@ -236,47 +303,18 @@
       },
       {
         "type": "docList",
-        "title": "Vie interne",
+        "title": "Vie Sociale",
         "icon": "calendar-clock",
         "iconClass": "blue",
         "actionLabel": "Voir plus",
         "actionHandler": "switchView('vie-sociale'); return false;",
+        "source": "vieSocialeEvents",
+        "maxItems": 3,
+        "sort": "dateDesc",
         "items": [
-          { "badge": "EVT", "title": "Séminaire interne — Transformation digitale", "meta": "Jeu 07 Mai • 10:00", "background": "#eff6ff", "color": "#256cb5", "icon": "chevron-right" },
-          { "badge": "COM", "title": "Atelier — Bonnes pratiques cybersécurité", "meta": "Mar 12 Mai • 14:30", "background": "#f0fdf4", "color": "#16a34a", "icon": "chevron-right" },
-          { "badge": "INF", "title": "Note interne — Organisation des horaires été", "meta": "Publié aujourd’hui", "background": "#fff7ed", "color": "#ea580c", "icon": "chevron-right" }
-        ]
-      },
-      {
-        "type": "docList",
-        "title": "Pilotage institutionnel",
-        "icon": "compass",
-        "iconClass": "purple",
-        "actionLabel": "Voir plus",
-        "actionHandler": "switchView('institutionnel'); return false;",
-        "items": [
-          { "badge": "STR", "title": "Mise à jour — Feuille de route stratégique 2026", "meta": "Publié il y a 2 jours", "background": "#eff6ff", "color": "#256cb5", "icon": "chevron-right" },
-          { "badge": "PRJ", "title": "Point d’avancement — Programme de transformation", "meta": "Comité de pilotage • Semaine prochaine", "background": "#f0fdf4", "color": "#16a34a", "icon": "chevron-right" },
-          { "badge": "KPI", "title": "Synthèse trimestrielle — Indicateurs clés", "meta": "T1 2026 • À consulter", "background": "#fff7ed", "color": "#ea580c", "icon": "chevron-right" }
-        ]
-      },
-      {
-        "type": "shortcuts",
-        "title": "Rubriques institutionnelles",
-        "icon": "building-2",
-        "iconClass": "blue",
-        "actionLabel": "Voir plus",
-        "actionHandler": "switchView('institutionnel'); return false;",
-        "actionNoWrap": true,
-        "items": [
-          { "label": "Organisation", "icon": "network" },
-          { "label": "Stratégie", "icon": "target" },
-          { "label": "Gouvernance", "icon": "landmark" },
-          { "label": "Référentiels", "icon": "file-text" },
-          { "label": "Partenariats", "icon": "handshake" },
-          { "label": "Textes", "icon": "book-open" },
-          { "label": "Indicateurs", "icon": "bar-chart-3" },
-          { "label": "Décisions", "icon": "clipboard-list" }
+          { "badge": "EVT", "title": "Fête de Fin d'Année CMR", "meta": "12 Juin 2026 • Hôtel Sofitel Rabat · 19h00 · Sur invitation", "background": "#fef3c7", "color": "#92400e", "icon": "chevron-right" },
+          { "badge": "INI", "title": "Team Building Digital 2026", "meta": "20 Mai 2026 • Salle Innovation · Direction Digital & IT", "background": "#eff6ff", "color": "#1d4ed8", "icon": "chevron-right" },
+          { "badge": "EVT", "title": "Journée Portes Ouvertes CMR", "meta": "05 Mai 2026 • Siège CMR · 9h00 – 17h00 · Ouvert à tous", "background": "#fdf2f8", "color": "#be185d", "icon": "chevron-right" }
         ]
       },
       {
@@ -309,7 +347,7 @@
       },
       {
         "type": "ideas",
-        "title": "Boîte à Idées",
+        "title": "Boîte à suggestions",
         "icon": "lightbulb",
         "iconClass": "pink",
         "actionLabel": "Contribuer",

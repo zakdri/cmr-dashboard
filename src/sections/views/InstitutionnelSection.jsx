@@ -258,13 +258,13 @@ export default function InstitutionnelSection() {
                 className="secondary-btn"
                 onClick={(event) => runLegacyHandler(event, "expandAllOrg()")}
               >
-                {pages.organigramme?.expandLabel}
+                Développer tout
               </button>
               <button
                 className="secondary-btn"
                 onClick={(event) => runLegacyHandler(event, "collapseAllOrg()")}
               >
-                {pages.organigramme?.collapseLabel}
+                Réduire
               </button>
             </div>
           </div>
@@ -315,7 +315,7 @@ export default function InstitutionnelSection() {
                 id="postesSearchInput"
                 type="text"
                 className="actu-search-input"
-                placeholder={pages.postes?.searchPlaceholder}
+                placeholder="Rechercher une fiche de poste..."
                 onInput={(event) =>
                   runLegacyHandler(event, "renderPostesList(this.value)")
                 }
@@ -689,7 +689,7 @@ export default function InstitutionnelSection() {
                       runLegacyHandler(event, pages.direction?.downloadHandler)
                     }
                   >
-                    {pages.direction?.downloadLabel}
+                    Télécharger la note
                   </button>
                   <button
                     className="primary-btn"
@@ -697,7 +697,7 @@ export default function InstitutionnelSection() {
                       runLegacyHandler(event, pages.direction?.newsHandler)
                     }
                   >
-                    {pages.direction?.newsLabel}
+                    Voir l’actualité liée
                   </button>
                 </div>
               </div>

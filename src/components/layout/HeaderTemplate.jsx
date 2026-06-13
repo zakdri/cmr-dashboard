@@ -1,7 +1,14 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+const getHeaderData = () => window.CMR_DATA?.data?.header || {};
+
 export default function HeaderTemplate() {
+  const header = getHeaderData();
+  const notifications = header.notifications || {};
+  const quickLinks = header.quickLinks || {};
+  const user = header.user || {};
+
   return (
     <>
       {/* TOP HEADER */}
@@ -99,7 +106,7 @@ export default function HeaderTemplate() {
               }
             >
               <i data-lucide="bell" style={{ width: 20, height: 20 }} />
-              <span className="badge">3</span>
+              <span className="badge">{notifications.badge}</span>
             </button>
             <div className="header-dropdown" id="notifDropdown">
               <div className="dropdown-header">
@@ -114,27 +121,13 @@ export default function HeaderTemplate() {
                   Tout marquer lu
                 </span>
               </div>
-              <div className="notif-item">
-                <div className="notif-title">Nouveau document publié</div>
-                <div className="notif-desc">
-                  La procédure RH 2026 est maintenant disponible.
+              {(notifications.items || []).map((item) => (
+                <div className="notif-item" key={`${item.title}-${item.time}`}>
+                  <div className="notif-title">{item.title}</div>
+                  <div className="notif-desc">{item.description}</div>
+                  <div className="notif-time">{item.time}</div>
                 </div>
-                <div className="notif-time">Il y a 10 min</div>
-              </div>
-              <div className="notif-item">
-                <div className="notif-title">Réunion Direction</div>
-                <div className="notif-desc">
-                  La réunion commencera dans 15 minutes.
-                </div>
-                <div className="notif-time">Il y a 25 min</div>
-              </div>
-              <div className="notif-item">
-                <div className="notif-title">Félicitations !</div>
-                <div className="notif-desc">
-                  L'idée "Digit-Passe" a été validée.
-                </div>
-                <div className="notif-time">Hier, 16:45</div>
-              </div>
+              ))}
               <div className="notif-voir-tout">
                 <button
                   className="notif-voir-tout-btn"
@@ -185,42 +178,14 @@ export default function HeaderTemplate() {
                 </span>
               </div>
               <div className="quick-links-grid">
-                <a href="#" className="quick-link-item">
-                  <div className="quick-link-icon">
-                    <i data-lucide="calendar-plus" style={{ width: 18 }} />
-                  </div>
-                  <span className="quick-link-label">Congés</span>
-                </a>
-                <a href="#" className="quick-link-item">
-                  <div className="quick-link-icon">
-                    <i data-lucide="door-open" style={{ width: 18 }} />
-                  </div>
-                  <span className="quick-link-label">Salles</span>
-                </a>
-                <a href="#" className="quick-link-item">
-                  <div className="quick-link-icon">
-                    <i data-lucide="file-text" style={{ width: 18 }} />
-                  </div>
-                  <span className="quick-link-label">Frais</span>
-                </a>
-                <a href="#" className="quick-link-item">
-                  <div className="quick-link-icon">
-                    <i data-lucide="sticky-note" style={{ width: 18 }} />
-                  </div>
-                  <span className="quick-link-label">Notes</span>
-                </a>
-                <a href="#" className="quick-link-item">
-                  <div className="quick-link-icon">
-                    <i data-lucide="ticket" style={{ width: 18 }} />
-                  </div>
-                  <span className="quick-link-label">Tickets</span>
-                </a>
-                <a href="#" className="quick-link-item">
-                  <div className="quick-link-icon">
-                    <i data-lucide="book-open" style={{ width: 18 }} />
-                  </div>
-                  <span className="quick-link-label">Docs</span>
-                </a>
+                {(quickLinks.items || []).map((item) => (
+                  <a href={item.href} className="quick-link-item" key={item.label}>
+                    <div className="quick-link-icon">
+                      <i data-lucide={item.icon} style={{ width: 18 }} />
+                    </div>
+                    <span className="quick-link-label">{item.label}</span>
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -231,8 +196,8 @@ export default function HeaderTemplate() {
                 runLegacyHandler(event, "toggleDropdown('userDropdown')")
               }
             >
-              <div className="header-avatar">LH</div>
-              <span className="header-user-name">Lalla Cherifa HARFI</span>
+              <div className="header-avatar">{user.avatar}</div>
+              <span className="header-user-name">{user.name}</span>
               <i
                 data-lucide="chevron-down"
                 style={{ width: 16, height: 16, color: "#94a3b8" }}

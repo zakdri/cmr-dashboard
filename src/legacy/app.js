@@ -33,6 +33,11 @@ function openAgendaTab(tabName) {
             return value;
         }
 
+        const dashboardRightSidebar = getCmrData('dashboardRightSidebar', {});
+        const moodConfig = dashboardRightSidebar.mood || {};
+        const modalsConfig = getCmrData('modals', {});
+        const tickerDetailConfig = modalsConfig.tickerDetail || {};
+
         // Main Carousel functionality
         let currentSlide = 0;
         const mainSlides = document.querySelectorAll('.carousel-section .carousel-slide');
@@ -113,7 +118,7 @@ function openAgendaTab(tabName) {
             btn.classList.add('active');
 
             // Change title
-            document.getElementById('mood-title').textContent = "L'humeur de l'équipe";
+            document.getElementById('mood-title').textContent = moodConfig.resultsTitle || '';
 
             // Show results
             const results = document.getElementById('moodResults');
@@ -132,7 +137,7 @@ function openAgendaTab(tabName) {
 
         function resetMood() {
             // Restore title
-            document.getElementById('mood-title').textContent = "Humeur du jour";
+            document.getElementById('mood-title').textContent = moodConfig.title || '';
 
             // Hide results
             document.getElementById('moodResults').classList.remove('active');
@@ -230,6 +235,8 @@ function openAgendaTab(tabName) {
             if (!item) return;
 
             const detail = document.getElementById('flashDetailContent');
+            const detailPage = tickerDetailConfig.detailPage || {};
+            const detailParagraphs = detailPage.paragraphs || [];
             if (detail) {
                 detail.innerHTML = `
                 <div class="actu-detail-body">
@@ -244,13 +251,10 @@ function openAgendaTab(tabName) {
                             Intranet
                         </span>
                     </div>
-                    <h1 class="actu-detail-title">Détail Flash Info</h1>
+                    <h1 class="actu-detail-title">Détail Info Express</h1>
                     <div class="actu-detail-content">
                         <p>${escapeHtml(item.text)}</p>
-                        <p>Dans le cadre de l'amelioration continue de la qualite de vie au travail, cette communication vise a partager les premiers indicateurs et a renforcer l'alignement entre les equipes. Les retours collectes montrent une bonne mobilisation et une volonte commune d'avancer sur des actions concretes.</p>
-                        <p>Les principaux points de vigilance concernent la fluidite de l'information, la simplification de certains processus internes et l'accompagnement des collaborateurs dans les phases de changement. Plusieurs propositions ont deja ete remontees par les managers de proximite et feront l'objet d'un suivi structure.</p>
-                        <p>Sur les prochaines semaines, un plan d'action detaille sera deploie avec des jalons clairs, des responsables identifies et des points d'etape periodiques. L'objectif est de transformer ces resultats en mesures visibles et utiles pour l'ensemble des collaborateurs.</p>
-                        <p>Merci a toutes les equipes pour leur implication. Une nouvelle synthese sera partagee prochainement afin de presenter l'avancement, les resultats intermediaires et les ajustements retenus.</p>
+                        ${detailParagraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}
                     </div>
                 </div>`;
             }
@@ -501,6 +505,10 @@ function openAgendaTab(tabName) {
             });
             document.getElementById('view-' + viewId).classList.add('active');
 
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) mainContent.scrollTop = 0;
+            window.scrollTo(0, 0);
+
             // Update Sidebar Active State
             document.querySelectorAll('.nav-item').forEach(el => {
                 el.classList.remove('active');
@@ -572,29 +580,7 @@ function openAgendaTab(tabName) {
 
             // Update Content
             // We need to target the specific page tabs, not the widget ones
-            const pageTabs = [
-                'page-km-referentiels',
-                'page-km-glossaire',
-                'page-km-rex',
-                'page-km-elearning',
-                'page-km-pedagogie',
-                'page-km-communautes',
-                'page-km-amoa',
-                'page-km-docs',
-                'page-km-contributions',
-                'page-km-categorisation',
-                'page-km-livrables',
-                'page-km-modeles',
-                'page-km-publications',
-                'page-km-ged',
-                'page-km-glpi',
-                'page-km-supports',
-                'page-km-stories',
-                'page-km-campagnes',
-                'page-km-audit-risque',
-                'page-km-capsules-ux',
-                'page-km-regimes-processus'
-            ];
+            const pageTabs = getCmrData('kmTabs', []).map(tab => `page-km-${tab.id}`);
             pageTabs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
@@ -4147,19 +4133,9 @@ function openAgendaTab(tabName) {
         }
 
         // ===== ADMINISTRATION & PILOTAGE (table conforme, via sidebar -> sous-rubriques) =====
-        const adminPages = ['comptes','roles','acces','usage','reporting','cms','securite','tracabilite','performance'];
-
-        const adminSectionConfig = {
-            utilisateurs: { subs: [{ id: 'comptes', label: 'Gestion comptes' }], defaultSub: 'comptes' },
-            habilitations: { subs: [{ id: 'roles', label: 'Rôles' }], defaultSub: 'roles' },
-            acces: { subs: [{ id: 'acces', label: 'Droits d’accès' }], defaultSub: 'acces' },
-            usage: { subs: [{ id: 'usage', label: 'Usage plateforme' }], defaultSub: 'usage' },
-            reporting: { subs: [{ id: 'reporting', label: 'Reporting' }], defaultSub: 'reporting' },
-            cms: { subs: [{ id: 'cms', label: 'CMS' }], defaultSub: 'cms' },
-            securite: { subs: [{ id: 'securite', label: 'Accès restreint' }], defaultSub: 'securite' },
-            tracabilite: { subs: [{ id: 'tracabilite', label: 'Journal des actions' }], defaultSub: 'tracabilite' },
-            performance: { subs: [{ id: 'performance', label: 'Performance' }], defaultSub: 'performance' }
-        };
+        const adminPages = getCmrData('adminPages', []);
+        const adminSectionConfig = getCmrData('adminSectionConfig', {});
+        const adminLabels = getCmrData('adminLabels', {});
 
         let adminSection = 'utilisateurs';
         let adminSub = 'comptes';
@@ -4167,40 +4143,12 @@ function openAgendaTab(tabName) {
         let adminIsAuthenticated = false;
         let adminLogFilter = 'all';
 
-        let adminUsers = getCmrData('adminUsers', [
-            { id: 'u1', name: 'Admin 01', email: 'admin01@cmr.ma', profil: 'Administrateur', status: 'Actif' },
-            { id: 'u2', name: 'Contributeur 03', email: 'cont03@cmr.ma', profil: 'Contributeur', status: 'Actif' },
-            { id: 'u3', name: 'Utilisateur 12', email: 'user12@cmr.ma', profil: 'Utilisateur', status: 'Désactivé' }
-        ]);
-
-        const adminRoles = getCmrData('adminRoles', [
-            { id: 'r_admin', name: 'Administrateur', desc: 'Tous droits (admin).' },
-            { id: 'r_contrib', name: 'Contributeur', desc: 'Publier / modifier contenus.' },
-            { id: 'r_user', name: 'Utilisateur', desc: 'Consulter.' }
-        ]);
-
-        let adminUserRoles = getCmrData('adminUserRoles', {
-            u1: 'Administrateur',
-            u2: 'Contributeur',
-            u3: 'Utilisateur'
-        });
-
-        let adminAccess = getCmrData('adminAccess', [
-            { userId: 'u1', scope: 'Administration', level: 'Accès' },
-            { userId: 'u2', scope: 'KM', level: 'Accès' },
-            { userId: 'u2', scope: 'Médiathèque', level: 'Restreint' }
-        ]);
-
-        let adminCmsItems = getCmrData('adminCmsItems', [
-            { id: 'c1', title: 'Page – Accueil (bannière)', status: 'Publié', updated: 'Avr 2026' },
-            { id: 'c2', title: 'Bloc – Communication interne', status: 'Brouillon', updated: 'Mars 2026' }
-        ]);
-
-        let adminLogs = getCmrData('adminLogs', [
-            { id: 'l1', kind: 'access', text: 'Accès attribué: u2 → KM', date: 'Avr 2026' },
-            { id: 'l2', kind: 'update', text: 'CMS modifié: Page – Accueil', date: 'Mars 2026' },
-            { id: 'l3', kind: 'auth', text: 'Authentification admin (OK)', date: 'Fév 2026' }
-        ]);
+        let adminUsers = getCmrData('adminUsers', []);
+        const adminRoles = getCmrData('adminRoles', []);
+        let adminUserRoles = getCmrData('adminUserRoles', {});
+        let adminAccess = getCmrData('adminAccess', []);
+        let adminCmsItems = getCmrData('adminCmsItems', []);
+        let adminLogs = getCmrData('adminLogs', []);
 
         function switchAdminSection(sectionId) {
             adminSection = sectionId;
@@ -4246,7 +4194,7 @@ function openAgendaTab(tabName) {
         }
 
         function pushAdminLog(kind, text) {
-            adminLogs = [{ id: 'l' + Date.now(), kind, text, date: 'Aujourd’hui' }, ...adminLogs];
+            adminLogs = [{ id: 'l' + Date.now(), kind, text, date: adminLabels.todayLabel || '' }, ...adminLogs];
         }
 
         function toggleAdminUserForm(open) {
@@ -4258,13 +4206,13 @@ function openAgendaTab(tabName) {
         function adminCreateUser() {
             const name = (document.getElementById('adminNewName')?.value || '').trim();
             const email = (document.getElementById('adminNewEmail')?.value || '').trim();
-            const profil = (document.getElementById('adminNewProfil')?.value || 'Utilisateur').trim();
+            const profil = (document.getElementById('adminNewProfil')?.value || adminLabels.defaultProfile || '').trim();
             if (!name || !email) return;
             const id = 'u' + Date.now();
-            adminUsers = [{ id, name, email, profil, status: 'Actif' }, ...adminUsers];
+            adminUsers = [{ id, name, email, profil, status: adminLabels.activeStatus || '' }, ...adminUsers];
             adminActiveUserId = id;
             adminUserRoles[id] = profil;
-            pushAdminLog('create', `Compte créé: ${name}`);
+            pushAdminLog('create', `${adminLabels.createdAccountPrefix || ''} ${name}`);
             document.getElementById('adminNewName').value = '';
             document.getElementById('adminNewEmail').value = '';
             toggleAdminUserForm(false);
@@ -4275,7 +4223,7 @@ function openAgendaTab(tabName) {
 
         function setAdminUserStatus(id, status) {
             adminUsers = adminUsers.map(u => u.id === id ? { ...u, status } : u);
-            pushAdminLog('update', `Compte ${status.toLowerCase()}: ${adminUsers.find(u => u.id === id)?.name || id}`);
+            pushAdminLog('update', `${adminLabels.updatedAccountPrefix || ''} ${(status || '').toLowerCase()}: ${adminUsers.find(u => u.id === id)?.name || id}`);
             renderAdminUsers();
             renderAdminUserSelectors();
             if (adminActiveUserId === id) openAdminUser(id);
@@ -4292,18 +4240,18 @@ function openAgendaTab(tabName) {
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${u.email}</div>
                 <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Profil</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.profileColumn || ''}</div>
                         <div style="margin-top:6px;font-weight:900;color:#0f172a;">${role}</div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Statut</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.statusColumn || ''}</div>
                         <div style="margin-top:6px;font-weight:900;color:#0f172a;">${u.status}</div>
                     </div>
                 </div>
                 <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
-                    <button class="actu-filter-btn" onclick="setAdminUserStatus('${u.id}','Actif')">Activer</button>
-                    <button class="actu-filter-btn" onclick="setAdminUserStatus('${u.id}','Désactivé')">Désactiver</button>
-                    <button class="primary-btn" onclick="openMockDownload('Profil_${u.name.replace(/\\s+/g,'_')}.pdf','Profil – ${u.name}')">Modifier</button>
+                    <button class="actu-filter-btn" onclick="setAdminUserStatus('${u.id}','${adminLabels.activeStatus || ''}')">${adminLabels.enableLabel || ''}</button>
+                    <button class="actu-filter-btn" onclick="setAdminUserStatus('${u.id}','${adminLabels.disabledStatus || ''}')">${adminLabels.disableLabel || ''}</button>
+                    <button class="primary-btn" onclick="openMockDownload('Profil_${u.name.replace(/\\s+/g,'_')}.pdf','${adminLabels.profileColumn || ''} – ${u.name}')">${adminLabels.modifyLabel || ''}</button>
                 </div>
             `;
         }
@@ -4322,10 +4270,10 @@ function openAgendaTab(tabName) {
                     <table style="width:100%;border-collapse:collapse;font-size:13px;">
                         <thead>
                             <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
-                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Nom</th>
-                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Profil</th>
-                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Statut</th>
-                                <th style="padding:12px 16px;text-align:right;font-weight:700;color:#475569;">Actions</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">${adminLabels.nameColumn || ''}</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">${adminLabels.profileColumn || ''}</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">${adminLabels.statusColumn || ''}</th>
+                                <th style="padding:12px 16px;text-align:right;font-weight:700;color:#475569;">${adminLabels.actionsColumn || ''}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -4335,8 +4283,8 @@ function openAgendaTab(tabName) {
                                     <td style="padding:12px 16px;color:var(--text-light);">${adminUserRoles[u.id] || u.profil}</td>
                                     <td style="padding:12px 16px;color:var(--text-light);">${u.status}</td>
                                     <td style="padding:12px 16px;text-align:right;">
-                                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('Edit_${u.id}.pdf','Modifier – ${u.name}')">Modifier</button>
-                                        <button class="actu-filter-btn" onclick="event.stopPropagation(); setAdminUserStatus('${u.id}','Désactivé')">Désactiver</button>
+                                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('Edit_${u.id}.pdf','${adminLabels.modifyLabel || ''} – ${u.name}')">${adminLabels.modifyLabel || ''}</button>
+                                        <button class="actu-filter-btn" onclick="event.stopPropagation(); setAdminUserStatus('${u.id}','${adminLabels.disabledStatus || ''}')">${adminLabels.disableLabel || ''}</button>
                                     </td>
                                 </tr>
                             `).join('')}
@@ -4347,7 +4295,7 @@ function openAgendaTab(tabName) {
             if (adminActiveUserId) {
                 openAdminUser(adminActiveUserId);
             } else if (detail) {
-                detail.innerHTML = 'Aucun utilisateur ne correspond à la recherche.';
+                detail.innerHTML = adminLabels.emptyUserSearch || '';
             }
             lucide.createIcons();
         }
@@ -4370,7 +4318,7 @@ function openAgendaTab(tabName) {
                 <div class="doc-item">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">ROL</div>
                     <div class="doc-info"><div class="doc-title">${r.name}</div><div class="doc-meta">${r.desc}</div></div>
-                    <button class="actu-filter-btn" onclick="openMockDownload('Role_${r.name}.pdf','Rôle – ${r.name}')">Détail</button>
+                    <button class="actu-filter-btn" onclick="openMockDownload('Role_${r.name}.pdf','${adminLabels.detailLabel || ''} – ${r.name}')">${adminLabels.detailLabel || ''}</button>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -4382,7 +4330,7 @@ function openAgendaTab(tabName) {
             if (!root || !userId) return;
             const u = adminUsers.find(x => x.id === userId);
             const role = adminUserRoles[userId] || u?.profil || '—';
-            root.innerHTML = `Rôle actuel: <strong>${role}</strong>`;
+            root.innerHTML = `${adminLabels.currentRoleLabel || ''} <strong>${role}</strong>`;
         }
 
         function adminAssignRole() {
@@ -4390,7 +4338,7 @@ function openAgendaTab(tabName) {
             const role = document.getElementById('adminRolePick')?.value;
             if (!userId || !role) return;
             adminUserRoles[userId] = role;
-            pushAdminLog('update', `Rôle attribué: ${adminUsers.find(u => u.id === userId)?.name || userId} → ${role}`);
+            pushAdminLog('update', `${adminLabels.assignedRolePrefix || ''} ${adminUsers.find(u => u.id === userId)?.name || userId} → ${role}`);
             renderAdminUsers();
             renderAdminRoleInfo();
         }
@@ -4398,8 +4346,8 @@ function openAgendaTab(tabName) {
         function adminRemoveRole() {
             const userId = document.getElementById('adminRoleUser')?.value;
             if (!userId) return;
-            adminUserRoles[userId] = 'Utilisateur';
-            pushAdminLog('update', `Rôle retiré: ${adminUsers.find(u => u.id === userId)?.name || userId}`);
+            adminUserRoles[userId] = adminLabels.defaultProfile || '';
+            pushAdminLog('update', `${adminLabels.removedRolePrefix || ''} ${adminUsers.find(u => u.id === userId)?.name || userId}`);
             renderAdminUsers();
             renderAdminRoleInfo();
         }
@@ -4409,8 +4357,8 @@ function openAgendaTab(tabName) {
             const scope = document.getElementById('adminAccessScope')?.value;
             if (!userId || !scope) return;
             adminAccess = adminAccess.filter(a => !(a.userId === userId && a.scope === scope));
-            adminAccess = [{ userId, scope, level: 'Accès' }, ...adminAccess];
-            pushAdminLog('access', `Accès attribué: ${adminUsers.find(u => u.id === userId)?.name || userId} → ${scope}`);
+            adminAccess = [{ userId, scope, level: adminLabels.accessLevel || '' }, ...adminAccess];
+            pushAdminLog('access', `${adminLabels.assignedAccessPrefix || ''} ${adminUsers.find(u => u.id === userId)?.name || userId} → ${scope}`);
             renderAdminAccess();
         }
 
@@ -4419,8 +4367,8 @@ function openAgendaTab(tabName) {
             const scope = document.getElementById('adminAccessScope')?.value;
             if (!userId || !scope) return;
             adminAccess = adminAccess.filter(a => !(a.userId === userId && a.scope === scope));
-            adminAccess = [{ userId, scope, level: 'Restreint' }, ...adminAccess];
-            pushAdminLog('access', `Accès restreint: ${adminUsers.find(u => u.id === userId)?.name || userId} → ${scope}`);
+            adminAccess = [{ userId, scope, level: adminLabels.restrictedLevel || '' }, ...adminAccess];
+            pushAdminLog('access', `${adminLabels.restrictedAccessPrefix || ''} ${adminUsers.find(u => u.id === userId)?.name || userId} → ${scope}`);
             renderAdminAccess();
         }
 
@@ -4432,9 +4380,9 @@ function openAgendaTab(tabName) {
                     <table style="width:100%;border-collapse:collapse;font-size:13px;">
                         <thead>
                             <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
-                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Utilisateur</th>
-                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Espace</th>
-                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Niveau</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">${adminLabels.userColumn || ''}</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">${adminLabels.spaceColumn || ''}</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">${adminLabels.levelColumn || ''}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -4442,7 +4390,7 @@ function openAgendaTab(tabName) {
                                 <tr style="border-bottom:1px solid #f1f5f9;">
                                     <td style="padding:12px 16px;color:#0f172a;font-weight:700;">${adminUsers.find(u => u.id === a.userId)?.name || a.userId}</td>
                                     <td style="padding:12px 16px;color:var(--text-light);">${a.scope}</td>
-                                    <td style="padding:12px 16px;color:${a.level === 'Accès' ? '#16a34a' : '#f97316'};font-weight:800;">${a.level}</td>
+                                    <td style="padding:12px 16px;color:${a.level === (adminLabels.accessLevel || '') ? '#16a34a' : '#f97316'};font-weight:800;">${a.level}</td>
                                 </tr>
                             `).join('')}
                         </tbody>
@@ -4456,11 +4404,11 @@ function openAgendaTab(tabName) {
             if (!root) return;
             root.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Visites</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(800 + Math.random()*500)}</div></div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Utilisateurs actifs</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(120 + Math.random()*80)}</div></div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Temps moyen</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${(3 + Math.random()*3).toFixed(1)}m</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.visitsMetric || ''}</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(800 + Math.random()*500)}</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.activeUsersMetric || ''}</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(120 + Math.random()*80)}</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.averageTimeMetric || ''}</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${(3 + Math.random()*3).toFixed(1)}m</div></div>
                 </div>
-                <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">KPI/data (maquette) — consulter.</div>
+                <div style="margin-top:12px;color:var(--text-light);font-size:12px;line-height:1.6;">${adminLabels.usageNote || ''}</div>
             `;
         }
 
@@ -4469,27 +4417,27 @@ function openAgendaTab(tabName) {
             if (!root) return;
             root.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;">
-                    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#1d4ed8;font-weight:900;">Docs publiés</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(30 + Math.random()*40)}</div></div>
-                    <div style="background:#ecfdf5;border:1px solid #bbf7d0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#16a34a;font-weight:900;">Téléchargements</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(200 + Math.random()*400)}</div></div>
-                    <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#7c3aed;font-weight:900;">Tickets</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(10 + Math.random()*40)}</div></div>
-                    <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#ea580c;font-weight:900;">Incidents</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(1 + Math.random()*8)}</div></div>
+                    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#1d4ed8;font-weight:900;">${adminLabels.publishedDocsMetric || ''}</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(30 + Math.random()*40)}</div></div>
+                    <div style="background:#ecfdf5;border:1px solid #bbf7d0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#16a34a;font-weight:900;">${adminLabels.downloadsMetric || ''}</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(200 + Math.random()*400)}</div></div>
+                    <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#7c3aed;font-weight:900;">${adminLabels.ticketsMetric || ''}</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(10 + Math.random()*40)}</div></div>
+                    <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#ea580c;font-weight:900;">${adminLabels.incidentsMetric || ''}</div><div style="margin-top:6px;font-size:20px;font-weight:900;color:#0f172a;">${Math.floor(1 + Math.random()*8)}</div></div>
                 </div>
                 <div style="margin-top:12px;display:flex;justify-content:flex-end;">
-                    <button class="primary-btn" onclick="openMockDownload('Reporting_Admin.pdf','Reporting admin')">Analyser</button>
+                    <button class="primary-btn" onclick="openMockDownload('Reporting_Admin.pdf','${adminLabels.reportingDownloadTitle || ''}')">${adminLabels.analyzeLabel || ''}</button>
                 </div>
             `;
         }
 
         function adminCreateCms() {
             const id = 'c' + Date.now();
-            adminCmsItems = [{ id, title: 'Nouveau contenu (CMS)', status: 'Brouillon', updated: 'Aujourd’hui' }, ...adminCmsItems];
-            pushAdminLog('create', 'CMS: nouveau contenu créé');
+            adminCmsItems = [{ id, title: adminLabels.newCmsTitle || '', status: adminLabels.draftStatus || '', updated: adminLabels.todayLabel || '' }, ...adminCmsItems];
+            pushAdminLog('create', adminLabels.cmsCreatedLog || '');
             renderAdminCms();
         }
 
         function adminCmsSetStatus(id, status) {
-            adminCmsItems = adminCmsItems.map(c => c.id === id ? { ...c, status, updated: 'Aujourd’hui' } : c);
-            pushAdminLog('update', `CMS: ${status} – ${adminCmsItems.find(c => c.id === id)?.title || id}`);
+            adminCmsItems = adminCmsItems.map(c => c.id === id ? { ...c, status, updated: adminLabels.todayLabel || '' } : c);
+            pushAdminLog('update', `${adminLabels.cmsStatusPrefix || ''} ${status} – ${adminCmsItems.find(c => c.id === id)?.title || id}`);
             renderAdminCms();
         }
 
@@ -4501,10 +4449,10 @@ function openAgendaTab(tabName) {
                     <table style="width:100%;border-collapse:collapse;font-size:13px;">
                         <thead>
                             <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
-                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Contenu</th>
-                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">Statut</th>
-                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">MAJ</th>
-                                <th style="padding:12px 16px;text-align:right;font-weight:700;color:#475569;">Actions</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">${adminLabels.contentColumn || ''}</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">${adminLabels.statusColumn || ''}</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:700;color:#475569;">${adminLabels.updatedColumn || ''}</th>
+                                <th style="padding:12px 16px;text-align:right;font-weight:700;color:#475569;">${adminLabels.actionsColumn || ''}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -4514,8 +4462,8 @@ function openAgendaTab(tabName) {
                                     <td style="padding:12px 16px;color:var(--text-light);">${c.status}</td>
                                     <td style="padding:12px 16px;color:var(--text-light);">${c.updated}</td>
                                     <td style="padding:12px 16px;text-align:right;">
-                                        <button class="actu-filter-btn" onclick="openMockDownload('Edit_${c.id}.pdf','Modifier – ${c.title}')">Modifier</button>
-                                        <button class="actu-filter-btn" onclick="adminCmsSetStatus('${c.id}','Publié')">Publier</button>
+                                        <button class="actu-filter-btn" onclick="openMockDownload('Edit_${c.id}.pdf','${adminLabels.modifyLabel || ''} – ${c.title}')">${adminLabels.modifyLabel || ''}</button>
+                                        <button class="actu-filter-btn" onclick="adminCmsSetStatus('${c.id}','${adminLabels.publishedStatus || ''}')">${adminLabels.publishLabel || ''}</button>
                                     </td>
                                 </tr>
                             `).join('')}
@@ -4529,32 +4477,32 @@ function openAgendaTab(tabName) {
             const user = (document.getElementById('adminAuthUser')?.value || '').trim();
             const pass = (document.getElementById('adminAuthPass')?.value || '').trim();
             adminIsAuthenticated = Boolean(user && pass);
-            pushAdminLog('auth', `Authentification admin (${adminIsAuthenticated ? 'OK' : 'KO'})`);
+            pushAdminLog('auth', `${adminLabels.authPrefix || ''} (${adminIsAuthenticated ? (adminLabels.authOk || '') : (adminLabels.authKo || '')})`);
             renderAdminSecurity();
         }
 
         function renderAdminSecurity() {
             const state = document.getElementById('adminAuthState');
             const panel = document.getElementById('adminAccessControl');
-            if (state) state.innerHTML = adminIsAuthenticated ? `<strong style="color:#16a34a;">Authentifié</strong>` : `<strong style="color:#f97316;">Non authentifié</strong>`;
+            if (state) state.innerHTML = adminIsAuthenticated ? `<strong style="color:#16a34a;">${adminLabels.authenticatedLabel || ''}</strong>` : `<strong style="color:#f97316;">${adminLabels.notAuthenticatedLabel || ''}</strong>`;
             if (!panel) return;
             panel.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Accès restreints</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${adminIsAuthenticated ? 'Ouvert' : 'Fermé'}</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.restrictedAccessMetric || ''}</div>
+                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${adminIsAuthenticated ? (adminLabels.openState || '') : (adminLabels.closedState || '')}</div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Tentatives</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.attemptsMetric || ''}</div>
                         <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(1 + Math.random()*4)}</div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Règles</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.rulesMetric || ''}</div>
                         <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">3</div>
                     </div>
                 </div>
                 <div style="margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:12px;color:#9a3412;font-size:13px;line-height:1.7;">
-                    ${adminIsAuthenticated ? 'Accès autorisé aux fonctionnalités d’administration.' : 'Veuillez vous authentifier pour accéder aux fonctions restreintes.'}
+                    ${adminIsAuthenticated ? (adminLabels.securityAllowed || '') : (adminLabels.securityDenied || '')}
                 </div>
             `;
         }
@@ -4576,7 +4524,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-info"><div class="doc-title">${l.text}</div><div class="doc-meta">${l.date}</div></div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('') || `<div style="color:var(--text-light);font-size:13px;">Aucune entrée.</div>`;
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;">${adminLabels.emptyLog || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -4585,158 +4533,51 @@ function openAgendaTab(tabName) {
             if (!root) return;
             root.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Temps réponse</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(120 + Math.random()*120)}ms</div></div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Erreurs</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(Math.random()*6)}</div></div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">Disponibilité</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${(99.1 + Math.random()*0.8).toFixed(2)}%</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.responseTimeMetric || ''}</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(120 + Math.random()*120)}ms</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.errorsMetric || ''}</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${Math.floor(Math.random()*6)}</div></div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><div style="font-size:11px;color:#94a3b8;font-weight:900;">${adminLabels.availabilityMetric || ''}</div><div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${(99.1 + Math.random()*0.8).toFixed(2)}%</div></div>
                 </div>
                 <div style="margin-top:12px;display:flex;justify-content:flex-end;">
-                    <button class="primary-btn" onclick="openMockDownload('Perf_Admin.pdf','Performance plateforme')">Analyser</button>
+                    <button class="primary-btn" onclick="openMockDownload('Perf_Admin.pdf','${adminLabels.performanceDownloadTitle || ''}')">${adminLabels.analyzeLabel || ''}</button>
                 </div>
             `;
         }
         // ===== KM DATA + RENDERS (table conforme) =====
         let kmRefActive = 'metiers';
-        const kmReferentiels = getCmrData('kmReferentiels', [
-            { id: 'metiers', label: 'Référentiels métiers', docs: [
-                { file: 'Guide_Indicateurs_Retraite.pdf', label: 'Guide des indicateurs de retraite', type: 'Document' },
-                { file: 'Guide_Instruction_Dossiers.pdf', label: 'Guide d’instruction des dossiers', type: 'Document' }
-            ]},
-            { id: 'systemes', label: 'Référentiels SI', docs: [
-                { file: 'Guide_Espace_Collaborateur.pdf', label: 'Guide espace collaborateur (SI)', type: 'Document' },
-                { file: 'Procédure_SSO.pdf', label: 'Procédure SSO & accès', type: 'Document' }
-            ]}
-        ]);
-
-        const kmGlossaire = getCmrData('kmGlossaire', [
-            { term: 'SFD', def: 'Spécifications Fonctionnelles Détaillées.' },
-            { term: 'REX', def: 'Retour d’expérience (leçons apprises).' },
-            { term: 'GED', def: 'Gestion Électronique des Documents.' },
-            { term: 'AMOA', def: 'Assistance à Maîtrise d’Ouvrage.' }
-        ]);
-
-        let kmRexData = getCmrData('kmRexData', [
-            { id: 'rx1', title: 'REX – Refonte intranet: adoption', theme: 'Projet', date: 'Avr 2026', body: 'Ce qui a fonctionné: démos courtes, sponsors métier. À améliorer: clarifier les owners dès le début.' },
-            { id: 'rx2', title: 'REX – Processus tickets IT', theme: 'Processus', date: 'Mars 2026', body: 'Standardiser les catégories et définir un SLA visible dans GLPI.' }
-        ]);
+        const kmPagesConfig = getCmrData('kmPages', {});
+        const kmLabels = getCmrData('kmLabels', {});
+        const kmReferentiels = getCmrData('kmReferentiels', []);
+        const kmGlossaire = getCmrData('kmGlossaire', []);
+        let kmRexData = getCmrData('kmRexData', []);
         let kmRexSelected = null;
-
-        const kmElearning = getCmrData('kmElearning', [
-            { title: 'Excel avancé (e‑learning)', meta: '2h30 • Niveau avancé', cta: 'Lancer' },
-            { title: 'Cyber sécurité 101', meta: '35% • En cours', cta: 'Reprendre' },
-            { title: 'Sensibilisation GED', meta: '20 min • Micro‑learning', cta: 'Démarrer' }
-        ]);
-
-        const kmPedagogieMetier = getCmrData('kmPedagogieMetier', [
-            { title: 'Comprendre le parcours liquidation', meta: 'Page métier • Retraite', desc: 'Présentation synthétique des étapes et points de vigilance.', file: 'Pedagogie_Liquidation.pdf' },
-            { title: 'Rôle du contrôle interne dans les régimes', meta: 'Article métier • Contrôle', desc: 'Repères pratiques pour les nouveaux arrivants et les relais métier.', file: 'Pedagogie_Controle_Interne.pdf' },
-            { title: 'Cycle de traitement d’un dossier assuré', meta: 'Fiche métier • Processus', desc: 'Vue simple des acteurs, documents et validations.', file: 'Pedagogie_Dossier_Assure.pdf' }
-        ]);
-
-        const kmCommunautes = getCmrData('kmCommunautes', [
-            { id: 'co1', name: 'Communauté BI & Data', members: 128, threads: 12 },
-            { id: 'co2', name: 'Communauté RH', members: 87, threads: 6 },
-            { id: 'co3', name: 'Communauté Qualité & Process', members: 54, threads: 4 }
-        ]);
-        const kmThreads = getCmrData('kmThreads', [
-            { communityId: 'co1', title: 'Bonnes pratiques Power BI', meta: 'BI & Data • 2h', badge: 'Actif' },
-            { communityId: 'co2', title: 'Mobilité interne – retours', meta: 'RH • hier', badge: 'Nouveau' },
-            { communityId: 'co1', title: 'Convention de nommage datasets', meta: 'BI & Data • 3j', badge: 'En cours' }
-        ]);
-
-        const kmAmoa = getCmrData('kmAmoa', [
-            { id: 'a1', title: 'AMOA – Refonte e‑Service', meta: 'Dossier • Digital', body: 'Ateliers, story mapping, backlog. Livrables: SFD, PV ateliers, plan de conduite du changement.' },
-            { id: 'a2', title: 'Conduite du changement – GED', meta: 'Kit • Organisation', body: 'Plan de com, supports, formation, accompagnement des référents.' }
-        ]);
+        const kmElearning = getCmrData('kmElearning', []);
+        const kmPedagogieMetier = getCmrData('kmPedagogieMetier', []);
+        const kmCommunautes = getCmrData('kmCommunautes', []);
+        const kmThreads = getCmrData('kmThreads', []);
+        const kmAmoa = getCmrData('kmAmoa', []);
         let kmAmoaSelected = null;
 
         let kmDocsActive = 'procedures';
-        const kmDocs = getCmrData('kmDocs', [
-            { id: 'procedures', label: 'Procédures', docs: [
-                { file: 'Procedure_Traitement_Pension.pdf', label: 'Procédure traitement pension', type: 'Document' },
-                { file: 'Procedure_Accueil_Usager.pdf', label: 'Procédure accueil usager', type: 'Document' }
-            ]},
-            { id: 'politiques', label: 'Politiques', docs: [
-                { file: 'Politique_Securite_SI.pdf', label: 'Politique sécurité SI', type: 'Document' }
-            ]}
-        ]);
-
-        let kmContribData = getCmrData('kmContribData', [
-            { id: 'ct1', title: 'Astuce: réduire les doublons GED', date: 'Avr 2026', body: 'Utiliser la convention de nommage + métadonnées obligatoires.' },
-            { id: 'ct2', title: 'Check‑list avant PV comité', date: 'Mars 2026', body: 'Ordre du jour, participants, décisions, actions, annexes.' }
-        ]);
+        const kmDocs = getCmrData('kmDocs', []);
+        let kmContribData = getCmrData('kmContribData', []);
         let kmContribSelected = null;
 
         let kmCatalogueType = 'all';
-        const kmCatalogueItems = getCmrData('kmCatalogueItems', [
-            { type: 'Document', title: 'Guide des indicateurs de retraite', meta: 'Référentiels métiers' },
-            { type: 'Article', title: 'Bilan – Digital Q1', meta: 'Articles / bilans' },
-            { type: 'Forum', title: 'Bonnes pratiques Power BI', meta: 'Communautés' },
-            { type: 'Media', title: 'Capsule vidéo – GED', meta: 'Supports pédagogiques' },
-            { type: 'Article', title: 'Comprendre le parcours liquidation', meta: 'Pédagogie métier' },
-            { type: 'Article', title: 'Story – Transformation du parcours assuré', meta: 'Sources stories' },
-            { type: 'Document', title: 'Rubrique Audit & conformité', meta: 'KM Audit & Risque' },
-            { type: 'Media', title: 'Capsule UX – Parcours e‑Service', meta: 'Capsules UX' },
-            { type: 'Article', title: 'Régimes de retraite CMR', meta: 'Régimes & processus' }
-        ]);
-
-        const kmLivrables = getCmrData('kmLivrables', [
-            { title: 'SFD – Refonte intranet', file: 'SFD_Refonte_Intranet_v1.pdf' },
-            { title: 'PV ateliers – AMOA e‑Service', file: 'PV_Ateliers_eService.pdf' },
-            { title: 'Plan de déploiement', file: 'Plan_Deploiement.pdf' }
-        ]);
-
-        const kmModeles = getCmrData('kmModeles', [
-            { title: 'Modèle PV comité', file: 'Modele_PV_Comite.docx' },
-            { title: 'Modèle note de service', file: 'Modele_Note_Service.docx' },
-            { title: 'Formulaire expression de besoin', file: 'Formulaire_EDB.docx' }
-        ]);
-
-        const kmPublications = getCmrData('kmPublications', [
-            { title: 'Bilan SI – Mars 2026', meta: 'Article • SI', file: 'Bilan_SI_Mars_2026.pdf' },
-            { title: 'Bilan RH – T1 2026', meta: 'Article • RH', file: 'Bilan_RH_T1_2026.pdf' }
-        ]);
-
-        let kmGlpiTickets = getCmrData('kmGlpiTickets', [
-            { id: 't1', title: 'Accès VPN', meta: 'Ouvert • P2' },
-            { id: 't2', title: 'Incident impression', meta: 'En cours • P3' }
-        ]);
-
-        const kmSupports = getCmrData('kmSupports', [
-            { title: 'Capsule vidéo – GED', meta: '3 min', file: 'Capsule_GED.mp4' },
-            { title: 'Infographie – Sécurité SI', meta: 'PDF', file: 'Infographie_Securite.pdf' },
-            { title: 'Guide – Bonnes pratiques KM', meta: 'PDF', file: 'Guide_Bonnes_Pratiques_KM.pdf' }
-        ]);
-
-        const kmStories = getCmrData('kmStories', [
-            { title: 'Story – Transformation du parcours assuré', type: 'Article', meta: 'Communication transverse', file: 'Story_Parcours_Assure.pdf' },
-            { title: 'Story – Refonte intranet en 5 étapes', type: 'Media', meta: 'Projet SI', file: 'Story_Refonte_Intranet.mp4' },
-            { title: 'Story – Modernisation GED', type: 'Article', meta: 'KM transverse', file: 'Story_Modernisation_GED.pdf' }
-        ]);
+        const kmCatalogueItems = getCmrData('kmCatalogueItems', []);
+        const kmLivrables = getCmrData('kmLivrables', []);
+        const kmModeles = getCmrData('kmModeles', []);
+        const kmPublications = getCmrData('kmPublications', []);
+        let kmGlpiTickets = getCmrData('kmGlpiTickets', []);
+        const kmSupports = getCmrData('kmSupports', []);
+        const kmStories = getCmrData('kmStories', []);
 
         let kmCampagnesSelected = 'cmp1';
-        let kmCampagnes = getCmrData('kmCampagnes', [
-            { id: 'cmp1', title: 'Collecte bonnes pratiques accueil', audience: 'Collaborateurs', type: 'Sondage', responses: 28, desc: 'Recueillir les bonnes pratiques terrain pour enrichir le référentiel accueil.' },
-            { id: 'cmp2', title: 'Partage astuces GED', audience: 'Métiers', type: 'Formulaire', responses: 16, desc: 'Identifier les usages récurrents à capitaliser dans la GED et les conventions de nommage.' }
-        ]);
-
-        const kmAuditRisque = getCmrData('kmAuditRisque', [
-            { title: 'Rubrique Audit & conformité', meta: 'Dossiers / articles', file: 'KM_Audit_Conformite.pdf' },
-            { title: 'Bonnes pratiques gestion des risques', meta: 'Documentation métier', file: 'Bonnes_Pratiques_Risques.pdf' },
-            { title: 'Synthèse conformité réglementaire', meta: 'Article de synthèse', file: 'Synthese_Conformite_Reglementaire.pdf' }
-        ]);
-
-        const kmCapsulesUx = getCmrData('kmCapsulesUx', [
-            { title: 'Capsule UX – Parcours e‑Service', meta: 'Vidéo projet SI • 4 min', file: 'Capsule_UX_eService.mp4' },
-            { title: 'Capsule UX – Onboarding intranet', meta: 'Vidéo projet SI • 3 min', file: 'Capsule_UX_Intranet.mp4' },
-            { title: 'Capsule UX – Recherche GED', meta: 'Capsule usage • 2 min', file: 'Capsule_UX_GED.mp4' }
-        ]);
+        let kmCampagnes = getCmrData('kmCampagnes', []);
+        const kmAuditRisque = getCmrData('kmAuditRisque', []);
+        const kmCapsulesUx = getCmrData('kmCapsulesUx', []);
 
         let kmRegimesProcessSelected = 'rp1';
-        const kmRegimesProcessus = getCmrData('kmRegimesProcessus', [
-            { id: 'rp1', title: 'Régimes de retraite CMR', meta: 'Page métier • onboarding', body: 'Présentation des principaux régimes, de leurs spécificités et des points d’attention pour les nouvelles recrues.', file: 'Regimes_Retraite_CMR.pdf' },
-            { id: 'rp2', title: 'Processus de liquidation', meta: 'Infographie • processus', body: 'Vue simplifiée des étapes, contrôles et interactions métier nécessaires au traitement d’un dossier.', file: 'Processus_Liquidation_Infographie.pdf' },
-            { id: 'rp3', title: 'Processus de révision / mise à jour', meta: 'Fiche métier • processus', body: 'Repères sur les opérations de mise à jour, pièces justificatives et contrôles associés.', file: 'Processus_Revision_MAJ.pdf' }
-        ]);
+        const kmRegimesProcessus = getCmrData('kmRegimesProcessus', []);
 
         function renderKmReferentiels() {
             const folders = document.getElementById('kmRefFolders');
@@ -4748,7 +4589,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">REF</div>
                     <div class="doc-info">
                         <div class="doc-title">${f.label}</div>
-                        <div class="doc-meta">${f.docs.length} documents</div>
+                        <div class="doc-meta">${f.docs.length} ${kmLabels.documentsLabel || ''}</div>
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -4778,7 +4619,7 @@ function openAgendaTab(tabName) {
                     <div style="font-weight:900;color:#0f172a;">${x.term}</div>
                     <div style="margin-top:4px;color:var(--text-light);font-size:12px;line-height:1.6;">${x.def}</div>
                 </div>
-            `).join('') || `<div style="padding:14px 0;color:var(--text-light);font-size:12px;">Aucun terme.</div>`;
+            `).join('') || `<div style="padding:14px 0;color:var(--text-light);font-size:12px;">${kmLabels.emptyTermLabel || ''}</div>`;
         }
 
         function renderKmRex() {
@@ -4796,14 +4637,14 @@ function openAgendaTab(tabName) {
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('') || `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">Aucun REX.</div>`;
+            `).join('') || `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">${kmLabels.emptyRexLabel || ''}</div>`;
             const sel = kmRexData.find(x => x.id === kmRexSelected) || null;
             detail.innerHTML = sel ? `
                 <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.theme} • ${sel.date}</div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.body}</div>
-            ` : `Sélectionnez un REX.`;
+            ` : (kmPagesConfig.rex?.emptyDetail || '');
             lucide.createIcons();
         }
 
@@ -4814,11 +4655,11 @@ function openAgendaTab(tabName) {
 
         function submitKmRex() {
             const title = (document.getElementById('kmRexTitle')?.value || '').trim();
-            const theme = (document.getElementById('kmRexTheme')?.value || 'Projet').trim();
+            const theme = (document.getElementById('kmRexTheme')?.value || kmLabels.defaultRexTheme || '').trim();
             const desc = (document.getElementById('kmRexDesc')?.value || '').trim();
             if (!title || !desc) return;
             const id = 'rx' + Math.random().toString(16).slice(2);
-            kmRexData = [{ id, title, theme, date: 'Aujourd’hui', body: desc }, ...kmRexData];
+            kmRexData = [{ id, title, theme, date: kmLabels.todayLabel || '', body: desc }, ...kmRexData];
             document.getElementById('kmRexTitle').value = '';
             document.getElementById('kmRexDesc').value = '';
             toggleKmRexForm(false);
@@ -4852,7 +4693,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-card-title">${p.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${p.meta}</p>
                     <p style="font-size:12px;color:#475569;margin-top:8px;line-height:1.6;">${p.desc}</p>
-                    <div class="doc-card-meta"><span style="color:#7c3aed;font-weight:800;">Consulter</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                    <div class="doc-card-meta"><span style="color:#7c3aed;font-weight:800;">${kmLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -4867,9 +4708,9 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">COM</div>
                     <div class="doc-info">
                         <div class="doc-title">${c.name}</div>
-                        <div class="doc-meta">${c.members} membres • ${c.threads} discussions</div>
+                        <div class="doc-meta">${c.members} ${kmLabels.membersLabel || ''} • ${c.threads} ${kmLabels.threadsLabel || ''}</div>
                     </div>
-                    <span style="background:#dcfce7;color:#15803d;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;">Rejoindre</span>
+                    <span style="background:#dcfce7;color:#15803d;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;">${kmLabels.joinLabel || ''}</span>
                 </div>
             `).join('');
             threads.innerHTML = kmThreads.map(t => `
@@ -4906,7 +4747,7 @@ function openAgendaTab(tabName) {
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.meta}</div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.body}</div>
-            ` : 'Sélectionnez un élément.';
+            ` : (kmPagesConfig.amoa?.emptyDetail || '');
             lucide.createIcons();
         }
 
@@ -4919,7 +4760,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">DOC</div>
                     <div class="doc-info">
                         <div class="doc-title">${f.label}</div>
-                        <div class="doc-meta">${f.docs.length} documents</div>
+                        <div class="doc-meta">${f.docs.length} ${kmLabels.documentsLabel || ''}</div>
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -4958,7 +4799,7 @@ function openAgendaTab(tabName) {
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.date}</div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.body}</div>
-            ` : `Sélectionnez une contribution.`;
+            ` : (kmPagesConfig.contributions?.emptyDetail || '');
             lucide.createIcons();
         }
 
@@ -4972,7 +4813,7 @@ function openAgendaTab(tabName) {
             const body = (document.getElementById('kmContribBody')?.value || '').trim();
             if (!title || !body) return;
             const id = 'ct' + Math.random().toString(16).slice(2);
-            kmContribData = [{ id, title, date: 'Aujourd’hui', body }, ...kmContribData];
+            kmContribData = [{ id, title, date: kmLabels.todayLabel || '', body }, ...kmContribData];
             document.getElementById('kmContribTitle').value = '';
             document.getElementById('kmContribBody').value = '';
             toggleKmContributionForm(false);
@@ -5004,7 +4845,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('') || `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">Aucun contenu.</div>`;
+            `).join('') || `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">${kmLabels.emptyContentLabel || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -5076,7 +4917,7 @@ function openAgendaTab(tabName) {
             const title = (document.getElementById('kmGlpiTitle')?.value || '').trim();
             const desc = (document.getElementById('kmGlpiDesc')?.value || '').trim();
             if (!title || !desc) return;
-            kmGlpiTickets = [{ id: 't' + Math.random().toString(16).slice(2), title, meta: 'Envoyé • Nouveau' }, ...kmGlpiTickets];
+            kmGlpiTickets = [{ id: 't' + Math.random().toString(16).slice(2), title, meta: kmLabels.sentTicketStatus || '' }, ...kmGlpiTickets];
             document.getElementById('kmGlpiTitle').value = '';
             document.getElementById('kmGlpiDesc').value = '';
             renderKmGlpi();
@@ -5092,7 +4933,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <div class="doc-card-title">${s.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${s.meta}</p>
-                    <div class="doc-card-meta"><span style="color:#7c3aed;font-weight:800;">Consulter</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                    <div class="doc-card-meta"><span style="color:#7c3aed;font-weight:800;">${kmLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -5135,7 +4976,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#ecfdf5;color:#16a34a;font-weight:900;">INT</div>
                     <div class="doc-info">
                         <div class="doc-title">${c.title}</div>
-                        <div class="doc-meta">${c.type} • ${c.responses} participation(s)</div>
+                        <div class="doc-meta">${c.type} • ${c.responses} ${kmLabels.responsesLabel || ''}</div>
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -5144,24 +4985,24 @@ function openAgendaTab(tabName) {
             kmCampagnesSelected = sel?.id || null;
             detail.innerHTML = sel ? `
                 <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
-                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.type} • Audience : ${sel.audience}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.type} • ${kmLabels.audienceLabel || ''} : ${sel.audience}</div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.desc}</div>
                 <div style="margin-top:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Participations</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${kmLabels.participationsLabel || ''}</div>
                         <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${sel.responses}</div>
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">Canal</div>
-                        <div style="margin-top:6px;font-size:14px;font-weight:900;color:#0f172a;">Formulaire / sondage</div>
+                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${kmLabels.channelLabel || ''}</div>
+                        <div style="margin-top:6px;font-size:14px;font-weight:900;color:#0f172a;">${kmLabels.channelValue || ''}</div>
                     </div>
                 </div>
                 <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:14px;">
-                    <button class="secondary-btn" onclick="openMockDownload('Campagne_${sel.id}.pdf','${sel.title}')">Consulter</button>
-                    <button class="primary-btn" onclick="participateKmCampagne('${sel.id}')">Participer</button>
+                    <button class="secondary-btn" onclick="openMockDownload('Campagne_${sel.id}.pdf','${sel.title}')">${kmLabels.consultLabel || ''}</button>
+                    <button class="primary-btn" onclick="participateKmCampagne('${sel.id}')">${kmLabels.participateLabel || ''}</button>
                 </div>
-            ` : 'Sélectionnez une campagne.';
+            ` : (kmPagesConfig.campagnes?.emptyDetail || '');
             lucide.createIcons();
         }
 
@@ -5196,7 +5037,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <div class="doc-card-title">${c.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.meta}</p>
-                    <div class="doc-card-meta"><span style="color:#ea580c;font-weight:800;">Consulter</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                    <div class="doc-card-meta"><span style="color:#ea580c;font-weight:800;">${kmLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -5224,9 +5065,9 @@ function openAgendaTab(tabName) {
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.body}</div>
                 <div style="display:flex;justify-content:flex-end;margin-top:14px;">
-                    <button class="primary-btn" onclick="openMockDownload('${sel.file}','${sel.title}')">Consulter</button>
+                    <button class="primary-btn" onclick="openMockDownload('${sel.file}','${sel.title}')">${kmLabels.consultLabel || ''}</button>
                 </div>
-            ` : 'Sélectionnez un contenu métier.';
+            ` : (kmPagesConfig['regimes-processus']?.emptyDetail || '');
             lucide.createIcons();
         }
 
@@ -5338,170 +5179,13 @@ function openAgendaTab(tabName) {
 
         // ===== ACTUALITÉS PAGE LOGIC =====
 
-        const actuData = getCmrData('actuData', [
-            {
-                id: 1,
-                title: "Signature du nouveau contrat programme État-CMR 2026-2028",
-                category: "Stratégie",
-                date: "22 Avril 2026",
-                author: "Direction Générale",
-                image: "images/intranet/news_contract.jpg",
-                excerpt: "La CMR et l'État marocain ont officialisé leur partenariat stratégique pour les trois prochaines années, marquant une étape clé dans la modernisation du système de retraite.",
-                content: [
-                    "La Caisse Marocaine des Retraites (CMR) et l'État marocain ont procédé à la signature du nouveau contrat programme pour la période 2026-2028. Cet accord stratégique définit les grandes orientations de la CMR pour les trois prochaines années.",
-                    "Le contrat prévoit notamment le renforcement de la gouvernance institutionnelle, la modernisation des systèmes d'information, l'amélioration de la qualité de service aux pensionnés et la consolidation de l'équilibre financier du régime.",
-                    "Cette signature s'inscrit dans la continuité des réformes engagées depuis 2023 et vise à faire de la CMR un acteur de référence en matière de protection sociale au Maroc. Les investissements prévus dans le cadre de ce contrat s'élèvent à plusieurs centaines de millions de dirhams.",
-                    "Le Directeur Général de la CMR a exprimé sa satisfaction quant à cet accord, soulignant l'importance de la confiance renouvelée de l'État dans les capacités de la Caisse à mener à bien sa mission de service public."
-                ],
-                tags: ["Stratégie", "Gouvernance", "Contrat Programme", "2026-2028"]
-            },
-            {
-                id: 2,
-                title: "Tenue de la session ordinaire du Conseil d'Administration",
-                category: "Gouvernance",
-                date: "21 Avril 2026",
-                author: "Secrétariat Général",
-                image: "images/intranet/news_board.jpg",
-                excerpt: "Le Conseil d'Administration de la CMR s'est réuni en session ordinaire pour examiner les résultats financiers du premier trimestre 2026 et valider les orientations stratégiques.",
-                content: [
-                    "Le Conseil d'Administration de la Caisse Marocaine des Retraites (CMR) a tenu sa session ordinaire du premier trimestre 2026. La réunion a été présidée par M. le Ministre de l'Économie et des Finances.",
-                    "Parmi les points à l'ordre du jour figuraient l'examen des résultats financiers de la CMR pour le premier trimestre 2026, la présentation du tableau de bord des indicateurs clés de performance, ainsi que la validation du plan d'action de la Direction pour le reste de l'année.",
-                    "Le Conseil a également examiné plusieurs projets de convention avec des partenaires institutionnels et a donné son accord de principe pour le lancement d'une étude actuarielle globale du régime.",
-                    "Les membres du Conseil ont salué les performances enregistrées par la CMR, notamment en matière de délai de traitement des dossiers de pension et de satisfaction des pensionnés."
-                ],
-                tags: ["Gouvernance", "Conseil d'Administration", "Finance", "Pilotage"]
-            },
-            {
-                id: 3,
-                title: "Déploiement de la solution de signature électronique",
-                category: "Digital",
-                date: "Janvier 2026",
-                author: "Direction Digitale",
-                image: "images/intranet/slider_cmr_tech.png",
-                excerpt: "La CMR franchit une nouvelle étape dans sa transformation digitale avec le déploiement d'une solution de signature électronique certifiée pour tous les processus internes.",
-                content: [
-                    "Dans le cadre de sa stratégie de transformation digitale, la CMR a procédé au déploiement d'une solution de signature électronique certifiée. Ce projet, porté par la Direction Digitale, concerne l'ensemble des processus documentaires internes.",
-                    "La solution adoptée est conforme aux exigences légales marocaines en matière de signature électronique et garantit l'authenticité, l'intégrité et la non-répudiation de tous les documents signés numériquement.",
-                    "Dans une première phase, plus de 500 collaborateurs ont été équipés et formés à l'utilisation de cette solution. L'objectif est de couvrir l'ensemble des employés de la CMR d'ici la fin du premier semestre 2026.",
-                    "Cette initiative permettra de réduire significativement les délais de traitement des documents, d'éliminer les flux papier et de contribuer à l'objectif de neutralité carbone de la Caisse."
-                ],
-                tags: ["Digital", "Signature Électronique", "Transformation", "Innovation"]
-            },
-            {
-                id: 4,
-                title: "Résultats de la campagne d'innovation \"Digit-Passe\"",
-                category: "Innovation",
-                date: "20 Avril 2026",
-                author: "Comité Innovation",
-                image: "images/intranet/slider2.png",
-                excerpt: "La campagne d'innovation interne \"Digit-Passe\" a permis de collecter plus de 120 idées innovantes de la part des collaborateurs. Les lauréats ont été récompensés lors d'une cérémonie officielle.",
-                content: [
-                    "La deuxième édition de la campagne d'innovation interne \"Digit-Passe\" s'est clôturée avec un bilan très positif. Lancée en janvier 2026, la campagne a mobilisé plus de 300 collaborateurs qui ont soumis collectivement plus de 120 propositions d'innovation.",
-                    "Un jury composé de membres de la Direction Générale, de la Direction Digitale et d'experts externes a évalué les projets selon des critères d'impact, de faisabilité et d'originalité.",
-                    "Trois projets lauréats ont été retenus : une application mobile de suivi des dossiers de pension, un chatbot intelligent pour les pensionnés, et un tableau de bord prédictif pour la gestion actuarielle.",
-                    "Les équipes gagnantes recevront un accompagnement pour la mise en œuvre de leurs projets ainsi qu'une dotation financière. La Direction Générale a souligné l'importance de cultiver la culture de l'innovation au sein de la CMR."
-                ],
-                tags: ["Innovation", "Digit-Passe", "Collaborateurs", "Projets"]
-            },
-            {
-                id: 5,
-                title: "Lancement du programme de formation \"CMR Academy\"",
-                category: "Formation",
-                date: "15 Avril 2026",
-                author: "Ressources Humaines",
-                image: "images/intranet/news_academy.jpg",
-                excerpt: "La CMR Academy lance une nouvelle vague de formations pour renforcer les compétences des collaborateurs dans les domaines du digital, du management et des métiers de la retraite.",
-                content: [
-                    "La CMR Academy, plateforme de développement des compétences de la Caisse Marocaine des Retraites, lance sa nouvelle vague de formations pour le premier semestre 2026.",
-                    "Au programme : des formations en management stratégique, en transformation digitale, en actuariat, ainsi que des modules spécialisés sur les nouvelles réglementations en matière de retraite. Plus de 50 formations sont proposées, dont une grande partie en e-learning.",
-                    "Cette initiative s'inscrit dans la politique de développement des ressources humaines de la CMR, qui vise à faire de chaque collaborateur un acteur de la performance collective. Le budget consacré à la formation pour 2026 a été augmenté de 20% par rapport à l'année précédente.",
-                    "Les collaborateurs peuvent consulter le catalogue de formations et s'inscrire directement via le portail RH. Les responsables d'équipe sont invités à identifier les besoins de formation de leurs collaborateurs et à planifier les départs en formation."
-                ],
-                tags: ["Formation", "CMR Academy", "RH", "Compétences"]
-            },
-            {
-                id: 6,
-                title: "Partenariat CMR – CNOPS : échange de données sécurisé",
-                category: "Stratégie",
-                date: "10 Avril 2026",
-                author: "Direction Générale",
-                image: "images/intranet/slider_partnership.png",
-                excerpt: "La CMR et la CNOPS ont signé un accord d'échange de données pour améliorer la coordination entre les régimes de retraite et d'assurance maladie au bénéfice des fonctionnaires.",
-                content: [
-                    "La CMR et la Caisse Nationale des Organismes de Prévoyance Sociale (CNOPS) ont conclu un accord cadre pour l'échange sécurisé de données entre les deux institutions.",
-                    "Cet accord permettra d'automatiser la transmission d'informations relatives aux départs à la retraite, ce qui facilitera le basculement des fonctionnaires vers le régime d'assurance maladie des retraités (RAMED fonctionnel).",
-                    "Le projet, qui sera mis en œuvre sur 12 mois, s'appuiera sur une infrastructure d'échange de données sécurisée respectant les exigences de la CNDP en matière de protection des données personnelles.",
-                    "Cette initiative illustre la volonté des deux institutions de coordonner leurs actions pour améliorer le service rendu aux fonctionnaires et simplifier leurs démarches administratives."
-                ],
-                tags: ["Partenariat", "CNOPS", "Données", "Interopérabilité"]
-            },
-            {
-                id: 7,
-                title: "Enquête de satisfaction interne : 85% de taux de participation",
-                category: "Social",
-                date: "5 Avril 2026",
-                author: "Ressources Humaines",
-                image: "images/intranet/slider3.png",
-                excerpt: "L'enquête annuelle de satisfaction interne a enregistré un taux de participation record de 85%, témoignant de l'engagement des collaborateurs envers la vie de la CMR.",
-                content: [
-                    "La troisième édition de l'enquête annuelle de satisfaction interne de la CMR a enregistré un taux de participation exceptionnel de 85%, soit une progression de 12 points par rapport à 2025.",
-                    "Les résultats globaux sont encourageants : 78% des collaborateurs se déclarent satisfaits de leur cadre de travail, 72% estiment que la communication interne s'est améliorée, et 80% se sentent fiers de travailler pour la CMR.",
-                    "Des axes d'amélioration ont également été identifiés, notamment en matière de mobilité interne, d'équilibre vie professionnelle – vie personnelle et de digitalisation des processus RH. Un plan d'action sera élaboré sur la base de ces résultats.",
-                    "La Direction des Ressources Humaines a remercié l'ensemble des collaborateurs pour leur participation et leur engagement, et s'est engagée à communiquer sur les actions mises en place en réponse aux retours exprimés."
-                ],
-                tags: ["Social", "Satisfaction", "RH", "Enquête"]
-            },
-            {
-                id: 8,
-                title: "Feuille de route digitale 2026 : cap sur la transformation",
-                category: "Digital",
-                date: "1 Avril 2026",
-                author: "Direction Digitale",
-                image: "images/intranet/slider1.png",
-                excerpt: "La Direction Digitale présente la feuille de route 2026 qui couvre 15 projets majeurs de transformation numérique, incluant l'IA, la data et l'expérience client.",
-                content: [
-                    "La Direction Digitale de la CMR a dévoilé sa feuille de route pour l'année 2026. Ce document stratégique définit 15 projets prioritaires de transformation numérique qui seront menés tout au long de l'année.",
-                    "Parmi les projets phares figurent le déploiement d'un assistant virtuel basé sur l'intelligence artificielle pour les pensionnés, la refonte du portail e-service, la mise en place d'une plateforme de data analytics et l'automatisation des processus administratifs.",
-                    "Un budget de 45 millions de dirhams a été alloué à ces projets, qui devraient générer des gains d'efficacité significatifs et améliorer substantiellement l'expérience des pensionnés et des affiliés.",
-                    "La Direction Digitale a mis en place une cellule de pilotage dédiée qui assurera le suivi de l'avancement des projets et la communication régulière auprès des équipes."
-                ],
-                tags: ["Digital", "IA", "Data", "Transformation", "2026"]
-            },
-            {
-                id: 9,
-                title: "Colonies de vacances 2026 : inscriptions ouvertes",
-                category: "Social",
-                date: "28 Mars 2026",
-                author: "Action Sociale",
-                image: "images/intranet/slider3.png",
-                excerpt: "Les inscriptions pour les colonies de vacances d'été 2026 sont ouvertes. Les collaborateurs peuvent inscrire leurs enfants de 7 à 16 ans via le portail social.",
-                content: [
-                    "La CMR annonce l'ouverture des inscriptions pour les colonies de vacances d'été 2026, destinées aux enfants des collaborateurs âgés de 7 à 16 ans.",
-                    "Trois destinations sont proposées cette année : Témara (juillet, 3 semaines), Oujda (août, 2 semaines) et une nouveauté, un camp de montagne à Ifrane (juillet-août, 2 semaines). Chaque colonie proposera des activités sportives, culturelles et éducatives.",
-                    "Les tarifs sont subventionnés par le fonds d'action sociale de la CMR. Les collaborateurs bénéficient d'une réduction de 60% sur le tarif plein, avec des facilités de paiement échelonné.",
-                    "Les inscriptions se font exclusivement en ligne via le portail d'action sociale. La date limite de dépôt des dossiers est fixée au 30 avril 2026. Pour tout renseignement complémentaire, contacter le service Action Sociale au poste 4510."
-                ],
-                tags: ["Social", "Action Sociale", "Vacances", "Famille"]
-            },
-            {
-                id: 10,
-                title: "Réunion du comité d'audit : bilan et perspectives",
-                category: "Gouvernance",
-                date: "20 Mars 2026",
-                author: "Audit Interne",
-                image: "images/intranet/news_board.jpg",
-                excerpt: "Le comité d'audit de la CMR a tenu sa réunion trimestrielle pour examiner les résultats du plan d'audit 2026 et valider les recommandations issues des missions réalisées.",
-                content: [
-                    "Le comité d'audit de la CMR s'est réuni pour sa session trimestrielle. La réunion, présidée par le Président du Comité, a réuni les membres du Conseil d'Administration en charge de la supervision de l'audit et de la gestion des risques.",
-                    "Le responsable de l'audit interne a présenté l'état d'avancement du plan d'audit 2026. Six missions ont été réalisées depuis le début de l'année, portant sur les domaines des systèmes d'information, de la gestion financière et des processus RH.",
-                    "Le taux d'implémentation des recommandations issues des audits précédents a atteint 87%, témoignant de l'engagement de l'ensemble des directions dans l'amélioration continue des processus.",
-                    "Le comité a également examiné la cartographie des risques mise à jour et validé les priorités du plan d'audit pour le deuxième semestre 2026. Une attention particulière sera portée aux risques liés à la transformation digitale et à la cybersécurité."
-                ],
-                tags: ["Gouvernance", "Audit", "Risques", "Contrôle Interne"]
-            }
-        ]);
+        const actualitesLabels = getCmrData('actualitesLabels', {});
+        const actualitesFilters = getCmrData('actualitesFilters', []);
+        const actuData = getCmrData('actuData', []);
+        const actualitesDefaultFilter = actualitesFilters.find(f => f.active)?.value || 'all';
+        const actualitesDefaultFilterLabel = actualitesFilters.find(f => f.value === actualitesDefaultFilter)?.label || '';
 
-        let actuCurrentCategory = 'all';
+        let actuCurrentCategory = actualitesDefaultFilter;
         let actuCurrentSearch = '';
 
         // ===== Communication interne preview (real content) =====
@@ -5614,7 +5298,7 @@ function openAgendaTab(tabName) {
 
             document.querySelectorAll('#view-actualites .actu-filter-btn').forEach(b => {
                 const label = (b.textContent || '').trim();
-                const isAll = commInterneCategory === 'all' && label === 'Toutes';
+                const isAll = commInterneCategory === actualitesDefaultFilter && label === actualitesDefaultFilterLabel;
                 const isMatch = commInterneCategory !== 'all' && label === commInterneCategory;
                 b.classList.toggle('active', isAll || isMatch);
             });
@@ -5642,7 +5326,7 @@ function openAgendaTab(tabName) {
 
             grid.innerHTML = articles.map(a => `
                 <div class="actu-card" onclick="openActuDetail(${a.id})">
-                    <img class="actu-card-img" src="${a.image}" alt="${a.title}" onerror="this.src='images/intranet/slider1.png'">
+                    <img class="actu-card-img" src="${a.image}" alt="${a.title}" onerror="this.src='${actualitesLabels.fallbackImage || ''}'">
                     <div class="actu-card-body">
                         <span class="actu-card-category">${a.category}</span>
                         <div class="actu-card-title">${a.title}</div>
@@ -5653,7 +5337,7 @@ function openAgendaTab(tabName) {
                                 ${a.date}
                             </span>
                             <span class="actu-card-readmore">
-                                Lire plus
+                                ${actualitesLabels.readMoreLabel || ''}
                                 <i data-lucide="arrow-right" style="width:12px;height:12px;"></i>
                             </span>
                         </div>
@@ -5696,7 +5380,7 @@ function openAgendaTab(tabName) {
 
             const container = document.getElementById('actuDetailContent');
             container.innerHTML = `
-                <img class="actu-detail-hero" src="${article.image}" alt="${article.title}" onerror="this.src='images/intranet/slider1.png'">
+                <img class="actu-detail-hero" src="${article.image}" alt="${article.title}" onerror="this.src='${actualitesLabels.fallbackImage || ''}'">
                 <div class="actu-detail-body">
                     <div class="actu-detail-meta-row">
                         <span class="actu-detail-category">${article.category}</span>
@@ -5740,7 +5424,7 @@ function openAgendaTab(tabName) {
             // Reset state
             document.getElementById('actu-list-panel').style.display = 'block';
             document.getElementById('actu-detail-panel').style.display = 'none';
-            actuCurrentCategory = 'all';
+            actuCurrentCategory = actualitesDefaultFilter;
             actuCurrentSearch = '';
             const searchInput = document.getElementById('actuSearchInput');
             if (searchInput) searchInput.value = '';
@@ -5753,33 +5437,10 @@ function openAgendaTab(tabName) {
 
         // ===== NOTIFICATIONS PAGE LOGIC =====
 
-        const notifData = getCmrData('notifData', [
-            { id: 1,  type: 'document',    title: 'Nouveau document publié',         desc: 'La procédure RH 2026 est maintenant disponible dans KM.',         time: 'Il y a 10 min',  date: "Aujourd'hui",  unread: true  },
-            { id: 2,  type: 'meeting',     title: 'Réunion Direction',               desc: 'La réunion du CODIR commencera dans 15 minutes.',                  time: 'Il y a 25 min',  date: "Aujourd'hui",  unread: true  },
-            { id: 3,  type: 'innovation',  title: 'Félicitations !',                 desc: 'Votre idée "Digit-Passe" a été validée par le comité.',            time: 'Hier, 16:45',    date: 'Hier',         unread: true  },
-            { id: 4,  type: 'rh',          title: 'Évaluation annuelle ouverte',     desc: 'La campagne d\'évaluation 2026 est lancée. Date limite : 28 fév.', time: 'Hier, 10:00',    date: 'Hier',         unread: false },
-            { id: 5,  type: 'system',      title: 'Maintenance planifiée',           desc: 'Maintenance du serveur Paie vendredi à 18h00.',                    time: 'Hier, 08:30',    date: 'Hier',         unread: false },
-            { id: 6,  type: 'document',    title: 'Note de service partagée',        desc: 'La note de service N°12/2026 relative aux congés a été publiée.', time: '22 Avr, 14:00',  date: '22 Avr',       unread: false },
-            { id: 7,  type: 'meeting',     title: 'Compte-rendu disponible',         desc: 'Le compte-rendu de la réunion du 20 avril est disponible.',        time: '21 Avr, 09:15',  date: '21 Avr',       unread: false },
-            { id: 8,  type: 'rh',          title: 'Solde de congés mis à jour',      desc: 'Votre solde de congés annuels a été actualisé pour 2026.',         time: '20 Avr, 16:00',  date: '20 Avr',       unread: false },
-            { id: 9,  type: 'innovation',  title: 'Nouvelle idée soumise',           desc: 'Une nouvelle idée "Smart Archivage" a été soumise à votre équipe.','time': '19 Avr, 11:00', date: '19 Avr',       unread: false },
-            { id: 10, type: 'system',      title: 'Mise à jour système',             desc: 'Le portail intranet a été mis à jour vers la version 4.2.',        time: '18 Avr, 07:00',  date: '18 Avr',       unread: false },
-            { id: 11, type: 'document',    title: 'Rapport mensuel disponible',      desc: 'Le rapport de performance de mars 2026 est disponible.',           time: '17 Avr, 15:30',  date: '17 Avr',       unread: false },
-            { id: 12, type: 'meeting',     title: 'Invitation : Comité d\'audit',    desc: 'Vous êtes invité(e) à la réunion du comité d\'audit le 15 mai.',   time: '15 Avr, 09:00',  date: '15 Avr',       unread: false },
-            { id: 13, type: 'rh',          title: 'Formation disponible',            desc: 'Nouveau module "Management Agile" disponible sur CMR Academy.',    time: '14 Avr, 10:00',  date: '14 Avr',       unread: false },
-            { id: 14, type: 'system',      title: 'Alerte sécurité',                 desc: 'Connexion depuis un nouvel appareil détectée sur votre compte.',   time: '12 Avr, 22:10',  date: '12 Avr',       unread: false },
-            { id: 15, type: 'document',    title: 'Procédure IT mise à jour',        desc: 'La charte informatique 2026 a été mise à jour. Merci de la signer.','time': '10 Avr, 08:00', date: '10 Avr',       unread: false }
-        ]);
-
-        const notifIcons = getCmrData('notifIcons', {
-            document:   { bg: '#dbeafe', color: '#2563eb', icon: 'file-text' },
-            meeting:    { bg: '#fef3c7', color: '#d97706', icon: 'calendar' },
-            rh:         { bg: '#f0fdf4', color: '#16a34a', icon: 'user-check' },
-            innovation: { bg: '#fdf4ff', color: '#9333ea', icon: 'lightbulb' },
-            system:     { bg: '#fff1f2', color: '#dc2626', icon: 'settings' }
-        });
-
-        let notifCurrentFilter = 'all';
+        const notificationsLabels = getCmrData('notificationsLabels', {});
+        const notifData = getCmrData('notifData', []);
+        const notifIcons = getCmrData('notifIcons', {});
+        let notifCurrentFilter = notificationsLabels.defaultFilter || 'all';
 
         function renderNotifPage(items) {
             const list = document.getElementById('notifPageList');
@@ -5804,7 +5465,7 @@ function openAgendaTab(tabName) {
             Object.entries(groups).forEach(([date, notifs]) => {
                 html += `<div class="notif-page-date-sep">${date}</div>`;
                 notifs.forEach(n => {
-                    const ic = notifIcons[n.type] || notifIcons.document;
+                    const ic = notifIcons[n.type] || {};
                     html += `
                         <div class="notif-page-item${n.unread ? ' unread' : ''}" id="notif-item-${n.id}" onclick="markNotifRead(${n.id})">
                             <div class="notif-page-icon" style="background:${ic.bg};color:${ic.color};">
@@ -5835,7 +5496,7 @@ function openAgendaTab(tabName) {
             if (btn) btn.classList.add('active');
 
             let filtered;
-            if (filter === 'all')    filtered = notifData;
+            if (filter === (notificationsLabels.defaultFilter || 'all'))    filtered = notifData;
             else if (filter === 'unread') filtered = notifData.filter(n => n.unread);
             else                     filtered = notifData.filter(n => n.type === filter);
 
@@ -6030,7 +5691,7 @@ function openAgendaTab(tabName) {
                 renderActuGrid(actuData);
             }
             if (viewId === 'notifications') {
-                notifCurrentFilter = 'all';
+                notifCurrentFilter = notificationsLabels.defaultFilter || 'all';
                 document.querySelectorAll('.notif-tab').forEach((b, i) => b.classList.toggle('active', i === 0));
                 renderNotifPage(notifData);
             }

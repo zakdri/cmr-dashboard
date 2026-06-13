@@ -85,7 +85,7 @@ export default function InnovationSection() {
               page={ideation}
               action={
                 <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "toggleIdeaForm(true)")}>
-                  {ideation.submitLabel}
+                  Proposer une idée
                 </button>
               }
             >
@@ -95,12 +95,12 @@ export default function InnovationSection() {
               <div className="card-header">
                 <CardTitle page={ideation} titleKey="formTitle" iconKey="formIcon" iconClassKey="formIconClass" />
                 <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "toggleIdeaForm(false)")}>
-                  {ideation.closeLabel}
+                  Fermer
                 </button>
               </div>
               <div style={{ padding: 18 }}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  <input id="ideaTitle" className="actu-search-input" placeholder={ideation.titlePlaceholder} />
+                  <input id="ideaTitle" className="actu-search-input" placeholder="Titre de l'idée" />
                   <select id="ideaAxis" className="actu-search-input" style={{ height: 40 }}>
                     {(ideation.axisOptions || []).map((axis) => (
                       <option value={axis} key={axis}>
@@ -113,12 +113,12 @@ export default function InnovationSection() {
                   id="ideaDesc"
                   className="actu-search-input"
                   style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                  placeholder={ideation.descriptionPlaceholder}
+                  placeholder="Décrire l'idée, le besoin ou le problème à résoudre..."
                   defaultValue={""}
                 />
                 <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
                   <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitIdea()")}>
-                    {ideation.sendLabel}
+                    Envoyer
                   </button>
                 </div>
               </div>

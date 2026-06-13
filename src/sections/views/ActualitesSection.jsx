@@ -1,7 +1,18 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getActualitesData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.actualitesHeader || {},
+    filters: data.actualitesFilters || [],
+    articles: data.actuData || [],
+  };
+}
+
 export default function ActualitesSection() {
+  const { header, filters, articles } = getActualitesData();
+
   return (
     <>
       <div id="view-actualites" className="view-section actu-container">
@@ -9,14 +20,12 @@ export default function ActualitesSection() {
         <div id="actu-list-panel">
           <div className="actu-page-header">
             <div className="actu-page-title-row">
-              <div className="card-icon blue" style={{ width: 42, height: 42 }}>
-                <i data-lucide="newspaper" style={{ width: 22, height: 22 }} />
+              <div className={`card-icon ${header.iconClass}`} style={{ width: 42, height: 42 }}>
+                <i data-lucide={header.icon} style={{ width: 22, height: 22 }} />
               </div>
               <div>
-                <h2 className="actu-page-title">Actualités</h2>
-                <p className="actu-page-sub">
-                  Toutes les dernières informations de la CMR
-                </p>
+                <h2 className="actu-page-title">{header.title}</h2>
+                <p className="actu-page-sub">{header.description}</p>
               </div>
             </div>
             {/* Search Bar */}
@@ -35,66 +44,21 @@ export default function ActualitesSection() {
           </div>
           {/* Category Filter */}
           <div className="actu-filters" id="actuFilters">
-            <button
-              className="actu-filter-btn active"
-              onClick={(event) =>
-                runLegacyHandler(event, "filterByCategory('all', this)")
-              }
-            >
-              Toutes
-            </button>
-            <button
-              className="actu-filter-btn"
-              onClick={(event) =>
-                runLegacyHandler(event, "filterByCategory('Gouvernance', this)")
-              }
-            >
-              Gouvernance
-            </button>
-            <button
-              className="actu-filter-btn"
-              onClick={(event) =>
-                runLegacyHandler(event, "filterByCategory('Digital', this)")
-              }
-            >
-              Digital
-            </button>
-            <button
-              className="actu-filter-btn"
-              onClick={(event) =>
-                runLegacyHandler(event, "filterByCategory('Innovation', this)")
-              }
-            >
-              Innovation
-            </button>
-            <button
-              className="actu-filter-btn"
-              onClick={(event) =>
-                runLegacyHandler(event, "filterByCategory('Formation', this)")
-              }
-            >
-              Formation
-            </button>
-            <button
-              className="actu-filter-btn"
-              onClick={(event) =>
-                runLegacyHandler(event, "filterByCategory('Social', this)")
-              }
-            >
-              Social
-            </button>
-            <button
-              className="actu-filter-btn"
-              onClick={(event) =>
-                runLegacyHandler(event, "filterByCategory('Stratégie', this)")
-              }
-            >
-              Stratégie
-            </button>
+            {filters.map((filter) => (
+              <button
+                key={filter.value}
+                className={`actu-filter-btn${filter.active ? " active" : ""}`}
+                onClick={(event) =>
+                  runLegacyHandler(event, `filterByCategory('${filter.value}', this)`)
+                }
+              >
+                {filter.label}
+              </button>
+            ))}
           </div>
           {/* Results count */}
           <div className="actu-results-info" id="actuResultsInfo">
-            <span id="actuCount">10</span> actualités trouvées
+            <span id="actuCount">{articles.length}</span> résultat(s)
           </div>
           {/* Articles Grid */}
           <div className="actu-grid" id="actuGrid">
@@ -110,7 +74,7 @@ export default function ActualitesSection() {
               data-lucide="search-x"
               style={{ width: 48, height: 48, color: "#cbd5e1" }}
             />
-            <p>Aucune actualité ne correspond à votre recherche.</p>
+            <p>Aucune actualité trouvée.</p>
           </div>
         </div>
         {/* DETAIL PANEL */}

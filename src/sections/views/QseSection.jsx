@@ -129,7 +129,7 @@ export default function QseSection() {
           <DashboardCard page={pages.idees || {}}>
             <div style={{ padding: 18 }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <input id="qseIdeaTitle" className="actu-search-input" placeholder={pages.idees?.titlePlaceholder} />
+                <input id="qseIdeaTitle" className="actu-search-input" placeholder="Titre de l'idée" />
                 <select id="qseIdeaType" className="actu-search-input" style={{ height: 40 }}>
                   {ideaTypes.map((type) => (
                     <option key={type} value={type}>
@@ -142,12 +142,12 @@ export default function QseSection() {
                 id="qseIdeaDesc"
                 className="actu-search-input"
                 style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                placeholder={pages.idees?.descriptionPlaceholder}
+                placeholder="Décrire l'idée..."
                 defaultValue={""}
               />
               <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
                 <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitQseIdea()")}>
-                  {pages.idees?.submitLabel}
+                  Soumettre
                 </button>
               </div>
             </div>
@@ -164,17 +164,17 @@ export default function QseSection() {
         <div id="page-qse-remontees" className="km-tab-content" style={{ display: "none" }}>
           <DashboardCard page={pages.remontees || {}}>
             <div style={{ padding: 18 }}>
-              <input id="qseRemTitle" className="actu-search-input" placeholder={pages.remontees?.titlePlaceholder} />
+              <input id="qseRemTitle" className="actu-search-input" placeholder="Titre de la remontée" />
               <textarea
                 id="qseRemDesc"
                 className="actu-search-input"
                 style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                placeholder={pages.remontees?.descriptionPlaceholder}
+                placeholder="Décrire la remontée terrain..."
                 defaultValue={""}
               />
               <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
                 <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitQseRemontee()")}>
-                  {pages.remontees?.submitLabel}
+                  Déclarer
                 </button>
               </div>
             </div>

@@ -1,0 +1,67 @@
+{
+  "space": "agenda-interne",
+  "updatedAt": "2026-06-13",
+  "data": {
+    "agendaInterne": {
+      "header": {
+        "title": "Agenda interne",
+        "description": "Calendrier des événements internes : comités, ateliers et initiatives."
+      },
+      "calendar": {
+        "title": "Calendrier",
+        "icon": "calendar-days",
+        "iconClass": "blue",
+        "weekDays": ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+        "cells": [
+          { "label": "—" },
+          { "label": "—" },
+          { "label": "—" },
+          { "label": "—" },
+          { "label": "Aujourd’hui", "active": true },
+          { "label": "—" },
+          { "label": "—" }
+        ],
+        "hint": "Astuce : cette vue est dédiée à l’“Agenda interne” (Communication interne) pour éviter le mélange avec “Vie Sociale”."
+      },
+      "events": {
+        "title": "Prochains événements",
+        "icon": "list",
+        "iconClass": "orange",
+        "items": [
+          {
+            "time": "14:00",
+            "title": "Comité de pilotage",
+            "meta": "Aujourd’hui • Salle A • Teams",
+            "tag": "Réunion",
+            "iconStyle": { "background": "#eff6ff", "color": "#256cb5", "fontWeight": 800 },
+            "tagStyle": { "background": "#eff6ff", "color": "#1d4ed8" }
+          },
+          {
+            "time": "16:30",
+            "title": "Point d’avancement",
+            "meta": "Demain • NAAMS • Teams",
+            "tag": "Suivi",
+            "iconStyle": { "background": "#f0fdf4", "color": "#16a34a", "fontWeight": 800 },
+            "tagStyle": { "background": "#f0fdf4", "color": "#15803d" }
+          },
+          {
+            "time": "12 Mai",
+            "title": "Atelier cybersécurité",
+            "meta": "12 Mai • 14:30 • Auditorium",
+            "tag": "Atelier",
+            "iconStyle": { "background": "#fff7ed", "color": "#ea580c", "fontWeight": 800 },
+            "tagStyle": { "background": "#fef3c7", "color": "#92400e" }
+          },
+          {
+            "time": "20 Mai",
+            "title": "Team Building Digital 2026",
+            "meta": "20 Mai • Salle Innovation",
+            "tag": "Initiative",
+            "iconStyle": { "background": "#fdf2f8", "color": "#be185d", "fontWeight": 800 },
+            "tagStyle": { "background": "#fdf2f8", "color": "#be185d" }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,7 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+const QUICK_ACCESS_STORAGE_KEY = "cmr.quickAccess.selectedLabels";
+
+const getModalsData = () => window.CMR_DATA?.data?.modals || {};
+
+function getQuickAccessItems(modals) {
+  return (
+    (typeof window !== "undefined" &&
+      window.CMR_DATA?.data?.dashboardQuickAccess?.items) ||
+    modals.quickAccess?.fallbackItems ||
+    []
+  );
+}
+
+function getSavedQuickAccessLabels(items) {
+  const fallbackLabels = items.map((item) => item.label);
+
+  if (typeof window === "undefined") return fallbackLabels;
+
+  try {
+    const savedLabels = JSON.parse(
+      window.localStorage.getItem(QUICK_ACCESS_STORAGE_KEY) || "null",
+    );
+    if (!Array.isArray(savedLabels)) return fallbackLabels;
+
+    const availableLabels = new Set(fallbackLabels);
+    const validSavedLabels = savedLabels.filter((label) =>
+      availableLabels.has(label),
+    );
+
+    return validSavedLabels.length > 0 ? validSavedLabels : fallbackLabels;
+  } catch {
+    return fallbackLabels;
+  }
+}
+
 export default function ModalsTemplate() {
+  const modals = getModalsData();
+  const consent0908 = modals.consent0908 || {};
+  const tickerDetail = modals.tickerDetail || {};
+  const quickAccessItems = getQuickAccessItems(modals);
+  const [selectedLabels, setSelectedLabels] = useState(() =>
+    getSavedQuickAccessLabels(quickAccessItems),
+  );
+
+  useEffect(() => {
+    setSelectedLabels((currentLabels) => {
+      const availableLabels = quickAccessItems.map((item) => item.label);
+      const validCurrentLabels = currentLabels.filter((label) =>
+        availableLabels.includes(label),
+      );
+
+      return validCurrentLabels.length > 0
+        ? validCurrentLabels
+        : getSavedQuickAccessLabels(quickAccessItems);
+    });
+  }, [quickAccessItems]);
+
+  useEffect(() => {
+    window.lucide?.createIcons();
+  }, [selectedLabels]);
+
+  function toggleQuickAccessItem(label) {
+    setSelectedLabels((currentLabels) =>
+      currentLabels.includes(label)
+        ? currentLabels.filter((currentLabel) => currentLabel !== label)
+        : [...currentLabels, label],
+    );
+  }
+
+  function closeEditModal(event) {
+    setSelectedLabels(getSavedQuickAccessLabels(quickAccessItems));
+    runLegacyHandler(event, "toggleModal('editModal')");
+  }
+
+  function saveQuickAccessSelection(event) {
+    window.localStorage.setItem(
+      QUICK_ACCESS_STORAGE_KEY,
+      JSON.stringify(selectedLabels),
+    );
+    window.dispatchEvent(
+      new CustomEvent("cmr:quick-access-updated", {
+        detail: { labels: selectedLabels },
+      }),
+    );
+    runLegacyHandler(event, "toggleModal('editModal')");
+  }
+
   return (
     <>
       <div>
@@ -16,63 +102,41 @@ export default function ModalsTemplate() {
               Personnaliser vos raccourcis
             </div>
             <div className="edit-grid">
-              <div className="edit-item active">
-                <span>Congés</span>
-                <i
-                  data-lucide="check-circle"
-                  style={{ width: 18, color: "var(--cmr-primary)" }}
-                />
-              </div>
-              <div className="edit-item active">
-                <span>Réservation</span>
-                <i
-                  data-lucide="check-circle"
-                  style={{ width: 18, color: "var(--cmr-primary)" }}
-                />
-              </div>
-              <div className="edit-item active">
-                <span>Note de frais</span>
-                <i
-                  data-lucide="check-circle"
-                  style={{ width: 18, color: "var(--cmr-primary)" }}
-                />
-              </div>
-              <div className="edit-item">
-                <span>Annuaire</span>
-                <i
-                  data-lucide="circle"
-                  style={{ width: 18, color: "#cbd5e1" }}
-                />
-              </div>
-              <div className="edit-item active">
-                <span>Bloc-note</span>
-                <i
-                  data-lucide="check-circle"
-                  style={{ width: 18, color: "var(--cmr-primary)" }}
-                />
-              </div>
-              <div className="edit-item active">
-                <span>Documentation</span>
-                <i
-                  data-lucide="check-circle"
-                  style={{ width: 18, color: "var(--cmr-primary)" }}
-                />
-              </div>
+              {quickAccessItems.map((item) => (
+                <div
+                  className={`edit-item${
+                    selectedLabels.includes(item.label) ? " active" : ""
+                  }`}
+                  key={item.label}
+                  onClick={() => toggleQuickAccessItem(item.label)}
+                >
+                  <span>{item.label}</span>
+                  <i
+                    data-lucide={
+                    selectedLabels.includes(item.label)
+                        ? "check-circle"
+                        : "circle"
+                    }
+                    style={{
+                      width: 18,
+                      color: selectedLabels.includes(item.label)
+                        ? "var(--cmr-primary)"
+                        : "#cbd5e1",
+                    }}
+                  />
+                </div>
+              ))}
             </div>
             <div className="modal-footer">
               <button
                 className="secondary-btn"
-                onClick={(event) =>
-                  runLegacyHandler(event, "toggleModal('editModal')")
-                }
+                onClick={closeEditModal}
               >
                 Annuler
               </button>
               <button
                 className="primary-btn"
-                onClick={(event) =>
-                  runLegacyHandler(event, "toggleModal('editModal')")
-                }
+                onClick={saveQuickAccessSelection}
               >
                 Enregistrer les modifications
               </button>
@@ -96,16 +160,16 @@ export default function ModalsTemplate() {
               </div>
             </div>
             <div className="consent-modal-content">
-              <p>
-                Pour accéder à l’Intranet, nous vous informons que certaines
-                données peuvent être traitées pour assurer le fonctionnement du
-                portail, la sécurité et l’amélioration du service.
-              </p>
-              <p>
-                En cliquant sur <strong>J’accepte</strong>, vous confirmez avoir
-                pris connaissance de cette information et consentez au
-                traitement de vos données conformément à la Loi 09-08.
-              </p>
+              {(consent0908.paragraphs || []).map((paragraph) => {
+                const parts = paragraph.split(consent0908.acceptHighlight);
+                return (
+                  <p key={paragraph}>
+                    {parts[0]}
+                    {parts.length > 1 && <strong>{consent0908.acceptHighlight}</strong>}
+                    {parts.slice(1).join(consent0908.acceptHighlight)}
+                  </p>
+                );
+              })}
               <a
                 className="consent-modal-link"
                 href="#"
@@ -153,7 +217,7 @@ export default function ModalsTemplate() {
                 <i data-lucide="zap" style={{ width: 20, height: 20 }} />
               </div>
               <div className="consent-modal-title" id="tickerDetailTitle">
-                Détail Flash Info
+                Détail Info Express
                 <span
                   className="consent-modal-subtitle"
                   id="tickerDetailSubtitle"

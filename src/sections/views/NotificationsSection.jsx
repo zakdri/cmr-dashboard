@@ -1,7 +1,29 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getNotificationsData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.notificationsHeader || {},
+    tabs: data.notificationsTabs || [],
+    notifications: data.notifData || [],
+  };
+}
+
 export default function NotificationsSection() {
+  const { header, tabs, notifications } = getNotificationsData();
+  const unreadCount = notifications.filter((notification) => notification.unread).length;
+  const badgeValue = (tab) => {
+    if (tab.value === "all") return notifications.length;
+    if (tab.value === "unread") return unreadCount;
+    return null;
+  };
+  const tabLabel = (tab) => {
+    if (tab.value === "all") return "Toutes";
+    if (tab.value === "unread") return "Non lues";
+    return tab.label;
+  };
+
   return (
     <>
       <div
@@ -10,14 +32,12 @@ export default function NotificationsSection() {
       >
         <div className="notif-page-header">
           <div className="notif-page-title-row">
-            <div className="card-icon blue" style={{ width: 42, height: 42 }}>
-              <i data-lucide="bell" style={{ width: 22, height: 22 }} />
+            <div className={`card-icon ${header.iconClass}`} style={{ width: 42, height: 42 }}>
+              <i data-lucide={header.icon} style={{ width: 22, height: 22 }} />
             </div>
             <div>
-              <h2 className="actu-page-title">Notifications</h2>
-              <p className="actu-page-sub">
-                Toutes vos notifications et alertes
-              </p>
+              <h2 className="actu-page-title">{header.title}</h2>
+              <p className="actu-page-sub">{header.description}</p>
             </div>
           </div>
           <div className="notif-page-actions">
@@ -34,68 +54,25 @@ export default function NotificationsSection() {
         </div>
         {/* Filter tabs */}
         <div className="notif-page-tabs" id="notifPageTabs">
-          <button
-            className="notif-tab active"
-            onClick={(event) =>
-              runLegacyHandler(event, "filterNotifPage('all', this)")
-            }
-          >
-            Toutes{" "}
-            <span className="notif-tab-badge" id="notifTabAll">
-              15
-            </span>
-          </button>
-          <button
-            className="notif-tab"
-            onClick={(event) =>
-              runLegacyHandler(event, "filterNotifPage('unread', this)")
-            }
-          >
-            Non lues{" "}
-            <span className="notif-tab-badge unread" id="notifTabUnread">
-              5
-            </span>
-          </button>
-          <button
-            className="notif-tab"
-            onClick={(event) =>
-              runLegacyHandler(event, "filterNotifPage('document', this)")
-            }
-          >
-            Documents
-          </button>
-          <button
-            className="notif-tab"
-            onClick={(event) =>
-              runLegacyHandler(event, "filterNotifPage('meeting', this)")
-            }
-          >
-            Réunions
-          </button>
-          <button
-            className="notif-tab"
-            onClick={(event) =>
-              runLegacyHandler(event, "filterNotifPage('rh', this)")
-            }
-          >
-            RH
-          </button>
-          <button
-            className="notif-tab"
-            onClick={(event) =>
-              runLegacyHandler(event, "filterNotifPage('system', this)")
-            }
-          >
-            Système
-          </button>
-          <button
-            className="notif-tab"
-            onClick={(event) =>
-              runLegacyHandler(event, "filterNotifPage('innovation', this)")
-            }
-          >
-            Innovation
-          </button>
+          {tabs.map((tab) => {
+            const count = badgeValue(tab);
+            return (
+              <button
+                key={tab.value}
+                className={`notif-tab${tab.active ? " active" : ""}`}
+                onClick={(event) =>
+                  runLegacyHandler(event, `filterNotifPage('${tab.value}', this)`)
+                }
+              >
+                {tabLabel(tab)}{" "}
+                {tab.badgeId && (
+                  <span className={`notif-tab-badge${tab.badgeClassName ? ` ${tab.badgeClassName}` : ""}`} id={tab.badgeId}>
+                    {count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
         {/* Notifications list */}
         <div className="notif-page-list" id="notifPageList">
@@ -110,7 +87,7 @@ export default function NotificationsSection() {
             data-lucide="bell-off"
             style={{ width: 48, height: 48, color: "#cbd5e1" }}
           />
-          <p>Aucune notification dans cette catégorie.</p>
+          <p>Aucune notification à afficher.</p>
         </div>
       </div>
       {/* ===== END NOTIFICATIONS VIEW ===== */}

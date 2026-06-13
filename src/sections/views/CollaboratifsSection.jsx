@@ -95,7 +95,7 @@ export default function CollaboratifsSection() {
                     runLegacyHandler(event, "toggleForumComposer(true)")
                   }
                 >
-                  {forums.newTopicLabel}
+                  Nouveau sujet
                 </button>
               }
             >
@@ -105,7 +105,7 @@ export default function CollaboratifsSection() {
                   <input
                     id="collabForumSearch"
                     className="actu-search-input"
-                    placeholder={forums.searchPlaceholder}
+                    placeholder="Rechercher dans les discussions..."
                     onInput={(event) =>
                       runLegacyHandler(event, "renderCollabForums()")
                     }
@@ -137,20 +137,20 @@ export default function CollaboratifsSection() {
                     runLegacyHandler(event, "toggleForumComposer(false)")
                   }
                 >
-                  {forums.closeLabel}
+                  Fermer
                 </button>
               </div>
               <div style={{ padding: 18 }}>
                 <input
                   id="forumTitle"
                   className="actu-search-input"
-                  placeholder={forums.titlePlaceholder}
+                  placeholder="Titre du sujet"
                 />
                 <textarea
                   id="forumBody"
                   className="actu-search-input"
                   style={{ marginTop: 12, height: 130, paddingTop: 10 }}
-                  placeholder={forums.bodyPlaceholder}
+                  placeholder="Votre message..."
                   defaultValue={""}
                 />
                 <div
@@ -167,7 +167,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "postForumThread()")
                     }
                   >
-                    {forums.publishLabel}
+                    Publier
                   </button>
                 </div>
               </div>
@@ -209,7 +209,7 @@ export default function CollaboratifsSection() {
                   <input
                     id="collabGroupSearch"
                     className="actu-search-input"
-                    placeholder={groupes.searchPlaceholder}
+                    placeholder="Rechercher un groupe..."
                     onInput={(event) =>
                       runLegacyHandler(event, "renderCollabGroups()")
                     }
@@ -277,7 +277,7 @@ export default function CollaboratifsSection() {
                     runLegacyHandler(event, "toggleCollabPostForm(true)")
                   }
                 >
-                  {echanges.publishLabel}
+                  Publier
                 </button>
               }
             >
@@ -293,7 +293,7 @@ export default function CollaboratifsSection() {
                   id="collabPostText"
                   className="actu-search-input"
                   style={{ height: 120, paddingTop: 10 }}
-                  placeholder={echanges.postPlaceholder}
+                  placeholder="Partager une information..."
                   defaultValue={""}
                 />
                 <div
@@ -310,7 +310,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "toggleCollabPostForm(false)")
                     }
                   >
-                    {echanges.cancelLabel}
+                    Annuler
                   </button>
                   <button
                     className="primary-btn"
@@ -318,7 +318,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "publishCollabPost()")
                     }
                   >
-                    {echanges.publishLabel}
+                    Publier
                   </button>
                 </div>
               </div>
@@ -346,7 +346,7 @@ export default function CollaboratifsSection() {
                   <input
                     id="collabCommentText"
                     className="actu-search-input"
-                    placeholder={echanges.commentPlaceholder}
+                    placeholder="Ajouter un commentaire..."
                     style={{ height: 40, paddingLeft: 14 }}
                   />
                   <button
@@ -355,7 +355,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "addCollabComment()")
                     }
                   >
-                    {echanges.commentLabel}
+                    Commenter
                   </button>
                 </div>
                 <div
@@ -384,7 +384,7 @@ export default function CollaboratifsSection() {
                   <input
                     id="collabRexSearch"
                     className="actu-search-input"
-                    placeholder={rex.searchPlaceholder}
+                    placeholder="Rechercher un REX..."
                     onInput={(event) =>
                       runLegacyHandler(event, "renderCollabRex()")
                     }
@@ -452,12 +452,12 @@ export default function CollaboratifsSection() {
                   <input
                     id="collabEventTitle"
                     className="actu-search-input"
-                    placeholder={animation.eventTitlePlaceholder}
+                    placeholder="Titre de l’événement"
                   />
                   <input
                     id="collabEventDate"
                     className="actu-search-input"
-                    placeholder={animation.eventDatePlaceholder}
+                    placeholder="Date de l’événement"
                     style={{ paddingLeft: 14 }}
                   />
                 </div>
@@ -465,7 +465,7 @@ export default function CollaboratifsSection() {
                   id="collabEventDesc"
                   className="actu-search-input"
                   style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                  placeholder={animation.eventDescriptionPlaceholder}
+                  placeholder="Description de l’événement..."
                   defaultValue={""}
                 />
                 <div
@@ -482,7 +482,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "createCollabEvent()")
                     }
                   >
-                    {animation.createLabel}
+                    Animer
                   </button>
                 </div>
                 <div
@@ -520,7 +520,7 @@ export default function CollaboratifsSection() {
                         runLegacyHandler(event, "joinCollabEvent()")
                       }
                     >
-                      {animation.joinLabel}
+                      Participer
                     </button>
                   </div>
                 </div>
@@ -547,7 +547,7 @@ export default function CollaboratifsSection() {
                     runLegacyHandler(event, "toggleCultureComposer(true)")
                   }
                 >
-                  {vieinterne.publishLabel}
+                  Publier
                 </button>
               }
             >
@@ -562,13 +562,13 @@ export default function CollaboratifsSection() {
                 <input
                   id="cultureTitle"
                   className="actu-search-input"
-                  placeholder={vieinterne.titlePlaceholder}
+                  placeholder="Titre de la publication"
                 />
                 <textarea
                   id="cultureBody"
                   className="actu-search-input"
                   style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                  placeholder={vieinterne.bodyPlaceholder}
+                  placeholder="Contenu de la publication..."
                   defaultValue={""}
                 />
                 <div
@@ -585,7 +585,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "toggleCultureComposer(false)")
                     }
                   >
-                    {vieinterne.cancelLabel}
+                    Annuler
                   </button>
                   <button
                     className="primary-btn"
@@ -593,7 +593,7 @@ export default function CollaboratifsSection() {
                       runLegacyHandler(event, "publishCulturePost()")
                     }
                   >
-                    {vieinterne.publishLabel}
+                    Publier
                   </button>
                 </div>
               </div>

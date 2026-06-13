@@ -1,16 +1,113 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
+function getKmData() {
+  const data = window.CMR_DATA?.data || {};
+  return {
+    header: data.kmHeader || {},
+    tabs: data.kmTabs || [],
+    pages: data.kmPages || {},
+  };
+}
+
+function Separator() {
+  return (
+    <span
+      style={{
+        color: "#cbd5e1",
+        fontWeight: 300,
+        fontSize: 18,
+        lineHeight: 1,
+        alignSelf: "center",
+        flexShrink: 0,
+      }}
+    >
+      |
+    </span>
+  );
+}
+
+function CardTitle({ page, titleKey = "title", iconKey = "icon", iconClassKey = "iconClass" }) {
+  return (
+    <div className="card-title">
+      <div className={`card-icon ${page[iconClassKey]}`}>
+        <i data-lucide={page[iconKey]} style={{ width: 20, height: 20 }} />
+      </div>
+      {page[titleKey]}
+    </div>
+  );
+}
+
+function DashboardCard({ page, children, action, titleKey, iconKey, iconClassKey, id, style }) {
+  return (
+    <div className="dashboard-card" id={id} style={style}>
+      <div className="card-header">
+        <CardTitle page={page} titleKey={titleKey} iconKey={iconKey} iconClassKey={iconClassKey} />
+        {action}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function SearchBlock({ id, placeholder, handler, maxWidth = 520 }) {
+  return (
+    <div style={{ padding: "14px 18px" }}>
+      <div className="actu-search-wrap" style={{ maxWidth }}>
+        <i data-lucide="search" className="actu-search-icon" />
+        <input
+          id={id}
+          type="text"
+          className="actu-search-input"
+          placeholder={placeholder}
+          onInput={(event) => runLegacyHandler(event, handler)}
+        />
+      </div>
+    </div>
+  );
+}
+
+function SimpleListPage({ id, page, listId, grid = false, children }) {
+  return (
+    <div id={`page-km-${id}`} className="km-tab-content" style={{ display: "none" }}>
+      <DashboardCard page={page}>
+        {children || <div id={listId} className={grid ? "km-grid" : "doc-list"} style={grid ? { padding: 18 } : { padding: "0 18px 18px 18px" }} />}
+      </DashboardCard>
+    </div>
+  );
+}
+
+function DetailPane({ id, cardId, page, titleKey = "detailTitle", iconKey = "detailIcon", iconClassKey = "detailIconClass", emptyKey = "emptyDetail" }) {
+  return (
+    <DashboardCard id={cardId} page={page} titleKey={titleKey} iconKey={iconKey} iconClassKey={iconClassKey}>
+      <div id={id} style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
+        {page[emptyKey]}
+      </div>
+    </DashboardCard>
+  );
+}
+
 export default function KmSection() {
+  const { header, tabs, pages } = getKmData();
+  const referentiels = pages.referentiels || {};
+  const rex = pages.rex || {};
+  const communautes = pages.communautes || {};
+  const amoa = pages.amoa || {};
+  const docs = pages.docs || {};
+  const contributions = pages.contributions || {};
+  const categorisation = pages.categorisation || {};
+  const ged = pages.ged || {};
+  const glpi = pages.glpi || {};
+  const stories = pages.stories || {};
+  const campagnes = pages.campagnes || {};
+  const regimesProcessus = pages["regimes-processus"] || {};
+
   return (
     <>
       <div id="view-km" className="view-section km-container">
         <div className="km-header">
-          <h2>Knowledge Management</h2>
-          <p>
-            Référentiels, capitalisation (REX), e‑learning, communautés,
-            structuration et accès GED/GLPI.
-          </p>
+          <h2>{header.title}</h2>
+          <p>{header.description}</p>
         </div>
         <div
           className="km-navbar"
@@ -25,1517 +122,275 @@ export default function KmSection() {
             flexWrap: "nowrap",
           }}
         >
-          <div
-            className="km-nav-item active"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('referentiels')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Référentiels métiers
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('glossaire')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Glossaire
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('rex')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            REX
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('elearning')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            E‑learning
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('pedagogie')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Pédagogie métier
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('communautes')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Communautés
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('amoa')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            AMOA / Conduite du changement
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('docs')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Docs formalisés
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('contributions')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Contributions
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('categorisation')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Catégorisation
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('livrables')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Livrables projets
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('modeles')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Modèles / formulaires
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('publications')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Articles / bilans
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('ged')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            GED
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('glpi')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            GLPI
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('supports')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Supports pédagogiques
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('stories')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Sources stories
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('campagnes')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Campagnes interaction
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('audit-risque')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Audit &amp; conformité
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('capsules-ux')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Capsules UX
-          </div>
-          <span
-            style={{
-              color: "#cbd5e1",
-              fontWeight: 300,
-              fontSize: 18,
-              lineHeight: 1,
-              alignSelf: "center",
-              flexShrink: 0,
-            }}
-          >
-            |
-          </span>
-          <div
-            className="km-nav-item"
-            onClick={(event) =>
-              runLegacyHandler(event, "switchPageKmTab('regimes-processus')")
-            }
-            style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-          >
-            Régimes &amp; processus
-          </div>
-        </div>
-        {/* TAB: RÉFÉRENTIELS MÉTIERS (Liste/dossier) */}
-        <div
-          id="page-km-referentiels"
-          className="km-tab-content"
-          style={{ display: "block" }}
-        >
-          <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
-          >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon purple">
-                    <i data-lucide="folder" style={{ width: 20, height: 20 }} />
-                  </div>
-                  Référentiels métiers
-                </div>
+          {tabs.map((tab, index) => (
+            <React.Fragment key={tab.id}>
+              {index > 0 && <Separator />}
+              <div
+                className={`km-nav-item${index === 0 ? " active" : ""}`}
+                onClick={(event) => runLegacyHandler(event, `switchPageKmTab('${tab.id}')`)}
+                style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
+              >
+                {tab.label}
               </div>
+            </React.Fragment>
+          ))}
+        </div>
+
+        <div id="page-km-referentiels" className="km-tab-content" style={{ display: "block" }}>
+          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+            <DashboardCard page={referentiels} titleKey="foldersTitle" iconKey="foldersIcon" iconClassKey="foldersIconClass">
               <div id="kmRefFolders" className="doc-list" />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Guides pratiques
-                </div>
-              </div>
-              <div style={{ padding: "14px 18px" }}>
-                <div className="actu-search-wrap" style={{ maxWidth: 420 }}>
-                  <i data-lucide="search" className="actu-search-icon" />
-                  <input
-                    id="kmRefSearch"
-                    type="text"
-                    className="actu-search-input"
-                    placeholder="Rechercher un guide…"
-                    onInput={(event) =>
-                      runLegacyHandler(event, "renderKmReferentiels()")
-                    }
-                  />
-                </div>
-              </div>
+            </DashboardCard>
+            <DashboardCard page={referentiels} titleKey="guidesTitle" iconKey="guidesIcon" iconClassKey="guidesIconClass">
+              <SearchBlock id="kmRefSearch" placeholder="Rechercher un référentiel..." handler="renderKmReferentiels()" maxWidth={420} />
               <div id="kmRefDocs" className="doc-list" />
-            </div>
+            </DashboardCard>
           </div>
         </div>
-        {/* TAB: GLOSSAIRE (Liste/index + recherche) */}
-        <div
-          id="page-km-glossaire"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon green">
-                  <i
-                    data-lucide="book-open"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Glossaire
-              </div>
-            </div>
-            <div style={{ padding: "14px 18px" }}>
-              <div className="actu-search-wrap" style={{ maxWidth: 520 }}>
-                <i data-lucide="search" className="actu-search-icon" />
-                <input
-                  id="kmGlossSearch"
-                  type="text"
-                  className="actu-search-input"
-                  placeholder="Rechercher un terme…"
-                  onInput={(event) =>
-                    runLegacyHandler(event, "renderKmGlossaire()")
-                  }
-                />
-              </div>
-            </div>
-            <div
-              id="kmGlossList"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
+
+        <div id="page-km-glossaire" className="km-tab-content" style={{ display: "none" }}>
+          <DashboardCard page={pages.glossaire || {}}>
+            <SearchBlock id="kmGlossSearch" placeholder="Rechercher un terme..." handler="renderKmGlossaire()" />
+            <div id="kmGlossList" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
+          </DashboardCard>
         </div>
-        {/* TAB: REX (Article/document + contribution) */}
-        <div
-          id="page-km-rex"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
-          >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon orange">
-                    <i
-                      data-lucide="sparkles"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Capitalisation (REX)
-                </div>
-                <button
-                  className="primary-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "toggleKmRexForm(true)")
-                  }
-                >
+
+        <div id="page-km-rex" className="km-tab-content" style={{ display: "none" }}>
+          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+            <DashboardCard
+              page={rex}
+              titleKey="listTitle"
+              iconKey="listIcon"
+              iconClassKey="listIconClass"
+              action={
+                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "toggleKmRexForm(true)")}>
                   Soumettre un REX
                 </button>
-              </div>
-              <div style={{ padding: "14px 18px" }}>
-                <div className="actu-search-wrap" style={{ maxWidth: 520 }}>
-                  <i data-lucide="search" className="actu-search-icon" />
-                  <input
-                    id="kmRexSearch"
-                    type="text"
-                    className="actu-search-input"
-                    placeholder="Rechercher un REX…"
-                    onInput={(event) =>
-                      runLegacyHandler(event, "renderKmRex()")
-                    }
-                  />
-                </div>
-              </div>
-              <div id="kmRexList" className="doc-list" />
-            </div>
-            <div
-              className="dashboard-card"
-              id="kmRexFormCard"
-              style={{ display: "none" }}
+              }
             >
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="square-pen"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Soumettre un REX
-                </div>
-                <button
-                  className="secondary-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "toggleKmRexForm(false)")
-                  }
-                >
+              <SearchBlock id="kmRexSearch" placeholder="Rechercher un REX..." handler="renderKmRex()" />
+              <div id="kmRexList" className="doc-list" />
+            </DashboardCard>
+            <DashboardCard
+              id="kmRexFormCard"
+              page={rex}
+              titleKey="formTitle"
+              iconKey="formIcon"
+              iconClassKey="formIconClass"
+              style={{ display: "none" }}
+              action={
+                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "toggleKmRexForm(false)")}>
                   Fermer
                 </button>
-              </div>
+              }
+            >
               <div style={{ padding: 18 }}>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: 12,
-                  }}
-                >
-                  <input
-                    id="kmRexTitle"
-                    className="actu-search-input"
-                    placeholder="Titre du REX"
-                  />
-                  <select
-                    id="kmRexTheme"
-                    className="actu-search-input"
-                    style={{ height: 40 }}
-                  >
-                    <option value="Projet">Projet</option>
-                    <option value="Processus">Processus</option>
-                    <option value="Outil">Outil</option>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <input id="kmRexTitle" className="actu-search-input" placeholder="Titre du REX" />
+                  <select id="kmRexTheme" className="actu-search-input" style={{ height: 40 }}>
+                    {(rex.themeOptions || []).map((theme) => (
+                      <option value={theme} key={theme}>
+                        {theme}
+                      </option>
+                    ))}
                   </select>
                 </div>
-                <textarea
-                  id="kmRexDesc"
-                  className="actu-search-input"
-                  style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                  placeholder="Description / leçons apprises…"
-                  defaultValue={""}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    gap: 10,
-                    marginTop: 12,
-                  }}
-                >
-                  <button
-                    className="primary-btn"
-                    onClick={(event) =>
-                      runLegacyHandler(event, "submitKmRex()")
-                    }
-                  >
+                <textarea id="kmRexDesc" className="actu-search-input" style={{ marginTop: 12, height: 120, paddingTop: 10 }} placeholder="Décrire le retour d'expérience..." defaultValue={""} />
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
+                  <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitKmRex()")}>
                     Envoyer
                   </button>
                 </div>
               </div>
-            </div>
-            <div className="dashboard-card" id="kmRexDetailCard">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon purple">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Détail REX
-                </div>
-              </div>
-              <div
-                id="kmRexDetail"
-                style={{
-                  padding: 18,
-                  color: "var(--text-light)",
-                  fontSize: 13,
-                }}
-              >
-                Sélectionnez un REX.
-              </div>
-            </div>
+            </DashboardCard>
+            <DetailPane id="kmRexDetail" cardId="kmRexDetailCard" page={rex} />
           </div>
         </div>
-        {/* TAB: E-LEARNING (Lecteur/galerie) */}
-        <div
-          id="page-km-elearning"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i
-                    data-lucide="play-circle"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                E‑learning
-              </div>
-            </div>
-            <div
-              id="kmElearningGrid"
-              className="km-grid"
-              style={{ padding: 18 }}
-            />
-          </div>
-        </div>
-        {/* TAB: PÉDAGOGIE MÉTIER (Page/carte) */}
-        <div
-          id="page-km-pedagogie"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon purple">
-                  <i
-                    data-lucide="book-open"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Pédagogie métier
-              </div>
-            </div>
-            <div
-              id="kmPedagogieGrid"
-              className="km-grid"
-              style={{ padding: 18 }}
-            />
-          </div>
-        </div>
-        {/* TAB: COMMUNAUTÉS (Forum/groupe) */}
-        <div
-          id="page-km-communautes"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
-          >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon green">
-                    <i data-lucide="users" style={{ width: 20, height: 20 }} />
-                  </div>
-                  Communautés de pratique
-                </div>
-              </div>
+
+        <SimpleListPage id="elearning" page={pages.elearning || {}} listId="kmElearningGrid" grid />
+        <SimpleListPage id="pedagogie" page={pages.pedagogie || {}} listId="kmPedagogieGrid" grid />
+
+        <div id="page-km-communautes" className="km-tab-content" style={{ display: "none" }}>
+          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+            <DashboardCard page={communautes} titleKey="communitiesTitle" iconKey="communitiesIcon" iconClassKey="communitiesIconClass">
               <div id="kmCommList" className="doc-list" />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon orange">
-                    <i
-                      data-lucide="message-circle"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Dernières discussions
-                </div>
-              </div>
+            </DashboardCard>
+            <DashboardCard page={communautes} titleKey="threadsTitle" iconKey="threadsIcon" iconClassKey="threadsIconClass">
               <div id="kmCommThreads" className="doc-list" />
-            </div>
+            </DashboardCard>
           </div>
         </div>
-        {/* TAB: AMOA (Page / liste) */}
-        <div
-          id="page-km-amoa"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
-          >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon purple">
-                    <i
-                      data-lucide="clipboard-list"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  AMOA / Conduite du changement
-                </div>
-              </div>
+
+        <div id="page-km-amoa" className="km-tab-content" style={{ display: "none" }}>
+          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+            <DashboardCard page={amoa} titleKey="listTitle" iconKey="listIcon" iconClassKey="listIconClass">
               <div className="doc-list" id="kmAmoaList" />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Détail
-                </div>
-              </div>
-              <div
-                id="kmAmoaDetail"
-                style={{
-                  padding: 18,
-                  color: "var(--text-light)",
-                  fontSize: 13,
-                }}
-              >
-                Sélectionnez un élément.
-              </div>
-            </div>
+            </DashboardCard>
+            <DetailPane id="kmAmoaDetail" page={amoa} />
           </div>
         </div>
-        {/* TAB: DOCS FORMALISÉS (Liste/dossier) */}
-        <div
-          id="page-km-docs"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
-          >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="folder-open"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Documents formalisés
-                </div>
-              </div>
+
+        <div id="page-km-docs" className="km-tab-content" style={{ display: "none" }}>
+          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+            <DashboardCard page={docs} titleKey="foldersTitle" iconKey="foldersIcon" iconClassKey="foldersIconClass">
               <div id="kmDocsFolders" className="doc-list" />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon green">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Liste
-                </div>
-              </div>
+            </DashboardCard>
+            <DashboardCard page={docs} titleKey="listTitle" iconKey="listIcon" iconClassKey="listIconClass">
               <div id="kmDocsList" className="doc-list" />
-            </div>
+            </DashboardCard>
           </div>
         </div>
-        {/* TAB: CONTRIBUTIONS (Formulaire/liste) */}
-        <div
-          id="page-km-contributions"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
-          >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon orange">
-                    <i
-                      data-lucide="message-square-plus"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Contributions terrain
-                </div>
-                <button
-                  className="primary-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "toggleKmContributionForm(true)")
-                  }
-                >
+
+        <div id="page-km-contributions" className="km-tab-content" style={{ display: "none" }}>
+          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+            <DashboardCard
+              page={contributions}
+              titleKey="listTitle"
+              iconKey="listIcon"
+              iconClassKey="listIconClass"
+              action={
+                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "toggleKmContributionForm(true)")}>
                   Contribuer
                 </button>
-              </div>
-              <div id="kmContribList" className="doc-list" />
-            </div>
-            <div
-              className="dashboard-card"
-              id="kmContribFormCard"
-              style={{ display: "none" }}
+              }
             >
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="square-pen"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Nouvelle contribution
-                </div>
-                <button
-                  className="secondary-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "toggleKmContributionForm(false)")
-                  }
-                >
+              <div id="kmContribList" className="doc-list" />
+            </DashboardCard>
+            <DashboardCard
+              id="kmContribFormCard"
+              page={contributions}
+              titleKey="formTitle"
+              iconKey="formIcon"
+              iconClassKey="formIconClass"
+              style={{ display: "none" }}
+              action={
+                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "toggleKmContributionForm(false)")}>
                   Fermer
                 </button>
-              </div>
+              }
+            >
               <div style={{ padding: 18 }}>
-                <input
-                  id="kmContribTitle"
-                  className="actu-search-input"
-                  placeholder="Titre"
-                />
-                <textarea
-                  id="kmContribBody"
-                  className="actu-search-input"
-                  style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                  placeholder="Votre contribution…"
-                  defaultValue={""}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    gap: 10,
-                    marginTop: 12,
-                  }}
-                >
-                  <button
-                    className="primary-btn"
-                    onClick={(event) =>
-                      runLegacyHandler(event, "submitKmContribution()")
-                    }
-                  >
+                <input id="kmContribTitle" className="actu-search-input" placeholder="Titre de la contribution" />
+                <textarea id="kmContribBody" className="actu-search-input" style={{ marginTop: 12, height: 120, paddingTop: 10 }} placeholder="Contenu de la contribution..." defaultValue={""} />
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
+                  <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitKmContribution()")}>
                     Envoyer
                   </button>
                 </div>
               </div>
-            </div>
-            <div className="dashboard-card" id="kmContribDetailCard">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon purple">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Détail
-                </div>
-              </div>
-              <div
-                id="kmContribDetail"
-                style={{
-                  padding: 18,
-                  color: "var(--text-light)",
-                  fontSize: 13,
-                }}
-              >
-                Sélectionnez une contribution.
-              </div>
-            </div>
+            </DashboardCard>
+            <DetailPane id="kmContribDetail" cardId="kmContribDetailCard" page={contributions} />
           </div>
         </div>
-        {/* TAB: CATÉGORISATION (Navigation / filtres) */}
-        <div
-          id="page-km-categorisation"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon green">
-                  <i
-                    data-lucide="sliders-horizontal"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Catégorisation &amp; filtres
-              </div>
-            </div>
+
+        <div id="page-km-categorisation" className="km-tab-content" style={{ display: "none" }}>
+          <DashboardCard page={categorisation}>
             <div style={{ padding: 18 }}>
-              <p
-                style={{
-                  margin: "0 0 14px 0",
-                  fontSize: 13,
-                  color: "var(--text-light)",
-                }}
-              >
-                Filtrer les contenus KM par thématique / type / entité
-                (navigation &amp; filtres).
+              <p style={{ margin: "0 0 14px 0", fontSize: 13, color: "var(--text-light)" }}>
+                {categorisation.description}
               </p>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <button
-                  className="actu-filter-btn active"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "filterKmCatalogue('all', this)")
-                  }
-                >
-                  Tous
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "filterKmCatalogue('Document', this)",
-                    )
-                  }
-                >
-                  Documents
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "filterKmCatalogue('Article', this)",
-                    )
-                  }
-                >
-                  Articles
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "filterKmCatalogue('Media', this)")
-                  }
-                >
-                  Média
-                </button>
-                <button
-                  className="actu-filter-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(event, "filterKmCatalogue('Forum', this)")
-                  }
-                >
-                  Forum
-                </button>
+                {(categorisation.filters || []).map((filter) => (
+                  <button
+                    key={filter.value}
+                    className={`actu-filter-btn${filter.active ? " active" : ""}`}
+                    onClick={(event) => runLegacyHandler(event, `filterKmCatalogue('${filter.value}', this)`)}
+                  >
+                    {filter.label}
+                  </button>
+                ))}
               </div>
               <div style={{ marginTop: 14 }} className="actu-search-wrap">
                 <i data-lucide="search" className="actu-search-icon" />
-                <input
-                  id="kmCatSearch"
-                  type="text"
-                  className="actu-search-input"
-                  placeholder="Rechercher dans KM…"
-                  onInput={(event) =>
-                    runLegacyHandler(event, "renderKmCatalogue()")
-                  }
-                />
+                <input id="kmCatSearch" type="text" className="actu-search-input" placeholder="Rechercher dans le catalogue..." onInput={(event) => runLegacyHandler(event, "renderKmCatalogue()")} />
               </div>
             </div>
-            <div
-              id="kmCatalogueList"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
+            <div id="kmCatalogueList" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
+          </DashboardCard>
         </div>
-        {/* TAB: LIVRABLES (Dossier / accès) */}
-        <div
-          id="page-km-livrables"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i data-lucide="package" style={{ width: 20, height: 20 }} />
-                </div>
-                Livrables projets
-              </div>
-            </div>
-            <div
-              id="kmLivrablesList"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
-        </div>
-        {/* TAB: MODÈLES (Liste + téléchargement) */}
-        <div
-          id="page-km-modeles"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon purple">
-                  <i
-                    data-lucide="layout-template"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Modèles / formulaires
-              </div>
-            </div>
-            <div
-              id="kmModelesList"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
-        </div>
-        {/* TAB: PUBLICATIONS (Liste/page) */}
-        <div
-          id="page-km-publications"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon orange">
-                  <i
-                    data-lucide="newspaper"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Articles / bilans
-              </div>
-            </div>
-            <div
-              id="kmPubList"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
-        </div>
-        {/* TAB: GED (Accès GED / intégration) */}
-        <div
-          id="page-km-ged"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i data-lucide="database" style={{ width: 20, height: 20 }} />
-                </div>
-                GED (intégration / accès)
-              </div>
-            </div>
+
+        <SimpleListPage id="livrables" page={pages.livrables || {}} listId="kmLivrablesList" />
+        <SimpleListPage id="modeles" page={pages.modeles || {}} listId="kmModelesList" />
+        <SimpleListPage id="publications" page={pages.publications || {}} listId="kmPubList" />
+
+        <div id="page-km-ged" className="km-tab-content" style={{ display: "none" }}>
+          <DashboardCard page={ged}>
             <div style={{ padding: 18 }}>
-              <p
-                style={{
-                  margin: 0,
-                  color: "var(--text-light)",
-                  fontSize: 13,
-                  lineHeight: "1.7",
-                }}
-              >
-                Accès à la GED (ex: OpenText). Cette section sert de point
-                d’entrée et de recherche fédérée.
+              <p style={{ margin: 0, color: "var(--text-light)", fontSize: 13, lineHeight: "1.7" }}>
+                {ged.description}
               </p>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 10,
-                  flexWrap: "wrap",
-                  marginTop: 14,
-                }}
-              >
-                <button
-                  className="primary-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "openMockDownload('Guide_Connexion_GED.pdf','Guide connexion GED')",
-                    )
-                  }
-                >
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
+                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, ged.primaryActionHandler)}>
                   Guide de connexion
                 </button>
-                <button
-                  className="secondary-btn"
-                  onClick={(event) =>
-                    runLegacyHandler(
-                      event,
-                      "openMockDownload('Convention_Nommage.pdf','Convention de nommage')",
-                    )
-                  }
-                >
+                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, ged.secondaryActionHandler)}>
                   Convention de nommage
                 </button>
               </div>
             </div>
-          </div>
+          </DashboardCard>
         </div>
-        {/* TAB: GLPI (Accès GLPI) */}
-        <div
-          id="page-km-glpi"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon green">
-                  <i
-                    data-lucide="life-buoy"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                GLPI (support / incidents)
-              </div>
-            </div>
+
+        <div id="page-km-glpi" className="km-tab-content" style={{ display: "none" }}>
+          <DashboardCard page={glpi}>
             <div style={{ padding: 18 }}>
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-                <div
-                  style={{
-                    flex: 1,
-                    minWidth: 260,
-                    background: "#f8fafc",
-                    border: "1px solid #e2e8f0",
-                    borderRadius: 14,
-                    padding: 16,
-                  }}
-                >
-                  <div style={{ fontWeight: 900, color: "#0f172a" }}>
-                    Consulter des tickets
-                  </div>
-                  <p
-                    style={{
-                      margin: "8px 0 0 0",
-                      color: "var(--text-light)",
-                      fontSize: 12,
-                      lineHeight: "1.6",
-                    }}
-                  >
-                    Widget / liste des incidents (maquette).
+                <div style={{ flex: 1, minWidth: 260, background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 14, padding: 16 }}>
+                  <div style={{ fontWeight: 900, color: "#0f172a" }}>{glpi.ticketsTitle}</div>
+                  <p style={{ margin: "8px 0 0 0", color: "var(--text-light)", fontSize: 12, lineHeight: "1.6" }}>
+                    {glpi.ticketsDescription}
                   </p>
-                  <div
-                    style={{ marginTop: 12 }}
-                    className="doc-list"
-                    id="kmGlpiTickets"
-                  />
+                  <div style={{ marginTop: 12 }} className="doc-list" id="kmGlpiTickets" />
                 </div>
-                <div
-                  style={{
-                    flex: 1,
-                    minWidth: 260,
-                    background: "#fff",
-                    border: "1px solid #e2e8f0",
-                    borderRadius: 14,
-                    padding: 16,
-                  }}
-                >
-                  <div style={{ fontWeight: 900, color: "#0f172a" }}>
-                    Créer une demande
-                  </div>
-                  <p
-                    style={{
-                      margin: "8px 0 0 0",
-                      color: "var(--text-light)",
-                      fontSize: 12,
-                      lineHeight: "1.6",
-                    }}
-                  >
-                    Formulaire (maquette).
+                <div style={{ flex: 1, minWidth: 260, background: "#fff", border: "1px solid #e2e8f0", borderRadius: 14, padding: 16 }}>
+                  <div style={{ fontWeight: 900, color: "#0f172a" }}>{glpi.requestTitle}</div>
+                  <p style={{ margin: "8px 0 0 0", color: "var(--text-light)", fontSize: 12, lineHeight: "1.6" }}>
+                    {glpi.requestDescription}
                   </p>
-                  <input
-                    id="kmGlpiTitle"
-                    className="actu-search-input"
-                    placeholder="Objet"
-                  />
-                  <textarea
-                    id="kmGlpiDesc"
-                    className="actu-search-input"
-                    style={{ marginTop: 12, height: 110, paddingTop: 10 }}
-                    placeholder="Description…"
-                    defaultValue={""}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      marginTop: 12,
-                    }}
-                  >
-                    <button
-                      className="primary-btn"
-                      onClick={(event) =>
-                        runLegacyHandler(event, "submitKmGlpi()")
-                      }
-                    >
+                  <input id="kmGlpiTitle" className="actu-search-input" placeholder="Objet de la demande" />
+                  <textarea id="kmGlpiDesc" className="actu-search-input" style={{ marginTop: 12, height: 110, paddingTop: 10 }} placeholder="Décrire la demande..." defaultValue={""} />
+                  <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
+                    <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitKmGlpi()")}>
                       Envoyer
                     </button>
                   </div>
                 </div>
               </div>
             </div>
+          </DashboardCard>
+        </div>
+
+        <SimpleListPage id="supports" page={pages.supports || {}} listId="kmSupportsGrid" grid />
+
+        <div id="page-km-stories" className="km-tab-content" style={{ display: "none" }}>
+          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.6fr 1.4fr", gap: 24 }}>
+            <DashboardCard page={stories} titleKey="listTitle" iconKey="listIcon" iconClassKey="listIconClass">
+              <div id="kmStoriesGrid" style={{ padding: 18, display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: 12 }} />
+            </DashboardCard>
+            <DashboardCard page={stories} titleKey="highlightTitle" iconKey="highlightIcon" iconClassKey="highlightIconClass">
+              <div id="kmStoriesHighlight" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
+            </DashboardCard>
           </div>
         </div>
-        {/* TAB: SUPPORTS PÉDAGOGIQUES (Galerie/liste) */}
-        <div
-          id="page-km-supports"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon pink">
-                  <i
-                    data-lucide="graduation-cap"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Supports pédagogiques
-              </div>
-            </div>
-            <div
-              id="kmSupportsGrid"
-              className="km-grid"
-              style={{ padding: 18 }}
-            />
-          </div>
-        </div>
-        {/* TAB: SOURCES STORIES (Cards/carrousel) */}
-        <div
-          id="page-km-stories"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.6fr 1.4fr", gap: 24 }}
-          >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon orange">
-                    <i
-                      data-lucide="sparkles"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Sources stories
-                </div>
-              </div>
-              <div
-                id="kmStoriesGrid"
-                style={{
-                  padding: 18,
-                  display: "grid",
-                  gridTemplateColumns: "repeat(2,minmax(0,1fr))",
-                  gap: 12,
-                }}
-              />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="newspaper"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  À valoriser
-                </div>
-              </div>
-              <div
-                id="kmStoriesHighlight"
-                className="doc-list"
-                style={{ padding: "0 18px 18px 18px" }}
-              />
-            </div>
-          </div>
-        </div>
-        {/* TAB: CAMPAGNES D'INTERACTION (Formulaire/sondage) */}
-        <div
-          id="page-km-campagnes"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
-          >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon green">
-                    <i
-                      data-lucide="message-square-plus"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Campagnes de collecte
-                </div>
-              </div>
+
+        <div id="page-km-campagnes" className="km-tab-content" style={{ display: "none" }}>
+          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+            <DashboardCard page={campagnes} titleKey="listTitle" iconKey="listIcon" iconClassKey="listIconClass">
               <div id="kmCampagnesList" className="doc-list" />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon purple">
-                    <i
-                      data-lucide="clipboard-list"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Participer
-                </div>
-              </div>
-              <div
-                id="kmCampagnesDetail"
-                style={{
-                  padding: 18,
-                  color: "var(--text-light)",
-                  fontSize: 13,
-                }}
-              >
-                Sélectionnez une campagne.
-              </div>
-            </div>
+            </DashboardCard>
+            <DetailPane id="kmCampagnesDetail" page={campagnes} />
           </div>
         </div>
-        {/* TAB: AUDIT & CONFORMITÉ */}
-        <div
-          id="page-km-audit-risque"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon blue">
-                  <i
-                    data-lucide="shield-check"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Audit &amp; conformité
-              </div>
-            </div>
-            <div
-              id="kmAuditRisqueList"
-              className="doc-list"
-              style={{ padding: "0 18px 18px 18px" }}
-            />
-          </div>
-        </div>
-        {/* TAB: CAPSULES UX */}
-        <div
-          id="page-km-capsules-ux"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="dashboard-card">
-            <div className="card-header">
-              <div className="card-title">
-                <div className="card-icon orange">
-                  <i
-                    data-lucide="play-circle"
-                    style={{ width: 20, height: 20 }}
-                  />
-                </div>
-                Capsules UX projet SI
-              </div>
-            </div>
-            <div
-              id="kmCapsulesUxGrid"
-              className="km-grid"
-              style={{ padding: 18 }}
-            />
-          </div>
-        </div>
-        {/* TAB: RÉGIMES & PROCESSUS */}
-        <div
-          id="page-km-regimes-processus"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
-          >
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon green">
-                    <i
-                      data-lucide="network"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Régimes &amp; processus
-                </div>
-              </div>
+
+        <SimpleListPage id="audit-risque" page={pages["audit-risque"] || {}} listId="kmAuditRisqueList" />
+        <SimpleListPage id="capsules-ux" page={pages["capsules-ux"] || {}} listId="kmCapsulesUxGrid" grid />
+
+        <div id="page-km-regimes-processus" className="km-tab-content" style={{ display: "none" }}>
+          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+            <DashboardCard page={regimesProcessus} titleKey="listTitle" iconKey="listIcon" iconClassKey="listIconClass">
               <div id="kmRegimesProcessList" className="doc-list" />
-            </div>
-            <div className="dashboard-card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="card-icon blue">
-                    <i
-                      data-lucide="file-text"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </div>
-                  Détail métier
-                </div>
-              </div>
-              <div
-                id="kmRegimesProcessDetail"
-                style={{
-                  padding: 18,
-                  color: "var(--text-light)",
-                  fontSize: 13,
-                }}
-              >
-                Sélectionnez un contenu métier.
-              </div>
-            </div>
+            </DashboardCard>
+            <DetailPane id="kmRegimesProcessDetail" page={regimesProcessus} />
           </div>
         </div>
       </div>

@@ -3,12 +3,15 @@
   "updatedAt": "2026-06-08",
   "mode": "split-by-space",
   "spaces": [
+    "spaces/header.json",
     "spaces/navigation.json",
+    "spaces/modals.json",
     "spaces/dashboard.json",
     "spaces/applis.json",
     "spaces/achats.json",
     "spaces/actualites.json",
     "spaces/notifications.json",
+    "spaces/agenda-interne.json",
     "spaces/annuaire.json",
     "spaces/organisation.json",
     "spaces/rh.json",
@@ -23,6 +26,7 @@
     "spaces/reglementation.json",
     "spaces/documentaires.json",
     "spaces/collaboratifs.json",
+    "spaces/projets.json",
     "spaces/mediatheque.json",
     "spaces/admin.json",
     "spaces/km.json"

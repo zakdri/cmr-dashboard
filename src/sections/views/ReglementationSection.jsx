@@ -119,7 +119,7 @@ export default function ReglementationSection() {
             <div style={{ padding: 18 }}>
               <SearchInput
                 id="regTextesSearch"
-                placeholder={pages.textes?.searchPlaceholder}
+                placeholder="Rechercher un texte..."
                 onInput="renderRegTextes()"
               />
               <FilterButtons
@@ -148,7 +148,7 @@ export default function ReglementationSection() {
             <div style={{ padding: 18 }}>
               <SearchInput
                 id="regProcSearch"
-                placeholder={pages.procedures?.searchPlaceholder}
+                placeholder="Rechercher une procédure..."
                 onInput="renderRegProcedures()"
               />
               <div id="regProceduresList" className="doc-list" />
@@ -172,7 +172,7 @@ export default function ReglementationSection() {
                 <input
                   id="regGlobalSearch"
                   className="actu-search-input"
-                  placeholder={pages.moteur?.searchPlaceholder}
+                  placeholder="Recherche globale..."
                   onInput={(event) =>
                     runLegacyHandler(event, "renderRegGlobalSearch()")
                   }
@@ -262,7 +262,7 @@ export default function ReglementationSection() {
                     runLegacyHandler(event, "regCreateContent()")
                   }
                 >
-                  {pages.gestion?.createLabel}
+                  Créer un contenu
                 </button>
                 <button
                   className="secondary-btn"
@@ -270,7 +270,7 @@ export default function ReglementationSection() {
                     runLegacyHandler(event, "renderRegGestion()")
                   }
                 >
-                  {pages.gestion?.refreshLabel}
+                  Rafraîchir
                 </button>
               </div>
               <div
@@ -360,7 +360,7 @@ export default function ReglementationSection() {
               <SearchInput
                 id="regArchiveTag"
                 icon="filter"
-                placeholder={pages.archives?.searchPlaceholder}
+                placeholder="Rechercher dans les archives..."
                 onInput="renderRegArchives()"
               />
               <div id="regArchivesList" className="doc-list" />

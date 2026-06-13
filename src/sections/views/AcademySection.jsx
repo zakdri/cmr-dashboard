@@ -96,7 +96,7 @@ export default function AcademySection() {
                       marginBottom: 4,
                     }}
                   >
-                    <span>{formation.progressLabel}</span>
+                    <span>Progression</span>
                     <span>{formation.progress}</span>
                   </div>
                   <div

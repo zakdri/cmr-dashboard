@@ -55,7 +55,7 @@ export default function AnnuaireSection() {
           }}
         >
           <div className="app-category-title" style={{ margin: 0 }}>
-            {labels.searchTitle}
+            Recherche
           </div>
           <div
             style={{
@@ -73,7 +73,7 @@ export default function AnnuaireSection() {
                 id="annuaireSearchInput"
                 type="text"
                 className="actu-search-input"
-                placeholder={labels.searchPlaceholder}
+                placeholder="Rechercher un collaborateur..."
                 onInput={(event) =>
                   runLegacyHandler(event, "renderAnnuaireList()")
                 }
@@ -95,7 +95,7 @@ export default function AnnuaireSection() {
                 minWidth: 190,
               }}
             >
-              <option value="">{labels.allDirectionsLabel}</option>
+              <option value="">Toutes les entités</option>
             </select>
             <select
               id="annuaireFonctionFilter"
@@ -113,7 +113,7 @@ export default function AnnuaireSection() {
                 minWidth: 190,
               }}
             >
-              <option value="">{labels.allFunctionsLabel}</option>
+              <option value="">Toutes les fonctions</option>
             </select>
             <button
               className="secondary-btn"
@@ -121,7 +121,7 @@ export default function AnnuaireSection() {
                 runLegacyHandler(event, "resetAnnuaireFilters()")
               }
             >
-              {labels.resetLabel}
+              Réinitialiser
             </button>
           </div>
         </div>
@@ -135,7 +135,7 @@ export default function AnnuaireSection() {
                 <div className="card-icon blue">
                   <i data-lucide="users" style={{ width: 20, height: 20 }} />
                 </div>
-                {labels.resultsTitle}
+                Résultats
               </div>
               <div
                 id="annuaireCount"
@@ -145,7 +145,7 @@ export default function AnnuaireSection() {
                   fontWeight: 700,
                 }}
               >
-                {labels.initialCount}
+                0 collaborateur
               </div>
             </div>
             <div id="annuaireList" className="doc-list" />
@@ -156,14 +156,14 @@ export default function AnnuaireSection() {
                 <div className="card-icon green">
                   <i data-lucide="user" style={{ width: 20, height: 20 }} />
                 </div>
-                {labels.profileTitle}
+                Fiche collaborateur
               </div>
             </div>
             <div
               id="annuaireDetail"
               style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}
             >
-              {labels.emptyDetail}
+              Sélectionnez un collaborateur pour afficher sa fiche.
             </div>
           </div>
         </div>

@@ -2,6 +2,238 @@
   "space": "km",
   "updatedAt": "2026-06-08",
   "data": {
+    "kmHeader": {
+      "title": "Knowledge Management",
+      "description": "Référentiels, capitalisation (REX), e‑learning, communautés, structuration et accès GED/GLPI."
+    },
+    "kmTabs": [
+      { "id": "referentiels", "label": "Référentiels métiers" },
+      { "id": "glossaire", "label": "Glossaire" },
+      { "id": "rex", "label": "REX" },
+      { "id": "elearning", "label": "E‑learning" },
+      { "id": "pedagogie", "label": "Pédagogie métier" },
+      { "id": "communautes", "label": "Communautés" },
+      { "id": "amoa", "label": "AMOA / Conduite du changement" },
+      { "id": "docs", "label": "Docs formalisés" },
+      { "id": "contributions", "label": "Contributions" },
+      { "id": "categorisation", "label": "Catégorisation" },
+      { "id": "livrables", "label": "Livrables projets" },
+      { "id": "modeles", "label": "Modèles / formulaires" },
+      { "id": "publications", "label": "Articles / bilans" },
+      { "id": "ged", "label": "GED" },
+      { "id": "glpi", "label": "GLPI" },
+      { "id": "supports", "label": "Supports pédagogiques" },
+      { "id": "stories", "label": "Sources stories" },
+      { "id": "campagnes", "label": "Campagnes interaction" },
+      { "id": "audit-risque", "label": "Audit & conformité" },
+      { "id": "capsules-ux", "label": "Capsules UX" },
+      { "id": "regimes-processus", "label": "Régimes & processus" }
+    ],
+    "kmPages": {
+      "referentiels": {
+        "foldersTitle": "Référentiels métiers",
+        "foldersIcon": "folder",
+        "foldersIconClass": "purple",
+        "guidesTitle": "Guides pratiques",
+        "guidesIcon": "file-text",
+        "guidesIconClass": "blue",
+        "searchPlaceholder": "Rechercher un guide…"
+      },
+      "glossaire": {
+        "title": "Glossaire",
+        "icon": "book-open",
+        "iconClass": "green",
+        "searchPlaceholder": "Rechercher un terme…"
+      },
+      "rex": {
+        "listTitle": "Capitalisation (REX)",
+        "listIcon": "sparkles",
+        "listIconClass": "orange",
+        "submitLabel": "Soumettre un REX",
+        "searchPlaceholder": "Rechercher un REX…",
+        "formTitle": "Soumettre un REX",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre du REX",
+        "themeOptions": ["Projet", "Processus", "Outil"],
+        "descriptionPlaceholder": "Description / leçons apprises…",
+        "sendLabel": "Envoyer",
+        "detailTitle": "Détail REX",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez un REX."
+      },
+      "elearning": {
+        "title": "E‑learning",
+        "icon": "play-circle",
+        "iconClass": "blue"
+      },
+      "pedagogie": {
+        "title": "Pédagogie métier",
+        "icon": "book-open",
+        "iconClass": "purple"
+      },
+      "communautes": {
+        "communitiesTitle": "Communautés de pratique",
+        "communitiesIcon": "users",
+        "communitiesIconClass": "green",
+        "threadsTitle": "Dernières discussions",
+        "threadsIcon": "message-circle",
+        "threadsIconClass": "orange"
+      },
+      "amoa": {
+        "listTitle": "AMOA / Conduite du changement",
+        "listIcon": "clipboard-list",
+        "listIconClass": "purple",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "blue",
+        "emptyDetail": "Sélectionnez un élément."
+      },
+      "docs": {
+        "foldersTitle": "Documents formalisés",
+        "foldersIcon": "folder-open",
+        "foldersIconClass": "blue",
+        "listTitle": "Liste",
+        "listIcon": "file-text",
+        "listIconClass": "green"
+      },
+      "contributions": {
+        "listTitle": "Contributions terrain",
+        "listIcon": "message-square-plus",
+        "listIconClass": "orange",
+        "submitLabel": "Contribuer",
+        "formTitle": "Nouvelle contribution",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre",
+        "bodyPlaceholder": "Votre contribution…",
+        "sendLabel": "Envoyer",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une contribution."
+      },
+      "categorisation": {
+        "title": "Catégorisation & filtres",
+        "icon": "sliders-horizontal",
+        "iconClass": "green",
+        "description": "Filtrer les contenus KM par thématique / type / entité (navigation & filtres).",
+        "searchPlaceholder": "Rechercher dans KM…",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Documents", "value": "Document" },
+          { "label": "Articles", "value": "Article" },
+          { "label": "Média", "value": "Media" },
+          { "label": "Forum", "value": "Forum" }
+        ]
+      },
+      "livrables": {
+        "title": "Livrables projets",
+        "icon": "package",
+        "iconClass": "blue"
+      },
+      "modeles": {
+        "title": "Modèles / formulaires",
+        "icon": "layout-template",
+        "iconClass": "purple"
+      },
+      "publications": {
+        "title": "Articles / bilans",
+        "icon": "newspaper",
+        "iconClass": "orange"
+      },
+      "ged": {
+        "title": "GED (intégration / accès)",
+        "icon": "database",
+        "iconClass": "blue",
+        "description": "Accès à la GED (ex: OpenText). Cette section sert de point d’entrée et de recherche fédérée.",
+        "primaryActionLabel": "Guide de connexion",
+        "primaryActionHandler": "openMockDownload('Guide_Connexion_GED.pdf','Guide connexion GED')",
+        "secondaryActionLabel": "Convention de nommage",
+        "secondaryActionHandler": "openMockDownload('Convention_Nommage.pdf','Convention de nommage')"
+      },
+      "glpi": {
+        "title": "GLPI (support / incidents)",
+        "icon": "life-buoy",
+        "iconClass": "green",
+        "ticketsTitle": "Consulter des tickets",
+        "ticketsDescription": "Widget / liste des incidents (maquette).",
+        "requestTitle": "Créer une demande",
+        "requestDescription": "Formulaire (maquette).",
+        "titlePlaceholder": "Objet",
+        "descriptionPlaceholder": "Description…",
+        "sendLabel": "Envoyer"
+      },
+      "supports": {
+        "title": "Supports pédagogiques",
+        "icon": "graduation-cap",
+        "iconClass": "pink"
+      },
+      "stories": {
+        "listTitle": "Sources stories",
+        "listIcon": "sparkles",
+        "listIconClass": "orange",
+        "highlightTitle": "À valoriser",
+        "highlightIcon": "newspaper",
+        "highlightIconClass": "blue"
+      },
+      "campagnes": {
+        "listTitle": "Campagnes de collecte",
+        "listIcon": "message-square-plus",
+        "listIconClass": "green",
+        "detailTitle": "Participer",
+        "detailIcon": "clipboard-list",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une campagne."
+      },
+      "audit-risque": {
+        "title": "Audit & conformité",
+        "icon": "shield-check",
+        "iconClass": "blue"
+      },
+      "capsules-ux": {
+        "title": "Capsules UX projet SI",
+        "icon": "play-circle",
+        "iconClass": "orange"
+      },
+      "regimes-processus": {
+        "listTitle": "Régimes & processus",
+        "listIcon": "network",
+        "listIconClass": "green",
+        "detailTitle": "Détail métier",
+        "detailIcon": "file-text",
+        "detailIconClass": "blue",
+        "emptyDetail": "Sélectionnez un contenu métier."
+      }
+    },
+    "kmLabels": {
+      "documentsLabel": "documents",
+      "consultLabel": "Consulter",
+      "joinLabel": "Rejoindre",
+      "membersLabel": "Membres",
+      "threadsLabel": "discussions",
+      "startLabel": "Ouvrir",
+      "downloadLabel": "Télécharger",
+      "readLabel": "Lire",
+      "todayLabel": "Aujourd’hui",
+      "defaultRexTheme": "Projet",
+      "newTicketStatus": "Ouvert • P3",
+      "sentTicketStatus": "Envoyé • Nouveau",
+      "detailButtonLabel": "Détail",
+      "emptyTermLabel": "Aucun terme.",
+      "emptyRexLabel": "Aucun REX.",
+      "emptyContentLabel": "Aucun contenu.",
+      "responsesLabel": "réponses",
+      "participationsLabel": "Participations",
+      "audienceLabel": "Audience",
+      "channelLabel": "Canal",
+      "channelValue": "Formulaire / sondage",
+      "participateLabel": "Participer",
+      "selectedLabel": "Sélectionné"
+    },
     "kmReferentiels": [
       {
         "id": "metiers",

@@ -119,7 +119,7 @@ export default function MediathequeSection() {
                   <input
                     id="mediaGlobalSearch"
                     className="actu-search-input"
-                    placeholder={pages.home?.searchPlaceholder}
+                    placeholder="Rechercher dans la médiathèque..."
                     onInput={(event) => runLegacyHandler(event, "renderMediaSearch()")}
                   />
                 </div>
@@ -131,10 +131,10 @@ export default function MediathequeSection() {
                 <div id="mediaCarousel" style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: 12 }} />
                 <div style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
                   <button className="actu-filter-btn" onClick={(event) => runLegacyHandler(event, "rotateMediaCarousel()")}>
-                    {pages.home?.rotateLabel}
+                    Actualiser
                   </button>
                   <button className="primary-btn" onClick={(event) => runLegacyHandler(event, pages.home?.consultHandler)}>
-                    {pages.home?.consultLabel}
+                    Consulter
                   </button>
                 </div>
               </div>
@@ -144,7 +144,7 @@ export default function MediathequeSection() {
         <div id="page-media-images" className="km-tab-content" style={{ display: "none" }}>
           <DashboardCard page={pages.images || {}}>
             <div style={{ padding: 18 }}>
-              <SearchInput id="mediaImgSearch" placeholder={pages.images?.searchPlaceholder} handler="renderMediaImages()" marginBottom={12} />
+              <SearchInput id="mediaImgSearch" placeholder="Rechercher une image..." handler="renderMediaImages()" marginBottom={12} />
               <div id="mediaImagesGrid" style={{ display: "grid", gridTemplateColumns: "repeat(4,minmax(0,1fr))", gap: 12 }} />
             </div>
           </DashboardCard>
@@ -153,7 +153,7 @@ export default function MediathequeSection() {
           <div className="dashboard-grid" style={{ gridTemplateColumns: "1.3fr 1.7fr", gap: 24 }}>
             <DashboardCard page={pages.videos || {}}>
               <div style={{ padding: 18 }}>
-                <SearchInput id="mediaVidSearch" placeholder={pages.videos?.searchPlaceholder} handler="renderMediaVideos()" />
+                <SearchInput id="mediaVidSearch" placeholder="Rechercher une vidéo..." handler="renderMediaVideos()" />
               </div>
               <div id="mediaVideosList" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
             </DashboardCard>
@@ -224,7 +224,7 @@ export default function MediathequeSection() {
                     </div>
                     <div className="doc-card-title">{item.title}</div>
                     <div className="doc-card-meta">
-                      <span>{pages.integration?.buttonLabel || labels.consultLabel}</span>
+                      <span>Consulter</span>
                       <i data-lucide="arrow-right" style={{ width: 16 }} />
                     </div>
                   </div>
@@ -232,7 +232,7 @@ export default function MediathequeSection() {
               </div>
               <div style={{ marginTop: 14, display: "flex", justifyContent: "flex-end" }}>
                 <button className="primary-btn" onClick={(event) => runLegacyHandler(event, pages.integration?.buttonHandler)}>
-                  {pages.integration?.buttonLabel}
+                  Consulter
                 </button>
               </div>
             </div>

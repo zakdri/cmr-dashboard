@@ -2,6 +2,26 @@
   "space": "notifications",
   "updatedAt": "2026-06-08",
   "data": {
+    "notificationsHeader": {
+      "title": "Notifications",
+      "description": "Toutes vos notifications et alertes",
+      "icon": "bell",
+      "iconClass": "blue"
+    },
+    "notificationsLabels": {
+      "markAllReadLabel": "Tout marquer lu",
+      "emptyMessage": "Aucune notification dans cette catégorie.",
+      "defaultFilter": "all"
+    },
+    "notificationsTabs": [
+      { "label": "Toutes", "value": "all", "active": true, "badgeId": "notifTabAll" },
+      { "label": "Non lues", "value": "unread", "badgeId": "notifTabUnread", "badgeClassName": "unread" },
+      { "label": "Documents", "value": "document" },
+      { "label": "Réunions", "value": "meeting" },
+      { "label": "RH", "value": "rh" },
+      { "label": "Système", "value": "system" },
+      { "label": "Innovation", "value": "innovation" }
+    ],
     "notifData": [
       {
         "id": 1,

@@ -3661,7 +3661,7 @@ export default function RhSection() {
               }}
             >
               <i data-lucide="plus" style={{ width: 15, height: 15 }} />{" "}
-              {forumsPage.buttonLabel}
+              Nouveau post
             </button>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -3797,7 +3797,7 @@ export default function RhSection() {
                       }}
                     >
                       <i data-lucide="message-circle" style={{ width: 13 }} />{" "}
-                      {forumsPage.items?.[0]?.commentLabel}
+                      Commenter
                     </button>
                   </div>
                 </div>
@@ -3935,7 +3935,7 @@ export default function RhSection() {
                       }}
                     >
                       <i data-lucide="message-circle" style={{ width: 13 }} />{" "}
-                      {forumsPage.items?.[1]?.commentLabel}
+                      Commenter
                     </button>
                   </div>
                 </div>
@@ -4073,7 +4073,7 @@ export default function RhSection() {
                       }}
                     >
                       <i data-lucide="message-circle" style={{ width: 13 }} />{" "}
-                      {forumsPage.items?.[2]?.commentLabel}
+                      Commenter
                     </button>
                   </div>
                 </div>
@@ -4637,12 +4637,12 @@ export default function RhSection() {
                 style={{ width: 24, height: 24, color: "#94a3b8" }}
               />
               <span style={{ fontSize: 11, color: "#94a3b8" }}>
-                {vieSocialePage.galleryMoreLabel}
+                Voir tout
               </span>
             </div>
           </div>
         </div>
-        {/* TAB: ACTIVITÉS (Vie Interne) */}
+        {/* TAB: ACTIVITÉS (Vie Sociale) */}
         <div
           id="page-rh-activites"
           className="km-tab-content"

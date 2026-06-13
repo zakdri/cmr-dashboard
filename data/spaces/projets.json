@@ -1,0 +1,26 @@
+{
+  "space": "projets",
+  "updatedAt": "2026-06-08",
+  "data": {
+    "projetsHeader": {
+      "title": "Espace Projets",
+      "description": "Vision transverse du portefeuille projets (Fiches, Indicateurs, Livrables)."
+    },
+    "projetsItems": [
+      {
+        "id": "refonte-intranet",
+        "title": "Projet Refonte Intranet",
+        "description": "Phase 2 : Conception SFD / Maquettes",
+        "status": "Ouvert",
+        "progressLabel": "Progression:",
+        "progress": 70,
+        "icon": "briefcase",
+        "iconStyle": {
+          "background": "#eff6ff",
+          "color": "#3b82f6"
+        },
+        "progressColor": "#3b82f6"
+      }
+    ]
+  }
+}

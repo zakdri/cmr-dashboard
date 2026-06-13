@@ -8,8 +8,7 @@ function getVieSocialeData() {
     eventsTitle: window.CMR_DATA?.data?.vieSocialeEventsTitle || "",
     events: window.CMR_DATA?.data?.vieSocialeEvents || [],
     galleryTitle: window.CMR_DATA?.data?.vieSocialeGalleryTitle || "",
-    gallery: window.CMR_DATA?.data?.vieSocialeGallery || [],
-    galleryMoreLabel: window.CMR_DATA?.data?.vieSocialeGalleryMoreLabel || ""
+    gallery: window.CMR_DATA?.data?.vieSocialeGallery || []
   };
 }
 
@@ -20,8 +19,7 @@ export default function VieSocialeSection() {
     eventsTitle,
     events,
     galleryTitle,
-    gallery,
-    galleryMoreLabel
+    gallery
   } = getVieSocialeData();
 
   return (
@@ -219,7 +217,7 @@ export default function VieSocialeSection() {
               style={{ width: 24, height: 24, color: "#94a3b8" }}
             />
             <span style={{ fontSize: 11, color: "#94a3b8" }}>
-              {galleryMoreLabel}
+                Voir tout
             </span>
           </div>
         </div>
