@@ -8,6 +8,7 @@ import {
 import { loadLegacyScript } from './legacy/loadLegacyScript.js';
 import { sections } from './sections/index.jsx';
 import { loadApplicationData } from './services/cmrData.js';
+import { renderLucideIcons } from './lucideLocal.js';
 
 function ErrorState() {
   return (
@@ -67,6 +68,12 @@ export default function App() {
     return () => {
       cancelled = true;
     };
+  }, [ready, error]);
+
+  useEffect(() => {
+    if (ready && !error) {
+      requestAnimationFrame(() => renderLucideIcons());
+    }
   }, [ready, error]);
 
   return (
