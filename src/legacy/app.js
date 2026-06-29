@@ -2981,13 +2981,29 @@ function openAgendaTab(tabName) {
         }
 
         // ===== RÉGLEMENTAIRE (table conforme — onglet 10. Réglementaire) =====
-        const regPages = ['textes','thematiques','procedures','notes','moteur','ged','gestion','workflow','historique','archives'];
+        const regPages = ['legal-gouvernance','regime-civil','regime-militaire','regime-non-cotisants','notes-juridiques','prises-position','modeles','jurisprudence','veille-juridique'];
+        const regLegalSubIds = ['legal-gouvernance','regime-civil','regime-militaire','regime-non-cotisants'];
+        const regDocumentSubIds = ['notes-juridiques','prises-position','modeles','jurisprudence','veille-juridique'];
 
         const regSectionConfig = getCmrData('regSectionConfig', {});
+        const regSectionSummaries = getCmrData('regSectionSummaries', {});
 
         let regSection = 'referentiels';
-        let regSub = 'textes';
+        let regSub = 'legal-gouvernance';
         let regTextesType = 'all';
+        const regLegalTypeBySub = {
+            'legal-gouvernance': 'all',
+            'regime-civil': 'all',
+            'regime-militaire': 'all',
+            'regime-non-cotisants': 'all'
+        };
+        const regDocumentThemeBySub = {
+            'notes-juridiques': 'all',
+            'prises-position': 'all',
+            'modeles': 'all',
+            'jurisprudence': 'all',
+            'veille-juridique': 'all'
+        };
         let regTheme = 'all';
         let regGlobalScope = 'all';
         let regHistoryFilter = 'all';
@@ -2996,6 +3012,7 @@ function openAgendaTab(tabName) {
         const regPagesConfig = getCmrData('regPages', {});
         const regThemes = getCmrData('regThemes', []);
         const regLabels = getCmrData('regLabels', {});
+        const regDocumentItems = getCmrData('regDocumentItems', []);
         const regTextesItems = getCmrData('regTextesItems', []);
         const regProcedures = getCmrData('regProcedures', []);
         const regNotes = getCmrData('regNotes', []);
@@ -3009,6 +3026,11 @@ function openAgendaTab(tabName) {
             regSection = sectionId;
             submenuSelections.reglementation = sectionId;
             const config = regSectionConfig[sectionId];
+            const summary = document.getElementById('regSectionSummary');
+            if (summary) {
+                summary.textContent = regSectionSummaries[sectionId] || '';
+                summary.style.display = regSectionSummaries[sectionId] ? 'block' : 'none';
+            }
             const subNav = document.getElementById('regSubNavbar');
             if (config && subNav) {
                 subNav.innerHTML = config.subs.map((s, idx) => `
@@ -3017,7 +3039,7 @@ function openAgendaTab(tabName) {
                 `).join('');
                 subNav.style.display = (config.subs.length <= 1) ? 'none' : 'flex';
             }
-            switchRegSub(config?.defaultSub || config?.subs?.[0]?.id || 'textes');
+            switchRegSub(config?.defaultSub || config?.subs?.[0]?.id || 'legal-gouvernance');
             renderInPageSubmenuNavbar('reglementation');
             lucide.createIcons();
         }
@@ -3037,6 +3059,8 @@ function openAgendaTab(tabName) {
             const target = document.getElementById('page-reg-' + subId);
             if (target) target.style.display = 'block';
 
+            if (regLegalSubIds.includes(subId)) renderRegLegalDocs(subId);
+            if (regDocumentSubIds.includes(subId)) renderRegDocumentDocs(subId);
             if (subId === 'textes') renderRegTextes();
             if (subId === 'thematiques') renderRegThematics();
             if (subId === 'procedures') renderRegProcedures();
@@ -3055,6 +3079,70 @@ function openAgendaTab(tabName) {
             document.querySelectorAll('#page-reg-textes .actu-filter-btn').forEach(b => b.classList.remove('active'));
             if (el) el.classList.add('active');
             renderRegTextes();
+        }
+        function setRegLegalTypeFor(subId, type, el) {
+            regLegalTypeBySub[subId] = type;
+            document.querySelectorAll(`#page-reg-${subId} .actu-filter-btn`).forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderRegLegalDocs(subId);
+        }
+        function renderRegLegalDocs(subId) {
+            const root = document.getElementById(`regLegalList-${subId}`);
+            if (!root) return;
+            const q = (document.getElementById(`regLegalSearch-${subId}`)?.value || '').toLowerCase().trim();
+            const selectedType = regLegalTypeBySub[subId] || 'all';
+            const items = regTextesItems.filter(i => {
+                const sectionOk = !i.section || i.section === subId;
+                const typeOk = selectedType === 'all' || i.type === selectedType;
+                const qOk = !q || (i.title + ' ' + i.ref + ' ' + (i.tags || []).join(' ')).toLowerCase().includes(q);
+                return sectionOk && typeOk && qOk;
+            });
+            root.innerHTML = items.map(i => `
+                <div class="doc-item" onclick="openMockDownload('${i.file}','${i.title}')">
+                    <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">${i.type.slice(0,3).toUpperCase()}</div>
+                    <div class="doc-info">
+                        <div class="doc-title">${i.title}</div>
+                        <div class="doc-meta">${i.type} • ${i.ref} • ${i.date} • PDF • Accès public • ${regLabels.tagsLabel || ''}: ${(i.tags || []).join(', ')}</div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${i.file}','${i.title}')">${regLabels.consultLabel || ''}</button>
+                        <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('${i.file}','${regLabels.downloadLabel || ''} – ${i.title}')">${regLabels.downloadLabel || ''}</button>
+                    </div>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noDocument || regLabels.noResult || ''}</div>`;
+            lucide.createIcons();
+        }
+        function setRegDocumentThemeFor(subId, theme, el) {
+            regDocumentThemeBySub[subId] = theme;
+            document.querySelectorAll(`#page-reg-${subId} .actu-filter-btn`).forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderRegDocumentDocs(subId);
+        }
+        function renderRegDocumentDocs(subId) {
+            const root = document.getElementById(`regDocumentList-${subId}`);
+            if (!root) return;
+            const q = (document.getElementById(`regDocumentSearch-${subId}`)?.value || '').toLowerCase().trim();
+            const selectedTheme = regDocumentThemeBySub[subId] || 'all';
+            const items = regDocumentItems.filter(i => {
+                const sectionOk = i.section === subId;
+                const themeOk = selectedTheme === 'all' || i.theme === selectedTheme;
+                const qOk = !q || (i.title + ' ' + i.theme + ' ' + i.meta).toLowerCase().includes(q);
+                return sectionOk && themeOk && qOk;
+            });
+            root.innerHTML = items.map(i => `
+                <div class="doc-item" onclick="openMockDownload('${i.file}','${i.title}')">
+                    <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">PDF</div>
+                    <div class="doc-info">
+                        <div class="doc-title">${i.title}</div>
+                        <div class="doc-meta">${i.theme} • ${i.meta}</div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${i.file}','${i.title}')">${regLabels.consultLabel || ''}</button>
+                        <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('${i.file}','${regLabels.downloadLabel || ''} – ${i.title}')">${regLabels.downloadLabel || ''}</button>
+                    </div>
+                </div>
+            `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noDocument || regLabels.noResult || ''}</div>`;
+            lucide.createIcons();
         }
         function renderRegTextes() {
             const root = document.getElementById('regTextesList');

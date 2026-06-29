@@ -24,6 +24,15 @@
     ],
     "notifData": [
       {
+        "id": 16,
+        "type": "document",
+        "title": "Nouvelle veille juridique publiée",
+        "desc": "Un nouveau document de veille juridique est disponible dans l’espace Réglementation.",
+        "time": "À l’instant",
+        "date": "Aujourd'hui",
+        "unread": true
+      },
+      {
         "id": 1,
         "type": "document",
         "title": "Nouveau document publié",

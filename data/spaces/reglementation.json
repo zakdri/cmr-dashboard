@@ -4,35 +4,175 @@
   "data": {
     "regHeader": {
       "title": "Espace Réglementaire",
-      "description": "Référentiels réglementaires et internes, structuration, recherche, GED, gouvernance, validation, traçabilité et archivage — conformément au cadrage CMS."
+      "description": "L’espace Réglementaire centralise les textes juridiques, notes, modèles, jurisprudences et contenus de veille utiles à la consultation documentaire."
     },
     "regMainTabs": [
-      { "label": "Référentiels réglementaires", "tab": "referentiels" },
-      { "label": "Structuration", "tab": "structuration" },
-      { "label": "Référentiels internes", "tab": "internes" },
-      { "label": "Recherche", "tab": "recherche" },
-      { "label": "GED", "tab": "ged" },
-      { "label": "Gouvernance", "tab": "gouvernance" },
-      { "label": "Validation", "tab": "validation" },
-      { "label": "Traçabilité", "tab": "tracabilite" },
-      { "label": "Archivage", "tab": "archivage" }
+      { "label": "Légal & Réglementaires", "tab": "referentiels" },
+      { "label": "Notes & Prise de position", "tab": "notes-position" },
+      { "label": "Bibliothèque des modèles", "tab": "modeles" },
+      { "label": "Jurisprudence", "tab": "jurisprudence" },
+      { "label": "Veille juridique", "tab": "veille-juridique" }
     ],
+    "regSectionSummaries": {
+      "referentiels": "Les textes juridiques et réglementaires sont structurés par périmètre afin de faciliter la consultation publique des références applicables.",
+      "notes-position": "Cette rubrique centralise les notes et prises de position juridiques afin de partager les orientations et éclairages validés.",
+      "modeles": "La bibliothèque des modèles regroupe les modèles documentaires utiles aux travaux juridiques et réglementaires.",
+      "jurisprudence": "La rubrique Jurisprudence rassemble les décisions et références jurisprudentielles classées par thème.",
+      "veille-juridique": "La veille juridique présente les nouveautés et alertes réglementaires publiées par le métier Juridique."
+    },
     "regSectionConfig": {
-      "referentiels": { "subs": [{ "id": "textes", "label": "Textes officiels" }], "defaultSub": "textes" },
-      "structuration": { "subs": [{ "id": "thematiques", "label": "Thématiques" }], "defaultSub": "thematiques" },
-      "internes": { "subs": [{ "id": "procedures", "label": "Procédures" }, { "id": "notes", "label": "Notes / guides" }], "defaultSub": "procedures" },
-      "recherche": { "subs": [{ "id": "moteur", "label": "Moteur de recherche" }], "defaultSub": "moteur" },
-      "ged": { "subs": [{ "id": "ged", "label": "Archivage" }], "defaultSub": "ged" },
-      "gouvernance": { "subs": [{ "id": "gestion", "label": "Gestion des contenus" }], "defaultSub": "gestion" },
-      "validation": { "subs": [{ "id": "workflow", "label": "Workflow validation" }], "defaultSub": "workflow" },
-      "tracabilite": { "subs": [{ "id": "historique", "label": "Historique" }], "defaultSub": "historique" },
-      "archivage": { "subs": [{ "id": "archives", "label": "Documents actifs / archivés" }], "defaultSub": "archives" }
+      "referentiels": {
+        "subs": [
+          { "id": "legal-gouvernance", "label": "Gouvernance" },
+          { "id": "regime-civil", "label": "Régime Civil" },
+          { "id": "regime-militaire", "label": "Régime Militaire" },
+          { "id": "regime-non-cotisants", "label": "Régime des non cotisants" }
+        ],
+        "defaultSub": "legal-gouvernance"
+      },
+      "notes-position": {
+        "subs": [
+          { "id": "notes-juridiques", "label": "Notes" },
+          { "id": "prises-position", "label": "Prise de position" }
+        ],
+        "defaultSub": "notes-juridiques"
+      },
+      "modeles": { "subs": [{ "id": "modeles", "label": "Bibliothèque des modèles" }], "defaultSub": "modeles" },
+      "jurisprudence": { "subs": [{ "id": "jurisprudence", "label": "Jurisprudence" }], "defaultSub": "jurisprudence" },
+      "veille-juridique": { "subs": [{ "id": "veille-juridique", "label": "Veille juridique" }], "defaultSub": "veille-juridique" }
     },
     "regPages": {
+      "legal-gouvernance": {
+        "title": "Gouvernance",
+        "icon": "landmark",
+        "iconClass": "green",
+        "description": "Cette sous-rubrique regroupe les éléments de gouvernance et intègre l’ancienne rubrique Structuration.",
+        "searchPlaceholder": "Rechercher un texte de gouvernance...",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Lois", "value": "Loi" },
+          { "label": "Décrets", "value": "Décret" },
+          { "label": "Circulaires", "value": "Circulaire" },
+          { "label": "Décisions", "value": "Décision" }
+        ]
+      },
+      "regime-civil": {
+        "title": "Régime Civil",
+        "icon": "file-text",
+        "iconClass": "blue",
+        "description": "Cette sous-rubrique présente les textes applicables au régime civil et à ses règles de gestion.",
+        "searchPlaceholder": "Rechercher un texte du régime civil...",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Lois", "value": "Loi" },
+          { "label": "Décrets", "value": "Décret" },
+          { "label": "Circulaires", "value": "Circulaire" },
+          { "label": "Décisions", "value": "Décision" }
+        ]
+      },
+      "regime-militaire": {
+        "title": "Régime Militaire",
+        "icon": "shield",
+        "iconClass": "orange",
+        "description": "Cette sous-rubrique présente les textes applicables au régime militaire et aux situations associées.",
+        "searchPlaceholder": "Rechercher un texte du régime militaire...",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Lois", "value": "Loi" },
+          { "label": "Décrets", "value": "Décret" },
+          { "label": "Circulaires", "value": "Circulaire" },
+          { "label": "Décisions", "value": "Décision" }
+        ]
+      },
+      "regime-non-cotisants": {
+        "title": "Régime des non cotisants",
+        "icon": "users",
+        "iconClass": "pink",
+        "description": "Cette sous-rubrique présente les textes applicables aux régimes et situations des non cotisants.",
+        "searchPlaceholder": "Rechercher un texte du régime des non cotisants...",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Lois", "value": "Loi" },
+          { "label": "Décrets", "value": "Décret" },
+          { "label": "Circulaires", "value": "Circulaire" },
+          { "label": "Décisions", "value": "Décision" }
+        ]
+      },
+      "notes-juridiques": {
+        "title": "Notes",
+        "icon": "file-pen-line",
+        "iconClass": "blue",
+        "description": "Cette sous-rubrique regroupe les notes juridiques publiées pour préciser ou accompagner l’application des textes.",
+        "searchPlaceholder": "Rechercher une note...",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Retraite", "value": "Retraite" },
+          { "label": "Gouvernance", "value": "Gouvernance" },
+          { "label": "Conformité", "value": "Conformité" },
+          { "label": "Procédures", "value": "Procédures" }
+        ]
+      },
+      "prises-position": {
+        "title": "Prise de position",
+        "icon": "message-square-quote",
+        "iconClass": "green",
+        "description": "Cette sous-rubrique rassemble les prises de position juridiques validées sur des sujets d’interprétation ou d’application.",
+        "searchPlaceholder": "Rechercher une prise de position...",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Retraite", "value": "Retraite" },
+          { "label": "Gouvernance", "value": "Gouvernance" },
+          { "label": "Conformité", "value": "Conformité" },
+          { "label": "Procédures", "value": "Procédures" }
+        ]
+      },
+      "modeles": {
+        "title": "Bibliothèque des modèles",
+        "icon": "library",
+        "iconClass": "orange",
+        "description": "Cette rubrique met à disposition les modèles documentaires utiles au métier Juridique.",
+        "searchPlaceholder": "Rechercher un modèle...",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Courriers", "value": "Courriers" },
+          { "label": "Conventions", "value": "Conventions" },
+          { "label": "Avis", "value": "Avis" },
+          { "label": "Procédures", "value": "Procédures" }
+        ]
+      },
+      "jurisprudence": {
+        "title": "Jurisprudence",
+        "icon": "scale",
+        "iconClass": "pink",
+        "description": "Cette rubrique rassemble les décisions jurisprudentielles et références associées classées par thème.",
+        "searchPlaceholder": "Rechercher une jurisprudence...",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Retraite", "value": "Retraite" },
+          { "label": "Contentieux", "value": "Contentieux" },
+          { "label": "Gouvernance", "value": "Gouvernance" },
+          { "label": "Droits sociaux", "value": "Droits sociaux" }
+        ]
+      },
+      "veille-juridique": {
+        "title": "Veille juridique",
+        "icon": "radar",
+        "iconClass": "blue",
+        "description": "Cette rubrique diffuse les nouveautés juridiques et réglementaires suivies par le métier Juridique.",
+        "searchPlaceholder": "Rechercher une veille...",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Retraite", "value": "Retraite" },
+          { "label": "Gouvernance", "value": "Gouvernance" },
+          { "label": "Conformité", "value": "Conformité" },
+          { "label": "Actualités réglementaires", "value": "Actualités réglementaires" }
+        ]
+      },
       "textes": {
         "title": "Textes officiels",
         "icon": "file-text",
         "iconClass": "green",
+        "description": "Cette rubrique regroupe les textes juridiques et réglementaires de référence applicables aux activités de la CMR.",
         "searchPlaceholder": "Rechercher un texte, une référence, un mot-clé…",
         "filters": [
           { "label": "Tous", "value": "all", "active": true },
@@ -158,6 +298,89 @@
       "noPending": "Aucun élément en attente.",
       "noDocument": "Aucun document."
     },
+    "regDocumentItems": [
+      {
+        "section": "notes-juridiques",
+        "title": "Note juridique – Application des règles de pension civile",
+        "theme": "Retraite",
+        "meta": "Note • PDF • Accès public",
+        "file": "Note_Application_Pension_Civile.pdf",
+        "public": true
+      },
+      {
+        "section": "notes-juridiques",
+        "title": "Note – Bonnes pratiques de conformité réglementaire",
+        "theme": "Conformité",
+        "meta": "Note • PDF • Accès public",
+        "file": "Note_Conformite_Reglementaire.pdf",
+        "public": true
+      },
+      {
+        "section": "prises-position",
+        "title": "Prise de position – Interprétation des délais de traitement",
+        "theme": "Procédures",
+        "meta": "Prise de position • PDF • Accès public",
+        "file": "Prise_Position_Delais_Traitement.pdf",
+        "public": true
+      },
+      {
+        "section": "prises-position",
+        "title": "Prise de position – Gouvernance des référentiels juridiques",
+        "theme": "Gouvernance",
+        "meta": "Prise de position • PDF • Accès public",
+        "file": "Prise_Position_Gouvernance_Referentiels.pdf",
+        "public": true
+      },
+      {
+        "section": "modeles",
+        "title": "Modèle – Courrier de demande d’avis juridique",
+        "theme": "Courriers",
+        "meta": "Modèle • PDF • Accès public",
+        "file": "Modele_Demande_Avis_Juridique.pdf",
+        "public": true
+      },
+      {
+        "section": "modeles",
+        "title": "Modèle – Convention type de partenariat",
+        "theme": "Conventions",
+        "meta": "Modèle • PDF • Accès public",
+        "file": "Modele_Convention_Type_Partenariat.pdf",
+        "public": true
+      },
+      {
+        "section": "jurisprudence",
+        "title": "Jurisprudence – Contentieux relatif aux pensions",
+        "theme": "Contentieux",
+        "meta": "Jurisprudence • PDF • Accès public",
+        "file": "Jurisprudence_Contentieux_Pensions.pdf",
+        "public": true
+      },
+      {
+        "section": "jurisprudence",
+        "title": "Jurisprudence – Droits sociaux et liquidation",
+        "theme": "Droits sociaux",
+        "meta": "Jurisprudence • PDF • Accès public",
+        "file": "Jurisprudence_Droits_Sociaux_Liquidation.pdf",
+        "public": true
+      },
+      {
+        "section": "veille-juridique",
+        "title": "Veille juridique – Actualisation du cadre réglementaire retraite",
+        "theme": "Actualités réglementaires",
+        "meta": "Veille • PDF • Nouveau • Accès public",
+        "file": "Veille_Actualisation_Cadre_Retraite.pdf",
+        "public": true,
+        "notify": true
+      },
+      {
+        "section": "veille-juridique",
+        "title": "Veille juridique – Synthèse conformité du mois",
+        "theme": "Conformité",
+        "meta": "Veille • PDF • Accès public",
+        "file": "Veille_Synthese_Conformite_Mois.pdf",
+        "public": true
+      }
+    ],
     "regTextesItems": [
       {
         "title": "Loi n° 12-34 – Gouvernance des organismes",
@@ -168,6 +391,7 @@
           "gouvernance",
           "cadre"
         ],
+        "section": "legal-gouvernance",
         "file": "Loi_12-34.pdf"
       },
       {
@@ -179,6 +403,7 @@
           "controle",
           "qualite"
         ],
+        "section": "regime-civil",
         "file": "Decret_2-25-101.pdf"
       },
       {
@@ -190,6 +415,7 @@
           "reporting",
           "finance"
         ],
+        "section": "regime-militaire",
         "file": "Circulaire_Reporting_2026.pdf"
       },
       {
@@ -200,7 +426,20 @@
         "tags": [
           "ethique"
         ],
+        "section": "legal-gouvernance",
         "file": "Decision_Charte_Ethique_v2.pdf"
+      },
+      {
+        "title": "Circulaire – Régime des non cotisants",
+        "type": "Circulaire",
+        "ref": "CIR-2026-07",
+        "date": "Juin 2026",
+        "tags": [
+          "non cotisants",
+          "régime"
+        ],
+        "section": "regime-non-cotisants",
+        "file": "Circulaire_Regime_Non_Cotisants.pdf"
       }
     ],
     "regProcedures": [

@@ -6,6 +6,7 @@ function getRegData() {
   return {
     header: data.regHeader || {},
     pages: data.regPages || {},
+    summaries: data.regSectionSummaries || {},
   };
 }
 
@@ -50,6 +51,62 @@ function FilterButtons({ filters = [], handler }) {
   );
 }
 
+function LegalFilterButtons({ filters = [], pageId }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: 10,
+        flexWrap: "wrap",
+        marginBottom: 12,
+      }}
+    >
+      {filters.map((filter) => (
+        <button
+          key={filter.value}
+          className={`actu-filter-btn${filter.active ? " active" : ""}`}
+          onClick={(event) =>
+            runLegacyHandler(
+              event,
+              `setRegLegalTypeFor('${pageId}', '${filter.value}', this)`,
+            )
+          }
+        >
+          {filter.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function DocumentFilterButtons({ filters = [], pageId }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: 10,
+        flexWrap: "wrap",
+        marginBottom: 12,
+      }}
+    >
+      {filters.map((filter) => (
+        <button
+          key={filter.value}
+          className={`actu-filter-btn${filter.active ? " active" : ""}`}
+          onClick={(event) =>
+            runLegacyHandler(
+              event,
+              `setRegDocumentThemeFor('${pageId}', '${filter.value}', this)`,
+            )
+          }
+        >
+          {filter.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function SearchInput({ id, icon = "search", placeholder, onInput }) {
   return (
     <div className="actu-search-wrap" style={{ marginBottom: 12 }}>
@@ -75,8 +132,72 @@ function SimpleCardPage({ page, children }) {
   );
 }
 
+function LegalRegPage({ id, page, defaultVisible = false }) {
+  return (
+    <div
+      id={`page-reg-${id}`}
+      className="km-tab-content"
+      style={{ display: defaultVisible ? "block" : "none" }}
+    >
+      <SimpleCardPage page={page || {}}>
+        <div style={{ padding: 18 }}>
+          {page?.description && (
+            <p
+              style={{
+                color: "var(--text-light)",
+                fontSize: 13,
+                lineHeight: 1.7,
+                margin: "0 0 12px",
+              }}
+            >
+              {page.description}
+            </p>
+          )}
+          <SearchInput
+            id={`regLegalSearch-${id}`}
+            placeholder={page?.searchPlaceholder || "Rechercher un texte..."}
+            onInput={`renderRegLegalDocs('${id}')`}
+          />
+          <LegalFilterButtons filters={page?.filters} pageId={id} />
+          <div id={`regLegalList-${id}`} className="doc-list" />
+        </div>
+      </SimpleCardPage>
+    </div>
+  );
+}
+
+function RegDocumentPage({ id, page }) {
+  return (
+    <div id={`page-reg-${id}`} className="km-tab-content" style={{ display: "none" }}>
+      <SimpleCardPage page={page || {}}>
+        <div style={{ padding: 18 }}>
+          {page?.description && (
+            <p
+              style={{
+                color: "var(--text-light)",
+                fontSize: 13,
+                lineHeight: 1.7,
+                margin: "0 0 12px",
+              }}
+            >
+              {page.description}
+            </p>
+          )}
+          <SearchInput
+            id={`regDocumentSearch-${id}`}
+            placeholder={page?.searchPlaceholder || "Rechercher un document..."}
+            onInput={`renderRegDocumentDocs('${id}')`}
+          />
+          <DocumentFilterButtons filters={page?.filters} pageId={id} />
+          <div id={`regDocumentList-${id}`} className="doc-list" />
+        </div>
+      </SimpleCardPage>
+    </div>
+  );
+}
+
 export default function ReglementationSection() {
-  const { header, pages } = getRegData();
+  const { header, pages, summaries } = getRegData();
 
   return (
     <>
@@ -100,6 +221,17 @@ export default function ReglementationSection() {
           }}
         ></div>
         <div
+          id="regSectionSummary"
+          style={{
+            color: "var(--text-light)",
+            fontSize: 13,
+            lineHeight: 1.7,
+            margin: summaries.referentiels ? "0 0 12px" : 0,
+          }}
+        >
+          {summaries.referentiels}
+        </div>
+        <div
           className="km-navbar"
           id="regSubNavbar"
           style={{
@@ -114,9 +246,35 @@ export default function ReglementationSection() {
           }}
         ></div>
 
-        <div id="page-reg-textes" className="km-tab-content" style={{ display: "block" }}>
+        <LegalRegPage
+          id="legal-gouvernance"
+          page={pages["legal-gouvernance"]}
+          defaultVisible
+        />
+        <LegalRegPage id="regime-civil" page={pages["regime-civil"]} />
+        <LegalRegPage id="regime-militaire" page={pages["regime-militaire"]} />
+        <LegalRegPage id="regime-non-cotisants" page={pages["regime-non-cotisants"]} />
+        <RegDocumentPage id="notes-juridiques" page={pages["notes-juridiques"]} />
+        <RegDocumentPage id="prises-position" page={pages["prises-position"]} />
+        <RegDocumentPage id="modeles" page={pages.modeles} />
+        <RegDocumentPage id="jurisprudence" page={pages.jurisprudence} />
+        <RegDocumentPage id="veille-juridique" page={pages["veille-juridique"]} />
+
+        <div id="page-reg-textes" className="km-tab-content" style={{ display: "none" }}>
           <SimpleCardPage page={pages.textes || {}}>
             <div style={{ padding: 18 }}>
+              {pages.textes?.description && (
+                <p
+                  style={{
+                    color: "var(--text-light)",
+                    fontSize: 13,
+                    lineHeight: 1.7,
+                    margin: "0 0 12px",
+                  }}
+                >
+                  {pages.textes.description}
+                </p>
+              )}
               <SearchInput
                 id="regTextesSearch"
                 placeholder="Rechercher un texte..."

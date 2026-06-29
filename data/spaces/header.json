@@ -4,8 +4,13 @@
   "data": {
     "header": {
       "notifications": {
-        "badge": "3",
+        "badge": "4",
         "items": [
+          {
+            "title": "Nouvelle veille juridique publiée",
+            "description": "Un nouveau document de veille juridique est disponible.",
+            "time": "À l’instant"
+          },
           {
             "title": "Nouveau document publié",
             "description": "La procédure RH 2026 est maintenant disponible.",

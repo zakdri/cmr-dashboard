@@ -206,40 +206,24 @@
         "title": "Espace Réglementaire",
         "items": [
           {
-            "label": "Référentiels réglementaires",
+            "label": "Légal & Réglementaires",
             "tab": "referentiels"
           },
           {
-            "label": "Structuration",
-            "tab": "structuration"
+            "label": "Notes & Prise de position",
+            "tab": "notes-position"
           },
           {
-            "label": "Référentiels internes",
-            "tab": "internes"
+            "label": "Bibliothèque des modèles",
+            "tab": "modeles"
           },
           {
-            "label": "Recherche",
-            "tab": "recherche"
+            "label": "Jurisprudence",
+            "tab": "jurisprudence"
           },
           {
-            "label": "GED",
-            "tab": "ged"
-          },
-          {
-            "label": "Gouvernance",
-            "tab": "gouvernance"
-          },
-          {
-            "label": "Validation",
-            "tab": "validation"
-          },
-          {
-            "label": "Traçabilité",
-            "tab": "tracabilite"
-          },
-          {
-            "label": "Archivage",
-            "tab": "archivage"
+            "label": "Veille juridique",
+            "tab": "veille-juridique"
           }
         ]
       },

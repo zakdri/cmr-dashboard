@@ -271,6 +271,7 @@
         "actionIcon": "refresh-cw",
         "actionNoWrap": true,
         "items": [
+          { "badge": "JUR", "title": "Veille juridique", "meta": "Nouveau document publié • Réglementation", "background": "#ecfdf5", "color": "#047857", "icon": "chevron-right", "handler": "openSubmenuView('reglementation','veille-juridique'); return false;" },
           { "badge": "EVT", "title": "Événements", "meta": "À venir • Agenda personnel & Calendrier CMR", "background": "#eff6ff", "color": "#256cb5", "icon": "chevron-right", "handler": "switchView('agenda-interne'); return false;" },
           { "badge": "ALT", "title": "Alertes", "meta": "Infos importantes • À surveiller", "background": "#fff7ed", "color": "#ea580c", "icon": "chevron-right" }
         ]
