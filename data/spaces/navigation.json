@@ -433,28 +433,24 @@
         "title": "Espace SI / SITD",
         "items": [
           {
-            "label": "Sécurité du SI",
+            "label": "Sécurité De L'Information",
             "tab": "securite-si"
+          },
+          {
+            "label": "SMSI",
+            "tab": "smsi"
           },
           {
             "label": "Référentiel IT",
             "tab": "referentiel-it"
           },
           {
-            "label": "Intégration SI",
-            "tab": "integration-si"
-          },
-          {
-            "label": "Pilotage SI",
-            "tab": "pilotage-si"
-          },
-          {
             "label": "Contrats de services",
             "tab": "contrats-services"
           },
           {
-            "label": "SEAU",
-            "tab": "seau"
+            "label": "Exploitation",
+            "tab": "exploitation"
           }
         ]
       },

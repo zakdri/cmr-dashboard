@@ -4,108 +4,106 @@
   "data": {
     "sitdHeader": {
       "title": "Espace SI / SITD",
-      "description": "Sécurité du SI, référentiel IT, intégration, pilotage, contrats de services et SEAU — conformément au cadrage CMS."
+      "description": "Sécurité de l'information, SMSI, référentiel IT, contrats de services et exploitation documentaire."
     },
     "sitdMainTabs": [
       {
-        "label": "Sécurité du SI",
+        "label": "Sécurité De L'Information",
         "tab": "securite-si"
+      },
+      {
+        "label": "SMSI",
+        "tab": "smsi"
       },
       {
         "label": "Référentiel IT",
         "tab": "referentiel-it"
       },
       {
-        "label": "Intégration SI",
-        "tab": "integration-si"
-      },
-      {
-        "label": "Pilotage SI",
-        "tab": "pilotage-si"
-      },
-      {
         "label": "Contrats de services",
         "tab": "contrats-services"
       },
       {
-        "label": "SEAU",
-        "tab": "seau"
+        "label": "Exploitation",
+        "tab": "exploitation"
       }
     ],
+    "sitdSectionSummaries": {
+      "securite-si": "La rubrique Sécurité De L'Information regroupe les contenus de sensibilisation, les parcours e-learning, les événements et les campagnes dédiés à la sécurité.",
+      "smsi": "La rubrique SMSI centralise les politiques, procédures, cartographies des risques et éléments de pilotage du système de management de la sécurité de l'information.",
+      "referentiel-it": "La rubrique Référentiel IT rassemble les documents de référence IT issus de la GED OpenText et classés selon les critères DSI.",
+      "contrats-services": "La rubrique Contrats de services centralise les engagements documentaires par structure métier.",
+      "exploitation": "La rubrique Exploitation donne accès aux outils d'exploitation et aux documents disponibles via la GED OpenText."
+    },
     "sitdSectionConfig": {
       "securite-si": {
         "subs": [
           {
             "id": "sensibilisation-cyber",
-            "label": "Sensibilisation cybersécurité"
+            "label": "Sensibilisation"
           },
           {
             "id": "modules-elearning",
-            "label": "Modules e-learning"
+            "label": "Modules E-Learning"
           },
           {
-            "id": "supports-pedagogiques",
-            "label": "Supports pédagogiques"
+            "id": "evenements-securite",
+            "label": "Événements Sécurité De L'Information"
           },
           {
             "id": "campagnes-si",
-            "label": "Campagnes SI"
+            "label": "Campagnes Sécurité De L'Information"
           }
         ],
         "defaultSub": "sensibilisation-cyber"
       },
+      "smsi": {
+        "subs": [
+          {
+            "id": "smsi-politiques",
+            "label": "Politiques"
+          },
+          {
+            "id": "smsi-procedures",
+            "label": "Procédures"
+          },
+          {
+            "id": "smsi-risques",
+            "label": "Cartographie des risques"
+          },
+          {
+            "id": "smsi-pilotage",
+            "label": "Pilotage SI"
+          }
+        ],
+        "defaultSub": "smsi-politiques"
+      },
       "referentiel-it": {
         "subs": [
           {
-            "id": "bonnes-pratiques-it",
-            "label": "Bonnes pratiques IT"
+            "id": "referentiel-it",
+            "label": "Référentiel IT"
           }
         ],
-        "defaultSub": "bonnes-pratiques-it"
-      },
-      "integration-si": {
-        "subs": [
-          {
-            "id": "glpi",
-            "label": "GLPI"
-          }
-        ],
-        "defaultSub": "glpi"
-      },
-      "pilotage-si": {
-        "subs": [
-          {
-            "id": "tableaux-bord-si",
-            "label": "Tableaux de bord SI"
-          },
-          {
-            "id": "enquetes-satisfaction",
-            "label": "Enquêtes de satisfaction"
-          }
-        ],
-        "defaultSub": "tableaux-bord-si"
+        "defaultSub": "referentiel-it"
       },
       "contrats-services": {
         "subs": [
           {
-            "id": "sla",
-            "label": "SLA"
+            "id": "contrats-services",
+            "label": "Contrats de services"
           }
         ],
-        "defaultSub": "sla"
+        "defaultSub": "contrats-services"
       },
-      "seau": {
+      "exploitation": {
         "subs": [
           {
-            "id": "repertoire-outils",
-            "label": "Répertoire des outils"
-          },
-          {
-            "id": "documentation-exploitation",
-            "label": "Documentation d'exploitation"
+            "id": "exploitation",
+            "label": "Exploitation"
           }
         ],
-        "defaultSub": "repertoire-outils"
+        "defaultSub": "exploitation"
       }
     },
     "sitdLabels": {
@@ -149,7 +147,108 @@
       ],
       "consultLabel": "Consulter",
       "consultSheetLabel": "Consulter la fiche",
-      "docMetaPrefix": "GED-like"
+      "docMetaPrefix": "GED OpenText",
+      "downloadLabel": "Télécharger",
+      "allLabel": "Tous",
+      "pdfPublicMeta": "PDF • Grand public CMR",
+      "pdfReservedMeta": "PDF • Public réservé",
+      "openElearningLabel": "Ouvrir la plateforme e-learning",
+      "elearningUrl": "https://elearning.cmr.local",
+      "operationsFolderLabel": "Accéder au répertoire d'exploitation",
+      "operationsFolderUrl": "file://outils-exploitation-cmr",
+      "gedOpenTextLabel": "Consulter les documents GED OpenText",
+      "gedOpenTextUrl": "https://ged-opentext.cmr.local/exploitation"
+    },
+    "sitdFilters": {
+      "sensibilisation-cyber": {
+        "type": "theme",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Phishing", "value": "Phishing" },
+          { "label": "MFA", "value": "MFA" },
+          { "label": "Protection des données", "value": "Protection des données" }
+        ]
+      },
+      "evenements-securite": {
+        "type": "event",
+        "themeFilters": [
+          { "label": "Tous les thèmes", "value": "all", "active": true },
+          { "label": "Sensibilisation", "value": "Sensibilisation" },
+          { "label": "Incident", "value": "Incident" },
+          { "label": "Conformité", "value": "Conformité" }
+        ],
+        "yearFilters": [
+          { "label": "Toutes les années", "value": "all", "active": true },
+          { "label": "2026", "value": "2026" },
+          { "label": "2025", "value": "2025" }
+        ]
+      },
+      "campagnes-si": {
+        "type": "campaign",
+        "yearFilters": [
+          { "label": "Toutes les années", "value": "all", "active": true },
+          { "label": "2026", "value": "2026" },
+          { "label": "2025", "value": "2025" }
+        ],
+        "themeFilters": [
+          { "label": "Tous les thèmes", "value": "all", "active": true },
+          { "label": "Phishing", "value": "Phishing" },
+          { "label": "Mots de passe", "value": "Mots de passe" },
+          { "label": "Accès distant", "value": "Accès distant" }
+        ]
+      },
+      "smsi-politiques": {
+        "type": "access",
+        "filters": [
+          { "label": "Grand public", "value": "Grand public", "active": true },
+          { "label": "Public réservé", "value": "Public réservé" }
+        ]
+      },
+      "smsi-procedures": {
+        "type": "theme",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Incidents", "value": "Incidents" },
+          { "label": "Accès", "value": "Accès" },
+          { "label": "Continuité", "value": "Continuité" }
+        ]
+      },
+      "smsi-risques": {
+        "type": "theme",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Applicatif", "value": "Applicatif" },
+          { "label": "Infrastructure", "value": "Infrastructure" },
+          { "label": "Données", "value": "Données" }
+        ]
+      },
+      "smsi-pilotage": {
+        "type": "theme",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "KPI", "value": "KPI" },
+          { "label": "Comités", "value": "Comités" },
+          { "label": "Plans d'action", "value": "Plans d'action" }
+        ]
+      },
+      "referentiel-it": {
+        "type": "theme",
+        "filters": [
+          { "label": "Tous", "value": "all", "active": true },
+          { "label": "Architecture", "value": "Architecture" },
+          { "label": "Exploitation", "value": "Exploitation" },
+          { "label": "Support", "value": "Support" }
+        ]
+      },
+      "contrats-services": {
+        "type": "structure",
+        "filters": [
+          { "label": "Toutes", "value": "all", "active": true },
+          { "label": "DSI", "value": "DSI" },
+          { "label": "DAF", "value": "DAF" },
+          { "label": "DCH", "value": "DCH" }
+        ]
+      }
     },
     "sitdSensibilisationCards": [
       {
@@ -169,6 +268,190 @@
         "icon": "shield",
         "color": "#fdf4ff",
         "iconColor": "#7c3aed"
+      }
+    ],
+    "sitdDocumentItems": [
+      {
+        "section": "sensibilisation-cyber",
+        "title": "Guide de sensibilisation – Phishing",
+        "theme": "Phishing",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Guide_Sensibilisation_Phishing.pdf"
+      },
+      {
+        "section": "sensibilisation-cyber",
+        "title": "Fiche réflexe – MFA et mots de passe",
+        "theme": "MFA",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Fiche_MFA_Mots_De_Passe.pdf"
+      },
+      {
+        "section": "evenements-securite",
+        "title": "Journée Sécurité De L'Information 2026",
+        "theme": "Sensibilisation",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Evenement_Securite_Information_2026.pdf"
+      },
+      {
+        "section": "evenements-securite",
+        "title": "Atelier conformité et protection des données",
+        "theme": "Conformité",
+        "year": "2025",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Atelier_Conformite_Protection_Donnees.pdf"
+      },
+      {
+        "section": "campagnes-si",
+        "title": "Campagne Mots de passe 2026",
+        "theme": "Mots de passe",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Campagne_Mots_De_Passe_2026.pdf"
+      },
+      {
+        "section": "campagnes-si",
+        "title": "Campagne Phishing – Simulation Q2",
+        "theme": "Phishing",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Campagne_Phishing_Simulation_Q2.pdf"
+      },
+      {
+        "section": "smsi-politiques",
+        "title": "Politique de sécurité de l'information",
+        "theme": "Politiques",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Politique_Securite_Information.pdf"
+      },
+      {
+        "section": "smsi-politiques",
+        "title": "Politique de classification des actifs sensibles",
+        "theme": "Politiques",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Politique_Classification_Actifs_Sensibles.pdf"
+      },
+      {
+        "section": "smsi-procedures",
+        "title": "Procédure de gestion des incidents de sécurité",
+        "theme": "Incidents",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Procedure_Gestion_Incidents_Securite.pdf"
+      },
+      {
+        "section": "smsi-procedures",
+        "title": "Procédure de gestion des accès",
+        "theme": "Accès",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Procedure_Gestion_Acces.pdf"
+      },
+      {
+        "section": "smsi-risques",
+        "title": "Cartographie des risques applicatifs",
+        "theme": "Applicatif",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Cartographie_Risques_Applicatifs.pdf"
+      },
+      {
+        "section": "smsi-risques",
+        "title": "Cartographie des risques infrastructure",
+        "theme": "Infrastructure",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Cartographie_Risques_Infrastructure.pdf"
+      },
+      {
+        "section": "smsi-pilotage",
+        "title": "Tableau de bord SMSI – KPI sécurité",
+        "theme": "KPI",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Tableau_Bord_SMSI_KPI.pdf"
+      },
+      {
+        "section": "smsi-pilotage",
+        "title": "Plan d'action SMSI",
+        "theme": "Plans d'action",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Plan_Action_SMSI.pdf"
+      },
+      {
+        "section": "referentiel-it",
+        "title": "Référentiel IT – Architecture technique",
+        "theme": "Architecture",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Referentiel_IT_Architecture_Technique.pdf"
+      },
+      {
+        "section": "referentiel-it",
+        "title": "Référentiel IT – Exploitation et support",
+        "theme": "Exploitation",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Referentiel_IT_Exploitation_Support.pdf"
+      },
+      {
+        "section": "contrats-services",
+        "title": "Contrat de service – DSI",
+        "structure": "DSI",
+        "theme": "Contrats",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Contrat_Service_DSI.pdf"
+      },
+      {
+        "section": "contrats-services",
+        "title": "Contrat de service – DAF",
+        "structure": "DAF",
+        "theme": "Contrats",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Contrat_Service_DAF.pdf"
+      },
+      {
+        "section": "exploitation",
+        "title": "Runbook d'exploitation – Incident majeur",
+        "theme": "Exploitation",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Runbook_Exploitation_Incident_Majeur.pdf"
+      },
+      {
+        "section": "exploitation",
+        "title": "Procédure d'exploitation – Supervision",
+        "theme": "Exploitation",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Procedure_Exploitation_Supervision.pdf"
       }
     ],
     "sitdDashboardKpis": [
@@ -354,6 +637,171 @@
         "priorite": "Haute",
         "statutDesign": "À définir",
         "commentaires": "Sensible"
+      },
+      {
+        "id": "sensibilisation-cyber",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Sécurité De L'Information",
+        "sousRubrique": "Sensibilisation",
+        "fonctionnalite": "Consultation des contenus de sensibilisation sécurité",
+        "description": "Cette sous-rubrique centralise les contenus de sensibilisation à la sécurité de l'information avec un filtre thématique.",
+        "typeContenu": "Document PDF",
+        "typeUx": "Liste filtrée",
+        "interactions": "Filtrer, consulter, télécharger",
+        "cible": "Grand public CMR",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "Filtre à confirmer par la CMR"
+      },
+      {
+        "id": "modules-elearning",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Sécurité De L'Information",
+        "sousRubrique": "Modules E-Learning",
+        "fonctionnalite": "Accès à la plateforme e-learning sécurité",
+        "description": "Cette sous-rubrique présente les modules e-learning sécurité et redirige vers la plateforme e-learning de la CMR.",
+        "typeContenu": "URL",
+        "typeUx": "Lien d'accès",
+        "interactions": "Accéder à la plateforme",
+        "cible": "Grand public CMR",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "URL définitive à communiquer par la CMR"
+      },
+      {
+        "id": "evenements-securite",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Sécurité De L'Information",
+        "sousRubrique": "Événements Sécurité De L'Information",
+        "fonctionnalite": "Consultation des événements sécurité",
+        "description": "Cette sous-rubrique liste les événements liés à la sécurité de l'information avec un filtrage par thème et par année.",
+        "typeContenu": "Document PDF",
+        "typeUx": "Liste filtrée",
+        "interactions": "Filtrer, consulter, télécharger",
+        "cible": "Grand public CMR",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "Filtres thème et année"
+      },
+      {
+        "id": "campagnes-si",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Sécurité De L'Information",
+        "sousRubrique": "Campagnes Sécurité De L'Information",
+        "fonctionnalite": "Consultation des campagnes sécurité",
+        "description": "Cette sous-rubrique liste les campagnes de sécurité de l'information avec un filtrage par année et par thème.",
+        "typeContenu": "Document PDF",
+        "typeUx": "Liste filtrée",
+        "interactions": "Filtrer, consulter, télécharger",
+        "cible": "Grand public CMR",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "Filtres année et thème"
+      },
+      {
+        "id": "smsi-politiques",
+        "espace": "Espace SI / SITD",
+        "rubrique": "SMSI",
+        "sousRubrique": "Politiques",
+        "fonctionnalite": "Consultation des politiques SMSI",
+        "description": "Cette sous-rubrique présente les politiques SMSI avec un filtre distinguant les documents grand public et les documents réservés.",
+        "typeContenu": "Document PDF",
+        "typeUx": "Liste filtrée",
+        "interactions": "Filtrer, consulter, télécharger",
+        "cible": "Grand public CMR / public réservé",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "Alimentation cible via GED OpenText"
+      },
+      {
+        "id": "smsi-procedures",
+        "espace": "Espace SI / SITD",
+        "rubrique": "SMSI",
+        "sousRubrique": "Procédures",
+        "fonctionnalite": "Consultation des procédures SMSI",
+        "description": "Cette sous-rubrique présente les procédures SMSI accessibles au grand public CMR avec un filtre thématique.",
+        "typeContenu": "Document PDF",
+        "typeUx": "Liste filtrée",
+        "interactions": "Filtrer, consulter, télécharger",
+        "cible": "Grand public CMR",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "Alimentation cible via GED OpenText"
+      },
+      {
+        "id": "smsi-risques",
+        "espace": "Espace SI / SITD",
+        "rubrique": "SMSI",
+        "sousRubrique": "Cartographie des risques",
+        "fonctionnalite": "Consultation des cartographies des risques",
+        "description": "Cette sous-rubrique présente les cartographies des risques SMSI avec un filtre à communiquer par la CMR.",
+        "typeContenu": "Document PDF",
+        "typeUx": "Liste filtrée",
+        "interactions": "Filtrer, consulter, télécharger",
+        "cible": "Grand public CMR / public réservé",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "Alimentation cible via GED OpenText"
+      },
+      {
+        "id": "smsi-pilotage",
+        "espace": "Espace SI / SITD",
+        "rubrique": "SMSI",
+        "sousRubrique": "Pilotage SI",
+        "fonctionnalite": "Consultation des documents de pilotage SMSI",
+        "description": "Cette sous-rubrique présente les documents de pilotage SI liés au SMSI avec un filtre à communiquer par la CMR.",
+        "typeContenu": "Document PDF",
+        "typeUx": "Liste filtrée",
+        "interactions": "Filtrer, consulter, télécharger",
+        "cible": "Grand public CMR / public réservé",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "Alimentation cible via GED OpenText"
+      },
+      {
+        "id": "referentiel-it",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Référentiel IT",
+        "sousRubrique": "Référentiel IT",
+        "fonctionnalite": "Consultation du référentiel IT",
+        "description": "Cette rubrique rassemble les documents de référence IT avec un filtre dont les critères restent à confirmer par la DSI.",
+        "typeContenu": "Document PDF",
+        "typeUx": "Liste filtrée",
+        "interactions": "Filtrer, consulter, télécharger",
+        "cible": "Grand public CMR / public réservé",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "Alimentation cible via GED OpenText"
+      },
+      {
+        "id": "contrats-services",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Contrats de services",
+        "sousRubrique": "Contrats de services",
+        "fonctionnalite": "Consultation des contrats de services par structure métier",
+        "description": "Cette rubrique présente les contrats de services avec un filtre par structure métier.",
+        "typeContenu": "Document PDF",
+        "typeUx": "Liste filtrée",
+        "interactions": "Filtrer, consulter, télécharger",
+        "cible": "Grand public CMR / public réservé",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "Liste des structures à confirmer par la CMR"
+      },
+      {
+        "id": "exploitation",
+        "espace": "Espace SI / SITD",
+        "rubrique": "Exploitation",
+        "sousRubrique": "Exploitation",
+        "fonctionnalite": "Accès aux outils et documents d'exploitation",
+        "description": "Cette rubrique donne accès au répertoire des outils d'exploitation et aux documents d'exploitation disponibles dans la GED OpenText.",
+        "typeContenu": "URL / Document PDF",
+        "typeUx": "Liens et liste documentaire",
+        "interactions": "Accéder, consulter, télécharger",
+        "cible": "Grand public CMR / public réservé",
+        "priorite": "Haute",
+        "statutDesign": "Validé",
+        "commentaires": "URLs définitives à communiquer par la CMR"
       }
     ],
     "sitdCampagnes": [

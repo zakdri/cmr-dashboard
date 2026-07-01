@@ -2093,14 +2093,19 @@ function openAgendaTab(tabName) {
         const sitdFeaturesById = Object.fromEntries(sitdFeatures.map(f => [f.id, f]));
 
         const sitdSectionConfig = getCmrData('sitdSectionConfig', {});
+        const sitdSectionSummaries = getCmrData('sitdSectionSummaries', {});
         const sitdLabels = getCmrData('sitdLabels', {});
+        const sitdFilters = getCmrData('sitdFilters', {});
         const sitdSensibilisationCards = getCmrData('sitdSensibilisationCards', []);
         const sitdDashboardKpis = getCmrData('sitdDashboardKpis', []);
 
         let sitdSection = 'securite-si';
         let sitdSub = 'sensibilisation-cyber';
+        const sitdFilterState = {};
+        const sitdSearchState = {};
 
         let sitdCampagnes = getCmrData('sitdCampagnes', []);
+        const sitdDocumentItems = getCmrData('sitdDocumentItems', []);
 
         let sitdElearningModules = getCmrData('sitdElearningModules', []);
 
@@ -2118,8 +2123,147 @@ function openAgendaTab(tabName) {
 
         const sitdDocsExploitation = getCmrData('sitdDocsExploitation', []);
 
+        function getSitdFilterValue(subId, key, fallback = 'all') {
+            return sitdFilterState[`${subId}:${key}`] || fallback;
+        }
+
+        function setSitdFilter(subId, key, value, el) {
+            sitdFilterState[`${subId}:${key}`] = value;
+            document.querySelectorAll(`[data-sitd-filter="${subId}:${key}"]`).forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderSitdPage(subId);
+        }
+
+        function setSitdDocumentSearch(subId, value) {
+            sitdSearchState[subId] = value;
+            renderSitdPage(subId);
+        }
+
+        function renderSitdFilterButtons(subId, key, filters = []) {
+            return `
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                    ${filters.map(filter => {
+                        const current = getSitdFilterValue(subId, key, filters.find(f => f.active)?.value || 'all');
+                        const active = filter.value === current ? ' active' : '';
+                        return `<button data-sitd-filter="${subId}:${key}" class="actu-filter-btn${active}" onclick="setSitdFilter('${subId}','${key}','${filter.value}', this)">${filter.label}</button>`;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function filterSitdDocuments(subId) {
+            const config = sitdFilters[subId] || {};
+            const q = (sitdSearchState[subId] || '').trim().toLowerCase();
+            return sitdDocumentItems.filter(doc => {
+                if (doc.section !== subId) return false;
+                if (q) {
+                    const haystack = [
+                        doc.title,
+                        doc.theme,
+                        doc.year,
+                        doc.access,
+                        doc.structure,
+                        doc.meta
+                    ].filter(Boolean).join(' ').toLowerCase();
+                    if (!haystack.includes(q)) return false;
+                }
+                if (config.themeFilters) {
+                    const theme = getSitdFilterValue(subId, 'theme');
+                    if (theme !== 'all' && doc.theme !== theme) return false;
+                }
+                if (config.yearFilters) {
+                    const year = getSitdFilterValue(subId, 'year');
+                    if (year !== 'all' && doc.year !== year) return false;
+                }
+                if (config.filters) {
+                    const value = getSitdFilterValue(subId, 'main', config.filters.find(f => f.active)?.value || 'all');
+                    if (value !== 'all' && doc.theme !== value && doc.access !== value && doc.structure !== value) return false;
+                }
+                return true;
+            });
+        }
+
+        function renderSitdDocumentList(subId) {
+            const config = sitdFilters[subId] || {};
+            const docs = filterSitdDocuments(subId);
+            const filters = [
+                config.themeFilters ? renderSitdFilterButtons(subId, 'theme', config.themeFilters) : '',
+                config.yearFilters ? renderSitdFilterButtons(subId, 'year', config.yearFilters) : '',
+                config.filters ? renderSitdFilterButtons(subId, 'main', config.filters) : ''
+            ].join('');
+            return `
+                <div class="actu-search-wrap" style="margin-bottom:12px;">
+                    <i data-lucide="search" style="width:16px;"></i>
+                    <input id="sitdDocSearch-${subId}" class="actu-search-input" placeholder="Rechercher un document..." value="${sitdSearchState[subId] || ''}" oninput="setSitdDocumentSearch('${subId}', this.value)">
+                </div>
+                ${filters}
+                <div class="doc-list">
+                    ${docs.map(doc => `
+                        <div class="doc-item" onclick="openMockDownload('${doc.file}','${doc.title}')">
+                            <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">PDF</div>
+                            <div class="doc-info">
+                                <div class="doc-title">${doc.title}</div>
+                                <div class="doc-meta">${doc.structure ? `${doc.structure} · ` : ''}${doc.theme || ''}${doc.year ? ` · ${doc.year}` : ''} · ${doc.meta}</div>
+                            </div>
+                            <div style="display:flex;gap:8px;align-items:center;">
+                                <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${doc.file}','${doc.title}')">${sitdLabels.consultLabel || ''}</button>
+                                <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('${doc.file}','${sitdLabels.downloadLabel || ''} – ${doc.title}')">${sitdLabels.downloadLabel || ''}</button>
+                            </div>
+                        </div>
+                    `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">${sitdLabels.emptyResult || ''}</div>`}
+                </div>
+            `;
+        }
+
+        function renderSitdElearningAccess() {
+            return `
+                <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
+                    <div style="font-weight:900;color:#0f172a;">Plateforme e-learning CMR</div>
+                    <p style="margin-top:8px;font-size:13px;color:var(--text-light);line-height:1.7;">${sitdLabels.elearningNote || ''}</p>
+                    <button class="primary-btn" style="margin-top:12px;" onclick="window.open('${sitdLabels.elearningUrl || '#'}','_blank')">${sitdLabels.openElearningLabel || ''}</button>
+                </div>
+            `;
+        }
+
+        function renderSitdExploitationAccess() {
+            return `
+                <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px;">
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
+                        <div style="font-weight:900;color:#0f172a;">Répertoire des outils d'exploitation</div>
+                        <p style="margin-top:8px;font-size:13px;color:var(--text-light);line-height:1.7;">Accès au système de fichiers des outils d'exploitation.</p>
+                        <button class="primary-btn" style="margin-top:12px;" onclick="window.open('${sitdLabels.operationsFolderUrl || '#'}','_blank')">${sitdLabels.operationsFolderLabel || ''}</button>
+                    </div>
+                    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
+                        <div style="font-weight:900;color:#0f172a;">GED OpenText</div>
+                        <p style="margin-top:8px;font-size:13px;color:var(--text-light);line-height:1.7;">Lien vers les documents d'exploitation disponibles dans la GED OpenText.</p>
+                        <button class="secondary-btn" style="margin-top:12px;" onclick="window.open('${sitdLabels.gedOpenTextUrl || '#'}','_blank')">${sitdLabels.gedOpenTextLabel || ''}</button>
+                    </div>
+                </div>
+                ${renderSitdDocumentList('exploitation')}
+            `;
+        }
+
         function renderSitdUxContent(f) {
             const id = f.id;
+            if ([
+                'sensibilisation-cyber',
+                'evenements-securite',
+                'campagnes-si',
+                'smsi-politiques',
+                'smsi-procedures',
+                'smsi-risques',
+                'smsi-pilotage',
+                'referentiel-it',
+                'contrats-services'
+            ].includes(id)) {
+                return renderSitdDocumentList(id);
+            }
+            if (id === 'modules-elearning') {
+                return renderSitdElearningAccess();
+            }
+            if (id === 'exploitation') {
+                return renderSitdExploitationAccess();
+            }
             if (id === 'sensibilisation-cyber') {
                 return `
                     <div class="km-grid">
@@ -2373,6 +2517,11 @@ function openAgendaTab(tabName) {
             sitdSection = sectionId;
             submenuSelections.sitd = sectionId;
             const config = sitdSectionConfig[sectionId];
+            const summary = document.getElementById('sitdSectionSummary');
+            if (summary) {
+                summary.textContent = sitdSectionSummaries[sectionId] || '';
+                summary.style.display = sitdSectionSummaries[sectionId] ? 'block' : 'none';
+            }
             const subNav = document.getElementById('sitdSubNavbar');
             if (config && subNav) {
                 subNav.innerHTML = config.subs.map((s, idx) => `

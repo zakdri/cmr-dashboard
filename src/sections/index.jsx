@@ -16,6 +16,7 @@ import CollaboratifsSection from './views/CollaboratifsSection.jsx';
 import AchatsSection from './views/AchatsSection.jsx';
 import MediathequeSection from './views/MediathequeSection.jsx';
 import NotificationsSection from './views/NotificationsSection.jsx';
+import AlertesSection from './views/AlertesSection.jsx';
 import ActualitesSection from './views/ActualitesSection.jsx';
 import CommunicationInterneSection from './views/CommunicationInterneSection.jsx';
 import AgendaInterneSection from './views/AgendaInterneSection.jsx';
@@ -44,6 +45,7 @@ export const sections = [
   { id: 'achats', Component: AchatsSection },
   { id: 'mediatheque', Component: MediathequeSection },
   { id: 'notifications', Component: NotificationsSection },
+  { id: 'alertes', Component: AlertesSection },
   { id: 'actualites', Component: ActualitesSection },
   { id: 'communication-interne', Component: CommunicationInterneSection },
   { id: 'agenda-interne', Component: AgendaInterneSection },

@@ -11,6 +11,7 @@
     "spaces/achats.json",
     "spaces/actualites.json",
     "spaces/notifications.json",
+    "spaces/alerts.json",
     "spaces/agenda-interne.json",
     "spaces/annuaire.json",
     "spaces/organisation.json",

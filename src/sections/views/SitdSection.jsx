@@ -32,6 +32,15 @@ export default function SitdSection() {
           }}
         ></div>
         <div
+          id="sitdSectionSummary"
+          style={{
+            color: "var(--text-light)",
+            fontSize: 13,
+            lineHeight: 1.7,
+            marginBottom: 12,
+          }}
+        ></div>
+        <div
           className="km-navbar"
           id="sitdSubNavbar"
           style={{
