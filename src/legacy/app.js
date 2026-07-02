@@ -1458,20 +1458,21 @@ function openAgendaTab(tabName) {
             const nav = document.querySelector('#view-innovation .km-navbar');
             if (nav) {
                 nav.querySelectorAll('.km-nav-item').forEach(el => el.classList.remove('active'));
-                const targetNav = nav.querySelector(`[onclick="switchInnovationTab('${tabId}')"]`);
+                const targetNav = nav.querySelector(`[data-innovation-tab="${tabId}"]`);
                 if (targetNav) targetNav.classList.add('active');
             }
 
-            innovationTabs.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.style.display = 'none';
+            document.querySelectorAll('#view-innovation .km-tab-content').forEach(el => {
+                el.style.display = 'none';
             });
             const target = document.getElementById('page-innovation-' + tabId);
             if (target) target.style.display = 'block';
 
             // lazy renders
+            if (tabId === 'suivi') renderInnovationSuivi();
+            if (tabId === 'espace-idees') renderInnovationEspaceIdees();
+            if (tabId === 'innov-event') renderInnovEvent();
             if (tabId === 'ideation') renderIdeas();
-            if (tabId === 'suivi') renderInnovationProjects();
             if (tabId === 'veille') renderInnovationFeed();
             if (tabId === 'social') renderInnovationSocial();
             if (tabId === 'ateliers') renderInnovationEvents();
@@ -1486,8 +1487,278 @@ function openAgendaTab(tabName) {
         const innovationLabels = getCmrData('innovationLabels', {});
         const innovationPagesConfig = getCmrData('innovationPages', {});
         const innovationAccessProfiles = getCmrData('innovationAccessProfiles', {});
+        const innovationThemeOptions = getCmrData('innovationThemeOptions', []);
+        let projectSheets = getCmrData('projectSheets', []);
+        let projectIdeas = getCmrData('projectIdeas', []);
+        let cmrInnovItems = getCmrData('cmrInnovItems', []);
+        let innovEventItems = getCmrData('innovEventItems', []);
+        let selectedProjectSheetId = null;
+        let selectedProjectIdeaId = null;
+        let selectedInnovEventId = null;
         let ideas = getCmrData('ideas', []);
         let selectedIdeaId = null;
+
+        function sortedRecent(items) {
+            return [...items].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0)).slice(0, 6);
+        }
+
+        function getInnovationSearchValue(inputId) {
+            return (document.getElementById(inputId)?.value || '').trim().toLowerCase();
+        }
+
+        function matchesInnovationSearch(item, query) {
+            if (!query) return true;
+            return [
+                item.title,
+                item.description,
+                item.summary,
+                item.objective,
+                item.team,
+                item.mentor,
+                item.insights,
+                item.theme,
+                item.teamName,
+                item.members,
+                item.period,
+                item.axis,
+                item.desc
+            ].filter(Boolean).join(' ').toLowerCase().includes(query);
+        }
+
+        function focusInnovationField(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (field) field.focus();
+        }
+
+        function showInnovationPage(pageId) {
+            document.querySelectorAll('#view-innovation .km-tab-content').forEach(el => {
+                el.style.display = 'none';
+            });
+            const target = document.getElementById(pageId);
+            if (target) target.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            lucide.createIcons();
+        }
+
+        function renderInnovationImageGrid(items, targetId, onClickFn, showDescription = true, searchInputId = null) {
+            const root = document.getElementById(targetId);
+            if (!root) return;
+            const query = searchInputId ? getInnovationSearchValue(searchInputId) : '';
+            const visibleItems = sortedRecent(items.filter(item => matchesInnovationSearch(item, query)));
+            root.innerHTML = `
+                <div class="km-grid innovation-card-grid">
+                    ${visibleItems.map(item => `
+                        <div class="doc-card" style="cursor:pointer;padding:0;overflow:hidden;" onclick="${onClickFn}('${item.id}')">
+                            <img src="${item.image}" alt="${item.title}" style="width:100%;height:118px;object-fit:cover;display:block;">
+                            <div style="padding:14px;">
+                                <div class="doc-card-title">${item.title}</div>
+                                ${showDescription ? `<p style="font-size:12px;color:var(--text-light);margin-top:8px;line-height:1.6;">${item.description || ''}</p>` : ''}
+                                <div class="doc-card-meta"><span>${item.date || ''}</span><i data-lucide="chevron-right" style="width:16px;"></i></div>
+                            </div>
+                        </div>
+                    `).join('') || '<div style="grid-column:1/-1;color:#64748b;font-size:13px;padding:12px;">Aucun résultat trouvé.</div>'}
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function selectInnovationProject(id) {
+            selectedProjectSheetId = id;
+            showInnovationPage('page-innovation-project-detail');
+            renderInnovationProjectDetail();
+        }
+
+        function renderInnovationProjectDetail() {
+            const detail = document.getElementById('innovationProjectDetail');
+            if (!detail) return;
+            const project = projectSheets.find(p => p.id === selectedProjectSheetId) || projectSheets[0];
+            selectedProjectSheetId = project?.id || null;
+            detail.innerHTML = project ? `
+                <img src="${project.image}" alt="${project.title}" style="width:100%;max-height:190px;object-fit:cover;border-radius:12px;margin-bottom:14px;">
+                <div style="font-weight:900;color:#0f172a;font-size:16px;">${project.title}</div>
+                <p style="margin-top:8px;color:#475569;line-height:1.7;">${project.summary}</p>
+                <div style="display:grid;gap:10px;margin-top:12px;font-size:13px;color:#475569;">
+                    <div><strong>Objectif :</strong> ${project.objective}</div>
+                    <div><strong>Équipe projet :</strong> ${project.team}</div>
+                    <div><strong>Mentor :</strong> ${project.mentor}</div>
+                    <div><strong>Insights :</strong> ${project.insights}</div>
+                </div>
+            ` : 'Sélectionnez un projet.';
+        }
+
+        function selectInnovationProjectIdea(id) {
+            selectedProjectIdeaId = id;
+            showInnovationPage('page-innovation-project-idea-detail');
+            renderInnovationProjectIdeaDetail();
+        }
+
+        function renderInnovationProjectIdeaDetail() {
+            const detail = document.getElementById('innovationProjectIdeaDetail');
+            if (!detail) return;
+            const project = projectIdeas.find(p => p.id === selectedProjectIdeaId) || projectIdeas[0];
+            selectedProjectIdeaId = project?.id || null;
+            detail.innerHTML = project ? `
+                <img src="${project.image}" alt="${project.title}" style="width:100%;max-height:190px;object-fit:cover;border-radius:12px;margin-bottom:14px;">
+                <div style="font-weight:900;color:#0f172a;font-size:16px;">${project.title}</div>
+                <p style="margin-top:8px;color:#475569;line-height:1.7;">${project.description}</p>
+            ` : 'Sélectionnez un projet idée.';
+        }
+
+        function switchInnovationProjectSub(subId) {
+            document.querySelectorAll('#page-innovation-suivi .km-nav-item').forEach(el => el.classList.remove('active'));
+            const labels = { 'fiches-projets': 'Fiches Projets', 'projets-idees': 'Projets Idées' };
+            document.querySelectorAll('#page-innovation-suivi .km-nav-item').forEach(el => {
+                if (el.textContent.trim() === labels[subId]) el.classList.add('active');
+            });
+            document.querySelectorAll('.innovation-project-sub').forEach(el => el.style.display = 'none');
+            const target = document.getElementById(subId === 'fiches-projets' ? 'innovationProjectFiches' : 'innovationProjectIdeas');
+            if (target) target.style.display = subId === 'fiches-projets' ? 'block' : 'block';
+            if (subId === 'fiches-projets') renderInnovationProjectCards();
+            if (subId === 'projets-idees') renderInnovationProjectIdeaCards();
+        }
+
+        function renderInnovationProjectCards() {
+            renderInnovationImageGrid(projectSheets, 'innovationProjectCards', 'selectInnovationProject', true, 'projectSheetSearch');
+        }
+
+        function renderInnovationProjectIdeaCards() {
+            renderInnovationImageGrid(projectIdeas, 'innovationProjectIdeaCards', 'selectInnovationProjectIdea', false, 'projectIdeaSearch');
+        }
+
+        function backToInnovationProjectList(subId) {
+            showInnovationPage('page-innovation-suivi');
+            switchInnovationProjectSub(subId);
+        }
+
+        function toggleInnovationProjectForm() {
+            const form = document.getElementById('innovationProjectForm');
+            if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function submitInnovationProject() {
+            const title = (document.getElementById('projectTitle')?.value || '').trim();
+            const summary = (document.getElementById('projectSummary')?.value || '').trim();
+            if (!title || !summary) return;
+            const id = 'fp' + Math.random().toString(16).slice(2);
+            projectSheets = [{
+                id,
+                title,
+                description: summary,
+                summary,
+                objective: (document.getElementById('projectObjective')?.value || '').trim(),
+                team: (document.getElementById('projectTeam')?.value || '').trim(),
+                mentor: (document.getElementById('projectMentor')?.value || '').trim(),
+                insights: (document.getElementById('projectInsights')?.value || '').trim(),
+                image: 'images/intranet/slider_cmr_tech.png',
+                date: new Date().toISOString().slice(0, 10)
+            }, ...projectSheets];
+            ['projectTitle','projectSummary','projectObjective','projectTeam','projectMentor','projectInsights'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            toggleInnovationProjectForm();
+            selectedProjectSheetId = id;
+            renderInnovationProjectCards();
+        }
+
+        function renderInnovationSuivi() {
+            switchInnovationProjectSub('fiches-projets');
+        }
+
+        function renderIdeaMiniList(items, targetId, searchInputId = null) {
+            const root = document.getElementById(targetId);
+            if (!root) return;
+            const query = searchInputId ? getInnovationSearchValue(searchInputId) : '';
+            const visibleItems = items.filter(item => matchesInnovationSearch(item, query));
+            root.innerHTML = visibleItems.map(item => `
+                <div class="doc-item">
+                    <img src="${item.image || 'images/intranet/slider1.png'}" alt="${item.title}" style="width:48px;height:48px;border-radius:12px;object-fit:cover;">
+                    <div class="doc-info">
+                        <div class="doc-title">${item.title}</div>
+                        <div class="doc-meta">${item.theme || item.axis || item.period || ''}</div>
+                    </div>
+                </div>
+            `).join('') || '<div style="color:#64748b;font-size:13px;padding:12px 18px;">Aucun résultat trouvé.</div>';
+        }
+
+        function switchInnovationIdeaSub(subId) {
+            document.querySelectorAll('#page-innovation-espace-idees .km-nav-item').forEach(el => el.classList.remove('active'));
+            const labels = { 'depot-idee': "Dépôt d'idée spontanée", 'cmr-innov': 'CMR Innov' };
+            document.querySelectorAll('#page-innovation-espace-idees .km-nav-item').forEach(el => {
+                if (el.textContent.trim() === labels[subId]) el.classList.add('active');
+            });
+            document.querySelectorAll('.innovation-idea-sub').forEach(el => el.style.display = 'none');
+            const target = document.getElementById(subId === 'depot-idee' ? 'innovationIdeaSpontaneous' : 'innovationIdeaCmrInnov');
+            if (target) target.style.display = 'grid';
+            renderInnovationEspaceIdees();
+        }
+
+        function renderInnovationEspaceIdees() {
+            renderIdeaMiniList(ideas.map(i => ({ ...i, image: i.image || 'images/intranet/slider1.png', theme: i.axis })), 'innovationSpontaneousIdeas', 'spontaneousIdeaSearch');
+            renderIdeaMiniList(cmrInnovItems, 'innovationCmrInnovList', 'cmrInnovSearch');
+        }
+
+        function submitSpontaneousIdea() {
+            const title = (document.getElementById('spontaneousIdeaTitle')?.value || '').trim();
+            const axis = (document.getElementById('spontaneousIdeaTheme')?.value || innovationThemeOptions[0] || '').trim();
+            const desc = (document.getElementById('spontaneousIdeaDesc')?.value || '').trim();
+            if (!title || !desc) return;
+            ideas = [{ id: 'i' + Math.random().toString(16).slice(2), title, axis, score: 0, desc, comments: 0, image: 'images/intranet/slider1.png' }, ...ideas];
+            ['spontaneousIdeaTitle','spontaneousIdeaDesc'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            renderInnovationEspaceIdees();
+        }
+
+        function submitCmrInnov() {
+            const title = (document.getElementById('cmrInnovTitle')?.value || '').trim();
+            const theme = (document.getElementById('cmrInnovTheme')?.value || innovationThemeOptions[0] || '').trim();
+            const start = (document.getElementById('cmrInnovStart')?.value || '').trim();
+            const end = (document.getElementById('cmrInnovEnd')?.value || '').trim();
+            const pdf = document.getElementById('cmrInnovDocs')?.files?.[0];
+            if (!title) return;
+            if (pdf && pdf.type !== 'application/pdf') return;
+            cmrInnovItems = [{ id: 'ci' + Math.random().toString(16).slice(2), title, theme, period: `${start || 'Du'} - ${end || 'Au'}`, image: 'images/intranet/slider2.png' }, ...cmrInnovItems];
+            ['cmrInnovTitle','cmrInnovStart','cmrInnovEnd'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            const docs = document.getElementById('cmrInnovDocs');
+            if (docs) docs.value = '';
+            renderInnovationEspaceIdees();
+        }
+
+        function selectInnovEvent(id) {
+            selectedInnovEventId = id;
+            showInnovationPage('page-innovation-event-detail');
+            renderInnovEventDetail();
+        }
+
+        function renderInnovEventDetail() {
+            const detail = document.getElementById('innovationEventDetail');
+            if (!detail) return;
+            const event = innovEventItems.find(e => e.id === selectedInnovEventId) || innovEventItems[0];
+            selectedInnovEventId = event?.id || null;
+            detail.innerHTML = event ? `
+                <img src="${event.image}" alt="${event.title}" style="width:100%;max-height:190px;object-fit:cover;border-radius:12px;margin-bottom:14px;">
+                <div style="font-weight:900;color:#0f172a;font-size:16px;">${event.title}</div>
+                <div style="display:grid;gap:10px;margin-top:12px;font-size:13px;color:#475569;">
+                    <div><strong>Nom de l'équipe :</strong> ${event.teamName}</div>
+                    <div><strong>Membres de l'équipe :</strong> ${event.members}</div>
+                    <div><strong>Thématique :</strong> ${event.theme}</div>
+                </div>
+            ` : 'Sélectionnez un Innov Event.';
+        }
+
+        function renderInnovEvent() {
+            renderInnovationImageGrid(innovEventItems, 'innovationEventCards', 'selectInnovEvent', false, 'innovEventSearch');
+        }
+
+        function backToInnovationEventList() {
+            showInnovationPage('page-innovation-innov-event');
+            renderInnovEvent();
+        }
         function toggleIdeaForm(open) {
             const card = document.getElementById('ideaFormCard');
             if (card) card.style.display = open ? 'block' : 'none';
@@ -1661,7 +1932,7 @@ function openAgendaTab(tabName) {
             if (!grid) return;
             const items = innovationAxes.filter(x => innovationAxisFilter === 'all' || x.axis === innovationAxisFilter);
             grid.innerHTML = items.map(x => `
-                <div class="doc-card" style="cursor:pointer;" onclick="switchInnovationTab('ideation')">
+                <div class="doc-card" style="cursor:pointer;" onclick="switchInnovationTab('espace-idees')">
                     <div class="doc-icon-large" style="background:#f0fdf4;color:#15803d;"><i data-lucide="target" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${x.axis} — ${x.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:8px;line-height:1.6;">${x.desc}</p>
@@ -5891,7 +6162,7 @@ function openAgendaTab(tabName) {
                 switchPageKmTab(getActiveSubmenuTab('km') || 'referentiels');
             }
             if (viewId === 'innovation') {
-                switchInnovationTab(getActiveSubmenuTab('innovation') || 'ideation');
+                switchInnovationTab(getActiveSubmenuTab('innovation') || 'suivi');
             }
             if (viewId === 'rse') {
                 switchRseSection('referentiels');

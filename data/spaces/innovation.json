@@ -4,87 +4,45 @@
   "data": {
     "innovationHeader": {
       "title": "Espace Innovation",
-      "description": "Idéation, suivi des projets, veille, interactions sociales, ateliers/challenges et gouvernance d’accès."
+      "description": "Suivi des projets, dépôt d’idées et événements d’innovation."
     },
     "innovationTabs": [
-      { "id": "ideation", "label": "Boîte à idées" },
       { "id": "suivi", "label": "Suivi des projets" },
-      { "id": "veille", "label": "Veille" },
-      { "id": "social", "label": "Interactions sociales" },
-      { "id": "ateliers", "label": "Ateliers / Challenges" },
-      { "id": "axes", "label": "Axes d’innovation" },
-      { "id": "openlab", "label": "OpenLab / Portefeuille" },
-      { "id": "excelway", "label": "ExcelWay" },
-      { "id": "droits", "label": "Gestion des droits" }
+      { "id": "espace-idees", "label": "Espace Idées" },
+      { "id": "innov-event", "label": "Innov Event" }
     ],
     "innovationPages": {
-      "ideation": {
-        "title": "Boîte à idées",
+      "suivi": {
+        "title": "Suivi des projets",
+        "icon": "kanban",
+        "iconClass": "blue",
+        "description": "Cette rubrique présente les fiches projets et les projets idées les plus récents sous forme de cartes.",
+        "projectSheetLabel": "Fiches Projets",
+        "projectIdeasLabel": "Projets Idées",
+        "addProjectLabel": "Ajouter un nouveau projet",
+        "projectFormTitle": "Fiche Projet",
+        "projectDetailTitle": "Détail projet",
+        "ideaDetailTitle": "Détail Projet Idée"
+      },
+      "espace-idees": {
+        "title": "Espace Idées",
         "icon": "lightbulb",
         "iconClass": "pink",
-        "submitLabel": "Déposer une idée",
-        "formTitle": "Nouvelle idée",
-        "formIcon": "square-pen",
-        "formIconClass": "blue",
-        "closeLabel": "Fermer",
-        "titlePlaceholder": "Titre de l’idée",
-        "axisOptions": ["Digital", "Processus", "Service", "Data/IA"],
-        "descriptionPlaceholder": "Décrivez l’idée, le bénéfice, les risques…",
-        "sendLabel": "Envoyer",
-        "detailTitle": "Détail idée",
-        "detailIcon": "file-text",
-        "detailIconClass": "purple",
-        "emptyDetail": "Sélectionnez une idée."
+        "description": "Cette rubrique permet de déposer des idées spontanées et des propositions CMR Innov.",
+        "spontaneousLabel": "Dépôt d'idée spontanée",
+        "cmrInnovLabel": "CMR Innov",
+        "ideaButton": "Proposer une idée",
+        "innovButton": "Proposer Innov",
+        "ideaFormTitle": "Formulaire de dépôt",
+        "innovFormTitle": "Formulaire de dépôt Innov",
+        "sendLabel": "Envoyer"
       },
-      "suivi": {
-        "title": "Suivi des projets d’innovation",
-        "icon": "kanban",
-        "iconClass": "blue"
-      },
-      "veille": {
-        "title": "Veille stratégique",
-        "icon": "newspaper",
-        "iconClass": "green"
-      },
-      "social": {
-        "commentsTitle": "Commentaires",
-        "commentsIcon": "message-circle",
-        "commentsIconClass": "orange",
-        "reactionsTitle": "Réactions & votes",
-        "reactionsIcon": "heart",
-        "reactionsIconClass": "pink"
-      },
-      "ateliers": {
-        "title": "Ateliers / challenges",
-        "icon": "calendar",
-        "iconClass": "blue"
-      },
-      "axes": {
-        "title": "Axes d’innovation",
-        "icon": "sliders-horizontal",
-        "iconClass": "green"
-      },
-      "openlab": {
-        "portfolioTitle": "OpenLab / Portefeuille",
-        "portfolioIcon": "layers",
-        "portfolioIconClass": "purple",
-        "dashboardTitle": "Tableau de bord",
-        "dashboardIcon": "bar-chart-3",
-        "dashboardIconClass": "blue"
-      },
-      "excelway": {
-        "listTitle": "ExcelWay (intégration)",
-        "listIcon": "app-window",
-        "listIconClass": "green",
-        "panelTitle": "Widget intégré",
-        "panelIcon": "workflow",
-        "panelIconClass": "blue"
-      },
-      "droits": {
-        "title": "Gestion des droits",
-        "icon": "key",
-        "iconClass": "blue",
-        "description": "Affichage conditionnel (maquette) : filtrer/restreindre selon profil."
+      "innov-event": {
+        "title": "Innov Event",
+        "icon": "calendar-days",
+        "iconClass": "green",
+        "description": "Cette rubrique présente les événements d’innovation et leurs fiches détaillées.",
+        "detailTitle": "Fiche Innov Event"
       }
     },
     "innovationLabels": {
@@ -147,6 +105,170 @@
       "manager": ["Tout collaborateur", "Prioriser / classer", "Voir suivi projets"],
       "admin": ["Tout manager", "Gérer axes", "Gérer droits", "Intégration ExcelWay"]
     },
+    "innovationThemeOptions": ["Digital", "Processus", "Service", "Data/IA"],
+    "projectSheets": [
+      {
+        "id": "fp1",
+        "title": "Portail idées – MVP",
+        "description": "Déploiement d’un portail de dépôt et suivi des idées internes.",
+        "summary": "MVP de centralisation des idées collaborateurs.",
+        "objective": "Accélérer la qualification et le suivi des idées à fort potentiel.",
+        "team": "Innovation, DSI, Communication interne",
+        "mentor": "Direction Transformation",
+        "insights": "Automatiser les étapes de qualification et priorisation.",
+        "image": "images/intranet/slider_cmr_tech.png",
+        "date": "2026-06-28"
+      },
+      {
+        "id": "fp2",
+        "title": "Assistant IA tri demandes",
+        "description": "Prototype d’assistance au tri et routage des demandes internes.",
+        "summary": "Assistant IA pour classifier les demandes et accélérer le traitement.",
+        "objective": "Réduire les délais d’orientation des sollicitations.",
+        "team": "Data, Support, DSI",
+        "mentor": "Pôle Data",
+        "insights": "Commencer par un périmètre pilote sur les demandes support.",
+        "image": "images/intranet/slider2.png",
+        "date": "2026-06-21"
+      },
+      {
+        "id": "fp3",
+        "title": "Dématérialisation PV comités",
+        "description": "Standardisation et archivage digital des procès-verbaux.",
+        "summary": "Chaîne de production et validation des PV de comités.",
+        "objective": "Sécuriser les validations et réduire le temps de traitement.",
+        "team": "Gouvernance, DSI, Juridique",
+        "mentor": "Secrétariat général",
+        "insights": "Intégrer la signature et la GED dès le cadrage.",
+        "image": "images/intranet/news_board.jpg",
+        "date": "2026-06-18"
+      },
+      {
+        "id": "fp4",
+        "title": "Dashboard satisfaction interne",
+        "description": "Suivi des retours collaborateurs et indicateurs de satisfaction.",
+        "summary": "Tableau de bord de pilotage de la satisfaction interne.",
+        "objective": "Améliorer le suivi des irritants et actions correctives.",
+        "team": "RH, Communication, DSI",
+        "mentor": "Direction RH",
+        "insights": "Prévoir une boucle de retour actionnable par service.",
+        "image": "images/intranet/slider3.png",
+        "date": "2026-06-12"
+      },
+      {
+        "id": "fp5",
+        "title": "Signature électronique interne",
+        "description": "Parcours de signature pour documents internes récurrents.",
+        "summary": "Extension de la signature électronique aux flux internes.",
+        "objective": "Réduire les impressions et accélérer la validation.",
+        "team": "DSI, Juridique, Métiers",
+        "mentor": "Direction Digitale",
+        "insights": "Prioriser les documents à fort volume.",
+        "image": "images/intranet/news_contract.jpg",
+        "date": "2026-06-03"
+      },
+      {
+        "id": "fp6",
+        "title": "Catalogue services internes",
+        "description": "Catalogue unifié des services internes et points de contact.",
+        "summary": "Référentiel simple des services proposés aux collaborateurs.",
+        "objective": "Faciliter l’accès aux services et réduire les demandes mal orientées.",
+        "team": "Organisation, Support, Communication",
+        "mentor": "Direction Organisation",
+        "insights": "Construire une taxonomie courte et exploitable.",
+        "image": "images/intranet/slider1.png",
+        "date": "2026-05-25"
+      }
+    ],
+    "projectIdeas": [
+      {
+        "id": "pi1",
+        "title": "Badge visiteur digital",
+        "description": "Idée de badge numérique pour fluidifier l’accueil visiteurs.",
+        "image": "images/intranet/slider_partnership.png",
+        "date": "2026-06-30"
+      },
+      {
+        "id": "pi2",
+        "title": "QR feedback réunion",
+        "description": "Collecter les retours rapides après les réunions internes.",
+        "image": "images/intranet/slider2.png",
+        "date": "2026-06-24"
+      },
+      {
+        "id": "pi3",
+        "title": "Assistant FAQ intranet",
+        "description": "Assistant de recherche guidée dans les contenus intranet.",
+        "image": "images/intranet/slider_cmr_tech.png",
+        "date": "2026-06-20"
+      },
+      {
+        "id": "pi4",
+        "title": "Plan d’action digital RSE",
+        "description": "Visualiser les idées RSE et leur état d’avancement.",
+        "image": "images/intranet/slider3.png",
+        "date": "2026-06-16"
+      },
+      {
+        "id": "pi5",
+        "title": "Réservation intelligente des salles",
+        "description": "Optimiser les salles selon capacité, équipements et présence.",
+        "image": "images/intranet/news_academy.jpg",
+        "date": "2026-06-11"
+      },
+      {
+        "id": "pi6",
+        "title": "Suivi simplifié des décisions",
+        "description": "Centraliser les décisions et échéances par comité.",
+        "image": "images/intranet/news_board.jpg",
+        "date": "2026-06-06"
+      }
+    ],
+    "cmrInnovItems": [
+      {
+        "id": "ci1",
+        "title": "Challenge Data Retraite",
+        "theme": "Data/IA",
+        "period": "01/06/2026 - 30/06/2026",
+        "image": "images/intranet/slider2.png"
+      },
+      {
+        "id": "ci2",
+        "title": "Innov Service Collaborateur",
+        "theme": "Service",
+        "period": "15/05/2026 - 15/06/2026",
+        "image": "images/intranet/slider1.png"
+      }
+    ],
+    "innovEventItems": [
+      {
+        "id": "ev1",
+        "title": "Innov Event – Data & IA",
+        "teamName": "Data Explorers",
+        "members": "A. Benali, S. Amrani, Y. Idrissi",
+        "theme": "Data/IA",
+        "image": "images/intranet/slider2.png",
+        "date": "2026-06-27"
+      },
+      {
+        "id": "ev2",
+        "title": "Innov Event – Service Design",
+        "teamName": "Service Lab",
+        "members": "N. Fassi, M. Tazi, H. Alaoui",
+        "theme": "Service",
+        "image": "images/intranet/news_academy.jpg",
+        "date": "2026-06-15"
+      },
+      {
+        "id": "ev3",
+        "title": "Innov Event – Process Sprint",
+        "teamName": "Process Makers",
+        "members": "K. Saidi, L. Berrada, O. Naciri",
+        "theme": "Processus",
+        "image": "images/intranet/slider3.png",
+        "date": "2026-05-30"
+      }
+    ],
     "ideas": [
       {
         "id": "i1",

@@ -289,40 +289,16 @@
         "title": "Innovation",
         "items": [
           {
-            "label": "Boîte à idées",
-            "tab": "ideation"
-          },
-          {
             "label": "Suivi des projets",
             "tab": "suivi"
           },
           {
-            "label": "Veille",
-            "tab": "veille"
+            "label": "Espace Idées",
+            "tab": "espace-idees"
           },
           {
-            "label": "Interactions sociales",
-            "tab": "social"
-          },
-          {
-            "label": "Ateliers / Challenges",
-            "tab": "ateliers"
-          },
-          {
-            "label": "Axes d’innovation",
-            "tab": "axes"
-          },
-          {
-            "label": "OpenLab / Portefeuille",
-            "tab": "openlab"
-          },
-          {
-            "label": "ExcelWay",
-            "tab": "excelway"
-          },
-          {
-            "label": "Gestion des droits",
-            "tab": "droits"
+            "label": "Innov Event",
+            "tab": "innov-event"
           }
         ]
       },

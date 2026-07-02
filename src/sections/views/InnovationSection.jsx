@@ -7,27 +7,26 @@ function getInnovationData() {
     header: data.innovationHeader || {},
     tabs: data.innovationTabs || [],
     pages: data.innovationPages || {},
-    axisFilters: data.innovationAxisFilters || [],
-    roleFilters: data.innovationRoleFilters || [],
+    themes: data.innovationThemeOptions || [],
   };
 }
 
-function CardTitle({ page, titleKey = "title", iconKey = "icon", iconClassKey = "iconClass" }) {
+function CardTitle({ page }) {
   return (
     <div className="card-title">
-      <div className={`card-icon ${page[iconClassKey]}`}>
-        <i data-lucide={page[iconKey]} style={{ width: 20, height: 20 }} />
+      <div className={`card-icon ${page.iconClass}`}>
+        <i data-lucide={page.icon} style={{ width: 20, height: 20 }} />
       </div>
-      {page[titleKey]}
+      {page.title}
     </div>
   );
 }
 
-function DashboardCard({ page, children, action, titleKey, iconKey, iconClassKey }) {
+function DashboardCard({ page, children, action }) {
   return (
     <div className="dashboard-card">
       <div className="card-header">
-        <CardTitle page={page} titleKey={titleKey} iconKey={iconKey} iconClassKey={iconClassKey} />
+        <CardTitle page={page} />
         {action}
       </div>
       {children}
@@ -35,186 +34,340 @@ function DashboardCard({ page, children, action, titleKey, iconKey, iconClassKey
   );
 }
 
-export default function InnovationSection() {
-  const { header, tabs, pages, axisFilters, roleFilters } = getInnovationData();
-  const ideation = pages.ideation || {};
-  const social = pages.social || {};
-  const openlab = pages.openlab || {};
-  const excelway = pages.excelway || {};
+function SubNav({ items, activeId }) {
+  return (
+    <div
+      className="km-navbar"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 0,
+        marginBottom: 16,
+        borderBottom: "1px solid #e2e8f0",
+        overflowX: "auto",
+        flexWrap: "nowrap",
+      }}
+    >
+      {items.map((item, index) => (
+        <React.Fragment key={item.id}>
+          {index > 0 && (
+            <span
+              style={{
+                color: "#cbd5e1",
+                fontWeight: 300,
+                fontSize: 18,
+                lineHeight: 1,
+                alignSelf: "center",
+                flexShrink: 0,
+              }}
+            >
+              |
+            </span>
+          )}
+          <div
+            className={`km-nav-item${item.id === activeId ? " active" : ""}`}
+            onClick={(event) => runLegacyHandler(event, item.handler)}
+            style={{ whiteSpace: "nowrap", padding: "10px 14px" }}
+          >
+            {item.label}
+          </div>
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+function Field({ id, placeholder, as = "input", type = "text" }) {
+  if (as === "textarea") {
+    return (
+      <textarea
+        id={id}
+        className="actu-search-input"
+        placeholder={placeholder}
+        style={{ height: 96, paddingTop: 10 }}
+      />
+    );
+  }
 
   return (
-    <>
-      <div id="view-innovation" className="view-section km-container">
-        <div className="km-header">
-          <h2>{header.title}</h2>
-          <p>{header.description}</p>
-        </div>
-        <div
-          className="km-navbar"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 0,
-            marginBottom: 30,
-            borderBottom: "2px solid #e2e8f0",
-            paddingBottom: 0,
-            overflowX: "auto",
-            flexWrap: "nowrap",
-          }}
-        >
-          {tabs.map((tab, index) => (
-            <React.Fragment key={tab.id}>
-              {index > 0 && (
-                <span style={{ color: "#cbd5e1", fontWeight: 300, fontSize: 18, lineHeight: 1, alignSelf: "center", flexShrink: 0 }}>
-                  |
-                </span>
-              )}
-              <div
-                className={`km-nav-item${index === 0 ? " active" : ""}`}
-                onClick={(event) => runLegacyHandler(event, `switchInnovationTab('${tab.id}')`)}
-                style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
-              >
-                {tab.label}
-              </div>
-            </React.Fragment>
-          ))}
-        </div>
-        <div id="page-innovation-ideation" className="km-tab-content" style={{ display: "block" }}>
-          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
-            <DashboardCard
-              page={ideation}
-              action={
-                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "toggleIdeaForm(true)")}>
-                  Proposer une idée
-                </button>
-              }
+    <input id={id} className="actu-search-input" type={type} placeholder={placeholder} />
+  );
+}
+
+function SearchField({ id, placeholder, handler }) {
+  return (
+    <div style={{ padding: "0 18px 12px" }}>
+      <input
+        id={id}
+        className="actu-search-input"
+        type="search"
+        placeholder={placeholder}
+        onInput={(event) => runLegacyHandler(event, handler)}
+      />
+    </div>
+  );
+}
+
+function ThemeSelect({ id, themes }) {
+  return (
+    <select id={id} className="actu-search-input" style={{ height: 40 }}>
+      {themes.map((theme) => (
+        <option value={theme} key={theme}>
+          {theme}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+function FileInput({ id, accept }) {
+  return (
+    <input
+      id={id}
+      className="actu-search-input"
+      type="file"
+      accept={accept}
+      style={{ paddingTop: 8 }}
+    />
+  );
+}
+
+export default function InnovationSection() {
+  const { header, tabs, pages, themes } = getInnovationData();
+  const suivi = pages.suivi || {};
+  const espaceIdees = pages["espace-idees"] || {};
+  const innovEvent = pages["innov-event"] || {};
+
+  return (
+    <div id="view-innovation" className="view-section km-container">
+      <div className="km-header">
+        <h2>{header.title}</h2>
+        <p>{header.description}</p>
+      </div>
+
+      <div
+        className="km-navbar"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 0,
+          marginBottom: 18,
+          borderBottom: "2px solid #e2e8f0",
+          overflowX: "auto",
+          flexWrap: "nowrap",
+        }}
+      >
+        {tabs.map((tab, index) => (
+          <React.Fragment key={tab.id}>
+            {index > 0 && (
+              <span style={{ color: "#cbd5e1", fontWeight: 300, fontSize: 18, lineHeight: 1, alignSelf: "center", flexShrink: 0 }}>
+                |
+              </span>
+            )}
+            <div
+              data-innovation-tab={tab.id}
+              className={`km-nav-item${index === 0 ? " active" : ""}`}
+              onClick={(event) => runLegacyHandler(event, `switchInnovationTab('${tab.id}')`)}
+              style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
             >
-              <div id="ideaList" className="doc-list" />
-            </DashboardCard>
-            <div className="dashboard-card" id="ideaFormCard" style={{ display: "none" }}>
-              <div className="card-header">
-                <CardTitle page={ideation} titleKey="formTitle" iconKey="formIcon" iconClassKey="formIconClass" />
-                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "toggleIdeaForm(false)")}>
-                  Fermer
+              {tab.label}
+            </div>
+          </React.Fragment>
+        ))}
+      </div>
+
+      <div id="page-innovation-suivi" className="km-tab-content" style={{ display: "block" }}>
+        <p style={{ color: "var(--text-light)", fontSize: 13, lineHeight: 1.7, margin: "0 0 12px" }}>
+          {suivi.description}
+        </p>
+        <SubNav
+          activeId="fiches-projets"
+          items={[
+            { id: "fiches-projets", label: suivi.projectSheetLabel, handler: "switchInnovationProjectSub('fiches-projets')" },
+            { id: "projets-idees", label: suivi.projectIdeasLabel, handler: "switchInnovationProjectSub('projets-idees')" },
+          ]}
+        />
+
+        <div id="innovationProjectFiches" className="innovation-project-sub">
+          <DashboardCard
+            page={suivi}
+            action={
+              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "toggleInnovationProjectForm()")}>
+                {suivi.addProjectLabel}
+              </button>
+            }
+          >
+            <div id="innovationProjectForm" style={{ display: "none", padding: 18, borderBottom: "1px solid #f1f5f9" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <FileInput id="projectImage" accept="image/*" />
+                <Field id="projectTitle" placeholder="Titre du projet" />
+                <Field id="projectSummary" placeholder="Synthèse du projet" />
+                <Field id="projectObjective" placeholder="Objectif" />
+                <Field id="projectTeam" placeholder="Équipe projet" />
+                <Field id="projectMentor" placeholder="Mentor" />
+              </div>
+              <div style={{ marginTop: 12 }}>
+                <Field id="projectInsights" placeholder="Insights" as="textarea" />
+              </div>
+              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
+                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitInnovationProject()")}>
+                  Ajouter
                 </button>
               </div>
-              <div style={{ padding: 18 }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  <input id="ideaTitle" className="actu-search-input" placeholder="Titre de l'idée" />
-                  <select id="ideaAxis" className="actu-search-input" style={{ height: 40 }}>
-                    {(ideation.axisOptions || []).map((axis) => (
-                      <option value={axis} key={axis}>
-                        {axis}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <textarea
-                  id="ideaDesc"
-                  className="actu-search-input"
-                  style={{ marginTop: 12, height: 120, paddingTop: 10 }}
-                  placeholder="Décrire l'idée, le besoin ou le problème à résoudre..."
-                  defaultValue={""}
-                />
-                <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
-                  <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitIdea()")}>
-                    Envoyer
-                  </button>
-                </div>
-              </div>
             </div>
-            <DashboardCard page={ideation} titleKey="detailTitle" iconKey="detailIcon" iconClassKey="detailIconClass">
-              <div id="ideaDetail" style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
-                {ideation.emptyDetail}
-              </div>
-            </DashboardCard>
+            <SearchField
+              id="projectSheetSearch"
+              placeholder="Rechercher une fiche projet..."
+              handler="renderInnovationProjectCards()"
+            />
+            <div id="innovationProjectCards" style={{ padding: 18 }} />
+          </DashboardCard>
+        </div>
+
+        <div id="innovationProjectIdeas" className="innovation-project-sub" style={{ display: "none" }}>
+          <DashboardCard page={{ ...suivi, title: suivi.projectIdeasLabel, icon: "lightbulb", iconClass: "green" }}>
+            <SearchField
+              id="projectIdeaSearch"
+              placeholder="Rechercher un projet idée..."
+              handler="renderInnovationProjectIdeaCards()"
+            />
+            <div id="innovationProjectIdeaCards" style={{ padding: 18 }} />
+          </DashboardCard>
+        </div>
+      </div>
+
+      <div id="page-innovation-project-detail" className="km-tab-content" style={{ display: "none" }}>
+        <DashboardCard
+          page={{ ...suivi, title: suivi.projectDetailTitle, icon: "file-text", iconClass: "purple" }}
+          action={
+            <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "backToInnovationProjectList('fiches-projets')")}>
+              Retour
+            </button>
+          }
+        >
+          <div id="innovationProjectDetail" style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
+            Sélectionnez un projet.
           </div>
-        </div>
-        <div id="page-innovation-suivi" className="km-tab-content" style={{ display: "none" }}>
-          <DashboardCard page={pages.suivi || {}}>
-            <div id="innovationProjects" style={{ padding: 18 }} />
-          </DashboardCard>
-        </div>
-        <div id="page-innovation-veille" className="km-tab-content" style={{ display: "none" }}>
-          <DashboardCard page={pages.veille || {}}>
-            <div id="innovationFeed" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
-          </DashboardCard>
-        </div>
-        <div id="page-innovation-social" className="km-tab-content" style={{ display: "none" }}>
-          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
-            <DashboardCard page={social} titleKey="commentsTitle" iconKey="commentsIcon" iconClassKey="commentsIconClass">
-              <div id="innovationComments" style={{ padding: 18 }} />
-            </DashboardCard>
-            <DashboardCard page={social} titleKey="reactionsTitle" iconKey="reactionsIcon" iconClassKey="reactionsIconClass">
-              <div id="innovationReactions" style={{ padding: 18 }} />
-            </DashboardCard>
+        </DashboardCard>
+      </div>
+
+      <div id="page-innovation-project-idea-detail" className="km-tab-content" style={{ display: "none" }}>
+        <DashboardCard
+          page={{ ...suivi, title: suivi.ideaDetailTitle, icon: "file-text", iconClass: "purple" }}
+          action={
+            <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "backToInnovationProjectList('projets-idees')")}>
+              Retour
+            </button>
+          }
+        >
+          <div id="innovationProjectIdeaDetail" style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
+            Sélectionnez un projet idée.
           </div>
-        </div>
-        <div id="page-innovation-ateliers" className="km-tab-content" style={{ display: "none" }}>
-          <DashboardCard page={pages.ateliers || {}}>
-            <div id="innovationEvents" style={{ padding: 18 }} />
+        </DashboardCard>
+      </div>
+
+      <div id="page-innovation-espace-idees" className="km-tab-content" style={{ display: "none" }}>
+        <p style={{ color: "var(--text-light)", fontSize: 13, lineHeight: 1.7, margin: "0 0 12px" }}>
+          {espaceIdees.description}
+        </p>
+        <SubNav
+          activeId="depot-idee"
+          items={[
+            { id: "depot-idee", label: espaceIdees.spontaneousLabel, handler: "switchInnovationIdeaSub('depot-idee')" },
+            { id: "cmr-innov", label: espaceIdees.cmrInnovLabel, handler: "switchInnovationIdeaSub('cmr-innov')" },
+          ]}
+        />
+
+        <div id="innovationIdeaSpontaneous" className="dashboard-grid innovation-idea-sub" style={{ gridTemplateColumns: "1.1fr .9fr", gap: 24 }}>
+          <DashboardCard
+            page={{ ...espaceIdees, title: "Boîte à idées" }}
+            action={
+              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "focusInnovationField('spontaneousIdeaTitle')")}>
+                {espaceIdees.ideaButton}
+              </button>
+            }
+          >
+            <SearchField
+              id="spontaneousIdeaSearch"
+              placeholder="Rechercher une idée..."
+              handler="renderInnovationEspaceIdees()"
+            />
+            <div id="innovationSpontaneousIdeas" className="doc-list" />
           </DashboardCard>
-        </div>
-        <div id="page-innovation-axes" className="km-tab-content" style={{ display: "none" }}>
-          <DashboardCard page={pages.axes || {}}>
-            <div style={{ padding: 18 }}>
-              <div id="innovationAxesFilters" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                {axisFilters.map((filter) => (
-                  <button
-                    key={filter.value}
-                    className={`actu-filter-btn${filter.active ? " active" : ""}`}
-                    onClick={(event) => runLegacyHandler(event, `filterInnovationAxis('${filter.value}', this)`)}
-                  >
-                    {filter.label}
-                  </button>
-                ))}
-              </div>
-              <div id="innovationAxesGrid" className="km-grid" style={{ marginTop: 18 }} />
+          <DashboardCard page={{ ...espaceIdees, title: espaceIdees.ideaFormTitle, icon: "square-pen", iconClass: "blue" }}>
+            <div style={{ padding: 18, display: "grid", gap: 12 }}>
+              <Field id="spontaneousIdeaTitle" placeholder="Titre de l'idée" />
+              <ThemeSelect id="spontaneousIdeaTheme" themes={themes} />
+              <Field id="spontaneousIdeaDesc" placeholder="Description de l'idée" as="textarea" />
+              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitSpontaneousIdea()")}>
+                {espaceIdees.sendLabel}
+              </button>
             </div>
           </DashboardCard>
         </div>
-        <div id="page-innovation-openlab" className="km-tab-content" style={{ display: "none" }}>
-          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
-            <DashboardCard page={openlab} titleKey="portfolioTitle" iconKey="portfolioIcon" iconClassKey="portfolioIconClass">
-              <div id="openlabPortfolio" className="doc-list" />
-            </DashboardCard>
-            <DashboardCard page={openlab} titleKey="dashboardTitle" iconKey="dashboardIcon" iconClassKey="dashboardIconClass">
-              <div id="openlabDashboard" style={{ padding: 18 }} />
-            </DashboardCard>
-          </div>
-        </div>
-        <div id="page-innovation-excelway" className="km-tab-content" style={{ display: "none" }}>
-          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
-            <DashboardCard page={excelway} titleKey="listTitle" iconKey="listIcon" iconClassKey="listIconClass">
-              <div id="innovationExcelwayList" className="doc-list" />
-            </DashboardCard>
-            <DashboardCard page={excelway} titleKey="panelTitle" iconKey="panelIcon" iconClassKey="panelIconClass">
-              <div id="innovationExcelwayPanel" style={{ padding: 18 }} />
-            </DashboardCard>
-          </div>
-        </div>
-        <div id="page-innovation-droits" className="km-tab-content" style={{ display: "none" }}>
-          <DashboardCard page={pages.droits || {}}>
-            <div style={{ padding: 18 }}>
-              <p style={{ margin: 0, color: "var(--text-light)", fontSize: 13, lineHeight: "1.7" }}>
-                {pages.droits?.description}
-              </p>
-              <div id="innovationRoleFilters" style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
-                {roleFilters.map((filter) => (
-                  <button
-                    key={filter.value}
-                    className={`actu-filter-btn${filter.active ? " active" : ""}`}
-                    onClick={(event) => runLegacyHandler(event, `setInnovationRole('${filter.value}', this)`)}
-                  >
-                    {filter.label}
-                  </button>
-                ))}
+
+        <div id="innovationIdeaCmrInnov" className="dashboard-grid innovation-idea-sub" style={{ display: "none", gridTemplateColumns: "1.1fr .9fr", gap: 24 }}>
+          <DashboardCard
+            page={{ ...espaceIdees, title: "CMR Innov", icon: "sparkles", iconClass: "green" }}
+            action={
+              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "focusInnovationField('cmrInnovTitle')")}>
+                {espaceIdees.innovButton}
+              </button>
+            }
+          >
+            <SearchField
+              id="cmrInnovSearch"
+              placeholder="Rechercher un innov..."
+              handler="renderInnovationEspaceIdees()"
+            />
+            <div id="innovationCmrInnovList" className="doc-list" />
+          </DashboardCard>
+          <DashboardCard page={{ ...espaceIdees, title: espaceIdees.innovFormTitle, icon: "square-pen", iconClass: "blue" }}>
+            <div style={{ padding: 18, display: "grid", gap: 12 }}>
+              <Field id="cmrInnovTitle" placeholder="Titre" />
+              <ThemeSelect id="cmrInnovTheme" themes={themes} />
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <Field id="cmrInnovStart" placeholder="Du" type="date" />
+                <Field id="cmrInnovEnd" placeholder="Au" type="date" />
               </div>
-              <div id="innovationAccessPanel" style={{ marginTop: 16 }} />
+              <FileInput id="cmrInnovImage" accept="image/*" />
+              <FileInput id="cmrInnovDocs" accept="application/pdf" />
+              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitCmrInnov()")}>
+                {espaceIdees.sendLabel}
+              </button>
             </div>
           </DashboardCard>
         </div>
       </div>
-    </>
+
+      <div id="page-innovation-innov-event" className="km-tab-content" style={{ display: "none" }}>
+        <p style={{ color: "var(--text-light)", fontSize: 13, lineHeight: 1.7, margin: "0 0 12px" }}>
+          {innovEvent.description}
+        </p>
+        <DashboardCard page={innovEvent}>
+          <SearchField
+            id="innovEventSearch"
+            placeholder="Rechercher un Innov Event..."
+            handler="renderInnovEvent()"
+          />
+          <div id="innovationEventCards" style={{ padding: 18 }} />
+        </DashboardCard>
+      </div>
+
+      <div id="page-innovation-event-detail" className="km-tab-content" style={{ display: "none" }}>
+        <DashboardCard
+          page={{ ...innovEvent, title: innovEvent.detailTitle, icon: "file-text", iconClass: "purple" }}
+          action={
+            <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "backToInnovationEventList()")}>
+              Retour
+            </button>
+          }
+        >
+          <div id="innovationEventDetail" style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
+            Sélectionnez un Innov Event.
+          </div>
+        </DashboardCard>
+      </div>
+    </div>
   );
 }
