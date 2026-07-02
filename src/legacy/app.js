@@ -564,6 +564,8 @@ function openAgendaTab(tabName) {
 
         // KM PAGE TAB LOGIC (Full Page)
         function switchPageKmTab(tabId) {
+            const allowedKmTabs = getCmrData('kmTabs', []).map(tab => tab.id);
+            if (!allowedKmTabs.includes(tabId)) tabId = allowedKmTabs[0] || 'referentiels';
             submenuSelections.km = tabId;
 
             const kmNavbar = document.querySelector('#view-km .km-navbar');
@@ -572,7 +574,7 @@ function openAgendaTab(tabName) {
                     el.classList.remove('active');
                 });
 
-                const targetNav = kmNavbar.querySelector(`[onclick="switchPageKmTab('${tabId}')"]`);
+                const targetNav = kmNavbar.querySelector(`[data-km-tab="${tabId}"]`);
                 if (targetNav) {
                     targetNav.classList.add('active');
                 }
@@ -580,10 +582,8 @@ function openAgendaTab(tabName) {
 
             // Update Content
             // We need to target the specific page tabs, not the widget ones
-            const pageTabs = getCmrData('kmTabs', []).map(tab => `page-km-${tab.id}`);
-            pageTabs.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.style.display = 'none';
+            document.querySelectorAll('#view-km .km-tab-content').forEach(el => {
+                el.style.display = 'none';
             });
 
             const targetEl = document.getElementById('page-km-' + tabId);
@@ -598,7 +598,10 @@ function openAgendaTab(tabName) {
             if (tabId === 'communautes') renderKmCommunautes();
             if (tabId === 'amoa') renderKmAmoa();
             if (tabId === 'docs') renderKmDocs();
-            if (tabId === 'contributions') renderKmContributions();
+            if (tabId === 'contributions') {
+                switchKmContributionSub('contributions');
+                renderKmContributions();
+            }
             if (tabId === 'categorisation') renderKmCatalogue();
             if (tabId === 'livrables') renderKmLivrables();
             if (tabId === 'modeles') renderKmModeles();
@@ -5051,12 +5054,13 @@ function openAgendaTab(tabName) {
             `;
         }
         // ===== KM DATA + RENDERS (table conforme) =====
-        let kmRefActive = 'metiers';
+        let kmRefActive = 'retraite';
         const kmPagesConfig = getCmrData('kmPages', {});
         const kmLabels = getCmrData('kmLabels', {});
         const kmReferentiels = getCmrData('kmReferentiels', []);
         const kmGlossaire = getCmrData('kmGlossaire', []);
         let kmRexData = getCmrData('kmRexData', []);
+        let kmRexPendingData = [];
         let kmRexSelected = null;
         const kmElearning = getCmrData('kmElearning', []);
         const kmPedagogieMetier = getCmrData('kmPedagogieMetier', []);
@@ -5069,6 +5073,7 @@ function openAgendaTab(tabName) {
         const kmDocs = getCmrData('kmDocs', []);
         let kmContribData = getCmrData('kmContribData', []);
         let kmContribSelected = null;
+        let kmContributionSubActive = 'contributions';
 
         let kmCatalogueType = 'all';
         const kmCatalogueItems = getCmrData('kmCatalogueItems', []);
@@ -5149,9 +5154,10 @@ function openAgendaTab(tabName) {
             const sel = kmRexData.find(x => x.id === kmRexSelected) || null;
             detail.innerHTML = sel ? `
                 <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
-                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.theme} • ${sel.date}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.theme} • ${sel.date}${sel.status ? ` • ${sel.status}` : ''}</div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.body}</div>
+                ${sel.attachment ? `<div style="display:flex;justify-content:flex-end;margin-top:14px;"><button class="secondary-btn" onclick="openMockDownload('${sel.attachment}','${sel.title}')">Pièce jointe</button></div>` : ''}
             ` : (kmPagesConfig.rex?.emptyDetail || '');
             lucide.createIcons();
         }
@@ -5165,13 +5171,17 @@ function openAgendaTab(tabName) {
             const title = (document.getElementById('kmRexTitle')?.value || '').trim();
             const theme = (document.getElementById('kmRexTheme')?.value || kmLabels.defaultRexTheme || '').trim();
             const desc = (document.getElementById('kmRexDesc')?.value || '').trim();
+            const attachment = document.getElementById('kmRexAttachment')?.files?.[0]?.name || '';
             if (!title || !desc) return;
             const id = 'rx' + Math.random().toString(16).slice(2);
-            kmRexData = [{ id, title, theme, date: kmLabels.todayLabel || '', body: desc }, ...kmRexData];
+            kmRexPendingData = [{ id, title, theme, date: kmLabels.todayLabel || '', body: desc, attachment, status: 'En attente de publication' }, ...kmRexPendingData];
             document.getElementById('kmRexTitle').value = '';
             document.getElementById('kmRexDesc').value = '';
+            const fileInput = document.getElementById('kmRexAttachment');
+            if (fileInput) fileInput.value = '';
             toggleKmRexForm(false);
             renderKmRex();
+            alert('REX soumis. Il reste en attente de publication par l’équipe Knowledge Management.');
         }
 
         function renderKmElearning() {
@@ -5216,7 +5226,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">COM</div>
                     <div class="doc-info">
                         <div class="doc-title">${c.name}</div>
-                        <div class="doc-meta">${c.members} ${kmLabels.membersLabel || ''} • ${c.threads} ${kmLabels.threadsLabel || ''}</div>
+                        <div class="doc-meta">${c.theme || ''} • ${c.members} ${kmLabels.membersLabel || ''} • ${c.threads} ${kmLabels.threadsLabel || ''}</div>
                     </div>
                     <span style="background:#dcfce7;color:#15803d;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;">${kmLabels.joinLabel || ''}</span>
                 </div>
@@ -5305,10 +5315,25 @@ function openAgendaTab(tabName) {
             detail.innerHTML = sel ? `
                 <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.date}</div>
+                ${sel.startDate || sel.endDate ? `<div style="margin-top:4px;color:var(--text-light);font-size:12px;">Période : ${sel.startDate || '-'} au ${sel.endDate || '-'}</div>` : ''}
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.body}</div>
             ` : (kmPagesConfig.contributions?.emptyDetail || '');
             lucide.createIcons();
+        }
+
+        function switchKmContributionSub(subId) {
+            kmContributionSubActive = subId;
+            document.querySelectorAll('#page-km-contributions > .km-navbar .km-nav-item').forEach(el => {
+                el.classList.toggle('active', el.textContent.trim() === (subId === 'campagnes' ? (kmPagesConfig.contributions?.campaignsLabel || 'Campagnes') : (kmPagesConfig.contributions?.contributionsLabel || 'Contributions')));
+            });
+            document.querySelectorAll('#page-km-contributions .km-contribution-sub').forEach(el => {
+                el.style.display = 'none';
+            });
+            const target = document.getElementById(subId === 'campagnes' ? 'kmCampaignsSub' : 'kmContributionsSub');
+            if (target) target.style.display = 'grid';
+            if (subId === 'campagnes') renderKmCampagnes();
+            if (subId === 'contributions') renderKmContributions();
         }
 
         function toggleKmContributionForm(open) {
@@ -5318,11 +5343,18 @@ function openAgendaTab(tabName) {
 
         function submitKmContribution() {
             const title = (document.getElementById('kmContribTitle')?.value || '').trim();
+            const startDate = (document.getElementById('kmContribStart')?.value || '').trim();
+            const endDate = (document.getElementById('kmContribEnd')?.value || '').trim();
             const body = (document.getElementById('kmContribBody')?.value || '').trim();
             if (!title || !body) return;
             const id = 'ct' + Math.random().toString(16).slice(2);
-            kmContribData = [{ id, title, date: kmLabels.todayLabel || '', body }, ...kmContribData];
+            const date = startDate && endDate ? `${startDate} - ${endDate}` : (kmLabels.todayLabel || '');
+            kmContribData = [{ id, title, date, startDate, endDate, body }, ...kmContribData];
             document.getElementById('kmContribTitle').value = '';
+            const start = document.getElementById('kmContribStart');
+            const end = document.getElementById('kmContribEnd');
+            if (start) start.value = '';
+            if (end) end.value = '';
             document.getElementById('kmContribBody').value = '';
             toggleKmContributionForm(false);
             renderKmContributions();
@@ -5484,7 +5516,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#ecfdf5;color:#16a34a;font-weight:900;">INT</div>
                     <div class="doc-info">
                         <div class="doc-title">${c.title}</div>
-                        <div class="doc-meta">${c.type} • ${c.responses} ${kmLabels.responsesLabel || ''}</div>
+                        <div class="doc-meta">${c.domain || c.type} • ${c.responses} ${kmLabels.responsesLabel || ''}</div>
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -5493,7 +5525,7 @@ function openAgendaTab(tabName) {
             kmCampagnesSelected = sel?.id || null;
             detail.innerHTML = sel ? `
                 <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
-                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.type} • ${kmLabels.audienceLabel || ''} : ${sel.audience}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.domain || sel.type} • ${kmLabels.audienceLabel || ''} : ${sel.audience}</div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
                 <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.desc}</div>
                 <div style="margin-top:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">

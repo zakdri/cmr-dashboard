@@ -67,6 +67,45 @@ function SearchBlock({ id, placeholder, handler, maxWidth = 520 }) {
   );
 }
 
+function SummaryText({ children }) {
+  if (!children) return null;
+  return (
+    <p style={{ color: "var(--text-light)", fontSize: 13, lineHeight: 1.7, margin: "0 0 14px" }}>
+      {children}
+    </p>
+  );
+}
+
+function SubNav({ items, activeId }) {
+  return (
+    <div
+      className="km-navbar"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 0,
+        marginBottom: 16,
+        borderBottom: "1px solid #e2e8f0",
+        overflowX: "auto",
+        flexWrap: "nowrap",
+      }}
+    >
+      {items.map((item, index) => (
+        <React.Fragment key={item.id}>
+          {index > 0 && <Separator />}
+          <div
+            className={`km-nav-item${item.id === activeId ? " active" : ""}`}
+            onClick={(event) => runLegacyHandler(event, item.handler)}
+            style={{ whiteSpace: "nowrap", padding: "10px 14px" }}
+          >
+            {item.label}
+          </div>
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
 function SimpleListPage({ id, page, listId, grid = false, children }) {
   return (
     <div id={`page-km-${id}`} className="km-tab-content" style={{ display: "none" }}>
@@ -126,6 +165,7 @@ export default function KmSection() {
             <React.Fragment key={tab.id}>
               {index > 0 && <Separator />}
               <div
+                data-km-tab={tab.id}
                 className={`km-nav-item${index === 0 ? " active" : ""}`}
                 onClick={(event) => runLegacyHandler(event, `switchPageKmTab('${tab.id}')`)}
                 style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
@@ -137,6 +177,7 @@ export default function KmSection() {
         </div>
 
         <div id="page-km-referentiels" className="km-tab-content" style={{ display: "block" }}>
+          <SummaryText>{referentiels.description}</SummaryText>
           <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
             <DashboardCard page={referentiels} titleKey="foldersTitle" iconKey="foldersIcon" iconClassKey="foldersIconClass">
               <div id="kmRefFolders" className="doc-list" />
@@ -156,6 +197,7 @@ export default function KmSection() {
         </div>
 
         <div id="page-km-rex" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{rex.description}</SummaryText>
           <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
             <DashboardCard
               page={rex}
@@ -185,6 +227,9 @@ export default function KmSection() {
               }
             >
               <div style={{ padding: 18 }}>
+                <p style={{ margin: "0 0 12px", color: "var(--text-light)", fontSize: 12, lineHeight: 1.6 }}>
+                  {rex.habilitationNote}
+                </p>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                   <input id="kmRexTitle" className="actu-search-input" placeholder="Titre du REX" />
                   <select id="kmRexTheme" className="actu-search-input" style={{ height: 40 }}>
@@ -196,6 +241,7 @@ export default function KmSection() {
                   </select>
                 </div>
                 <textarea id="kmRexDesc" className="actu-search-input" style={{ marginTop: 12, height: 120, paddingTop: 10 }} placeholder="Décrire le retour d'expérience..." defaultValue={""} />
+                <input id="kmRexAttachment" className="actu-search-input" type="file" style={{ marginTop: 12, paddingTop: 8 }} />
                 <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
                   <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitKmRex()")}>
                     Envoyer
@@ -211,6 +257,7 @@ export default function KmSection() {
         <SimpleListPage id="pedagogie" page={pages.pedagogie || {}} listId="kmPedagogieGrid" grid />
 
         <div id="page-km-communautes" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{communautes.description}</SummaryText>
           <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
             <DashboardCard page={communautes} titleKey="communitiesTitle" iconKey="communitiesIcon" iconClassKey="communitiesIconClass">
               <div id="kmCommList" className="doc-list" />
@@ -242,7 +289,15 @@ export default function KmSection() {
         </div>
 
         <div id="page-km-contributions" className="km-tab-content" style={{ display: "none" }}>
-          <div className="dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+          <SummaryText>{contributions.description}</SummaryText>
+          <SubNav
+            activeId="contributions"
+            items={[
+              { id: "contributions", label: contributions.contributionsLabel, handler: "switchKmContributionSub('contributions')" },
+              { id: "campagnes", label: contributions.campaignsLabel, handler: "switchKmContributionSub('campagnes')" },
+            ]}
+          />
+          <div id="kmContributionsSub" className="km-contribution-sub dashboard-grid" style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
             <DashboardCard
               page={contributions}
               titleKey="listTitle"
@@ -254,6 +309,7 @@ export default function KmSection() {
                 </button>
               }
             >
+              <SummaryText>{contributions.contributionsDescription}</SummaryText>
               <div id="kmContribList" className="doc-list" />
             </DashboardCard>
             <DashboardCard
@@ -271,6 +327,10 @@ export default function KmSection() {
             >
               <div style={{ padding: 18 }}>
                 <input id="kmContribTitle" className="actu-search-input" placeholder="Titre de la contribution" />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }}>
+                  <input id="kmContribStart" className="actu-search-input" type="date" />
+                  <input id="kmContribEnd" className="actu-search-input" type="date" />
+                </div>
                 <textarea id="kmContribBody" className="actu-search-input" style={{ marginTop: 12, height: 120, paddingTop: 10 }} placeholder="Contenu de la contribution..." defaultValue={""} />
                 <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
                   <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitKmContribution()")}>
@@ -280,6 +340,13 @@ export default function KmSection() {
               </div>
             </DashboardCard>
             <DetailPane id="kmContribDetail" cardId="kmContribDetailCard" page={contributions} />
+          </div>
+          <div id="kmCampaignsSub" className="km-contribution-sub dashboard-grid" style={{ display: "none", gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}>
+            <DashboardCard page={contributions} titleKey="campaignsLabel" iconKey="listIcon" iconClassKey="listIconClass">
+              <SummaryText>{contributions.campaignsDescription}</SummaryText>
+              <div id="kmCampagnesList" className="doc-list" />
+            </DashboardCard>
+            <DetailPane id="kmCampagnesDetail" page={{ ...contributions, detailTitle: "Détail campagne" }} />
           </div>
         </div>
 

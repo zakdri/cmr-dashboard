@@ -153,24 +153,9 @@
           { "label": "Référentiels métiers", "tab": "referentiels" },
           { "label": "Glossaire", "tab": "glossaire" },
           { "label": "REX", "tab": "rex" },
-          { "label": "E‑learning", "tab": "elearning" },
-          { "label": "Pédagogie métier", "tab": "pedagogie" },
           { "label": "Communautés", "tab": "communautes" },
-          { "label": "AMOA / Conduite du changement", "tab": "amoa" },
-          { "label": "Docs formalisés", "tab": "docs" },
           { "label": "Contributions", "tab": "contributions" },
-          { "label": "Catégorisation", "tab": "categorisation" },
-          { "label": "Livrables projets", "tab": "livrables" },
-          { "label": "Modèles / formulaires", "tab": "modeles" },
-          { "label": "Articles / bilans", "tab": "publications" },
-          { "label": "GED", "tab": "ged" },
-          { "label": "GLPI", "tab": "glpi" },
-          { "label": "Supports pédagogiques", "tab": "supports" },
-          { "label": "Sources stories", "tab": "stories" },
-          { "label": "Campagnes interaction", "tab": "campagnes" },
-          { "label": "Audit & conformité", "tab": "audit-risque" },
-          { "label": "Capsules UX", "tab": "capsules-ux" },
-          { "label": "Régimes & processus", "tab": "regimes-processus" }
+          { "label": "Articles / bilans", "tab": "publications" }
         ]
       },
       "documentaires": {

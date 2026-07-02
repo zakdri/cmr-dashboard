@@ -4,40 +4,26 @@
   "data": {
     "kmHeader": {
       "title": "Knowledge Management",
-      "description": "Référentiels, capitalisation (REX), e‑learning, communautés, structuration et accès GED/GLPI."
+      "description": "L’espace Knowledge Management centralise les référentiels métiers, le glossaire, les retours d’expérience, les communautés, les contributions et les articles de capitalisation."
     },
     "kmTabs": [
       { "id": "referentiels", "label": "Référentiels métiers" },
       { "id": "glossaire", "label": "Glossaire" },
       { "id": "rex", "label": "REX" },
-      { "id": "elearning", "label": "E‑learning" },
-      { "id": "pedagogie", "label": "Pédagogie métier" },
       { "id": "communautes", "label": "Communautés" },
-      { "id": "amoa", "label": "AMOA / Conduite du changement" },
-      { "id": "docs", "label": "Docs formalisés" },
       { "id": "contributions", "label": "Contributions" },
-      { "id": "categorisation", "label": "Catégorisation" },
-      { "id": "livrables", "label": "Livrables projets" },
-      { "id": "modeles", "label": "Modèles / formulaires" },
-      { "id": "publications", "label": "Articles / bilans" },
-      { "id": "ged", "label": "GED" },
-      { "id": "glpi", "label": "GLPI" },
-      { "id": "supports", "label": "Supports pédagogiques" },
-      { "id": "stories", "label": "Sources stories" },
-      { "id": "campagnes", "label": "Campagnes interaction" },
-      { "id": "audit-risque", "label": "Audit & conformité" },
-      { "id": "capsules-ux", "label": "Capsules UX" },
-      { "id": "regimes-processus", "label": "Régimes & processus" }
+      { "id": "publications", "label": "Articles / bilans" }
     ],
     "kmPages": {
       "referentiels": {
         "foldersTitle": "Référentiels métiers",
         "foldersIcon": "folder",
         "foldersIconClass": "purple",
-        "guidesTitle": "Guides pratiques",
+        "guidesTitle": "Documents du domaine",
         "guidesIcon": "file-text",
         "guidesIconClass": "blue",
-        "searchPlaceholder": "Rechercher un guide…"
+        "searchPlaceholder": "Rechercher un document…",
+        "description": "Cette rubrique organise les référentiels métiers par domaine et affiche les documents associés au domaine sélectionné."
       },
       "glossaire": {
         "title": "Glossaire",
@@ -59,6 +45,9 @@
         "themeOptions": ["Projet", "Processus", "Outil"],
         "descriptionPlaceholder": "Description / leçons apprises…",
         "sendLabel": "Envoyer",
+        "description": "Cette rubrique permet de consulter les REX publiés et de soumettre un retour d’expérience, sous réserve d’habilitation et sans publication automatique.",
+        "habilitationNote": "La soumission est soumise à habilitation. Le REX soumis reste en attente de publication par l’équipe Knowledge Management.",
+        "attachmentLabel": "Pièce jointe",
         "detailTitle": "Détail REX",
         "detailIcon": "file-text",
         "detailIconClass": "purple",
@@ -80,7 +69,8 @@
         "communitiesIconClass": "green",
         "threadsTitle": "Dernières discussions",
         "threadsIcon": "message-circle",
-        "threadsIconClass": "orange"
+        "threadsIconClass": "orange",
+        "description": "Cette rubrique présente les communautés de pratique et les dernières discussions, classées par thématique."
       },
       "amoa": {
         "listTitle": "AMOA / Conduite du changement",
@@ -114,7 +104,14 @@
         "detailTitle": "Détail",
         "detailIcon": "file-text",
         "detailIconClass": "purple",
-        "emptyDetail": "Sélectionnez une contribution."
+        "emptyDetail": "Sélectionnez une contribution.",
+        "description": "Cette rubrique regroupe les contributions terrain publiées et les campagnes de collecte pilotées par l’équipe Knowledge Management.",
+        "contributionsLabel": "Contributions",
+        "campaignsLabel": "Campagnes",
+        "contributionsDescription": "Les contributions publiées restent classées par période sous le format Mois / Année.",
+        "campaignsDescription": "Les campagnes sont organisées par domaine métier et affichent leur détail dans le volet droit.",
+        "startDatePlaceholder": "Date de début",
+        "endDatePlaceholder": "Date de fin"
       },
       "categorisation": {
         "title": "Catégorisation & filtres",
@@ -236,8 +233,8 @@
     },
     "kmReferentiels": [
       {
-        "id": "metiers",
-        "label": "Référentiels métiers",
+        "id": "retraite",
+        "label": "Gestion de la retraite",
         "docs": [
           {
             "file": "Guide_Indicateurs_Retraite.pdf",
@@ -252,17 +249,65 @@
         ]
       },
       {
-        "id": "systemes",
-        "label": "Référentiels SI",
+        "id": "portefeuille",
+        "label": "Gestion du portefeuille financier",
         "docs": [
           {
-            "file": "Guide_Espace_Collaborateur.pdf",
-            "label": "Guide espace collaborateur (SI)",
+            "file": "Guide_Portefeuille_Financier.pdf",
+            "label": "Guide de suivi du portefeuille financier",
             "type": "Document"
           },
           {
-            "file": "Procédure_SSO.pdf",
-            "label": "Procédure SSO & accès",
+            "file": "Procedure_Allocation_Actifs.pdf",
+            "label": "Procédure allocation des actifs",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "etudes-actuariat",
+        "label": "Gestion des études & actuariat",
+        "docs": [
+          {
+            "file": "Methodologie_Etudes_Actuarielles.pdf",
+            "label": "Méthodologie des études actuarielles",
+            "type": "Document"
+          },
+          {
+            "file": "Referentiel_Hypotheses_Actuariat.pdf",
+            "label": "Référentiel des hypothèses actuarielles",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "relation-client",
+        "label": "Gestion de la relation client",
+        "docs": [
+          {
+            "file": "Guide_Relation_Client.pdf",
+            "label": "Guide relation client",
+            "type": "Document"
+          },
+          {
+            "file": "Procedure_Traitement_Reclamations.pdf",
+            "label": "Procédure traitement des réclamations",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "risk-management",
+        "label": "Gestion du Risk Management",
+        "docs": [
+          {
+            "file": "Referentiel_Risques_Metiers.pdf",
+            "label": "Référentiel des risques métiers",
+            "type": "Document"
+          },
+          {
+            "file": "Cartographie_Risques_Processus.pdf",
+            "label": "Cartographie risques et processus",
             "type": "Document"
           }
         ]
@@ -292,14 +337,18 @@
         "title": "REX – Refonte intranet: adoption",
         "theme": "Projet",
         "date": "Avr 2026",
-        "body": "Ce qui a fonctionné: démos courtes, sponsors métier. À améliorer: clarifier les owners dès le début."
+        "body": "Ce qui a fonctionné: démos courtes, sponsors métier. À améliorer: clarifier les owners dès le début.",
+        "attachment": "REX_Refonte_Intranet.pdf",
+        "status": "Publié"
       },
       {
         "id": "rx2",
         "title": "REX – Processus tickets IT",
         "theme": "Processus",
         "date": "Mars 2026",
-        "body": "Standardiser les catégories et définir un SLA visible dans GLPI."
+        "body": "Standardiser les catégories et définir un SLA visible dans GLPI.",
+        "attachment": "REX_Processus_Tickets_IT.pdf",
+        "status": "Publié"
       }
     ],
     "kmElearning": [
@@ -343,18 +392,21 @@
       {
         "id": "co1",
         "name": "Communauté BI & Data",
+        "theme": "Data",
         "members": 128,
         "threads": 12
       },
       {
         "id": "co2",
         "name": "Communauté RH",
+        "theme": "Ressources humaines",
         "members": 87,
         "threads": 6
       },
       {
         "id": "co3",
         "name": "Communauté Qualité & Process",
+        "theme": "Processus",
         "members": 54,
         "threads": 4
       }
@@ -363,19 +415,22 @@
       {
         "communityId": "co1",
         "title": "Bonnes pratiques Power BI",
-        "meta": "BI & Data • 2h",
+        "theme": "Data",
+        "meta": "Data • 2h",
         "badge": "Actif"
       },
       {
         "communityId": "co2",
         "title": "Mobilité interne – retours",
-        "meta": "RH • hier",
+        "theme": "Ressources humaines",
+        "meta": "Ressources humaines • hier",
         "badge": "Nouveau"
       },
       {
         "communityId": "co1",
         "title": "Convention de nommage datasets",
-        "meta": "BI & Data • 3j",
+        "theme": "Data",
+        "meta": "Data • 3j",
         "badge": "En cours"
       }
     ],
@@ -427,12 +482,16 @@
         "id": "ct1",
         "title": "Astuce: réduire les doublons GED",
         "date": "Avr 2026",
+        "startDate": "2026-04-01",
+        "endDate": "2026-04-30",
         "body": "Utiliser la convention de nommage + métadonnées obligatoires."
       },
       {
         "id": "ct2",
         "title": "Check‑list avant PV comité",
         "date": "Mars 2026",
+        "startDate": "2026-03-01",
+        "endDate": "2026-03-31",
         "body": "Ordre du jour, participants, décisions, actions, annexes."
       }
     ],
@@ -575,19 +634,30 @@
     "kmCampagnes": [
       {
         "id": "cmp1",
-        "title": "Collecte bonnes pratiques accueil",
-        "audience": "Collaborateurs",
+        "title": "Campagne relation client",
+        "domain": "Gestion de la relation client",
+        "audience": "Collaborateurs relation client",
         "type": "Sondage",
         "responses": 28,
         "desc": "Recueillir les bonnes pratiques terrain pour enrichir le référentiel accueil."
       },
       {
         "id": "cmp2",
-        "title": "Partage astuces GED",
-        "audience": "Métiers",
+        "title": "Campagne gestion retraite",
+        "domain": "Gestion de la retraite",
+        "audience": "Équipes retraite",
         "type": "Formulaire",
         "responses": 16,
-        "desc": "Identifier les usages récurrents à capitaliser dans la GED et les conventions de nommage."
+        "desc": "Identifier les points de vigilance récurrents à capitaliser dans le traitement des dossiers."
+      },
+      {
+        "id": "cmp3",
+        "title": "Campagne Risk Management",
+        "domain": "Gestion du Risk Management",
+        "audience": "Référents risques",
+        "type": "Formulaire",
+        "responses": 9,
+        "desc": "Collecter les bonnes pratiques de suivi et mitigation des risques métiers."
       }
     ],
     "kmAuditRisque": [
