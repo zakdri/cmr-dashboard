@@ -3,45 +3,50 @@
   "updatedAt": "2026-06-08",
   "data": {
     "orgGovHeader": {
-      "title": "Organisation & Gouvernance",
-      "description": "Organisation, gouvernance, référentiel SMI, cartographie des processus et pilotage stratégique."
+      "title": "SMI & Organisation & RSE",
+      "description": "Centralisation des contenus liés au SMI, à l’organisation, à la gouvernance interne et à la culture QSE/RSE."
     },
     "orgGovMainTabs": [
       { "id": "overview", "label": "Vue d’ensemble" },
+      { "id": "direction", "label": "Direction" },
       { "id": "organisation", "label": "Organisation" },
-      { "id": "referentiel-smi", "label": "Référentiel SMI" },
-      { "id": "cartographie", "label": "Cartographie" },
-      { "id": "gouvernance", "label": "Gouvernance" },
-      { "id": "direction", "label": "Direction" }
+      { "id": "smi", "label": "SMI" },
+      { "id": "culture-qse-rse", "label": "Culture QSE - RSE" }
     ],
     "orgGovSectionConfig": {
       "overview": { "page": "overview" },
       "organisation": {
         "subs": [
           { "id": "organigramme", "label": "Organigramme" },
-          { "id": "postes", "label": "Fiches de postes" },
-          { "id": "presentation", "label": "Présentation globale" },
-          { "id": "strategie", "label": "Plan stratégique" },
-          { "id": "referentiels", "label": "Référentiels" }
+          { "id": "postes", "label": "Fiches et fonctions de postes" },
+          { "id": "referentiels", "label": "Manuels des procédures" }
         ],
         "defaultSub": "organigramme"
       },
-      "referentiel-smi": {
+      "smi": {
         "subs": [
           { "id": "smi-politiques", "label": "Politiques SMI" },
+          { "id": "smi-cartographie", "label": "Cartographie des processus" },
           { "id": "smi-dossiers", "label": "Dossiers processus" },
-          { "id": "smi-audits", "label": "Audits SMI" }
+          { "id": "smi-pilotage", "label": "Organisation de pilotage SMI" },
+          { "id": "smi-gouvernance-interne", "label": "Gouvernance interne" },
+          { "id": "smi-audits", "label": "Audit SMI" },
+          { "id": "smi-certification", "label": "Certification" },
+          { "id": "smi-normes", "label": "Normes et standards" }
         ],
         "defaultSub": "smi-politiques"
       },
-      "cartographie": { "page": "cartographie" },
-      "gouvernance": {
+      "culture-qse-rse": {
         "subs": [
-          { "id": "comites", "label": "Rubrique Comités" },
-          { "id": "kpi-strategiques", "label": "KPI stratégiques" },
-          { "id": "rapports-gouvernance", "label": "Rapports gouvernance" }
+          { "id": "culture-contenus", "label": "Contenus pédagogiques" },
+          { "id": "culture-faq", "label": "FAQ" },
+          { "id": "culture-communication", "label": "Communication QSE - RSE" },
+          { "id": "culture-quiz", "label": "Quiz et auto-évaluation" },
+          { "id": "culture-idees", "label": "Boîte à idées" },
+          { "id": "culture-remontees", "label": "Remontées terrain" },
+          { "id": "culture-stats", "label": "Statistiques" }
         ],
-        "defaultSub": "comites"
+        "defaultSub": "culture-contenus"
       },
       "direction": { "page": "direction" }
     },
@@ -51,27 +56,26 @@
         "cards": [
           { "title": "Organigramme", "desc": "Organigramme interactif (directions, entités, rattachements).", "icon": "network", "handler": "switchOrgGovTab('organigramme'); return false;", "hoverBg": "#f0f9ff", "hoverBorder": "#bae6fd", "iconBackground": "linear-gradient(135deg, #0ea5e9, #0284c7)", "action": "Consulter" },
           { "title": "Fiches collaborateurs", "desc": "Annuaire interne (profil, contact, fonction, rattachement).", "icon": "id-card", "handler": "switchView('annuaire'); return false;", "hoverBg": "#f8fafc", "hoverBorder": "#cbd5e1", "iconBackground": "linear-gradient(135deg, #64748b, #475569)", "action": "Consulter" },
-          { "title": "Fiches de postes", "desc": "Responsabilités et missions (page structurée).", "icon": "briefcase", "handler": "switchOrgGovTab('postes'); return false;", "hoverBg": "#f0fdf4", "hoverBorder": "#bbf7d0", "iconBackground": "linear-gradient(135deg, #16a34a, #15803d)", "action": "Consulter" }
+          { "title": "Fiches et fonctions de postes", "desc": "Responsabilités, missions, fiches PDF et fonctions de responsabilité.", "icon": "briefcase", "handler": "switchOrgGovTab('postes'); return false;", "hoverBg": "#f0fdf4", "hoverBorder": "#bbf7d0", "iconBackground": "linear-gradient(135deg, #16a34a, #15803d)", "action": "Consulter" }
         ]
       },
       {
         "title": "Gouvernance",
         "cards": [
-          { "title": "Présentation globale", "desc": "Instances, rôles, périmètres (page dédiée).", "icon": "presentation", "handler": "switchOrgGovTab('presentation'); return false;", "hoverBg": "#eff6ff", "hoverBorder": "#bfdbfe", "iconBackground": "linear-gradient(135deg, #2563eb, #1d4ed8)", "action": "Consulter" },
-          { "title": "Plan stratégique", "desc": "Consultation + téléchargement des documents structurants.", "icon": "target", "handler": "switchOrgGovTab('strategie'); return false;", "hoverBg": "#fff7ed", "hoverBorder": "#fed7aa", "iconBackground": "linear-gradient(135deg, #f59e0b, #d97706)", "action": "Consulter" },
-          { "title": "Référentiels organisationnels", "desc": "Référentiels / politiques / documents (liste + dossier).", "icon": "book-open", "handler": "switchOrgGovTab('referentiels'); return false;", "hoverBg": "#fdf4ff", "hoverBorder": "#e9d5ff", "iconBackground": "linear-gradient(135deg, #a855f7, #7c3aed)", "action": "Consulter" },
-          { "title": "Comités", "desc": "Instances (liste/dossier) + PV (téléchargement).", "icon": "users-round", "handler": "switchOrgGovTab('comites'); return false;", "hoverBg": "#f8fafc", "hoverBorder": "#cbd5e1", "iconBackground": "linear-gradient(135deg, #334155, #0f172a)", "action": "Consulter" },
-          { "title": "KPI stratégiques", "desc": "Tableaux de bord et indicateurs de pilotage.", "icon": "gauge", "handler": "switchOrgGovTab('kpi-strategiques'); return false;", "hoverBg": "#f0fdf4", "hoverBorder": "#bbf7d0", "iconBackground": "linear-gradient(135deg, #16a34a, #059669)", "action": "Consulter" },
-          { "title": "Rapports gouvernance", "desc": "Dossiers CA et rapports de gouvernance.", "icon": "folder-lock", "handler": "switchOrgGovTab('rapports-gouvernance'); return false;", "hoverBg": "#fef2f2", "hoverBorder": "#fecaca", "iconBackground": "linear-gradient(135deg, #dc2626, #991b1b)", "action": "Consulter" }
+          { "title": "Gouvernance interne", "desc": "Instances, missions, composition et documents associés.", "icon": "presentation", "handler": "switchOrgGovTab('smi-gouvernance-interne'); return false;", "hoverBg": "#eff6ff", "hoverBorder": "#bfdbfe", "iconBackground": "linear-gradient(135deg, #2563eb, #1d4ed8)", "action": "Consulter" },
+          { "title": "Manuels des procédures", "desc": "Processus et documents associés.", "icon": "book-open", "handler": "switchOrgGovTab('referentiels'); return false;", "hoverBg": "#fdf4ff", "hoverBorder": "#e9d5ff", "iconBackground": "linear-gradient(135deg, #a855f7, #7c3aed)", "action": "Consulter" },
+          { "title": "Instances SMI", "desc": "Missions, composition et documents de gouvernance interne.", "icon": "users-round", "handler": "switchOrgGovTab('smi-gouvernance-interne'); return false;", "hoverBg": "#f8fafc", "hoverBorder": "#cbd5e1", "iconBackground": "linear-gradient(135deg, #334155, #0f172a)", "action": "Consulter" },
+          { "title": "Pilotage SMI", "desc": "Rôles, responsabilités et autorités SMI.", "icon": "gauge", "handler": "switchOrgGovTab('smi-pilotage'); return false;", "hoverBg": "#f0fdf4", "hoverBorder": "#bbf7d0", "iconBackground": "linear-gradient(135deg, #16a34a, #059669)", "action": "Consulter" },
+          { "title": "Audit SMI", "desc": "Programmes d’audit et documents associés.", "icon": "folder-lock", "handler": "switchOrgGovTab('smi-audits'); return false;", "hoverBg": "#fef2f2", "hoverBorder": "#fecaca", "iconBackground": "linear-gradient(135deg, #dc2626, #991b1b)", "action": "Consulter" }
         ]
       },
       {
-        "title": "Référentiel SMI & cartographie",
+        "title": "SMI",
         "cards": [
           { "title": "Politiques SMI", "desc": "Politiques et référentiels SMI centralisés.", "icon": "shield-check", "handler": "switchOrgGovTab('smi-politiques'); return false;", "hoverBg": "#f0fdf4", "hoverBorder": "#bbf7d0", "iconBackground": "linear-gradient(135deg, #22c55e, #16a34a)", "action": "Consulter" },
           { "title": "Dossiers processus", "desc": "Documentation processus métier (GED-like).", "icon": "folder-tree", "handler": "switchOrgGovTab('smi-dossiers'); return false;", "hoverBg": "#eff6ff", "hoverBorder": "#bfdbfe", "iconBackground": "linear-gradient(135deg, #3b82f6, #1d4ed8)", "action": "Consulter" },
           { "title": "Audits SMI", "desc": "Audits et constats SMI publiés.", "icon": "clipboard-check", "handler": "switchOrgGovTab('smi-audits'); return false;", "hoverBg": "#fff7ed", "hoverBorder": "#fed7aa", "iconBackground": "linear-gradient(135deg, #f97316, #ea580c)", "action": "Consulter" },
-          { "title": "Cartographie des processus", "desc": "Vue graphique interactive des processus.", "icon": "git-branch", "handler": "switchOrgGovTab('cartographie'); return false;", "hoverBg": "#fdf4ff", "hoverBorder": "#e9d5ff", "iconBackground": "linear-gradient(135deg, #a855f7, #7c3aed)", "action": "Consulter" }
+          { "title": "Cartographie des processus", "desc": "Familles, processus, descriptifs et documents associés.", "icon": "git-branch", "handler": "switchOrgGovTab('smi-cartographie'); return false;", "hoverBg": "#fdf4ff", "hoverBorder": "#e9d5ff", "iconBackground": "linear-gradient(135deg, #a855f7, #7c3aed)", "action": "Consulter" }
         ]
       }
     ],
@@ -80,24 +84,34 @@
       { "sectionTitle": "Accueil espace", "title": "Accueil intranet", "desc": "Accès à l’accueil et aux raccourcis principaux.", "icon": "home", "handler": "switchView('dashboard'); return false;", "iconStyle": { "background": "#f0fdf4", "color": "#15803d" }, "action": "Ouvrir", "actionColor": "#15803d" }
     ],
     "orgGovPages": {
-      "organigramme": { "title": "Organigramme", "description": "Naviguer dans les directions et entités. Cliquer pour développer/réduire.", "expandLabel": "Développer tout", "collapseLabel": "Réduire" },
-      "postes": { "title": "Fiches de postes", "description": "Consulter une fiche de poste (missions, responsabilités, compétences).", "searchPlaceholder": "Rechercher un poste…", "listTitle": "Liste", "detailTitle": "Fiche de poste", "emptyDetail": "Sélectionnez un poste dans la liste." },
-      "presentation": { "title": "Présentation globale", "panelTitle": "Gouvernance interne", "description": "Accédez à la structure de gouvernance : instances, comités, responsabilités, et processus de décision. Cette page centralise les éléments de référence pour comprendre “qui décide quoi” et “comment”.", "items": [{ "title": "Instances", "desc": "Conseil, comités, réunions de pilotage." }, { "title": "Rôles & responsabilités", "desc": "RACI simplifié des décisions clés." }, { "title": "Documents", "desc": "Référentiels, charte, PV, notes." }] },
-      "strategie": { "title": "Plan stratégique" },
-      "referentiels": { "title": "Référentiels organisationnels", "foldersTitle": "Dossiers", "documentsTitle": "Documents" },
+      "organisation": { "description": "Cette rubrique centralise l’organigramme, les fiches et fonctions de postes ainsi que les manuels des procédures." },
+      "smi": { "description": "Cette rubrique regroupe les politiques, cartographies, dossiers processus, dispositifs de pilotage, audits, certifications et normes SMI." },
+      "culture-qse-rse": { "description": "Cette rubrique fusionne les anciens espaces QSE et RSE pour centraliser les contenus de sensibilisation, communication, participation et suivi." },
+      "organigramme": { "title": "Organigramme", "description": "Organigramme limité aux niveaux du Directeur Général jusqu’aux Chefs de Pôles, avec les services directement rattachés au Directeur Général.", "expandLabel": "Développer tout", "collapseLabel": "Réduire" },
+      "postes": { "title": "Fiches et fonctions de postes", "description": "Consulter une fiche de poste ou une fiche de fonction, avec missions, responsabilités, profil et pièces jointes PDF.", "searchPlaceholder": "Rechercher un poste…", "listTitle": "Liste", "detailTitle": "Fiche de poste / fonction", "emptyDetail": "Sélectionnez un poste dans la liste." },
+      "presentation": { "title": "Gouvernance interne", "panelTitle": "Gouvernance interne", "description": "Accédez à la structure de gouvernance : instances, comités, responsabilités, et processus de décision. Cette page centralise les éléments de référence pour comprendre “qui décide quoi” et “comment”.", "items": [{ "title": "Instances", "desc": "Conseil, comités, réunions de pilotage." }, { "title": "Rôles & responsabilités", "desc": "RACI simplifié des décisions clés." }, { "title": "Documents", "desc": "Référentiels, charte, PV, notes." }] },
+      "referentiels": { "title": "Manuels des procédures", "foldersTitle": "Processus", "documentsTitle": "Documents associés" },
       "comites": { "title": "Rubrique Comités", "listTitle": "Liste des comités", "detailTitle": "Dossier du comité", "emptyDetail": "Sélectionnez un comité.", "timelineTitle": "Décisions & comptes rendus" },
       "smi-politiques": { "title": "Politiques SMI", "icon": "shield-check", "iconClass": "green" },
-      "smi-dossiers": { "title": "Dossiers processus", "icon": "folder-tree", "iconClass": "blue" },
-      "smi-audits": { "title": "Audits SMI", "icon": "clipboard-check", "iconClass": "orange" },
+      "smi-cartographie": { "title": "Cartographie des processus", "icon": "git-branch", "iconClass": "purple" },
+      "smi-dossiers": { "title": "Dossiers processus", "icon": "folder-tree", "iconClass": "blue", "subtitle": "Processus" },
+      "smi-pilotage": { "title": "Organisation de pilotage SMI", "icon": "users-round", "iconClass": "green" },
+      "smi-gouvernance-interne": { "title": "Gouvernance interne", "icon": "presentation", "iconClass": "blue" },
+      "smi-audits": { "title": "Audit SMI", "icon": "clipboard-check", "iconClass": "orange" },
+      "smi-certification": { "title": "Certification", "icon": "badge-check", "iconClass": "green" },
+      "smi-normes": { "title": "Normes et standards", "icon": "book-open-check", "iconClass": "purple" },
       "cartographie": { "title": "Cartographie des processus", "icon": "git-branch", "iconClass": "purple" },
       "kpi-strategiques": { "title": "KPI stratégiques", "icon": "gauge", "iconClass": "green" },
       "rapports-gouvernance": { "title": "Rapports gouvernance", "icon": "folder-lock", "iconClass": "blue" },
-      "direction": { "title": "Mot de la Direction", "badge": "Organisation & Gouvernance", "date": "25 Avril 2026", "messageTitle": "Point d’étape sur la feuille de route 2026", "message": "Chers collaborateurs, nous poursuivons la modernisation de nos processus et de notre organisation. L’objectif de ce trimestre est de renforcer la gouvernance des projets, d’améliorer la qualité de service et de consolider nos référentiels.", "downloadLabel": "Télécharger la note", "downloadHandler": "openMockDownload('Note_DG_2026_T2.pdf','Note DG — priorités du trimestre');", "newsLabel": "Voir l’actualité liée", "newsHandler": "goToActualites(1);" }
+      "direction": { "title": "Mot de la Direction", "badge": "SMI & Organisation & RSE", "date": "25 Avril 2026", "messageTitle": "Point d’étape sur la feuille de route 2026", "message": "Chers collaborateurs, nous poursuivons la modernisation de nos processus et de notre organisation. L’objectif de ce trimestre est de renforcer la gouvernance des projets, d’améliorer la qualité de service et de consolider nos référentiels.", "downloadLabel": "Télécharger la note", "downloadHandler": "openMockDownload('Note_DG_2026_T2.pdf','Note DG — priorités du trimestre');", "newsLabel": "Voir l’actualité liée", "newsHandler": "goToActualites(1);" },
+      "culture-contenus": { "title": "Contenus pédagogiques", "icon": "graduation-cap", "iconClass": "green" },
+      "culture-faq": { "title": "FAQ", "icon": "circle-help", "iconClass": "blue", "searchPlaceholder": "Rechercher une question..." },
+      "culture-communication": { "title": "Communication QSE - RSE", "icon": "newspaper", "iconClass": "orange" },
+      "culture-quiz": { "title": "Quiz et auto-évaluation", "icon": "list-checks", "iconClass": "purple" },
+      "culture-idees": { "title": "Boîte à idées", "icon": "lightbulb", "iconClass": "green" },
+      "culture-remontees": { "title": "Remontées terrain", "icon": "triangle-alert", "iconClass": "orange" },
+      "culture-stats": { "title": "Statistiques", "icon": "bar-chart-3", "iconClass": "blue" }
     },
-    "orgGovStrategieDocs": [
-      { "title": "Plan_Strategique_CMR_2026-2028.pdf", "description": "Document structurant (consultation / téléchargement).", "file": "Plan_Strategique_CMR_2026-2028.pdf", "downloadTitle": "Plan stratégique 2026-2028 (version de référence)", "action": "Télécharger" },
-      { "title": "Feuille_de_route_2026.pdf", "description": "Calendrier, jalons et indicateurs.", "file": "Feuille_de_route_2026.pdf", "downloadTitle": "Feuille de route 2026 (projets majeurs)", "action": "Télécharger" }
-    ],
     "orgGovKpiStrategiquesData": {
       "metrics": [
         { "label": "Satisfaction assurés", "value": "82%" },
@@ -113,147 +127,180 @@
       ]
     },
     "orgData": {
-      "name": "CMR",
+      "name": "Directeur Général",
       "role": "Direction Générale",
+      "posteId": "dg",
       "children": [
         {
-          "name": "Direction Digitale",
-          "role": "Digital & SI",
-          "children": [
-            {
-              "name": "Data & Analytics",
-              "role": "BI / Data",
-              "children": []
-            },
-            {
-              "name": "Applications",
-              "role": "Portails & Apps",
-              "children": []
-            }
-          ]
+          "name": "Pôle Retraite",
+          "role": "Chef de Pôle",
+          "posteId": "pole-retraite",
+          "children": []
         },
         {
-          "name": "Direction RH",
-          "role": "Ressources Humaines",
-          "children": [
-            {
-              "name": "Développement RH",
-              "role": "Compétences",
-              "children": []
-            },
-            {
-              "name": "Administration RH",
-              "role": "Paie / Dossiers",
-              "children": []
-            }
-          ]
+          "name": "Pôle Finances & Portefeuille",
+          "role": "Chef de Pôle",
+          "posteId": "pole-finances",
+          "children": []
         },
         {
-          "name": "Direction Financière",
-          "role": "Finance",
-          "children": [
-            {
-              "name": "Contrôle de gestion",
-              "role": "Pilotage",
-              "children": []
-            },
-            {
-              "name": "Comptabilité",
-              "role": "Compta",
-              "children": []
-            }
-          ]
+          "name": "Pôle Support & Transformation",
+          "role": "Chef de Pôle",
+          "posteId": "pole-support",
+          "children": []
+        },
+        {
+          "name": "Service Audit Interne",
+          "role": "Rattaché au DG",
+          "posteId": "audit-interne",
+          "children": []
+        },
+        {
+          "name": "Service Communication Institutionnelle",
+          "role": "Rattaché au DG",
+          "posteId": "communication-dg",
+          "children": []
         }
       ]
     },
     "postesData": [
       {
-        "id": "p1",
-        "titre": "Chef de projet",
-        "famille": "Digital",
+        "id": "pole-retraite",
+        "titre": "Chef de Pôle Retraite",
+        "famille": "Fonction de responsabilité",
         "missions": [
-          "Piloter le delivery",
-          "Coordonner les parties prenantes",
-          "Suivre les risques & planning"
+          "Piloter les activités liées à la gestion de la retraite",
+          "Coordonner les divisions et services rattachés",
+          "Suivre les indicateurs de performance et de qualité"
         ],
         "competences": [
-          "Gestion de projet",
-          "Communication",
-          "Agilité"
+          "Pilotage métier",
+          "Management",
+          "Maîtrise des processus retraite"
         ],
         "profil": [
           "Bac+5",
-          "3+ ans",
-          "Maîtrise outils PM"
+          "10+ ans",
+          "Expérience en management public"
+        ],
+        "attachments": [
+          { "label": "Fiche fonction Chef de Pôle Retraite", "file": "Fiche_Fonction_Chef_Pole_Retraite.pdf" }
         ]
       },
       {
-        "id": "p2",
-        "titre": "Contrôleur de gestion",
-        "famille": "Finance",
+        "id": "pole-finances",
+        "titre": "Chef de Pôle Finances & Portefeuille",
+        "famille": "Fonction de responsabilité",
         "missions": [
-          "Produire le reporting",
-          "Analyser les écarts",
-          "Proposer des actions"
+          "Piloter la gestion financière et le portefeuille",
+          "Superviser le reporting financier",
+          "Contribuer aux arbitrages stratégiques"
         ],
         "competences": [
-          "Analyse",
-          "Excel/BI",
-          "Rigueur"
+          "Finance",
+          "Gestion d’actifs",
+          "Analyse stratégique"
         ],
         "profil": [
           "Bac+5",
-          "2+ ans",
-          "Sens du détail"
+          "10+ ans",
+          "Expertise finance et portefeuille"
+        ],
+        "attachments": [
+          { "label": "Fiche fonction Chef de Pôle Finances", "file": "Fiche_Fonction_Chef_Pole_Finances.pdf" }
         ]
       },
       {
-        "id": "p3",
-        "titre": "Responsable Développement RH",
-        "famille": "RH",
+        "id": "pole-support",
+        "titre": "Chef de Pôle Support & Transformation",
+        "famille": "Fonction de responsabilité",
         "missions": [
-          "Plan de formation",
-          "Gestion des talents",
-          "Accompagnement managers"
+          "Piloter les fonctions support",
+          "Accompagner les programmes de transformation",
+          "Assurer la coordination transverse"
         ],
         "competences": [
-          "RH",
-          "Pédagogie",
-          "Conduite du changement"
+          "Transformation",
+          "Organisation",
+          "Management transversal"
         ],
         "profil": [
           "Bac+5",
-          "5+ ans",
-          "Leadership"
+          "10+ ans",
+          "Expérience en pilotage transverse"
+        ],
+        "attachments": [
+          { "label": "Fiche fonction Chef de Pôle Support", "file": "Fiche_Fonction_Chef_Pole_Support.pdf" }
         ]
+      },
+      {
+        "id": "dg",
+        "titre": "Directeur Général",
+        "famille": "Direction Générale",
+        "missions": ["Définir les orientations stratégiques", "Superviser la gouvernance globale", "Assurer la représentation institutionnelle"],
+        "competences": ["Leadership institutionnel", "Gouvernance", "Pilotage stratégique"],
+        "profil": ["Nomination réglementaire", "Expérience confirmée", "Vision stratégique"],
+        "attachments": [{ "label": "Fiche fonction Directeur Général", "file": "Fiche_Fonction_Directeur_General.pdf" }]
+      },
+      {
+        "id": "audit-interne",
+        "titre": "Responsable Audit Interne",
+        "famille": "Service rattaché au DG",
+        "missions": ["Piloter les missions d’audit", "Suivre les recommandations", "Contribuer à la maîtrise des risques"],
+        "competences": ["Audit", "Contrôle interne", "Analyse des risques"],
+        "profil": ["Bac+5", "7+ ans", "Certification audit appréciée"],
+        "attachments": [{ "label": "Fiche poste Responsable Audit Interne", "file": "Fiche_Poste_Responsable_Audit_Interne.pdf" }]
+      },
+      {
+        "id": "communication-dg",
+        "titre": "Responsable Communication Institutionnelle",
+        "famille": "Service rattaché au DG",
+        "missions": ["Piloter la communication institutionnelle", "Coordonner les prises de parole", "Assurer la cohérence éditoriale"],
+        "competences": ["Communication", "Relations institutionnelles", "Rédaction"],
+        "profil": ["Bac+5", "7+ ans", "Expérience communication publique"],
+        "attachments": [{ "label": "Fiche poste Communication Institutionnelle", "file": "Fiche_Poste_Communication_Institutionnelle.pdf" }]
       }
     ],
     "referentiels": [
       {
         "id": "r1",
-        "dossier": "Organisation",
+        "dossier": "Processus pilotage organisationnel",
         "docs": [
           {
-            "file": "Politique_Organisationnelle_2026.pdf",
-            "label": "Politique organisationnelle 2026"
+            "file": "Manuel_Processus_Pilotage_Organisationnel.pdf",
+            "label": "Manuel du processus pilotage organisationnel"
           },
           {
-            "file": "Processus_Decisionnels.pdf",
-            "label": "Processus décisionnels"
+            "file": "Procedure_Mise_A_Jour_Organisation.pdf",
+            "label": "Procédure de mise à jour de l’organisation"
           }
         ]
       },
       {
         "id": "r2",
-        "dossier": "Gouvernance",
+        "dossier": "Processus gouvernance interne",
         "docs": [
           {
-            "file": "Charte_Gouvernance.pdf",
-            "label": "Charte de gouvernance"
+            "file": "Manuel_Processus_Gouvernance_Interne.pdf",
+            "label": "Manuel du processus gouvernance interne"
           },
           {
-            "file": "RACI_Decisions_Clés.pdf",
-            "label": "RACI — décisions clés"
+            "file": "Procedure_Circuit_Decisionnel.pdf",
+            "label": "Procédure circuit décisionnel"
+          }
+        ]
+      },
+      {
+        "id": "r3",
+        "dossier": "Processus documentation SMI",
+        "docs": [
+          {
+            "file": "Manuel_Processus_Documentation_SMI.pdf",
+            "label": "Manuel du processus documentation SMI"
+          },
+          {
+            "file": "Procedure_Gestion_Documents_SMI.pdf",
+            "label": "Procédure gestion des documents SMI"
           }
         ]
       }
@@ -319,11 +366,13 @@
         "docs": [
           {
             "file": "Processus_Pilotage_Strategique.pdf",
-            "label": "Processus — Pilotage stratégique"
+            "label": "Processus — Pilotage stratégique",
+            "type": "CIB & GTB"
           },
           {
             "file": "Fiche_Processus_Revues_Direction.pdf",
-            "label": "Fiche processus — Revues de direction"
+            "label": "Fiche processus — Revues de direction",
+            "type": "Formulaire"
           }
         ]
       },
@@ -333,11 +382,13 @@
         "docs": [
           {
             "file": "Processus_Gestion_Competences.pdf",
-            "label": "Processus — Gestion des compétences"
+            "label": "Processus — Gestion des compétences",
+            "type": "CIB & GTB"
           },
           {
             "file": "Processus_Formation_Interne.pdf",
-            "label": "Processus — Formation interne"
+            "label": "Processus — Formation interne",
+            "type": "Registre"
           }
         ]
       },
@@ -347,11 +398,13 @@
         "docs": [
           {
             "file": "Processus_Traitement_Demandes.pdf",
-            "label": "Processus — Traitement des demandes"
+            "label": "Processus — Traitement des demandes",
+            "type": "CIB & GTB"
           },
           {
             "file": "Processus_Controle_Qualite.pdf",
-            "label": "Processus — Contrôle qualité"
+            "label": "Processus — Contrôle qualité",
+            "type": "Registre"
           }
         ]
       }
@@ -390,7 +443,7 @@
       },
       "strategie": {
         "label": "Stratégie",
-        "desc": "Plan stratégique, objectifs et indicateurs de performance.",
+        "desc": "Orientations, objectifs et indicateurs de performance.",
         "links": [
           {
             "id": "pilotage",
@@ -458,6 +511,154 @@
           }
         ]
       }
+    },
+    "orgGovSmiCartographieData": {
+      "families": [
+        {
+          "id": "management",
+          "label": "Management",
+          "processes": [
+            {
+              "id": "pilotage-smi",
+              "title": "Pilotage SMI",
+              "description": "Définir, suivre et améliorer le système de management intégré.",
+              "docs": [
+                { "label": "Cartographie pilotage SMI", "file": "Cartographie_Pilotage_SMI.pdf" },
+                { "label": "Fiche processus pilotage SMI", "file": "Fiche_Processus_Pilotage_SMI.pdf" }
+              ]
+            },
+            {
+              "id": "revue-direction",
+              "title": "Revue de direction",
+              "description": "Organiser les revues périodiques et suivre les décisions associées.",
+              "docs": [
+                { "label": "Cartographie revue de direction", "file": "Cartographie_Revue_Direction.pdf" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "support",
+          "label": "Support",
+          "processes": [
+            {
+              "id": "documentation",
+              "title": "Maîtrise documentaire",
+              "description": "Gérer les documents, versions, validations et archivage SMI.",
+              "docs": [
+                { "label": "Cartographie maîtrise documentaire", "file": "Cartographie_Maitrise_Documentaire.pdf" }
+              ]
+            },
+            {
+              "id": "competences",
+              "title": "Compétences et sensibilisation",
+              "description": "Piloter les compétences et actions de sensibilisation QSE/RSE.",
+              "docs": [
+                { "label": "Cartographie compétences SMI", "file": "Cartographie_Competences_SMI.pdf" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "realisation",
+          "label": "Réalisation",
+          "processes": [
+            {
+              "id": "service-assures",
+              "title": "Service aux assurés",
+              "description": "Maîtriser les processus de service et de traitement des demandes.",
+              "docs": [
+                { "label": "Cartographie service assurés", "file": "Cartographie_Service_Assures.pdf" }
+              ]
+            },
+            {
+              "id": "amelioration",
+              "title": "Amélioration continue",
+              "description": "Traiter les non-conformités, actions correctives et opportunités.",
+              "docs": [
+                { "label": "Cartographie amélioration continue", "file": "Cartographie_Amelioration_Continue.pdf" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "orgGovSmiPilotageRoles": [
+      {
+        "id": "pilote-processus",
+        "role": "Pilote de processus",
+        "responsibilities": ["Suivre les objectifs du processus", "Mettre à jour la documentation", "Piloter les actions d’amélioration"],
+        "authority": "Arbitrer les priorités d’amélioration du processus.",
+        "file": "Liste_Nominative_Pilotes_Processus.pdf"
+      },
+      {
+        "id": "correspondant-smi",
+        "role": "Correspondant SMI",
+        "responsibilities": ["Relayer les exigences SMI", "Collecter les remontées terrain", "Contribuer aux audits"],
+        "authority": "Demander les éléments nécessaires au suivi SMI.",
+        "file": "Liste_Nominative_Correspondants_SMI.pdf"
+      }
+    ],
+    "orgGovSmiGovernanceInstances": [
+      {
+        "id": "revue-direction",
+        "title": "Revue de direction",
+        "missions": "Évaluer la performance du SMI et arbitrer les plans d’amélioration.",
+        "composition": "Direction Générale, pilotes de processus, responsables SMI.",
+        "docs": [
+          { "label": "PV revue de direction", "file": "PV_Revue_Direction.pdf" },
+          { "label": "Plan d’actions SMI", "file": "Plan_Actions_SMI.pdf" }
+        ]
+      },
+      {
+        "id": "comite-smi",
+        "title": "Comité SMI",
+        "missions": "Suivre les indicateurs, audits, non-conformités et actions correctives.",
+        "composition": "Responsable SMI, correspondants SMI, pilotes de processus.",
+        "docs": [
+          { "label": "Charte comité SMI", "file": "Charte_Comite_SMI.pdf" }
+        ]
+      }
+    ],
+    "orgGovSmiCertifications": [
+      { "title": "ISO 9001", "desc": "Système de management de la qualité", "file": "Certification_ISO_9001.pdf" },
+      { "title": "ISO 14001", "desc": "Management environnemental", "file": "Certification_ISO_14001.pdf" },
+      { "title": "ISO 45001", "desc": "Santé et sécurité au travail", "file": "Certification_ISO_45001.pdf" }
+    ],
+    "orgGovCultureContents": [
+      { "title": "Flash information qualité", "type": "Flash", "theme": "Qualité", "file": "Flash_Information_Qualite.pdf" },
+      { "title": "Vidéo sensibilisation SST", "type": "Vidéo", "theme": "SST", "file": "Video_Sensibilisation_SST.mp4" },
+      { "title": "Fiche pratique environnement", "type": "Fiche pratique", "theme": "Environnement", "file": "Fiche_Pratique_Environnement.pdf" }
+    ],
+    "orgGovCultureFaq": [
+      { "question": "Comment déclarer une non-conformité ?", "answer": "La déclaration se fait via la sous-rubrique Remontées terrain avec la typologie adaptée." },
+      { "question": "Où trouver les supports de sensibilisation ?", "answer": "Les supports sont disponibles dans Contenus pédagogiques avec consultation et téléchargement." },
+      { "question": "Qui suit les actions d’audit SMI ?", "answer": "Les pilotes de processus et correspondants SMI suivent les actions selon la matrice communiquée par la CMR." }
+    ],
+    "orgGovCultureNews": [
+      { "title": "Calendrier QSE-RSE T3", "type": "Calendrier", "date": "Juil 2026", "file": "Calendrier_QSE_RSE_T3.pdf" },
+      { "title": "Note d’information environnement", "type": "Note", "date": "Juin 2026", "file": "Note_Info_Environnement.pdf" },
+      { "title": "Compte rendu action RSE", "type": "Compte rendu", "date": "Mai 2026", "file": "CR_Action_RSE.pdf" }
+    ],
+    "orgGovCultureQuizzes": [
+      { "id": "quiz-qualite", "title": "Quiz qualité", "score": 82, "participants": 124 },
+      { "id": "quiz-sst", "title": "Auto-évaluation SST", "score": 76, "participants": 98 }
+    ],
+    "orgGovCultureIdeas": [
+      { "title": "Réduction impressions", "type": "Environnement", "date": "Juin 2026" },
+      { "title": "Rappel sécurité espaces communs", "type": "SST", "date": "Mai 2026" }
+    ],
+    "orgGovCultureRemontees": [
+      { "title": "Observation tri déchets", "type": "Observation", "date": "Juin 2026" },
+      { "title": "Anomalie signalétique sécurité", "type": "Anomalie", "date": "Mai 2026" }
+    ],
+    "orgGovCultureStats": {
+      "items": [
+        { "label": "Consultations contenus", "value": "1 248" },
+        { "label": "Participations quiz", "value": "222" },
+        { "label": "Idées soumises", "value": "18" },
+        { "label": "Remontées terrain", "value": "11" }
+      ]
     },
     "orgGovComitesTimelineData": [
       {

@@ -129,6 +129,15 @@ function DynamicCardPage({ page, children }) {
   );
 }
 
+function SummaryText({ children }) {
+  if (!children) return null;
+  return (
+    <p style={{ color: "var(--text-light)", fontSize: 13, lineHeight: 1.7, margin: "0 0 14px" }}>
+      {children}
+    </p>
+  );
+}
+
 export default function InstitutionnelSection() {
   const { header, tabs, overview, smallCards, pages, strategieDocs } =
     getOrgGovData();
@@ -171,6 +180,7 @@ export default function InstitutionnelSection() {
                 </span>
               )}
               <div
+                data-orggov-section={tab.id}
                 className={`km-nav-item${index === 0 ? " active" : ""}`}
                 onClick={(event) =>
                   runLegacyHandler(event, `switchOrgGovSection('${tab.id}')`)
@@ -229,6 +239,7 @@ export default function InstitutionnelSection() {
           className="km-tab-content"
           style={{ display: "none" }}
         >
+          <SummaryText>{pages.organisation?.description}</SummaryText>
           <div
             style={{
               display: "flex",
@@ -285,6 +296,7 @@ export default function InstitutionnelSection() {
           className="km-tab-content"
           style={{ display: "none" }}
         >
+          <SummaryText>{pages.organisation?.description}</SummaryText>
           <div
             style={{
               display: "flex",
@@ -315,7 +327,7 @@ export default function InstitutionnelSection() {
                 id="postesSearchInput"
                 type="text"
                 className="actu-search-input"
-                placeholder="Rechercher une fiche de poste..."
+                placeholder={pages.postes?.searchPlaceholder || "Rechercher une fiche ou une fonction..."}
                 onInput={(event) =>
                   runLegacyHandler(event, "renderPostesList(this.value)")
                 }
@@ -468,6 +480,7 @@ export default function InstitutionnelSection() {
           className="km-tab-content"
           style={{ display: "none" }}
         >
+          <SummaryText>{pages.organisation?.description}</SummaryText>
           <div className="app-category-title" style={{ marginBottom: 14 }}>
             {pages.referentiels?.title}
           </div>
@@ -559,18 +572,51 @@ export default function InstitutionnelSection() {
         </div>
 
         <div id="page-orggov-smi-politiques" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-politiques"] || {}}>
             <div id="orgGovSmiPolitiques" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
           </DynamicCardPage>
         </div>
+        <div id="page-orggov-smi-cartographie" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{pages.smi?.description}</SummaryText>
+          <DynamicCardPage page={pages["smi-cartographie"] || {}}>
+            <div id="orgGovSmiCartographie" style={{ padding: 18 }} />
+          </DynamicCardPage>
+        </div>
         <div id="page-orggov-smi-dossiers" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-dossiers"] || {}}>
             <div id="orgGovSmiDossiers" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
           </DynamicCardPage>
         </div>
+        <div id="page-orggov-smi-pilotage" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{pages.smi?.description}</SummaryText>
+          <DynamicCardPage page={pages["smi-pilotage"] || {}}>
+            <div id="orgGovSmiPilotage" style={{ padding: 18 }} />
+          </DynamicCardPage>
+        </div>
+        <div id="page-orggov-smi-gouvernance-interne" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{pages.smi?.description}</SummaryText>
+          <DynamicCardPage page={pages["smi-gouvernance-interne"] || {}}>
+            <div id="orgGovSmiGovernance" style={{ padding: 18 }} />
+          </DynamicCardPage>
+        </div>
         <div id="page-orggov-smi-audits" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-audits"] || {}}>
             <div id="orgGovSmiAudits" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
+          </DynamicCardPage>
+        </div>
+        <div id="page-orggov-smi-certification" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{pages.smi?.description}</SummaryText>
+          <DynamicCardPage page={pages["smi-certification"] || {}}>
+            <div id="orgGovSmiCertification" style={{ padding: 18 }} />
+          </DynamicCardPage>
+        </div>
+        <div id="page-orggov-smi-normes" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{pages.smi?.description}</SummaryText>
+          <DynamicCardPage page={pages["smi-normes"] || {}}>
+            <div id="orgGovSmiNormes" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
           </DynamicCardPage>
         </div>
         <div id="page-orggov-cartographie" className="km-tab-content" style={{ display: "none" }}>
@@ -588,6 +634,23 @@ export default function InstitutionnelSection() {
             <div id="orgGovRapportsGouvernance" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
           </DynamicCardPage>
         </div>
+
+        {[
+          ["culture-contenus", "orgGovCultureContents"],
+          ["culture-faq", "orgGovCultureFaq"],
+          ["culture-communication", "orgGovCultureCommunication"],
+          ["culture-quiz", "orgGovCultureQuiz"],
+          ["culture-idees", "orgGovCultureIdeas"],
+          ["culture-remontees", "orgGovCultureRemontees"],
+          ["culture-stats", "orgGovCultureStats"],
+        ].map(([id, hostId]) => (
+          <div key={id} id={`page-orggov-${id}`} className="km-tab-content" style={{ display: "none" }}>
+            <SummaryText>{pages["culture-qse-rse"]?.description}</SummaryText>
+            <DynamicCardPage page={pages[id] || {}}>
+              <div id={hostId} style={{ padding: 18 }} />
+            </DynamicCardPage>
+          </div>
+        ))}
 
         <div
           id="page-orggov-direction"

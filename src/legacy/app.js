@@ -676,7 +676,9 @@ function openAgendaTab(tabName) {
             const all = [
                 'overview', 'organigramme', 'postes', 'presentation', 'strategie', 'referentiels',
                 'comites', 'direction', 'smi-politiques', 'smi-dossiers', 'smi-audits',
-                'cartographie', 'kpi-strategiques', 'rapports-gouvernance'
+                'smi-cartographie', 'smi-pilotage', 'smi-gouvernance-interne', 'smi-certification', 'smi-normes',
+                'cartographie', 'kpi-strategiques', 'rapports-gouvernance',
+                'culture-contenus', 'culture-faq', 'culture-communication', 'culture-quiz', 'culture-idees', 'culture-remontees', 'culture-stats'
             ];
             all.forEach(p => {
                 const el = document.getElementById('page-orggov-' + p);
@@ -690,11 +692,23 @@ function openAgendaTab(tabName) {
             if (pageId === 'referentiels') renderReferentiels();
             if (pageId === 'comites') { renderComites(); renderOrgGovComitesTimeline(); }
             if (pageId === 'smi-politiques') renderOrgGovSmiPolitiques();
+            if (pageId === 'smi-cartographie') renderOrgGovSmiCartographie();
             if (pageId === 'smi-dossiers') renderOrgGovSmiDossiers();
+            if (pageId === 'smi-pilotage') renderOrgGovSmiPilotage();
+            if (pageId === 'smi-gouvernance-interne') renderOrgGovSmiGovernance();
             if (pageId === 'smi-audits') renderOrgGovSmiAudits();
+            if (pageId === 'smi-certification') renderOrgGovSmiCertification();
+            if (pageId === 'smi-normes') renderOrgGovSmiNormes();
             if (pageId === 'cartographie') renderOrgGovCartographie();
             if (pageId === 'kpi-strategiques') renderOrgGovKpiStrategiques();
             if (pageId === 'rapports-gouvernance') renderOrgGovRapportsGouvernance();
+            if (pageId === 'culture-contenus') renderOrgGovCultureContents();
+            if (pageId === 'culture-faq') renderOrgGovCultureFaq();
+            if (pageId === 'culture-communication') renderOrgGovCultureCommunication();
+            if (pageId === 'culture-quiz') renderOrgGovCultureQuiz();
+            if (pageId === 'culture-idees') renderOrgGovCultureIdeas();
+            if (pageId === 'culture-remontees') renderOrgGovCultureRemontees();
+            if (pageId === 'culture-stats') renderOrgGovCultureStats();
             lucide.createIcons();
         }
 
@@ -704,7 +718,7 @@ function openAgendaTab(tabName) {
             const subNav = document.getElementById('orgGovSubNavbar');
             if (mainNav) {
                 mainNav.querySelectorAll('.km-nav-item').forEach(el => el.classList.remove('active'));
-                const targetNav = mainNav.querySelector(`[onclick="switchOrgGovSection('${sectionId}')"]`);
+                const targetNav = mainNav.querySelector(`[data-orggov-section="${sectionId}"]`);
                 if (targetNav) targetNav.classList.add('active');
             }
             const config = orgGovSectionConfig[sectionId];
@@ -739,17 +753,23 @@ function openAgendaTab(tabName) {
                 overview: ['overview'],
                 organigramme: ['organisation', 'organigramme'],
                 postes: ['organisation', 'postes'],
-                presentation: ['organisation', 'presentation'],
-                strategie: ['organisation', 'strategie'],
                 referentiels: ['organisation', 'referentiels'],
-                comites: ['gouvernance', 'comites'],
                 direction: ['direction'],
-                'smi-politiques': ['referentiel-smi', 'smi-politiques'],
-                'smi-dossiers': ['referentiel-smi', 'smi-dossiers'],
-                'smi-audits': ['referentiel-smi', 'smi-audits'],
-                cartographie: ['cartographie'],
-                'kpi-strategiques': ['gouvernance', 'kpi-strategiques'],
-                'rapports-gouvernance': ['gouvernance', 'rapports-gouvernance']
+                'smi-politiques': ['smi', 'smi-politiques'],
+                'smi-cartographie': ['smi', 'smi-cartographie'],
+                'smi-dossiers': ['smi', 'smi-dossiers'],
+                'smi-pilotage': ['smi', 'smi-pilotage'],
+                'smi-gouvernance-interne': ['smi', 'smi-gouvernance-interne'],
+                'smi-audits': ['smi', 'smi-audits'],
+                'smi-certification': ['smi', 'smi-certification'],
+                'smi-normes': ['smi', 'smi-normes'],
+                'culture-contenus': ['culture-qse-rse', 'culture-contenus'],
+                'culture-faq': ['culture-qse-rse', 'culture-faq'],
+                'culture-communication': ['culture-qse-rse', 'culture-communication'],
+                'culture-quiz': ['culture-qse-rse', 'culture-quiz'],
+                'culture-idees': ['culture-qse-rse', 'culture-idees'],
+                'culture-remontees': ['culture-qse-rse', 'culture-remontees'],
+                'culture-stats': ['culture-qse-rse', 'culture-stats']
             };
             const route = map[tabId] || ['overview'];
             switchOrgGovSection(route[0]);
@@ -774,7 +794,10 @@ function openAgendaTab(tabName) {
                                 <div style="font-size:12px;color:var(--text-light);margin-top:2px;">${node.role}</div>
                             </div>
                         </div>
-                        ${hasChildren ? `<button class="actu-filter-btn" style="padding:8px 10px;" onclick="toggleOrgChildren('${id}')">Détails</button>` : ``}
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            ${node.posteId ? `<button class="actu-filter-btn" style="padding:8px 10px;" onclick="openPosteFromOrg('${node.posteId}')">Fiche</button>` : ``}
+                            ${hasChildren ? `<button class="actu-filter-btn" style="padding:8px 10px;" onclick="toggleOrgChildren('${id}')">Détails</button>` : ``}
+                        </div>
                     </div>
                     ${hasChildren ? `<div id="${id}" data-org-collapsed="true" style="display:none; margin-top:10px;">${(node.children || []).map(c => renderOrgNode(c, depth + 1)).join('')}</div>` : ``}
                 </div>
@@ -1051,8 +1074,29 @@ function openAgendaTab(tabName) {
                         <div style="font-weight:900;color:#1e293b;font-size:13px;">Profil</div>
                         <ul style="margin:10px 0 0 18px;color:#475569;font-size:12px;line-height:1.8;">${p.profil.map(m => `<li>${m}</li>`).join('')}</ul>
                     </div>
+                    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;grid-column:1/-1;">
+                        <div style="font-weight:900;color:#1e293b;font-size:13px;">Pièces jointes</div>
+                        <div class="doc-list" style="margin-top:10px;">
+                            ${(p.attachments || []).map(a => `
+                                <div class="doc-item" onclick="openMockDownload('${a.file}','${a.label}')">
+                                    <div class="doc-icon" style="background:#fee2e2;color:#dc2626;font-weight:900;">PDF</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">${a.label}</div>
+                                        <div class="doc-meta">${a.file}</div>
+                                    </div>
+                                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                                </div>
+                            `).join('') || '<div style="color:#64748b;font-size:12px;">Aucune pièce jointe.</div>'}
+                        </div>
+                    </div>
                 </div>
             `;
+            lucide.createIcons();
+        }
+
+        function openPosteFromOrg(id) {
+            switchOrgGovTab('postes');
+            openPosteDetail(id);
         }
 
         // ====== RÉFÉRENTIELS (dossier + documents) ======
@@ -1147,8 +1191,29 @@ function openAgendaTab(tabName) {
 
         const orgGovSmiDossiersData = getCmrData('orgGovSmiDossiersData', []);
         let orgGovSmiDossierCurrent = 'dp1';
+        let orgGovSmiDossierFilter = 'all';
 
         const orgGovSmiAuditsData = getCmrData('orgGovSmiAuditsData', []);
+
+        const orgGovSmiCartographieData = getCmrData('orgGovSmiCartographieData', { families: [] });
+        let orgGovSmiCartFamily = 'management';
+        let orgGovSmiCartProcess = null;
+
+        const orgGovSmiPilotageRoles = getCmrData('orgGovSmiPilotageRoles', []);
+        let orgGovSmiPilotageRole = null;
+
+        const orgGovSmiGovernanceInstances = getCmrData('orgGovSmiGovernanceInstances', []);
+        let orgGovSmiGovernanceInstance = null;
+
+        const orgGovSmiCertifications = getCmrData('orgGovSmiCertifications', []);
+
+        const orgGovCultureContents = getCmrData('orgGovCultureContents', []);
+        const orgGovCultureFaq = getCmrData('orgGovCultureFaq', []);
+        const orgGovCultureNews = getCmrData('orgGovCultureNews', []);
+        const orgGovCultureQuizzes = getCmrData('orgGovCultureQuizzes', []);
+        let orgGovCultureIdeas = getCmrData('orgGovCultureIdeas', []);
+        let orgGovCultureRemontees = getCmrData('orgGovCultureRemontees', []);
+        const orgGovCultureStats = getCmrData('orgGovCultureStats', { items: [] });
 
         const orgGovProcessusMap = getCmrData('orgGovProcessusMap', {});
         let orgGovProcessusSelected = 'pilotage';
@@ -1174,22 +1239,80 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
+        function renderOrgGovSmiCartographie() {
+            const root = document.getElementById('orgGovSmiCartographie');
+            if (!root) return;
+            const families = orgGovSmiCartographieData.families || [];
+            const family = families.find(f => f.id === orgGovSmiCartFamily) || families[0];
+            orgGovSmiCartFamily = family?.id || '';
+            const process = (family?.processes || []).find(p => p.id === orgGovSmiCartProcess) || family?.processes?.[0];
+            orgGovSmiCartProcess = process?.id || null;
+            root.innerHTML = `
+                <div class="dashboard-grid" style="grid-template-columns:.9fr 1.1fr 1.4fr;gap:18px;">
+                    <div>
+                        <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Familles</div>
+                        <div class="doc-list">
+                            ${families.map(f => `
+                                <div class="doc-item" onclick="orgGovSmiCartFamily='${f.id}'; orgGovSmiCartProcess=null; renderOrgGovSmiCartographie();" style="${f.id === orgGovSmiCartFamily ? 'background:#eff6ff;border-color:#bfdbfe;' : ''}">
+                                    <div class="doc-icon" style="background:#f5f3ff;color:#7c3aed;font-weight:900;">${f.label.slice(0,3).toUpperCase()}</div>
+                                    <div class="doc-info"><div class="doc-title">${f.label}</div><div class="doc-meta">${f.processes.length} processus</div></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Processus</div>
+                        <div class="doc-list">
+                            ${(family?.processes || []).map(p => `
+                                <div class="doc-item" onclick="orgGovSmiCartProcess='${p.id}'; renderOrgGovSmiCartographie();" style="${p.id === orgGovSmiCartProcess ? 'background:#eff6ff;border-color:#bfdbfe;' : ''}">
+                                    <div class="doc-info"><div class="doc-title">${p.title}</div><div class="doc-meta">${p.description}</div></div>
+                                    <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Documents de cartographie</div>
+                        <div class="doc-list">
+                            ${(process?.docs || []).map(d => `
+                                <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
+                                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
+                                    <div class="doc-info"><div class="doc-title">${d.label}</div><div class="doc-meta">${process.title}</div></div>
+                                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
         function openOrgGovSmiDossier(id) {
             orgGovSmiDossierCurrent = id;
             const docsHost = document.getElementById('orgGovSmiDossiersDocs');
             const folder = orgGovSmiDossiersData.find(x => x.id === id);
             if (!docsHost || !folder) return;
-            docsHost.innerHTML = folder.docs.map(doc => `
+            const docs = (folder.docs || []).filter(doc => orgGovSmiDossierFilter === 'all' || doc.type === orgGovSmiDossierFilter);
+            docsHost.innerHTML = docs.map(doc => `
                 <div class="doc-item" onclick="openMockDownload('${doc.file}','${doc.label}')">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
                     <div class="doc-info">
                         <div class="doc-title">${doc.label}</div>
-                        <div class="doc-meta">${folder.dossier}</div>
+                        <div class="doc-meta">${doc.type || folder.dossier}</div>
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('');
+            `).join('') || '<div style="padding:12px;color:#64748b;font-size:13px;">Aucun document pour ce filtre.</div>';
             lucide.createIcons();
+        }
+
+        function setOrgGovSmiDossierFilter(type) {
+            orgGovSmiDossierFilter = type;
+            document.querySelectorAll('#orgGovSmiDossierFilters .actu-filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === type);
+            });
+            openOrgGovSmiDossier(orgGovSmiDossierCurrent);
         }
 
         function renderOrgGovSmiDossiers() {
@@ -1202,7 +1325,12 @@ function openAgendaTab(tabName) {
                         <div id="orgGovSmiDossiersFolders" class="doc-list"></div>
                     </div>
                     <div>
-                        <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Documents</div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
+                            <div style="font-weight:900;color:#0f172a;font-size:13px;">Documents</div>
+                            <div id="orgGovSmiDossierFilters" style="display:flex;gap:8px;flex-wrap:wrap;">
+                                ${['all','CIB & GTB','Formulaire','Registre'].map(f => `<button class="actu-filter-btn${orgGovSmiDossierFilter === f ? ' active' : ''}" data-filter="${f}" onclick="setOrgGovSmiDossierFilter('${f}')">${f === 'all' ? 'Tous' : f}</button>`).join('')}
+                            </div>
+                        </div>
                         <div id="orgGovSmiDossiersDocs" class="doc-list"></div>
                     </div>
                 </div>
@@ -1234,6 +1362,98 @@ function openAgendaTab(tabName) {
                         <div class="doc-title">${a.title}</div>
                         <div class="doc-meta">${a.date} · Dossiers</div>
                     </div>
+                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderOrgGovSmiPilotage() {
+            const root = document.getElementById('orgGovSmiPilotage');
+            if (!root) return;
+            const current = orgGovSmiPilotageRoles.find(r => r.id === orgGovSmiPilotageRole) || orgGovSmiPilotageRoles[0];
+            orgGovSmiPilotageRole = current?.id || null;
+            root.innerHTML = `
+                <div class="dashboard-grid" style="grid-template-columns:1fr 1.6fr;gap:18px;">
+                    <div class="doc-list">
+                        ${orgGovSmiPilotageRoles.map(r => `
+                            <div class="doc-item" onclick="orgGovSmiPilotageRole='${r.id}'; renderOrgGovSmiPilotage();" style="${r.id === orgGovSmiPilotageRole ? 'background:#eff6ff;border-color:#bfdbfe;' : ''}">
+                                <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">R</div>
+                                <div class="doc-info"><div class="doc-title">${r.role}</div><div class="doc-meta">Responsabilités et autorités</div></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
+                        <div style="font-weight:900;color:#0f172a;font-size:16px;">${current?.role || ''}</div>
+                        <div style="margin-top:12px;font-weight:900;color:#1e293b;font-size:13px;">Responsabilités</div>
+                        <ul style="margin:8px 0 0 18px;color:#475569;font-size:12px;line-height:1.8;">${(current?.responsibilities || []).map(x => `<li>${x}</li>`).join('')}</ul>
+                        <div style="margin-top:12px;font-weight:900;color:#1e293b;font-size:13px;">Autorités</div>
+                        <p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.authority || ''}</p>
+                        ${current?.file ? `<button class="primary-btn" style="margin-top:14px;" onclick="openMockDownload('${current.file}','${current.role}')">Document nominatif</button>` : ''}
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderOrgGovSmiGovernance() {
+            const root = document.getElementById('orgGovSmiGovernance');
+            if (!root) return;
+            const current = orgGovSmiGovernanceInstances.find(i => i.id === orgGovSmiGovernanceInstance) || orgGovSmiGovernanceInstances[0];
+            orgGovSmiGovernanceInstance = current?.id || null;
+            root.innerHTML = `
+                <div class="dashboard-grid" style="grid-template-columns:1fr 1.6fr;gap:18px;">
+                    <div class="doc-list">
+                        ${orgGovSmiGovernanceInstances.map(i => `
+                            <div class="doc-item" onclick="orgGovSmiGovernanceInstance='${i.id}'; renderOrgGovSmiGovernance();" style="${i.id === orgGovSmiGovernanceInstance ? 'background:#eff6ff;border-color:#bfdbfe;' : ''}">
+                                <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">G</div>
+                                <div class="doc-info"><div class="doc-title">${i.title}</div><div class="doc-meta">Instance de gouvernance</div></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="display:grid;gap:12px;">
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Missions</strong><p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.missions || ''}</p></div>
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Composition</strong><p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.composition || ''}</p></div>
+                        <div class="doc-list">
+                            ${(current?.docs || []).map(d => `
+                                <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
+                                    <div class="doc-icon" style="background:#fee2e2;color:#dc2626;font-weight:900;">PDF</div>
+                                    <div class="doc-info"><div class="doc-title">${d.label}</div><div class="doc-meta">${current.title}</div></div>
+                                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderOrgGovSmiCertification() {
+            const root = document.getElementById('orgGovSmiCertification');
+            if (!root) return;
+            root.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+                    ${orgGovSmiCertifications.map(c => `
+                        <div class="doc-card" onclick="openMockDownload('${c.file}','${c.title}')">
+                            <div class="doc-icon-large" style="background:#f0fdf4;color:#15803d;"><i data-lucide="badge-check" style="width:24px;height:24px;"></i></div>
+                            <div class="doc-card-title">${c.title}</div>
+                            <p style="font-size:12px;color:var(--text-light);line-height:1.6;">${c.desc}</p>
+                            <div class="doc-card-meta"><span>Consulter</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderOrgGovSmiNormes() {
+            const list = document.getElementById('orgGovSmiNormes');
+            if (!list) return;
+            list.innerHTML = orgGovSmiPolitiquesData.map(d => `
+                <div class="doc-item" onclick="openMockDownload('${d.file}','${d.title}')">
+                    <div class="doc-icon" style="background:#f5f3ff;color:#7c3aed;font-weight:900;">STD</div>
+                    <div class="doc-info"><div class="doc-title">${d.title}</div><div class="doc-meta">Normes et standards</div></div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('');
@@ -1352,6 +1572,152 @@ function openAgendaTab(tabName) {
                 `;
             }).join('');
             lucide.createIcons();
+        }
+
+        function renderOrgGovCultureContents() {
+            const root = document.getElementById('orgGovCultureContents');
+            if (!root) return;
+            root.innerHTML = `
+                <div class="doc-list">
+                    ${orgGovCultureContents.map(c => `
+                        <div class="doc-item" onclick="openMockDownload('${c.file}','${c.title}')">
+                            <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">${c.type.slice(0,3).toUpperCase()}</div>
+                            <div class="doc-info"><div class="doc-title">${c.title}</div><div class="doc-meta">${c.theme} • ${c.type}</div></div>
+                            <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderOrgGovCultureFaq() {
+            const root = document.getElementById('orgGovCultureFaq');
+            if (!root) return;
+            const q = (document.getElementById('orgGovCultureFaqSearch')?.value || '').trim().toLowerCase();
+            const items = orgGovCultureFaq.filter(f => !q || f.question.toLowerCase().includes(q) || f.answer.toLowerCase().includes(q));
+            root.innerHTML = `
+                <div class="actu-search-wrap" style="max-width:520px;margin-bottom:14px;">
+                    <i data-lucide="search" class="actu-search-icon"></i>
+                    <input id="orgGovCultureFaqSearch" class="actu-search-input" placeholder="Rechercher une question..." value="${q}" oninput="renderOrgGovCultureFaq()">
+                </div>
+                <div class="doc-list">
+                    ${items.map(f => `
+                        <div style="padding:14px 0;border-top:1px solid #f1f5f9;">
+                            <div style="font-weight:900;color:#0f172a;">${f.question}</div>
+                            <div style="margin-top:6px;color:#475569;font-size:13px;line-height:1.7;">${f.answer}</div>
+                        </div>
+                    `).join('') || '<div style="color:#64748b;font-size:13px;">Aucun résultat.</div>'}
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderOrgGovCultureCommunication() {
+            const root = document.getElementById('orgGovCultureCommunication');
+            if (!root) return;
+            root.innerHTML = `<div class="doc-list">${orgGovCultureNews.map(n => `
+                <div class="doc-item" onclick="openMockDownload('${n.file}','${n.title}')">
+                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">${n.type.slice(0,3).toUpperCase()}</div>
+                    <div class="doc-info"><div class="doc-title">${n.title}</div><div class="doc-meta">${n.type} • ${n.date}</div></div>
+                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                </div>
+            `).join('')}</div>`;
+            lucide.createIcons();
+        }
+
+        function renderOrgGovCultureQuiz() {
+            const root = document.getElementById('orgGovCultureQuiz');
+            if (!root) return;
+            root.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
+                    ${orgGovCultureQuizzes.map(q => `
+                        <div class="doc-card">
+                            <div class="doc-icon-large" style="background:#f5f3ff;color:#7c3aed;"><i data-lucide="list-checks" style="width:24px;height:24px;"></i></div>
+                            <div class="doc-card-title">${q.title}</div>
+                            <p style="font-size:12px;color:var(--text-light);">Score moyen : ${q.score}% • ${q.participants} participations</p>
+                            <button class="primary-btn" onclick="alert('Quiz démarré : ${q.title}')">Participer</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderOrgGovCultureIdeas() {
+            const root = document.getElementById('orgGovCultureIdeas');
+            if (!root) return;
+            root.innerHTML = `
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+                    <div class="doc-list">
+                        ${orgGovCultureIdeas.map(i => `
+                            <div class="doc-item"><div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">ID</div><div class="doc-info"><div class="doc-title">${i.title}</div><div class="doc-meta">${i.type} • ${i.date}</div></div></div>
+                        `).join('')}
+                    </div>
+                    <div>
+                        <input id="orgGovCultureIdeaTitle" class="actu-search-input" placeholder="Titre de l'idée">
+                        <select id="orgGovCultureIdeaType" class="actu-search-input" style="height:40px;margin-top:12px;"><option>Qualité</option><option>SST</option><option>Environnement</option><option>RSE</option></select>
+                        <textarea id="orgGovCultureIdeaDesc" class="actu-search-input" style="height:110px;margin-top:12px;padding-top:10px;" placeholder="Décrire l'idée..."></textarea>
+                        <button class="primary-btn" style="margin-top:12px;" onclick="submitOrgGovCultureIdea()">Soumettre</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function submitOrgGovCultureIdea() {
+            const title = (document.getElementById('orgGovCultureIdeaTitle')?.value || '').trim();
+            const type = document.getElementById('orgGovCultureIdeaType')?.value || 'Qualité';
+            if (!title) return;
+            orgGovCultureIdeas = [{ title, type, date: 'Aujourd’hui' }, ...orgGovCultureIdeas];
+            renderOrgGovCultureIdeas();
+        }
+
+        function renderOrgGovCultureRemontees() {
+            const root = document.getElementById('orgGovCultureRemontees');
+            if (!root) return;
+            root.innerHTML = `
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+                    <div class="doc-list">
+                        ${orgGovCultureRemontees.map(r => `
+                            <div class="doc-item"><div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">REM</div><div class="doc-info"><div class="doc-title">${r.title}</div><div class="doc-meta">${r.type} • ${r.date}</div></div></div>
+                        `).join('')}
+                    </div>
+                    <div>
+                        <input id="orgGovCultureRemTitle" class="actu-search-input" placeholder="Titre de la remontée">
+                        <select id="orgGovCultureRemType" class="actu-search-input" style="height:40px;margin-top:12px;"><option>Anomalie</option><option>Observation</option><option>Risque</option><option>Suggestion</option></select>
+                        <textarea id="orgGovCultureRemDesc" class="actu-search-input" style="height:110px;margin-top:12px;padding-top:10px;" placeholder="Décrire la remontée terrain..."></textarea>
+                        <button class="primary-btn" style="margin-top:12px;" onclick="submitOrgGovCultureRemontee()">Déclarer</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function submitOrgGovCultureRemontee() {
+            const title = (document.getElementById('orgGovCultureRemTitle')?.value || '').trim();
+            const type = document.getElementById('orgGovCultureRemType')?.value || 'Observation';
+            if (!title) return;
+            orgGovCultureRemontees = [{ title, type, date: 'Aujourd’hui' }, ...orgGovCultureRemontees];
+            renderOrgGovCultureRemontees();
+        }
+
+        function renderOrgGovCultureStats() {
+            const root = document.getElementById('orgGovCultureStats');
+            if (!root) return;
+            const dynamic = [
+                { label: 'Idées soumises', value: orgGovCultureIdeas.length },
+                { label: 'Remontées terrain', value: orgGovCultureRemontees.length }
+            ];
+            const items = [...(orgGovCultureStats.items || []).slice(0, 2), ...dynamic];
+            root.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;">
+                    ${items.map(s => `
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
+                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">${s.label}</div>
+                            <div style="margin-top:8px;font-size:24px;font-weight:900;color:#0f172a;">${s.value}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
         // ====== Téléchargement (mock) ======
