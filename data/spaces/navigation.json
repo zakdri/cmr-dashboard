@@ -14,14 +14,8 @@
         "active": true
       },
       {
-        "id": "applis",
-        "label": "Mes Applications",
-        "icon": "layers",
-        "handler": "switchView('applis')"
-      },
-      {
         "id": "rh",
-        "label": "RH & Mobilité",
+        "label": "Mes Services RH",
         "icon": "users",
         "handler": "toggleSidebarSubmenu('rh')",
         "hasSubmenu": true
@@ -60,7 +54,7 @@
       },
       {
         "id": "collaboratifs",
-        "label": "Espaces collaboratifs",
+        "label": "Forums & Groupes",
         "icon": "network",
         "handler": "toggleSidebarSubmenu('collaboratifs')",
         "hasSubmenu": true
@@ -199,7 +193,7 @@
         ]
       },
       "collaboratifs": {
-        "title": "Espaces collaboratifs",
+        "title": "Forums & Groupes",
         "items": [
           {
             "label": "Discussions",
@@ -423,7 +417,7 @@
         ]
       },
       "rh": {
-        "title": "Ressources Humaines",
+        "title": "Mes Services RH",
         "items": [
           {
             "label": "Ma Carrière",
@@ -442,28 +436,16 @@
             "tab": "offres"
           },
           {
-            "label": "Espace Managers",
-            "tab": "managers"
+            "label": "Mobilité spontanée",
+            "tab": "mobilite"
           },
           {
             "label": "Enquêtes RH",
             "tab": "enquetes"
           },
           {
-            "label": "Mes Applis",
-            "tab": "applis"
-          },
-          {
             "label": "Forums & Groupes",
             "tab": "forums"
-          },
-          {
-            "label": "Vie Sociale",
-            "tab": "viesociale"
-          },
-          {
-            "label": "Activités",
-            "tab": "activites"
           }
         ]
       }

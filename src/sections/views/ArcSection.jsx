@@ -4,11 +4,12 @@ function getArcData() {
   const data = window.CMR_DATA?.data || {};
   return {
     header: data.arcHeader || {},
+    accessControl: data.arcAccessControl || {},
   };
 }
 
 export default function ArcSection() {
-  const { header } = getArcData();
+  const { header, accessControl } = getArcData();
 
   return (
     <>
@@ -17,6 +18,12 @@ export default function ArcSection() {
           <h2>{header.title}</h2>
           <p>{header.description}</p>
         </div>
+        {accessControl.description ? (
+          <div className="arc-access-note">
+            <strong>{accessControl.scope} - {accessControl.level}</strong>
+            <p style={{ color: "var(--text-light)", marginTop: 6 }}>{accessControl.description}</p>
+          </div>
+        ) : null}
         <div
           className="km-navbar"
           id="arcMainNavbar"

@@ -120,21 +120,23 @@ export default function VieSocialeSection() {
                 <div style={{ fontSize: 12, color: "#475569", marginTop: 8 }}>
                   {eventItem.description}
                 </div>
-                <button
-                  style={{
-                    marginTop: 12,
-                    background: eventItem.buttonBackground,
-                    color: "#fff",
-                    border: "none",
-                    padding: "7px 16px",
-                    borderRadius: 6,
-                    fontSize: 12,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
-                >
-                  {eventItem.button}
-                </button>
+                {eventItem.button ? (
+                  <button
+                    style={{
+                      marginTop: 12,
+                      background: eventItem.buttonBackground,
+                      color: "#fff",
+                      border: "none",
+                      padding: "7px 16px",
+                      borderRadius: 6,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {eventItem.button}
+                  </button>
+                ) : null}
               </div>
             </div>
           ))}

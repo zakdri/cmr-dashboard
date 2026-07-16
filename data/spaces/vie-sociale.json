@@ -20,7 +20,7 @@
         },
         "meta": "Siège CMR · 9h00 – 17h00 · Ouvert à tous",
         "description": "Découvrez les coulisses de la CMR et les projets en cours lors de notre grande journée annuelle.",
-        "button": "Participer",
+        "button": "",
         "dateBackground": "linear-gradient(135deg,#ec4899,#db2777)",
         "buttonBackground": "#db2777"
       },
@@ -35,7 +35,7 @@
         },
         "meta": "Salle Innovation · Direction Digital & IT",
         "description": "Hackathon interne, défis collaboratifs et remise des trophées CMR Digital Awards.",
-        "button": "Participer",
+        "button": "",
         "dateBackground": "linear-gradient(135deg,#3b82f6,#2563eb)",
         "buttonBackground": "#2563eb"
       },
@@ -50,12 +50,12 @@
         },
         "meta": "Hôtel Sofitel Rabat · 19h00 · Sur invitation",
         "description": "Soirée annuelle de célébration des réussites et de cohésion entre toutes les équipes CMR.",
-        "button": "Participer",
+        "button": "",
         "dateBackground": "linear-gradient(135deg,#f59e0b,#d97706)",
         "buttonBackground": "#d97706"
       }
     ],
-    "vieSocialeGalleryTitle": "Galerie Photos",
+    "vieSocialeGalleryTitle": "Galerie Vie Sociale",
     "vieSocialeGallery": [
       {
         "src": "images/intranet/news_contract.jpg",

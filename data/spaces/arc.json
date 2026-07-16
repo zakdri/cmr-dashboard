@@ -6,6 +6,12 @@
       "title": "Espace Audit, Risque & Conformité",
       "description": "Audit interne, risque & conformité, contrôle permanent et sensibilisation — conformément au cadrage CMS."
     },
+    "arcAccessControl": {
+      "scope": "Risk Management",
+      "level": "Accès restreint",
+      "owner": "DCH / DSI",
+      "description": "L'accès aux contenus Risk Management est soumis à ACL. Les habilitations techniques sont administrées par la DSI selon la matrice transmise par la DCH."
+    },
     "arcMainTabs": [
       {
         "label": "Audit interne",

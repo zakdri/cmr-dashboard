@@ -627,7 +627,7 @@ function openAgendaTab(tabName) {
             }
 
             // Update Content
-            const pageTabs = ['page-academy-catalogue', 'page-academy-formations', 'page-academy-certificats'];
+            const pageTabs = ['page-academy-onboarding', 'page-academy-levelup', 'page-academy-talent', 'page-academy-click'];
             pageTabs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
@@ -652,12 +652,12 @@ function openAgendaTab(tabName) {
             const rhNavbar = document.querySelector('#view-rh .km-navbar');
             if (rhNavbar) {
                 rhNavbar.querySelectorAll('.km-nav-item').forEach(el => el.classList.remove('active'));
-                const targetNav = rhNavbar.querySelector(`[onclick="switchRhPageTab('${tabId}')"]`);
+                const targetNav = event && event.target && event.target.closest ? event.target.closest('.km-nav-item') : null;
                 if (targetNav) targetNav.classList.add('active');
             }
 
             // Update Content
-            const pageTabs = ['page-rh-carriere', 'page-rh-formation', 'page-rh-documents', 'page-rh-offres', 'page-rh-managers', 'page-rh-enquetes', 'page-rh-applis', 'page-rh-forums', 'page-rh-viesociale', 'page-rh-activites'];
+            const pageTabs = ['page-rh-carriere', 'page-rh-formation', 'page-rh-documents', 'page-rh-offres', 'page-rh-mobilite', 'page-rh-enquetes', 'page-rh-forums'];
             pageTabs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';

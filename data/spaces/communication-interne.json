@@ -4,11 +4,11 @@
   "data": {
     "communicationInterneHeader": {
       "title": "Communication interne",
-      "description": "Informations institutionnelles, flash, événements et contenus éditoriaux."
+      "description": "L'espace Communication interne centralise les actualités de gouvernance, les informations métiers, les flashs, les événements et les contenus éditoriaux."
     },
     "communicationInterneCards": [
       {
-        "title": "Actualités institutionnelles",
+        "title": "Actualités Gouvernance",
         "icon": "newspaper",
         "iconClass": "blue",
         "action": "Voir tout",
@@ -34,6 +34,36 @@
             "title": "Feuille de route digitale 2026",
             "meta": "Digital • 1 Avril",
             "handler": "goToActualites(8); return false;"
+          }
+        ]
+      },
+      {
+        "title": "Informations métiers",
+        "icon": "briefcase-business",
+        "iconClass": "green",
+        "action": "Voir tout",
+        "actionHandler": "goToActualites(); return false;",
+        "items": [
+          {
+            "label": "MET",
+            "labelStyle": { "background": "#f0fdf4", "color": "#16a34a", "fontWeight": 800 },
+            "title": "Point métier retraite - traitement des dossiers",
+            "meta": "Métiers • Aujourd'hui",
+            "handler": "goToActualites(); return false;"
+          },
+          {
+            "label": "CLI",
+            "labelStyle": { "background": "#eff6ff", "color": "#256cb5", "fontWeight": 800 },
+            "title": "Amélioration du parcours relation client",
+            "meta": "Relation client • 2 jours",
+            "handler": "goToActualites(); return false;"
+          },
+          {
+            "label": "ACT",
+            "labelStyle": { "background": "#fff7ed", "color": "#ea580c", "fontWeight": 800 },
+            "title": "Nouvelle note études & actuariat",
+            "meta": "Actuariat • Cette semaine",
+            "handler": "goToActualites(); return false;"
           }
         ]
       },
