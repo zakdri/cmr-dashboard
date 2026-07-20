@@ -188,6 +188,37 @@
         ]
       }
     ],
+    "communicationInterneSections": [
+      {
+        "id": "recrutement", "title": "Recrutement", "icon": "user-plus", "iconClass": "blue", "description": "Les dernières annonces et les documents RH relatifs au recrutement.", "filterByYear": true,
+        "items": [
+          { "title": "Avis de recrutement - Chef de projet SI", "date": "18 juillet 2026", "year": "2026", "meta": "Direction des Ressources Humaines", "kind": "PDF" },
+          { "title": "Avis de recrutement - Contrôleur interne", "date": "10 juillet 2026", "year": "2026", "meta": "Direction des Ressources Humaines", "kind": "PDF" },
+          { "title": "Résultats concours cadres", "date": "02 juillet 2026", "year": "2026", "meta": "Résultats", "kind": "PDF" },
+          { "title": "Avis de recrutement 2025", "date": "14 décembre 2025", "year": "2025", "meta": "Archives RH", "kind": "PDF" }
+        ]
+      },
+      {
+        "id": "notes-service", "title": "Notes de service", "icon": "notebook-tabs", "iconClass": "green", "description": "Les notes de service publiées pour les collaborateurs.", "filterByYear": true,
+        "items": [
+          { "title": "Note de service - Horaires d'été", "date": "15 juillet 2026", "year": "2026", "meta": "Organisation interne", "kind": "PDF" },
+          { "title": "Note de service - Permanence", "date": "01 juillet 2026", "year": "2026", "meta": "Organisation interne", "kind": "PDF" },
+          { "title": "Note de service - Télétravail", "date": "20 juin 2026", "year": "2026", "meta": "Ressources humaines", "kind": "PDF" },
+          { "title": "Note de service - Congés 2025", "date": "05 mai 2025", "year": "2025", "meta": "Archives", "kind": "PDF" }
+        ]
+      },
+      { "id": "notes-juridiques", "title": "Notes & Prises de position juridiques", "icon": "scale", "iconClass": "purple", "description": "Le contenu et le positionnement de ce bloc restent à valider avec le propriétaire de l'espace Réglementation.", "status": "À confirmer", "items": [] },
+      {
+        "id": "flash-info", "title": "Flash Info", "icon": "zap", "iconClass": "orange", "description": "Les informations rapides diffusées à l'ensemble des collaborateurs.",
+        "items": [
+          { "title": "Maintenance programmée de la plateforme", "date": "Aujourd'hui", "year": "2026", "meta": "SITD", "kind": "INFO" },
+          { "title": "Mise à jour du calendrier CMR", "date": "Hier", "year": "2026", "meta": "Communication", "kind": "INFO" },
+          { "title": "Ouverture des inscriptions CMR Academy", "date": "15 juillet 2026", "year": "2026", "meta": "Formation", "kind": "INFO" },
+          { "title": "Lancement de la campagne RSE", "date": "08 juillet 2026", "year": "2026", "meta": "RSE", "kind": "INFO" }
+        ]
+      },
+      { "id": "chartes", "title": "Chartes éditoriales", "icon": "palette", "iconClass": "pink", "description": "Personnalisez la présentation éditoriale au moment de chaque publication.", "items": [] }
+    ],
     "communicationInterneFilterCard": {
       "title": "Filtrage des contenus",
       "icon": "sliders-horizontal",

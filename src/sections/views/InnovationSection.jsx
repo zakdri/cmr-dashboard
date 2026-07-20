@@ -7,7 +7,8 @@ function getInnovationData() {
     header: data.innovationHeader || {},
     tabs: data.innovationTabs || [],
     pages: data.innovationPages || {},
-    themes: data.innovationThemeOptions || [],
+    spontaneousThemes: data.innovationSpontaneousThemeOptions || [],
+    cmrInnovThemes: data.innovationCmrInnovThemeOptions || [],
   };
 }
 
@@ -77,20 +78,35 @@ function SubNav({ items, activeId }) {
   );
 }
 
-function Field({ id, placeholder, as = "input", type = "text" }) {
+function FormControl({ label, children }) {
+  return (
+    <label htmlFor={children.props.id} style={{ display: "grid", gap: 7, minWidth: 0 }}>
+      <span style={{ color: "var(--text-dark)", fontSize: 13, fontWeight: 700, lineHeight: 1.35 }}>
+        {label}
+      </span>
+      {children}
+    </label>
+  );
+}
+
+function Field({ id, label, placeholder, as = "input", type = "text" }) {
   if (as === "textarea") {
     return (
-      <textarea
-        id={id}
-        className="actu-search-input"
-        placeholder={placeholder}
-        style={{ height: 96, paddingTop: 10 }}
-      />
+      <FormControl label={label || placeholder}>
+        <textarea
+          id={id}
+          className="actu-search-input"
+          placeholder={placeholder}
+          style={{ height: 96, paddingTop: 10 }}
+        />
+      </FormControl>
     );
   }
 
   return (
-    <input id={id} className="actu-search-input" type={type} placeholder={placeholder} />
+    <FormControl label={label || placeholder}>
+      <input id={id} className="actu-search-input" type={type} placeholder={placeholder} />
+    </FormControl>
   );
 }
 
@@ -108,32 +124,36 @@ function SearchField({ id, placeholder, handler }) {
   );
 }
 
-function ThemeSelect({ id, themes }) {
+function ThemeSelect({ id, themes, label = "Thème" }) {
   return (
-    <select id={id} className="actu-search-input" style={{ height: 40 }}>
-      {themes.map((theme) => (
-        <option value={theme} key={theme}>
-          {theme}
-        </option>
-      ))}
-    </select>
+    <FormControl label={label}>
+      <select id={id} className="actu-search-input" style={{ height: 40 }}>
+        {themes.map((theme) => (
+          <option value={theme} key={theme}>
+            {theme}
+          </option>
+        ))}
+      </select>
+    </FormControl>
   );
 }
 
-function FileInput({ id, accept }) {
+function FileInput({ id, accept, label }) {
   return (
-    <input
-      id={id}
-      className="actu-search-input"
-      type="file"
-      accept={accept}
-      style={{ paddingTop: 8 }}
-    />
+    <FormControl label={label}>
+      <input
+        id={id}
+        className="actu-search-input"
+        type="file"
+        accept={accept}
+        style={{ paddingTop: 8 }}
+      />
+    </FormControl>
   );
 }
 
 export default function InnovationSection() {
-  const { header, tabs, pages, themes } = getInnovationData();
+  const { header, tabs, pages, spontaneousThemes, cmrInnovThemes } = getInnovationData();
   const suivi = pages.suivi || {};
   const espaceIdees = pages["espace-idees"] || {};
   const innovEvent = pages["innov-event"] || {};
@@ -199,7 +219,7 @@ export default function InnovationSection() {
           >
             <div id="innovationProjectForm" style={{ display: "none", padding: 18, borderBottom: "1px solid #f1f5f9" }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <FileInput id="projectImage" accept="image/*" />
+                <FileInput id="projectImage" accept="image/*" label="Image du projet" />
                 <Field id="projectTitle" placeholder="Titre du projet" />
                 <Field id="projectSummary" placeholder="Synthèse du projet" />
                 <Field id="projectObjective" placeholder="Objectif" />
@@ -297,7 +317,7 @@ export default function InnovationSection() {
           <DashboardCard page={{ ...espaceIdees, title: espaceIdees.ideaFormTitle, icon: "square-pen", iconClass: "blue" }}>
             <div style={{ padding: 18, display: "grid", gap: 12 }}>
               <Field id="spontaneousIdeaTitle" placeholder="Titre de l'idée" />
-              <ThemeSelect id="spontaneousIdeaTheme" themes={themes} />
+              <ThemeSelect id="spontaneousIdeaTheme" themes={spontaneousThemes} />
               <Field id="spontaneousIdeaDesc" placeholder="Description de l'idée" as="textarea" />
               <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitSpontaneousIdea()")}>
                 {espaceIdees.sendLabel}
@@ -324,14 +344,14 @@ export default function InnovationSection() {
           </DashboardCard>
           <DashboardCard page={{ ...espaceIdees, title: espaceIdees.innovFormTitle, icon: "square-pen", iconClass: "blue" }}>
             <div style={{ padding: 18, display: "grid", gap: 12 }}>
-              <Field id="cmrInnovTitle" placeholder="Titre" />
-              <ThemeSelect id="cmrInnovTheme" themes={themes} />
+              <Field id="cmrInnovTitle" label="Titre" placeholder="Saisir le titre" />
+              <ThemeSelect id="cmrInnovTheme" themes={cmrInnovThemes} />
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <Field id="cmrInnovStart" placeholder="Du" type="date" />
-                <Field id="cmrInnovEnd" placeholder="Au" type="date" />
+                <Field id="cmrInnovStart" label="Période - Du" placeholder="Du" type="date" />
+                <Field id="cmrInnovEnd" label="Période - Au" placeholder="Au" type="date" />
               </div>
-              <FileInput id="cmrInnovImage" accept="image/*" />
-              <FileInput id="cmrInnovDocs" accept="application/pdf" />
+              <FileInput id="cmrInnovImage" accept="image/*" label="Image illustrative" />
+              <FileInput id="cmrInnovDocs" accept="application/pdf" label="Supports documentaires (PDF uniquement)" />
               <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitCmrInnov()")}>
                 {espaceIdees.sendLabel}
               </button>

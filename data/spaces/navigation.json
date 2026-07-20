@@ -6,125 +6,21 @@
       "submenuTitle": "Sous-menu"
     },
     "sidebarMainItems": [
-      {
-        "id": "dashboard",
-        "label": "Accueil",
-        "icon": "home",
-        "handler": "switchView('dashboard')",
-        "active": true
-      },
-      {
-        "id": "rh",
-        "label": "Mes Services RH",
-        "icon": "users",
-        "handler": "toggleSidebarSubmenu('rh')",
-        "hasSubmenu": true
-      },
-      {
-        "id": "academy",
-        "label": "CMR Academy",
-        "icon": "graduation-cap",
-        "handler": "switchView('academy')"
-      },
-      {
-        "id": "vie-sociale",
-        "label": "Vie Sociale",
-        "icon": "coffee",
-        "handler": "switchView('vie-sociale')"
-      },
-      {
-        "id": "communication-interne",
-        "label": "Communication interne",
-        "icon": "megaphone",
-        "handler": "switchView('communication-interne')"
-      },
-      {
-        "id": "km",
-        "label": "Knowledge Management",
-        "icon": "brain",
-        "handler": "toggleSidebarSubmenu('km')",
-        "hasSubmenu": true
-      },
-      {
-        "id": "documentaires",
-        "label": "Espaces métiers",
-        "icon": "folder-open",
-        "handler": "toggleSidebarSubmenu('documentaires')",
-        "hasSubmenu": true
-      },
-      {
-        "id": "collaboratifs",
-        "label": "Forums & Groupes",
-        "icon": "network",
-        "handler": "toggleSidebarSubmenu('collaboratifs')",
-        "hasSubmenu": true
-      },
-      {
-        "id": "projets",
-        "label": "Stratégie & Projets CMR",
-        "icon": "briefcase",
-        "handler": "switchView('projets')"
-      },
-      {
-        "id": "institutionnel",
-        "label": "SMI & Organisation & RSE",
-        "icon": "landmark",
-        "handler": "switchView('institutionnel')"
-      },
-      {
-        "id": "annuaire",
-        "label": "Annuaire",
-        "icon": "users",
-        "handler": "switchView('annuaire')"
-      },
-      {
-        "id": "reglementation",
-        "label": "Réglementation",
-        "icon": "shield-check",
-        "handler": "toggleSidebarSubmenu('reglementation')",
-        "hasSubmenu": true
-      },
-      {
-        "id": "achats",
-        "label": "Achats",
-        "icon": "shopping-cart",
-        "handler": "switchView('achats')"
-      },
-      {
-        "id": "sitd",
-        "label": "Espace SI / SITD",
-        "icon": "server",
-        "handler": "toggleSidebarSubmenu('sitd')",
-        "hasSubmenu": true
-      },
-      {
-        "id": "arc",
-        "label": "Audit, Risque & Conformité",
-        "icon": "shield-check",
-        "handler": "toggleSidebarSubmenu('arc')",
-        "hasSubmenu": true
-      },
-      {
-        "id": "mediatheque",
-        "label": "Médiathèque",
-        "icon": "clapperboard",
-        "handler": "toggleSidebarSubmenu('mediatheque')",
-        "hasSubmenu": true
-      },
-      {
-        "id": "innovation",
-        "label": "Innovation",
-        "icon": "lightbulb",
-        "handler": "toggleSidebarSubmenu('innovation')",
-        "hasSubmenu": true
-      },
-      {
-        "id": "admin",
-        "label": "Administration & Pilotage",
-        "icon": "settings",
-        "handler": "toggleSidebarSubmenu('admin')",
-        "hasSubmenu": true
-      }
+      { "id": "dashboard", "label": "Accueil", "icon": "home", "handler": "switchView('dashboard')", "active": true },
+      { "id": "gouvernance", "label": "Gouvernance", "icon": "landmark", "handler": "toggleSidebarSubmenu('gouvernance')", "hasSubmenu": true },
+      { "id": "institutionnel", "label": "Organisation & RSE", "icon": "building-2", "handler": "switchView('institutionnel')" },
+      { "id": "projets", "label": "Stratégie & Projet", "icon": "briefcase-business", "handler": "switchView('projets')" },
+      { "id": "communication-interne", "label": "Communication Interne", "icon": "megaphone", "handler": "switchView('communication-interne')" },
+      { "id": "rh", "label": "Mes Services RH", "icon": "users", "handler": "toggleSidebarSubmenu('rh')", "hasSubmenu": true },
+      { "id": "academy", "label": "CMR Academy", "icon": "graduation-cap", "handler": "switchView('academy')" },
+      { "id": "km", "label": "KM", "icon": "brain", "handler": "toggleSidebarSubmenu('km')", "hasSubmenu": true },
+      { "id": "vie-sociale", "label": "Vie Sociale", "icon": "coffee", "handler": "switchView('vie-sociale')" },
+      { "id": "innovation", "label": "Innov", "icon": "lightbulb", "handler": "toggleSidebarSubmenu('innovation')", "hasSubmenu": true },
+      { "id": "reglementation", "label": "Réglementation", "icon": "shield-check", "handler": "toggleSidebarSubmenu('reglementation')", "hasSubmenu": true },
+      { "id": "achats", "label": "Achats", "icon": "shopping-cart", "handler": "switchView('achats')" },
+      { "id": "sitd", "label": "SITD", "icon": "server", "handler": "toggleSidebarSubmenu('sitd')", "hasSubmenu": true },
+      { "id": "collaboratifs", "label": "Forum", "icon": "messages-square", "handler": "switchView('collaboratifs')" },
+      { "id": "admin", "label": "Administration & Pilotage", "icon": "settings", "handler": "toggleSidebarSubmenu('admin')", "hasSubmenu": true }
     ],
     "sidebarSubmenus": {
       "km": {
@@ -135,7 +31,17 @@
           { "label": "REX", "tab": "rex" },
           { "label": "Communautés", "tab": "communautes" },
           { "label": "Contributions", "tab": "contributions" },
-          { "label": "Articles / bilans", "tab": "publications" }
+          { "label": "Articles / bilans", "tab": "publications" },
+          { "label": "Intégration KM", "tab": "integration-km" }
+        ]
+      },
+      "gouvernance": {
+        "title": "Gouvernance",
+        "items": [
+          { "label": "Mot du Directeur", "tab": "mot-directeur" },
+          { "label": "Système de gouvernance", "tab": "systeme" },
+          { "label": "Missions & Valeurs", "tab": "missions-valeurs" },
+          { "label": "Organigramme", "tab": "organigramme" }
         ]
       },
       "documentaires": {
@@ -193,32 +99,9 @@
         ]
       },
       "collaboratifs": {
-        "title": "Forums & Groupes",
+        "title": "Forum & Communication",
         "items": [
-          {
-            "label": "Discussions",
-            "tab": "discussions"
-          },
-          {
-            "label": "Communautés",
-            "tab": "communautes"
-          },
-          {
-            "label": "Échanges",
-            "tab": "echanges"
-          },
-          {
-            "label": "Partage",
-            "tab": "partage"
-          },
-          {
-            "label": "Animation",
-            "tab": "animation"
-          },
-          {
-            "label": "Vie interne",
-            "tab": "vieinterne"
-          }
+          { "label": "Discussions", "tab": "discussions" }
         ]
       },
       "mediatheque": {
@@ -422,10 +305,6 @@
           {
             "label": "Ma Carrière",
             "tab": "carriere"
-          },
-          {
-            "label": "Formation",
-            "tab": "formation"
           },
           {
             "label": "Documents RH",

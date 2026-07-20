@@ -680,7 +680,6 @@ export default function DashboardSection() {
           <div className="ticker-wrapper" id="tickerWrapper"></div>
         </div>
         <NewsBlock news={news} />
-        <DgMessage message={dgMessage} />
         <QuickAccess quickAccess={visibleQuickAccess} />
         <div className="dashboard-grid">
           {hydratedCards.map((card) => (

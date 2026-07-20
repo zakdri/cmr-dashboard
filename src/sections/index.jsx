@@ -7,6 +7,7 @@ import AcademySection from './views/AcademySection.jsx';
 import RhSection from './views/RhSection.jsx';
 import VieSocialeSection from './views/VieSocialeSection.jsx';
 import InstitutionnelSection from './views/InstitutionnelSection.jsx';
+import GouvernanceSection from './views/GouvernanceSection.jsx';
 import AnnuaireSection from './views/AnnuaireSection.jsx';
 import ProjetsSection from './views/ProjetsSection.jsx';
 import DocumentairesSection from './views/DocumentairesSection.jsx';
@@ -35,6 +36,7 @@ export const sections = [
   { id: 'academy', Component: AcademySection },
   { id: 'rh', Component: RhSection },
   { id: 'vie-sociale', Component: VieSocialeSection },
+  { id: 'gouvernance', Component: GouvernanceSection },
   { id: 'institutionnel', Component: InstitutionnelSection },
   { id: 'annuaire', Component: AnnuaireSection },
   { id: 'projets', Component: ProjetsSection },

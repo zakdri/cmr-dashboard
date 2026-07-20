@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
 function getKmData() {
@@ -140,6 +140,12 @@ export default function KmSection() {
   const stories = pages.stories || {};
   const campagnes = pages.campagnes || {};
   const regimesProcessus = pages["regimes-processus"] || {};
+  const integrationKm = pages["integration-km"] || {};
+  const integrationMedia = window.CMR_DATA?.data?.kmIntegrationMedia || [];
+  const [integrationQuery, setIntegrationQuery] = useState("");
+  const visibleIntegrationMedia = integrationMedia.filter((item) => [item.title, item.meta, item.file].join(" ").toLowerCase().includes(integrationQuery.trim().toLowerCase()));
+
+  useEffect(() => { window.lucide?.createIcons(); }, [integrationQuery]);
 
   return (
     <>
@@ -379,6 +385,18 @@ export default function KmSection() {
         <SimpleListPage id="livrables" page={pages.livrables || {}} listId="kmLivrablesList" />
         <SimpleListPage id="modeles" page={pages.modeles || {}} listId="kmModelesList" />
         <SimpleListPage id="publications" page={pages.publications || {}} listId="kmPubList" />
+
+        <div id="page-km-integration-km" className="km-tab-content" style={{ display: "none" }}>
+          <SummaryText>{integrationKm.description}</SummaryText>
+          <DashboardCard page={integrationKm}>
+            <div style={{ padding: 18 }}>
+              <div className="section-search-row"><i data-lucide="search" /><input value={integrationQuery} onChange={(event) => setIntegrationQuery(event.target.value)} placeholder="Rechercher un média métier..." /></div>
+              <div className="km-grid" style={{ marginTop: 16 }}>
+                {visibleIntegrationMedia.map((item) => <button className="doc-card km-integration-card" key={item.title} onClick={(event) => runLegacyHandler(event, `openMockDownload('${item.file}','${item.title}')`)}><div className="doc-icon-large" style={{ background: "#eff6ff", color: "#256cb5" }}><i data-lucide={item.icon} /></div><div className="doc-card-title">{item.title}</div><p>{item.meta}</p><div className="doc-card-meta"><span>Consulter</span><i data-lucide="arrow-right" /></div></button>)}
+              </div>
+            </div>
+          </DashboardCard>
+        </div>
 
         <div id="page-km-ged" className="km-tab-content" style={{ display: "none" }}>
           <DashboardCard page={ged}>

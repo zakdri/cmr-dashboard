@@ -105,7 +105,9 @@
       "manager": ["Tout collaborateur", "Prioriser / classer", "Voir suivi projets"],
       "admin": ["Tout manager", "Gérer axes", "Gérer droits", "Intégration ExcelWay"]
     },
-    "innovationThemeOptions": ["Digital", "Processus", "Service", "Data/IA"],
+    "innovationThemeOptions": ["Approche Novatrice Client-Centric", "Investissement institutionnel", "Transformation Interne", "Excellence Opérationnelle", "RSE"],
+    "innovationSpontaneousThemeOptions": ["Approche Novatrice Client-Centric", "Investissement institutionnel", "Transformation Interne", "Excellence Opérationnelle", "RSE"],
+    "innovationCmrInnovThemeOptions": ["RSE", "Technologie", "Excellence Opérationnelle"],
     "projectSheets": [
       {
         "id": "fp1",
@@ -228,14 +230,14 @@
       {
         "id": "ci1",
         "title": "Challenge Data Retraite",
-        "theme": "Data/IA",
+        "theme": "Technologie",
         "period": "01/06/2026 - 30/06/2026",
         "image": "images/intranet/slider2.png"
       },
       {
         "id": "ci2",
         "title": "Innov Service Collaborateur",
-        "theme": "Service",
+        "theme": "Excellence Opérationnelle",
         "period": "15/05/2026 - 15/06/2026",
         "image": "images/intranet/slider1.png"
       }
@@ -244,27 +246,21 @@
       {
         "id": "ev1",
         "title": "Innov Event – Data & IA",
-        "teamName": "Data Explorers",
-        "members": "A. Benali, S. Amrani, Y. Idrissi",
-        "theme": "Data/IA",
+        "description": "Une rencontre consacrée aux usages de la donnée et de l'intelligence artificielle au service des métiers de la CMR.",
         "image": "images/intranet/slider2.png",
         "date": "2026-06-27"
       },
       {
         "id": "ev2",
         "title": "Innov Event – Service Design",
-        "teamName": "Service Lab",
-        "members": "N. Fassi, M. Tazi, H. Alaoui",
-        "theme": "Service",
+        "description": "Un atelier de découverte des méthodes de conception de services centrées sur les besoins des utilisateurs.",
         "image": "images/intranet/news_academy.jpg",
         "date": "2026-06-15"
       },
       {
         "id": "ev3",
         "title": "Innov Event – Process Sprint",
-        "teamName": "Process Makers",
-        "members": "K. Saidi, L. Berrada, O. Naciri",
-        "theme": "Processus",
+        "description": "Une session collaborative dédiée à la simplification rapide des processus internes prioritaires.",
         "image": "images/intranet/slider3.png",
         "date": "2026-05-30"
       }

@@ -344,7 +344,8 @@ function openAgendaTab(tabName) {
             admin: null,
             innovation: null,
             sitd: null,
-            arc: null
+            arc: null,
+            gouvernance: null
         };
 
         function hideSidebarSubmenu() {
@@ -449,6 +450,10 @@ function openAgendaTab(tabName) {
                 switchArcSection(tabId);
             }
 
+            if (viewId === 'gouvernance') {
+                switchGovernanceTab(tabId);
+            }
+
             renderInPageSubmenuNavbar(viewId);
             hideSidebarSubmenu();
         }
@@ -539,8 +544,18 @@ function openAgendaTab(tabName) {
                 if (viewId === 'innovation') switchInnovationTab(submenuSelections[viewId]);
                 if (viewId === 'sitd') switchSitdSection(submenuSelections[viewId]);
                 if (viewId === 'arc') switchArcSection(submenuSelections[viewId]);
+                if (viewId === 'gouvernance') switchGovernanceTab(submenuSelections[viewId]);
                 renderInPageSubmenuNavbar(viewId);
             }
+        }
+
+        function switchGovernanceTab(tabId) {
+            submenuSelections.gouvernance = tabId;
+            window.dispatchEvent(new CustomEvent('cmr:governance-tab', { detail: { tab: tabId } }));
+            document.querySelectorAll('#governanceMainNavbar .km-nav-item').forEach(el => {
+                el.classList.toggle('active', el.getAttribute('data-governance-tab') === tabId);
+            });
+            lucide.createIcons();
         }
 
         // KM TAB LOGIC (Dashboard Widget)
@@ -613,6 +628,7 @@ function openAgendaTab(tabName) {
             if (tabId === 'audit-risque') renderKmAuditRisque();
             if (tabId === 'capsules-ux') renderKmCapsulesUx();
             if (tabId === 'regimes-processus') renderKmRegimesProcessus();
+            if (tabId === 'integration-km') lucide.createIcons();
 
             lucide.createIcons();
         }
@@ -901,7 +917,7 @@ function openAgendaTab(tabName) {
             list.innerHTML = items.map(p => `
                 <div class="doc-item" data-annuaire-id="${p.id}" onclick="openAnnuaireDetail('${p.id}')"
                     style="${annuaireSelectedId === p.id ? 'background:#eff6ff;border-color:#bfdbfe;' : ''}">
-                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${p.nom.split(' ').slice(0,2).map(s => s[0]).join('').toUpperCase()}</div>
+                    <img src="${p.photo || 'images/intranet/slider1.png'}" alt="" style="width:44px;height:44px;border-radius:12px;object-fit:cover;flex-shrink:0;">
                     <div class="doc-info">
                         <div class="doc-title">${p.nom}</div>
                         <div class="doc-meta">${p.fonction} • ${p.direction} • ${p.localisation}</div>
@@ -981,7 +997,7 @@ function openAgendaTab(tabName) {
             annuaireSelectedId = id;
             detail.innerHTML = `
                 <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-                    <div style="width:44px;height:44px;border-radius:14px;background:#eff6ff;color:#1d4ed8;display:grid;place-items:center;font-weight:900;">${p.nom.split(' ').slice(0,2).map(s => s[0]).join('').toUpperCase()}</div>
+                    <img src="${p.photo || 'images/intranet/slider1.png'}" alt="Photo de ${p.nom}" style="width:56px;height:56px;border-radius:14px;object-fit:cover;">
                     <div>
                         <div style="font-weight:900;color:#0f172a;font-size:16px;">${p.nom}</div>
                         <div style="margin-top:2px;color:var(--text-light);font-size:12px;">${p.fonction} • ${p.direction}</div>
@@ -1857,6 +1873,7 @@ function openAgendaTab(tabName) {
         const innovationPagesConfig = getCmrData('innovationPages', {});
         const innovationAccessProfiles = getCmrData('innovationAccessProfiles', {});
         const innovationThemeOptions = getCmrData('innovationThemeOptions', []);
+        const innovationCmrInnovThemeOptions = getCmrData('innovationCmrInnovThemeOptions', []);
         let projectSheets = getCmrData('projectSheets', []);
         let projectIdeas = getCmrData('projectIdeas', []);
         let cmrInnovItems = getCmrData('cmrInnovItems', []);
@@ -2082,7 +2099,7 @@ function openAgendaTab(tabName) {
 
         function submitCmrInnov() {
             const title = (document.getElementById('cmrInnovTitle')?.value || '').trim();
-            const theme = (document.getElementById('cmrInnovTheme')?.value || innovationThemeOptions[0] || '').trim();
+            const theme = (document.getElementById('cmrInnovTheme')?.value || innovationCmrInnovThemeOptions[0] || '').trim();
             const start = (document.getElementById('cmrInnovStart')?.value || '').trim();
             const end = (document.getElementById('cmrInnovEnd')?.value || '').trim();
             const pdf = document.getElementById('cmrInnovDocs')?.files?.[0];
@@ -2110,13 +2127,8 @@ function openAgendaTab(tabName) {
             const event = innovEventItems.find(e => e.id === selectedInnovEventId) || innovEventItems[0];
             selectedInnovEventId = event?.id || null;
             detail.innerHTML = event ? `
-                <img src="${event.image}" alt="${event.title}" style="width:100%;max-height:190px;object-fit:cover;border-radius:12px;margin-bottom:14px;">
                 <div style="font-weight:900;color:#0f172a;font-size:16px;">${event.title}</div>
-                <div style="display:grid;gap:10px;margin-top:12px;font-size:13px;color:#475569;">
-                    <div><strong>Nom de l'équipe :</strong> ${event.teamName}</div>
-                    <div><strong>Membres de l'équipe :</strong> ${event.members}</div>
-                    <div><strong>Thématique :</strong> ${event.theme}</div>
-                </div>
+                <p style="margin:10px 0 0;color:var(--text-light);font-size:13px;line-height:1.7;">${event.description || ''}</p>
             ` : 'Sélectionnez un Innov Event.';
         }
 

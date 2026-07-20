@@ -3,17 +3,11 @@
   "updatedAt": "2026-06-08",
   "data": {
     "collabHeader": {
-      "title": "Forums & Groupes",
-      "description": "Forums, communautés, échanges, partage (REX) et vie sociale."
+      "title": "Forum & Communication",
+      "description": "Un espace de discussion interne animé par la DCH, ouvert aux messages et commentaires des collaborateurs."
     },
-    "collabMainTabs": [
-      { "label": "Discussions", "tab": "discussions" },
-      { "label": "Communautés", "tab": "communautes" },
-      { "label": "Échanges", "tab": "echanges" },
-      { "label": "Partage", "tab": "partage" },
-      { "label": "Animation", "tab": "animation" },
-      { "label": "Vie interne", "tab": "vieinterne" }
-    ],
+    "collabMainTabs": [{ "label": "Discussions", "tab": "discussions" }],
+    "collabForumThemes": ["Ressources humaines", "Transformation", "Vie interne", "Qualité de service"],
     "collabSectionConfig": {
       "discussions": {
         "subs": [{ "id": "forums", "label": "Forums" }],
@@ -139,10 +133,11 @@
     "collabForumThreads": [
       {
         "id": "t1",
-        "title": "Question: procédure archivage",
-        "author": "Collaborateur 07",
+        "title": "Nouveau dispositif d'accompagnement des parcours",
+        "theme": "Ressources humaines",
+        "author": "Direction du Capital Humain",
         "date": "Aujourd’hui",
-        "body": "Quel est le bon circuit pour archiver un dossier ?",
+        "body": "Partagez vos questions et retours sur le nouveau dispositif d'accompagnement des parcours collaborateurs.",
         "replies": [
           {
             "author": "Collaborateur 03",
@@ -153,10 +148,11 @@
       },
       {
         "id": "t2",
-        "title": "Bonnes pratiques: gestion des mots de passe",
-        "author": "Collaborateur 12",
+        "title": "Vos retours sur les nouveaux espaces collaboratifs",
+        "theme": "Transformation",
+        "author": "Direction du Capital Humain",
         "date": "Hier",
-        "body": "Partagez vos bonnes pratiques.",
+        "body": "Ce sujet recueille vos retours sur les usages et l'ergonomie des nouveaux espaces de travail.",
         "replies": []
       }
     ],
