@@ -23,6 +23,41 @@ function DocCard({ item }) {
   );
 }
 
+function FormationPage({ page }) {
+  const [query, setQuery] = useState("");
+  const workflows = (page.workflows || []).filter((item) =>
+    [item.title, item.description, item.meta].join(" ").toLowerCase().includes(query.trim().toLowerCase()),
+  );
+
+  return (
+    <div id="page-academy-formation" className="km-tab-content" style={{ display: "none" }}>
+      <p className="section-intro">{page.description}</p>
+      <div className="section-search-row">
+        <i data-lucide="search" style={{ width: 18 }} />
+        <input placeholder="Rechercher un workflow formation..." value={query} onChange={(event) => setQuery(event.target.value)} />
+      </div>
+      <div className="km-grid" style={{ marginTop: 18 }}>
+        {workflows.map((item) => <DocCard item={item} key={item.title} />)}
+      </div>
+      <div className="content-card" style={{ marginTop: 18 }}>
+        <h3>{page.validation?.title}</h3>
+        <p>{page.validation?.description}</p>
+        <div className="km-grid" style={{ marginTop: 16 }}>
+          {(page.validation?.steps || []).map((step) => (
+            <div className="doc-card static-card academy-doc-card" key={step.title}>
+              <div className="doc-icon-large" style={{ background: step.background, color: step.color }}>
+                <i data-lucide="check-circle" style={{ width: 24, height: 24 }} />
+              </div>
+              <div className="doc-card-title">{step.title}</div>
+              <p style={{ fontSize: 12, color: "var(--text-light)" }}>{step.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function OnboardingPage({ page }) {
   const [query, setQuery] = useState("");
   const [activeYear, setActiveYear] = useState((page.galleryYears || [])[0] || "");
@@ -229,6 +264,7 @@ export default function AcademySection() {
         ))}
       </div>
       <OnboardingPage page={pages.onboarding || {}} />
+      <FormationPage page={pages.formation || {}} />
       <DomainPage id="levelup" page={pages.levelup || {}} />
       <DomainPage id="talent" page={pages.talent || {}} />
       <DomainPage id="click" page={pages.click || {}} />

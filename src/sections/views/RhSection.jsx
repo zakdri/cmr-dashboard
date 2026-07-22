@@ -126,31 +126,6 @@ function CareerPage({ page }) {
   );
 }
 
-function FormationPage({ page }) {
-  const [query, setQuery] = useState("");
-  const workflows = (page.workflows || []).filter((item) =>
-    [item.title, item.description, item.meta].join(" ").toLowerCase().includes(query.trim().toLowerCase()),
-  );
-
-  return (
-    <div id="page-rh-formation" className="km-tab-content" style={{ display: "none" }}>
-      <SectionIntro text={page.description} />
-      <div className="section-search-row">
-        <i data-lucide="search" style={{ width: 18 }} />
-        <input
-          placeholder="Rechercher un workflow formation..."
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-      </div>
-      <div className="km-grid" style={{ marginTop: 18 }}>
-        {workflows.map((item) => <SimpleCard item={item} key={item.title} />)}
-      </div>
-      <WorkflowCard workflow={page.validation || {}} />
-    </div>
-  );
-}
-
 function DocumentsPage({ page }) {
   const [query, setQuery] = useState("");
   const term = query.trim().toLowerCase();
@@ -436,7 +411,6 @@ export default function RhSection() {
         ))}
       </div>
       <CareerPage page={pages.carriere || {}} />
-      <FormationPage page={pages.formation || {}} />
       <DocumentsPage page={pages.documents || {}} />
       <OffresPage offresIntro={offresIntro} offresFilters={offresFilters} offresList={offresList} />
       <MobilitePage page={pages.mobilite || {}} />

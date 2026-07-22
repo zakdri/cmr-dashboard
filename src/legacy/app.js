@@ -643,7 +643,7 @@ function openAgendaTab(tabName) {
             }
 
             // Update Content
-            const pageTabs = ['page-academy-onboarding', 'page-academy-levelup', 'page-academy-talent', 'page-academy-click'];
+            const pageTabs = ['page-academy-onboarding', 'page-academy-formation', 'page-academy-levelup', 'page-academy-talent', 'page-academy-click'];
             pageTabs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
@@ -673,7 +673,7 @@ function openAgendaTab(tabName) {
             }
 
             // Update Content
-            const pageTabs = ['page-rh-carriere', 'page-rh-formation', 'page-rh-documents', 'page-rh-offres', 'page-rh-mobilite', 'page-rh-enquetes', 'page-rh-forums'];
+            const pageTabs = ['page-rh-carriere', 'page-rh-documents', 'page-rh-offres', 'page-rh-mobilite', 'page-rh-enquetes', 'page-rh-forums'];
             pageTabs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
