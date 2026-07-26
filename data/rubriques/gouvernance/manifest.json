@@ -1,0 +1,26 @@
+{
+  "rubrique": "gouvernance",
+  "module": "gouvernance",
+  "fichiers": [
+    {
+      "contenu": "Configuration de la gouvernance",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Mot du Directeur général",
+      "fichier": "sous-rubriques/mot-du-directeur-general.json"
+    },
+    {
+      "contenu": "Système de gouvernance",
+      "fichier": "sous-rubriques/systeme-de-gouvernance.json"
+    },
+    {
+      "contenu": "Missions et valeurs",
+      "fichier": "sous-rubriques/missions-et-valeurs.json"
+    },
+    {
+      "contenu": "Organigramme de la CMR",
+      "fichier": "sous-rubriques/organigramme.json"
+    }
+  ]
+}

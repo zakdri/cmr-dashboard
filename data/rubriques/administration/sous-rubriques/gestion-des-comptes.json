@@ -1,0 +1,59 @@
+{
+  "rubrique": "administration",
+  "contenu": "Gestion des comptes utilisateurs",
+  "data": {
+    "adminSectionConfig": {
+      "utilisateurs": {
+        "subs": [
+          {
+            "id": "comptes",
+            "label": "Gestion comptes"
+          }
+        ],
+        "defaultSub": "comptes"
+      }
+    },
+    "adminPageCards": {
+      "comptes": {
+        "listTitle": "Gestion comptes",
+        "listIcon": "users",
+        "listIconClass": "blue",
+        "createLabel": "Créer",
+        "searchPlaceholder": "Rechercher un utilisateur…",
+        "formTitle": "Nouveau compte",
+        "formIcon": "user-plus",
+        "formIconClass": "green",
+        "closeLabel": "Fermer",
+        "namePlaceholder": "Nom complet",
+        "emailPlaceholder": "Email",
+        "detailTitle": "Détail",
+        "detailIcon": "id-card",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez un utilisateur."
+      }
+    },
+    "adminUsers": [
+      {
+        "id": "u1",
+        "name": "Admin 01",
+        "email": "admin01@cmr.ma",
+        "profil": "Administrateur",
+        "status": "Actif"
+      },
+      {
+        "id": "u2",
+        "name": "Contributeur 03",
+        "email": "cont03@cmr.ma",
+        "profil": "Contributeur",
+        "status": "Actif"
+      },
+      {
+        "id": "u3",
+        "name": "Utilisateur 12",
+        "email": "user12@cmr.ma",
+        "profil": "Utilisateur",
+        "status": "Désactivé"
+      }
+    ]
+  }
+}

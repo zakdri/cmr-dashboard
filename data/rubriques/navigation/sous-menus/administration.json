@@ -1,0 +1,49 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu administration",
+  "data": {
+    "sidebarSubmenus": {
+      "admin": {
+        "title": "Administration & Pilotage",
+        "items": [
+          {
+            "label": "Utilisateurs",
+            "tab": "utilisateurs"
+          },
+          {
+            "label": "Habilitations",
+            "tab": "habilitations"
+          },
+          {
+            "label": "Accès",
+            "tab": "acces"
+          },
+          {
+            "label": "Pilotage (usage)",
+            "tab": "usage"
+          },
+          {
+            "label": "Pilotage (reporting)",
+            "tab": "reporting"
+          },
+          {
+            "label": "Contenus (CMS)",
+            "tab": "cms"
+          },
+          {
+            "label": "Sécurité",
+            "tab": "securite"
+          },
+          {
+            "label": "Traçabilité",
+            "tab": "tracabilite"
+          },
+          {
+            "label": "Pilotage (performance)",
+            "tab": "performance"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "Modules e-learning de sécurité",
+  "data": {
+    "sitdElearningModules": [
+      {
+        "title": "Cybersécurité — Fondamentaux",
+        "duree": "45 min",
+        "niveau": "Tous publics",
+        "file": "Elearning_Cyber_Fondamentaux.pdf"
+      },
+      {
+        "title": "Gestion des incidents SI",
+        "duree": "1h20",
+        "niveau": "SITD",
+        "file": "Elearning_Incidents_SI.pdf"
+      },
+      {
+        "title": "Protection des données",
+        "duree": "35 min",
+        "niveau": "Tous publics",
+        "file": "Elearning_Protection_Donnees.pdf"
+      }
+    ]
+  }
+}

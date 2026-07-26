@@ -1,0 +1,56 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Bibliothèque des modèles",
+  "data": {
+    "regPages": {
+      "modeles": {
+        "title": "Bibliothèque des modèles",
+        "icon": "library",
+        "iconClass": "orange",
+        "description": "Cette rubrique met à disposition les modèles documentaires utiles au métier Juridique.",
+        "searchPlaceholder": "Rechercher un modèle...",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Courriers",
+            "value": "Courriers"
+          },
+          {
+            "label": "Conventions",
+            "value": "Conventions"
+          },
+          {
+            "label": "Avis",
+            "value": "Avis"
+          },
+          {
+            "label": "Procédures",
+            "value": "Procédures"
+          }
+        ]
+      }
+    },
+    "regDocumentItems": [
+      {
+        "section": "modeles",
+        "title": "Modèle – Courrier de demande d’avis juridique",
+        "theme": "Courriers",
+        "meta": "Modèle • PDF • Accès public",
+        "file": "Modele_Demande_Avis_Juridique.pdf",
+        "public": true
+      },
+      {
+        "section": "modeles",
+        "title": "Modèle – Convention type de partenariat",
+        "theme": "Conventions",
+        "meta": "Modèle • PDF • Accès public",
+        "file": "Modele_Convention_Type_Partenariat.pdf",
+        "public": true
+      }
+    ]
+  }
+}

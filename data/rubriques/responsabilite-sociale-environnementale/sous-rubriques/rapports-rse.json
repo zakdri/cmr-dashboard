@@ -1,0 +1,25 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Rapports RSE",
+  "data": {
+    "rsePages": {
+      "rapports": {
+        "title": "Rapports RSE",
+        "icon": "file-text",
+        "iconClass": "green"
+      }
+    },
+    "rseRapports": [
+      {
+        "title": "Rapport RSE 2025",
+        "file": "Rapport_RSE_2025.pdf",
+        "meta": "Liste/téléchargement"
+      },
+      {
+        "title": "Bilan carbone (synthèse)",
+        "file": "Bilan_Carbone_Synthese.pdf",
+        "meta": "Liste/téléchargement"
+      }
+    ]
+  }
+}

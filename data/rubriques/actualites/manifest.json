@@ -1,0 +1,14 @@
+{
+  "rubrique": "actualites",
+  "module": "actualites",
+  "fichiers": [
+    {
+      "contenu": "Configuration de la rubrique Actualités",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Articles et actualités publiés",
+      "fichier": "liste-des-actualites.json"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "rubrique": "achats",
+  "contenu": "Référentiel des fournisseurs",
+  "data": {
+    "achatsSections": [
+      {
+        "title": "Référentiel des fournisseurs",
+        "description": "Référentiel documentaire des fournisseurs.",
+        "summary": "Cette rubrique met à disposition les documents de référence liés aux fournisseurs : listes, dossiers types, informations de suivi et pièces utiles à la gestion documentaire du référentiel fournisseurs.",
+        "icon": "book-check",
+        "iconStyle": {
+          "background": "#f8fafc",
+          "color": "#475569"
+        },
+        "documents": [
+          {
+            "title": "Liste fournisseurs référencés.pdf",
+            "type": "PDF"
+          },
+          {
+            "title": "Dossier fournisseur type.pdf",
+            "type": "PDF"
+          }
+        ]
+      }
+    ]
+  }
+}

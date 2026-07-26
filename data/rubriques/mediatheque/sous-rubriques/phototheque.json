@@ -1,0 +1,44 @@
+{
+  "rubrique": "mediatheque",
+  "contenu": "Photothèque",
+  "data": {
+    "mediaPages": {
+      "images": {
+        "title": "Images (galerie)",
+        "icon": "image",
+        "iconClass": "pink",
+        "searchPlaceholder": "Rechercher une image…"
+      }
+    },
+    "mediaImages": [
+      {
+        "id": "img1",
+        "title": "Infographie – Parcours assuré",
+        "category": "Institutionnel",
+        "date": "Avr 2026",
+        "file": "Media_Infographie_Parcours.png"
+      },
+      {
+        "id": "img2",
+        "title": "Photo – Atelier",
+        "category": "Évènement",
+        "date": "Mars 2026",
+        "file": "Galerie_Atelier_01.png"
+      },
+      {
+        "id": "img3",
+        "title": "Photo – Vie interne",
+        "category": "Évènement",
+        "date": "Fév 2026",
+        "file": "Galerie_Vie_02.png"
+      },
+      {
+        "id": "img4",
+        "title": "Schéma – Architecture SI",
+        "category": "SI",
+        "date": "Jan 2026",
+        "file": "Schema_Architecture_SI.png"
+      }
+    ]
+  }
+}

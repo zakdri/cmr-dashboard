@@ -1,0 +1,25 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Notes et guides",
+  "data": {
+    "regPages": {
+      "notes": {
+        "title": "Notes / guides",
+        "icon": "book-open",
+        "iconClass": "pink"
+      }
+    },
+    "regNotes": [
+      {
+        "title": "Guide pratique – Lecture d’un texte officiel",
+        "meta": "Note / guide • 10 pages",
+        "file": "Guide_Lecture_Textes.pdf"
+      },
+      {
+        "title": "Note – Bonnes pratiques de conformité",
+        "meta": "Note • MAJ 2026",
+        "file": "Note_Bonnes_Pratiques_Conformite.pdf"
+      }
+    ]
+  }
+}

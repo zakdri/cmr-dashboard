@@ -1,0 +1,30 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - capsules-experience-utilisateur",
+  "data": {
+    "kmPages": {
+      "capsules-ux": {
+        "title": "Capsules UX projet SI",
+        "icon": "play-circle",
+        "iconClass": "orange"
+      }
+    },
+    "kmCapsulesUx": [
+      {
+        "title": "Capsule UX – Parcours e‑Service",
+        "meta": "Vidéo projet SI • 4 min",
+        "file": "Capsule_UX_eService.mp4"
+      },
+      {
+        "title": "Capsule UX – Onboarding intranet",
+        "meta": "Vidéo projet SI • 3 min",
+        "file": "Capsule_UX_Intranet.mp4"
+      },
+      {
+        "title": "Capsule UX – Recherche GED",
+        "meta": "Capsule usage • 2 min",
+        "file": "Capsule_UX_GED.mp4"
+      }
+    ]
+  }
+}

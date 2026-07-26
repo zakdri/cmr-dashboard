@@ -1,0 +1,30 @@
+{
+  "rubrique": "fenetres-modales",
+  "contenu": "Fenêtre de gestion des accès rapides",
+  "data": {
+    "modals": {
+      "quickAccess": {
+        "fallbackItems": [
+          {
+            "label": "Congés"
+          },
+          {
+            "label": "Réservation"
+          },
+          {
+            "label": "Note de frais"
+          },
+          {
+            "label": "Annuaire"
+          },
+          {
+            "label": "Bloc-note"
+          },
+          {
+            "label": "Documentation"
+          }
+        ]
+      }
+    }
+  }
+}

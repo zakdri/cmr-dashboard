@@ -1,0 +1,26 @@
+{
+  "rubrique": "innovation",
+  "module": "innovation",
+  "fichiers": [
+    {
+      "contenu": "Configuration de l’espace Innovation",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Suivi des projets d’innovation",
+      "fichier": "sous-rubriques/suivi-des-projets.json"
+    },
+    {
+      "contenu": "Espace Idées",
+      "fichier": "sous-rubriques/espace-idees.json"
+    },
+    {
+      "contenu": "Innov Event et événements d’innovation",
+      "fichier": "sous-rubriques/evenements-innovation.json"
+    },
+    {
+      "contenu": "Veille et axes d’innovation",
+      "fichier": "sous-rubriques/veille-et-axes-innovation.json"
+    }
+  ]
+}

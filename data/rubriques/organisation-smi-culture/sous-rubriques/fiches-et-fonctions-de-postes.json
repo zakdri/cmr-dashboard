@@ -1,0 +1,174 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Fiches et fonctions de postes",
+  "data": {
+    "orgGovPages": {
+      "postes": {
+        "title": "Fiches et fonctions de postes",
+        "description": "Consulter une fiche de poste ou une fiche de fonction, avec missions, responsabilités, profil et pièces jointes PDF.",
+        "searchPlaceholder": "Rechercher un poste…",
+        "listTitle": "Liste",
+        "detailTitle": "Fiche de poste / fonction",
+        "emptyDetail": "Sélectionnez un poste dans la liste."
+      }
+    },
+    "postesData": [
+      {
+        "id": "pole-retraite",
+        "titre": "Chef de Pôle Retraite",
+        "famille": "Fonction de responsabilité",
+        "missions": [
+          "Piloter les activités liées à la gestion de la retraite",
+          "Coordonner les divisions et services rattachés",
+          "Suivre les indicateurs de performance et de qualité"
+        ],
+        "competences": [
+          "Pilotage métier",
+          "Management",
+          "Maîtrise des processus retraite"
+        ],
+        "profil": [
+          "Bac+5",
+          "10+ ans",
+          "Expérience en management public"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche fonction Chef de Pôle Retraite",
+            "file": "Fiche_Fonction_Chef_Pole_Retraite.pdf"
+          }
+        ]
+      },
+      {
+        "id": "pole-finances",
+        "titre": "Chef de Pôle Finances & Portefeuille",
+        "famille": "Fonction de responsabilité",
+        "missions": [
+          "Piloter la gestion financière et le portefeuille",
+          "Superviser le reporting financier",
+          "Contribuer aux arbitrages stratégiques"
+        ],
+        "competences": [
+          "Finance",
+          "Gestion d’actifs",
+          "Analyse stratégique"
+        ],
+        "profil": [
+          "Bac+5",
+          "10+ ans",
+          "Expertise finance et portefeuille"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche fonction Chef de Pôle Finances",
+            "file": "Fiche_Fonction_Chef_Pole_Finances.pdf"
+          }
+        ]
+      },
+      {
+        "id": "pole-support",
+        "titre": "Chef de Pôle Support & Transformation",
+        "famille": "Fonction de responsabilité",
+        "missions": [
+          "Piloter les fonctions support",
+          "Accompagner les programmes de transformation",
+          "Assurer la coordination transverse"
+        ],
+        "competences": [
+          "Transformation",
+          "Organisation",
+          "Management transversal"
+        ],
+        "profil": [
+          "Bac+5",
+          "10+ ans",
+          "Expérience en pilotage transverse"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche fonction Chef de Pôle Support",
+            "file": "Fiche_Fonction_Chef_Pole_Support.pdf"
+          }
+        ]
+      },
+      {
+        "id": "dg",
+        "titre": "Directeur Général",
+        "famille": "Direction Générale",
+        "missions": [
+          "Définir les orientations stratégiques",
+          "Superviser la gouvernance globale",
+          "Assurer la représentation institutionnelle"
+        ],
+        "competences": [
+          "Leadership institutionnel",
+          "Gouvernance",
+          "Pilotage stratégique"
+        ],
+        "profil": [
+          "Nomination réglementaire",
+          "Expérience confirmée",
+          "Vision stratégique"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche fonction Directeur Général",
+            "file": "Fiche_Fonction_Directeur_General.pdf"
+          }
+        ]
+      },
+      {
+        "id": "audit-interne",
+        "titre": "Responsable Audit Interne",
+        "famille": "Service rattaché au DG",
+        "missions": [
+          "Piloter les missions d’audit",
+          "Suivre les recommandations",
+          "Contribuer à la maîtrise des risques"
+        ],
+        "competences": [
+          "Audit",
+          "Contrôle interne",
+          "Analyse des risques"
+        ],
+        "profil": [
+          "Bac+5",
+          "7+ ans",
+          "Certification audit appréciée"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Responsable Audit Interne",
+            "file": "Fiche_Poste_Responsable_Audit_Interne.pdf"
+          }
+        ]
+      },
+      {
+        "id": "communication-dg",
+        "titre": "Responsable Communication Institutionnelle",
+        "famille": "Service rattaché au DG",
+        "missions": [
+          "Piloter la communication institutionnelle",
+          "Coordonner les prises de parole",
+          "Assurer la cohérence éditoriale"
+        ],
+        "competences": [
+          "Communication",
+          "Relations institutionnelles",
+          "Rédaction"
+        ],
+        "profil": [
+          "Bac+5",
+          "7+ ans",
+          "Expérience communication publique"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Communication Institutionnelle",
+            "file": "Fiche_Poste_Communication_Institutionnelle.pdf"
+          }
+        ]
+      }
+    ]
+  }
+}

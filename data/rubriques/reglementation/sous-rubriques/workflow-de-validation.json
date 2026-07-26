@@ -1,0 +1,30 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Workflow de validation",
+  "data": {
+    "regPages": {
+      "workflow": {
+        "title": "Workflow validation",
+        "icon": "check-circle-2",
+        "iconClass": "green",
+        "description": "Validation obligatoire avant publication (maquette)."
+      }
+    },
+    "regWorkflowQueue": [
+      {
+        "id": "wf1",
+        "title": "Note – Conformité (MAJ)",
+        "owner": "Admin / métier",
+        "date": "Aujourd’hui",
+        "action": "Valider"
+      },
+      {
+        "id": "wf2",
+        "title": "Texte – Circulaire reporting",
+        "owner": "Admin / métier",
+        "date": "Hier",
+        "action": "Valider"
+      }
+    ]
+  }
+}

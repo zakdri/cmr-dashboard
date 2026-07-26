@@ -1,0 +1,37 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Indicateurs RH",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "stats",
+        "title": "Indicateurs RH",
+        "icon": "heart-handshake",
+        "iconClass": "blue",
+        "actionLabel": "Voir plus",
+        "actionHandler": "switchView('rh'); return false;",
+        "maxItems": 4,
+        "items": [
+          {
+            "className": "blue",
+            "value": "94%",
+            "label": "Engagement",
+            "icon": "smile"
+          },
+          {
+            "className": "green",
+            "value": "4.2",
+            "label": "Baromètre",
+            "icon": "gauge"
+          },
+          {
+            "className": "purple",
+            "value": "18",
+            "label": "Postes vacants",
+            "icon": "user-plus"
+          }
+        ]
+      }
+    ]
+  }
+}

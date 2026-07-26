@@ -1,0 +1,23 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Boîte à idées QSE",
+  "data": {
+    "qsePages": {
+      "idees": {
+        "title": "Boîte à idées QSE",
+        "icon": "lightbulb",
+        "iconClass": "pink",
+        "titlePlaceholder": "Titre",
+        "descriptionPlaceholder": "Votre idée…",
+        "submitLabel": "Soumettre"
+      }
+    },
+    "qseIdeaItems": [
+      {
+        "title": "Améliorer la signalétique sécurité",
+        "type": "Sécurité",
+        "date": "Avr 2026"
+      }
+    ]
+  }
+}

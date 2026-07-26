@@ -1,0 +1,63 @@
+{
+  "rubrique": "espaces-collaboratifs",
+  "contenu": "Discussions et forums",
+  "data": {
+    "collabPages": {
+      "forums": {
+        "title": "Forums",
+        "icon": "message-square",
+        "iconClass": "blue",
+        "newTopicLabel": "Nouveau sujet",
+        "searchPlaceholder": "Rechercher un sujet…",
+        "composerTitle": "Publier",
+        "composerIcon": "square-pen",
+        "composerIconClass": "green",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre du sujet",
+        "bodyPlaceholder": "Votre message…",
+        "publishLabel": "Publier",
+        "detailTitle": "Détail / Répondre",
+        "detailIcon": "messages-square",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez un sujet.",
+        "replyTitle": "Réponses",
+        "replyPlaceholder": "Répondre…",
+        "replyLabel": "Répondre",
+        "emptyReplies": "Aucune réponse.",
+        "emptyList": "Aucun sujet."
+      }
+    },
+    "collabForumThemes": [
+      "Ressources humaines",
+      "Transformation",
+      "Vie interne",
+      "Qualité de service"
+    ],
+    "collabForumThreads": [
+      {
+        "id": "t1",
+        "title": "Nouveau dispositif d'accompagnement des parcours",
+        "theme": "Ressources humaines",
+        "author": "Direction du Capital Humain",
+        "date": "Aujourd’hui",
+        "body": "Partagez vos questions et retours sur le nouveau dispositif d'accompagnement des parcours collaborateurs.",
+        "replies": [
+          {
+            "author": "Collaborateur 03",
+            "date": "Aujourd’hui",
+            "text": "Voir la procédure interne (rubrique réglementaire)."
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "title": "Vos retours sur les nouveaux espaces collaboratifs",
+        "theme": "Transformation",
+        "author": "Direction du Capital Humain",
+        "date": "Hier",
+        "body": "Ce sujet recueille vos retours sur les usages et l'ergonomie des nouveaux espaces de travail.",
+        "replies": []
+      }
+    ]
+  }
+}

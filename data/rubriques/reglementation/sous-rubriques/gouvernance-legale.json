@@ -1,0 +1,38 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Réglementation - gouvernance-legale",
+  "data": {
+    "regPages": {
+      "legal-gouvernance": {
+        "title": "Gouvernance",
+        "icon": "landmark",
+        "iconClass": "green",
+        "description": "Cette sous-rubrique regroupe les éléments de gouvernance et intègre l’ancienne rubrique Structuration.",
+        "searchPlaceholder": "Rechercher un texte de gouvernance...",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Lois",
+            "value": "Loi"
+          },
+          {
+            "label": "Décrets",
+            "value": "Décret"
+          },
+          {
+            "label": "Circulaires",
+            "value": "Circulaire"
+          },
+          {
+            "label": "Décisions",
+            "value": "Décision"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Accès rapides",
+  "data": {
+    "dashboardQuickAccess": {
+      "title": "Services & Accès utiles",
+      "items": [
+        {
+          "label": "HelpDesk",
+          "icon": "life-buoy"
+        },
+        {
+          "label": "Mobilité spontanée",
+          "icon": "route"
+        },
+        {
+          "label": "Formation spontanée",
+          "icon": "graduation-cap"
+        },
+        {
+          "label": "Réservation de salles",
+          "icon": "door-open"
+        },
+        {
+          "label": "Outlook",
+          "icon": "mail"
+        }
+      ]
+    }
+  }
+}

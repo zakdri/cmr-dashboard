@@ -1,0 +1,32 @@
+{
+  "rubrique": "alertes",
+  "contenu": "Configuration des alertes",
+  "data": {
+    "alertsHeader": {
+      "title": "Alertes",
+      "description": "Toutes les alertes importantes à surveiller",
+      "icon": "triangle-alert",
+      "iconClass": "orange"
+    },
+    "alertsLabels": {
+      "emptyMessage": "Aucune alerte à afficher."
+    },
+    "alertIcons": {
+      "document": {
+        "bg": "#ecfdf5",
+        "color": "#047857",
+        "icon": "file-text"
+      },
+      "system": {
+        "bg": "#fff7ed",
+        "color": "#ea580c",
+        "icon": "server-cog"
+      },
+      "security": {
+        "bg": "#eff6ff",
+        "color": "#2563eb",
+        "icon": "shield-alert"
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "rubrique": "vie-sociale",
+  "contenu": "Galerie photos de la Vie sociale",
+  "data": {
+    "vieSocialeGallery": [
+      {
+        "src": "images/intranet/news_contract.jpg",
+        "alt": "Signature du contrat programme"
+      },
+      {
+        "src": "images/intranet/news_board.jpg",
+        "alt": "Conseil d'administration CMR"
+      },
+      {
+        "src": "images/intranet/news_academy.jpg",
+        "alt": "Session CMR Academy"
+      },
+      {
+        "src": "images/intranet/slider_cmr_tech.png",
+        "alt": "Innovation et transformation digitale"
+      },
+      {
+        "src": "images/intranet/slider_partnership.png",
+        "alt": "Partenariat CMR"
+      },
+      {
+        "src": "images/intranet/slider3.png",
+        "alt": "Temps fort vie sociale"
+      },
+      {
+        "src": "images/intranet/slider2.png",
+        "alt": "Initiative collaborateurs"
+      }
+    ]
+  }
+}

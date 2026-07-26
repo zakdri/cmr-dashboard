@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "data:build": "node scripts/build-data-bundles.mjs",
+    "predev": "npm run data:build",
     "dev": "vite --host 127.0.0.1",
+    "prebuild": "npm run data:build",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1"
   },

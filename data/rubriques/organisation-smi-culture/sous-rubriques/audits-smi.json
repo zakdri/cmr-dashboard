@@ -1,0 +1,30 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Audits SMI",
+  "data": {
+    "orgGovPages": {
+      "smi-audits": {
+        "title": "Audit SMI",
+        "icon": "clipboard-check",
+        "iconClass": "orange"
+      }
+    },
+    "orgGovSmiAuditsData": [
+      {
+        "title": "Audit SMI interne — T1 2026",
+        "date": "Mars 2026",
+        "file": "Audit_SMI_Interne_T1_2026.pdf"
+      },
+      {
+        "title": "Audit certification ISO 9001 — suivi",
+        "date": "Fév 2026",
+        "file": "Audit_ISO9001_Suivi_2026.pdf"
+      },
+      {
+        "title": "Synthèse constats SMI 2025",
+        "date": "Déc 2025",
+        "file": "Synthese_Constats_SMI_2025.pdf"
+      }
+    ]
+  }
+}

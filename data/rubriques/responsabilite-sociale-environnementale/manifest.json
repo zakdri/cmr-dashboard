@@ -1,0 +1,66 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "module": "rse",
+  "fichiers": [
+    {
+      "contenu": "Configuration de la Responsabilité sociale et environnementale",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Référentiels RSE - politiques",
+      "fichier": "sous-rubriques/referentiels-politiques.json"
+    },
+    {
+      "contenu": "Référentiels RSE - chartes",
+      "fichier": "sous-rubriques/referentiels-chartes.json"
+    },
+    {
+      "contenu": "Référentiels RSE - codes",
+      "fichier": "sous-rubriques/referentiels-codes.json"
+    },
+    {
+      "contenu": "Référentiels RSE - guides",
+      "fichier": "sous-rubriques/referentiels-guides.json"
+    },
+    {
+      "contenu": "Rapports RSE",
+      "fichier": "sous-rubriques/rapports-rse.json"
+    },
+    {
+      "contenu": "Actions RSE",
+      "fichier": "sous-rubriques/actions-rse.json"
+    },
+    {
+      "contenu": "Informations RSE",
+      "fichier": "sous-rubriques/informations-rse.json"
+    },
+    {
+      "contenu": "Idées RSE",
+      "fichier": "sous-rubriques/idees-rse.json"
+    },
+    {
+      "contenu": "Contributions RSE",
+      "fichier": "sous-rubriques/contributions-rse.json"
+    },
+    {
+      "contenu": "Retours d’expérience RSE",
+      "fichier": "sous-rubriques/retours-experience-rse.json"
+    },
+    {
+      "contenu": "Axes stratégiques RSE",
+      "fichier": "sous-rubriques/axes-strategiques-rse.json"
+    },
+    {
+      "contenu": "Échanges participatifs RSE",
+      "fichier": "sous-rubriques/echanges-participatifs-rse.json"
+    },
+    {
+      "contenu": "Sensibilisation RSE",
+      "fichier": "sous-rubriques/sensibilisation-rse.json"
+    },
+    {
+      "contenu": "Animation RSE",
+      "fichier": "sous-rubriques/animation-rse.json"
+    }
+  ]
+}

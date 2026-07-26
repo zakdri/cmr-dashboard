@@ -1,0 +1,45 @@
+{
+  "rubrique": "espaces-collaboratifs",
+  "contenu": "Échanges participatifs",
+  "data": {
+    "collabPages": {
+      "echanges": {
+        "title": "Discussions libres",
+        "icon": "sparkles",
+        "iconClass": "pink",
+        "publishLabel": "Publier",
+        "postPlaceholder": "Partagez une info, une question, un message…",
+        "cancelLabel": "Annuler",
+        "commentsTitle": "Commentaires",
+        "commentsIcon": "message-circle",
+        "commentsIconClass": "blue",
+        "emptyDetail": "Sélectionnez une publication.",
+        "commentPlaceholder": "Ajouter un commentaire…",
+        "commentLabel": "Commenter",
+        "emptyComments": "Aucun commentaire."
+      }
+    },
+    "collabPosts": [
+      {
+        "id": "p1",
+        "author": "Collaborateur 05",
+        "date": "Aujourd’hui",
+        "text": "Info: réunion technique à 16h (Salle 2).",
+        "comments": [
+          {
+            "author": "Collaborateur 09",
+            "date": "Aujourd’hui",
+            "text": "Merci, je serai présent."
+          }
+        ]
+      },
+      {
+        "id": "p2",
+        "author": "Collaborateur 11",
+        "date": "Hier",
+        "text": "Question: qui a le modèle PV atelier ?",
+        "comments": []
+      }
+    ]
+  }
+}

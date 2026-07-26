@@ -1,0 +1,38 @@
+{
+  "rubrique": "mes-applications",
+  "contenu": "Applications - Finance & Achat",
+  "data": {
+    "applicationsCategories": [
+      {
+        "id": "finance-achat",
+        "title": "Finance & Achat",
+        "items": [
+          {
+            "id": "sage",
+            "title": "Sage",
+            "description": "Gestion financière et comptable. Accès réservé au service finance.",
+            "action": "Ouvrir",
+            "icon": "pie-chart",
+            "href": "#",
+            "hoverBg": "#ecfdf5",
+            "hoverBorder": "#a7f3d0",
+            "iconBackground": "linear-gradient(135deg, #10b981, #059669)",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "achats",
+            "title": "Achats",
+            "description": "Portail des demandes d'achats et gestion des fournisseurs.",
+            "action": "Accéder",
+            "icon": "shopping-cart",
+            "href": "#",
+            "hoverBg": "#fff7ed",
+            "hoverBorder": "#fed7aa",
+            "iconBackground": "linear-gradient(135deg, #f59e0b, #d97706)",
+            "actionIcon": "arrow-right"
+          }
+        ]
+      }
+    ]
+  }
+}

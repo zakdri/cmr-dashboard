@@ -1,0 +1,17 @@
+{
+  "rubrique": "mediatheque",
+  "contenu": "Consultation des contenus",
+  "data": {
+    "mediaPages": {
+      "consultation": {
+        "galleryTitle": "Galerie",
+        "galleryIcon": "gallery-vertical-end",
+        "galleryIconClass": "blue",
+        "readerTitle": "Lecteur",
+        "readerIcon": "file-text",
+        "readerIconClass": "purple",
+        "emptyReader": "Sélectionnez un média."
+      }
+    }
+  }
+}

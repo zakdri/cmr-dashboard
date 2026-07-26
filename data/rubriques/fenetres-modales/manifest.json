@@ -1,0 +1,18 @@
+{
+  "rubrique": "fenetres-modales",
+  "module": "modals",
+  "fichiers": [
+    {
+      "contenu": "Fenêtre de gestion des accès rapides",
+      "fichier": "acces-rapides.json"
+    },
+    {
+      "contenu": "Fenêtre de consentement et protection des données",
+      "fichier": "consentement-protection-donnees.json"
+    },
+    {
+      "contenu": "Fenêtre de détail Flash Info",
+      "fichier": "detail-flash-information.json"
+    }
+  ]
+}

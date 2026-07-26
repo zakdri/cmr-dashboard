@@ -1,0 +1,17 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Colonne latérale - citation-hebdomadaire",
+  "data": {
+    "dashboardRightSidebar": {
+      "quote": {
+        "title": "Citation hebdomadaire",
+        "icon": "quote",
+        "iconStyle": {
+          "background": "var(--cmr-primary)",
+          "color": "white"
+        },
+        "text": "\"L'innovation distingue les leaders des suiveurs. Notre ambition est de transformer chaque défi en opportunité de croissance.\""
+      }
+    }
+  }
+}

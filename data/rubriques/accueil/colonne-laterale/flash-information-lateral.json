@@ -1,0 +1,19 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Colonne latérale - flash-information-lateral",
+  "data": {
+    "dashboardRightSidebar": {
+      "flashInfo": {
+        "title": "Info Express",
+        "icon": "bell-ring",
+        "iconStyle": {
+          "background": "#ef4444",
+          "color": "white"
+        },
+        "badge": "LIVE",
+        "subject": "Maintenance Serveur",
+        "description": "Ce soir à partir de 18h00. Indisponibilité estimée: 2h."
+      }
+    }
+  }
+}

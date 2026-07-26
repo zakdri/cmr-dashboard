@@ -1,0 +1,28 @@
+{
+  "rubrique": "achats",
+  "contenu": "Canevas des Appels d'Offres",
+  "data": {
+    "achatsSections": [
+      {
+        "title": "Canevas des Appels d'Offres",
+        "description": "Modèles Word utilisés pour préparer les appels d'offres.",
+        "summary": "Cette rubrique rassemble les modèles Word nécessaires à la préparation des appels d'offres. Les canevas facilitent l'harmonisation des dossiers et la réutilisation des formats validés.",
+        "icon": "file-type",
+        "iconStyle": {
+          "background": "#eef2ff",
+          "color": "#4f46e5"
+        },
+        "documents": [
+          {
+            "title": "Canevas AO Travaux.docx",
+            "type": "WORD"
+          },
+          {
+            "title": "Canevas AO Prestations.docx",
+            "type": "WORD"
+          }
+        ]
+      }
+    ]
+  }
+}

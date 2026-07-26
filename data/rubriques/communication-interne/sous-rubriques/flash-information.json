@@ -1,0 +1,45 @@
+{
+  "rubrique": "communication-interne",
+  "contenu": "Communication interne - flash-info",
+  "data": {
+    "communicationInterneSections": [
+      {
+        "id": "flash-info",
+        "title": "Flash Info",
+        "icon": "zap",
+        "iconClass": "orange",
+        "description": "Les informations rapides diffusées à l'ensemble des collaborateurs.",
+        "items": [
+          {
+            "title": "Maintenance programmée de la plateforme",
+            "date": "Aujourd'hui",
+            "year": "2026",
+            "meta": "SITD",
+            "kind": "INFO"
+          },
+          {
+            "title": "Mise à jour du calendrier CMR",
+            "date": "Hier",
+            "year": "2026",
+            "meta": "Communication",
+            "kind": "INFO"
+          },
+          {
+            "title": "Ouverture des inscriptions CMR Academy",
+            "date": "15 juillet 2026",
+            "year": "2026",
+            "meta": "Formation",
+            "kind": "INFO"
+          },
+          {
+            "title": "Lancement de la campagne RSE",
+            "date": "08 juillet 2026",
+            "year": "2026",
+            "meta": "RSE",
+            "kind": "INFO"
+          }
+        ]
+      }
+    ]
+  }
+}

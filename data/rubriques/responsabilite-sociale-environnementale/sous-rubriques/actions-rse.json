@@ -1,0 +1,30 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Actions RSE",
+  "data": {
+    "rsePages": {
+      "actions": {
+        "title": "Actions RSE",
+        "icon": "heart-handshake",
+        "iconClass": "orange"
+      }
+    },
+    "rseActions": [
+      {
+        "title": "Collecte solidaire",
+        "meta": "Article / média",
+        "tag": "Social"
+      },
+      {
+        "title": "Semaine verte",
+        "meta": "Article / média",
+        "tag": "Environnement"
+      },
+      {
+        "title": "Atelier éco‑gestes",
+        "meta": "Article / média",
+        "tag": "Sensibilisation"
+      }
+    ]
+  }
+}

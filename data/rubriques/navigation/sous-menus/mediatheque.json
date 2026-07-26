@@ -1,0 +1,37 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu mediatheque",
+  "data": {
+    "sidebarSubmenus": {
+      "mediatheque": {
+        "title": "Médiathèque",
+        "items": [
+          {
+            "label": "Accès central",
+            "tab": "acces"
+          },
+          {
+            "label": "Photothèque",
+            "tab": "photos"
+          },
+          {
+            "label": "Vidéothèque",
+            "tab": "videos"
+          },
+          {
+            "label": "Structuration",
+            "tab": "structuration"
+          },
+          {
+            "label": "Accès contenus",
+            "tab": "acces-contenus"
+          },
+          {
+            "label": "Intégration",
+            "tab": "integration"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Statistiques QSE-RSE",
+  "data": {
+    "orgGovPages": {
+      "culture-stats": {
+        "title": "Statistiques",
+        "icon": "bar-chart-3",
+        "iconClass": "blue"
+      }
+    },
+    "orgGovCultureStats": {
+      "items": [
+        {
+          "label": "Consultations contenus",
+          "value": "1 248"
+        },
+        {
+          "label": "Participations quiz",
+          "value": "222"
+        },
+        {
+          "label": "Idées soumises",
+          "value": "18"
+        },
+        {
+          "label": "Remontées terrain",
+          "value": "11"
+        }
+      ]
+    }
+  }
+}

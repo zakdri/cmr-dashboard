@@ -1,0 +1,85 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "Campagnes de sécurité de l’information",
+  "data": {
+    "sitdFilters": {
+      "campagnes-si": {
+        "type": "campaign",
+        "yearFilters": [
+          {
+            "label": "Toutes les années",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "2026",
+            "value": "2026"
+          },
+          {
+            "label": "2025",
+            "value": "2025"
+          }
+        ],
+        "themeFilters": [
+          {
+            "label": "Tous les thèmes",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Phishing",
+            "value": "Phishing"
+          },
+          {
+            "label": "Mots de passe",
+            "value": "Mots de passe"
+          },
+          {
+            "label": "Accès distant",
+            "value": "Accès distant"
+          }
+        ]
+      }
+    },
+    "sitdDocumentItems": [
+      {
+        "section": "campagnes-si",
+        "title": "Campagne Mots de passe 2026",
+        "theme": "Mots de passe",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Campagne_Mots_De_Passe_2026.pdf"
+      },
+      {
+        "section": "campagnes-si",
+        "title": "Campagne Phishing – Simulation Q2",
+        "theme": "Phishing",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Campagne_Phishing_Simulation_Q2.pdf"
+      }
+    ],
+    "sitdCampagnes": [
+      {
+        "title": "Campagne Mots de passe 2026",
+        "date": "Mai 2026",
+        "status": "En cours",
+        "progress": 62
+      },
+      {
+        "title": "Phishing — simulation Q2",
+        "date": "Avr 2026",
+        "status": "Clôturée",
+        "progress": 100
+      },
+      {
+        "title": "Sensibilisation VPN & accès distant",
+        "date": "Juin 2026",
+        "status": "À venir",
+        "progress": 0
+      }
+    ]
+  }
+}

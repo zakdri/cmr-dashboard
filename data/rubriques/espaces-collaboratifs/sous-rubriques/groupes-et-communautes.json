@@ -1,0 +1,61 @@
+{
+  "rubrique": "espaces-collaboratifs",
+  "contenu": "Groupes et communautés",
+  "data": {
+    "collabPages": {
+      "groupes": {
+        "title": "Groupes thématiques",
+        "icon": "users",
+        "iconClass": "orange",
+        "searchPlaceholder": "Rechercher un groupe…",
+        "detailTitle": "Espace du groupe",
+        "detailIcon": "activity",
+        "detailIconClass": "blue",
+        "emptyDetail": "Sélectionnez un groupe.",
+        "latestTitle": "Derniers échanges",
+        "joinLabel": "Rejoindre",
+        "leaveLabel": "Quitter",
+        "exchangeLabel": "Échanger",
+        "joinExchangeLabel": "Rejoindre, échanger",
+        "emptyThreads": "Aucun échange."
+      }
+    },
+    "collabGroups": [
+      {
+        "id": "g1",
+        "name": "Groupe Qualité",
+        "members": 56,
+        "desc": "Process, conformité, REX."
+      },
+      {
+        "id": "g2",
+        "name": "Groupe Data / BI",
+        "members": 102,
+        "desc": "Tableaux de bord, KPI, bonnes pratiques."
+      },
+      {
+        "id": "g3",
+        "name": "Groupe RH",
+        "members": 44,
+        "desc": "Mobilité, formation, vie sociale."
+      }
+    ],
+    "collabGroupThreads": [
+      {
+        "groupId": "g2",
+        "title": "Convention de nommage datasets",
+        "meta": "Data/BI • 3j"
+      },
+      {
+        "groupId": "g2",
+        "title": "Bonnes pratiques Power BI",
+        "meta": "Data/BI • 2h"
+      },
+      {
+        "groupId": "g1",
+        "title": "REX audit interne",
+        "meta": "Qualité • hier"
+      }
+    ]
+  }
+}

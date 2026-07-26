@@ -1,0 +1,98 @@
+{
+  "rubrique": "knowledge-management",
+  "module": "km",
+  "fichiers": [
+    {
+      "contenu": "Configuration du Knowledge Management",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Knowledge Management - referentiels-metiers",
+      "fichier": "sous-rubriques/referentiels-metiers.json"
+    },
+    {
+      "contenu": "Knowledge Management - glossaire-metier",
+      "fichier": "sous-rubriques/glossaire-metier.json"
+    },
+    {
+      "contenu": "Knowledge Management - retours-experience",
+      "fichier": "sous-rubriques/retours-experience.json"
+    },
+    {
+      "contenu": "Knowledge Management - formations-elearning",
+      "fichier": "sous-rubriques/formations-elearning.json"
+    },
+    {
+      "contenu": "Knowledge Management - pedagogie-metier",
+      "fichier": "sous-rubriques/pedagogie-metier.json"
+    },
+    {
+      "contenu": "Knowledge Management - communautes-et-discussions",
+      "fichier": "sous-rubriques/communautes-et-discussions.json"
+    },
+    {
+      "contenu": "Knowledge Management - espace-amoa",
+      "fichier": "sous-rubriques/espace-amoa.json"
+    },
+    {
+      "contenu": "Knowledge Management - documents-partages",
+      "fichier": "sous-rubriques/documents-partages.json"
+    },
+    {
+      "contenu": "Knowledge Management - contributions",
+      "fichier": "sous-rubriques/contributions.json"
+    },
+    {
+      "contenu": "Knowledge Management - catalogue-et-categorisation",
+      "fichier": "sous-rubriques/catalogue-et-categorisation.json"
+    },
+    {
+      "contenu": "Knowledge Management - livrables",
+      "fichier": "sous-rubriques/livrables.json"
+    },
+    {
+      "contenu": "Knowledge Management - modeles-de-documents",
+      "fichier": "sous-rubriques/modeles-de-documents.json"
+    },
+    {
+      "contenu": "Knowledge Management - publications-et-bilans",
+      "fichier": "sous-rubriques/publications-et-bilans.json"
+    },
+    {
+      "contenu": "Knowledge Management - integration-knowledge-management",
+      "fichier": "sous-rubriques/integration-knowledge-management.json"
+    },
+    {
+      "contenu": "Knowledge Management - gestion-electronique-des-documents",
+      "fichier": "sous-rubriques/gestion-electronique-des-documents.json"
+    },
+    {
+      "contenu": "Knowledge Management - support-glpi",
+      "fichier": "sous-rubriques/support-glpi.json"
+    },
+    {
+      "contenu": "Knowledge Management - supports-pedagogiques",
+      "fichier": "sous-rubriques/supports-pedagogiques.json"
+    },
+    {
+      "contenu": "Knowledge Management - recits-de-transformation",
+      "fichier": "sous-rubriques/recits-de-transformation.json"
+    },
+    {
+      "contenu": "Knowledge Management - campagnes-de-contribution",
+      "fichier": "sous-rubriques/campagnes-de-contribution.json"
+    },
+    {
+      "contenu": "Knowledge Management - audit-risques-et-conformite",
+      "fichier": "sous-rubriques/audit-risques-et-conformite.json"
+    },
+    {
+      "contenu": "Knowledge Management - capsules-experience-utilisateur",
+      "fichier": "sous-rubriques/capsules-experience-utilisateur.json"
+    },
+    {
+      "contenu": "Knowledge Management - regimes-et-processus-metiers",
+      "fichier": "sous-rubriques/regimes-et-processus-metiers.json"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "rubrique": "notifications",
+  "module": "notifications",
+  "fichiers": [
+    {
+      "contenu": "Configuration des notifications",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Notifications des utilisateurs",
+      "fichier": "liste-des-notifications.json"
+    }
+  ]
+}

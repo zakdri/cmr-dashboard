@@ -1,0 +1,85 @@
+{
+  "rubrique": "communication-interne",
+  "contenu": "Communication interne - chartes",
+  "data": {
+    "communicationInterneSections": [
+      {
+        "id": "chartes",
+        "title": "Chartes éditoriales",
+        "icon": "palette",
+        "iconClass": "pink",
+        "description": "Personnalisez la présentation éditoriale au moment de chaque publication.",
+        "items": []
+      }
+    ],
+    "communicationInterneFilterCard": {
+      "title": "Filtrage des contenus",
+      "icon": "sliders-horizontal",
+      "iconClass": "green",
+      "subtitle": "Filtrer par thématique ou entité.",
+      "searchPlaceholder": "Rechercher dans la communication interne...",
+      "themesTitle": "Thématiques",
+      "themes": [
+        {
+          "id": "all",
+          "label": "Toutes",
+          "active": true
+        },
+        {
+          "id": "Gouvernance",
+          "label": "Gouvernance"
+        },
+        {
+          "id": "Digital",
+          "label": "Digital"
+        },
+        {
+          "id": "Innovation",
+          "label": "Innovation"
+        },
+        {
+          "id": "Formation",
+          "label": "Formation"
+        },
+        {
+          "id": "Social",
+          "label": "Social"
+        },
+        {
+          "id": "Stratégie",
+          "label": "Stratégie"
+        }
+      ],
+      "entitiesTitle": "Métiers / entités",
+      "entities": [
+        {
+          "id": "all",
+          "label": "Tous",
+          "active": true
+        },
+        {
+          "id": "direction",
+          "label": "Direction"
+        },
+        {
+          "id": "rh",
+          "label": "RH"
+        },
+        {
+          "id": "digital",
+          "label": "Digital"
+        },
+        {
+          "id": "audit",
+          "label": "Audit"
+        },
+        {
+          "id": "social",
+          "label": "Social"
+        }
+      ],
+      "previewTitle": "Aperçu (contenu réel)",
+      "previewAction": "Voir tous les contenus"
+    }
+  }
+}

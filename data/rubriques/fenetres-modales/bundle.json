@@ -1,0 +1,47 @@
+{
+  "module": "modals",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "modals": {
+      "quickAccess": {
+        "fallbackItems": [
+          {
+            "label": "Congés"
+          },
+          {
+            "label": "Réservation"
+          },
+          {
+            "label": "Note de frais"
+          },
+          {
+            "label": "Annuaire"
+          },
+          {
+            "label": "Bloc-note"
+          },
+          {
+            "label": "Documentation"
+          }
+        ]
+      },
+      "consent0908": {
+        "paragraphs": [
+          "Pour accéder à l’Intranet, nous vous informons que certaines données peuvent être traitées pour assurer le fonctionnement du portail, la sécurité et l’amélioration du service.",
+          "En cliquant sur J’accepte, vous confirmez avoir pris connaissance de cette information et consentez au traitement de vos données conformément à la Loi 09-08."
+        ],
+        "acceptHighlight": "J’accepte"
+      },
+      "tickerDetail": {
+        "detailPage": {
+          "paragraphs": [
+            "Dans le cadre de l'amelioration continue de la qualite de vie au travail, cette communication vise a partager les premiers indicateurs et a renforcer l'alignement entre les equipes. Les retours collectes montrent une bonne mobilisation et une volonte commune d'avancer sur des actions concretes.",
+            "Les principaux points de vigilance concernent la fluidite de l'information, la simplification de certains processus internes et l'accompagnement des collaborateurs dans les phases de changement. Plusieurs propositions ont deja ete remontees par les managers de proximite et feront l'objet d'un suivi structure.",
+            "Sur les prochaines semaines, un plan d'action detaille sera deploie avec des jalons clairs, des responsables identifies et des points d'etape periodiques. L'objectif est de transformer ces resultats en mesures visibles et utiles pour l'ensemble des collaborateurs.",
+            "Merci a toutes les equipes pour leur implication. Une nouvelle synthese sera partagee prochainement afin de presenter l'avancement, les resultats intermediaires et les ajustements retenus."
+          ]
+        }
+      }
+    }
+  }
+}

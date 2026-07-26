@@ -1,0 +1,33 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Audits QSE",
+  "data": {
+    "qsePages": {
+      "audits": {
+        "title": "Audits",
+        "icon": "clipboard-check",
+        "iconClass": "orange",
+        "columns": [
+          "Audit",
+          "Date",
+          "Statut",
+          "Rapport"
+        ]
+      }
+    },
+    "qseAudits": [
+      {
+        "title": "Audit interne QSE",
+        "date": "15 Avr 2026",
+        "status": "Clos",
+        "report": "Rapport_Audit_Interne_QSE.pdf"
+      },
+      {
+        "title": "Audit site – sécurité",
+        "date": "02 Mars 2026",
+        "status": "Actions",
+        "report": "Rapport_Audit_Site_Securite.pdf"
+      }
+    ]
+  }
+}

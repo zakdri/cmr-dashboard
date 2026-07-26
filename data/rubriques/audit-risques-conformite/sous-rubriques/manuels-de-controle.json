@@ -1,0 +1,40 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Manuels de contrôle",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "manuels-controle",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Contrôle permanent",
+        "sousRubrique": "Manuels de contrôle",
+        "fonctionnalite": "Gestion des référentiels contrôle",
+        "description": "Mettre à disposition les manuels et référentiels de contrôle.",
+        "typeContenu": "Documentation",
+        "typeUx": "Dossiers",
+        "interactions": "Consulter",
+        "cible": "Profils habilités",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Accès restreint"
+      }
+    ],
+    "arcManuelsControle": [
+      {
+        "dossier": "Manuels",
+        "title": "Manuel de contrôle interne — édition 2026",
+        "file": "Manuel_Controle_Interne_2026.pdf"
+      },
+      {
+        "dossier": "Référentiels",
+        "title": "Référentiel des contrôles clés",
+        "file": "Referentiel_Controles_Cles.pdf"
+      },
+      {
+        "dossier": "Procédures",
+        "title": "Procédure — Exécution des contrôles",
+        "file": "Procedure_Execution_Controles.pdf"
+      }
+    ]
+  }
+}

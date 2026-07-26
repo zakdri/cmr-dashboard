@@ -1,0 +1,17 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu espaces-collaboratifs",
+  "data": {
+    "sidebarSubmenus": {
+      "collaboratifs": {
+        "title": "Forum & Communication",
+        "items": [
+          {
+            "label": "Discussions",
+            "tab": "discussions"
+          }
+        ]
+      }
+    }
+  }
+}

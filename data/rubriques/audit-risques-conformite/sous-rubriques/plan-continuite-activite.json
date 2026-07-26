@@ -1,0 +1,43 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Plan de continuité d’activité",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "pca",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Risque & conformité",
+        "sousRubrique": "PCA",
+        "fonctionnalite": "Sensibilisation PCA",
+        "description": "Sensibiliser aux principes du Plan de Continuité d'Activité.",
+        "typeContenu": "Capsule / contenu",
+        "typeUx": "Portail éditorial",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Sans documents sensibles"
+      }
+    ],
+    "arcPcaCapsules": [
+      {
+        "title": "PCA — Principes fondamentaux",
+        "type": "Capsule",
+        "duree": "8 min",
+        "file": "PCA_Principes_Fondamentaux.pdf"
+      },
+      {
+        "title": "PCA — Rôles & responsabilités",
+        "type": "Capsule",
+        "duree": "12 min",
+        "file": "PCA_Roles_Responsabilites.pdf"
+      },
+      {
+        "title": "PCA — Scénarios & modes dégradés",
+        "type": "Article",
+        "duree": "Lecture 5 min",
+        "file": "PCA_Scenarios_Modes_Degrades.pdf"
+      }
+    ]
+  }
+}

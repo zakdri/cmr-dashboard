@@ -1,0 +1,43 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Instances de gouvernance SMI",
+  "data": {
+    "orgGovPages": {
+      "smi-gouvernance-interne": {
+        "title": "Gouvernance interne",
+        "icon": "presentation",
+        "iconClass": "blue"
+      }
+    },
+    "orgGovSmiGovernanceInstances": [
+      {
+        "id": "revue-direction",
+        "title": "Revue de direction",
+        "missions": "Évaluer la performance du SMI et arbitrer les plans d’amélioration.",
+        "composition": "Direction Générale, pilotes de processus, responsables SMI.",
+        "docs": [
+          {
+            "label": "PV revue de direction",
+            "file": "PV_Revue_Direction.pdf"
+          },
+          {
+            "label": "Plan d’actions SMI",
+            "file": "Plan_Actions_SMI.pdf"
+          }
+        ]
+      },
+      {
+        "id": "comite-smi",
+        "title": "Comité SMI",
+        "missions": "Suivre les indicateurs, audits, non-conformités et actions correctives.",
+        "composition": "Responsable SMI, correspondants SMI, pilotes de processus.",
+        "docs": [
+          {
+            "label": "Charte comité SMI",
+            "file": "Charte_Comite_SMI.pdf"
+          }
+        ]
+      }
+    ]
+  }
+}

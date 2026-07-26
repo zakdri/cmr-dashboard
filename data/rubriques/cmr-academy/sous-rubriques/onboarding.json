@@ -1,0 +1,122 @@
+{
+  "rubrique": "cmr-academy",
+  "contenu": "Sous-rubrique onboarding",
+  "data": {
+    "academyPages": {
+      "onboarding": {
+        "description": "La rubrique OnBoarding accompagne les nouveaux collaborateurs avec guides, journées d'intégration, mentorat et galerie.",
+        "guidesTitle": "Guides d'intégration",
+        "guidesDescription": "Documents utiles au parcours d'intégration des nouveaux collaborateurs.",
+        "guides": [
+          {
+            "title": "Guide d'accueil CMR.pdf",
+            "meta": "PDF",
+            "icon": "file-text"
+          },
+          {
+            "title": "Check-list premier jour.pdf",
+            "meta": "PDF",
+            "icon": "list-checks"
+          },
+          {
+            "title": "Guide outils digitaux.pdf",
+            "meta": "PDF",
+            "icon": "monitor"
+          },
+          {
+            "title": "Livret nouvelles recrues.pdf",
+            "meta": "PDF",
+            "icon": "book-open"
+          },
+          {
+            "title": "Débriefing intégration.pdf",
+            "meta": "PDF",
+            "icon": "clipboard-check"
+          }
+        ],
+        "daysTitle": "Journées OnBoarding",
+        "daysDescription": "Temps forts d'intégration organisés pour présenter la CMR, ses métiers et ses équipes.",
+        "days": [
+          {
+            "title": "Journée d'intégration Siège",
+            "description": "Présentation CMR, métiers, outils et rencontres équipes.",
+            "details": "Session d'accueil dédiée aux nouveaux collaborateurs avec présentation institutionnelle, visite des espaces et rencontres avec les référents métiers.",
+            "image": "images/intranet/news_board.jpg",
+            "gallery": [
+              "images/intranet/news_board.jpg",
+              "images/intranet/news_contract.jpg",
+              "images/intranet/slider1.png"
+            ]
+          },
+          {
+            "title": "Découverte des métiers",
+            "description": "Parcours transversal avec les directions métier.",
+            "details": "Parcours de découverte permettant aux nouvelles recrues d'identifier les principales directions, leurs missions et les interactions métier.",
+            "image": "images/intranet/news_contract.jpg",
+            "gallery": [
+              "images/intranet/news_contract.jpg",
+              "images/intranet/news_academy.jpg",
+              "images/intranet/slider2.png"
+            ]
+          }
+        ],
+        "mentoringTitle": "Mentorat",
+        "mentoringDescription": "Supports et plannings relatifs au dispositif de mentorat interne.",
+        "mentoring": [
+          {
+            "title": "Guide de Mentorat.pdf",
+            "meta": "Guide",
+            "icon": "book-open"
+          },
+          {
+            "title": "Planning de Mentorat 2026.pdf",
+            "meta": "Planning",
+            "icon": "calendar-days"
+          }
+        ],
+        "galleryTitle": "Galerie OnBoarding",
+        "galleryYears": [
+          "2026",
+          "2025",
+          "2024"
+        ],
+        "galleryByYear": {
+          "2024": [
+            {
+              "src": "images/intranet/slider_cmr_tech.png",
+              "alt": "Session OnBoarding 2024"
+            },
+            {
+              "src": "images/intranet/slider_partnership.png",
+              "alt": "Atelier intégration 2024"
+            }
+          ],
+          "2025": [
+            {
+              "src": "images/intranet/slider1.png",
+              "alt": "Session OnBoarding 2025"
+            },
+            {
+              "src": "images/intranet/slider2.png",
+              "alt": "Rencontre métiers 2025"
+            }
+          ],
+          "2026": [
+            {
+              "src": "images/intranet/news_board.jpg",
+              "alt": "Session OnBoarding 2026"
+            },
+            {
+              "src": "images/intranet/news_contract.jpg",
+              "alt": "Atelier métiers 2026"
+            },
+            {
+              "src": "images/intranet/news_academy.jpg",
+              "alt": "Formation intégration 2026"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "rubrique": "cmr-academy",
+  "contenu": "Configuration générale de CMR Academy",
+  "data": {
+    "academyHeader": {
+      "title": "CMR Academy",
+      "description": "CMR Academy regroupe les contenus d'intégration, de montée en compétences, de talent management et de formation digitale."
+    },
+    "academyTabs": [
+      {
+        "id": "onboarding",
+        "label": "OnBoarding"
+      },
+      {
+        "id": "formation",
+        "label": "Formation"
+      },
+      {
+        "id": "levelup",
+        "label": "Level Up"
+      },
+      {
+        "id": "talent",
+        "label": "Talent Management"
+      },
+      {
+        "id": "click",
+        "label": "Click Academy"
+      }
+    ]
+  }
+}

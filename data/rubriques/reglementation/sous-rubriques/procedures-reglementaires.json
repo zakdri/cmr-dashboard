@@ -1,0 +1,43 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Procédures réglementaires",
+  "data": {
+    "regPages": {
+      "procedures": {
+        "title": "Procédures",
+        "icon": "list-checks",
+        "iconClass": "orange",
+        "searchPlaceholder": "Rechercher une procédure…"
+      }
+    },
+    "regProcedures": [
+      {
+        "title": "Procédure – Gestion des réclamations",
+        "meta": "Procédure interne • v1.3",
+        "file": "Procedure_Reclamations.pdf",
+        "tags": [
+          "service",
+          "qualite"
+        ]
+      },
+      {
+        "title": "Procédure – Contrôle interne",
+        "meta": "Procédure interne • v2.0",
+        "file": "Procedure_Controle_Interne.pdf",
+        "tags": [
+          "controle",
+          "audit"
+        ]
+      },
+      {
+        "title": "Procédure – Archivage des dossiers",
+        "meta": "Procédure interne • v1.1",
+        "file": "Procedure_Archivage_Dossiers.pdf",
+        "tags": [
+          "archivage",
+          "ged"
+        ]
+      }
+    ]
+  }
+}

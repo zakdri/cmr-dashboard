@@ -1,0 +1,25 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Remontées terrain QSE-RSE",
+  "data": {
+    "orgGovPages": {
+      "culture-remontees": {
+        "title": "Remontées terrain",
+        "icon": "triangle-alert",
+        "iconClass": "orange"
+      }
+    },
+    "orgGovCultureRemontees": [
+      {
+        "title": "Observation tri déchets",
+        "type": "Observation",
+        "date": "Juin 2026"
+      },
+      {
+        "title": "Anomalie signalétique sécurité",
+        "type": "Anomalie",
+        "date": "Mai 2026"
+      }
+    ]
+  }
+}

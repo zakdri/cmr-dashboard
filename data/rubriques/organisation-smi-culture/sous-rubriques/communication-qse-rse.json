@@ -1,0 +1,33 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Communication QSE-RSE",
+  "data": {
+    "orgGovPages": {
+      "culture-communication": {
+        "title": "Communication QSE - RSE",
+        "icon": "newspaper",
+        "iconClass": "orange"
+      }
+    },
+    "orgGovCultureNews": [
+      {
+        "title": "Calendrier QSE-RSE T3",
+        "type": "Calendrier",
+        "date": "Juil 2026",
+        "file": "Calendrier_QSE_RSE_T3.pdf"
+      },
+      {
+        "title": "Note d’information environnement",
+        "type": "Note",
+        "date": "Juin 2026",
+        "file": "Note_Info_Environnement.pdf"
+      },
+      {
+        "title": "Compte rendu action RSE",
+        "type": "Compte rendu",
+        "date": "Mai 2026",
+        "file": "CR_Action_RSE.pdf"
+      }
+    ]
+  }
+}

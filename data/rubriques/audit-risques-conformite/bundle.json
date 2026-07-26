@@ -1,0 +1,503 @@
+{
+  "module": "arc",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "arcHeader": {
+      "title": "Espace Audit, Risque & Conformité",
+      "description": "Audit interne, risque & conformité, contrôle permanent et sensibilisation — conformément au cadrage CMS."
+    },
+    "arcAccessControl": {
+      "scope": "Risk Management",
+      "level": "Accès restreint",
+      "owner": "DCH / DSI",
+      "description": "L'accès aux contenus Risk Management est soumis à ACL. Les habilitations techniques sont administrées par la DSI selon la matrice transmise par la DCH."
+    },
+    "arcMainTabs": [
+      {
+        "label": "Audit interne",
+        "tab": "audit-interne"
+      },
+      {
+        "label": "Risque & conformité",
+        "tab": "risque-conformite"
+      },
+      {
+        "label": "Contrôle permanent",
+        "tab": "controle-permanent"
+      },
+      {
+        "label": "Sensibilisation",
+        "tab": "sensibilisation"
+      }
+    ],
+    "arcSectionConfig": {
+      "audit-interne": {
+        "subs": [
+          {
+            "id": "charte-audit",
+            "label": "Charte Audit"
+          },
+          {
+            "id": "plan-audit",
+            "label": "Plan d'audit"
+          },
+          {
+            "id": "rapports-pv",
+            "label": "Rapports & PV"
+          }
+        ],
+        "defaultSub": "charte-audit"
+      },
+      "risque-conformite": {
+        "subs": [
+          {
+            "id": "presentation-activites",
+            "label": "Présentation des activités"
+          },
+          {
+            "id": "politiques-chartes",
+            "label": "Politiques & chartes"
+          },
+          {
+            "id": "cndp",
+            "label": "CNDP"
+          },
+          {
+            "id": "pca",
+            "label": "PCA"
+          }
+        ],
+        "defaultSub": "presentation-activites"
+      },
+      "controle-permanent": {
+        "subs": [
+          {
+            "id": "plans-annuels",
+            "label": "Plans annuels"
+          },
+          {
+            "id": "manuels-controle",
+            "label": "Manuels de contrôle"
+          },
+          {
+            "id": "smacaf",
+            "label": "SMACAF"
+          }
+        ],
+        "defaultSub": "plans-annuels"
+      },
+      "sensibilisation": {
+        "subs": [
+          {
+            "id": "culture-risque-conformite",
+            "label": "Culture risque & conformité"
+          }
+        ],
+        "defaultSub": "culture-risque-conformite"
+      }
+    },
+    "arcLabels": {
+      "consultLabel": "Consulter",
+      "participateLabel": "Participer",
+      "planAuditTitlePrefix": "Plan audit",
+      "planAuditNote": "Tableau / calendrier — plans annuels et pluriannuels.",
+      "charteMetaSuffix": "Institutionnel",
+      "cndpMetaSuffix": "Fiche document",
+      "cndpNote": "Conformité réglementaire — autorisations CNDP.",
+      "pcaMetaSuffix": "Portail éditorial",
+      "pcaNote": "Sensibilisation PCA — sans documents sensibles.",
+      "smacafMetaSuffix": "Dossiers",
+      "smacafNote": "Métier spécifique — référentiels SMACAF.",
+      "sensibilisationMetaSuffix": "Cards / vidéos",
+      "sensibilisationNote": "KM transverse — sensibilisation risque & conformité.",
+      "quizAlert": "Merci pour votre participation au quiz (maquette).",
+      "searchManuelsPlaceholder": "Rechercher un manuel…",
+      "emptyResult": "Aucun résultat.",
+      "rapportsMetaSuffix": "Espace documentaire",
+      "politiquesMetaSuffix": "Dossiers documentaires",
+      "manuelsMetaSuffix": "Documentation",
+      "planAuditColumns": [
+        "Période",
+        "Type",
+        "Statut",
+        "Document"
+      ],
+      "plansAnnuelsColumns": [
+        "Plan",
+        "Domaine",
+        "Statut",
+        "GED"
+      ]
+    },
+    "arcFeatures": [
+      {
+        "id": "charte-audit",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Audit interne",
+        "sousRubrique": "Charte Audit",
+        "fonctionnalite": "Publication de la charte d'audit",
+        "description": "Mettre à disposition la charte d'audit institutionnelle.",
+        "typeContenu": "Document",
+        "typeUx": "Page / PDF",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Institutionnel"
+      },
+      {
+        "id": "plan-audit",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Audit interne",
+        "sousRubrique": "Plan d'audit",
+        "fonctionnalite": "Publication des plans d'audit",
+        "description": "Publier les plans annuels et pluriannuels d'audit.",
+        "typeContenu": "Document",
+        "typeUx": "Tableau / calendrier",
+        "interactions": "Consulter",
+        "cible": "Profils habilités",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Accès restreint"
+      },
+      {
+        "id": "rapports-pv",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Audit interne",
+        "sousRubrique": "Rapports & PV",
+        "fonctionnalite": "Gestion documentaire audit",
+        "description": "Centraliser les rapports, PV et dossiers d'audit.",
+        "typeContenu": "Document sensible",
+        "typeUx": "Espace documentaire",
+        "interactions": "Consulter, télécharger",
+        "cible": "Audit interne",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Cloisonnement fort"
+      },
+      {
+        "id": "presentation-activites",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Risque & conformité",
+        "sousRubrique": "Présentation des activités",
+        "fonctionnalite": "Présentation institutionnelle",
+        "description": "Valoriser les missions et activités de gestion des risques.",
+        "typeContenu": "Contenu institutionnel",
+        "typeUx": "Pages éditoriales",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Moyenne",
+        "statutDesign": "À définir",
+        "commentaires": "Institutionnel"
+      },
+      {
+        "id": "politiques-chartes",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Risque & conformité",
+        "sousRubrique": "Politiques & chartes",
+        "fonctionnalite": "Référentiel conformité",
+        "description": "Centraliser les politiques et chartes de conformité.",
+        "typeContenu": "Référentiel",
+        "typeUx": "Dossiers documentaires",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Sensible"
+      },
+      {
+        "id": "cndp",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Risque & conformité",
+        "sousRubrique": "CNDP",
+        "fonctionnalite": "Rubrique autorisations CNDP",
+        "description": "Publier les autorisations et référentiels CNDP.",
+        "typeContenu": "Document réglementaire",
+        "typeUx": "Fiches / documents",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Conformité réglementaire"
+      },
+      {
+        "id": "pca",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Risque & conformité",
+        "sousRubrique": "PCA",
+        "fonctionnalite": "Sensibilisation PCA",
+        "description": "Sensibiliser aux principes du Plan de Continuité d'Activité.",
+        "typeContenu": "Capsule / contenu",
+        "typeUx": "Portail éditorial",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Sans documents sensibles"
+      },
+      {
+        "id": "plans-annuels",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Contrôle permanent",
+        "sousRubrique": "Plans annuels",
+        "fonctionnalite": "Publication des plans annuels",
+        "description": "Centraliser les plans de contrôle et de conformité.",
+        "typeContenu": "Document",
+        "typeUx": "Tableau / GED-like",
+        "interactions": "Consulter",
+        "cible": "Contrôle permanent",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Structurant"
+      },
+      {
+        "id": "manuels-controle",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Contrôle permanent",
+        "sousRubrique": "Manuels de contrôle",
+        "fonctionnalite": "Gestion des référentiels contrôle",
+        "description": "Mettre à disposition les manuels et référentiels de contrôle.",
+        "typeContenu": "Documentation",
+        "typeUx": "Dossiers",
+        "interactions": "Consulter",
+        "cible": "Profils habilités",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Accès restreint"
+      },
+      {
+        "id": "smacaf",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Contrôle permanent",
+        "sousRubrique": "SMACAF",
+        "fonctionnalite": "Référentiel SMACAF",
+        "description": "Publier les référentiels et plans SMACAF.",
+        "typeContenu": "Documentation",
+        "typeUx": "Dossiers",
+        "interactions": "Consulter",
+        "cible": "Contrôle permanent",
+        "priorite": "Moyenne",
+        "statutDesign": "À définir",
+        "commentaires": "Métier spécifique"
+      },
+      {
+        "id": "culture-risque-conformite",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Sensibilisation",
+        "sousRubrique": "Culture risque & conformité",
+        "fonctionnalite": "Capsules et sensibilisation",
+        "description": "Diffuser les contenus de sensibilisation risque et conformité.",
+        "typeContenu": "Média / quiz",
+        "typeUx": "Cards / vidéos",
+        "interactions": "Consulter, participer",
+        "cible": "Collaborateurs",
+        "priorite": "Moyenne",
+        "statutDesign": "À définir",
+        "commentaires": "KM transverse"
+      }
+    ],
+    "arcCharteDocs": [
+      {
+        "title": "Charte d'audit interne — version 2026",
+        "file": "Charte_Audit_Interne_2026.pdf",
+        "date": "Jan 2026"
+      }
+    ],
+    "arcPlansAudit": [
+      {
+        "periode": "2026",
+        "type": "Annuel",
+        "statut": "Validé",
+        "file": "Plan_Audit_2026.pdf"
+      },
+      {
+        "periode": "2026-2028",
+        "type": "Pluriannuel",
+        "statut": "En vigueur",
+        "file": "Plan_Audit_Pluriannuel_2026-2028.pdf"
+      },
+      {
+        "periode": "T2 2026",
+        "type": "Calendrier missions",
+        "statut": "Publié",
+        "file": "Calendrier_Missions_Audit_T2_2026.pdf"
+      }
+    ],
+    "arcRapportsPv": [
+      {
+        "title": "Rapport — Mission SI & cybersécurité",
+        "meta": "Clôturé • Avr 2026",
+        "file": "Rapport_Audit_SI_2026.pdf",
+        "sensibilite": "Haute"
+      },
+      {
+        "title": "PV — Comité d'audit T1 2026",
+        "meta": "Comité • Mars 2026",
+        "file": "PV_Comite_Audit_T1_2026.pdf",
+        "sensibilite": "Haute"
+      },
+      {
+        "title": "Dossier — Contrôles financiers 2025",
+        "meta": "Archivé • Déc 2025",
+        "file": "Dossier_Audit_Finance_2025.pdf",
+        "sensibilite": "Haute"
+      }
+    ],
+    "arcPresentation": {
+      "eyebrow": "Mission",
+      "title": "Gestion des risques & conformité",
+      "description": "Piloter la cartographie des risques, assurer la conformité réglementaire et accompagner les directions dans la maîtrise de leurs expositions.",
+      "note": "Pages éditoriales — présentation institutionnelle.",
+      "cards": [
+        {
+          "title": "Cartographie des risques",
+          "description": "Mise à jour semestrielle, revue comités."
+        },
+        {
+          "title": "Conformité réglementaire",
+          "description": "Veille, autorisations, reporting."
+        },
+        {
+          "title": "Continuité d'activité",
+          "description": "PCA, tests, sensibilisation."
+        }
+      ]
+    },
+    "arcPolitiquesChartes": [
+      {
+        "dossier": "Politiques",
+        "title": "Politique de gestion des risques",
+        "file": "Politique_Gestion_Risques.pdf"
+      },
+      {
+        "dossier": "Politiques",
+        "title": "Politique de conformité réglementaire",
+        "file": "Politique_Conformite_Reglementaire.pdf"
+      },
+      {
+        "dossier": "Chartes",
+        "title": "Charte éthique & déontologie",
+        "file": "Charte_Ethique_Deontologie.pdf"
+      },
+      {
+        "dossier": "Chartes",
+        "title": "Charte de protection des données",
+        "file": "Charte_Protection_Donnees.pdf"
+      }
+    ],
+    "arcCndpItems": [
+      {
+        "ref": "AUT-2025-14",
+        "title": "Autorisation — Traitement données RH",
+        "date": "2025",
+        "file": "CNDP_Autorisation_RH.pdf"
+      },
+      {
+        "ref": "AUT-2026-03",
+        "title": "Autorisation — Portail collaborateur",
+        "date": "Fév 2026",
+        "file": "CNDP_Autorisation_Portail.pdf"
+      },
+      {
+        "ref": "REF-CNDP",
+        "title": "Référentiel — Registre des traitements",
+        "date": "MAJ 2026",
+        "file": "CNDP_Registre_Traitements.pdf"
+      }
+    ],
+    "arcPcaCapsules": [
+      {
+        "title": "PCA — Principes fondamentaux",
+        "type": "Capsule",
+        "duree": "8 min",
+        "file": "PCA_Principes_Fondamentaux.pdf"
+      },
+      {
+        "title": "PCA — Rôles & responsabilités",
+        "type": "Capsule",
+        "duree": "12 min",
+        "file": "PCA_Roles_Responsabilites.pdf"
+      },
+      {
+        "title": "PCA — Scénarios & modes dégradés",
+        "type": "Article",
+        "duree": "Lecture 5 min",
+        "file": "PCA_Scenarios_Modes_Degrades.pdf"
+      }
+    ],
+    "arcPlansAnnuels": [
+      {
+        "plan": "Plan de contrôle permanent 2026",
+        "domaine": "Contrôle interne",
+        "statut": "Validé",
+        "file": "Plan_Controle_Permanent_2026.pdf"
+      },
+      {
+        "plan": "Plan de conformité réglementaire 2026",
+        "domaine": "Conformité",
+        "statut": "En cours",
+        "file": "Plan_Conformite_2026.pdf"
+      },
+      {
+        "plan": "Plan de suivi recommandations audit",
+        "domaine": "Audit",
+        "statut": "Publié",
+        "file": "Plan_Suivi_Recommandations_2026.pdf"
+      }
+    ],
+    "arcManuelsControle": [
+      {
+        "dossier": "Manuels",
+        "title": "Manuel de contrôle interne — édition 2026",
+        "file": "Manuel_Controle_Interne_2026.pdf"
+      },
+      {
+        "dossier": "Référentiels",
+        "title": "Référentiel des contrôles clés",
+        "file": "Referentiel_Controles_Cles.pdf"
+      },
+      {
+        "dossier": "Procédures",
+        "title": "Procédure — Exécution des contrôles",
+        "file": "Procedure_Execution_Controles.pdf"
+      }
+    ],
+    "arcSmacafItems": [
+      {
+        "title": "Référentiel SMACAF — cadre général",
+        "meta": "Contrôle permanent • v3.1",
+        "file": "SMACAF_Referentiel_Cadre.pdf"
+      },
+      {
+        "title": "Plan SMACAF 2026",
+        "meta": "Plan annuel • Validé",
+        "file": "SMACAF_Plan_2026.pdf"
+      },
+      {
+        "title": "Guide — Application SMACAF",
+        "meta": "Documentation métier",
+        "file": "SMACAF_Guide_Application.pdf"
+      }
+    ],
+    "arcSensibilisationItems": [
+      {
+        "title": "Capsule — Culture du risque",
+        "type": "Vidéo",
+        "duree": "6 min",
+        "file": "Sensib_Culture_Risque.mp4"
+      },
+      {
+        "title": "Quiz — Conformité au quotidien",
+        "type": "Quiz",
+        "duree": "10 questions",
+        "file": "Sensib_Quiz_Conformite.pdf"
+      },
+      {
+        "title": "Infographie — Signalement & éthique",
+        "type": "Média",
+        "duree": "2 min",
+        "file": "Sensib_Infographie_Ethique.pdf"
+      }
+    ]
+  }
+}

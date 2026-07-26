@@ -1,0 +1,66 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Documents actifs et archivés",
+  "data": {
+    "regPages": {
+      "archives": {
+        "title": "Documents actifs / archivés",
+        "icon": "archive",
+        "iconClass": "pink",
+        "filters": [
+          {
+            "label": "Actifs",
+            "suffix": "(en vigueur)",
+            "value": "actifs",
+            "active": true
+          },
+          {
+            "label": "Archivés",
+            "suffix": "(indicateur)",
+            "value": "archives"
+          }
+        ],
+        "searchPlaceholder": "Filtrer / identifier par tag (ex: 2026, retraite, finance)…"
+      }
+    },
+    "regArchiveDocs": [
+      {
+        "title": "Procédure – Contrôle interne",
+        "state": "actifs",
+        "tags": [
+          "audit",
+          "controle",
+          "2026"
+        ],
+        "file": "Procedure_Controle_Interne.pdf"
+      },
+      {
+        "title": "Note – Bonnes pratiques de conformité",
+        "state": "actifs",
+        "tags": [
+          "conformite",
+          "2026"
+        ],
+        "file": "Note_Bonnes_Pratiques_Conformite.pdf"
+      },
+      {
+        "title": "Loi n° 08-12 – Retraite",
+        "state": "archives",
+        "tags": [
+          "retraite",
+          "2022"
+        ],
+        "file": "Archive_Loi_08-12.pdf"
+      },
+      {
+        "title": "Circulaire – Procédure 2022",
+        "state": "archives",
+        "tags": [
+          "procedures",
+          "2022"
+        ],
+        "file": "Archive_Circulaire_2022.pdf"
+      }
+    ]
+  }
+}

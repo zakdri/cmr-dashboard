@@ -1,0 +1,33 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu reglementation",
+  "data": {
+    "sidebarSubmenus": {
+      "reglementation": {
+        "title": "Espace Réglementaire",
+        "items": [
+          {
+            "label": "Légal & Réglementaires",
+            "tab": "referentiels"
+          },
+          {
+            "label": "Notes & Prise de position",
+            "tab": "notes-position"
+          },
+          {
+            "label": "Bibliothèque des modèles",
+            "tab": "modeles"
+          },
+          {
+            "label": "Jurisprudence",
+            "tab": "jurisprudence"
+          },
+          {
+            "label": "Veille juridique",
+            "tab": "veille-juridique"
+          }
+        ]
+      }
+    }
+  }
+}

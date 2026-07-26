@@ -1,0 +1,62 @@
+{
+  "rubrique": "navigation",
+  "module": "navigation",
+  "fichiers": [
+    {
+      "contenu": "Menu principal de navigation",
+      "fichier": "menu-principal.json"
+    },
+    {
+      "contenu": "Sous-menu knowledge-management",
+      "fichier": "sous-menus/knowledge-management.json"
+    },
+    {
+      "contenu": "Sous-menu gouvernance",
+      "fichier": "sous-menus/gouvernance.json"
+    },
+    {
+      "contenu": "Sous-menu espaces-documentaires",
+      "fichier": "sous-menus/espaces-documentaires.json"
+    },
+    {
+      "contenu": "Sous-menu reglementation",
+      "fichier": "sous-menus/reglementation.json"
+    },
+    {
+      "contenu": "Sous-menu espaces-collaboratifs",
+      "fichier": "sous-menus/espaces-collaboratifs.json"
+    },
+    {
+      "contenu": "Sous-menu mediatheque",
+      "fichier": "sous-menus/mediatheque.json"
+    },
+    {
+      "contenu": "Sous-menu innovation",
+      "fichier": "sous-menus/innovation.json"
+    },
+    {
+      "contenu": "Sous-menu administration",
+      "fichier": "sous-menus/administration.json"
+    },
+    {
+      "contenu": "Sous-menu responsabilite-sociale-environnementale",
+      "fichier": "sous-menus/responsabilite-sociale-environnementale.json"
+    },
+    {
+      "contenu": "Sous-menu qualite-securite-environnement",
+      "fichier": "sous-menus/qualite-securite-environnement.json"
+    },
+    {
+      "contenu": "Sous-menu systemes-information-transformation-digitale",
+      "fichier": "sous-menus/systemes-information-transformation-digitale.json"
+    },
+    {
+      "contenu": "Sous-menu audit-risques-conformite",
+      "fichier": "sous-menus/audit-risques-conformite.json"
+    },
+    {
+      "contenu": "Sous-menu ressources-humaines",
+      "fichier": "sous-menus/ressources-humaines.json"
+    }
+  ]
+}

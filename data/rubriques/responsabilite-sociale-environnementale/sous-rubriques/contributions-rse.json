@@ -1,0 +1,32 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Contributions RSE",
+  "data": {
+    "rsePages": {
+      "contributions": {
+        "title": "Contributions",
+        "icon": "message-square-plus",
+        "iconClass": "green",
+        "publishLabel": "Publier",
+        "formTitle": "Nouvelle contribution",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre",
+        "bodyPlaceholder": "Contenu…",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une contribution."
+      }
+    },
+    "rseContrib": [
+      {
+        "id": "rsc1",
+        "title": "Photos – Semaine verte",
+        "body": "Partage des moments forts et chiffres clés.",
+        "date": "Avr 2026"
+      }
+    ]
+  }
+}

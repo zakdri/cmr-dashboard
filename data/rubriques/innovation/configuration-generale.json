@@ -1,0 +1,123 @@
+{
+  "rubrique": "innovation",
+  "contenu": "Configuration de l’espace Innovation",
+  "data": {
+    "innovationHeader": {
+      "title": "Espace Innovation",
+      "description": "Suivi des projets, dépôt d’idées et événements d’innovation."
+    },
+    "innovationTabs": [
+      {
+        "id": "suivi",
+        "label": "Suivi des projets"
+      },
+      {
+        "id": "espace-idees",
+        "label": "Espace Idées"
+      },
+      {
+        "id": "innov-event",
+        "label": "Innov Event"
+      }
+    ],
+    "innovationLabels": {
+      "scoreLabel": "Score",
+      "commentsLabel": "commentaires",
+      "axisLabel": "Axe:",
+      "voteUpLabel": "Voter +1",
+      "voteDownLabel": "Voter -1",
+      "exportLabel": "Exporter",
+      "ideaExportPrefix": "Dossier idée –",
+      "defaultAxis": "Digital",
+      "progressLabel": "Avancement:",
+      "commentPlaceholder": "Ajouter un commentaire…",
+      "commentButton": "Commenter",
+      "currentUser": "Vous",
+      "nowLabel": "à l’instant",
+      "likeLabel": "Like",
+      "ideaReactionLabel": "Idée",
+      "wowLabel": "Wow",
+      "votePriorityTitle": "Vote / priorisation",
+      "participateLabel": "Participer",
+      "registrationPrefix": "Inscription –",
+      "axisCtaLabel": "Voir les idées",
+      "openlabIdeasLabel": "Idées",
+      "openlabProjectsLabel": "Projets",
+      "openlabWorkshopsLabel": "Ateliers",
+      "openlabDashboardNote": "Tableau de bord (maquette) — à brancher sur les données réelles OpenLab/portefeuille.",
+      "excelwayExportPrefix": "Export ExcelWay –",
+      "excelwayWidgetTitle": "Widget ExcelWay (maquette)",
+      "excelwayWidgetDescription": "Publication et gestion des idées via outil externe intégré. Remplacer par iframe / API sécurisée.",
+      "excelwayIdeasLabel": "Idées synchronisées",
+      "excelwayProjectsLabel": "Projets suivis",
+      "excelwayConnectorLabel": "Connecteur",
+      "excelwayConnectorValue": "Actif (mock)",
+      "excelwayGuideLabel": "Guide intégration",
+      "excelwayGuideFile": "ExcelWay_Integration_Guide.pdf",
+      "excelwayGuideTitle": "Guide intégration ExcelWay",
+      "excelwayApiLabel": "Spécification API",
+      "excelwayApiFile": "ExcelWay_API_Spec.pdf",
+      "excelwayApiTitle": "Spécification API ExcelWay",
+      "excelwayConfigLabel": "Configurer",
+      "excelwayConfigFile": "ExcelWay_Widget_Config.pdf",
+      "excelwayConfigTitle": "Configuration widget ExcelWay",
+      "activeProfileLabel": "Profil actif :"
+    },
+    "innovationAxisFilters": [
+      {
+        "label": "Tous",
+        "value": "all",
+        "active": true
+      },
+      {
+        "label": "Digital",
+        "value": "Digital"
+      },
+      {
+        "label": "Processus",
+        "value": "Processus"
+      },
+      {
+        "label": "Service",
+        "value": "Service"
+      },
+      {
+        "label": "Data/IA",
+        "value": "Data/IA"
+      }
+    ],
+    "innovationRoleFilters": [
+      {
+        "label": "Collaborateur",
+        "value": "collaborateur",
+        "active": true
+      },
+      {
+        "label": "Manager",
+        "value": "manager"
+      },
+      {
+        "label": "Admin",
+        "value": "admin"
+      }
+    ],
+    "innovationAccessProfiles": {
+      "collaborateur": [
+        "Soumettre une idée",
+        "Consulter la veille",
+        "Commenter"
+      ],
+      "manager": [
+        "Tout collaborateur",
+        "Prioriser / classer",
+        "Voir suivi projets"
+      ],
+      "admin": [
+        "Tout manager",
+        "Gérer axes",
+        "Gérer droits",
+        "Intégration ExcelWay"
+      ]
+    }
+  }
+}

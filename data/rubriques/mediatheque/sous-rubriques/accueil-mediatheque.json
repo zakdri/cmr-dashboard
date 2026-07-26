@@ -1,0 +1,39 @@
+{
+  "rubrique": "mediatheque",
+  "contenu": "Accueil de la médiathèque",
+  "data": {
+    "mediaPages": {
+      "home": {
+        "mainTitle": "Page principale",
+        "mainIcon": "compass",
+        "mainIconClass": "blue",
+        "heroTitle": "Point d’entrée Médiathèque",
+        "heroDescription": "Centraliser l’ensemble des contenus multimédias de la CMR.",
+        "buttons": [
+          {
+            "label": "Photothèque",
+            "handler": "openSubmenuView('mediatheque','photos')",
+            "className": "primary-btn"
+          },
+          {
+            "label": "Vidéothèque",
+            "handler": "openSubmenuView('mediatheque','videos')",
+            "className": "secondary-btn"
+          },
+          {
+            "label": "Catégories",
+            "handler": "openSubmenuView('mediatheque','structuration')",
+            "className": "secondary-btn"
+          }
+        ],
+        "searchPlaceholder": "Rechercher un média (image, vidéo)…",
+        "featuredTitle": "À la une",
+        "featuredIcon": "sparkles",
+        "featuredIconClass": "pink",
+        "rotateLabel": "Changer la sélection",
+        "consultLabel": "Consulter",
+        "consultHandler": "openSubmenuView('mediatheque','acces-contenus')"
+      }
+    }
+  }
+}

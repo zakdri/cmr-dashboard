@@ -1,0 +1,30 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - audit-risques-et-conformite",
+  "data": {
+    "kmPages": {
+      "audit-risque": {
+        "title": "Audit & conformité",
+        "icon": "shield-check",
+        "iconClass": "blue"
+      }
+    },
+    "kmAuditRisque": [
+      {
+        "title": "Rubrique Audit & conformité",
+        "meta": "Dossiers / articles",
+        "file": "KM_Audit_Conformite.pdf"
+      },
+      {
+        "title": "Bonnes pratiques gestion des risques",
+        "meta": "Documentation métier",
+        "file": "Bonnes_Pratiques_Risques.pdf"
+      },
+      {
+        "title": "Synthèse conformité réglementaire",
+        "meta": "Article de synthèse",
+        "file": "Synthese_Conformite_Reglementaire.pdf"
+      }
+    ]
+  }
+}

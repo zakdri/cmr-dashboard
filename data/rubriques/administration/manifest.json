@@ -1,0 +1,46 @@
+{
+  "rubrique": "administration",
+  "module": "admin",
+  "fichiers": [
+    {
+      "contenu": "Configuration de l’administration",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Gestion des comptes utilisateurs",
+      "fichier": "sous-rubriques/gestion-des-comptes.json"
+    },
+    {
+      "contenu": "Rôles et habilitations",
+      "fichier": "sous-rubriques/roles-et-habilitations.json"
+    },
+    {
+      "contenu": "Droits d’accès",
+      "fichier": "sous-rubriques/droits-acces.json"
+    },
+    {
+      "contenu": "Administration - usage",
+      "fichier": "sous-rubriques/usage.json"
+    },
+    {
+      "contenu": "Administration - reporting",
+      "fichier": "sous-rubriques/reporting.json"
+    },
+    {
+      "contenu": "Administration - securite",
+      "fichier": "sous-rubriques/securite-et-acces-restreints.json"
+    },
+    {
+      "contenu": "Administration - performance",
+      "fichier": "sous-rubriques/performance.json"
+    },
+    {
+      "contenu": "Gestion des contenus CMS",
+      "fichier": "sous-rubriques/gestion-des-contenus-cms.json"
+    },
+    {
+      "contenu": "Journal et traçabilité des actions",
+      "fichier": "sous-rubriques/journal-et-tracabilite.json"
+    }
+  ]
+}

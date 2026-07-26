@@ -1,0 +1,18 @@
+{
+  "rubrique": "vie-sociale",
+  "module": "vie-sociale",
+  "fichiers": [
+    {
+      "contenu": "Configuration de la Vie sociale",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Événements de la Vie sociale",
+      "fichier": "evenements-de-la-vie-sociale.json"
+    },
+    {
+      "contenu": "Galerie photos de la Vie sociale",
+      "fichier": "galerie-photos-vie-sociale.json"
+    }
+  ]
+}

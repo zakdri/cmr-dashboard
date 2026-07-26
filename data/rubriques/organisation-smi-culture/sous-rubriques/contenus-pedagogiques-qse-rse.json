@@ -1,0 +1,36 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Contenus pédagogiques QSE-RSE",
+  "data": {
+    "orgGovPages": {
+      "culture-qse-rse": {
+        "description": "Cette rubrique fusionne les anciens espaces QSE et RSE pour centraliser les contenus de sensibilisation, communication, participation et suivi."
+      },
+      "culture-contenus": {
+        "title": "Contenus pédagogiques",
+        "icon": "graduation-cap",
+        "iconClass": "green"
+      }
+    },
+    "orgGovCultureContents": [
+      {
+        "title": "Flash information qualité",
+        "type": "Flash",
+        "theme": "Qualité",
+        "file": "Flash_Information_Qualite.pdf"
+      },
+      {
+        "title": "Vidéo sensibilisation SST",
+        "type": "Vidéo",
+        "theme": "SST",
+        "file": "Video_Sensibilisation_SST.mp4"
+      },
+      {
+        "title": "Fiche pratique environnement",
+        "type": "Fiche pratique",
+        "theme": "Environnement",
+        "file": "Fiche_Pratique_Environnement.pdf"
+      }
+    ]
+  }
+}

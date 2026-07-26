@@ -1,0 +1,34 @@
+{
+  "rubrique": "espaces-documentaires-metiers",
+  "module": "documentaires",
+  "fichiers": [
+    {
+      "contenu": "Configuration des espaces documentaires métiers",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Documentation métiers - structuration-des-domaines-metiers",
+      "fichier": "sous-rubriques/structuration-des-domaines-metiers.json"
+    },
+    {
+      "contenu": "Documentation métiers - referentiels-metiers",
+      "fichier": "sous-rubriques/referentiels-metiers.json"
+    },
+    {
+      "contenu": "Documentation métiers - documents-et-livrables-metiers",
+      "fichier": "sous-rubriques/documents-et-livrables-metiers.json"
+    },
+    {
+      "contenu": "Documentation métiers - integration-systemes-information",
+      "fichier": "sous-rubriques/integration-systemes-information.json"
+    },
+    {
+      "contenu": "Documentation métiers - thematiques-de-structuration",
+      "fichier": "sous-rubriques/thematiques-de-structuration.json"
+    },
+    {
+      "contenu": "Documentation métiers - contenus-multimedia-metiers",
+      "fichier": "sous-rubriques/contenus-multimedia-metiers.json"
+    }
+  ]
+}

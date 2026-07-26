@@ -1,0 +1,42 @@
+{
+  "rubrique": "ressources-humaines",
+  "contenu": "Mobilité interne",
+  "data": {
+    "rhPages": {
+      "mobilite": {
+        "description": "La mobilité spontanée permet au collaborateur d'exprimer un souhait de mobilité interne hors poste vacant publié.",
+        "workflow": {
+          "title": "Workflow Mobilité spontanée",
+          "description": "La demande est déposée par le collaborateur puis instruite selon les habilitations RH.",
+          "steps": [
+            {
+              "title": "Dépôt",
+              "description": "Saisie de la motivation et du périmètre souhaité.",
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            },
+            {
+              "title": "Instruction RH",
+              "description": "Analyse de la demande et vérification des opportunités.",
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            },
+            {
+              "title": "Retour collaborateur",
+              "description": "Notification de la suite donnée à la demande.",
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            }
+          ]
+        },
+        "formTitle": "Déposer une demande de mobilité",
+        "fields": [
+          "Poste ou domaine souhaité",
+          "Motivation",
+          "Disponibilité"
+        ],
+        "submitLabel": "Envoyer la demande"
+      }
+    }
+  }
+}

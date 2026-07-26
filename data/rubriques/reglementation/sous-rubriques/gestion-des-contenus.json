@@ -1,0 +1,41 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Gestion des contenus réglementaires",
+  "data": {
+    "regPages": {
+      "gestion": {
+        "title": "Gestion des contenus (back‑office)",
+        "icon": "settings",
+        "iconClass": "orange",
+        "createLabel": "Créer un contenu",
+        "refreshLabel": "Rafraîchir",
+        "columns": [
+          "Contenu",
+          "Type",
+          "Statut",
+          "Actions"
+        ]
+      }
+    },
+    "regGestionItems": [
+      {
+        "id": "gc1",
+        "title": "Procédure – Contrôle interne",
+        "type": "Procédure",
+        "status": "Publié"
+      },
+      {
+        "id": "gc2",
+        "title": "Note – Conformité (MAJ)",
+        "type": "Note",
+        "status": "Brouillon"
+      },
+      {
+        "id": "gc3",
+        "title": "Texte – Circulaire reporting",
+        "type": "Circulaire",
+        "status": "En validation"
+      }
+    ]
+  }
+}

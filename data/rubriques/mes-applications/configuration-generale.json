@@ -1,0 +1,10 @@
+{
+  "rubrique": "mes-applications",
+  "contenu": "Présentation de Mes Applications",
+  "data": {
+    "applicationsHeader": {
+      "title": "Mes Applications",
+      "description": "Accédez rapidement à tous vos outils métiers et services."
+    }
+  }
+}

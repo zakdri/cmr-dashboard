@@ -1,0 +1,10 @@
+{
+  "rubrique": "achats",
+  "contenu": "Présentation de la rubrique Achats",
+  "data": {
+    "achatsHeader": {
+      "title": "Espace Achats",
+      "description": "L'espace Achats centralise les workflows, indicateurs, référentiels et bibliothèques documentaires liés aux marchés et fournisseurs."
+    }
+  }
+}

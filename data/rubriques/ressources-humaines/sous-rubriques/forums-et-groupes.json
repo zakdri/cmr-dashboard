@@ -1,0 +1,43 @@
+{
+  "rubrique": "ressources-humaines",
+  "contenu": "Forums et groupes RH",
+  "data": {
+    "rhPages": {
+      "forums": {
+        "description": "Les forums et groupes regroupent les espaces collaboratifs RH autour de communautés et de discussions utiles.",
+        "items": [
+          {
+            "title": "Forum Bien-être & QVT",
+            "description": "243 membres · 12 discussions actives",
+            "meta": "Ouvrir",
+            "icon": "messages-square",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            }
+          },
+          {
+            "title": "Communauté Managers",
+            "description": "87 membres · 6 discussions actives",
+            "meta": "Ouvrir",
+            "icon": "users",
+            "iconStyle": {
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            }
+          },
+          {
+            "title": "Communauté Innovation RH",
+            "description": "134 membres · 8 discussions actives",
+            "meta": "Ouvrir",
+            "icon": "lightbulb",
+            "iconStyle": {
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

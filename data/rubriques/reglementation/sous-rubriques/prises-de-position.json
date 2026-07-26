@@ -1,0 +1,56 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Prises de position",
+  "data": {
+    "regPages": {
+      "prises-position": {
+        "title": "Prise de position",
+        "icon": "message-square-quote",
+        "iconClass": "green",
+        "description": "Cette sous-rubrique rassemble les prises de position juridiques validées sur des sujets d’interprétation ou d’application.",
+        "searchPlaceholder": "Rechercher une prise de position...",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Retraite",
+            "value": "Retraite"
+          },
+          {
+            "label": "Gouvernance",
+            "value": "Gouvernance"
+          },
+          {
+            "label": "Conformité",
+            "value": "Conformité"
+          },
+          {
+            "label": "Procédures",
+            "value": "Procédures"
+          }
+        ]
+      }
+    },
+    "regDocumentItems": [
+      {
+        "section": "prises-position",
+        "title": "Prise de position – Interprétation des délais de traitement",
+        "theme": "Procédures",
+        "meta": "Prise de position • PDF • Accès public",
+        "file": "Prise_Position_Delais_Traitement.pdf",
+        "public": true
+      },
+      {
+        "section": "prises-position",
+        "title": "Prise de position – Gouvernance des référentiels juridiques",
+        "theme": "Gouvernance",
+        "meta": "Prise de position • PDF • Accès public",
+        "file": "Prise_Position_Gouvernance_Referentiels.pdf",
+        "public": true
+      }
+    ]
+  }
+}

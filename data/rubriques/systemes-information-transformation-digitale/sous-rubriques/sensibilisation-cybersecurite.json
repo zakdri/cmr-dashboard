@@ -1,0 +1,87 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "Sensibilisation à la cybersécurité",
+  "data": {
+    "sitdFilters": {
+      "sensibilisation-cyber": {
+        "type": "theme",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Phishing",
+            "value": "Phishing"
+          },
+          {
+            "label": "MFA",
+            "value": "MFA"
+          },
+          {
+            "label": "Protection des données",
+            "value": "Protection des données"
+          }
+        ]
+      }
+    },
+    "sitdDocumentItems": [
+      {
+        "section": "sensibilisation-cyber",
+        "title": "Guide de sensibilisation – Phishing",
+        "theme": "Phishing",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Guide_Sensibilisation_Phishing.pdf"
+      },
+      {
+        "section": "sensibilisation-cyber",
+        "title": "Fiche réflexe – MFA et mots de passe",
+        "theme": "MFA",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Fiche_MFA_Mots_De_Passe.pdf"
+      }
+    ],
+    "sitdSensibilisationCards": [
+      {
+        "title": "Phishing & emails frauduleux",
+        "icon": "mail",
+        "color": "#eff6ff",
+        "iconColor": "#1d4ed8"
+      },
+      {
+        "title": "Mots de passe & MFA",
+        "icon": "key-round",
+        "color": "#f0fdf4",
+        "iconColor": "#16a34a"
+      },
+      {
+        "title": "Protection des données",
+        "icon": "shield",
+        "color": "#fdf4ff",
+        "iconColor": "#7c3aed"
+      }
+    ],
+    "sitdSupports": [
+      {
+        "title": "Guide — Bonnes pratiques mots de passe",
+        "type": "PDF",
+        "file": "Guide_MDP.pdf"
+      },
+      {
+        "title": "Procédure — Signalement incident",
+        "type": "PDF",
+        "file": "Procedure_Incident.pdf"
+      },
+      {
+        "title": "Capsule — Phishing",
+        "type": "Vidéo",
+        "file": "Capsule_Phishing.mp4"
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "rubrique": "administration",
+  "contenu": "Droits d’accès",
+  "data": {
+    "adminSectionConfig": {
+      "acces": {
+        "subs": [
+          {
+            "id": "acces",
+            "label": "Droits d’accès"
+          }
+        ],
+        "defaultSub": "acces"
+      }
+    },
+    "adminPageCards": {
+      "acces": {
+        "title": "Droits d’accès",
+        "icon": "shield-check",
+        "iconClass": "blue",
+        "criticalMessage": "Zone critique sécurité (maquette)."
+      }
+    },
+    "adminAccess": [
+      {
+        "userId": "u1",
+        "scope": "Administration",
+        "level": "Accès"
+      },
+      {
+        "userId": "u2",
+        "scope": "KM",
+        "level": "Accès"
+      },
+      {
+        "userId": "u2",
+        "scope": "Médiathèque",
+        "level": "Restreint"
+      }
+    ]
+  }
+}

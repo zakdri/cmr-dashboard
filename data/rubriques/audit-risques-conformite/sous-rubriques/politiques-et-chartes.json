@@ -1,0 +1,45 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Politiques et chartes",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "politiques-chartes",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Risque & conformité",
+        "sousRubrique": "Politiques & chartes",
+        "fonctionnalite": "Référentiel conformité",
+        "description": "Centraliser les politiques et chartes de conformité.",
+        "typeContenu": "Référentiel",
+        "typeUx": "Dossiers documentaires",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Sensible"
+      }
+    ],
+    "arcPolitiquesChartes": [
+      {
+        "dossier": "Politiques",
+        "title": "Politique de gestion des risques",
+        "file": "Politique_Gestion_Risques.pdf"
+      },
+      {
+        "dossier": "Politiques",
+        "title": "Politique de conformité réglementaire",
+        "file": "Politique_Conformite_Reglementaire.pdf"
+      },
+      {
+        "dossier": "Chartes",
+        "title": "Charte éthique & déontologie",
+        "file": "Charte_Ethique_Deontologie.pdf"
+      },
+      {
+        "dossier": "Chartes",
+        "title": "Charte de protection des données",
+        "file": "Charte_Protection_Donnees.pdf"
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "rubrique": "cmr-academy",
+  "module": "academy",
+  "fichiers": [
+    {
+      "contenu": "Configuration générale de CMR Academy",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Sous-rubrique onboarding",
+      "fichier": "sous-rubriques/onboarding.json"
+    },
+    {
+      "contenu": "Sous-rubrique formation",
+      "fichier": "sous-rubriques/formation.json"
+    },
+    {
+      "contenu": "Sous-rubrique levelup",
+      "fichier": "sous-rubriques/levelup.json"
+    },
+    {
+      "contenu": "Sous-rubrique talent",
+      "fichier": "sous-rubriques/talent.json"
+    },
+    {
+      "contenu": "Sous-rubrique click",
+      "fichier": "sous-rubriques/click.json"
+    }
+  ]
+}

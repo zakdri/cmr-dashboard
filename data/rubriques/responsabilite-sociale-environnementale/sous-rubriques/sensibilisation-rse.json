@@ -1,0 +1,23 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Sensibilisation RSE",
+  "data": {
+    "rsePages": {
+      "sensibilisation": {
+        "title": "Sensibilisation",
+        "icon": "megaphone",
+        "iconClass": "pink"
+      }
+    },
+    "rseSensibilisation": [
+      {
+        "title": "Campagne “Éco‑gestes”",
+        "desc": "Quizz + mini‑capsules."
+      },
+      {
+        "title": "Semaine sécurité & éthique",
+        "desc": "Affiches + sessions courtes."
+      }
+    ]
+  }
+}

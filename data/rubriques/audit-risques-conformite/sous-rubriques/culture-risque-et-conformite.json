@@ -1,0 +1,43 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Culture risque et conformité",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "culture-risque-conformite",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Sensibilisation",
+        "sousRubrique": "Culture risque & conformité",
+        "fonctionnalite": "Capsules et sensibilisation",
+        "description": "Diffuser les contenus de sensibilisation risque et conformité.",
+        "typeContenu": "Média / quiz",
+        "typeUx": "Cards / vidéos",
+        "interactions": "Consulter, participer",
+        "cible": "Collaborateurs",
+        "priorite": "Moyenne",
+        "statutDesign": "À définir",
+        "commentaires": "KM transverse"
+      }
+    ],
+    "arcSensibilisationItems": [
+      {
+        "title": "Capsule — Culture du risque",
+        "type": "Vidéo",
+        "duree": "6 min",
+        "file": "Sensib_Culture_Risque.mp4"
+      },
+      {
+        "title": "Quiz — Conformité au quotidien",
+        "type": "Quiz",
+        "duree": "10 questions",
+        "file": "Sensib_Quiz_Conformite.pdf"
+      },
+      {
+        "title": "Infographie — Signalement & éthique",
+        "type": "Média",
+        "duree": "2 min",
+        "file": "Sensib_Infographie_Ethique.pdf"
+      }
+    ]
+  }
+}

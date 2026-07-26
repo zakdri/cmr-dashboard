@@ -1,0 +1,64 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Dossiers processus SMI",
+  "data": {
+    "orgGovPages": {
+      "smi-dossiers": {
+        "title": "Dossiers processus",
+        "icon": "folder-tree",
+        "iconClass": "blue",
+        "subtitle": "Processus"
+      }
+    },
+    "orgGovSmiDossiersData": [
+      {
+        "id": "dp1",
+        "dossier": "Pilotage & stratégie",
+        "docs": [
+          {
+            "file": "Processus_Pilotage_Strategique.pdf",
+            "label": "Processus — Pilotage stratégique",
+            "type": "CIB & GTB"
+          },
+          {
+            "file": "Fiche_Processus_Revues_Direction.pdf",
+            "label": "Fiche processus — Revues de direction",
+            "type": "Formulaire"
+          }
+        ]
+      },
+      {
+        "id": "dp2",
+        "dossier": "Ressources & compétences",
+        "docs": [
+          {
+            "file": "Processus_Gestion_Competences.pdf",
+            "label": "Processus — Gestion des compétences",
+            "type": "CIB & GTB"
+          },
+          {
+            "file": "Processus_Formation_Interne.pdf",
+            "label": "Processus — Formation interne",
+            "type": "Registre"
+          }
+        ]
+      },
+      {
+        "id": "dp3",
+        "dossier": "Réalisation opérationnelle",
+        "docs": [
+          {
+            "file": "Processus_Traitement_Demandes.pdf",
+            "label": "Processus — Traitement des demandes",
+            "type": "CIB & GTB"
+          },
+          {
+            "file": "Processus_Controle_Qualite.pdf",
+            "label": "Processus — Contrôle qualité",
+            "type": "Registre"
+          }
+        ]
+      }
+    ]
+  }
+}

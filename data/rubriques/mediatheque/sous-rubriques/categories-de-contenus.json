@@ -1,0 +1,13 @@
+{
+  "rubrique": "mediatheque",
+  "contenu": "Catégories de contenus",
+  "data": {
+    "mediaPages": {
+      "categories": {
+        "title": "Catégories (filtres / navigation)",
+        "icon": "tags",
+        "iconClass": "green"
+      }
+    }
+  }
+}

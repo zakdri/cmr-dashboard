@@ -1,0 +1,38 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Réglementation - regime-militaire",
+  "data": {
+    "regPages": {
+      "regime-militaire": {
+        "title": "Régime Militaire",
+        "icon": "shield",
+        "iconClass": "orange",
+        "description": "Cette sous-rubrique présente les textes applicables au régime militaire et aux situations associées.",
+        "searchPlaceholder": "Rechercher un texte du régime militaire...",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Lois",
+            "value": "Loi"
+          },
+          {
+            "label": "Décrets",
+            "value": "Décret"
+          },
+          {
+            "label": "Circulaires",
+            "value": "Circulaire"
+          },
+          {
+            "label": "Décisions",
+            "value": "Décision"
+          }
+        ]
+      }
+    }
+  }
+}

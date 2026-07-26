@@ -1,0 +1,99 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Textes officiels",
+  "data": {
+    "regPages": {
+      "textes": {
+        "title": "Textes officiels",
+        "icon": "file-text",
+        "iconClass": "green",
+        "description": "Cette rubrique regroupe les textes juridiques et réglementaires de référence applicables aux activités de la CMR.",
+        "searchPlaceholder": "Rechercher un texte, une référence, un mot-clé…",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Lois",
+            "value": "Loi"
+          },
+          {
+            "label": "Décrets",
+            "value": "Décret"
+          },
+          {
+            "label": "Circulaires",
+            "value": "Circulaire"
+          },
+          {
+            "label": "Décisions",
+            "value": "Décision"
+          }
+        ]
+      }
+    },
+    "regTextesItems": [
+      {
+        "title": "Loi n° 12-34 – Gouvernance des organismes",
+        "type": "Loi",
+        "ref": "12-34",
+        "date": "2024",
+        "tags": [
+          "gouvernance",
+          "cadre"
+        ],
+        "section": "legal-gouvernance",
+        "file": "Loi_12-34.pdf"
+      },
+      {
+        "title": "Décret n° 2-25-101 – Procédures de contrôle",
+        "type": "Décret",
+        "ref": "2-25-101",
+        "date": "2025",
+        "tags": [
+          "controle",
+          "qualite"
+        ],
+        "section": "regime-civil",
+        "file": "Decret_2-25-101.pdf"
+      },
+      {
+        "title": "Circulaire – Mise à jour reporting",
+        "type": "Circulaire",
+        "ref": "CIR-2026-04",
+        "date": "Avr 2026",
+        "tags": [
+          "reporting",
+          "finance"
+        ],
+        "section": "regime-militaire",
+        "file": "Circulaire_Reporting_2026.pdf"
+      },
+      {
+        "title": "Décision – Charte éthique (v2)",
+        "type": "Décision",
+        "ref": "DEC-2026-02",
+        "date": "Fév 2026",
+        "tags": [
+          "ethique"
+        ],
+        "section": "legal-gouvernance",
+        "file": "Decision_Charte_Ethique_v2.pdf"
+      },
+      {
+        "title": "Circulaire – Régime des non cotisants",
+        "type": "Circulaire",
+        "ref": "CIR-2026-07",
+        "date": "Juin 2026",
+        "tags": [
+          "non cotisants",
+          "régime"
+        ],
+        "section": "regime-non-cotisants",
+        "file": "Circulaire_Regime_Non_Cotisants.pdf"
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "rubrique": "cmr-academy",
+  "contenu": "Sous-rubrique click",
+  "data": {
+    "academyPages": {
+      "click": {
+        "description": "Click Academy met à disposition des contenus pédagogiques digitaux courts : liens de formation, tutoriels, capsules, quiz et contenus à consulter rapidement.",
+        "filterTitle": "Domaines métiers",
+        "searchPlaceholder": "Rechercher une ressource digitale...",
+        "horizontalFilter": true,
+        "domains": [
+          "Gestion de la retraite",
+          "Gestion du portefeuille financier",
+          "Gestion des études & actuariat",
+          "Gestion de la relation client",
+          "Gestion du Risk Management"
+        ],
+        "contents": [
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Lien formation régime civil",
+            "theme": "Retraite",
+            "type": "Lien formation"
+          },
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Capsule courte liquidation",
+            "theme": "Retraite",
+            "type": "Capsule courte"
+          },
+          {
+            "domain": "Gestion du portefeuille financier",
+            "title": "Capsule portefeuille financier",
+            "theme": "Finance",
+            "type": "Grande capsule"
+          },
+          {
+            "domain": "Gestion des études & actuariat",
+            "title": "Tutoriel projection actuarielle",
+            "theme": "Actuariat",
+            "type": "Tutoriel"
+          },
+          {
+            "domain": "Gestion de la relation client",
+            "title": "Capsule 5 min - accueil client",
+            "theme": "Relation client",
+            "type": "Capsule courte"
+          },
+          {
+            "domain": "Gestion du Risk Management",
+            "title": "Quiz culture risque",
+            "theme": "Risque",
+            "type": "Quiz"
+          }
+        ]
+      }
+    }
+  }
+}

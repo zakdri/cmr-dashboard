@@ -1,0 +1,58 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "module": "sitd",
+  "fichiers": [
+    {
+      "contenu": "Configuration des Systèmes d’information et de la transformation digitale",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Cartographie fonctionnelle SITD",
+      "fichier": "cartographie-fonctionnelle.json"
+    },
+    {
+      "contenu": "Sensibilisation à la cybersécurité",
+      "fichier": "sous-rubriques/sensibilisation-cybersecurite.json"
+    },
+    {
+      "contenu": "Modules e-learning de sécurité",
+      "fichier": "sous-rubriques/modules-elearning-securite.json"
+    },
+    {
+      "contenu": "Événements de sécurité de l’information",
+      "fichier": "sous-rubriques/evenements-securite-information.json"
+    },
+    {
+      "contenu": "Campagnes de sécurité de l’information",
+      "fichier": "sous-rubriques/campagnes-securite-information.json"
+    },
+    {
+      "contenu": "SMSI - politiques-smsi",
+      "fichier": "sous-rubriques/politiques-smsi.json"
+    },
+    {
+      "contenu": "SMSI - procedures-smsi",
+      "fichier": "sous-rubriques/procedures-smsi.json"
+    },
+    {
+      "contenu": "SMSI - cartographie-des-risques-smsi",
+      "fichier": "sous-rubriques/cartographie-des-risques-smsi.json"
+    },
+    {
+      "contenu": "SMSI - pilotage-smsi",
+      "fichier": "sous-rubriques/pilotage-smsi.json"
+    },
+    {
+      "contenu": "Référentiel IT et bonnes pratiques",
+      "fichier": "sous-rubriques/referentiel-it-et-bonnes-pratiques.json"
+    },
+    {
+      "contenu": "Contrats de services et SLA",
+      "fichier": "sous-rubriques/contrats-de-services-et-sla.json"
+    },
+    {
+      "contenu": "Exploitation et outils SI",
+      "fichier": "sous-rubriques/exploitation-et-outils-si.json"
+    }
+  ]
+}

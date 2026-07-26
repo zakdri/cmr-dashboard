@@ -1,0 +1,41 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu knowledge-management",
+  "data": {
+    "sidebarSubmenus": {
+      "km": {
+        "title": "Knowledge Management",
+        "items": [
+          {
+            "label": "Référentiels métiers",
+            "tab": "referentiels"
+          },
+          {
+            "label": "Glossaire",
+            "tab": "glossaire"
+          },
+          {
+            "label": "REX",
+            "tab": "rex"
+          },
+          {
+            "label": "Communautés",
+            "tab": "communautes"
+          },
+          {
+            "label": "Contributions",
+            "tab": "contributions"
+          },
+          {
+            "label": "Articles / bilans",
+            "tab": "publications"
+          },
+          {
+            "label": "Intégration KM",
+            "tab": "integration-km"
+          }
+        ]
+      }
+    }
+  }
+}

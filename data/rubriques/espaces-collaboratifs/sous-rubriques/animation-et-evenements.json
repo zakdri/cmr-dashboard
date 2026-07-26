@@ -1,0 +1,39 @@
+{
+  "rubrique": "espaces-collaboratifs",
+  "contenu": "Animation et événements",
+  "data": {
+    "collabPages": {
+      "animation": {
+        "title": "Communautés internes",
+        "icon": "party-popper",
+        "iconClass": "orange",
+        "formTitle": "Animer / Participer",
+        "formIcon": "mic",
+        "formIconClass": "blue",
+        "eventTitlePlaceholder": "Titre évènement",
+        "eventDatePlaceholder": "Date (ex: 15 Mai 2026)",
+        "eventDescriptionPlaceholder": "Description…",
+        "createLabel": "Animer",
+        "selectedTitle": "Évènement sélectionné",
+        "emptyDetail": "Sélectionnez un évènement.",
+        "joinLabel": "Participer"
+      }
+    },
+    "collabEvents": [
+      {
+        "id": "e1",
+        "title": "Café communauté Data/BI",
+        "date": "15 Mai 2026",
+        "desc": "Partage d’astuces, retours d’expérience.",
+        "participants": 18
+      },
+      {
+        "id": "e2",
+        "title": "Atelier Qualité",
+        "date": "28 Mai 2026",
+        "desc": "Amélioration continue: idées & actions.",
+        "participants": 12
+      }
+    ]
+  }
+}

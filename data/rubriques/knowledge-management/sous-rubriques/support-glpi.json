@@ -1,0 +1,32 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - support-glpi",
+  "data": {
+    "kmPages": {
+      "glpi": {
+        "title": "GLPI (support / incidents)",
+        "icon": "life-buoy",
+        "iconClass": "green",
+        "ticketsTitle": "Consulter des tickets",
+        "ticketsDescription": "Widget / liste des incidents (maquette).",
+        "requestTitle": "Créer une demande",
+        "requestDescription": "Formulaire (maquette).",
+        "titlePlaceholder": "Objet",
+        "descriptionPlaceholder": "Description…",
+        "sendLabel": "Envoyer"
+      }
+    },
+    "kmGlpiTickets": [
+      {
+        "id": "t1",
+        "title": "Accès VPN",
+        "meta": "Ouvert • P2"
+      },
+      {
+        "id": "t2",
+        "title": "Incident impression",
+        "meta": "En cours • P3"
+      }
+    ]
+  }
+}

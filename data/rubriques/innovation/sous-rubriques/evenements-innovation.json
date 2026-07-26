@@ -1,0 +1,50 @@
+{
+  "rubrique": "innovation",
+  "contenu": "Innov Event et événements d’innovation",
+  "data": {
+    "innovationPages": {
+      "innov-event": {
+        "title": "Innov Event",
+        "icon": "calendar-days",
+        "iconClass": "green",
+        "description": "Cette rubrique présente les événements d’innovation et leurs fiches détaillées.",
+        "detailTitle": "Fiche Innov Event"
+      }
+    },
+    "innovEventItems": [
+      {
+        "id": "ev1",
+        "title": "Innov Event – Data & IA",
+        "description": "Une rencontre consacrée aux usages de la donnée et de l'intelligence artificielle au service des métiers de la CMR.",
+        "image": "images/intranet/slider2.png",
+        "date": "2026-06-27"
+      },
+      {
+        "id": "ev2",
+        "title": "Innov Event – Service Design",
+        "description": "Un atelier de découverte des méthodes de conception de services centrées sur les besoins des utilisateurs.",
+        "image": "images/intranet/news_academy.jpg",
+        "date": "2026-06-15"
+      },
+      {
+        "id": "ev3",
+        "title": "Innov Event – Process Sprint",
+        "description": "Une session collaborative dédiée à la simplification rapide des processus internes prioritaires.",
+        "image": "images/intranet/slider3.png",
+        "date": "2026-05-30"
+      }
+    ],
+    "innovationEvents": [
+      {
+        "date": "05 Mai 2026",
+        "title": "Atelier Design Sprint",
+        "meta": "Salle Innovation • 09:00"
+      },
+      {
+        "date": "20 Mai 2026",
+        "title": "Challenge idées – Data/IA",
+        "meta": "En ligne • 14:00"
+      }
+    ]
+  }
+}

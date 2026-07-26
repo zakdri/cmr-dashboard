@@ -1,0 +1,45 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Annuaire",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "docList",
+        "title": "Annuaire",
+        "icon": "book-user",
+        "iconClass": "green",
+        "actionLabel": "Ouvrir",
+        "actionHandler": "switchView('annuaire'); return false;",
+        "items": [
+          {
+            "badge": "LH",
+            "title": "Laila Harfi",
+            "meta": "Direction Digitale · Poste 1004",
+            "background": "#eff6ff",
+            "color": "#256cb5",
+            "icon": "chevron-right",
+            "handler": "switchView('annuaire'); return false;"
+          },
+          {
+            "badge": "NB",
+            "title": "Nadia Benali",
+            "meta": "Direction RH · Poste 1002",
+            "background": "#f0fdf4",
+            "color": "#16a34a",
+            "icon": "chevron-right",
+            "handler": "switchView('annuaire'); return false;"
+          },
+          {
+            "badge": "KA",
+            "title": "Karim A.",
+            "meta": "Direction Financière · Poste 1003",
+            "background": "#fff7ed",
+            "color": "#ea580c",
+            "icon": "chevron-right",
+            "handler": "switchView('annuaire'); return false;"
+          }
+        ]
+      }
+    ]
+  }
+}

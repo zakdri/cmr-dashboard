@@ -1,0 +1,38 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Politiques SMI",
+  "data": {
+    "orgGovPages": {
+      "smi": {
+        "description": "Cette rubrique regroupe les politiques, cartographies, dossiers processus, dispositifs de pilotage, audits, certifications et normes SMI."
+      },
+      "smi-politiques": {
+        "title": "Politiques SMI",
+        "icon": "shield-check",
+        "iconClass": "green"
+      }
+    },
+    "orgGovSmiPolitiquesData": [
+      {
+        "title": "Politique SMI — Management intégré",
+        "file": "Politique_SMI_Management_Integre.pdf"
+      },
+      {
+        "title": "Politique qualité & amélioration continue",
+        "file": "Politique_Qualite_AC.pdf"
+      },
+      {
+        "title": "Politique sécurité & santé au travail",
+        "file": "Politique_SST.pdf"
+      },
+      {
+        "title": "Politique environnement",
+        "file": "Politique_Environnement.pdf"
+      },
+      {
+        "title": "Référentiel processus SMI",
+        "file": "Referentiel_Processus_SMI.pdf"
+      }
+    ]
+  }
+}

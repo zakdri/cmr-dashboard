@@ -1,0 +1,62 @@
+{
+  "rubrique": "mes-applications",
+  "contenu": "Applications - Ressources Humaines",
+  "data": {
+    "applicationsCategories": [
+      {
+        "id": "rh",
+        "title": "Ressources Humaines",
+        "items": [
+          {
+            "id": "sirh",
+            "title": "SIRH",
+            "description": "Système d'Information Ressources Humaines. Gestion des carrières et congés.",
+            "action": "Accéder",
+            "icon": "users",
+            "href": "#",
+            "hoverBg": "#f0f9ff",
+            "hoverBorder": "#bae6fd",
+            "iconBackground": "linear-gradient(135deg, #0ea5e9, #0284c7)",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "paie",
+            "title": "Paie",
+            "description": "Consultation des bulletins de paie et historique des rémunérations.",
+            "action": "Consulter",
+            "icon": "banknote",
+            "href": "#",
+            "hoverBg": "#eef2ff",
+            "hoverBorder": "#c7d2fe",
+            "iconBackground": "linear-gradient(135deg, #6366f1, #4f46e5)",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "formation",
+            "title": "Formation",
+            "description": "Catalogue de formations et suivi de votre parcours de développement.",
+            "action": "Découvrir",
+            "icon": "graduation-cap",
+            "href": "#",
+            "hoverBg": "#faf5ff",
+            "hoverBorder": "#e9d5ff",
+            "iconBackground": "linear-gradient(135deg, #a855f7, #9333ea)",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "notes-frais",
+            "title": "Notes de Frais",
+            "description": "Saisie et suivi des remboursements de frais professionnels.",
+            "action": "Saisir",
+            "icon": "file-spreadsheet",
+            "href": "#",
+            "hoverBg": "#fdf2f8",
+            "hoverBorder": "#fbcfe8",
+            "iconBackground": "linear-gradient(135deg, #ec4899, #db2777)",
+            "actionIcon": "arrow-right"
+          }
+        ]
+      }
+    ]
+  }
+}

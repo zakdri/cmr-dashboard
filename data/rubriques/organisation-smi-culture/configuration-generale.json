@@ -1,0 +1,127 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Configuration Organisation, SMI et Culture",
+  "data": {
+    "orgGovHeader": {
+      "title": "SMI & Organisation & RSE",
+      "description": "Centralisation des contenus liés au SMI, à l’organisation, à la gouvernance interne et à la culture QSE/RSE."
+    },
+    "orgGovMainTabs": [
+      {
+        "id": "overview",
+        "label": "Vue d’ensemble"
+      },
+      {
+        "id": "direction",
+        "label": "Direction"
+      },
+      {
+        "id": "organisation",
+        "label": "Organisation"
+      },
+      {
+        "id": "smi",
+        "label": "SMI"
+      },
+      {
+        "id": "culture-qse-rse",
+        "label": "Culture QSE - RSE"
+      }
+    ],
+    "orgGovSectionConfig": {
+      "overview": {
+        "page": "overview"
+      },
+      "organisation": {
+        "subs": [
+          {
+            "id": "organigramme",
+            "label": "Organigramme"
+          },
+          {
+            "id": "postes",
+            "label": "Fiches et fonctions de postes"
+          },
+          {
+            "id": "referentiels",
+            "label": "Manuels des procédures"
+          }
+        ],
+        "defaultSub": "organigramme"
+      },
+      "smi": {
+        "subs": [
+          {
+            "id": "smi-politiques",
+            "label": "Politiques SMI"
+          },
+          {
+            "id": "smi-cartographie",
+            "label": "Cartographie des processus"
+          },
+          {
+            "id": "smi-dossiers",
+            "label": "Dossiers processus"
+          },
+          {
+            "id": "smi-pilotage",
+            "label": "Organisation de pilotage SMI"
+          },
+          {
+            "id": "smi-gouvernance-interne",
+            "label": "Gouvernance interne"
+          },
+          {
+            "id": "smi-audits",
+            "label": "Audit SMI"
+          },
+          {
+            "id": "smi-certification",
+            "label": "Certification"
+          },
+          {
+            "id": "smi-normes",
+            "label": "Normes et standards"
+          }
+        ],
+        "defaultSub": "smi-politiques"
+      },
+      "culture-qse-rse": {
+        "subs": [
+          {
+            "id": "culture-contenus",
+            "label": "Contenus pédagogiques"
+          },
+          {
+            "id": "culture-faq",
+            "label": "FAQ"
+          },
+          {
+            "id": "culture-communication",
+            "label": "Communication QSE - RSE"
+          },
+          {
+            "id": "culture-quiz",
+            "label": "Quiz et auto-évaluation"
+          },
+          {
+            "id": "culture-idees",
+            "label": "Boîte à idées"
+          },
+          {
+            "id": "culture-remontees",
+            "label": "Remontées terrain"
+          },
+          {
+            "id": "culture-stats",
+            "label": "Statistiques"
+          }
+        ],
+        "defaultSub": "culture-contenus"
+      },
+      "direction": {
+        "page": "direction"
+      }
+    }
+  }
+}

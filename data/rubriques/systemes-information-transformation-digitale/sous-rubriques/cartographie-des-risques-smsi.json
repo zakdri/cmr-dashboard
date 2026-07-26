@@ -1,0 +1,50 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "SMSI - cartographie-des-risques-smsi",
+  "data": {
+    "sitdFilters": {
+      "smsi-risques": {
+        "type": "theme",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Applicatif",
+            "value": "Applicatif"
+          },
+          {
+            "label": "Infrastructure",
+            "value": "Infrastructure"
+          },
+          {
+            "label": "Données",
+            "value": "Données"
+          }
+        ]
+      }
+    },
+    "sitdDocumentItems": [
+      {
+        "section": "smsi-risques",
+        "title": "Cartographie des risques applicatifs",
+        "theme": "Applicatif",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Cartographie_Risques_Applicatifs.pdf"
+      },
+      {
+        "section": "smsi-risques",
+        "title": "Cartographie des risques infrastructure",
+        "theme": "Infrastructure",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Cartographie_Risques_Infrastructure.pdf"
+      }
+    ]
+  }
+}

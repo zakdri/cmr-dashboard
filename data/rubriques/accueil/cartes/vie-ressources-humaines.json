@@ -1,0 +1,42 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Vie RH",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "docList",
+        "title": "Vie RH",
+        "icon": "users-round",
+        "iconClass": "green",
+        "actionLabel": "Voir plus",
+        "actionHandler": "switchView('rh'); return false;",
+        "items": [
+          {
+            "badge": "NEW",
+            "title": "Nominations",
+            "meta": "3 mouvements • Cette semaine",
+            "background": "#eff6ff",
+            "color": "#256cb5",
+            "icon": "chevron-right"
+          },
+          {
+            "badge": "HR",
+            "title": "Recrutements",
+            "meta": "2 arrivées • Avril 2026",
+            "background": "#f0fdf4",
+            "color": "#16a34a",
+            "icon": "chevron-right"
+          },
+          {
+            "badge": "OUT",
+            "title": "Départs",
+            "meta": "1 départ • Mois en cours",
+            "background": "#fff7ed",
+            "color": "#ea580c",
+            "icon": "chevron-right"
+          }
+        ]
+      }
+    ]
+  }
+}

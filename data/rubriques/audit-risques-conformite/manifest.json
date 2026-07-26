@@ -1,0 +1,54 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "module": "arc",
+  "fichiers": [
+    {
+      "contenu": "Configuration Audit, Risques et Conformité",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Charte d’audit",
+      "fichier": "sous-rubriques/charte-audit.json"
+    },
+    {
+      "contenu": "Plans d’audit",
+      "fichier": "sous-rubriques/plan-audit.json"
+    },
+    {
+      "contenu": "Rapports et procès-verbaux",
+      "fichier": "sous-rubriques/rapports-et-proces-verbaux.json"
+    },
+    {
+      "contenu": "Présentation des activités",
+      "fichier": "sous-rubriques/presentation-des-activites.json"
+    },
+    {
+      "contenu": "Politiques et chartes",
+      "fichier": "sous-rubriques/politiques-et-chartes.json"
+    },
+    {
+      "contenu": "Protection des données et CNDP",
+      "fichier": "sous-rubriques/protection-des-donnees-cndp.json"
+    },
+    {
+      "contenu": "Plan de continuité d’activité",
+      "fichier": "sous-rubriques/plan-continuite-activite.json"
+    },
+    {
+      "contenu": "Plans annuels de contrôle",
+      "fichier": "sous-rubriques/plans-annuels-controle.json"
+    },
+    {
+      "contenu": "Manuels de contrôle",
+      "fichier": "sous-rubriques/manuels-de-controle.json"
+    },
+    {
+      "contenu": "Référentiel SMACAF",
+      "fichier": "sous-rubriques/referentiel-smacaf.json"
+    },
+    {
+      "contenu": "Culture risque et conformité",
+      "fichier": "sous-rubriques/culture-risque-et-conformite.json"
+    }
+  ]
+}

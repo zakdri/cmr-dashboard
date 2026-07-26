@@ -1,0 +1,43 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Plans annuels de contrôle",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "plans-annuels",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Contrôle permanent",
+        "sousRubrique": "Plans annuels",
+        "fonctionnalite": "Publication des plans annuels",
+        "description": "Centraliser les plans de contrôle et de conformité.",
+        "typeContenu": "Document",
+        "typeUx": "Tableau / GED-like",
+        "interactions": "Consulter",
+        "cible": "Contrôle permanent",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Structurant"
+      }
+    ],
+    "arcPlansAnnuels": [
+      {
+        "plan": "Plan de contrôle permanent 2026",
+        "domaine": "Contrôle interne",
+        "statut": "Validé",
+        "file": "Plan_Controle_Permanent_2026.pdf"
+      },
+      {
+        "plan": "Plan de conformité réglementaire 2026",
+        "domaine": "Conformité",
+        "statut": "En cours",
+        "file": "Plan_Conformite_2026.pdf"
+      },
+      {
+        "plan": "Plan de suivi recommandations audit",
+        "domaine": "Audit",
+        "statut": "Publié",
+        "file": "Plan_Suivi_Recommandations_2026.pdf"
+      }
+    ]
+  }
+}

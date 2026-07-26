@@ -1,0 +1,45 @@
+{
+  "rubrique": "innovation",
+  "contenu": "Veille et axes d’innovation",
+  "data": {
+    "innovationFeed": [
+      {
+        "title": "Tendances IA 2026 (secteur public)",
+        "meta": "Article • 2j",
+        "source": "Veille"
+      },
+      {
+        "title": "Design sprint: réduire le time-to-value",
+        "meta": "Dossier • 1s",
+        "source": "OpenLab"
+      },
+      {
+        "title": "Exemples d’innovation services",
+        "meta": "Note • 3s",
+        "source": "Benchmark"
+      }
+    ],
+    "innovationAxes": [
+      {
+        "axis": "Digital",
+        "title": "Automatisation & self‑service",
+        "desc": "Portails, signature, workflows."
+      },
+      {
+        "axis": "Processus",
+        "title": "Simplification",
+        "desc": "Réduire délais, standardiser."
+      },
+      {
+        "axis": "Service",
+        "title": "Expérience usager",
+        "desc": "Feedback, qualité de service."
+      },
+      {
+        "axis": "Data/IA",
+        "title": "Data & IA",
+        "desc": "Analyse, prédiction, assistants."
+      }
+    ]
+  }
+}

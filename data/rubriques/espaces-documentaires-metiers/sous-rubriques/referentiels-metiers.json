@@ -1,0 +1,59 @@
+{
+  "rubrique": "espaces-documentaires-metiers",
+  "contenu": "Documentation métiers - referentiels-metiers",
+  "data": {
+    "metiersPages": {
+      "referentiels": {
+        "title": "Fournisseurs / projets / applications",
+        "icon": "folder-open",
+        "iconClass": "green",
+        "searchPlaceholder": "Rechercher (référentiel, application, projet…)…",
+        "filters": [
+          {
+            "label": "Tous",
+            "type": "all",
+            "active": true
+          },
+          {
+            "label": "Fournisseurs",
+            "type": "Fournisseur"
+          },
+          {
+            "label": "Projets",
+            "type": "Projet"
+          },
+          {
+            "label": "Applications",
+            "type": "Application"
+          }
+        ]
+      }
+    },
+    "metiersReferentiels": [
+      {
+        "title": "Fournisseur – GED (Editeur X)",
+        "type": "Fournisseur",
+        "meta": "Contrat • Support • SLA",
+        "file": "Referentiel_Fournisseur_GED.pdf"
+      },
+      {
+        "title": "Projet – Refonte Intranet",
+        "type": "Projet",
+        "meta": "Roadmap • livrables • jalons",
+        "file": "Referentiel_Projet_Intranet.pdf"
+      },
+      {
+        "title": "Application – GLPI",
+        "type": "Application",
+        "meta": "Catalogue services • tickets",
+        "file": "Referentiel_App_GLPI.pdf"
+      },
+      {
+        "title": "Application – SIRH",
+        "type": "Application",
+        "meta": "Paie • Mobilité • dossiers",
+        "file": "Referentiel_App_SIRH.pdf"
+      }
+    ]
+  }
+}

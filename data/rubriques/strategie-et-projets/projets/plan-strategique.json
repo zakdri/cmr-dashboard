@@ -1,0 +1,22 @@
+{
+  "rubrique": "strategie-et-projets",
+  "contenu": "Plan stratégique",
+  "data": {
+    "projetsItems": [
+      {
+        "id": "plan-strategique",
+        "title": "Plan stratégique CMR 2026-2028",
+        "description": "Document structurant désormais rattaché à l’espace Stratégie & Projets CMR.",
+        "status": "Référence",
+        "progressLabel": "Disponibilité:",
+        "progress": 100,
+        "icon": "target",
+        "iconStyle": {
+          "background": "#fff7ed",
+          "color": "#d97706"
+        },
+        "progressColor": "#d97706"
+      }
+    ]
+  }
+}

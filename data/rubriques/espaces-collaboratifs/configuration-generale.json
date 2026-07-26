@@ -1,0 +1,72 @@
+{
+  "rubrique": "espaces-collaboratifs",
+  "contenu": "Configuration des espaces collaboratifs",
+  "data": {
+    "collabHeader": {
+      "title": "Forum & Communication",
+      "description": "Un espace de discussion interne animé par la DCH, ouvert aux messages et commentaires des collaborateurs."
+    },
+    "collabMainTabs": [
+      {
+        "label": "Discussions",
+        "tab": "discussions"
+      }
+    ],
+    "collabSectionConfig": {
+      "discussions": {
+        "subs": [
+          {
+            "id": "forums",
+            "label": "Forums"
+          }
+        ],
+        "defaultSub": "forums"
+      },
+      "communautes": {
+        "subs": [
+          {
+            "id": "groupes",
+            "label": "Groupes thématiques"
+          }
+        ],
+        "defaultSub": "groupes"
+      },
+      "echanges": {
+        "subs": [
+          {
+            "id": "echanges",
+            "label": "Discussions libres"
+          }
+        ],
+        "defaultSub": "echanges"
+      },
+      "partage": {
+        "subs": [
+          {
+            "id": "rex",
+            "label": "Informations / REX"
+          }
+        ],
+        "defaultSub": "rex"
+      },
+      "animation": {
+        "subs": [
+          {
+            "id": "animation",
+            "label": "Communautés internes"
+          }
+        ],
+        "defaultSub": "animation"
+      },
+      "vieinterne": {
+        "subs": [
+          {
+            "id": "vieinterne",
+            "label": "Vie interne"
+          }
+        ],
+        "defaultSub": "vieinterne"
+      }
+    }
+  }
+}

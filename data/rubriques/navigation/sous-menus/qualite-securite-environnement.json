@@ -1,0 +1,37 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu qualite-securite-environnement",
+  "data": {
+    "sidebarSubmenus": {
+      "qse": {
+        "title": "Espace QSE",
+        "items": [
+          {
+            "label": "Référentiels QSE",
+            "tab": "referentiels"
+          },
+          {
+            "label": "SMI",
+            "tab": "smi"
+          },
+          {
+            "label": "Sensibilisation",
+            "tab": "sensibilisation"
+          },
+          {
+            "label": "Pilotage",
+            "tab": "pilotage"
+          },
+          {
+            "label": "Participation",
+            "tab": "participation"
+          },
+          {
+            "label": "Culture QSE",
+            "tab": "culture"
+          }
+        ]
+      }
+    }
+  }
+}

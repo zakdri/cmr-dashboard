@@ -1,0 +1,133 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Configuration Audit, Risques et Conformité",
+  "data": {
+    "arcHeader": {
+      "title": "Espace Audit, Risque & Conformité",
+      "description": "Audit interne, risque & conformité, contrôle permanent et sensibilisation — conformément au cadrage CMS."
+    },
+    "arcAccessControl": {
+      "scope": "Risk Management",
+      "level": "Accès restreint",
+      "owner": "DCH / DSI",
+      "description": "L'accès aux contenus Risk Management est soumis à ACL. Les habilitations techniques sont administrées par la DSI selon la matrice transmise par la DCH."
+    },
+    "arcMainTabs": [
+      {
+        "label": "Audit interne",
+        "tab": "audit-interne"
+      },
+      {
+        "label": "Risque & conformité",
+        "tab": "risque-conformite"
+      },
+      {
+        "label": "Contrôle permanent",
+        "tab": "controle-permanent"
+      },
+      {
+        "label": "Sensibilisation",
+        "tab": "sensibilisation"
+      }
+    ],
+    "arcSectionConfig": {
+      "audit-interne": {
+        "subs": [
+          {
+            "id": "charte-audit",
+            "label": "Charte Audit"
+          },
+          {
+            "id": "plan-audit",
+            "label": "Plan d'audit"
+          },
+          {
+            "id": "rapports-pv",
+            "label": "Rapports & PV"
+          }
+        ],
+        "defaultSub": "charte-audit"
+      },
+      "risque-conformite": {
+        "subs": [
+          {
+            "id": "presentation-activites",
+            "label": "Présentation des activités"
+          },
+          {
+            "id": "politiques-chartes",
+            "label": "Politiques & chartes"
+          },
+          {
+            "id": "cndp",
+            "label": "CNDP"
+          },
+          {
+            "id": "pca",
+            "label": "PCA"
+          }
+        ],
+        "defaultSub": "presentation-activites"
+      },
+      "controle-permanent": {
+        "subs": [
+          {
+            "id": "plans-annuels",
+            "label": "Plans annuels"
+          },
+          {
+            "id": "manuels-controle",
+            "label": "Manuels de contrôle"
+          },
+          {
+            "id": "smacaf",
+            "label": "SMACAF"
+          }
+        ],
+        "defaultSub": "plans-annuels"
+      },
+      "sensibilisation": {
+        "subs": [
+          {
+            "id": "culture-risque-conformite",
+            "label": "Culture risque & conformité"
+          }
+        ],
+        "defaultSub": "culture-risque-conformite"
+      }
+    },
+    "arcLabels": {
+      "consultLabel": "Consulter",
+      "participateLabel": "Participer",
+      "planAuditTitlePrefix": "Plan audit",
+      "planAuditNote": "Tableau / calendrier — plans annuels et pluriannuels.",
+      "charteMetaSuffix": "Institutionnel",
+      "cndpMetaSuffix": "Fiche document",
+      "cndpNote": "Conformité réglementaire — autorisations CNDP.",
+      "pcaMetaSuffix": "Portail éditorial",
+      "pcaNote": "Sensibilisation PCA — sans documents sensibles.",
+      "smacafMetaSuffix": "Dossiers",
+      "smacafNote": "Métier spécifique — référentiels SMACAF.",
+      "sensibilisationMetaSuffix": "Cards / vidéos",
+      "sensibilisationNote": "KM transverse — sensibilisation risque & conformité.",
+      "quizAlert": "Merci pour votre participation au quiz (maquette).",
+      "searchManuelsPlaceholder": "Rechercher un manuel…",
+      "emptyResult": "Aucun résultat.",
+      "rapportsMetaSuffix": "Espace documentaire",
+      "politiquesMetaSuffix": "Dossiers documentaires",
+      "manuelsMetaSuffix": "Documentation",
+      "planAuditColumns": [
+        "Période",
+        "Type",
+        "Statut",
+        "Document"
+      ],
+      "plansAnnuelsColumns": [
+        "Plan",
+        "Domaine",
+        "Statut",
+        "GED"
+      ]
+    }
+  }
+}

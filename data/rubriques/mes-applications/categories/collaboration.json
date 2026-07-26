@@ -1,0 +1,50 @@
+{
+  "rubrique": "mes-applications",
+  "contenu": "Applications - Outils Collaboratifs",
+  "data": {
+    "applicationsCategories": [
+      {
+        "id": "collaboration",
+        "title": "Outils Collaboratifs",
+        "items": [
+          {
+            "id": "outlook",
+            "title": "Outlook",
+            "description": "Messagerie électronique professionnelle et calendrier.",
+            "action": "Ouvrir",
+            "icon": "mail",
+            "href": "#",
+            "hoverBg": "#f0f9ff",
+            "hoverBorder": "#bae6fd",
+            "iconBackground": "#0078d4",
+            "actionIcon": "external-link"
+          },
+          {
+            "id": "teams",
+            "title": "Teams",
+            "description": "Communication d'équipe, réunions et collaboration en temps réel.",
+            "action": "Ouvrir",
+            "icon": "message-square",
+            "href": "#",
+            "hoverBg": "#eef2ff",
+            "hoverBorder": "#c7d2fe",
+            "iconBackground": "#5059c9",
+            "actionIcon": "external-link"
+          },
+          {
+            "id": "onedrive",
+            "title": "OneDrive",
+            "description": "Stockage personnel sécurisé et partage de fichiers.",
+            "action": "Accéder",
+            "icon": "cloud",
+            "href": "#",
+            "hoverBg": "#f0f9ff",
+            "hoverBorder": "#bae6fd",
+            "iconBackground": "#0078d4",
+            "actionIcon": "external-link"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "rubrique": "actualites",
+  "contenu": "Articles et actualités publiés",
+  "data": {
+    "actuData": [
+      {
+        "id": 1,
+        "title": "Signature du nouveau contrat programme État-CMR 2026-2028",
+        "category": "Stratégie",
+        "date": "22 Avril 2026",
+        "author": "Direction Générale",
+        "image": "images/intranet/news_contract.jpg",
+        "excerpt": "La CMR et l'État marocain ont officialisé leur partenariat stratégique pour les trois prochaines années, marquant une étape clé dans la modernisation du système de retraite.",
+        "content": [
+          "La Caisse Marocaine des Retraites (CMR) et l'État marocain ont procédé à la signature du nouveau contrat programme pour la période 2026-2028. Cet accord stratégique définit les grandes orientations de la CMR pour les trois prochaines années.",
+          "Le contrat prévoit notamment le renforcement de la gouvernance institutionnelle, la modernisation des systèmes d'information, l'amélioration de la qualité de service aux pensionnés et la consolidation de l'équilibre financier du régime.",
+          "Cette signature s'inscrit dans la continuité des réformes engagées depuis 2023 et vise à faire de la CMR un acteur de référence en matière de protection sociale au Maroc. Les investissements prévus dans le cadre de ce contrat s'élèvent à plusieurs centaines de millions de dirhams.",
+          "Le Directeur Général de la CMR a exprimé sa satisfaction quant à cet accord, soulignant l'importance de la confiance renouvelée de l'État dans les capacités de la Caisse à mener à bien sa mission de service public."
+        ],
+        "tags": [
+          "Stratégie",
+          "Gouvernance",
+          "Contrat Programme",
+          "2026-2028"
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Tenue de la session ordinaire du Conseil d'Administration",
+        "category": "Gouvernance",
+        "date": "21 Avril 2026",
+        "author": "Secrétariat Général",
+        "image": "images/intranet/news_board.jpg",
+        "excerpt": "Le Conseil d'Administration de la CMR s'est réuni en session ordinaire pour examiner les résultats financiers du premier trimestre 2026 et valider les orientations stratégiques.",
+        "content": [
+          "Le Conseil d'Administration de la Caisse Marocaine des Retraites (CMR) a tenu sa session ordinaire du premier trimestre 2026. La réunion a été présidée par M. le Ministre de l'Économie et des Finances.",
+          "Parmi les points à l'ordre du jour figuraient l'examen des résultats financiers de la CMR pour le premier trimestre 2026, la présentation du tableau de bord des indicateurs clés de performance, ainsi que la validation du plan d'action de la Direction pour le reste de l'année.",
+          "Le Conseil a également examiné plusieurs projets de convention avec des partenaires institutionnels et a donné son accord de principe pour le lancement d'une étude actuarielle globale du régime.",
+          "Les membres du Conseil ont salué les performances enregistrées par la CMR, notamment en matière de délai de traitement des dossiers de pension et de satisfaction des pensionnés."
+        ],
+        "tags": [
+          "Gouvernance",
+          "Conseil d'Administration",
+          "Finance",
+          "Pilotage"
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Déploiement de la solution de signature électronique",
+        "category": "Digital",
+        "date": "Janvier 2026",
+        "author": "Direction Digitale",
+        "image": "images/intranet/slider_cmr_tech.png",
+        "excerpt": "La CMR franchit une nouvelle étape dans sa transformation digitale avec le déploiement d'une solution de signature électronique certifiée pour tous les processus internes.",
+        "content": [
+          "Dans le cadre de sa stratégie de transformation digitale, la CMR a procédé au déploiement d'une solution de signature électronique certifiée. Ce projet, porté par la Direction Digitale, concerne l'ensemble des processus documentaires internes.",
+          "La solution adoptée est conforme aux exigences légales marocaines en matière de signature électronique et garantit l'authenticité, l'intégrité et la non-répudiation de tous les documents signés numériquement.",
+          "Dans une première phase, plus de 500 collaborateurs ont été équipés et formés à l'utilisation de cette solution. L'objectif est de couvrir l'ensemble des employés de la CMR d'ici la fin du premier semestre 2026.",
+          "Cette initiative permettra de réduire significativement les délais de traitement des documents, d'éliminer les flux papier et de contribuer à l'objectif de neutralité carbone de la Caisse."
+        ],
+        "tags": [
+          "Digital",
+          "Signature Électronique",
+          "Transformation",
+          "Innovation"
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Résultats de la campagne d'innovation \"Digit-Passe\"",
+        "category": "Innovation",
+        "date": "20 Avril 2026",
+        "author": "Comité Innovation",
+        "image": "images/intranet/slider2.png",
+        "excerpt": "La campagne d'innovation interne \"Digit-Passe\" a permis de collecter plus de 120 idées innovantes de la part des collaborateurs. Les lauréats ont été récompensés lors d'une cérémonie officielle.",
+        "content": [
+          "La deuxième édition de la campagne d'innovation interne \"Digit-Passe\" s'est clôturée avec un bilan très positif. Lancée en janvier 2026, la campagne a mobilisé plus de 300 collaborateurs qui ont soumis collectivement plus de 120 propositions d'innovation.",
+          "Un jury composé de membres de la Direction Générale, de la Direction Digitale et d'experts externes a évalué les projets selon des critères d'impact, de faisabilité et d'originalité.",
+          "Trois projets lauréats ont été retenus : une application mobile de suivi des dossiers de pension, un chatbot intelligent pour les pensionnés, et un tableau de bord prédictif pour la gestion actuarielle.",
+          "Les équipes gagnantes recevront un accompagnement pour la mise en œuvre de leurs projets ainsi qu'une dotation financière. La Direction Générale a souligné l'importance de cultiver la culture de l'innovation au sein de la CMR."
+        ],
+        "tags": [
+          "Innovation",
+          "Digit-Passe",
+          "Collaborateurs",
+          "Projets"
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Lancement du programme de formation \"CMR Academy\"",
+        "category": "Formation",
+        "date": "15 Avril 2026",
+        "author": "Ressources Humaines",
+        "image": "images/intranet/news_academy.jpg",
+        "excerpt": "La CMR Academy lance une nouvelle vague de formations pour renforcer les compétences des collaborateurs dans les domaines du digital, du management et des métiers de la retraite.",
+        "content": [
+          "La CMR Academy, plateforme de développement des compétences de la Caisse Marocaine des Retraites, lance sa nouvelle vague de formations pour le premier semestre 2026.",
+          "Au programme : des formations en management stratégique, en transformation digitale, en actuariat, ainsi que des modules spécialisés sur les nouvelles réglementations en matière de retraite. Plus de 50 formations sont proposées, dont une grande partie en e-learning.",
+          "Cette initiative s'inscrit dans la politique de développement des ressources humaines de la CMR, qui vise à faire de chaque collaborateur un acteur de la performance collective. Le budget consacré à la formation pour 2026 a été augmenté de 20% par rapport à l'année précédente.",
+          "Les collaborateurs peuvent consulter le catalogue de formations et s'inscrire directement via le portail RH. Les responsables d'équipe sont invités à identifier les besoins de formation de leurs collaborateurs et à planifier les départs en formation."
+        ],
+        "tags": [
+          "Formation",
+          "CMR Academy",
+          "RH",
+          "Compétences"
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Partenariat CMR – CNOPS : échange de données sécurisé",
+        "category": "Stratégie",
+        "date": "10 Avril 2026",
+        "author": "Direction Générale",
+        "image": "images/intranet/slider_partnership.png",
+        "excerpt": "La CMR et la CNOPS ont signé un accord d'échange de données pour améliorer la coordination entre les régimes de retraite et d'assurance maladie au bénéfice des fonctionnaires.",
+        "content": [
+          "La CMR et la Caisse Nationale des Organismes de Prévoyance Sociale (CNOPS) ont conclu un accord cadre pour l'échange sécurisé de données entre les deux institutions.",
+          "Cet accord permettra d'automatiser la transmission d'informations relatives aux départs à la retraite, ce qui facilitera le basculement des fonctionnaires vers le régime d'assurance maladie des retraités (RAMED fonctionnel).",
+          "Le projet, qui sera mis en œuvre sur 12 mois, s'appuiera sur une infrastructure d'échange de données sécurisée respectant les exigences de la CNDP en matière de protection des données personnelles.",
+          "Cette initiative illustre la volonté des deux institutions de coordonner leurs actions pour améliorer le service rendu aux fonctionnaires et simplifier leurs démarches administratives."
+        ],
+        "tags": [
+          "Partenariat",
+          "CNOPS",
+          "Données",
+          "Interopérabilité"
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Enquête de satisfaction interne : 85% de taux de participation",
+        "category": "Social",
+        "date": "5 Avril 2026",
+        "author": "Ressources Humaines",
+        "image": "images/intranet/slider3.png",
+        "excerpt": "L'enquête annuelle de satisfaction interne a enregistré un taux de participation record de 85%, témoignant de l'engagement des collaborateurs envers la vie de la CMR.",
+        "content": [
+          "La troisième édition de l'enquête annuelle de satisfaction interne de la CMR a enregistré un taux de participation exceptionnel de 85%, soit une progression de 12 points par rapport à 2025.",
+          "Les résultats globaux sont encourageants : 78% des collaborateurs se déclarent satisfaits de leur cadre de travail, 72% estiment que la communication interne s'est améliorée, et 80% se sentent fiers de travailler pour la CMR.",
+          "Des axes d'amélioration ont également été identifiés, notamment en matière de mobilité interne, d'équilibre vie professionnelle – vie personnelle et de digitalisation des processus RH. Un plan d'action sera élaboré sur la base de ces résultats.",
+          "La Direction des Ressources Humaines a remercié l'ensemble des collaborateurs pour leur participation et leur engagement, et s'est engagée à communiquer sur les actions mises en place en réponse aux retours exprimés."
+        ],
+        "tags": [
+          "Social",
+          "Satisfaction",
+          "RH",
+          "Enquête"
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Feuille de route digitale 2026 : cap sur la transformation",
+        "category": "Digital",
+        "date": "1 Avril 2026",
+        "author": "Direction Digitale",
+        "image": "images/intranet/slider1.png",
+        "excerpt": "La Direction Digitale présente la feuille de route 2026 qui couvre 15 projets majeurs de transformation numérique, incluant l'IA, la data et l'expérience client.",
+        "content": [
+          "La Direction Digitale de la CMR a dévoilé sa feuille de route pour l'année 2026. Ce document stratégique définit 15 projets prioritaires de transformation numérique qui seront menés tout au long de l'année.",
+          "Parmi les projets phares figurent le déploiement d'un assistant virtuel basé sur l'intelligence artificielle pour les pensionnés, la refonte du portail e-service, la mise en place d'une plateforme de data analytics et l'automatisation des processus administratifs.",
+          "Un budget de 45 millions de dirhams a été alloué à ces projets, qui devraient générer des gains d'efficacité significatifs et améliorer substantiellement l'expérience des pensionnés et des affiliés.",
+          "La Direction Digitale a mis en place une cellule de pilotage dédiée qui assurera le suivi de l'avancement des projets et la communication régulière auprès des équipes."
+        ],
+        "tags": [
+          "Digital",
+          "IA",
+          "Data",
+          "Transformation",
+          "2026"
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Colonies de vacances 2026 : inscriptions ouvertes",
+        "category": "Social",
+        "date": "28 Mars 2026",
+        "author": "Action Sociale",
+        "image": "images/intranet/slider3.png",
+        "excerpt": "Les inscriptions pour les colonies de vacances d'été 2026 sont ouvertes. Les collaborateurs peuvent inscrire leurs enfants de 7 à 16 ans via le portail social.",
+        "content": [
+          "La CMR annonce l'ouverture des inscriptions pour les colonies de vacances d'été 2026, destinées aux enfants des collaborateurs âgés de 7 à 16 ans.",
+          "Trois destinations sont proposées cette année : Témara (juillet, 3 semaines), Oujda (août, 2 semaines) et une nouveauté, un camp de montagne à Ifrane (juillet-août, 2 semaines). Chaque colonie proposera des activités sportives, culturelles et éducatives.",
+          "Les tarifs sont subventionnés par le fonds d'action sociale de la CMR. Les collaborateurs bénéficient d'une réduction de 60% sur le tarif plein, avec des facilités de paiement échelonné.",
+          "Les inscriptions se font exclusivement en ligne via le portail d'action sociale. La date limite de dépôt des dossiers est fixée au 30 avril 2026. Pour tout renseignement complémentaire, contacter le service Action Sociale au poste 4510."
+        ],
+        "tags": [
+          "Social",
+          "Action Sociale",
+          "Vacances",
+          "Famille"
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Réunion du comité d'audit : bilan et perspectives",
+        "category": "Gouvernance",
+        "date": "20 Mars 2026",
+        "author": "Audit Interne",
+        "image": "images/intranet/news_board.jpg",
+        "excerpt": "Le comité d'audit de la CMR a tenu sa réunion trimestrielle pour examiner les résultats du plan d'audit 2026 et valider les recommandations issues des missions réalisées.",
+        "content": [
+          "Le comité d'audit de la CMR s'est réuni pour sa session trimestrielle. La réunion, présidée par le Président du Comité, a réuni les membres du Conseil d'Administration en charge de la supervision de l'audit et de la gestion des risques.",
+          "Le responsable de l'audit interne a présenté l'état d'avancement du plan d'audit 2026. Six missions ont été réalisées depuis le début de l'année, portant sur les domaines des systèmes d'information, de la gestion financière et des processus RH.",
+          "Le taux d'implémentation des recommandations issues des audits précédents a atteint 87%, témoignant de l'engagement de l'ensemble des directions dans l'amélioration continue des processus.",
+          "Le comité a également examiné la cartographie des risques mise à jour et validé les priorités du plan d'audit pour le deuxième semestre 2026. Une attention particulière sera portée aux risques liés à la transformation digitale et à la cybersécurité."
+        ],
+        "tags": [
+          "Gouvernance",
+          "Audit",
+          "Risques",
+          "Contrôle Interne"
+        ]
+      }
+    ]
+  }
+}

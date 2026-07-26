@@ -1,0 +1,38 @@
+{
+  "rubrique": "mes-applications",
+  "contenu": "Applications - Support & IT",
+  "data": {
+    "applicationsCategories": [
+      {
+        "id": "support-it",
+        "title": "Support & IT",
+        "items": [
+          {
+            "id": "helpdesk",
+            "title": "Helpdesk",
+            "description": "Support technique. Signaler un incident ou faire une demande.",
+            "action": "Créer un ticket",
+            "icon": "life-buoy",
+            "href": "#",
+            "hoverBg": "#fef2f2",
+            "hoverBorder": "#fecaca",
+            "iconBackground": "#ef4444",
+            "actionIcon": "arrow-right"
+          },
+          {
+            "id": "glpi",
+            "title": "GLPI",
+            "description": "Gestion de parc informatique et inventaire.",
+            "action": "Consulter",
+            "icon": "monitor",
+            "href": "#",
+            "hoverBg": "#f8fafc",
+            "hoverBorder": "#cbd5e1",
+            "iconBackground": "#64748b",
+            "actionIcon": "arrow-right"
+          }
+        ]
+      }
+    ]
+  }
+}

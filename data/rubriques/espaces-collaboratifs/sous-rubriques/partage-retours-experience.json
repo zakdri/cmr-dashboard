@@ -1,0 +1,36 @@
+{
+  "rubrique": "espaces-collaboratifs",
+  "contenu": "Partage et retours d’expérience",
+  "data": {
+    "collabPages": {
+      "rex": {
+        "title": "Informations / REX",
+        "icon": "book-open",
+        "iconClass": "green",
+        "searchPlaceholder": "Rechercher un article / REX…",
+        "detailTitle": "Lecture",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez un article.",
+        "consultLabel": "Consulter",
+        "emptyList": "Aucun article."
+      }
+    },
+    "collabRex": [
+      {
+        "id": "r1",
+        "title": "REX – Mise en production",
+        "date": "Mars 2026",
+        "body": "Points forts: communication. Amélioration: tests automatisés.",
+        "file": "REX_MEP.pdf"
+      },
+      {
+        "id": "r2",
+        "title": "Info – Nouvelle charte interne",
+        "date": "Fév 2026",
+        "body": "La charte interne est disponible en téléchargement.",
+        "file": "Charte_Interne.pdf"
+      }
+    ]
+  }
+}

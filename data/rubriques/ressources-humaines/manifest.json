@@ -1,0 +1,34 @@
+{
+  "rubrique": "ressources-humaines",
+  "module": "rh",
+  "fichiers": [
+    {
+      "contenu": "Configuration des Ressources humaines",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Ma carrière",
+      "fichier": "sous-rubriques/ma-carriere.json"
+    },
+    {
+      "contenu": "Documents RH",
+      "fichier": "sous-rubriques/documents-ressources-humaines.json"
+    },
+    {
+      "contenu": "Offres d’emploi",
+      "fichier": "sous-rubriques/offres-emploi.json"
+    },
+    {
+      "contenu": "Mobilité interne",
+      "fichier": "sous-rubriques/mobilite-interne.json"
+    },
+    {
+      "contenu": "Enquêtes RH",
+      "fichier": "sous-rubriques/enquetes-ressources-humaines.json"
+    },
+    {
+      "contenu": "Forums et groupes RH",
+      "fichier": "sous-rubriques/forums-et-groupes.json"
+    }
+  ]
+}

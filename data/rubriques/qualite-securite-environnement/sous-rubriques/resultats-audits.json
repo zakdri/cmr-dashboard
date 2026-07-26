@@ -1,0 +1,25 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Résultats des audits QSE",
+  "data": {
+    "qsePages": {
+      "resultats-audits": {
+        "title": "Résultats d'audits — synthèses",
+        "icon": "clipboard-list",
+        "iconClass": "purple"
+      }
+    },
+    "qseResultatsAudits": [
+      {
+        "title": "Synthèse audit interne QSE — T1 2026",
+        "kpi": "87% actions clôturées",
+        "file": "Synthese_Audit_QSE_T1_2026.pdf"
+      },
+      {
+        "title": "Synthèse audit site sécurité",
+        "kpi": "12 recommandations",
+        "file": "Synthese_Audit_Site_Securite.pdf"
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Colonne latérale - anniversaires",
+  "data": {
+    "dashboardRightSidebar": {
+      "birthdays": {
+        "title": "Anniversaires",
+        "icon": "cake",
+        "iconStyle": {
+          "background": "linear-gradient(135deg, #ec4899, #db2777)"
+        },
+        "avatarIcon": "party-popper",
+        "avatarStyle": {
+          "background": "linear-gradient(135deg, #fbbf24, #f59e0b)",
+          "width": 44,
+          "height": 44,
+          "color": "white",
+          "boxShadow": "0 4px 10px rgba(245, 158, 11, 0.2)"
+        },
+        "items": [
+          {
+            "name": "Yassine Benali",
+            "role": "Aujourd'hui • Marketing"
+          }
+        ]
+      }
+    }
+  }
+}

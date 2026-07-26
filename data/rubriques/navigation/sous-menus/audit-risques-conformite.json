@@ -1,0 +1,29 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu audit-risques-conformite",
+  "data": {
+    "sidebarSubmenus": {
+      "arc": {
+        "title": "Espace Audit, Risque & Conformité",
+        "items": [
+          {
+            "label": "Audit interne",
+            "tab": "audit-interne"
+          },
+          {
+            "label": "Risque & conformité",
+            "tab": "risque-conformite"
+          },
+          {
+            "label": "Contrôle permanent",
+            "tab": "controle-permanent"
+          },
+          {
+            "label": "Sensibilisation",
+            "tab": "sensibilisation"
+          }
+        ]
+      }
+    }
+  }
+}

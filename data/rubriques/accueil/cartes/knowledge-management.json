@@ -1,0 +1,66 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Knowledge Management",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "km",
+        "title": "Knowledge Management",
+        "icon": "library",
+        "iconClass": "blue",
+        "actionLabel": "Explorer",
+        "actionIcon": "compass",
+        "actionHandler": "openSubmenuView('km','referentiels'); return false;",
+        "tabs": [
+          {
+            "id": "referentiels",
+            "label": "Référentiels",
+            "items": [
+              {
+                "badge": "PDF",
+                "badgeClass": "pdf",
+                "title": "Guide des indicateurs de retraite",
+                "meta": "Référentiels métiers • Version 2026",
+                "icon": "download"
+              },
+              {
+                "badge": "XLS",
+                "badgeClass": "xls",
+                "title": "Procédure SSO & accès",
+                "meta": "Référentiels SI • Mis à jour",
+                "icon": "download"
+              },
+              {
+                "badge": "DOC",
+                "badgeClass": "doc",
+                "title": "Charte KM – bonnes pratiques",
+                "meta": "Structuration • Semaine dernière",
+                "icon": "download"
+              }
+            ]
+          },
+          {
+            "id": "rex",
+            "label": "REX",
+            "items": [
+              {
+                "iconBadge": "rss",
+                "title": "REX – Refonte intranet: adoption",
+                "meta": "Projet • Avr 2026",
+                "background": "#f0fdf4",
+                "color": "#16a34a"
+              },
+              {
+                "iconBadge": "trending-up",
+                "title": "REX – Processus tickets IT",
+                "meta": "Processus • Mars 2026",
+                "background": "#fdf4ff",
+                "color": "#d946ef"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

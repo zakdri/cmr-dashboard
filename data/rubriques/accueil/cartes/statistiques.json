@@ -1,0 +1,43 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Statistiques",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "stats",
+        "title": "Statistiques",
+        "icon": "bar-chart-3",
+        "iconClass": "green",
+        "actionLabel": "Actualiser",
+        "actionIcon": "refresh-cw",
+        "maxItems": 4,
+        "items": [
+          {
+            "className": "blue",
+            "value": "87%",
+            "label": "Productivité",
+            "icon": "trending-up"
+          },
+          {
+            "className": "green",
+            "value": "152",
+            "label": "Utilisateurs",
+            "icon": "users"
+          },
+          {
+            "className": "purple",
+            "value": "12",
+            "label": "Projets",
+            "icon": "briefcase"
+          },
+          {
+            "className": "orange",
+            "value": "98%",
+            "label": "Satisfaction",
+            "icon": "star"
+          }
+        ]
+      }
+    ]
+  }
+}

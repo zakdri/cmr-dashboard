@@ -1,0 +1,39 @@
+{
+  "rubrique": "mediatheque",
+  "contenu": "Intégration de la médiathèque aux autres espaces",
+  "data": {
+    "mediaPages": {
+      "integration": {
+        "title": "Espaces intranet (réutilisation)",
+        "icon": "git-merge",
+        "iconClass": "green",
+        "description": "Permettre la réutilisation des médias dans d’autres espaces (intégration transverse).",
+        "buttonLabel": "Réutiliser",
+        "buttonHandler": "openMockDownload('Media_Embed_Snippet.txt','Snippet d’intégration')"
+      }
+    },
+    "mediaIntegrationItems": [
+      {
+        "title": "RH & Mobilité",
+        "icon": "users",
+        "background": "#eff6ff",
+        "color": "#1d4ed8",
+        "handler": "openMockDownload('Integration_RH.pdf','Intégration – RH')"
+      },
+      {
+        "title": "Communication interne",
+        "icon": "megaphone",
+        "background": "#fdf4ff",
+        "color": "#7c3aed",
+        "handler": "openMockDownload('Integration_Communication.pdf','Intégration – Communication')"
+      },
+      {
+        "title": "Knowledge Management",
+        "icon": "brain",
+        "background": "#ecfdf5",
+        "color": "#059669",
+        "handler": "openMockDownload('Integration_KM.pdf','Intégration – KM')"
+      }
+    ]
+  }
+}

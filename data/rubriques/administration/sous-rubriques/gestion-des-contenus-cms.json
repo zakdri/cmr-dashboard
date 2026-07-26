@@ -1,0 +1,38 @@
+{
+  "rubrique": "administration",
+  "contenu": "Gestion des contenus CMS",
+  "data": {
+    "adminSectionConfig": {
+      "cms": {
+        "subs": [
+          {
+            "id": "cms",
+            "label": "CMS"
+          }
+        ],
+        "defaultSub": "cms"
+      }
+    },
+    "adminPageCards": {
+      "cms": {
+        "title": "CMS (interface admin)",
+        "icon": "layout-template",
+        "iconClass": "orange"
+      }
+    },
+    "adminCmsItems": [
+      {
+        "id": "c1",
+        "title": "Page – Accueil (bannière)",
+        "status": "Publié",
+        "updated": "Avr 2026"
+      },
+      {
+        "id": "c2",
+        "title": "Bloc – Communication interne",
+        "status": "Brouillon",
+        "updated": "Mars 2026"
+      }
+    ]
+  }
+}

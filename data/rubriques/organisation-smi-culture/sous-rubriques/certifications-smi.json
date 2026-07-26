@@ -1,0 +1,30 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Certifications SMI",
+  "data": {
+    "orgGovPages": {
+      "smi-certification": {
+        "title": "Certification",
+        "icon": "badge-check",
+        "iconClass": "green"
+      }
+    },
+    "orgGovSmiCertifications": [
+      {
+        "title": "ISO 9001",
+        "desc": "Système de management de la qualité",
+        "file": "Certification_ISO_9001.pdf"
+      },
+      {
+        "title": "ISO 14001",
+        "desc": "Management environnemental",
+        "file": "Certification_ISO_14001.pdf"
+      },
+      {
+        "title": "ISO 45001",
+        "desc": "Santé et sécurité au travail",
+        "file": "Certification_ISO_45001.pdf"
+      }
+    ]
+  }
+}

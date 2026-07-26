@@ -1,0 +1,86 @@
+{
+  "rubrique": "reglementation",
+  "module": "reglementation",
+  "fichiers": [
+    {
+      "contenu": "Configuration de la réglementation",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Réglementation - gouvernance-legale",
+      "fichier": "sous-rubriques/gouvernance-legale.json"
+    },
+    {
+      "contenu": "Réglementation - regime-civil",
+      "fichier": "sous-rubriques/regime-civil.json"
+    },
+    {
+      "contenu": "Réglementation - regime-militaire",
+      "fichier": "sous-rubriques/regime-militaire.json"
+    },
+    {
+      "contenu": "Réglementation - regime-des-non-cotisants",
+      "fichier": "sous-rubriques/regime-des-non-cotisants.json"
+    },
+    {
+      "contenu": "Notes juridiques",
+      "fichier": "sous-rubriques/notes-juridiques.json"
+    },
+    {
+      "contenu": "Prises de position",
+      "fichier": "sous-rubriques/prises-de-position.json"
+    },
+    {
+      "contenu": "Bibliothèque des modèles",
+      "fichier": "sous-rubriques/bibliotheque-des-modeles.json"
+    },
+    {
+      "contenu": "Jurisprudence",
+      "fichier": "sous-rubriques/jurisprudence.json"
+    },
+    {
+      "contenu": "Veille juridique",
+      "fichier": "sous-rubriques/veille-juridique.json"
+    },
+    {
+      "contenu": "Textes officiels",
+      "fichier": "sous-rubriques/textes-officiels.json"
+    },
+    {
+      "contenu": "Thématiques réglementaires",
+      "fichier": "sous-rubriques/thematiques-reglementaires.json"
+    },
+    {
+      "contenu": "Procédures réglementaires",
+      "fichier": "sous-rubriques/procedures-reglementaires.json"
+    },
+    {
+      "contenu": "Notes et guides",
+      "fichier": "sous-rubriques/notes-et-guides.json"
+    },
+    {
+      "contenu": "Moteur de recherche réglementaire",
+      "fichier": "sous-rubriques/moteur-de-recherche.json"
+    },
+    {
+      "contenu": "Archivage dans la GED",
+      "fichier": "sous-rubriques/archivage-ged.json"
+    },
+    {
+      "contenu": "Gestion des contenus réglementaires",
+      "fichier": "sous-rubriques/gestion-des-contenus.json"
+    },
+    {
+      "contenu": "Workflow de validation",
+      "fichier": "sous-rubriques/workflow-de-validation.json"
+    },
+    {
+      "contenu": "Historique des actions",
+      "fichier": "sous-rubriques/historique-des-actions.json"
+    },
+    {
+      "contenu": "Documents actifs et archivés",
+      "fichier": "sous-rubriques/documents-actifs-et-archives.json"
+    }
+  ]
+}

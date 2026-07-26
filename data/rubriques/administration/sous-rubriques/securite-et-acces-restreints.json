@@ -1,0 +1,30 @@
+{
+  "rubrique": "administration",
+  "contenu": "Administration - securite",
+  "data": {
+    "adminSectionConfig": {
+      "securite": {
+        "subs": [
+          {
+            "id": "securite",
+            "label": "Accès restreint"
+          }
+        ],
+        "defaultSub": "securite"
+      }
+    },
+    "adminPageCards": {
+      "securite": {
+        "authTitle": "Accès restreint",
+        "authIcon": "lock",
+        "authIconClass": "blue",
+        "authDescription": "Limiter l’accès aux fonctionnalités d’administration (maquette).",
+        "userPlaceholder": "Identifiant admin",
+        "passwordPlaceholder": "Mot de passe",
+        "controlTitle": "Contrôle d’accès",
+        "controlIcon": "shield",
+        "controlIconClass": "green"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Archivage dans la GED",
+  "data": {
+    "regPages": {
+      "ged": {
+        "title": "Archivage — lien GED",
+        "icon": "database",
+        "iconClass": "blue",
+        "description": "Accéder aux versions archivées via la GED (maquette).",
+        "action": "Lien / accès GED",
+        "actionHandler": "openMockDownload('Lien_GED.pdf','Accès GED')",
+        "latestTitle": "Dernières versions archivées"
+      }
+    },
+    "regGedArchives": [
+      {
+        "title": "Loi n° 08-12 – Retraite (archive)",
+        "meta": "GED • version archivée",
+        "file": "Archive_Loi_08-12.pdf"
+      },
+      {
+        "title": "Circulaire – Procédure 2022 (archive)",
+        "meta": "GED • version archivée",
+        "file": "Archive_Circulaire_2022.pdf"
+      }
+    ]
+  }
+}

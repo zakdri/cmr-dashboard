@@ -1,0 +1,47 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "KPI stratégiques",
+  "data": {
+    "orgGovPages": {
+      "kpi-strategiques": {
+        "title": "KPI stratégiques",
+        "icon": "gauge",
+        "iconClass": "green"
+      }
+    },
+    "orgGovKpiStrategiquesData": {
+      "metrics": [
+        {
+          "label": "Satisfaction assurés",
+          "value": "82%"
+        },
+        {
+          "label": "Délai moyen traitement",
+          "value": "4,2 j"
+        },
+        {
+          "label": "Projets stratégiques",
+          "value": "14"
+        },
+        {
+          "label": "Taux réalisation feuille de route",
+          "value": "68%"
+        }
+      ],
+      "chartTitle": "Tableau de bord stratégique",
+      "chartPlaceholder": "Courbes & tendances (maquette)",
+      "documents": [
+        {
+          "title": "Dashboard stratégique T1 2026",
+          "meta": "Export PDF · Management",
+          "file": "Dashboard_Strategique_T1_2026.pdf"
+        },
+        {
+          "title": "Indicateurs pilotage DG",
+          "meta": "Mise à jour mensuelle",
+          "file": "Indicateurs_Pilotage_DG.pdf"
+        }
+      ]
+    }
+  }
+}

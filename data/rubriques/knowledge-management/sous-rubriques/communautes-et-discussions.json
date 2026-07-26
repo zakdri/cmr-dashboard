@@ -1,0 +1,63 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - communautes-et-discussions",
+  "data": {
+    "kmPages": {
+      "communautes": {
+        "communitiesTitle": "Communautés de pratique",
+        "communitiesIcon": "users",
+        "communitiesIconClass": "green",
+        "threadsTitle": "Dernières discussions",
+        "threadsIcon": "message-circle",
+        "threadsIconClass": "orange",
+        "description": "Cette rubrique présente les communautés de pratique et les dernières discussions, classées par thématique."
+      }
+    },
+    "kmCommunautes": [
+      {
+        "id": "co1",
+        "name": "Communauté BI & Data",
+        "theme": "Data",
+        "members": 128,
+        "threads": 12
+      },
+      {
+        "id": "co2",
+        "name": "Communauté RH",
+        "theme": "Ressources humaines",
+        "members": 87,
+        "threads": 6
+      },
+      {
+        "id": "co3",
+        "name": "Communauté Qualité & Process",
+        "theme": "Processus",
+        "members": 54,
+        "threads": 4
+      }
+    ],
+    "kmThreads": [
+      {
+        "communityId": "co1",
+        "title": "Bonnes pratiques Power BI",
+        "theme": "Data",
+        "meta": "Data • 2h",
+        "badge": "Actif"
+      },
+      {
+        "communityId": "co2",
+        "title": "Mobilité interne – retours",
+        "theme": "Ressources humaines",
+        "meta": "Ressources humaines • hier",
+        "badge": "Nouveau"
+      },
+      {
+        "communityId": "co1",
+        "title": "Convention de nommage datasets",
+        "theme": "Data",
+        "meta": "Data • 3j",
+        "badge": "En cours"
+      }
+    ]
+  }
+}

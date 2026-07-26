@@ -1,0 +1,26 @@
+{
+  "rubrique": "mes-applications",
+  "module": "applis",
+  "fichiers": [
+    {
+      "contenu": "Présentation de Mes Applications",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Applications - Ressources Humaines",
+      "fichier": "categories/ressources-humaines.json"
+    },
+    {
+      "contenu": "Applications - Finance & Achat",
+      "fichier": "categories/finance-et-achats.json"
+    },
+    {
+      "contenu": "Applications - Outils Collaboratifs",
+      "fichier": "categories/collaboration.json"
+    },
+    {
+      "contenu": "Applications - Support & IT",
+      "fichier": "categories/support-informatique.json"
+    }
+  ]
+}

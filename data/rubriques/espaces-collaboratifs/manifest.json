@@ -1,0 +1,34 @@
+{
+  "rubrique": "espaces-collaboratifs",
+  "module": "collaboratifs",
+  "fichiers": [
+    {
+      "contenu": "Configuration des espaces collaboratifs",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Discussions et forums",
+      "fichier": "sous-rubriques/discussions-et-forums.json"
+    },
+    {
+      "contenu": "Groupes et communautés",
+      "fichier": "sous-rubriques/groupes-et-communautes.json"
+    },
+    {
+      "contenu": "Échanges participatifs",
+      "fichier": "sous-rubriques/echanges-participatifs.json"
+    },
+    {
+      "contenu": "Partage et retours d’expérience",
+      "fichier": "sous-rubriques/partage-retours-experience.json"
+    },
+    {
+      "contenu": "Animation et événements",
+      "fichier": "sous-rubriques/animation-et-evenements.json"
+    },
+    {
+      "contenu": "Vie interne et galerie",
+      "fichier": "sous-rubriques/vie-interne-et-galerie.json"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu ressources-humaines",
+  "data": {
+    "sidebarSubmenus": {
+      "rh": {
+        "title": "Mes Services RH",
+        "items": [
+          {
+            "label": "Ma Carrière",
+            "tab": "carriere"
+          },
+          {
+            "label": "Documents RH",
+            "tab": "documents"
+          },
+          {
+            "label": "Postes Vacants",
+            "tab": "offres"
+          },
+          {
+            "label": "Mobilité spontanée",
+            "tab": "mobilite"
+          },
+          {
+            "label": "Enquêtes RH",
+            "tab": "enquetes"
+          },
+          {
+            "label": "Forums & Groupes",
+            "tab": "forums"
+          }
+        ]
+      }
+    }
+  }
+}

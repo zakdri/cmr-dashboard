@@ -1,0 +1,37 @@
+{
+  "rubrique": "espaces-documentaires-metiers",
+  "contenu": "Documentation métiers - structuration-des-domaines-metiers",
+  "data": {
+    "metiersPages": {
+      "domaines": {
+        "title": "Domaines métiers",
+        "icon": "network",
+        "iconClass": "blue",
+        "intro": "Organisation des espaces selon les différents métiers de la CMR (maquette).",
+        "emptyDetail": "Sélectionnez un domaine."
+      }
+    },
+    "metiersDomains": [
+      {
+        "id": "ret",
+        "title": "Retraite",
+        "desc": "Liquidation, suivi, réclamations, contrôles."
+      },
+      {
+        "id": "prev",
+        "title": "Prévoyance",
+        "desc": "Prestations, dossiers, conformité."
+      },
+      {
+        "id": "fin",
+        "title": "Finance & Comptabilité",
+        "desc": "Budgets, reporting, contrôle interne."
+      },
+      {
+        "id": "gouv",
+        "title": "Gouvernance",
+        "desc": "Décisions, comités, textes et référentiels."
+      }
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Thématiques réglementaires",
+  "data": {
+    "regPages": {
+      "thematiques": {
+        "title": "Thématiques",
+        "icon": "layout-grid",
+        "iconClass": "blue",
+        "filters": [
+          {
+            "label": "Toutes",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Retraite",
+            "value": "Retraite"
+          },
+          {
+            "label": "Gouvernance",
+            "value": "Gouvernance"
+          },
+          {
+            "label": "Finance",
+            "value": "Finance"
+          },
+          {
+            "label": "Sécurité",
+            "value": "Sécurité"
+          }
+        ]
+      }
+    },
+    "regThemes": [
+      {
+        "title": "Retraite",
+        "desc": "Textes et procédures liés à la retraite.",
+        "icon": "clock-3"
+      },
+      {
+        "title": "Gouvernance",
+        "desc": "Référentiels, chartes, décisions.",
+        "icon": "landmark"
+      },
+      {
+        "title": "Finance",
+        "desc": "Reporting, conformité financière.",
+        "icon": "wallet"
+      },
+      {
+        "title": "Sécurité",
+        "desc": "Normes, consignes, contrôles.",
+        "icon": "shield"
+      }
+    ]
+  }
+}

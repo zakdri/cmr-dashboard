@@ -1,0 +1,10 @@
+{
+  "rubrique": "agenda-interne",
+  "module": "agenda-interne",
+  "fichiers": [
+    {
+      "contenu": "Calendrier et événements internes",
+      "fichier": "calendrier-et-evenements.json"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "rubrique": "cmr-academy",
+  "contenu": "Sous-rubrique levelup",
+  "data": {
+    "academyPages": {
+      "levelup": {
+        "description": "Level Up organise les contenus de montée en compétences par domaine métier et centralise les workflows de demande de formation transférés depuis Mes Services RH.",
+        "filterTitle": "Domaines métiers",
+        "searchPlaceholder": "Rechercher un contenu Level Up...",
+        "themeFilterTitle": "Thèmes",
+        "domains": [
+          "Gestion de la retraite",
+          "Gestion du portefeuille financier",
+          "Gestion des études & actuariat",
+          "Gestion de la relation client",
+          "Gestion du Risk Management"
+        ],
+        "contents": [
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Demande de formation spontanée",
+            "theme": "Demandes de formation",
+            "type": "Workflow RH"
+          },
+          {
+            "domain": "Gestion de la relation client",
+            "title": "Demande de parcours Level Up",
+            "theme": "Demandes de formation",
+            "type": "Workflow RH"
+          },
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Parcours liquidation retraite",
+            "theme": "Processus retraite",
+            "type": "Formation métier"
+          },
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Contrôle des dossiers pension",
+            "theme": "Qualité de traitement",
+            "type": "Atelier pratique"
+          },
+          {
+            "domain": "Gestion du portefeuille financier",
+            "title": "Analyse portefeuille obligataire",
+            "theme": "Finance",
+            "type": "Formation métier"
+          },
+          {
+            "domain": "Gestion du portefeuille financier",
+            "title": "Suivi des placements",
+            "theme": "Reporting financier",
+            "type": "Cas pratique"
+          },
+          {
+            "domain": "Gestion des études & actuariat",
+            "title": "Projection actuarielle",
+            "theme": "Actuariat",
+            "type": "Formation métier"
+          },
+          {
+            "domain": "Gestion de la relation client",
+            "title": "Traitement des réclamations",
+            "theme": "Relation client",
+            "type": "Atelier métier"
+          },
+          {
+            "domain": "Gestion du Risk Management",
+            "title": "Cartographie des risques",
+            "theme": "Risque",
+            "type": "Formation métier"
+          }
+        ]
+      }
+    }
+  }
+}

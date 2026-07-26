@@ -1,0 +1,30 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Statistiques QSE",
+  "data": {
+    "qsePages": {
+      "stats": {
+        "title": "Statistiques",
+        "icon": "bar-chart-3",
+        "iconClass": "green"
+      }
+    },
+    "qseStatsData": {
+      "items": [
+        {
+          "label": "Remontées",
+          "source": "remontees"
+        },
+        {
+          "label": "Idées",
+          "source": "idees"
+        },
+        {
+          "label": "Audits",
+          "source": "audits"
+        }
+      ],
+      "description": "Dashboard (maquette) — Admin/QSE."
+    }
+  }
+}

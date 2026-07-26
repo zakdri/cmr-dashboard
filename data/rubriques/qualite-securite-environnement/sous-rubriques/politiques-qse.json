@@ -1,0 +1,16 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Politiques QSE",
+  "data": {
+    "qsePolitiques": [
+      {
+        "title": "Politique QSE",
+        "file": "Politique_QSE.pdf"
+      },
+      {
+        "title": "Politique sécurité & environnement",
+        "file": "Politique_SSE.pdf"
+      }
+    ]
+  }
+}

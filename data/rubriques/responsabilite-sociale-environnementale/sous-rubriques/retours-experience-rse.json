@@ -1,0 +1,25 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Retours d’expérience RSE",
+  "data": {
+    "rsePages": {
+      "rex": {
+        "title": "Retours d’expérience RSE",
+        "icon": "sparkles",
+        "iconClass": "orange"
+      }
+    },
+    "rseRex": [
+      {
+        "title": "Retour d’expérience – Collecte solidaire",
+        "meta": "Article • Social",
+        "file": "REX_Collecte_Solidaire.pdf"
+      },
+      {
+        "title": "Retour d’expérience – Semaine verte",
+        "meta": "Article • Environnement",
+        "file": "REX_Semaine_Verte.pdf"
+      }
+    ]
+  }
+}

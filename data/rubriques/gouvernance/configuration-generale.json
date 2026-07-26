@@ -1,0 +1,28 @@
+{
+  "rubrique": "gouvernance",
+  "contenu": "Configuration de la gouvernance",
+  "data": {
+    "governanceHeader": {
+      "title": "Gouvernance",
+      "description": "Cet espace présente les instances de gouvernance de la CMR, leurs missions, leurs documents de référence et les valeurs qui guident l'institution."
+    },
+    "governanceTabs": [
+      {
+        "id": "mot-directeur",
+        "label": "Mot du Directeur"
+      },
+      {
+        "id": "systeme",
+        "label": "Système de gouvernance"
+      },
+      {
+        "id": "missions-valeurs",
+        "label": "Missions & Valeurs"
+      },
+      {
+        "id": "organigramme",
+        "label": "Organigramme"
+      }
+    ]
+  }
+}

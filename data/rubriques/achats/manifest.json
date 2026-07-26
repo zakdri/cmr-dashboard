@@ -1,0 +1,34 @@
+{
+  "rubrique": "achats",
+  "module": "achats",
+  "fichiers": [
+    {
+      "contenu": "Présentation de la rubrique Achats",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Gestion des achats",
+      "fichier": "sous-rubriques/gestion-des-achats.json"
+    },
+    {
+      "contenu": "Indicateurs",
+      "fichier": "sous-rubriques/indicateurs-achats.json"
+    },
+    {
+      "contenu": "Textes réglementaires",
+      "fichier": "sous-rubriques/textes-reglementaires.json"
+    },
+    {
+      "contenu": "Référentiel des fournisseurs",
+      "fichier": "sous-rubriques/referentiel-fournisseurs.json"
+    },
+    {
+      "contenu": "Canevas des Appels d'Offres",
+      "fichier": "sous-rubriques/canevas-appels-offres.json"
+    },
+    {
+      "contenu": "Bibliothèque documentaire des CPS",
+      "fichier": "sous-rubriques/bibliotheque-cps.json"
+    }
+  ]
+}

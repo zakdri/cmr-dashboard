@@ -1,0 +1,30 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - supports-pedagogiques",
+  "data": {
+    "kmPages": {
+      "supports": {
+        "title": "Supports pédagogiques",
+        "icon": "graduation-cap",
+        "iconClass": "pink"
+      }
+    },
+    "kmSupports": [
+      {
+        "title": "Capsule vidéo – GED",
+        "meta": "3 min",
+        "file": "Capsule_GED.mp4"
+      },
+      {
+        "title": "Infographie – Sécurité SI",
+        "meta": "PDF",
+        "file": "Infographie_Securite.pdf"
+      },
+      {
+        "title": "Guide – Bonnes pratiques KM",
+        "meta": "PDF",
+        "file": "Guide_Bonnes_Pratiques_KM.pdf"
+      }
+    ]
+  }
+}

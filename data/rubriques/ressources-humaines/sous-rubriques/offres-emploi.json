@@ -1,0 +1,92 @@
+{
+  "rubrique": "ressources-humaines",
+  "contenu": "Offres d’emploi",
+  "data": {
+    "rhOffresIntro": "Les postes vacants internes restent accessibles avec leur workflow de consultation et de candidature.",
+    "rhOffresFilters": {
+      "directions": [
+        "Toutes les directions",
+        "DSI",
+        "Direction Financière",
+        "Direction de la Communication",
+        "Direction Technique"
+      ],
+      "niveaux": [
+        "Tous les niveaux",
+        "Cadre",
+        "Expert",
+        "Manager"
+      ]
+    },
+    "rhOffresList": [
+      {
+        "id": "bi",
+        "title": "Chef de Projet BI (H/F)",
+        "meta": "Direction des Systèmes d'Information · Casablanca · Cadre",
+        "published": "Publié il y a 3 jours · 2 candidatures",
+        "status": "Ouvert",
+        "statusBackground": "#dcfce7",
+        "statusColor": "#15803d"
+      },
+      {
+        "id": "comdig",
+        "title": "Responsable Communication Digital (H/F)",
+        "meta": "Direction de la Communication · Siège · Manager",
+        "published": "Publié il y a 5 jours · 4 candidatures",
+        "status": "Ouvert",
+        "statusBackground": "#dcfce7",
+        "statusColor": "#15803d"
+      },
+      {
+        "id": "actuariat",
+        "title": "Analyste Risques & Actuariat (H/F)",
+        "meta": "Direction Technique · Casablanca · Expert",
+        "published": "Clôture le 30/04/2026 · 7 candidatures",
+        "status": "Clôture imminente",
+        "statusBackground": "#fef3c7",
+        "statusColor": "#92400e"
+      }
+    ],
+    "offresData": {
+      "bi": {
+        "titre": "Chef de Projet BI (H/F)",
+        "direction": "Direction des Systèmes d'Information",
+        "lieu": "Casablanca",
+        "niveau": "Cadre",
+        "date": "15/05/2026",
+        "mission": "Piloter les projets de Business Intelligence de la DSI : recueil des besoins métiers, conception des tableaux de bord et suivi de la qualité des livrables.",
+        "profil": [
+          "Bac+5 en Informatique, Data ou équivalent",
+          "Minimum 5 ans d'expérience en BI / Data",
+          "Maîtrise de Power BI et SQL"
+        ]
+      },
+      "comdig": {
+        "titre": "Responsable Communication Digital (H/F)",
+        "direction": "Direction de la Communication",
+        "lieu": "Siège - Rabat",
+        "niveau": "Manager",
+        "date": "20/05/2026",
+        "mission": "Définir et piloter la stratégie de communication digitale de la CMR.",
+        "profil": [
+          "Bac+5 en Communication ou Marketing Digital",
+          "Minimum 7 ans d'expérience",
+          "Excellentes capacités rédactionnelles"
+        ]
+      },
+      "actuariat": {
+        "titre": "Analyste Risques & Actuariat (H/F)",
+        "direction": "Direction Technique",
+        "lieu": "Casablanca",
+        "niveau": "Expert",
+        "date": "30/04/2026",
+        "mission": "Réaliser les études actuarielles et les modélisations nécessaires à la gestion des régimes de retraite.",
+        "profil": [
+          "Bac+5 en Actuariat ou Statistiques",
+          "Minimum 4 ans d'expérience",
+          "Maîtrise de R ou Python"
+        ]
+      }
+    }
+  }
+}

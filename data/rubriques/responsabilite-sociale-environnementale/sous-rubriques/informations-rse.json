@@ -1,0 +1,23 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Informations RSE",
+  "data": {
+    "rsePages": {
+      "infos": {
+        "title": "Information RSE",
+        "icon": "info",
+        "iconClass": "blue"
+      }
+    },
+    "rseInfos": [
+      {
+        "title": "Programme RSE 2026",
+        "meta": "Page / liste"
+      },
+      {
+        "title": "FAQ RSE",
+        "meta": "Page / liste"
+      }
+    ]
+  }
+}

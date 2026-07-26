@@ -1,0 +1,39 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Idées RSE",
+  "data": {
+    "rsePages": {
+      "idees": {
+        "title": "Idées RSE",
+        "icon": "lightbulb",
+        "iconClass": "pink",
+        "submitLabel": "Soumettre",
+        "formTitle": "Nouvelle idée RSE",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre",
+        "descriptionPlaceholder": "Description…",
+        "sendLabel": "Envoyer",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une idée."
+      }
+    },
+    "rseIdeas": [
+      {
+        "id": "rsi1",
+        "title": "Tri sélectif par étage",
+        "desc": "Mettre des bacs dédiés + affichage.",
+        "score": 14
+      },
+      {
+        "id": "rsi2",
+        "title": "Covoiturage interne",
+        "desc": "Groupe/outil pour organiser les trajets.",
+        "score": 9
+      }
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Veille juridique",
+  "data": {
+    "regPages": {
+      "veille-juridique": {
+        "title": "Veille juridique",
+        "icon": "radar",
+        "iconClass": "blue",
+        "description": "Cette rubrique diffuse les nouveautés juridiques et réglementaires suivies par le métier Juridique.",
+        "searchPlaceholder": "Rechercher une veille...",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Retraite",
+            "value": "Retraite"
+          },
+          {
+            "label": "Gouvernance",
+            "value": "Gouvernance"
+          },
+          {
+            "label": "Conformité",
+            "value": "Conformité"
+          },
+          {
+            "label": "Actualités réglementaires",
+            "value": "Actualités réglementaires"
+          }
+        ]
+      }
+    },
+    "regDocumentItems": [
+      {
+        "section": "veille-juridique",
+        "title": "Veille juridique – Actualisation du cadre réglementaire retraite",
+        "theme": "Actualités réglementaires",
+        "meta": "Veille • PDF • Nouveau • Accès public",
+        "file": "Veille_Actualisation_Cadre_Retraite.pdf",
+        "public": true,
+        "notify": true
+      },
+      {
+        "section": "veille-juridique",
+        "title": "Veille juridique – Synthèse conformité du mois",
+        "theme": "Conformité",
+        "meta": "Veille • PDF • Accès public",
+        "file": "Veille_Synthese_Conformite_Mois.pdf",
+        "public": true
+      }
+    ]
+  }
+}

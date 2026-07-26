@@ -1,0 +1,85 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - catalogue-et-categorisation",
+  "data": {
+    "kmPages": {
+      "categorisation": {
+        "title": "Catégorisation & filtres",
+        "icon": "sliders-horizontal",
+        "iconClass": "green",
+        "description": "Filtrer les contenus KM par thématique / type / entité (navigation & filtres).",
+        "searchPlaceholder": "Rechercher dans KM…",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Documents",
+            "value": "Document"
+          },
+          {
+            "label": "Articles",
+            "value": "Article"
+          },
+          {
+            "label": "Média",
+            "value": "Media"
+          },
+          {
+            "label": "Forum",
+            "value": "Forum"
+          }
+        ]
+      }
+    },
+    "kmCatalogueItems": [
+      {
+        "type": "Document",
+        "title": "Guide des indicateurs de retraite",
+        "meta": "Référentiels métiers"
+      },
+      {
+        "type": "Article",
+        "title": "Bilan – Digital Q1",
+        "meta": "Articles / bilans"
+      },
+      {
+        "type": "Forum",
+        "title": "Bonnes pratiques Power BI",
+        "meta": "Communautés"
+      },
+      {
+        "type": "Media",
+        "title": "Capsule vidéo – GED",
+        "meta": "Supports pédagogiques"
+      },
+      {
+        "type": "Article",
+        "title": "Comprendre le parcours liquidation",
+        "meta": "Pédagogie métier"
+      },
+      {
+        "type": "Article",
+        "title": "Story – Transformation du parcours assuré",
+        "meta": "Sources stories"
+      },
+      {
+        "type": "Document",
+        "title": "Rubrique Audit & conformité",
+        "meta": "KM Audit & Risque"
+      },
+      {
+        "type": "Media",
+        "title": "Capsule UX – Parcours e‑Service",
+        "meta": "Capsules UX"
+      },
+      {
+        "type": "Article",
+        "title": "Régimes de retraite CMR",
+        "meta": "Régimes & processus"
+      }
+    ]
+  }
+}

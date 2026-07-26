@@ -1,0 +1,24 @@
+{
+  "rubrique": "administration",
+  "contenu": "Administration - reporting",
+  "data": {
+    "adminSectionConfig": {
+      "reporting": {
+        "subs": [
+          {
+            "id": "reporting",
+            "label": "Reporting"
+          }
+        ],
+        "defaultSub": "reporting"
+      }
+    },
+    "adminPageCards": {
+      "reporting": {
+        "title": "Reporting & indicateurs (KPI)",
+        "icon": "gauge",
+        "iconClass": "purple"
+      }
+    }
+  }
+}

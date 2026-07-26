@@ -1,0 +1,111 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Actualités affichées sur l’accueil",
+  "data": {
+    "cmrNewsItems": [
+      {
+        "id": "cmr-actu-contrat",
+        "category": "CMR Actualités",
+        "text": "Signature du nouveau contrat programme État-CMR pour la période 2026-2028."
+      },
+      {
+        "id": "rh-eval",
+        "category": "RH",
+        "text": "Campagne d'évaluation annuelle lancée – Date limite le 28 février."
+      },
+      {
+        "id": "it-maint-paie",
+        "category": "IT",
+        "text": "Maintenance prévue sur le serveur \"Paie\" ce vendredi à 18h00."
+      },
+      {
+        "id": "social-colonies",
+        "category": "Social",
+        "text": "Inscriptions ouvertes pour les colonies de vacances 2026."
+      },
+      {
+        "id": "innovation-digitpasse",
+        "category": "Innovation",
+        "text": "Félicitations à l'équipe \"Digit-Passe\" pour le prix de l'innovation !"
+      },
+      {
+        "id": "strategie-roadmap",
+        "category": "Stratégie",
+        "text": "Lancement de la feuille de route digitale 2026."
+      },
+      {
+        "id": "partenariat-cnops",
+        "category": "Partenariat",
+        "text": "Accord signé avec la CNOPS pour l'échange de données."
+      },
+      {
+        "id": "formation-elearning",
+        "category": "Formation",
+        "text": "Nouveaux modules e-learning disponibles sur CMR Academy."
+      },
+      {
+        "id": "gouv-audit",
+        "category": "Gouvernance",
+        "text": "Réunion du comité d'audit prévue le 15 mars."
+      },
+      {
+        "id": "climat-social",
+        "category": "Climat Social",
+        "text": "Enquête de satisfaction interne : Taux de participation de 85%."
+      }
+    ],
+    "dashboardNews": {
+      "title": "Actualités",
+      "icon": "newspaper",
+      "iconClass": "blue",
+      "actionLabel": "Voir tout",
+      "actionHandler": "goToActualites(); return false;",
+      "slides": [
+        {
+          "title": "Signature du nouveau contrat programme Etat-CMR 2026-2028",
+          "meta": "Portée Stratégique • Hier",
+          "image": "images/intranet/news_contract.jpg",
+          "alt": "Signature Contrat Programme",
+          "handler": "goToActualites(1); return false;"
+        },
+        {
+          "title": "Tenue de la session ordinaire du Conseil d'Administration",
+          "meta": "Gouvernance • 2 jours",
+          "image": "images/intranet/news_board.jpg",
+          "alt": "Conseil d'Administration",
+          "handler": "goToActualites(2); return false;"
+        },
+        {
+          "title": "Lancement des nouveaux ateliers de la \"CMR Academy\"",
+          "meta": "Formation & Développement • 1 semaine",
+          "image": "images/intranet/news_academy.jpg",
+          "alt": "CMR Academy",
+          "handler": "goToActualites(5); return false;"
+        }
+      ],
+      "miniItems": [
+        {
+          "title": "Déploiement de la solution de signature électronique",
+          "meta": "Direction Digitale • Janv 2026",
+          "image": "images/intranet/slider_cmr_tech.png",
+          "alt": "Signature Electronique",
+          "handler": "goToActualites(3); return false;"
+        },
+        {
+          "title": "Résultats de la campagne d'innovation \"Digit-Passe\"",
+          "meta": "Comité Innovation • 3 jours",
+          "image": "images/intranet/slider2.png",
+          "alt": "Innovation",
+          "handler": "goToActualites(4); return false;"
+        },
+        {
+          "title": "Lancement du programme de formation \"CMR Academy\"",
+          "meta": "Ressources Humaines • 1 semaine",
+          "image": "images/intranet/slider3.png",
+          "alt": "RH",
+          "handler": "goToActualites(5); return false;"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Configuration de la réglementation",
+  "data": {
+    "regHeader": {
+      "title": "Espace Réglementaire",
+      "description": "L’espace Réglementaire centralise les textes juridiques, notes, modèles, jurisprudences et contenus de veille utiles à la consultation documentaire."
+    },
+    "regMainTabs": [
+      {
+        "label": "Légal & Réglementaires",
+        "tab": "referentiels"
+      },
+      {
+        "label": "Notes & Prise de position",
+        "tab": "notes-position"
+      },
+      {
+        "label": "Bibliothèque des modèles",
+        "tab": "modeles"
+      },
+      {
+        "label": "Jurisprudence",
+        "tab": "jurisprudence"
+      },
+      {
+        "label": "Veille juridique",
+        "tab": "veille-juridique"
+      }
+    ],
+    "regSectionSummaries": {
+      "referentiels": "Les textes juridiques et réglementaires sont structurés par périmètre afin de faciliter la consultation publique des références applicables.",
+      "notes-position": "Cette rubrique centralise les notes et prises de position juridiques afin de partager les orientations et éclairages validés.",
+      "modeles": "La bibliothèque des modèles regroupe les modèles documentaires utiles aux travaux juridiques et réglementaires.",
+      "jurisprudence": "La rubrique Jurisprudence rassemble les décisions et références jurisprudentielles classées par thème.",
+      "veille-juridique": "La veille juridique présente les nouveautés et alertes réglementaires publiées par le métier Juridique."
+    },
+    "regSectionConfig": {
+      "referentiels": {
+        "subs": [
+          {
+            "id": "legal-gouvernance",
+            "label": "Gouvernance"
+          },
+          {
+            "id": "regime-civil",
+            "label": "Régime Civil"
+          },
+          {
+            "id": "regime-militaire",
+            "label": "Régime Militaire"
+          },
+          {
+            "id": "regime-non-cotisants",
+            "label": "Régime des non cotisants"
+          }
+        ],
+        "defaultSub": "legal-gouvernance"
+      },
+      "notes-position": {
+        "subs": [
+          {
+            "id": "notes-juridiques",
+            "label": "Notes"
+          },
+          {
+            "id": "prises-position",
+            "label": "Prise de position"
+          }
+        ],
+        "defaultSub": "notes-juridiques"
+      },
+      "modeles": {
+        "subs": [
+          {
+            "id": "modeles",
+            "label": "Bibliothèque des modèles"
+          }
+        ],
+        "defaultSub": "modeles"
+      },
+      "jurisprudence": {
+        "subs": [
+          {
+            "id": "jurisprudence",
+            "label": "Jurisprudence"
+          }
+        ],
+        "defaultSub": "jurisprudence"
+      },
+      "veille-juridique": {
+        "subs": [
+          {
+            "id": "veille-juridique",
+            "label": "Veille juridique"
+          }
+        ],
+        "defaultSub": "veille-juridique"
+      }
+    },
+    "regLabels": {
+      "consultLabel": "Consulter",
+      "downloadLabel": "Télécharger",
+      "openLabel": "Ouvrir",
+      "browseLabel": "Parcourir",
+      "submitLabel": "Soumettre",
+      "publishLabel": "Publier",
+      "rejectLabel": "Rejeter",
+      "validateLabel": "Valider",
+      "newContentTitle": "Nouveau contenu (brouillon)",
+      "newContentType": "Document",
+      "draftStatus": "Brouillon",
+      "validationStatus": "En validation",
+      "publishedStatus": "Publié",
+      "createdPrefix": "Création:",
+      "statusPrefix": "Statut:",
+      "validationPrefix": "Validation",
+      "rejectionPrefix": "Rejet",
+      "contentFallback": "Contenu",
+      "todayLabel": "Aujourd’hui",
+      "tagsLabel": "tags",
+      "archiveTagsLabel": "Tags",
+      "activeLabel": "Actif",
+      "archivedLabel": "Archivé",
+      "noResult": "Aucun résultat.",
+      "noProcedure": "Aucune procédure.",
+      "searchPrompt": "Tapez un mot-clé pour lancer la recherche.",
+      "noPending": "Aucun élément en attente.",
+      "noDocument": "Aucun document."
+    }
+  }
+}

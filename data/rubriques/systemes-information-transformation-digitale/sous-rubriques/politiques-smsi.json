@@ -1,0 +1,42 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "SMSI - politiques-smsi",
+  "data": {
+    "sitdFilters": {
+      "smsi-politiques": {
+        "type": "access",
+        "filters": [
+          {
+            "label": "Grand public",
+            "value": "Grand public",
+            "active": true
+          },
+          {
+            "label": "Public réservé",
+            "value": "Public réservé"
+          }
+        ]
+      }
+    },
+    "sitdDocumentItems": [
+      {
+        "section": "smsi-politiques",
+        "title": "Politique de sécurité de l'information",
+        "theme": "Politiques",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Politique_Securite_Information.pdf"
+      },
+      {
+        "section": "smsi-politiques",
+        "title": "Politique de classification des actifs sensibles",
+        "theme": "Politiques",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Politique_Classification_Actifs_Sensibles.pdf"
+      }
+    ]
+  }
+}

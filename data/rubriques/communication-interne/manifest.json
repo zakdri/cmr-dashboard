@@ -1,0 +1,34 @@
+{
+  "rubrique": "communication-interne",
+  "module": "communication-interne",
+  "fichiers": [
+    {
+      "contenu": "Présentation de la communication interne",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Cartes d’accès aux rubriques de communication",
+      "fichier": "vue-ensemble-des-rubriques.json"
+    },
+    {
+      "contenu": "Communication interne - recrutement",
+      "fichier": "sous-rubriques/recrutement.json"
+    },
+    {
+      "contenu": "Communication interne - notes-service",
+      "fichier": "sous-rubriques/notes-de-service.json"
+    },
+    {
+      "contenu": "Communication interne - notes-juridiques",
+      "fichier": "sous-rubriques/prises-de-position-juridiques.json"
+    },
+    {
+      "contenu": "Communication interne - flash-info",
+      "fichier": "sous-rubriques/flash-information.json"
+    },
+    {
+      "contenu": "Communication interne - chartes",
+      "fichier": "sous-rubriques/chartes-editoriales.json"
+    }
+  ]
+}

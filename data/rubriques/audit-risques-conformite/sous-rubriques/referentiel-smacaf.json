@@ -1,0 +1,40 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Référentiel SMACAF",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "smacaf",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Contrôle permanent",
+        "sousRubrique": "SMACAF",
+        "fonctionnalite": "Référentiel SMACAF",
+        "description": "Publier les référentiels et plans SMACAF.",
+        "typeContenu": "Documentation",
+        "typeUx": "Dossiers",
+        "interactions": "Consulter",
+        "cible": "Contrôle permanent",
+        "priorite": "Moyenne",
+        "statutDesign": "À définir",
+        "commentaires": "Métier spécifique"
+      }
+    ],
+    "arcSmacafItems": [
+      {
+        "title": "Référentiel SMACAF — cadre général",
+        "meta": "Contrôle permanent • v3.1",
+        "file": "SMACAF_Referentiel_Cadre.pdf"
+      },
+      {
+        "title": "Plan SMACAF 2026",
+        "meta": "Plan annuel • Validé",
+        "file": "SMACAF_Plan_2026.pdf"
+      },
+      {
+        "title": "Guide — Application SMACAF",
+        "meta": "Documentation métier",
+        "file": "SMACAF_Guide_Application.pdf"
+      }
+    ]
+  }
+}

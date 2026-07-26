@@ -1,0 +1,49 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Axes stratégiques RSE",
+  "data": {
+    "rsePages": {
+      "axes": {
+        "title": "Axes stratégiques (filtres / navigation)",
+        "icon": "sliders-horizontal",
+        "iconClass": "green",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Environnement",
+            "value": "Environnement"
+          },
+          {
+            "label": "Social",
+            "value": "Social"
+          },
+          {
+            "label": "Gouvernance",
+            "value": "Gouvernance"
+          }
+        ]
+      }
+    },
+    "rseAxes": [
+      {
+        "axis": "Environnement",
+        "title": "Réduction des déchets",
+        "desc": "Tri, dématérialisation, sobriété."
+      },
+      {
+        "axis": "Social",
+        "title": "Solidarité",
+        "desc": "Initiatives internes et partenaires."
+      },
+      {
+        "axis": "Gouvernance",
+        "title": "Éthique",
+        "desc": "Codes, chartes et conformité."
+      }
+    ]
+  }
+}

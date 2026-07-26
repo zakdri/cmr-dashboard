@@ -1,0 +1,36 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - recits-de-transformation",
+  "data": {
+    "kmPages": {
+      "stories": {
+        "listTitle": "Sources stories",
+        "listIcon": "sparkles",
+        "listIconClass": "orange",
+        "highlightTitle": "À valoriser",
+        "highlightIcon": "newspaper",
+        "highlightIconClass": "blue"
+      }
+    },
+    "kmStories": [
+      {
+        "title": "Story – Transformation du parcours assuré",
+        "type": "Article",
+        "meta": "Communication transverse",
+        "file": "Story_Parcours_Assure.pdf"
+      },
+      {
+        "title": "Story – Refonte intranet en 5 étapes",
+        "type": "Media",
+        "meta": "Projet SI",
+        "file": "Story_Refonte_Intranet.mp4"
+      },
+      {
+        "title": "Story – Modernisation GED",
+        "type": "Article",
+        "meta": "KM transverse",
+        "file": "Story_Modernisation_GED.pdf"
+      }
+    ]
+  }
+}

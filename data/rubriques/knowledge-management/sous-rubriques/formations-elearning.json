@@ -1,0 +1,30 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - formations-elearning",
+  "data": {
+    "kmPages": {
+      "elearning": {
+        "title": "E‑learning",
+        "icon": "play-circle",
+        "iconClass": "blue"
+      }
+    },
+    "kmElearning": [
+      {
+        "title": "Excel avancé (e‑learning)",
+        "meta": "2h30 • Niveau avancé",
+        "cta": "Lancer"
+      },
+      {
+        "title": "Cyber sécurité 101",
+        "meta": "35% • En cours",
+        "cta": "Reprendre"
+      },
+      {
+        "title": "Sensibilisation GED",
+        "meta": "20 min • Micro‑learning",
+        "cta": "Démarrer"
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - livrables",
+  "data": {
+    "kmPages": {
+      "livrables": {
+        "title": "Livrables projets",
+        "icon": "package",
+        "iconClass": "blue"
+      }
+    },
+    "kmLivrables": [
+      {
+        "title": "SFD – Refonte intranet",
+        "file": "SFD_Refonte_Intranet_v1.pdf"
+      },
+      {
+        "title": "PV ateliers – AMOA e‑Service",
+        "file": "PV_Ateliers_eService.pdf"
+      },
+      {
+        "title": "Plan de déploiement",
+        "file": "Plan_Deploiement.pdf"
+      }
+    ]
+  }
+}

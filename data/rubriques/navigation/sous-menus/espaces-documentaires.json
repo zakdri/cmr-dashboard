@@ -1,0 +1,37 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu espaces-documentaires",
+  "data": {
+    "sidebarSubmenus": {
+      "documentaires": {
+        "title": "Espaces métiers",
+        "items": [
+          {
+            "label": "Structuration métier",
+            "tab": "structuration-metier"
+          },
+          {
+            "label": "Référentiels métiers",
+            "tab": "referentiels-metiers"
+          },
+          {
+            "label": "Documents métiers",
+            "tab": "documents-metiers"
+          },
+          {
+            "label": "Intégration SI",
+            "tab": "integration-si"
+          },
+          {
+            "label": "Structuration",
+            "tab": "structuration"
+          },
+          {
+            "label": "Multimédia métier",
+            "tab": "multimedia"
+          }
+        ]
+      }
+    }
+  }
+}

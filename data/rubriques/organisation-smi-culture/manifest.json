@@ -1,0 +1,110 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "module": "organisation",
+  "fichiers": [
+    {
+      "contenu": "Configuration Organisation, SMI et Culture",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Vue d’ensemble de l’organisation",
+      "fichier": "vue-ensemble.json"
+    },
+    {
+      "contenu": "Mot de la Direction",
+      "fichier": "sous-rubriques/mot-de-la-direction.json"
+    },
+    {
+      "contenu": "Organigramme",
+      "fichier": "sous-rubriques/organigramme.json"
+    },
+    {
+      "contenu": "Fiches et fonctions de postes",
+      "fichier": "sous-rubriques/fiches-et-fonctions-de-postes.json"
+    },
+    {
+      "contenu": "Manuels des procédures",
+      "fichier": "sous-rubriques/manuels-des-procedures.json"
+    },
+    {
+      "contenu": "Gouvernance interne",
+      "fichier": "sous-rubriques/gouvernance-interne.json"
+    },
+    {
+      "contenu": "Comités de gouvernance",
+      "fichier": "sous-rubriques/comites-de-gouvernance.json"
+    },
+    {
+      "contenu": "Cartographie des processus de gouvernance",
+      "fichier": "sous-rubriques/cartographie-des-processus-gouvernance.json"
+    },
+    {
+      "contenu": "KPI stratégiques",
+      "fichier": "sous-rubriques/kpi-strategiques.json"
+    },
+    {
+      "contenu": "Rapports de gouvernance",
+      "fichier": "sous-rubriques/rapports-de-gouvernance.json"
+    },
+    {
+      "contenu": "Politiques SMI",
+      "fichier": "sous-rubriques/politiques-smi.json"
+    },
+    {
+      "contenu": "Cartographie des processus SMI",
+      "fichier": "sous-rubriques/cartographie-des-processus-smi.json"
+    },
+    {
+      "contenu": "Dossiers processus SMI",
+      "fichier": "sous-rubriques/dossiers-processus-smi.json"
+    },
+    {
+      "contenu": "Organisation du pilotage SMI",
+      "fichier": "sous-rubriques/organisation-pilotage-smi.json"
+    },
+    {
+      "contenu": "Instances de gouvernance SMI",
+      "fichier": "sous-rubriques/instances-gouvernance-smi.json"
+    },
+    {
+      "contenu": "Audits SMI",
+      "fichier": "sous-rubriques/audits-smi.json"
+    },
+    {
+      "contenu": "Certifications SMI",
+      "fichier": "sous-rubriques/certifications-smi.json"
+    },
+    {
+      "contenu": "Normes et standards SMI",
+      "fichier": "sous-rubriques/normes-et-standards-smi.json"
+    },
+    {
+      "contenu": "Contenus pédagogiques QSE-RSE",
+      "fichier": "sous-rubriques/contenus-pedagogiques-qse-rse.json"
+    },
+    {
+      "contenu": "FAQ QSE-RSE",
+      "fichier": "sous-rubriques/faq-qse-rse.json"
+    },
+    {
+      "contenu": "Communication QSE-RSE",
+      "fichier": "sous-rubriques/communication-qse-rse.json"
+    },
+    {
+      "contenu": "Quiz et auto-évaluation QSE-RSE",
+      "fichier": "sous-rubriques/quiz-auto-evaluation-qse-rse.json"
+    },
+    {
+      "contenu": "Boîte à idées QSE-RSE",
+      "fichier": "sous-rubriques/boite-a-idees-qse-rse.json"
+    },
+    {
+      "contenu": "Remontées terrain QSE-RSE",
+      "fichier": "sous-rubriques/remontees-terrain-qse-rse.json"
+    },
+    {
+      "contenu": "Statistiques QSE-RSE",
+      "fichier": "sous-rubriques/statistiques-qse-rse.json"
+    }
+  ]
+}

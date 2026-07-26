@@ -1,0 +1,15 @@
+{
+  "rubrique": "fenetres-modales",
+  "contenu": "Fenêtre de consentement et protection des données",
+  "data": {
+    "modals": {
+      "consent0908": {
+        "paragraphs": [
+          "Pour accéder à l’Intranet, nous vous informons que certaines données peuvent être traitées pour assurer le fonctionnement du portail, la sécurité et l’amélioration du service.",
+          "En cliquant sur J’accepte, vous confirmez avoir pris connaissance de cette information et consentez au traitement de vos données conformément à la Loi 09-08."
+        ],
+        "acceptHighlight": "J’accepte"
+      }
+    }
+  }
+}

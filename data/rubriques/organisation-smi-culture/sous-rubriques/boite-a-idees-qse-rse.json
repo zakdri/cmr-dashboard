@@ -1,0 +1,25 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Boîte à idées QSE-RSE",
+  "data": {
+    "orgGovPages": {
+      "culture-idees": {
+        "title": "Boîte à idées",
+        "icon": "lightbulb",
+        "iconClass": "green"
+      }
+    },
+    "orgGovCultureIdeas": [
+      {
+        "title": "Réduction impressions",
+        "type": "Environnement",
+        "date": "Juin 2026"
+      },
+      {
+        "title": "Rappel sécurité espaces communs",
+        "type": "SST",
+        "date": "Mai 2026"
+      }
+    ]
+  }
+}

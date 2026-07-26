@@ -1,0 +1,68 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "SMSI - pilotage-smsi",
+  "data": {
+    "sitdFilters": {
+      "smsi-pilotage": {
+        "type": "theme",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "KPI",
+            "value": "KPI"
+          },
+          {
+            "label": "Comités",
+            "value": "Comités"
+          },
+          {
+            "label": "Plans d'action",
+            "value": "Plans d'action"
+          }
+        ]
+      }
+    },
+    "sitdDocumentItems": [
+      {
+        "section": "smsi-pilotage",
+        "title": "Tableau de bord SMSI – KPI sécurité",
+        "theme": "KPI",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Tableau_Bord_SMSI_KPI.pdf"
+      },
+      {
+        "section": "smsi-pilotage",
+        "title": "Plan d'action SMSI",
+        "theme": "Plans d'action",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Plan_Action_SMSI.pdf"
+      }
+    ],
+    "sitdDashboardKpis": [
+      {
+        "label": "Disponibilité SI",
+        "value": "99,2%"
+      },
+      {
+        "label": "Tickets ouverts",
+        "value": "47"
+      },
+      {
+        "label": "Délai moyen N1",
+        "value": "3,4 h"
+      },
+      {
+        "label": "Satisfaction SI",
+        "value": "4,1/5"
+      }
+    ]
+  }
+}

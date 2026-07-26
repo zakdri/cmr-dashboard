@@ -1,0 +1,44 @@
+{
+  "rubrique": "mediatheque",
+  "contenu": "Vidéothèque",
+  "data": {
+    "mediaPages": {
+      "videos": {
+        "title": "Vidéos",
+        "icon": "video",
+        "iconClass": "orange",
+        "searchPlaceholder": "Rechercher une vidéo…",
+        "playerTitle": "Lecteur vidéo",
+        "playerIcon": "play-circle",
+        "playerIconClass": "blue",
+        "emptyPlayer": "Sélectionnez une vidéo."
+      }
+    },
+    "mediaVideos": [
+      {
+        "id": "vid1",
+        "title": "Capsule – Process liquidation",
+        "category": "Process",
+        "date": "Avr 2026",
+        "file": "Media_Capsule_Liquidation.mp4",
+        "desc": "Présentation du flux de traitement (4 min)."
+      },
+      {
+        "id": "vid2",
+        "title": "Vidéo – Gestes de sécurité",
+        "category": "Institutionnel",
+        "date": "Mars 2026",
+        "file": "Video_Gestes_Securite.mp4",
+        "desc": "Rappel des bons réflexes."
+      },
+      {
+        "id": "vid3",
+        "title": "Démo – Nouvel Intranet",
+        "category": "SI",
+        "date": "Fév 2026",
+        "file": "Demo_Nouvel_Intranet.mp4",
+        "desc": "Fonctionnalités clés (6 min)."
+      }
+    ]
+  }
+}

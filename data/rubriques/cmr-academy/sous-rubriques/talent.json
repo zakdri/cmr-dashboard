@@ -1,0 +1,53 @@
+{
+  "rubrique": "cmr-academy",
+  "contenu": "Sous-rubrique talent",
+  "data": {
+    "academyPages": {
+      "talent": {
+        "description": "Talent Management regroupe les parcours d'accompagnement des talents : leadership, mentorat, mobilité, évaluation et développement des compétences.",
+        "filterTitle": "Domaines métiers",
+        "searchPlaceholder": "Rechercher un parcours talent...",
+        "themeFilterTitle": "Thèmes",
+        "domains": [
+          "Gestion de la retraite",
+          "Gestion du portefeuille financier",
+          "Gestion des études & actuariat",
+          "Gestion de la relation client",
+          "Gestion du Risk Management"
+        ],
+        "contents": [
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Parcours expert retraite",
+            "theme": "Expertise",
+            "type": "Parcours talent"
+          },
+          {
+            "domain": "Gestion du portefeuille financier",
+            "title": "Leadership financier",
+            "theme": "Leadership",
+            "type": "Atelier"
+          },
+          {
+            "domain": "Gestion des études & actuariat",
+            "title": "Mentorat actuariel",
+            "theme": "Mentorat",
+            "type": "Programme"
+          },
+          {
+            "domain": "Gestion de la relation client",
+            "title": "Posture conseil client",
+            "theme": "Compétences",
+            "type": "Parcours"
+          },
+          {
+            "domain": "Gestion du Risk Management",
+            "title": "Risk leadership",
+            "theme": "Leadership",
+            "type": "Programme talent"
+          }
+        ]
+      }
+    }
+  }
+}

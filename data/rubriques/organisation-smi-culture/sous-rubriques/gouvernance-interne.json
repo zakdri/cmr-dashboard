@@ -1,0 +1,27 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Gouvernance interne",
+  "data": {
+    "orgGovPages": {
+      "presentation": {
+        "title": "Gouvernance interne",
+        "panelTitle": "Gouvernance interne",
+        "description": "Accédez à la structure de gouvernance : instances, comités, responsabilités, et processus de décision. Cette page centralise les éléments de référence pour comprendre “qui décide quoi” et “comment”.",
+        "items": [
+          {
+            "title": "Instances",
+            "desc": "Conseil, comités, réunions de pilotage."
+          },
+          {
+            "title": "Rôles & responsabilités",
+            "desc": "RACI simplifié des décisions clés."
+          },
+          {
+            "title": "Documents",
+            "desc": "Référentiels, charte, PV, notes."
+          }
+        ]
+      }
+    }
+  }
+}

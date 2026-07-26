@@ -1,0 +1,33 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Message de la Direction générale",
+  "data": {
+    "dashboardDgMessage": {
+      "title": "Message de la Direction",
+      "icon": "megaphone",
+      "iconClass": "orange",
+      "avatar": "DG",
+      "category": "Organisation & Gouvernance",
+      "date": "25 Avril 2026",
+      "headline": "Point d’étape sur la feuille de route 2026",
+      "body": "Chers collaborateurs, je souhaite partager les priorités du trimestre et remercier les équipes mobilisées sur les chantiers de transformation. Retrouvez les décisions clés et les prochaines étapes dans l’espace Organisation & Gouvernance.",
+      "author": "Direction Générale",
+      "organization": "CMR Maroc",
+      "markReadLabel": "Marquer comme lu",
+      "readLabel": "Lire le message",
+      "detail": {
+        "dateIcon": "calendar",
+        "authorIcon": "user",
+        "paragraphs": [
+          "Chers collaborateurs,",
+          "Je souhaite partager les priorités du trimestre et remercier les équipes mobilisées sur les chantiers de transformation. Notre ambition est de renforcer la qualité de service, de moderniser nos outils et d’accélérer la simplification de nos processus.",
+          "Les prochaines semaines seront consacrées au déploiement progressif des évolutions de l’intranet, à la consolidation des référentiels institutionnels et au suivi des décisions des comités."
+        ],
+        "signature": {
+          "author": "Direction Générale",
+          "organization": "CMR Maroc"
+        }
+      }
+    }
+  }
+}

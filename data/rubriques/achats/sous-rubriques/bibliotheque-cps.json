@@ -1,0 +1,48 @@
+{
+  "rubrique": "achats",
+  "contenu": "Bibliothèque documentaire des CPS",
+  "data": {
+    "achatsSections": [
+      {
+        "title": "Bibliothèque documentaire des CPS",
+        "description": "Classement hiérarchique par année, appel d'offres puis CPS PDF.",
+        "summary": "Cette bibliothèque organise les CPS par année puis par appel d'offres. Elle permet de retrouver rapidement le CPS associé à un dossier et de consulter les versions PDF disponibles.",
+        "icon": "folder-tree",
+        "iconStyle": {
+          "background": "#fff7ed",
+          "color": "#ea580c"
+        },
+        "tree": [
+          {
+            "year": "2026",
+            "children": [
+              {
+                "title": "AO 12/2026 - Prestations digitales",
+                "docs": [
+                  "CPS_AO_12_2026.pdf"
+                ]
+              },
+              {
+                "title": "AO 08/2026 - Fournitures",
+                "docs": [
+                  "CPS_AO_08_2026.pdf"
+                ]
+              }
+            ]
+          },
+          {
+            "year": "2025",
+            "children": [
+              {
+                "title": "AO 31/2025 - Maintenance",
+                "docs": [
+                  "CPS_AO_31_2025.pdf"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

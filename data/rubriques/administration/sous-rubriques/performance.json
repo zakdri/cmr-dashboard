@@ -1,0 +1,24 @@
+{
+  "rubrique": "administration",
+  "contenu": "Administration - performance",
+  "data": {
+    "adminSectionConfig": {
+      "performance": {
+        "subs": [
+          {
+            "id": "performance",
+            "label": "Performance"
+          }
+        ],
+        "defaultSub": "performance"
+      }
+    },
+    "adminPageCards": {
+      "performance": {
+        "title": "Performance (dashboard)",
+        "icon": "activity",
+        "iconClass": "green"
+      }
+    }
+  }
+}

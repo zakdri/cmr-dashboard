@@ -1,0 +1,109 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Menu principal de navigation",
+  "data": {
+    "sidebarLabels": {
+      "submenuTitle": "Sous-menu"
+    },
+    "sidebarMainItems": [
+      {
+        "id": "dashboard",
+        "label": "Accueil",
+        "icon": "home",
+        "handler": "switchView('dashboard')",
+        "active": true
+      },
+      {
+        "id": "gouvernance",
+        "label": "Gouvernance",
+        "icon": "landmark",
+        "handler": "toggleSidebarSubmenu('gouvernance')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "institutionnel",
+        "label": "Organisation & RSE",
+        "icon": "building-2",
+        "handler": "switchView('institutionnel')"
+      },
+      {
+        "id": "projets",
+        "label": "Stratégie & Projet",
+        "icon": "briefcase-business",
+        "handler": "switchView('projets')"
+      },
+      {
+        "id": "communication-interne",
+        "label": "Communication Interne",
+        "icon": "megaphone",
+        "handler": "switchView('communication-interne')"
+      },
+      {
+        "id": "rh",
+        "label": "Mes Services RH",
+        "icon": "users",
+        "handler": "toggleSidebarSubmenu('rh')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "academy",
+        "label": "CMR Academy",
+        "icon": "graduation-cap",
+        "handler": "switchView('academy')"
+      },
+      {
+        "id": "km",
+        "label": "KM",
+        "icon": "brain",
+        "handler": "toggleSidebarSubmenu('km')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "vie-sociale",
+        "label": "Vie Sociale",
+        "icon": "coffee",
+        "handler": "switchView('vie-sociale')"
+      },
+      {
+        "id": "innovation",
+        "label": "Innov",
+        "icon": "lightbulb",
+        "handler": "toggleSidebarSubmenu('innovation')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "reglementation",
+        "label": "Réglementation",
+        "icon": "shield-check",
+        "handler": "toggleSidebarSubmenu('reglementation')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "achats",
+        "label": "Achats",
+        "icon": "shopping-cart",
+        "handler": "switchView('achats')"
+      },
+      {
+        "id": "sitd",
+        "label": "SITD",
+        "icon": "server",
+        "handler": "toggleSidebarSubmenu('sitd')",
+        "hasSubmenu": true
+      },
+      {
+        "id": "collaboratifs",
+        "label": "Forum",
+        "icon": "messages-square",
+        "handler": "switchView('collaboratifs')"
+      },
+      {
+        "id": "admin",
+        "label": "Administration & Pilotage",
+        "icon": "settings",
+        "handler": "toggleSidebarSubmenu('admin')",
+        "hasSubmenu": true
+      }
+    ]
+  }
+}

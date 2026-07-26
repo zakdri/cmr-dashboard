@@ -1,0 +1,297 @@
+{
+  "module": "documentaires",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "metiersHeader": {
+      "title": "Espaces métiers",
+      "description": "Domaines métiers, référentiels, livrables, intégration SI, structuration et médiathèque."
+    },
+    "metiersMainTabs": [
+      {
+        "label": "Structuration métier",
+        "tab": "structuration-metier"
+      },
+      {
+        "label": "Référentiels métiers",
+        "tab": "referentiels-metiers"
+      },
+      {
+        "label": "Documents métiers",
+        "tab": "documents-metiers"
+      },
+      {
+        "label": "Intégration SI",
+        "tab": "integration-si"
+      },
+      {
+        "label": "Structuration",
+        "tab": "structuration"
+      },
+      {
+        "label": "Multimédia métier",
+        "tab": "multimedia"
+      }
+    ],
+    "metiersSectionConfig": {
+      "structuration-metier": {
+        "subs": [
+          {
+            "id": "domaines",
+            "label": "Domaines métiers"
+          }
+        ],
+        "defaultSub": "domaines"
+      },
+      "referentiels-metiers": {
+        "subs": [
+          {
+            "id": "referentiels",
+            "label": "Fournisseurs / projets / applications"
+          }
+        ],
+        "defaultSub": "referentiels"
+      },
+      "documents-metiers": {
+        "subs": [
+          {
+            "id": "livrables",
+            "label": "Livrables"
+          }
+        ],
+        "defaultSub": "livrables"
+      },
+      "integration-si": {
+        "subs": [
+          {
+            "id": "si",
+            "label": "Systèmes existants"
+          }
+        ],
+        "defaultSub": "si"
+      },
+      "structuration": {
+        "subs": [
+          {
+            "id": "thematiques",
+            "label": "Thématiques"
+          }
+        ],
+        "defaultSub": "thematiques"
+      },
+      "multimedia": {
+        "subs": [
+          {
+            "id": "mediatheque",
+            "label": "Médiathèque métier"
+          }
+        ],
+        "defaultSub": "mediatheque"
+      }
+    },
+    "metiersPages": {
+      "domaines": {
+        "title": "Domaines métiers",
+        "icon": "network",
+        "iconClass": "blue",
+        "intro": "Organisation des espaces selon les différents métiers de la CMR (maquette).",
+        "emptyDetail": "Sélectionnez un domaine."
+      },
+      "referentiels": {
+        "title": "Fournisseurs / projets / applications",
+        "icon": "folder-open",
+        "iconClass": "green",
+        "searchPlaceholder": "Rechercher (référentiel, application, projet…)…",
+        "filters": [
+          {
+            "label": "Tous",
+            "type": "all",
+            "active": true
+          },
+          {
+            "label": "Fournisseurs",
+            "type": "Fournisseur"
+          },
+          {
+            "label": "Projets",
+            "type": "Projet"
+          },
+          {
+            "label": "Applications",
+            "type": "Application"
+          }
+        ]
+      },
+      "livrables": {
+        "title": "Livrables",
+        "icon": "file-stack",
+        "iconClass": "orange",
+        "searchPlaceholder": "Rechercher un livrable…"
+      },
+      "si": {
+        "title": "Systèmes existants",
+        "icon": "plug",
+        "iconClass": "purple",
+        "integrationTitle": "Accès / intégration SI",
+        "integrationDescription": "Permettre l’accès ou l’intégration avec d’autres outils SI (maquette). Dépend SI.",
+        "primaryAction": {
+          "label": "Catalogue APIs",
+          "handler": "openMockDownload('Catalogue_APIs_SI.pdf','Catalogue APIs SI')"
+        },
+        "secondaryAction": {
+          "label": "Guide accès",
+          "handler": "openMockDownload('Guide_SSO_Acces.pdf','Guide SSO & Accès')"
+        },
+        "widgetTitle": "Widget état",
+        "widgetDescription": "Accéder aux systèmes existants et leurs intégrations.",
+        "refreshLabel": "Actualiser",
+        "systemsTitle": "Systèmes connectés"
+      },
+      "thematiques": {
+        "title": "Thématiques",
+        "icon": "tags",
+        "iconClass": "blue",
+        "searchPlaceholder": "Filtrer / navigation (ex: liquidation, contrôle, SI)…"
+      },
+      "mediatheque": {
+        "title": "Médiathèque métier",
+        "icon": "image",
+        "iconClass": "pink",
+        "searchPlaceholder": "Rechercher un média…"
+      }
+    },
+    "metiersDomains": [
+      {
+        "id": "ret",
+        "title": "Retraite",
+        "desc": "Liquidation, suivi, réclamations, contrôles."
+      },
+      {
+        "id": "prev",
+        "title": "Prévoyance",
+        "desc": "Prestations, dossiers, conformité."
+      },
+      {
+        "id": "fin",
+        "title": "Finance & Comptabilité",
+        "desc": "Budgets, reporting, contrôle interne."
+      },
+      {
+        "id": "gouv",
+        "title": "Gouvernance",
+        "desc": "Décisions, comités, textes et référentiels."
+      }
+    ],
+    "metiersReferentiels": [
+      {
+        "title": "Fournisseur – GED (Editeur X)",
+        "type": "Fournisseur",
+        "meta": "Contrat • Support • SLA",
+        "file": "Referentiel_Fournisseur_GED.pdf"
+      },
+      {
+        "title": "Projet – Refonte Intranet",
+        "type": "Projet",
+        "meta": "Roadmap • livrables • jalons",
+        "file": "Referentiel_Projet_Intranet.pdf"
+      },
+      {
+        "title": "Application – GLPI",
+        "type": "Application",
+        "meta": "Catalogue services • tickets",
+        "file": "Referentiel_App_GLPI.pdf"
+      },
+      {
+        "title": "Application – SIRH",
+        "type": "Application",
+        "meta": "Paie • Mobilité • dossiers",
+        "file": "Referentiel_App_SIRH.pdf"
+      }
+    ],
+    "metiersLivrables": [
+      {
+        "title": "SFD – Process liquidation (v1)",
+        "meta": "Document • Dossier / GED‑like",
+        "file": "Livrable_SFD_Liquidation_v1.pdf"
+      },
+      {
+        "title": "PV Atelier métier – Retraite",
+        "meta": "Document • Compte-rendu",
+        "file": "Livrable_PV_Atelier_Retraite.pdf"
+      },
+      {
+        "title": "Modèle – Fiche contrôle",
+        "meta": "Document • Modèle",
+        "file": "Modele_Fiche_Controle.docx"
+      }
+    ],
+    "metiersSiSystems": [
+      {
+        "title": "Système – GED",
+        "meta": "Lien / widget • Accès",
+        "status": "Connecté",
+        "file": "Acces_GED.pdf"
+      },
+      {
+        "title": "Système – SIRH",
+        "meta": "Lien / widget • Accès",
+        "status": "Connecté",
+        "file": "Acces_SIRH.pdf"
+      },
+      {
+        "title": "Système – DWH",
+        "meta": "Application / data • Accès",
+        "status": "En cours",
+        "file": "Acces_DWH.pdf"
+      }
+    ],
+    "metiersThemes": [
+      {
+        "title": "Liquidation",
+        "desc": "Règles, checklists, livrables.",
+        "tag": "process"
+      },
+      {
+        "title": "Contrôle",
+        "desc": "Contrôle interne, audits, conformité.",
+        "tag": "controle"
+      },
+      {
+        "title": "SI",
+        "desc": "Applications, API, intégrations.",
+        "tag": "si"
+      },
+      {
+        "title": "Réclamations",
+        "desc": "Traitement, SLA, procédures.",
+        "tag": "service"
+      },
+      {
+        "title": "Reporting",
+        "desc": "Indicateurs, publications, tableaux de bord.",
+        "tag": "reporting"
+      }
+    ],
+    "metiersMedia": [
+      {
+        "title": "Capsule – Process liquidation",
+        "meta": "Vidéo • 4 min",
+        "file": "Media_Capsule_Liquidation.mp4"
+      },
+      {
+        "title": "Infographie – Parcours assuré",
+        "meta": "Image • PNG",
+        "file": "Media_Infographie_Parcours.png"
+      },
+      {
+        "title": "Album – Atelier métier",
+        "meta": "Galerie • 12 photos",
+        "file": "Media_Album_Atelier.zip"
+      },
+      {
+        "title": "Présentation – Domaine Retraite",
+        "meta": "Slides • PPT",
+        "file": "Media_Presentation_Retraite.pptx"
+      }
+    ]
+  }
+}

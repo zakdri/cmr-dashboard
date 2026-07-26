@@ -1,0 +1,24 @@
+{
+  "rubrique": "achats",
+  "contenu": "Gestion des achats",
+  "data": {
+    "achatsSections": [
+      {
+        "title": "Gestion des achats",
+        "description": "Suivi des principaux workflows d'achat.",
+        "summary": "Cette rubrique regroupe les processus opérationnels nécessaires à la préparation, l'actualisation et l'exécution des achats. Elle permet aux équipes concernées de suivre les étapes clés, les documents associés et les actions à engager dans le cadre du cycle achat.",
+        "icon": "workflow",
+        "iconStyle": {
+          "background": "#eff6ff",
+          "color": "#2563eb"
+        },
+        "items": [
+          "Préparation du PPA",
+          "Actualisation du PPA",
+          "Préparation DCE",
+          "Exécution des commandes et marchés publics"
+        ]
+      }
+    ]
+  }
+}

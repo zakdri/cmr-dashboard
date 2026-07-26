@@ -1,0 +1,132 @@
+{
+  "rubrique": "mediatheque",
+  "contenu": "Configuration de la médiathèque",
+  "data": {
+    "mediaHeader": {
+      "title": "Médiathèque",
+      "description": "Accès central aux médias, photothèque, vidéothèque, catégories et intégrations."
+    },
+    "mediaMainTabs": [
+      {
+        "label": "Accès central",
+        "tab": "acces"
+      },
+      {
+        "label": "Photothèque",
+        "tab": "photos"
+      },
+      {
+        "label": "Vidéothèque",
+        "tab": "videos"
+      },
+      {
+        "label": "Structuration",
+        "tab": "structuration"
+      },
+      {
+        "label": "Accès contenus",
+        "tab": "acces-contenus"
+      },
+      {
+        "label": "Intégration",
+        "tab": "integration"
+      }
+    ],
+    "mediaSectionConfig": {
+      "acces": {
+        "subs": [
+          {
+            "id": "home",
+            "label": "Médiathèque"
+          }
+        ],
+        "defaultSub": "home"
+      },
+      "photos": {
+        "subs": [
+          {
+            "id": "images",
+            "label": "Images"
+          }
+        ],
+        "defaultSub": "images"
+      },
+      "videos": {
+        "subs": [
+          {
+            "id": "videos",
+            "label": "Vidéos"
+          }
+        ],
+        "defaultSub": "videos"
+      },
+      "structuration": {
+        "subs": [
+          {
+            "id": "categories",
+            "label": "Catégories"
+          }
+        ],
+        "defaultSub": "categories"
+      },
+      "acces-contenus": {
+        "subs": [
+          {
+            "id": "consultation",
+            "label": "Consultation"
+          },
+          {
+            "id": "telechargement",
+            "label": "Téléchargement"
+          }
+        ],
+        "defaultSub": "consultation"
+      },
+      "integration": {
+        "subs": [
+          {
+            "id": "integration",
+            "label": "Espaces intranet"
+          }
+        ],
+        "defaultSub": "integration"
+      }
+    },
+    "mediaLabels": {
+      "searchPrompt": "Tapez un mot‑clé pour rechercher.",
+      "emptyResult": "Aucun résultat.",
+      "emptyContent": "Aucun contenu.",
+      "openLabel": "Ouvrir",
+      "consultLabel": "Consulter",
+      "downloadLabel": "Télécharger",
+      "readLabel": "Lire",
+      "filterLabel": "Filtrer / naviguer",
+      "downloadPrefix": "Téléchargement –",
+      "kindImage": "Image",
+      "kindVideo": "Vidéo"
+    },
+    "mediaCategories": [
+      {
+        "label": "Toutes",
+        "value": "all",
+        "active": true
+      },
+      {
+        "label": "Institutionnel",
+        "value": "Institutionnel"
+      },
+      {
+        "label": "Process",
+        "value": "Process"
+      },
+      {
+        "label": "Évènement",
+        "value": "Évènement"
+      },
+      {
+        "label": "SI",
+        "value": "SI"
+      }
+    ]
+  }
+}

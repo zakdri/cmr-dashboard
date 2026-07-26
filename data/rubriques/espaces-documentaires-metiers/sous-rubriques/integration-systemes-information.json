@@ -1,0 +1,47 @@
+{
+  "rubrique": "espaces-documentaires-metiers",
+  "contenu": "Documentation métiers - integration-systemes-information",
+  "data": {
+    "metiersPages": {
+      "si": {
+        "title": "Systèmes existants",
+        "icon": "plug",
+        "iconClass": "purple",
+        "integrationTitle": "Accès / intégration SI",
+        "integrationDescription": "Permettre l’accès ou l’intégration avec d’autres outils SI (maquette). Dépend SI.",
+        "primaryAction": {
+          "label": "Catalogue APIs",
+          "handler": "openMockDownload('Catalogue_APIs_SI.pdf','Catalogue APIs SI')"
+        },
+        "secondaryAction": {
+          "label": "Guide accès",
+          "handler": "openMockDownload('Guide_SSO_Acces.pdf','Guide SSO & Accès')"
+        },
+        "widgetTitle": "Widget état",
+        "widgetDescription": "Accéder aux systèmes existants et leurs intégrations.",
+        "refreshLabel": "Actualiser",
+        "systemsTitle": "Systèmes connectés"
+      }
+    },
+    "metiersSiSystems": [
+      {
+        "title": "Système – GED",
+        "meta": "Lien / widget • Accès",
+        "status": "Connecté",
+        "file": "Acces_GED.pdf"
+      },
+      {
+        "title": "Système – SIRH",
+        "meta": "Lien / widget • Accès",
+        "status": "Connecté",
+        "file": "Acces_SIRH.pdf"
+      },
+      {
+        "title": "Système – DWH",
+        "meta": "Application / data • Accès",
+        "status": "En cours",
+        "file": "Acces_DWH.pdf"
+      }
+    ]
+  }
+}

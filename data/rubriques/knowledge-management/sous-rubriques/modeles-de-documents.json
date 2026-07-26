@@ -1,0 +1,27 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - modeles-de-documents",
+  "data": {
+    "kmPages": {
+      "modeles": {
+        "title": "Modèles / formulaires",
+        "icon": "layout-template",
+        "iconClass": "purple"
+      }
+    },
+    "kmModeles": [
+      {
+        "title": "Modèle PV comité",
+        "file": "Modele_PV_Comite.docx"
+      },
+      {
+        "title": "Modèle note de service",
+        "file": "Modele_Note_Service.docx"
+      },
+      {
+        "title": "Formulaire expression de besoin",
+        "file": "Formulaire_EDB.docx"
+      }
+    ]
+  }
+}

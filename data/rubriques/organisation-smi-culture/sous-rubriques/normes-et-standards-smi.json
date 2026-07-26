@@ -1,0 +1,13 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Normes et standards SMI",
+  "data": {
+    "orgGovPages": {
+      "smi-normes": {
+        "title": "Normes et standards",
+        "icon": "book-open-check",
+        "iconClass": "purple"
+      }
+    }
+  }
+}

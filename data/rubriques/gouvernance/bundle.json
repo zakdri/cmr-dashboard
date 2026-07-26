@@ -1,0 +1,144 @@
+{
+  "module": "gouvernance",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "governanceHeader": {
+      "title": "Gouvernance",
+      "description": "Cet espace présente les instances de gouvernance de la CMR, leurs missions, leurs documents de référence et les valeurs qui guident l'institution."
+    },
+    "governanceTabs": [
+      {
+        "id": "mot-directeur",
+        "label": "Mot du Directeur"
+      },
+      {
+        "id": "systeme",
+        "label": "Système de gouvernance"
+      },
+      {
+        "id": "missions-valeurs",
+        "label": "Missions & Valeurs"
+      },
+      {
+        "id": "organigramme",
+        "label": "Organigramme"
+      }
+    ],
+    "governanceDirector": {
+      "title": "Construire une gouvernance responsable et durable",
+      "description": "Notre gouvernance repose sur la transparence, la responsabilité et la qualité de la décision. Elle accompagne la transformation de la CMR tout en garantissant la continuité de ses missions de service public et la confiance de ses parties prenantes.",
+      "photo": "images/intranet/news_board.jpg",
+      "name": "Le Directeur Général"
+    },
+    "governanceBoard": {
+      "description": "Le Conseil d'administration définit les orientations majeures de la CMR et veille à leur mise en œuvre. Il assure le suivi de la performance, de la maîtrise des risques et de la bonne gestion de l'institution.",
+      "missions": [
+        "Définir les orientations stratégiques de la CMR.",
+        "Approuver les programmes d'activité et les budgets.",
+        "Suivre la performance, les risques et les dispositifs de contrôle."
+      ],
+      "composition": "Le Conseil réunit les représentants de l'État, les représentants des affiliés et pensionnés ainsi que les membres désignés conformément aux textes en vigueur.",
+      "regulation": "Reglement_interieur_Conseil_Administration.pdf",
+      "currentComposition": [
+        "Présidence",
+        "Représentants de l'État",
+        "Représentants des affiliés",
+        "Représentants des pensionnés"
+      ]
+    },
+    "governanceCommittees": [
+      {
+        "id": "audit",
+        "name": "Comité d'audit",
+        "description": "Instance spécialisée dans le suivi du contrôle interne, de l'audit et de la fiabilité de l'information.",
+        "missions": [
+          "Examiner le programme d'audit",
+          "Suivre les recommandations",
+          "Apprécier la maîtrise des risques"
+        ],
+        "members": [
+          "Président du comité",
+          "Deux administrateurs",
+          "Responsable Audit interne"
+        ],
+        "charter": "Charte_Comite_Audit.pdf",
+        "documents": [
+          "PV_Comite_Audit_T1_2026.pdf",
+          "Rapport_Audit_2025.pdf"
+        ]
+      },
+      {
+        "id": "investissement",
+        "name": "Comité d'investissement",
+        "description": "Instance chargée du suivi des orientations et de la performance du portefeuille financier.",
+        "missions": [
+          "Examiner les allocations",
+          "Suivre la performance",
+          "Analyser les risques financiers"
+        ],
+        "members": [
+          "Président du comité",
+          "Représentants du Conseil",
+          "Direction des investissements"
+        ],
+        "charter": "Charte_Comite_Investissement.pdf",
+        "documents": [
+          "Note_Allocation_2026.pdf",
+          "Reporting_Portefeuille_T1_2026.pdf"
+        ]
+      },
+      {
+        "id": "strategie",
+        "name": "Comité stratégie",
+        "description": "Instance de suivi des orientations stratégiques et des programmes de transformation.",
+        "missions": [
+          "Suivre la feuille de route",
+          "Arbitrer les priorités",
+          "Évaluer l'avancement des programmes"
+        ],
+        "members": [
+          "Président du comité",
+          "Administrateurs désignés",
+          "Direction Stratégie"
+        ],
+        "charter": "Charte_Comite_Strategie.pdf",
+        "documents": [
+          "Feuille_Route_2026.pdf",
+          "Suivi_Programmes_Strategiques.pdf"
+        ]
+      }
+    ],
+    "governanceMissions": "La CMR assure la gestion pérenne des régimes de retraite qui lui sont confiés, garantit la qualité du service rendu aux affiliés et pensionnés et contribue à la solidité du système de protection sociale.",
+    "governanceValues": [
+      {
+        "id": "innovation",
+        "label": "Innovation",
+        "icon": "lightbulb"
+      },
+      {
+        "id": "collaboration",
+        "label": "Collaboration",
+        "icon": "users-round"
+      },
+      {
+        "id": "client",
+        "label": "Client-Centric",
+        "icon": "heart-handshake"
+      },
+      {
+        "id": "agilite",
+        "label": "Agilité",
+        "icon": "zap"
+      },
+      {
+        "id": "durabilite",
+        "label": "Durabilité",
+        "icon": "leaf"
+      }
+    ],
+    "governanceOrgChart": {
+      "image": "images/intranet/organigramme-cmr.svg",
+      "linkLabel": "Consulter l'organigramme dans Organisation & RSE"
+    }
+  }
+}

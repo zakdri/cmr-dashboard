@@ -1,0 +1,23 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Animation RSE",
+  "data": {
+    "rsePages": {
+      "animation": {
+        "title": "Animation (campagnes / sondages)",
+        "icon": "party-popper",
+        "iconClass": "orange"
+      }
+    },
+    "rseAnimation": [
+      {
+        "title": "Sondage – mobilité durable",
+        "desc": "Répondre (maquette)"
+      },
+      {
+        "title": "Défi – semaine sans plastique",
+        "desc": "Participer (maquette)"
+      }
+    ]
+  }
+}

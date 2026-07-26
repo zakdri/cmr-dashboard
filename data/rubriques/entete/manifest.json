@@ -1,0 +1,10 @@
+{
+  "rubrique": "entete",
+  "module": "header",
+  "fichiers": [
+    {
+      "contenu": "Barre supérieure de l’application",
+      "fichier": "barre-superieure.json"
+    }
+  ]
+}

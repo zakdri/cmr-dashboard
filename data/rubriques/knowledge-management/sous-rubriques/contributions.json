@@ -1,0 +1,50 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - contributions",
+  "data": {
+    "kmPages": {
+      "contributions": {
+        "listTitle": "Contributions terrain",
+        "listIcon": "message-square-plus",
+        "listIconClass": "orange",
+        "submitLabel": "Contribuer",
+        "formTitle": "Nouvelle contribution",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre",
+        "bodyPlaceholder": "Votre contribution…",
+        "sendLabel": "Envoyer",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une contribution.",
+        "description": "Cette rubrique regroupe les contributions terrain publiées et les campagnes de collecte pilotées par l’équipe Knowledge Management.",
+        "contributionsLabel": "Contributions",
+        "campaignsLabel": "Campagnes",
+        "contributionsDescription": "Les contributions publiées restent classées par période sous le format Mois / Année.",
+        "campaignsDescription": "Les campagnes sont organisées par domaine métier et affichent leur détail dans le volet droit.",
+        "startDatePlaceholder": "Date de début",
+        "endDatePlaceholder": "Date de fin"
+      }
+    },
+    "kmContribData": [
+      {
+        "id": "ct1",
+        "title": "Astuce: réduire les doublons GED",
+        "date": "Avr 2026",
+        "startDate": "2026-04-01",
+        "endDate": "2026-04-30",
+        "body": "Utiliser la convention de nommage + métadonnées obligatoires."
+      },
+      {
+        "id": "ct2",
+        "title": "Check‑list avant PV comité",
+        "date": "Mars 2026",
+        "startDate": "2026-03-01",
+        "endDate": "2026-03-31",
+        "body": "Ordre du jour, participants, décisions, actions, annexes."
+      }
+    ]
+  }
+}

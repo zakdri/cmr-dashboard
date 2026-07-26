@@ -1,0 +1,31 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - espace-amoa",
+  "data": {
+    "kmPages": {
+      "amoa": {
+        "listTitle": "AMOA / Conduite du changement",
+        "listIcon": "clipboard-list",
+        "listIconClass": "purple",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "blue",
+        "emptyDetail": "Sélectionnez un élément."
+      }
+    },
+    "kmAmoa": [
+      {
+        "id": "a1",
+        "title": "AMOA – Refonte e‑Service",
+        "meta": "Dossier • Digital",
+        "body": "Ateliers, story mapping, backlog. Livrables: SFD, PV ateliers, plan de conduite du changement."
+      },
+      {
+        "id": "a2",
+        "title": "Conduite du changement – GED",
+        "meta": "Kit • Organisation",
+        "body": "Plan de com, supports, formation, accompagnement des référents."
+      }
+    ]
+  }
+}

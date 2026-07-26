@@ -1,0 +1,45 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - documents-partages",
+  "data": {
+    "kmPages": {
+      "docs": {
+        "foldersTitle": "Documents formalisés",
+        "foldersIcon": "folder-open",
+        "foldersIconClass": "blue",
+        "listTitle": "Liste",
+        "listIcon": "file-text",
+        "listIconClass": "green"
+      }
+    },
+    "kmDocs": [
+      {
+        "id": "procedures",
+        "label": "Procédures",
+        "docs": [
+          {
+            "file": "Procedure_Traitement_Pension.pdf",
+            "label": "Procédure traitement pension",
+            "type": "Document"
+          },
+          {
+            "file": "Procedure_Accueil_Usager.pdf",
+            "label": "Procédure accueil usager",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "politiques",
+        "label": "Politiques",
+        "docs": [
+          {
+            "file": "Politique_Securite_SI.pdf",
+            "label": "Politique sécurité SI",
+            "type": "Document"
+          }
+        ]
+      }
+    ]
+  }
+}

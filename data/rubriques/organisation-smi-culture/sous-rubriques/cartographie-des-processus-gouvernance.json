@@ -1,0 +1,99 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Cartographie des processus de gouvernance",
+  "data": {
+    "orgGovPages": {
+      "cartographie": {
+        "title": "Cartographie des processus",
+        "icon": "git-branch",
+        "iconClass": "purple"
+      }
+    },
+    "orgGovProcessusMap": {
+      "pilotage": {
+        "label": "Pilotage",
+        "desc": "Définition des orientations, revues de direction et arbitrages.",
+        "links": [
+          {
+            "id": "gouvernance",
+            "label": "Gouvernance"
+          },
+          {
+            "id": "strategie",
+            "label": "Stratégie"
+          }
+        ]
+      },
+      "strategie": {
+        "label": "Stratégie",
+        "desc": "Orientations, objectifs et indicateurs de performance.",
+        "links": [
+          {
+            "id": "pilotage",
+            "label": "Pilotage"
+          },
+          {
+            "id": "realisation",
+            "label": "Réalisation"
+          }
+        ]
+      },
+      "gouvernance": {
+        "label": "Gouvernance",
+        "desc": "Instances, comités, décisions et reporting.",
+        "links": [
+          {
+            "id": "pilotage",
+            "label": "Pilotage"
+          },
+          {
+            "id": "controle",
+            "label": "Contrôle"
+          }
+        ]
+      },
+      "realisation": {
+        "label": "Réalisation",
+        "desc": "Exécution des activités métiers et prestations aux assurés.",
+        "links": [
+          {
+            "id": "support",
+            "label": "Support"
+          },
+          {
+            "id": "strategie",
+            "label": "Stratégie"
+          }
+        ]
+      },
+      "support": {
+        "label": "Support",
+        "desc": "RH, SI, achats, moyens généraux et fonctions transverses.",
+        "links": [
+          {
+            "id": "realisation",
+            "label": "Réalisation"
+          },
+          {
+            "id": "controle",
+            "label": "Contrôle"
+          }
+        ]
+      },
+      "controle": {
+        "label": "Contrôle",
+        "desc": "Audits, conformité, gestion des risques et amélioration.",
+        "links": [
+          {
+            "id": "gouvernance",
+            "label": "Gouvernance"
+          },
+          {
+            "id": "support",
+            "label": "Support"
+          }
+        ]
+      }
+    }
+  }
+}

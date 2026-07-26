@@ -1,0 +1,82 @@
+{
+  "rubrique": "accueil",
+  "module": "dashboard",
+  "fichiers": [
+    {
+      "contenu": "Bandeau Flash Info",
+      "fichier": "bandeau-flash-information.json"
+    },
+    {
+      "contenu": "Actualités affichées sur l’accueil",
+      "fichier": "actualites-de-accueil.json"
+    },
+    {
+      "contenu": "Message de la Direction générale",
+      "fichier": "message-direction-generale.json"
+    },
+    {
+      "contenu": "Accès rapides",
+      "fichier": "acces-rapides.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Mes Applications",
+      "fichier": "cartes/mes-applications.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Statistiques",
+      "fichier": "cartes/statistiques.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Indicateurs RH",
+      "fichier": "cartes/indicateurs-ressources-humaines.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Widgets dynamiques",
+      "fichier": "cartes/widgets-dynamiques.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Gouvernance",
+      "fichier": "cartes/gouvernance.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Vie RH",
+      "fichier": "cartes/vie-ressources-humaines.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Vie Sociale",
+      "fichier": "cartes/vie-sociale.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Knowledge Management",
+      "fichier": "cartes/knowledge-management.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Annuaire",
+      "fichier": "cartes/annuaire.json"
+    },
+    {
+      "contenu": "Carte d’accueil - Capital Idées",
+      "fichier": "cartes/capital-idees.json"
+    },
+    {
+      "contenu": "Colonne latérale - citation-hebdomadaire",
+      "fichier": "colonne-laterale/citation-hebdomadaire.json"
+    },
+    {
+      "contenu": "Colonne latérale - humeur-du-jour",
+      "fichier": "colonne-laterale/humeur-du-jour.json"
+    },
+    {
+      "contenu": "Colonne latérale - agendas",
+      "fichier": "colonne-laterale/agendas.json"
+    },
+    {
+      "contenu": "Colonne latérale - anniversaires",
+      "fichier": "colonne-laterale/anniversaires.json"
+    },
+    {
+      "contenu": "Colonne latérale - flash-information-lateral",
+      "fichier": "colonne-laterale/flash-information-lateral.json"
+    }
+  ]
+}

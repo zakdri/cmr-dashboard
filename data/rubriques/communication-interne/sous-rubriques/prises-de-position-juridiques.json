@@ -1,0 +1,17 @@
+{
+  "rubrique": "communication-interne",
+  "contenu": "Communication interne - notes-juridiques",
+  "data": {
+    "communicationInterneSections": [
+      {
+        "id": "notes-juridiques",
+        "title": "Notes & Prises de position juridiques",
+        "icon": "scale",
+        "iconClass": "purple",
+        "description": "Le contenu et le positionnement de ce bloc restent à valider avec le propriétaire de l'espace Réglementation.",
+        "status": "À confirmer",
+        "items": []
+      }
+    ]
+  }
+}

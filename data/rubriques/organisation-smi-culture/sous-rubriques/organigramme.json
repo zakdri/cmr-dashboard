@@ -1,0 +1,54 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Organigramme",
+  "data": {
+    "orgGovPages": {
+      "organisation": {
+        "description": "Cette rubrique centralise l’organigramme, les fiches et fonctions de postes ainsi que les manuels des procédures."
+      },
+      "organigramme": {
+        "title": "Organigramme",
+        "description": "Organigramme limité aux niveaux du Directeur Général jusqu’aux Chefs de Pôles, avec les services directement rattachés au Directeur Général.",
+        "expandLabel": "Développer tout",
+        "collapseLabel": "Réduire"
+      }
+    },
+    "orgData": {
+      "name": "Directeur Général",
+      "role": "Direction Générale",
+      "posteId": "dg",
+      "children": [
+        {
+          "name": "Pôle Retraite",
+          "role": "Chef de Pôle",
+          "posteId": "pole-retraite",
+          "children": []
+        },
+        {
+          "name": "Pôle Finances & Portefeuille",
+          "role": "Chef de Pôle",
+          "posteId": "pole-finances",
+          "children": []
+        },
+        {
+          "name": "Pôle Support & Transformation",
+          "role": "Chef de Pôle",
+          "posteId": "pole-support",
+          "children": []
+        },
+        {
+          "name": "Service Audit Interne",
+          "role": "Rattaché au DG",
+          "posteId": "audit-interne",
+          "children": []
+        },
+        {
+          "name": "Service Communication Institutionnelle",
+          "role": "Rattaché au DG",
+          "posteId": "communication-dg",
+          "children": []
+        }
+      ]
+    }
+  }
+}

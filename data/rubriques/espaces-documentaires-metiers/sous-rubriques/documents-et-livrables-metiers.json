@@ -1,0 +1,31 @@
+{
+  "rubrique": "espaces-documentaires-metiers",
+  "contenu": "Documentation métiers - documents-et-livrables-metiers",
+  "data": {
+    "metiersPages": {
+      "livrables": {
+        "title": "Livrables",
+        "icon": "file-stack",
+        "iconClass": "orange",
+        "searchPlaceholder": "Rechercher un livrable…"
+      }
+    },
+    "metiersLivrables": [
+      {
+        "title": "SFD – Process liquidation (v1)",
+        "meta": "Document • Dossier / GED‑like",
+        "file": "Livrable_SFD_Liquidation_v1.pdf"
+      },
+      {
+        "title": "PV Atelier métier – Retraite",
+        "meta": "Document • Compte-rendu",
+        "file": "Livrable_PV_Atelier_Retraite.pdf"
+      },
+      {
+        "title": "Modèle – Fiche contrôle",
+        "meta": "Document • Modèle",
+        "file": "Modele_Fiche_Controle.docx"
+      }
+    ]
+  }
+}

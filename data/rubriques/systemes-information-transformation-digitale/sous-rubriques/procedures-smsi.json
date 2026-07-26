@@ -1,0 +1,50 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "SMSI - procedures-smsi",
+  "data": {
+    "sitdFilters": {
+      "smsi-procedures": {
+        "type": "theme",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Incidents",
+            "value": "Incidents"
+          },
+          {
+            "label": "Accès",
+            "value": "Accès"
+          },
+          {
+            "label": "Continuité",
+            "value": "Continuité"
+          }
+        ]
+      }
+    },
+    "sitdDocumentItems": [
+      {
+        "section": "smsi-procedures",
+        "title": "Procédure de gestion des incidents de sécurité",
+        "theme": "Incidents",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Procedure_Gestion_Incidents_Securite.pdf"
+      },
+      {
+        "section": "smsi-procedures",
+        "title": "Procédure de gestion des accès",
+        "theme": "Accès",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Procedure_Gestion_Acces.pdf"
+      }
+    ]
+  }
+}

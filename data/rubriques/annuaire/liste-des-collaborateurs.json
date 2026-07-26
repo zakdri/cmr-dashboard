@@ -1,0 +1,76 @@
+{
+  "rubrique": "annuaire",
+  "contenu": "Collaborateurs de l’annuaire",
+  "data": {
+    "annuaireData": [
+      {
+        "id": "c1",
+        "photo": "images/intranet/slider_cmr_tech.png",
+        "nom": "Collaborateur 01",
+        "direction": "Direction Digitale",
+        "fonction": "Chef de projet",
+        "email": "collaborateur01@cmr.ma",
+        "tel": "1001",
+        "localisation": "Rabat",
+        "managerId": "c4",
+        "managerLabel": "Laila Harfi",
+        "orgPath": [
+          "CMR",
+          "Direction Digitale",
+          "Collaborateur 01"
+        ]
+      },
+      {
+        "id": "c2",
+        "photo": "images/intranet/news_academy.jpg",
+        "nom": "Nadia Benali",
+        "direction": "Direction RH",
+        "fonction": "Responsable Développement RH",
+        "email": "nadia.benali@cmr.ma",
+        "tel": "1002",
+        "localisation": "Rabat",
+        "managerId": null,
+        "managerLabel": "Direction RH",
+        "orgPath": [
+          "CMR",
+          "Direction RH",
+          "Nadia Benali"
+        ]
+      },
+      {
+        "id": "c3",
+        "photo": "images/intranet/slider2.png",
+        "nom": "Karim A.",
+        "direction": "Direction Financière",
+        "fonction": "Contrôleur de gestion",
+        "email": "karim.a@cmr.ma",
+        "tel": "1003",
+        "localisation": "Rabat",
+        "managerId": null,
+        "managerLabel": "Direction Financière",
+        "orgPath": [
+          "CMR",
+          "Direction Financière",
+          "Karim A."
+        ]
+      },
+      {
+        "id": "c4",
+        "photo": "images/intranet/news_contract.jpg",
+        "nom": "Laila Harfi",
+        "direction": "Direction Digitale",
+        "fonction": "Consultante Senior",
+        "email": "laila.harfi@cmr.ma",
+        "tel": "1004",
+        "localisation": "Rabat",
+        "managerId": null,
+        "managerLabel": "Direction Digitale",
+        "orgPath": [
+          "CMR",
+          "Direction Digitale",
+          "Laila Harfi"
+        ]
+      }
+    ]
+  }
+}

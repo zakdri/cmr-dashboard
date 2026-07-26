@@ -1,0 +1,91 @@
+{
+  "module": "vie-sociale",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "vieSocialeHeader": {
+      "title": "Espace Vie Sociale",
+      "description": "Renforcez la cohésion interne : Événements, Galerie photos et Capsules vidéo."
+    },
+    "vieSocialeIntro": "Valorisez la vie sociale et l'engagement collaborateur : événements, photos et initiatives collaboratives.",
+    "vieSocialeEventsTitle": "Événements & Initiatives",
+    "vieSocialeGalleryTitle": "Galerie Vie Sociale",
+    "vieSocialeGalleryMoreLabel": "Voir tout",
+    "vieSocialeEvents": [
+      {
+        "day": "05",
+        "month": "MAI 2026",
+        "title": "Journée Portes Ouvertes CMR",
+        "tag": "Événement",
+        "tagStyle": {
+          "background": "#fdf2f8",
+          "color": "#be185d"
+        },
+        "meta": "Siège CMR · 9h00 – 17h00 · Ouvert à tous",
+        "description": "Découvrez les coulisses de la CMR et les projets en cours lors de notre grande journée annuelle.",
+        "button": "",
+        "dateBackground": "linear-gradient(135deg,#ec4899,#db2777)",
+        "buttonBackground": "#db2777"
+      },
+      {
+        "day": "20",
+        "month": "MAI 2026",
+        "title": "Team Building Digital 2026",
+        "tag": "Initiative",
+        "tagStyle": {
+          "background": "#eff6ff",
+          "color": "#1d4ed8"
+        },
+        "meta": "Salle Innovation · Direction Digital & IT",
+        "description": "Hackathon interne, défis collaboratifs et remise des trophées CMR Digital Awards.",
+        "button": "",
+        "dateBackground": "linear-gradient(135deg,#3b82f6,#2563eb)",
+        "buttonBackground": "#2563eb"
+      },
+      {
+        "day": "12",
+        "month": "JUIN 2026",
+        "title": "Fête de Fin d'Année CMR",
+        "tag": "Événement",
+        "tagStyle": {
+          "background": "#fef3c7",
+          "color": "#92400e"
+        },
+        "meta": "Hôtel Sofitel Rabat · 19h00 · Sur invitation",
+        "description": "Soirée annuelle de célébration des réussites et de cohésion entre toutes les équipes CMR.",
+        "button": "",
+        "dateBackground": "linear-gradient(135deg,#f59e0b,#d97706)",
+        "buttonBackground": "#d97706"
+      }
+    ],
+    "vieSocialeGallery": [
+      {
+        "src": "images/intranet/news_contract.jpg",
+        "alt": "Signature du contrat programme"
+      },
+      {
+        "src": "images/intranet/news_board.jpg",
+        "alt": "Conseil d'administration CMR"
+      },
+      {
+        "src": "images/intranet/news_academy.jpg",
+        "alt": "Session CMR Academy"
+      },
+      {
+        "src": "images/intranet/slider_cmr_tech.png",
+        "alt": "Innovation et transformation digitale"
+      },
+      {
+        "src": "images/intranet/slider_partnership.png",
+        "alt": "Partenariat CMR"
+      },
+      {
+        "src": "images/intranet/slider3.png",
+        "alt": "Temps fort vie sociale"
+      },
+      {
+        "src": "images/intranet/slider2.png",
+        "alt": "Initiative collaborateurs"
+      }
+    ]
+  }
+}

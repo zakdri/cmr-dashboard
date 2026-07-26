@@ -1,0 +1,362 @@
+{
+  "module": "academy",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "academyHeader": {
+      "title": "CMR Academy",
+      "description": "CMR Academy regroupe les contenus d'intégration, de montée en compétences, de talent management et de formation digitale."
+    },
+    "academyTabs": [
+      {
+        "id": "onboarding",
+        "label": "OnBoarding"
+      },
+      {
+        "id": "formation",
+        "label": "Formation"
+      },
+      {
+        "id": "levelup",
+        "label": "Level Up"
+      },
+      {
+        "id": "talent",
+        "label": "Talent Management"
+      },
+      {
+        "id": "click",
+        "label": "Click Academy"
+      }
+    ],
+    "academyPages": {
+      "onboarding": {
+        "description": "La rubrique OnBoarding accompagne les nouveaux collaborateurs avec guides, journées d'intégration, mentorat et galerie.",
+        "guidesTitle": "Guides d'intégration",
+        "guidesDescription": "Documents utiles au parcours d'intégration des nouveaux collaborateurs.",
+        "guides": [
+          {
+            "title": "Guide d'accueil CMR.pdf",
+            "meta": "PDF",
+            "icon": "file-text"
+          },
+          {
+            "title": "Check-list premier jour.pdf",
+            "meta": "PDF",
+            "icon": "list-checks"
+          },
+          {
+            "title": "Guide outils digitaux.pdf",
+            "meta": "PDF",
+            "icon": "monitor"
+          },
+          {
+            "title": "Livret nouvelles recrues.pdf",
+            "meta": "PDF",
+            "icon": "book-open"
+          },
+          {
+            "title": "Débriefing intégration.pdf",
+            "meta": "PDF",
+            "icon": "clipboard-check"
+          }
+        ],
+        "daysTitle": "Journées OnBoarding",
+        "daysDescription": "Temps forts d'intégration organisés pour présenter la CMR, ses métiers et ses équipes.",
+        "days": [
+          {
+            "title": "Journée d'intégration Siège",
+            "description": "Présentation CMR, métiers, outils et rencontres équipes.",
+            "details": "Session d'accueil dédiée aux nouveaux collaborateurs avec présentation institutionnelle, visite des espaces et rencontres avec les référents métiers.",
+            "image": "images/intranet/news_board.jpg",
+            "gallery": [
+              "images/intranet/news_board.jpg",
+              "images/intranet/news_contract.jpg",
+              "images/intranet/slider1.png"
+            ]
+          },
+          {
+            "title": "Découverte des métiers",
+            "description": "Parcours transversal avec les directions métier.",
+            "details": "Parcours de découverte permettant aux nouvelles recrues d'identifier les principales directions, leurs missions et les interactions métier.",
+            "image": "images/intranet/news_contract.jpg",
+            "gallery": [
+              "images/intranet/news_contract.jpg",
+              "images/intranet/news_academy.jpg",
+              "images/intranet/slider2.png"
+            ]
+          }
+        ],
+        "mentoringTitle": "Mentorat",
+        "mentoringDescription": "Supports et plannings relatifs au dispositif de mentorat interne.",
+        "mentoring": [
+          {
+            "title": "Guide de Mentorat.pdf",
+            "meta": "Guide",
+            "icon": "book-open"
+          },
+          {
+            "title": "Planning de Mentorat 2026.pdf",
+            "meta": "Planning",
+            "icon": "calendar-days"
+          }
+        ],
+        "galleryTitle": "Galerie OnBoarding",
+        "galleryYears": [
+          "2026",
+          "2025",
+          "2024"
+        ],
+        "galleryByYear": {
+          "2024": [
+            {
+              "src": "images/intranet/slider_cmr_tech.png",
+              "alt": "Session OnBoarding 2024"
+            },
+            {
+              "src": "images/intranet/slider_partnership.png",
+              "alt": "Atelier intégration 2024"
+            }
+          ],
+          "2025": [
+            {
+              "src": "images/intranet/slider1.png",
+              "alt": "Session OnBoarding 2025"
+            },
+            {
+              "src": "images/intranet/slider2.png",
+              "alt": "Rencontre métiers 2025"
+            }
+          ],
+          "2026": [
+            {
+              "src": "images/intranet/news_board.jpg",
+              "alt": "Session OnBoarding 2026"
+            },
+            {
+              "src": "images/intranet/news_contract.jpg",
+              "alt": "Atelier métiers 2026"
+            },
+            {
+              "src": "images/intranet/news_academy.jpg",
+              "alt": "Formation intégration 2026"
+            }
+          ]
+        }
+      },
+      "formation": {
+        "description": "La rubrique Formation centralise dans CMR Academy les demandes de formation et leur circuit de validation.",
+        "workflows": [
+          {
+            "title": "Demande de formation spontanée",
+            "description": "Soumettre une demande individuelle de formation pour validation RH.",
+            "meta": "Workflow RH",
+            "icon": "graduation-cap",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            }
+          },
+          {
+            "title": "Formation Level Up",
+            "description": "Suivre les demandes liées au dispositif Level Up.",
+            "meta": "Workflow RH",
+            "icon": "trending-up",
+            "iconStyle": {
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            }
+          }
+        ],
+        "validation": {
+          "title": "Circuit de validation",
+          "description": "Les demandes suivent un circuit collaborateur, manager puis RH.",
+          "steps": [
+            {
+              "title": "Collaborateur",
+              "description": "Saisie et dépôt de la demande.",
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            },
+            {
+              "title": "Manager",
+              "description": "Avis et validation managériale.",
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            },
+            {
+              "title": "RH",
+              "description": "Instruction, planification et notification.",
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            }
+          ]
+        }
+      },
+      "levelup": {
+        "description": "Level Up organise les contenus de montée en compétences par domaine métier et centralise les workflows de demande de formation transférés depuis Mes Services RH.",
+        "filterTitle": "Domaines métiers",
+        "searchPlaceholder": "Rechercher un contenu Level Up...",
+        "themeFilterTitle": "Thèmes",
+        "domains": [
+          "Gestion de la retraite",
+          "Gestion du portefeuille financier",
+          "Gestion des études & actuariat",
+          "Gestion de la relation client",
+          "Gestion du Risk Management"
+        ],
+        "contents": [
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Demande de formation spontanée",
+            "theme": "Demandes de formation",
+            "type": "Workflow RH"
+          },
+          {
+            "domain": "Gestion de la relation client",
+            "title": "Demande de parcours Level Up",
+            "theme": "Demandes de formation",
+            "type": "Workflow RH"
+          },
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Parcours liquidation retraite",
+            "theme": "Processus retraite",
+            "type": "Formation métier"
+          },
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Contrôle des dossiers pension",
+            "theme": "Qualité de traitement",
+            "type": "Atelier pratique"
+          },
+          {
+            "domain": "Gestion du portefeuille financier",
+            "title": "Analyse portefeuille obligataire",
+            "theme": "Finance",
+            "type": "Formation métier"
+          },
+          {
+            "domain": "Gestion du portefeuille financier",
+            "title": "Suivi des placements",
+            "theme": "Reporting financier",
+            "type": "Cas pratique"
+          },
+          {
+            "domain": "Gestion des études & actuariat",
+            "title": "Projection actuarielle",
+            "theme": "Actuariat",
+            "type": "Formation métier"
+          },
+          {
+            "domain": "Gestion de la relation client",
+            "title": "Traitement des réclamations",
+            "theme": "Relation client",
+            "type": "Atelier métier"
+          },
+          {
+            "domain": "Gestion du Risk Management",
+            "title": "Cartographie des risques",
+            "theme": "Risque",
+            "type": "Formation métier"
+          }
+        ]
+      },
+      "talent": {
+        "description": "Talent Management regroupe les parcours d'accompagnement des talents : leadership, mentorat, mobilité, évaluation et développement des compétences.",
+        "filterTitle": "Domaines métiers",
+        "searchPlaceholder": "Rechercher un parcours talent...",
+        "themeFilterTitle": "Thèmes",
+        "domains": [
+          "Gestion de la retraite",
+          "Gestion du portefeuille financier",
+          "Gestion des études & actuariat",
+          "Gestion de la relation client",
+          "Gestion du Risk Management"
+        ],
+        "contents": [
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Parcours expert retraite",
+            "theme": "Expertise",
+            "type": "Parcours talent"
+          },
+          {
+            "domain": "Gestion du portefeuille financier",
+            "title": "Leadership financier",
+            "theme": "Leadership",
+            "type": "Atelier"
+          },
+          {
+            "domain": "Gestion des études & actuariat",
+            "title": "Mentorat actuariel",
+            "theme": "Mentorat",
+            "type": "Programme"
+          },
+          {
+            "domain": "Gestion de la relation client",
+            "title": "Posture conseil client",
+            "theme": "Compétences",
+            "type": "Parcours"
+          },
+          {
+            "domain": "Gestion du Risk Management",
+            "title": "Risk leadership",
+            "theme": "Leadership",
+            "type": "Programme talent"
+          }
+        ]
+      },
+      "click": {
+        "description": "Click Academy met à disposition des contenus pédagogiques digitaux courts : liens de formation, tutoriels, capsules, quiz et contenus à consulter rapidement.",
+        "filterTitle": "Domaines métiers",
+        "searchPlaceholder": "Rechercher une ressource digitale...",
+        "horizontalFilter": true,
+        "domains": [
+          "Gestion de la retraite",
+          "Gestion du portefeuille financier",
+          "Gestion des études & actuariat",
+          "Gestion de la relation client",
+          "Gestion du Risk Management"
+        ],
+        "contents": [
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Lien formation régime civil",
+            "theme": "Retraite",
+            "type": "Lien formation"
+          },
+          {
+            "domain": "Gestion de la retraite",
+            "title": "Capsule courte liquidation",
+            "theme": "Retraite",
+            "type": "Capsule courte"
+          },
+          {
+            "domain": "Gestion du portefeuille financier",
+            "title": "Capsule portefeuille financier",
+            "theme": "Finance",
+            "type": "Grande capsule"
+          },
+          {
+            "domain": "Gestion des études & actuariat",
+            "title": "Tutoriel projection actuarielle",
+            "theme": "Actuariat",
+            "type": "Tutoriel"
+          },
+          {
+            "domain": "Gestion de la relation client",
+            "title": "Capsule 5 min - accueil client",
+            "theme": "Relation client",
+            "type": "Capsule courte"
+          },
+          {
+            "domain": "Gestion du Risk Management",
+            "title": "Quiz culture risque",
+            "theme": "Risque",
+            "type": "Quiz"
+          }
+        ]
+      }
+    }
+  }
+}

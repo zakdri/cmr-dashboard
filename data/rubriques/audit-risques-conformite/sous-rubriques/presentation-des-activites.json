@@ -1,0 +1,43 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Présentation des activités",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "presentation-activites",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Risque & conformité",
+        "sousRubrique": "Présentation des activités",
+        "fonctionnalite": "Présentation institutionnelle",
+        "description": "Valoriser les missions et activités de gestion des risques.",
+        "typeContenu": "Contenu institutionnel",
+        "typeUx": "Pages éditoriales",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Moyenne",
+        "statutDesign": "À définir",
+        "commentaires": "Institutionnel"
+      }
+    ],
+    "arcPresentation": {
+      "eyebrow": "Mission",
+      "title": "Gestion des risques & conformité",
+      "description": "Piloter la cartographie des risques, assurer la conformité réglementaire et accompagner les directions dans la maîtrise de leurs expositions.",
+      "note": "Pages éditoriales — présentation institutionnelle.",
+      "cards": [
+        {
+          "title": "Cartographie des risques",
+          "description": "Mise à jour semestrielle, revue comités."
+        },
+        {
+          "title": "Conformité réglementaire",
+          "description": "Veille, autorisations, reporting."
+        },
+        {
+          "title": "Continuité d'activité",
+          "description": "PCA, tests, sensibilisation."
+        }
+      ]
+    }
+  }
+}

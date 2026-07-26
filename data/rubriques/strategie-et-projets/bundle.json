@@ -1,0 +1,40 @@
+{
+  "module": "projets",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "projetsHeader": {
+      "title": "Stratégie & Projets CMR",
+      "description": "Vision transverse de la stratégie, du portefeuille projets, des indicateurs et des livrables."
+    },
+    "projetsItems": [
+      {
+        "id": "plan-strategique",
+        "title": "Plan stratégique CMR 2026-2028",
+        "description": "Document structurant désormais rattaché à l’espace Stratégie & Projets CMR.",
+        "status": "Référence",
+        "progressLabel": "Disponibilité:",
+        "progress": 100,
+        "icon": "target",
+        "iconStyle": {
+          "background": "#fff7ed",
+          "color": "#d97706"
+        },
+        "progressColor": "#d97706"
+      },
+      {
+        "id": "refonte-intranet",
+        "title": "Projet Refonte Intranet",
+        "description": "Phase 2 : Conception SFD / Maquettes",
+        "status": "Ouvert",
+        "progressLabel": "Progression:",
+        "progress": 70,
+        "icon": "briefcase",
+        "iconStyle": {
+          "background": "#eff6ff",
+          "color": "#3b82f6"
+        },
+        "progressColor": "#3b82f6"
+      }
+    ]
+  }
+}

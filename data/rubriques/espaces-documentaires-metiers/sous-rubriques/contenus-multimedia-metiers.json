@@ -1,0 +1,36 @@
+{
+  "rubrique": "espaces-documentaires-metiers",
+  "contenu": "Documentation métiers - contenus-multimedia-metiers",
+  "data": {
+    "metiersPages": {
+      "mediatheque": {
+        "title": "Médiathèque métier",
+        "icon": "image",
+        "iconClass": "pink",
+        "searchPlaceholder": "Rechercher un média…"
+      }
+    },
+    "metiersMedia": [
+      {
+        "title": "Capsule – Process liquidation",
+        "meta": "Vidéo • 4 min",
+        "file": "Media_Capsule_Liquidation.mp4"
+      },
+      {
+        "title": "Infographie – Parcours assuré",
+        "meta": "Image • PNG",
+        "file": "Media_Infographie_Parcours.png"
+      },
+      {
+        "title": "Album – Atelier métier",
+        "meta": "Galerie • 12 photos",
+        "file": "Media_Album_Atelier.zip"
+      },
+      {
+        "title": "Présentation – Domaine Retraite",
+        "meta": "Slides • PPT",
+        "file": "Media_Presentation_Retraite.pptx"
+      }
+    ]
+  }
+}

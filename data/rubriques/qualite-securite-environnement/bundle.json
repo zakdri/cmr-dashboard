@@ -1,0 +1,363 @@
+{
+  "module": "qse",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "qseHeader": {
+      "title": "Espace QSE",
+      "description": "Qualité, sécurité, environnement — référentiels, SMI, sensibilisation, pilotage, participation et culture QSE, conformément au cadrage CMS."
+    },
+    "qseMainTabs": [
+      {
+        "label": "Référentiels QSE",
+        "tab": "referentiels"
+      },
+      {
+        "label": "SMI",
+        "tab": "smi"
+      },
+      {
+        "label": "Sensibilisation",
+        "tab": "sensibilisation"
+      },
+      {
+        "label": "Pilotage",
+        "tab": "pilotage"
+      },
+      {
+        "label": "Participation",
+        "tab": "participation"
+      },
+      {
+        "label": "Culture QSE",
+        "tab": "culture"
+      }
+    ],
+    "qseSectionConfig": {
+      "referentiels": {
+        "subs": [
+          {
+            "id": "politiques",
+            "label": "Politiques"
+          },
+          {
+            "id": "referentiels",
+            "label": "Référentiels"
+          }
+        ],
+        "defaultSub": "politiques"
+      },
+      "smi": {
+        "subs": [
+          {
+            "id": "docs",
+            "label": "Documents SMI"
+          }
+        ],
+        "defaultSub": "docs"
+      },
+      "sensibilisation": {
+        "subs": [
+          {
+            "id": "contenus",
+            "label": "Contenus pédagogiques"
+          }
+        ],
+        "defaultSub": "contenus"
+      },
+      "pilotage": {
+        "subs": [
+          {
+            "id": "audits",
+            "label": "Audits"
+          },
+          {
+            "id": "resultats-audits",
+            "label": "Résultats d'audits"
+          },
+          {
+            "id": "indicateurs",
+            "label": "Indicateurs QSE"
+          },
+          {
+            "id": "stats",
+            "label": "Statistiques"
+          }
+        ],
+        "defaultSub": "audits"
+      },
+      "participation": {
+        "subs": [
+          {
+            "id": "idees",
+            "label": "Boîte à idées"
+          },
+          {
+            "id": "contributions",
+            "label": "Contributions"
+          },
+          {
+            "id": "remontees",
+            "label": "Remontées terrain"
+          }
+        ],
+        "defaultSub": "idees"
+      },
+      "culture": {
+        "subs": [
+          {
+            "id": "culture",
+            "label": "Dynamique QSE"
+          },
+          {
+            "id": "culture-portail",
+            "label": "Portail sensibilisation"
+          }
+        ],
+        "defaultSub": "culture"
+      }
+    },
+    "qseLabels": {
+      "consultLabel": "Consulter",
+      "downloadLabel": "Télécharger",
+      "participateLabel": "Participer",
+      "todayLabel": "Aujourd’hui",
+      "defaultIdeaType": "Qualité",
+      "smiMeta": "Dossier / GED‑like",
+      "kpiPrefix": "KPI :",
+      "resultDownloadLabel": "Dashboard / PDF",
+      "portalMetaSuffix": "Portail dynamique",
+      "contributionMetaSuffix": "Boîte à idées",
+      "contributionAlert": "Merci pour votre contribution (maquette)."
+    },
+    "qseIdeaTypes": [
+      "Qualité",
+      "Sécurité",
+      "Environnement"
+    ],
+    "qsePolitiques": [
+      {
+        "title": "Politique QSE",
+        "file": "Politique_QSE.pdf"
+      },
+      {
+        "title": "Politique sécurité & environnement",
+        "file": "Politique_SSE.pdf"
+      }
+    ],
+    "qseReferentiels": [
+      {
+        "title": "Référentiel QSE – exigences",
+        "file": "Referentiel_QSE_Exigences.pdf"
+      },
+      {
+        "title": "Référentiel QSE – check‑lists",
+        "file": "Referentiel_QSE_Checklists.pdf"
+      }
+    ],
+    "qsePages": {
+      "docs": {
+        "title": "Documents SMI",
+        "icon": "folder-open",
+        "iconClass": "blue"
+      },
+      "contenus": {
+        "title": "Contenus pédagogiques",
+        "icon": "megaphone",
+        "iconClass": "pink"
+      },
+      "audits": {
+        "title": "Audits",
+        "icon": "clipboard-check",
+        "iconClass": "orange",
+        "columns": [
+          "Audit",
+          "Date",
+          "Statut",
+          "Rapport"
+        ]
+      },
+      "resultats-audits": {
+        "title": "Résultats d'audits — synthèses",
+        "icon": "clipboard-list",
+        "iconClass": "purple"
+      },
+      "indicateurs": {
+        "title": "Indicateurs QSE",
+        "icon": "gauge",
+        "iconClass": "green"
+      },
+      "stats": {
+        "title": "Statistiques",
+        "icon": "bar-chart-3",
+        "iconClass": "green"
+      },
+      "idees": {
+        "title": "Boîte à idées QSE",
+        "icon": "lightbulb",
+        "iconClass": "pink",
+        "titlePlaceholder": "Titre",
+        "descriptionPlaceholder": "Votre idée…",
+        "submitLabel": "Soumettre"
+      },
+      "contributions": {
+        "title": "Contributions collaborateurs",
+        "icon": "users",
+        "iconClass": "green"
+      },
+      "remontees": {
+        "title": "Remontées terrain",
+        "icon": "alert-triangle",
+        "iconClass": "blue",
+        "titlePlaceholder": "Objet / anomalie",
+        "descriptionPlaceholder": "Description…",
+        "submitLabel": "Déclarer"
+      },
+      "culture": {
+        "title": "Culture QSE — sensibilisation globale",
+        "icon": "sparkles",
+        "iconClass": "orange"
+      },
+      "culture-portail": {
+        "title": "Portail Culture QSE",
+        "icon": "layout-grid",
+        "iconClass": "blue"
+      }
+    },
+    "qseSmiDocs": [
+      {
+        "title": "Manuel SMI",
+        "file": "Manuel_SMI.pdf"
+      },
+      {
+        "title": "Procédures & supports",
+        "file": "Procedures_SMI.zip"
+      }
+    ],
+    "qsePedago": [
+      {
+        "title": "Flash sécurité – EPI",
+        "meta": "Média / article",
+        "file": "Flash_Securite_EPI.pdf"
+      },
+      {
+        "title": "Vidéo – gestes de sécurité",
+        "meta": "Média / article",
+        "file": "Video_Gestes_Securite.mp4"
+      }
+    ],
+    "qseAudits": [
+      {
+        "title": "Audit interne QSE",
+        "date": "15 Avr 2026",
+        "status": "Clos",
+        "report": "Rapport_Audit_Interne_QSE.pdf"
+      },
+      {
+        "title": "Audit site – sécurité",
+        "date": "02 Mars 2026",
+        "status": "Actions",
+        "report": "Rapport_Audit_Site_Securite.pdf"
+      }
+    ],
+    "qseResultatsAudits": [
+      {
+        "title": "Synthèse audit interne QSE — T1 2026",
+        "kpi": "87% actions clôturées",
+        "file": "Synthese_Audit_QSE_T1_2026.pdf"
+      },
+      {
+        "title": "Synthèse audit site sécurité",
+        "kpi": "12 recommandations",
+        "file": "Synthese_Audit_Site_Securite.pdf"
+      }
+    ],
+    "qseKpisData": {
+      "items": [
+        {
+          "label": "Non‑conformités",
+          "value": "4"
+        },
+        {
+          "label": "Audits réalisés",
+          "value": "2"
+        },
+        {
+          "label": "Taux actions clôturées",
+          "value": "78%"
+        }
+      ],
+      "description": "Dashboard / widget (maquette) pour pilotage management/QSE."
+    },
+    "qseStatsData": {
+      "items": [
+        {
+          "label": "Remontées",
+          "source": "remontees"
+        },
+        {
+          "label": "Idées",
+          "source": "idees"
+        },
+        {
+          "label": "Audits",
+          "source": "audits"
+        }
+      ],
+      "description": "Dashboard (maquette) — Admin/QSE."
+    },
+    "qseIdeaItems": [
+      {
+        "title": "Améliorer la signalétique sécurité",
+        "type": "Sécurité",
+        "date": "Avr 2026"
+      }
+    ],
+    "qseContributions": [
+      {
+        "title": "Idée — Signalétique zones à risque",
+        "auteur": "Équipe exploitation",
+        "votes": 24
+      },
+      {
+        "title": "Proposition — Tri sélectif renforcé",
+        "auteur": "Services généraux",
+        "votes": 18
+      }
+    ],
+    "qseRemontees": [
+      {
+        "title": "Zone glissante – escalier",
+        "date": "Mars 2026"
+      }
+    ],
+    "qseCultureItems": [
+      {
+        "title": "Campagne “Zéro accident”",
+        "meta": "Articles / campagnes",
+        "file": "Campagne_Zero_Accident.pdf"
+      },
+      {
+        "title": "Semaine QSE",
+        "meta": "Articles / campagnes",
+        "file": "Semaine_QSE.pdf"
+      }
+    ],
+    "qseCulturePortailItems": [
+      {
+        "title": "Flash info — EPI obligatoires",
+        "type": "Flash",
+        "file": "Flash_EPI.pdf"
+      },
+      {
+        "title": "Vidéo — Gestes posturaux",
+        "type": "Vidéo",
+        "file": "Video_Gestes_Posturaux.mp4"
+      },
+      {
+        "title": "Note — Culture sécurité au quotidien",
+        "type": "Note",
+        "file": "Note_Culture_Securite.pdf"
+      }
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - regimes-et-processus-metiers",
+  "data": {
+    "kmPages": {
+      "regimes-processus": {
+        "listTitle": "Régimes & processus",
+        "listIcon": "network",
+        "listIconClass": "green",
+        "detailTitle": "Détail métier",
+        "detailIcon": "file-text",
+        "detailIconClass": "blue",
+        "emptyDetail": "Sélectionnez un contenu métier."
+      }
+    },
+    "kmRegimesProcessus": [
+      {
+        "id": "rp1",
+        "title": "Régimes de retraite CMR",
+        "meta": "Page métier • onboarding",
+        "body": "Présentation des principaux régimes, de leurs spécificités et des points d’attention pour les nouvelles recrues.",
+        "file": "Regimes_Retraite_CMR.pdf"
+      },
+      {
+        "id": "rp2",
+        "title": "Processus de liquidation",
+        "meta": "Infographie • processus",
+        "body": "Vue simplifiée des étapes, contrôles et interactions métier nécessaires au traitement d’un dossier.",
+        "file": "Processus_Liquidation_Infographie.pdf"
+      },
+      {
+        "id": "rp3",
+        "title": "Processus de révision / mise à jour",
+        "meta": "Fiche métier • processus",
+        "body": "Repères sur les opérations de mise à jour, pièces justificatives et contrôles associés.",
+        "file": "Processus_Revision_MAJ.pdf"
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Widgets dynamiques",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "docList",
+        "title": "Widgets dynamiques",
+        "icon": "sparkles",
+        "iconClass": "blue",
+        "actionLabel": "Actualiser",
+        "actionIcon": "refresh-cw",
+        "actionNoWrap": true,
+        "items": [
+          {
+            "badge": "EVT",
+            "title": "Événements",
+            "meta": "À venir • Agenda personnel & Calendrier CMR",
+            "background": "#eff6ff",
+            "color": "#256cb5",
+            "icon": "chevron-right",
+            "handler": "switchView('agenda-interne'); return false;"
+          },
+          {
+            "badge": "ALT",
+            "title": "Alertes",
+            "meta": "Infos importantes • À surveiller",
+            "background": "#fff7ed",
+            "color": "#ea580c",
+            "icon": "chevron-right",
+            "handler": "switchView('alertes'); return false;"
+          }
+        ]
+      }
+    ]
+  }
+}

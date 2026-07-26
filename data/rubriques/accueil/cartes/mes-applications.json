@@ -1,0 +1,48 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Mes Applications",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "apps",
+        "title": "Mes Applications",
+        "icon": "layers",
+        "iconClass": "blue",
+        "actionLabel": "Voir tout",
+        "actionHandler": "switchView('applis'); return false;",
+        "items": [
+          {
+            "label": "SIRH",
+            "icon": "users",
+            "background": "linear-gradient(135deg, #0ea5e9, #0284c7)"
+          },
+          {
+            "label": "Paie",
+            "icon": "banknote",
+            "background": "linear-gradient(135deg, #6366f1, #4f46e5)"
+          },
+          {
+            "label": "GED",
+            "icon": "folder-open",
+            "background": "linear-gradient(135deg, #a855f7, #9333ea)"
+          },
+          {
+            "label": "Support",
+            "icon": "life-buoy",
+            "background": "linear-gradient(135deg, #ec4899, #db2777)"
+          },
+          {
+            "label": "Com",
+            "icon": "megaphone",
+            "background": "linear-gradient(135deg, #10b981, #059669)"
+          },
+          {
+            "label": "Annuaire",
+            "icon": "book-user",
+            "background": "linear-gradient(135deg, #f59e0b, #d97706)"
+          }
+        ]
+      }
+    ]
+  }
+}

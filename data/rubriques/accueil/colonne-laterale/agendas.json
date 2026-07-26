@@ -1,0 +1,61 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Colonne latérale - agendas",
+  "data": {
+    "dashboardRightSidebar": {
+      "agenda": {
+        "title": "Agendas",
+        "icon": "calendar-check",
+        "iconStyle": {
+          "background": "linear-gradient(135deg, #f59e0b, #d97706)"
+        },
+        "tabs": [
+          {
+            "id": "perso",
+            "buttonId": "tab-perso-btn",
+            "listId": "agenda-perso-list",
+            "label": "Ma Journée",
+            "active": true
+          },
+          {
+            "id": "cmr",
+            "buttonId": "tab-cmr-btn",
+            "listId": "agenda-cmr-list",
+            "label": "Calendrier CMR",
+            "active": false
+          }
+        ],
+        "personalItems": [
+          {
+            "time": "14:00",
+            "title": "Comité de Pilotage",
+            "meta": "Salle A",
+            "metaIcon": "map-pin"
+          },
+          {
+            "time": "16:30",
+            "title": "Point d'avancement",
+            "meta": "Teams",
+            "metaIcon": "video"
+          }
+        ],
+        "cmrItems": [
+          {
+            "month": "FÉV",
+            "day": "15",
+            "monthBackground": "#ef4444",
+            "title": "Assemblée Générale",
+            "meta": "Auditorium Principal"
+          },
+          {
+            "month": "MAR",
+            "day": "08",
+            "monthBackground": "#3b82f6",
+            "title": "Journée de la Femme",
+            "meta": "Événement Interne"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Jurisprudence",
+  "data": {
+    "regPages": {
+      "jurisprudence": {
+        "title": "Jurisprudence",
+        "icon": "scale",
+        "iconClass": "pink",
+        "description": "Cette rubrique rassemble les décisions jurisprudentielles et références associées classées par thème.",
+        "searchPlaceholder": "Rechercher une jurisprudence...",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Retraite",
+            "value": "Retraite"
+          },
+          {
+            "label": "Contentieux",
+            "value": "Contentieux"
+          },
+          {
+            "label": "Gouvernance",
+            "value": "Gouvernance"
+          },
+          {
+            "label": "Droits sociaux",
+            "value": "Droits sociaux"
+          }
+        ]
+      }
+    },
+    "regDocumentItems": [
+      {
+        "section": "jurisprudence",
+        "title": "Jurisprudence – Contentieux relatif aux pensions",
+        "theme": "Contentieux",
+        "meta": "Jurisprudence • PDF • Accès public",
+        "file": "Jurisprudence_Contentieux_Pensions.pdf",
+        "public": true
+      },
+      {
+        "section": "jurisprudence",
+        "title": "Jurisprudence – Droits sociaux et liquidation",
+        "theme": "Droits sociaux",
+        "meta": "Jurisprudence • PDF • Accès public",
+        "file": "Jurisprudence_Droits_Sociaux_Liquidation.pdf",
+        "public": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Portail Culture QSE",
+  "data": {
+    "qsePages": {
+      "culture-portail": {
+        "title": "Portail Culture QSE",
+        "icon": "layout-grid",
+        "iconClass": "blue"
+      }
+    },
+    "qseCulturePortailItems": [
+      {
+        "title": "Flash info — EPI obligatoires",
+        "type": "Flash",
+        "file": "Flash_EPI.pdf"
+      },
+      {
+        "title": "Vidéo — Gestes posturaux",
+        "type": "Vidéo",
+        "file": "Video_Gestes_Posturaux.mp4"
+      },
+      {
+        "title": "Note — Culture sécurité au quotidien",
+        "type": "Note",
+        "file": "Note_Culture_Securite.pdf"
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu systemes-information-transformation-digitale",
+  "data": {
+    "sidebarSubmenus": {
+      "sitd": {
+        "title": "Espace SI / SITD",
+        "items": [
+          {
+            "label": "Sécurité De L'Information",
+            "tab": "securite-si"
+          },
+          {
+            "label": "SMSI",
+            "tab": "smsi"
+          },
+          {
+            "label": "Référentiel IT",
+            "tab": "referentiel-it"
+          },
+          {
+            "label": "Contrats de services",
+            "tab": "contrats-services"
+          },
+          {
+            "label": "Exploitation",
+            "tab": "exploitation"
+          }
+        ]
+      }
+    }
+  }
+}

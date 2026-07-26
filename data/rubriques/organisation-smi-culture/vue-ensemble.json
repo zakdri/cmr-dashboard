@@ -1,0 +1,171 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Vue d’ensemble de l’organisation",
+  "data": {
+    "orgGovOverview": [
+      {
+        "title": "Organisation",
+        "cards": [
+          {
+            "title": "Organigramme",
+            "desc": "Organigramme interactif (directions, entités, rattachements).",
+            "icon": "network",
+            "handler": "switchOrgGovTab('organigramme'); return false;",
+            "hoverBg": "#f0f9ff",
+            "hoverBorder": "#bae6fd",
+            "iconBackground": "linear-gradient(135deg, #0ea5e9, #0284c7)",
+            "action": "Consulter"
+          },
+          {
+            "title": "Fiches collaborateurs",
+            "desc": "Annuaire interne (profil, contact, fonction, rattachement).",
+            "icon": "id-card",
+            "handler": "switchView('annuaire'); return false;",
+            "hoverBg": "#f8fafc",
+            "hoverBorder": "#cbd5e1",
+            "iconBackground": "linear-gradient(135deg, #64748b, #475569)",
+            "action": "Consulter"
+          },
+          {
+            "title": "Fiches et fonctions de postes",
+            "desc": "Responsabilités, missions, fiches PDF et fonctions de responsabilité.",
+            "icon": "briefcase",
+            "handler": "switchOrgGovTab('postes'); return false;",
+            "hoverBg": "#f0fdf4",
+            "hoverBorder": "#bbf7d0",
+            "iconBackground": "linear-gradient(135deg, #16a34a, #15803d)",
+            "action": "Consulter"
+          }
+        ]
+      },
+      {
+        "title": "Gouvernance",
+        "cards": [
+          {
+            "title": "Gouvernance interne",
+            "desc": "Instances, missions, composition et documents associés.",
+            "icon": "presentation",
+            "handler": "switchOrgGovTab('smi-gouvernance-interne'); return false;",
+            "hoverBg": "#eff6ff",
+            "hoverBorder": "#bfdbfe",
+            "iconBackground": "linear-gradient(135deg, #2563eb, #1d4ed8)",
+            "action": "Consulter"
+          },
+          {
+            "title": "Manuels des procédures",
+            "desc": "Processus et documents associés.",
+            "icon": "book-open",
+            "handler": "switchOrgGovTab('referentiels'); return false;",
+            "hoverBg": "#fdf4ff",
+            "hoverBorder": "#e9d5ff",
+            "iconBackground": "linear-gradient(135deg, #a855f7, #7c3aed)",
+            "action": "Consulter"
+          },
+          {
+            "title": "Instances SMI",
+            "desc": "Missions, composition et documents de gouvernance interne.",
+            "icon": "users-round",
+            "handler": "switchOrgGovTab('smi-gouvernance-interne'); return false;",
+            "hoverBg": "#f8fafc",
+            "hoverBorder": "#cbd5e1",
+            "iconBackground": "linear-gradient(135deg, #334155, #0f172a)",
+            "action": "Consulter"
+          },
+          {
+            "title": "Pilotage SMI",
+            "desc": "Rôles, responsabilités et autorités SMI.",
+            "icon": "gauge",
+            "handler": "switchOrgGovTab('smi-pilotage'); return false;",
+            "hoverBg": "#f0fdf4",
+            "hoverBorder": "#bbf7d0",
+            "iconBackground": "linear-gradient(135deg, #16a34a, #059669)",
+            "action": "Consulter"
+          },
+          {
+            "title": "Audit SMI",
+            "desc": "Programmes d’audit et documents associés.",
+            "icon": "folder-lock",
+            "handler": "switchOrgGovTab('smi-audits'); return false;",
+            "hoverBg": "#fef2f2",
+            "hoverBorder": "#fecaca",
+            "iconBackground": "linear-gradient(135deg, #dc2626, #991b1b)",
+            "action": "Consulter"
+          }
+        ]
+      },
+      {
+        "title": "SMI",
+        "cards": [
+          {
+            "title": "Politiques SMI",
+            "desc": "Politiques et référentiels SMI centralisés.",
+            "icon": "shield-check",
+            "handler": "switchOrgGovTab('smi-politiques'); return false;",
+            "hoverBg": "#f0fdf4",
+            "hoverBorder": "#bbf7d0",
+            "iconBackground": "linear-gradient(135deg, #22c55e, #16a34a)",
+            "action": "Consulter"
+          },
+          {
+            "title": "Dossiers processus",
+            "desc": "Documentation processus métier (GED-like).",
+            "icon": "folder-tree",
+            "handler": "switchOrgGovTab('smi-dossiers'); return false;",
+            "hoverBg": "#eff6ff",
+            "hoverBorder": "#bfdbfe",
+            "iconBackground": "linear-gradient(135deg, #3b82f6, #1d4ed8)",
+            "action": "Consulter"
+          },
+          {
+            "title": "Audits SMI",
+            "desc": "Audits et constats SMI publiés.",
+            "icon": "clipboard-check",
+            "handler": "switchOrgGovTab('smi-audits'); return false;",
+            "hoverBg": "#fff7ed",
+            "hoverBorder": "#fed7aa",
+            "iconBackground": "linear-gradient(135deg, #f97316, #ea580c)",
+            "action": "Consulter"
+          },
+          {
+            "title": "Cartographie des processus",
+            "desc": "Familles, processus, descriptifs et documents associés.",
+            "icon": "git-branch",
+            "handler": "switchOrgGovTab('smi-cartographie'); return false;",
+            "hoverBg": "#fdf4ff",
+            "hoverBorder": "#e9d5ff",
+            "iconBackground": "linear-gradient(135deg, #a855f7, #7c3aed)",
+            "action": "Consulter"
+          }
+        ]
+      }
+    ],
+    "orgGovSmallCards": [
+      {
+        "sectionTitle": "Direction",
+        "title": "Mot de la Direction",
+        "desc": "Message institutionnel (page dédiée).",
+        "icon": "message-square-text",
+        "handler": "switchOrgGovTab('direction'); return false;",
+        "iconStyle": {
+          "background": "#eff6ff",
+          "color": "#1d4ed8"
+        },
+        "action": "Lire",
+        "actionColor": "#1d4ed8"
+      },
+      {
+        "sectionTitle": "Accueil espace",
+        "title": "Accueil intranet",
+        "desc": "Accès à l’accueil et aux raccourcis principaux.",
+        "icon": "home",
+        "handler": "switchView('dashboard'); return false;",
+        "iconStyle": {
+          "background": "#f0fdf4",
+          "color": "#15803d"
+        },
+        "action": "Ouvrir",
+        "actionColor": "#15803d"
+      }
+    ]
+  }
+}

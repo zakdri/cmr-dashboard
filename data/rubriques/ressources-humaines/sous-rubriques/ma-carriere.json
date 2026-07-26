@@ -1,0 +1,62 @@
+{
+  "rubrique": "ressources-humaines",
+  "contenu": "Ma carrière",
+  "data": {
+    "rhPages": {
+      "carriere": {
+        "description": "La rubrique Ma Carrière donne une vue synthétique du profil collaborateur et du parcours RH associé.",
+        "profile": {
+          "title": "Profil Collaborateur",
+          "fields": [
+            {
+              "label": "Poste",
+              "value": "Consultant Senior"
+            },
+            {
+              "label": "Affectation",
+              "value": "Digital & Innovation"
+            }
+          ],
+          "action": "Consulter le profil"
+        },
+        "pathTitle": "Parcours collaborateur",
+        "pathDescription": "Le parcours est présenté sous forme de panneaux consultables avec descriptions, pièces jointes et liens utiles.",
+        "pathSteps": [
+          {
+            "title": "Onboarding",
+            "description": "Accueil, installation, accès aux outils et intégration dans l'équipe.",
+            "attachments": [
+              "Guide d'accueil.pdf",
+              "Check-list onboarding.pdf"
+            ],
+            "linkLabel": "Accéder aux démarches"
+          },
+          {
+            "title": "Développement",
+            "description": "Suivi des objectifs, accompagnement managérial et développement professionnel.",
+            "attachments": [
+              "Guide entretien annuel.pdf"
+            ],
+            "linkLabel": "Consulter le parcours"
+          },
+          {
+            "title": "Formation",
+            "description": "Demandes de formation spontanées et programmes Level Up.",
+            "attachments": [
+              "Catalogue formation.pdf"
+            ],
+            "linkLabel": "Voir les workflows"
+          },
+          {
+            "title": "Offboarding",
+            "description": "Étapes administratives et documents de sortie.",
+            "attachments": [
+              "Check-list offboarding.pdf"
+            ],
+            "linkLabel": "Consulter les étapes"
+          }
+        ]
+      }
+    }
+  }
+}

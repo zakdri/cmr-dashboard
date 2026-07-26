@@ -1,0 +1,16 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Référentiels QSE",
+  "data": {
+    "qseReferentiels": [
+      {
+        "title": "Référentiel QSE – exigences",
+        "file": "Referentiel_QSE_Exigences.pdf"
+      },
+      {
+        "title": "Référentiel QSE – check‑lists",
+        "file": "Referentiel_QSE_Checklists.pdf"
+      }
+    ]
+  }
+}

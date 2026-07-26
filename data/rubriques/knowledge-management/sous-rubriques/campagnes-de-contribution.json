@@ -1,0 +1,46 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - campagnes-de-contribution",
+  "data": {
+    "kmPages": {
+      "campagnes": {
+        "listTitle": "Campagnes de collecte",
+        "listIcon": "message-square-plus",
+        "listIconClass": "green",
+        "detailTitle": "Participer",
+        "detailIcon": "clipboard-list",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une campagne."
+      }
+    },
+    "kmCampagnes": [
+      {
+        "id": "cmp1",
+        "title": "Campagne relation client",
+        "domain": "Gestion de la relation client",
+        "audience": "Collaborateurs relation client",
+        "type": "Sondage",
+        "responses": 28,
+        "desc": "Recueillir les bonnes pratiques terrain pour enrichir le référentiel accueil."
+      },
+      {
+        "id": "cmp2",
+        "title": "Campagne gestion retraite",
+        "domain": "Gestion de la retraite",
+        "audience": "Équipes retraite",
+        "type": "Formulaire",
+        "responses": 16,
+        "desc": "Identifier les points de vigilance récurrents à capitaliser dans le traitement des dossiers."
+      },
+      {
+        "id": "cmp3",
+        "title": "Campagne Risk Management",
+        "domain": "Gestion du Risk Management",
+        "audience": "Référents risques",
+        "type": "Formulaire",
+        "responses": 9,
+        "desc": "Collecter les bonnes pratiques de suivi et mitigation des risques métiers."
+      }
+    ]
+  }
+}

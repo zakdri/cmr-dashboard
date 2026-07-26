@@ -1,0 +1,36 @@
+{
+  "rubrique": "ressources-humaines",
+  "contenu": "Configuration des Ressources humaines",
+  "data": {
+    "rhHeader": {
+      "title": "Mes Services RH",
+      "description": "Un espace centré sur les services RH utiles au collaborateur : carrière, documents, mobilité, enquêtes et forums."
+    },
+    "rhTabs": [
+      {
+        "id": "carriere",
+        "label": "Ma Carrière"
+      },
+      {
+        "id": "documents",
+        "label": "Documents RH"
+      },
+      {
+        "id": "offres",
+        "label": "Postes Vacants"
+      },
+      {
+        "id": "mobilite",
+        "label": "Mobilité spontanée"
+      },
+      {
+        "id": "enquetes",
+        "label": "Enquêtes RH"
+      },
+      {
+        "id": "forums",
+        "label": "Forums & Groupes"
+      }
+    ]
+  }
+}

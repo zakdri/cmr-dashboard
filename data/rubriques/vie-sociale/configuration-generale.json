@@ -1,0 +1,14 @@
+{
+  "rubrique": "vie-sociale",
+  "contenu": "Configuration de la Vie sociale",
+  "data": {
+    "vieSocialeHeader": {
+      "title": "Espace Vie Sociale",
+      "description": "Renforcez la cohésion interne : Événements, Galerie photos et Capsules vidéo."
+    },
+    "vieSocialeIntro": "Valorisez la vie sociale et l'engagement collaborateur : événements, photos et initiatives collaboratives.",
+    "vieSocialeEventsTitle": "Événements & Initiatives",
+    "vieSocialeGalleryTitle": "Galerie Vie Sociale",
+    "vieSocialeGalleryMoreLabel": "Voir tout"
+  }
+}

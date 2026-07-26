@@ -1,0 +1,33 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Moteur de recherche réglementaire",
+  "data": {
+    "regPages": {
+      "moteur": {
+        "title": "Moteur de recherche",
+        "icon": "search",
+        "iconClass": "green",
+        "searchPlaceholder": "Recherche multi-sources (textes, procédures, notes)…",
+        "filters": [
+          {
+            "label": "Tout",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Textes",
+            "value": "textes"
+          },
+          {
+            "label": "Procédures",
+            "value": "procedures"
+          },
+          {
+            "label": "Notes",
+            "value": "notes"
+          }
+        ]
+      }
+    }
+  }
+}

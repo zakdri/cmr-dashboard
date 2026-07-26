@@ -1,0 +1,25 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Culture et sensibilisation QSE",
+  "data": {
+    "qsePages": {
+      "culture": {
+        "title": "Culture QSE — sensibilisation globale",
+        "icon": "sparkles",
+        "iconClass": "orange"
+      }
+    },
+    "qseCultureItems": [
+      {
+        "title": "Campagne “Zéro accident”",
+        "meta": "Articles / campagnes",
+        "file": "Campagne_Zero_Accident.pdf"
+      },
+      {
+        "title": "Semaine QSE",
+        "meta": "Articles / campagnes",
+        "file": "Semaine_QSE.pdf"
+      }
+    ]
+  }
+}

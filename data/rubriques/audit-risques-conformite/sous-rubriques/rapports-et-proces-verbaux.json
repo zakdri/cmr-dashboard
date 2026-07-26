@@ -1,0 +1,43 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Rapports et procès-verbaux",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "rapports-pv",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Audit interne",
+        "sousRubrique": "Rapports & PV",
+        "fonctionnalite": "Gestion documentaire audit",
+        "description": "Centraliser les rapports, PV et dossiers d'audit.",
+        "typeContenu": "Document sensible",
+        "typeUx": "Espace documentaire",
+        "interactions": "Consulter, télécharger",
+        "cible": "Audit interne",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Cloisonnement fort"
+      }
+    ],
+    "arcRapportsPv": [
+      {
+        "title": "Rapport — Mission SI & cybersécurité",
+        "meta": "Clôturé • Avr 2026",
+        "file": "Rapport_Audit_SI_2026.pdf",
+        "sensibilite": "Haute"
+      },
+      {
+        "title": "PV — Comité d'audit T1 2026",
+        "meta": "Comité • Mars 2026",
+        "file": "PV_Comite_Audit_T1_2026.pdf",
+        "sensibilite": "Haute"
+      },
+      {
+        "title": "Dossier — Contrôles financiers 2025",
+        "meta": "Archivé • Déc 2025",
+        "file": "Dossier_Audit_Finance_2025.pdf",
+        "sensibilite": "Haute"
+      }
+    ]
+  }
+}

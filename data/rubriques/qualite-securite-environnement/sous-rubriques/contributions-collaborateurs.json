@@ -1,0 +1,25 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Contributions des collaborateurs",
+  "data": {
+    "qsePages": {
+      "contributions": {
+        "title": "Contributions collaborateurs",
+        "icon": "users",
+        "iconClass": "green"
+      }
+    },
+    "qseContributions": [
+      {
+        "title": "Idée — Signalétique zones à risque",
+        "auteur": "Équipe exploitation",
+        "votes": 24
+      },
+      {
+        "title": "Proposition — Tri sélectif renforcé",
+        "auteur": "Services généraux",
+        "votes": 18
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - glossaire-metier",
+  "data": {
+    "kmPages": {
+      "glossaire": {
+        "title": "Glossaire",
+        "icon": "book-open",
+        "iconClass": "green",
+        "searchPlaceholder": "Rechercher un terme…"
+      }
+    },
+    "kmGlossaire": [
+      {
+        "term": "SFD",
+        "def": "Spécifications Fonctionnelles Détaillées."
+      },
+      {
+        "term": "REX",
+        "def": "Retour d’expérience (leçons apprises)."
+      },
+      {
+        "term": "GED",
+        "def": "Gestion Électronique des Documents."
+      },
+      {
+        "term": "AMOA",
+        "def": "Assistance à Maîtrise d’Ouvrage."
+      }
+    ]
+  }
+}

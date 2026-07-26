@@ -1,0 +1,34 @@
+{
+  "rubrique": "gouvernance",
+  "contenu": "Missions et valeurs",
+  "data": {
+    "governanceMissions": "La CMR assure la gestion pérenne des régimes de retraite qui lui sont confiés, garantit la qualité du service rendu aux affiliés et pensionnés et contribue à la solidité du système de protection sociale.",
+    "governanceValues": [
+      {
+        "id": "innovation",
+        "label": "Innovation",
+        "icon": "lightbulb"
+      },
+      {
+        "id": "collaboration",
+        "label": "Collaboration",
+        "icon": "users-round"
+      },
+      {
+        "id": "client",
+        "label": "Client-Centric",
+        "icon": "heart-handshake"
+      },
+      {
+        "id": "agilite",
+        "label": "Agilité",
+        "icon": "zap"
+      },
+      {
+        "id": "durabilite",
+        "label": "Durabilité",
+        "icon": "leaf"
+      }
+    ]
+  }
+}

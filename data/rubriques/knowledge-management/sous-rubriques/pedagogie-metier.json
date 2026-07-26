@@ -1,0 +1,33 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - pedagogie-metier",
+  "data": {
+    "kmPages": {
+      "pedagogie": {
+        "title": "Pédagogie métier",
+        "icon": "book-open",
+        "iconClass": "purple"
+      }
+    },
+    "kmPedagogieMetier": [
+      {
+        "title": "Comprendre le parcours liquidation",
+        "meta": "Page métier • Retraite",
+        "desc": "Présentation synthétique des étapes et points de vigilance.",
+        "file": "Pedagogie_Liquidation.pdf"
+      },
+      {
+        "title": "Rôle du contrôle interne dans les régimes",
+        "meta": "Article métier • Contrôle",
+        "desc": "Repères pratiques pour les nouveaux arrivants et les relais métier.",
+        "file": "Pedagogie_Controle_Interne.pdf"
+      },
+      {
+        "title": "Cycle de traitement d’un dossier assuré",
+        "meta": "Fiche métier • Processus",
+        "desc": "Vue simple des acteurs, documents et validations.",
+        "file": "Pedagogie_Dossier_Assure.pdf"
+      }
+    ]
+  }
+}

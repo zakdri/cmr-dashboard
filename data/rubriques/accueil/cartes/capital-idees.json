@@ -1,0 +1,31 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Capital Idées",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "ideas",
+        "title": "Capital Idées",
+        "icon": "lightbulb",
+        "iconClass": "pink",
+        "actionLabel": "Contribuer",
+        "actionIcon": "plus-circle",
+        "actionHandler": "switchView('innovation'); return false;",
+        "stats": [
+          {
+            "value": "47",
+            "label": "Votes en cours"
+          },
+          {
+            "value": "12",
+            "label": "En évaluation"
+          }
+        ],
+        "progress": {
+          "value": "5 Idées",
+          "label": "Implémentées ce mois"
+        }
+      }
+    ]
+  }
+}

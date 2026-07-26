@@ -1,0 +1,52 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Historique des actions",
+  "data": {
+    "regPages": {
+      "historique": {
+        "title": "Historique (journal)",
+        "icon": "history",
+        "iconClass": "blue",
+        "filters": [
+          {
+            "label": "Tout",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Créations",
+            "value": "create"
+          },
+          {
+            "label": "Modifications",
+            "value": "update"
+          },
+          {
+            "label": "Validations",
+            "value": "validate"
+          }
+        ]
+      }
+    },
+    "regHistory": [
+      {
+        "id": "h1",
+        "kind": "create",
+        "text": "Création: Procédure – Archivage des dossiers",
+        "date": "Mars 2026"
+      },
+      {
+        "id": "h2",
+        "kind": "update",
+        "text": "Mise à jour: Décision – Charte éthique (v2)",
+        "date": "Fév 2026"
+      },
+      {
+        "id": "h3",
+        "kind": "validate",
+        "text": "Validation: Procédure – Contrôle interne",
+        "date": "Jan 2026"
+      }
+    ]
+  }
+}

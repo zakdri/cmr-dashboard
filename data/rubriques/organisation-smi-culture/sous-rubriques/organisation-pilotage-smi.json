@@ -1,0 +1,37 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Organisation du pilotage SMI",
+  "data": {
+    "orgGovPages": {
+      "smi-pilotage": {
+        "title": "Organisation de pilotage SMI",
+        "icon": "users-round",
+        "iconClass": "green"
+      }
+    },
+    "orgGovSmiPilotageRoles": [
+      {
+        "id": "pilote-processus",
+        "role": "Pilote de processus",
+        "responsibilities": [
+          "Suivre les objectifs du processus",
+          "Mettre à jour la documentation",
+          "Piloter les actions d’amélioration"
+        ],
+        "authority": "Arbitrer les priorités d’amélioration du processus.",
+        "file": "Liste_Nominative_Pilotes_Processus.pdf"
+      },
+      {
+        "id": "correspondant-smi",
+        "role": "Correspondant SMI",
+        "responsibilities": [
+          "Relayer les exigences SMI",
+          "Collecter les remontées terrain",
+          "Contribuer aux audits"
+        ],
+        "authority": "Demander les éléments nécessaires au suivi SMI.",
+        "file": "Liste_Nominative_Correspondants_SMI.pdf"
+      }
+    ]
+  }
+}

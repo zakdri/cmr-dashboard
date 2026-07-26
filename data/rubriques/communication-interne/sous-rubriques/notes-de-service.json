@@ -1,0 +1,46 @@
+{
+  "rubrique": "communication-interne",
+  "contenu": "Communication interne - notes-service",
+  "data": {
+    "communicationInterneSections": [
+      {
+        "id": "notes-service",
+        "title": "Notes de service",
+        "icon": "notebook-tabs",
+        "iconClass": "green",
+        "description": "Les notes de service publiées pour les collaborateurs.",
+        "filterByYear": true,
+        "items": [
+          {
+            "title": "Note de service - Horaires d'été",
+            "date": "15 juillet 2026",
+            "year": "2026",
+            "meta": "Organisation interne",
+            "kind": "PDF"
+          },
+          {
+            "title": "Note de service - Permanence",
+            "date": "01 juillet 2026",
+            "year": "2026",
+            "meta": "Organisation interne",
+            "kind": "PDF"
+          },
+          {
+            "title": "Note de service - Télétravail",
+            "date": "20 juin 2026",
+            "year": "2026",
+            "meta": "Ressources humaines",
+            "kind": "PDF"
+          },
+          {
+            "title": "Note de service - Congés 2025",
+            "date": "05 mai 2025",
+            "year": "2025",
+            "meta": "Archives",
+            "kind": "PDF"
+          }
+        ]
+      }
+    ]
+  }
+}

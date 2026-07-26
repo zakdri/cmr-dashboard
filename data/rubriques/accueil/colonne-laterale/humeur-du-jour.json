@@ -1,0 +1,65 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Colonne latérale - humeur-du-jour",
+  "data": {
+    "dashboardRightSidebar": {
+      "mood": {
+        "title": "Humeur du jour",
+        "resultsTitle": "L'humeur de l'équipe",
+        "icon": "smile",
+        "iconStyle": {
+          "background": "linear-gradient(135deg, #f59e0b, #d97706)"
+        },
+        "results": [
+          {
+            "emoji": "🤩",
+            "percent": 45,
+            "color": "#22c55e"
+          },
+          {
+            "emoji": "😊",
+            "percent": 30,
+            "color": "#84cc16"
+          },
+          {
+            "emoji": "😐",
+            "percent": 15,
+            "color": "#eab308"
+          },
+          {
+            "emoji": "🙁",
+            "percent": 7,
+            "color": "#f97316"
+          },
+          {
+            "emoji": "😡",
+            "percent": 3,
+            "color": "#ef4444"
+          }
+        ],
+        "buttons": [
+          {
+            "mood": "great",
+            "icon": "laugh"
+          },
+          {
+            "mood": "good",
+            "icon": "smile"
+          },
+          {
+            "mood": "neutral",
+            "icon": "meh"
+          },
+          {
+            "mood": "bad",
+            "icon": "frown"
+          },
+          {
+            "mood": "terrible",
+            "icon": "angry"
+          }
+        ]
+      }
+    }
+  }
+}

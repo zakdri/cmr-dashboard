@@ -1,0 +1,45 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Vie Sociale",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "docList",
+        "title": "Vie Sociale",
+        "icon": "calendar-clock",
+        "iconClass": "blue",
+        "actionLabel": "Voir plus",
+        "actionHandler": "switchView('vie-sociale'); return false;",
+        "source": "vieSocialeEvents",
+        "maxItems": 3,
+        "sort": "dateDesc",
+        "items": [
+          {
+            "badge": "EVT",
+            "title": "Fête de Fin d'Année CMR",
+            "meta": "12 Juin 2026 • Hôtel Sofitel Rabat · 19h00 · Sur invitation",
+            "background": "#fef3c7",
+            "color": "#92400e",
+            "icon": "chevron-right"
+          },
+          {
+            "badge": "INI",
+            "title": "Team Building Digital 2026",
+            "meta": "20 Mai 2026 • Salle Innovation · Direction Digital & IT",
+            "background": "#eff6ff",
+            "color": "#1d4ed8",
+            "icon": "chevron-right"
+          },
+          {
+            "badge": "EVT",
+            "title": "Journée Portes Ouvertes CMR",
+            "meta": "05 Mai 2026 • Siège CMR · 9h00 – 17h00 · Ouvert à tous",
+            "background": "#fdf2f8",
+            "color": "#be185d",
+            "icon": "chevron-right"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "Contrats de services et SLA",
+  "data": {
+    "sitdFilters": {
+      "contrats-services": {
+        "type": "structure",
+        "filters": [
+          {
+            "label": "Toutes",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "DSI",
+            "value": "DSI"
+          },
+          {
+            "label": "DAF",
+            "value": "DAF"
+          },
+          {
+            "label": "DCH",
+            "value": "DCH"
+          }
+        ]
+      }
+    },
+    "sitdDocumentItems": [
+      {
+        "section": "contrats-services",
+        "title": "Contrat de service – DSI",
+        "structure": "DSI",
+        "theme": "Contrats",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Contrat_Service_DSI.pdf"
+      },
+      {
+        "section": "contrats-services",
+        "title": "Contrat de service – DAF",
+        "structure": "DAF",
+        "theme": "Contrats",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Contrat_Service_DAF.pdf"
+      }
+    ],
+    "sitdSlaRows": [
+      {
+        "service": "Support utilisateur (N1)",
+        "engagement": "Prise en charge < 4h",
+        "indicateur": "96%",
+        "statut": "OK"
+      },
+      {
+        "service": "Incidents critiques",
+        "engagement": "Résolution < 8h",
+        "indicateur": "92%",
+        "statut": "OK"
+      },
+      {
+        "service": "Demandes d’évolution",
+        "engagement": "Analyse < 10 j",
+        "indicateur": "88%",
+        "statut": "Attention"
+      }
+    ]
+  }
+}

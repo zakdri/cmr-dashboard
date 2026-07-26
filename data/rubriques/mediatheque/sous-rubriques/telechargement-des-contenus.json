@@ -1,0 +1,14 @@
+{
+  "rubrique": "mediatheque",
+  "contenu": "Téléchargement des contenus",
+  "data": {
+    "mediaPages": {
+      "telechargement": {
+        "title": "Téléchargement",
+        "icon": "download",
+        "iconClass": "orange",
+        "notice": "Espace réservé aux <strong>utilisateurs habilités</strong> (maquette)."
+      }
+    }
+  }
+}

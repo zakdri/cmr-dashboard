@@ -1,0 +1,62 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "module": "qse",
+  "fichiers": [
+    {
+      "contenu": "Configuration Qualité, Sécurité et Environnement",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Politiques QSE",
+      "fichier": "sous-rubriques/politiques-qse.json"
+    },
+    {
+      "contenu": "Référentiels QSE",
+      "fichier": "sous-rubriques/referentiels-qse.json"
+    },
+    {
+      "contenu": "Documents SMI",
+      "fichier": "sous-rubriques/documents-smi.json"
+    },
+    {
+      "contenu": "Contenus pédagogiques QSE",
+      "fichier": "sous-rubriques/contenus-pedagogiques.json"
+    },
+    {
+      "contenu": "Audits QSE",
+      "fichier": "sous-rubriques/audits-qse.json"
+    },
+    {
+      "contenu": "Résultats des audits QSE",
+      "fichier": "sous-rubriques/resultats-audits.json"
+    },
+    {
+      "contenu": "Indicateurs QSE",
+      "fichier": "sous-rubriques/indicateurs-qse.json"
+    },
+    {
+      "contenu": "Statistiques QSE",
+      "fichier": "sous-rubriques/statistiques-qse.json"
+    },
+    {
+      "contenu": "Boîte à idées QSE",
+      "fichier": "sous-rubriques/boite-a-idees-qse.json"
+    },
+    {
+      "contenu": "Contributions des collaborateurs",
+      "fichier": "sous-rubriques/contributions-collaborateurs.json"
+    },
+    {
+      "contenu": "Remontées terrain QSE",
+      "fichier": "sous-rubriques/remontees-terrain.json"
+    },
+    {
+      "contenu": "Culture et sensibilisation QSE",
+      "fichier": "sous-rubriques/culture-et-sensibilisation-qse.json"
+    },
+    {
+      "contenu": "Portail Culture QSE",
+      "fichier": "sous-rubriques/portail-culture-qse.json"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Échanges participatifs RSE",
+  "data": {
+    "rsePages": {
+      "echanges": {
+        "title": "Échanges participatifs",
+        "icon": "message-circle",
+        "iconClass": "blue"
+      }
+    },
+    "rseEchanges": [
+      {
+        "author": "Collaborateur 04",
+        "when": "il y a 1j",
+        "text": "Proposer un défi “zéro papier” sur un mois ?"
+      },
+      {
+        "author": "Collaborateur 05",
+        "when": "il y a 3j",
+        "text": "Idée: atelier compostage au siège + sensibilisation."
+      }
+    ]
+  }
+}

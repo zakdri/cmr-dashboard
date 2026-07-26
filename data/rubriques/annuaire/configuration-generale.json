@@ -1,0 +1,78 @@
+{
+  "rubrique": "annuaire",
+  "contenu": "Configuration de l’annuaire",
+  "data": {
+    "annuaireHeader": {
+      "title": "Annuaire",
+      "description": "Recherche multicritère (nom, entité, fonction) + fiche profil + rattachement hiérarchique + coordonnées."
+    },
+    "annuaireLabels": {
+      "searchTitle": "Recherche collaborateurs",
+      "searchPlaceholder": "Rechercher (nom, entité, fonction)…",
+      "allDirectionsLabel": "Toutes les entités",
+      "allFunctionsLabel": "Toutes les fonctions",
+      "resetLabel": "Réinitialiser",
+      "resultsTitle": "Résultats",
+      "profileTitle": "Profil collaborateur",
+      "initialCount": "0 collaborateur",
+      "emptyDetail": "Sélectionnez un collaborateur dans la liste.",
+      "emptyResult": "Aucun résultat.",
+      "emptyFilteredDetail": "Aucun collaborateur ne correspond aux filtres sélectionnés.",
+      "collaboratorSingular": "collaborateur",
+      "collaboratorPlural": "collaborateurs",
+      "hierarchyTitle": "Rattachement hiérarchique",
+      "openOrgLabel": "Ouvrir l’organigramme",
+      "managerLabel": "Manager / Rattachement",
+      "emailLabel": "Email",
+      "phoneLabel": "Numéro de poste",
+      "locationLabel": "Localisation",
+      "entityLabel": "Entité",
+      "managerDetailLabel": "Manager / rattachement",
+      "writeLabel": "Écrire",
+      "callLabel": "Appeler",
+      "copyLabel": "Copier"
+    },
+    "annuaireQuickCards": [
+      {
+        "title": "Recherche collaborateurs",
+        "description": "Nom, entité, fonction et coordonnées.",
+        "icon": "search",
+        "iconStyle": {
+          "background": "#eff6ff",
+          "color": "#2563eb"
+        },
+        "handler": "document.getElementById('annuaireSearchInput')?.focus()"
+      },
+      {
+        "title": "Profil collaborateur",
+        "description": "Fiche profil détaillée du collaborateur sélectionné.",
+        "icon": "id-card",
+        "iconStyle": {
+          "background": "#f0fdf4",
+          "color": "#16a34a"
+        },
+        "handler": "focusAnnuaireDetail()"
+      },
+      {
+        "title": "Rattachement hiérarchique",
+        "description": "Vue hiérarchique et lien direct vers l’organigramme.",
+        "icon": "network",
+        "iconStyle": {
+          "background": "#fdf4ff",
+          "color": "#9333ea"
+        },
+        "handler": "switchOrgGovTab('organigramme')"
+      },
+      {
+        "title": "Coordonnées pro",
+        "description": "Email, téléphone et localisation professionnelle.",
+        "icon": "mail",
+        "iconStyle": {
+          "background": "#fff7ed",
+          "color": "#ea580c"
+        },
+        "handler": "focusAnnuaireDetail()"
+      }
+    ]
+  }
+}

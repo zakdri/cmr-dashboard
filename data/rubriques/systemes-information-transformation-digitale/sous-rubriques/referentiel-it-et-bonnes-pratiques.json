@@ -1,0 +1,67 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "Référentiel IT et bonnes pratiques",
+  "data": {
+    "sitdFilters": {
+      "referentiel-it": {
+        "type": "theme",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Architecture",
+            "value": "Architecture"
+          },
+          {
+            "label": "Exploitation",
+            "value": "Exploitation"
+          },
+          {
+            "label": "Support",
+            "value": "Support"
+          }
+        ]
+      }
+    },
+    "sitdDocumentItems": [
+      {
+        "section": "referentiel-it",
+        "title": "Référentiel IT – Architecture technique",
+        "theme": "Architecture",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR • GED OpenText",
+        "file": "Referentiel_IT_Architecture_Technique.pdf"
+      },
+      {
+        "section": "referentiel-it",
+        "title": "Référentiel IT – Exploitation et support",
+        "theme": "Exploitation",
+        "year": "2026",
+        "access": "Public réservé",
+        "meta": "PDF • Public réservé • GED OpenText",
+        "file": "Referentiel_IT_Exploitation_Support.pdf"
+      }
+    ],
+    "sitdBonnesPratiques": [
+      {
+        "categorie": "Sécurité",
+        "title": "Gestion des comptes à privilèges",
+        "file": "BP_Comptes_Privileges.pdf"
+      },
+      {
+        "categorie": "Exploitation",
+        "title": "Procédure de sauvegarde",
+        "file": "BP_Sauvegarde.pdf"
+      },
+      {
+        "categorie": "Support",
+        "title": "Qualification des tickets GLPI",
+        "file": "BP_Qualification_GLPI.pdf"
+      }
+    ]
+  }
+}

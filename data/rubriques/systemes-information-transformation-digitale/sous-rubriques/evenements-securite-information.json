@@ -1,0 +1,65 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "Événements de sécurité de l’information",
+  "data": {
+    "sitdFilters": {
+      "evenements-securite": {
+        "type": "event",
+        "themeFilters": [
+          {
+            "label": "Tous les thèmes",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Sensibilisation",
+            "value": "Sensibilisation"
+          },
+          {
+            "label": "Incident",
+            "value": "Incident"
+          },
+          {
+            "label": "Conformité",
+            "value": "Conformité"
+          }
+        ],
+        "yearFilters": [
+          {
+            "label": "Toutes les années",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "2026",
+            "value": "2026"
+          },
+          {
+            "label": "2025",
+            "value": "2025"
+          }
+        ]
+      }
+    },
+    "sitdDocumentItems": [
+      {
+        "section": "evenements-securite",
+        "title": "Journée Sécurité De L'Information 2026",
+        "theme": "Sensibilisation",
+        "year": "2026",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Evenement_Securite_Information_2026.pdf"
+      },
+      {
+        "section": "evenements-securite",
+        "title": "Atelier conformité et protection des données",
+        "theme": "Conformité",
+        "year": "2025",
+        "access": "Grand public",
+        "meta": "PDF • Grand public CMR",
+        "file": "Atelier_Conformite_Protection_Donnees.pdf"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "rubrique": "fenetres-modales",
+  "contenu": "Fenêtre de détail Flash Info",
+  "data": {
+    "modals": {
+      "tickerDetail": {
+        "detailPage": {
+          "paragraphs": [
+            "Dans le cadre de l'amelioration continue de la qualite de vie au travail, cette communication vise a partager les premiers indicateurs et a renforcer l'alignement entre les equipes. Les retours collectes montrent une bonne mobilisation et une volonte commune d'avancer sur des actions concretes.",
+            "Les principaux points de vigilance concernent la fluidite de l'information, la simplification de certains processus internes et l'accompagnement des collaborateurs dans les phases de changement. Plusieurs propositions ont deja ete remontees par les managers de proximite et feront l'objet d'un suivi structure.",
+            "Sur les prochaines semaines, un plan d'action detaille sera deploie avec des jalons clairs, des responsables identifies et des points d'etape periodiques. L'objectif est de transformer ces resultats en mesures visibles et utiles pour l'ensemble des collaborateurs.",
+            "Merci a toutes les equipes pour leur implication. Une nouvelle synthese sera partagee prochainement afin de presenter l'avancement, les resultats intermediaires et les ajustements retenus."
+          ]
+        }
+      }
+    }
+  }
+}

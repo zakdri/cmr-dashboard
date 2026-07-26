@@ -1,0 +1,67 @@
+{
+  "rubrique": "administration",
+  "contenu": "Journal et traçabilité des actions",
+  "data": {
+    "adminSectionConfig": {
+      "tracabilite": {
+        "subs": [
+          {
+            "id": "tracabilite",
+            "label": "Journal des actions"
+          }
+        ],
+        "defaultSub": "tracabilite"
+      }
+    },
+    "adminPageCards": {
+      "tracabilite": {
+        "title": "Journal des actions (log)",
+        "icon": "history",
+        "iconClass": "blue"
+      }
+    },
+    "adminLogFilters": [
+      {
+        "label": "Tout",
+        "value": "all",
+        "active": true
+      },
+      {
+        "label": "Créer",
+        "value": "create"
+      },
+      {
+        "label": "Modifier",
+        "value": "update"
+      },
+      {
+        "label": "Authentifier",
+        "value": "auth"
+      },
+      {
+        "label": "Accès",
+        "value": "access"
+      }
+    ],
+    "adminLogs": [
+      {
+        "id": "l1",
+        "kind": "access",
+        "text": "Accès attribué: u2 → KM",
+        "date": "Avr 2026"
+      },
+      {
+        "id": "l2",
+        "kind": "update",
+        "text": "CMS modifié: Page – Accueil",
+        "date": "Mars 2026"
+      },
+      {
+        "id": "l3",
+        "kind": "auth",
+        "text": "Authentification admin (OK)",
+        "date": "Fév 2026"
+      }
+    ]
+  }
+}

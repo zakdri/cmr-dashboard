@@ -1,0 +1,39 @@
+{
+  "rubrique": "accueil",
+  "contenu": "Carte d’accueil - Gouvernance",
+  "data": {
+    "dashboardCards": [
+      {
+        "type": "docList",
+        "title": "Gouvernance",
+        "icon": "landmark",
+        "iconClass": "purple",
+        "actionLabel": "Voir plus",
+        "actionHandler": "switchView('institutionnel'); return false;",
+        "items": [
+          {
+            "badge": "PDF",
+            "badgeClass": "pdf",
+            "title": "Compte rendu — Comité de Direction",
+            "meta": "Mars 2026 • Validé",
+            "icon": "chevron-right"
+          },
+          {
+            "badge": "DOC",
+            "badgeClass": "doc",
+            "title": "Ordre du jour — Conseil d'Administration",
+            "meta": "Avril 2026 • À venir",
+            "icon": "chevron-right"
+          },
+          {
+            "badge": "XLS",
+            "badgeClass": "xls",
+            "title": "Suivi décisions — Comités",
+            "meta": "Mis à jour hier",
+            "icon": "chevron-right"
+          }
+        ]
+      }
+    ]
+  }
+}

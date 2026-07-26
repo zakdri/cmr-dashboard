@@ -1,0 +1,795 @@
+{
+  "module": "km",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "kmHeader": {
+      "title": "Knowledge Management",
+      "description": "L’espace Knowledge Management centralise les référentiels métiers, le glossaire, les retours d’expérience, les communautés, les contributions et les articles de capitalisation."
+    },
+    "kmTabs": [
+      {
+        "id": "referentiels",
+        "label": "Référentiels métiers"
+      },
+      {
+        "id": "glossaire",
+        "label": "Glossaire"
+      },
+      {
+        "id": "rex",
+        "label": "REX"
+      },
+      {
+        "id": "communautes",
+        "label": "Communautés"
+      },
+      {
+        "id": "contributions",
+        "label": "Contributions"
+      },
+      {
+        "id": "publications",
+        "label": "Articles / bilans"
+      },
+      {
+        "id": "integration-km",
+        "label": "Intégration KM"
+      }
+    ],
+    "kmLabels": {
+      "documentsLabel": "documents",
+      "consultLabel": "Consulter",
+      "joinLabel": "Rejoindre",
+      "membersLabel": "Membres",
+      "threadsLabel": "discussions",
+      "startLabel": "Ouvrir",
+      "downloadLabel": "Télécharger",
+      "readLabel": "Lire",
+      "todayLabel": "Aujourd’hui",
+      "defaultRexTheme": "Projet",
+      "newTicketStatus": "Ouvert • P3",
+      "sentTicketStatus": "Envoyé • Nouveau",
+      "detailButtonLabel": "Détail",
+      "emptyTermLabel": "Aucun terme.",
+      "emptyRexLabel": "Aucun REX.",
+      "emptyContentLabel": "Aucun contenu.",
+      "responsesLabel": "réponses",
+      "participationsLabel": "Participations",
+      "audienceLabel": "Audience",
+      "channelLabel": "Canal",
+      "channelValue": "Formulaire / sondage",
+      "participateLabel": "Participer",
+      "selectedLabel": "Sélectionné"
+    },
+    "kmPages": {
+      "referentiels": {
+        "foldersTitle": "Référentiels métiers",
+        "foldersIcon": "folder",
+        "foldersIconClass": "purple",
+        "guidesTitle": "Documents du domaine",
+        "guidesIcon": "file-text",
+        "guidesIconClass": "blue",
+        "searchPlaceholder": "Rechercher un document…",
+        "description": "Cette rubrique organise les référentiels métiers par domaine et affiche les documents associés au domaine sélectionné."
+      },
+      "glossaire": {
+        "title": "Glossaire",
+        "icon": "book-open",
+        "iconClass": "green",
+        "searchPlaceholder": "Rechercher un terme…"
+      },
+      "rex": {
+        "listTitle": "Capitalisation (REX)",
+        "listIcon": "sparkles",
+        "listIconClass": "orange",
+        "submitLabel": "Soumettre un REX",
+        "searchPlaceholder": "Rechercher un REX…",
+        "formTitle": "Soumettre un REX",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre du REX",
+        "themeOptions": [
+          "Projet",
+          "Processus",
+          "Outil"
+        ],
+        "descriptionPlaceholder": "Description / leçons apprises…",
+        "sendLabel": "Envoyer",
+        "description": "Cette rubrique permet de consulter les REX publiés et de soumettre un retour d’expérience, sous réserve d’habilitation et sans publication automatique.",
+        "habilitationNote": "La soumission est soumise à habilitation. Le REX soumis reste en attente de publication par l’équipe Knowledge Management.",
+        "attachmentLabel": "Pièce jointe",
+        "detailTitle": "Détail REX",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez un REX."
+      },
+      "elearning": {
+        "title": "E‑learning",
+        "icon": "play-circle",
+        "iconClass": "blue"
+      },
+      "pedagogie": {
+        "title": "Pédagogie métier",
+        "icon": "book-open",
+        "iconClass": "purple"
+      },
+      "communautes": {
+        "communitiesTitle": "Communautés de pratique",
+        "communitiesIcon": "users",
+        "communitiesIconClass": "green",
+        "threadsTitle": "Dernières discussions",
+        "threadsIcon": "message-circle",
+        "threadsIconClass": "orange",
+        "description": "Cette rubrique présente les communautés de pratique et les dernières discussions, classées par thématique."
+      },
+      "amoa": {
+        "listTitle": "AMOA / Conduite du changement",
+        "listIcon": "clipboard-list",
+        "listIconClass": "purple",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "blue",
+        "emptyDetail": "Sélectionnez un élément."
+      },
+      "docs": {
+        "foldersTitle": "Documents formalisés",
+        "foldersIcon": "folder-open",
+        "foldersIconClass": "blue",
+        "listTitle": "Liste",
+        "listIcon": "file-text",
+        "listIconClass": "green"
+      },
+      "contributions": {
+        "listTitle": "Contributions terrain",
+        "listIcon": "message-square-plus",
+        "listIconClass": "orange",
+        "submitLabel": "Contribuer",
+        "formTitle": "Nouvelle contribution",
+        "formIcon": "square-pen",
+        "formIconClass": "blue",
+        "closeLabel": "Fermer",
+        "titlePlaceholder": "Titre",
+        "bodyPlaceholder": "Votre contribution…",
+        "sendLabel": "Envoyer",
+        "detailTitle": "Détail",
+        "detailIcon": "file-text",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une contribution.",
+        "description": "Cette rubrique regroupe les contributions terrain publiées et les campagnes de collecte pilotées par l’équipe Knowledge Management.",
+        "contributionsLabel": "Contributions",
+        "campaignsLabel": "Campagnes",
+        "contributionsDescription": "Les contributions publiées restent classées par période sous le format Mois / Année.",
+        "campaignsDescription": "Les campagnes sont organisées par domaine métier et affichent leur détail dans le volet droit.",
+        "startDatePlaceholder": "Date de début",
+        "endDatePlaceholder": "Date de fin"
+      },
+      "categorisation": {
+        "title": "Catégorisation & filtres",
+        "icon": "sliders-horizontal",
+        "iconClass": "green",
+        "description": "Filtrer les contenus KM par thématique / type / entité (navigation & filtres).",
+        "searchPlaceholder": "Rechercher dans KM…",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Documents",
+            "value": "Document"
+          },
+          {
+            "label": "Articles",
+            "value": "Article"
+          },
+          {
+            "label": "Média",
+            "value": "Media"
+          },
+          {
+            "label": "Forum",
+            "value": "Forum"
+          }
+        ]
+      },
+      "livrables": {
+        "title": "Livrables projets",
+        "icon": "package",
+        "iconClass": "blue"
+      },
+      "modeles": {
+        "title": "Modèles / formulaires",
+        "icon": "layout-template",
+        "iconClass": "purple"
+      },
+      "publications": {
+        "title": "Articles / bilans",
+        "icon": "newspaper",
+        "iconClass": "orange"
+      },
+      "integration-km": {
+        "title": "Intégration KM",
+        "icon": "images",
+        "iconClass": "blue",
+        "description": "Cette rubrique, issue de l'ancien espace Métier, regroupe les contenus multimédias utiles à l'intégration et à la transmission des connaissances métiers."
+      },
+      "ged": {
+        "title": "GED (intégration / accès)",
+        "icon": "database",
+        "iconClass": "blue",
+        "description": "Accès à la GED (ex: OpenText). Cette section sert de point d’entrée et de recherche fédérée.",
+        "primaryActionLabel": "Guide de connexion",
+        "primaryActionHandler": "openMockDownload('Guide_Connexion_GED.pdf','Guide connexion GED')",
+        "secondaryActionLabel": "Convention de nommage",
+        "secondaryActionHandler": "openMockDownload('Convention_Nommage.pdf','Convention de nommage')"
+      },
+      "glpi": {
+        "title": "GLPI (support / incidents)",
+        "icon": "life-buoy",
+        "iconClass": "green",
+        "ticketsTitle": "Consulter des tickets",
+        "ticketsDescription": "Widget / liste des incidents (maquette).",
+        "requestTitle": "Créer une demande",
+        "requestDescription": "Formulaire (maquette).",
+        "titlePlaceholder": "Objet",
+        "descriptionPlaceholder": "Description…",
+        "sendLabel": "Envoyer"
+      },
+      "supports": {
+        "title": "Supports pédagogiques",
+        "icon": "graduation-cap",
+        "iconClass": "pink"
+      },
+      "stories": {
+        "listTitle": "Sources stories",
+        "listIcon": "sparkles",
+        "listIconClass": "orange",
+        "highlightTitle": "À valoriser",
+        "highlightIcon": "newspaper",
+        "highlightIconClass": "blue"
+      },
+      "campagnes": {
+        "listTitle": "Campagnes de collecte",
+        "listIcon": "message-square-plus",
+        "listIconClass": "green",
+        "detailTitle": "Participer",
+        "detailIcon": "clipboard-list",
+        "detailIconClass": "purple",
+        "emptyDetail": "Sélectionnez une campagne."
+      },
+      "audit-risque": {
+        "title": "Audit & conformité",
+        "icon": "shield-check",
+        "iconClass": "blue"
+      },
+      "capsules-ux": {
+        "title": "Capsules UX projet SI",
+        "icon": "play-circle",
+        "iconClass": "orange"
+      },
+      "regimes-processus": {
+        "listTitle": "Régimes & processus",
+        "listIcon": "network",
+        "listIconClass": "green",
+        "detailTitle": "Détail métier",
+        "detailIcon": "file-text",
+        "detailIconClass": "blue",
+        "emptyDetail": "Sélectionnez un contenu métier."
+      }
+    },
+    "kmReferentiels": [
+      {
+        "id": "retraite",
+        "label": "Gestion de la retraite",
+        "docs": [
+          {
+            "file": "Guide_Indicateurs_Retraite.pdf",
+            "label": "Guide des indicateurs de retraite",
+            "type": "Document"
+          },
+          {
+            "file": "Guide_Instruction_Dossiers.pdf",
+            "label": "Guide d’instruction des dossiers",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "portefeuille",
+        "label": "Gestion du portefeuille financier",
+        "docs": [
+          {
+            "file": "Guide_Portefeuille_Financier.pdf",
+            "label": "Guide de suivi du portefeuille financier",
+            "type": "Document"
+          },
+          {
+            "file": "Procedure_Allocation_Actifs.pdf",
+            "label": "Procédure allocation des actifs",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "etudes-actuariat",
+        "label": "Gestion des études & actuariat",
+        "docs": [
+          {
+            "file": "Methodologie_Etudes_Actuarielles.pdf",
+            "label": "Méthodologie des études actuarielles",
+            "type": "Document"
+          },
+          {
+            "file": "Referentiel_Hypotheses_Actuariat.pdf",
+            "label": "Référentiel des hypothèses actuarielles",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "relation-client",
+        "label": "Gestion de la relation client",
+        "docs": [
+          {
+            "file": "Guide_Relation_Client.pdf",
+            "label": "Guide relation client",
+            "type": "Document"
+          },
+          {
+            "file": "Procedure_Traitement_Reclamations.pdf",
+            "label": "Procédure traitement des réclamations",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "risk-management",
+        "label": "Gestion du Risk Management",
+        "docs": [
+          {
+            "file": "Referentiel_Risques_Metiers.pdf",
+            "label": "Référentiel des risques métiers",
+            "type": "Document"
+          },
+          {
+            "file": "Cartographie_Risques_Processus.pdf",
+            "label": "Cartographie risques et processus",
+            "type": "Document"
+          }
+        ]
+      }
+    ],
+    "kmGlossaire": [
+      {
+        "term": "SFD",
+        "def": "Spécifications Fonctionnelles Détaillées."
+      },
+      {
+        "term": "REX",
+        "def": "Retour d’expérience (leçons apprises)."
+      },
+      {
+        "term": "GED",
+        "def": "Gestion Électronique des Documents."
+      },
+      {
+        "term": "AMOA",
+        "def": "Assistance à Maîtrise d’Ouvrage."
+      }
+    ],
+    "kmRexData": [
+      {
+        "id": "rx1",
+        "title": "REX – Refonte intranet: adoption",
+        "theme": "Projet",
+        "date": "Avr 2026",
+        "body": "Ce qui a fonctionné: démos courtes, sponsors métier. À améliorer: clarifier les owners dès le début.",
+        "attachment": "REX_Refonte_Intranet.pdf",
+        "status": "Publié"
+      },
+      {
+        "id": "rx2",
+        "title": "REX – Processus tickets IT",
+        "theme": "Processus",
+        "date": "Mars 2026",
+        "body": "Standardiser les catégories et définir un SLA visible dans GLPI.",
+        "attachment": "REX_Processus_Tickets_IT.pdf",
+        "status": "Publié"
+      }
+    ],
+    "kmElearning": [
+      {
+        "title": "Excel avancé (e‑learning)",
+        "meta": "2h30 • Niveau avancé",
+        "cta": "Lancer"
+      },
+      {
+        "title": "Cyber sécurité 101",
+        "meta": "35% • En cours",
+        "cta": "Reprendre"
+      },
+      {
+        "title": "Sensibilisation GED",
+        "meta": "20 min • Micro‑learning",
+        "cta": "Démarrer"
+      }
+    ],
+    "kmPedagogieMetier": [
+      {
+        "title": "Comprendre le parcours liquidation",
+        "meta": "Page métier • Retraite",
+        "desc": "Présentation synthétique des étapes et points de vigilance.",
+        "file": "Pedagogie_Liquidation.pdf"
+      },
+      {
+        "title": "Rôle du contrôle interne dans les régimes",
+        "meta": "Article métier • Contrôle",
+        "desc": "Repères pratiques pour les nouveaux arrivants et les relais métier.",
+        "file": "Pedagogie_Controle_Interne.pdf"
+      },
+      {
+        "title": "Cycle de traitement d’un dossier assuré",
+        "meta": "Fiche métier • Processus",
+        "desc": "Vue simple des acteurs, documents et validations.",
+        "file": "Pedagogie_Dossier_Assure.pdf"
+      }
+    ],
+    "kmCommunautes": [
+      {
+        "id": "co1",
+        "name": "Communauté BI & Data",
+        "theme": "Data",
+        "members": 128,
+        "threads": 12
+      },
+      {
+        "id": "co2",
+        "name": "Communauté RH",
+        "theme": "Ressources humaines",
+        "members": 87,
+        "threads": 6
+      },
+      {
+        "id": "co3",
+        "name": "Communauté Qualité & Process",
+        "theme": "Processus",
+        "members": 54,
+        "threads": 4
+      }
+    ],
+    "kmThreads": [
+      {
+        "communityId": "co1",
+        "title": "Bonnes pratiques Power BI",
+        "theme": "Data",
+        "meta": "Data • 2h",
+        "badge": "Actif"
+      },
+      {
+        "communityId": "co2",
+        "title": "Mobilité interne – retours",
+        "theme": "Ressources humaines",
+        "meta": "Ressources humaines • hier",
+        "badge": "Nouveau"
+      },
+      {
+        "communityId": "co1",
+        "title": "Convention de nommage datasets",
+        "theme": "Data",
+        "meta": "Data • 3j",
+        "badge": "En cours"
+      }
+    ],
+    "kmAmoa": [
+      {
+        "id": "a1",
+        "title": "AMOA – Refonte e‑Service",
+        "meta": "Dossier • Digital",
+        "body": "Ateliers, story mapping, backlog. Livrables: SFD, PV ateliers, plan de conduite du changement."
+      },
+      {
+        "id": "a2",
+        "title": "Conduite du changement – GED",
+        "meta": "Kit • Organisation",
+        "body": "Plan de com, supports, formation, accompagnement des référents."
+      }
+    ],
+    "kmDocs": [
+      {
+        "id": "procedures",
+        "label": "Procédures",
+        "docs": [
+          {
+            "file": "Procedure_Traitement_Pension.pdf",
+            "label": "Procédure traitement pension",
+            "type": "Document"
+          },
+          {
+            "file": "Procedure_Accueil_Usager.pdf",
+            "label": "Procédure accueil usager",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "politiques",
+        "label": "Politiques",
+        "docs": [
+          {
+            "file": "Politique_Securite_SI.pdf",
+            "label": "Politique sécurité SI",
+            "type": "Document"
+          }
+        ]
+      }
+    ],
+    "kmContribData": [
+      {
+        "id": "ct1",
+        "title": "Astuce: réduire les doublons GED",
+        "date": "Avr 2026",
+        "startDate": "2026-04-01",
+        "endDate": "2026-04-30",
+        "body": "Utiliser la convention de nommage + métadonnées obligatoires."
+      },
+      {
+        "id": "ct2",
+        "title": "Check‑list avant PV comité",
+        "date": "Mars 2026",
+        "startDate": "2026-03-01",
+        "endDate": "2026-03-31",
+        "body": "Ordre du jour, participants, décisions, actions, annexes."
+      }
+    ],
+    "kmCatalogueItems": [
+      {
+        "type": "Document",
+        "title": "Guide des indicateurs de retraite",
+        "meta": "Référentiels métiers"
+      },
+      {
+        "type": "Article",
+        "title": "Bilan – Digital Q1",
+        "meta": "Articles / bilans"
+      },
+      {
+        "type": "Forum",
+        "title": "Bonnes pratiques Power BI",
+        "meta": "Communautés"
+      },
+      {
+        "type": "Media",
+        "title": "Capsule vidéo – GED",
+        "meta": "Supports pédagogiques"
+      },
+      {
+        "type": "Article",
+        "title": "Comprendre le parcours liquidation",
+        "meta": "Pédagogie métier"
+      },
+      {
+        "type": "Article",
+        "title": "Story – Transformation du parcours assuré",
+        "meta": "Sources stories"
+      },
+      {
+        "type": "Document",
+        "title": "Rubrique Audit & conformité",
+        "meta": "KM Audit & Risque"
+      },
+      {
+        "type": "Media",
+        "title": "Capsule UX – Parcours e‑Service",
+        "meta": "Capsules UX"
+      },
+      {
+        "type": "Article",
+        "title": "Régimes de retraite CMR",
+        "meta": "Régimes & processus"
+      }
+    ],
+    "kmLivrables": [
+      {
+        "title": "SFD – Refonte intranet",
+        "file": "SFD_Refonte_Intranet_v1.pdf"
+      },
+      {
+        "title": "PV ateliers – AMOA e‑Service",
+        "file": "PV_Ateliers_eService.pdf"
+      },
+      {
+        "title": "Plan de déploiement",
+        "file": "Plan_Deploiement.pdf"
+      }
+    ],
+    "kmModeles": [
+      {
+        "title": "Modèle PV comité",
+        "file": "Modele_PV_Comite.docx"
+      },
+      {
+        "title": "Modèle note de service",
+        "file": "Modele_Note_Service.docx"
+      },
+      {
+        "title": "Formulaire expression de besoin",
+        "file": "Formulaire_EDB.docx"
+      }
+    ],
+    "kmPublications": [
+      {
+        "title": "Bilan SI – Mars 2026",
+        "meta": "Article • SI",
+        "file": "Bilan_SI_Mars_2026.pdf"
+      },
+      {
+        "title": "Bilan RH – T1 2026",
+        "meta": "Article • RH",
+        "file": "Bilan_RH_T1_2026.pdf"
+      }
+    ],
+    "kmIntegrationMedia": [
+      {
+        "title": "Capsule - Process liquidation",
+        "meta": "Vidéo · 4 min",
+        "file": "Media_Capsule_Liquidation.mp4",
+        "icon": "play-circle"
+      },
+      {
+        "title": "Infographie - Parcours assuré",
+        "meta": "Image · PNG",
+        "file": "Media_Infographie_Parcours.png",
+        "icon": "image"
+      },
+      {
+        "title": "Album - Atelier métier",
+        "meta": "Galerie · 12 photos",
+        "file": "Media_Album_Atelier.zip",
+        "icon": "gallery-horizontal"
+      },
+      {
+        "title": "Présentation - Domaine Retraite",
+        "meta": "Présentation · PPT",
+        "file": "Media_Presentation_Retraite.pptx",
+        "icon": "presentation"
+      }
+    ],
+    "kmGlpiTickets": [
+      {
+        "id": "t1",
+        "title": "Accès VPN",
+        "meta": "Ouvert • P2"
+      },
+      {
+        "id": "t2",
+        "title": "Incident impression",
+        "meta": "En cours • P3"
+      }
+    ],
+    "kmSupports": [
+      {
+        "title": "Capsule vidéo – GED",
+        "meta": "3 min",
+        "file": "Capsule_GED.mp4"
+      },
+      {
+        "title": "Infographie – Sécurité SI",
+        "meta": "PDF",
+        "file": "Infographie_Securite.pdf"
+      },
+      {
+        "title": "Guide – Bonnes pratiques KM",
+        "meta": "PDF",
+        "file": "Guide_Bonnes_Pratiques_KM.pdf"
+      }
+    ],
+    "kmStories": [
+      {
+        "title": "Story – Transformation du parcours assuré",
+        "type": "Article",
+        "meta": "Communication transverse",
+        "file": "Story_Parcours_Assure.pdf"
+      },
+      {
+        "title": "Story – Refonte intranet en 5 étapes",
+        "type": "Media",
+        "meta": "Projet SI",
+        "file": "Story_Refonte_Intranet.mp4"
+      },
+      {
+        "title": "Story – Modernisation GED",
+        "type": "Article",
+        "meta": "KM transverse",
+        "file": "Story_Modernisation_GED.pdf"
+      }
+    ],
+    "kmCampagnes": [
+      {
+        "id": "cmp1",
+        "title": "Campagne relation client",
+        "domain": "Gestion de la relation client",
+        "audience": "Collaborateurs relation client",
+        "type": "Sondage",
+        "responses": 28,
+        "desc": "Recueillir les bonnes pratiques terrain pour enrichir le référentiel accueil."
+      },
+      {
+        "id": "cmp2",
+        "title": "Campagne gestion retraite",
+        "domain": "Gestion de la retraite",
+        "audience": "Équipes retraite",
+        "type": "Formulaire",
+        "responses": 16,
+        "desc": "Identifier les points de vigilance récurrents à capitaliser dans le traitement des dossiers."
+      },
+      {
+        "id": "cmp3",
+        "title": "Campagne Risk Management",
+        "domain": "Gestion du Risk Management",
+        "audience": "Référents risques",
+        "type": "Formulaire",
+        "responses": 9,
+        "desc": "Collecter les bonnes pratiques de suivi et mitigation des risques métiers."
+      }
+    ],
+    "kmAuditRisque": [
+      {
+        "title": "Rubrique Audit & conformité",
+        "meta": "Dossiers / articles",
+        "file": "KM_Audit_Conformite.pdf"
+      },
+      {
+        "title": "Bonnes pratiques gestion des risques",
+        "meta": "Documentation métier",
+        "file": "Bonnes_Pratiques_Risques.pdf"
+      },
+      {
+        "title": "Synthèse conformité réglementaire",
+        "meta": "Article de synthèse",
+        "file": "Synthese_Conformite_Reglementaire.pdf"
+      }
+    ],
+    "kmCapsulesUx": [
+      {
+        "title": "Capsule UX – Parcours e‑Service",
+        "meta": "Vidéo projet SI • 4 min",
+        "file": "Capsule_UX_eService.mp4"
+      },
+      {
+        "title": "Capsule UX – Onboarding intranet",
+        "meta": "Vidéo projet SI • 3 min",
+        "file": "Capsule_UX_Intranet.mp4"
+      },
+      {
+        "title": "Capsule UX – Recherche GED",
+        "meta": "Capsule usage • 2 min",
+        "file": "Capsule_UX_GED.mp4"
+      }
+    ],
+    "kmRegimesProcessus": [
+      {
+        "id": "rp1",
+        "title": "Régimes de retraite CMR",
+        "meta": "Page métier • onboarding",
+        "body": "Présentation des principaux régimes, de leurs spécificités et des points d’attention pour les nouvelles recrues.",
+        "file": "Regimes_Retraite_CMR.pdf"
+      },
+      {
+        "id": "rp2",
+        "title": "Processus de liquidation",
+        "meta": "Infographie • processus",
+        "body": "Vue simplifiée des étapes, contrôles et interactions métier nécessaires au traitement d’un dossier.",
+        "file": "Processus_Liquidation_Infographie.pdf"
+      },
+      {
+        "id": "rp3",
+        "title": "Processus de révision / mise à jour",
+        "meta": "Fiche métier • processus",
+        "body": "Repères sur les opérations de mise à jour, pièces justificatives et contrôles associés.",
+        "file": "Processus_Revision_MAJ.pdf"
+      }
+    ]
+  }
+}

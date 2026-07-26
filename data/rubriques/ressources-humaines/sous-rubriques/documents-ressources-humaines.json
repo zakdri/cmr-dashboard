@@ -1,0 +1,88 @@
+{
+  "rubrique": "ressources-humaines",
+  "contenu": "Documents RH",
+  "data": {
+    "rhPages": {
+      "documents": {
+        "description": "La rubrique Documents RH conserve l'organisation par catégories. Les valeurs institutionnelles sont transférées vers l'espace Gouvernance.",
+        "categories": [
+          {
+            "title": "Documents administratifs",
+            "items": [
+              {
+                "title": "Demande d'Attestation de Travail.pdf",
+                "meta": "Formulaire",
+                "icon": "file-text",
+                "iconStyle": {
+                  "background": "#fef2f2",
+                  "color": "#dc2626"
+                },
+                "actionIcon": "download"
+              },
+              {
+                "title": "Modèle Demande de Congé Exceptionnel.docx",
+                "meta": "Modèle Word",
+                "icon": "file-text",
+                "iconStyle": {
+                  "background": "#eff6ff",
+                  "color": "#2563eb"
+                },
+                "actionIcon": "download"
+              }
+            ]
+          },
+          {
+            "title": "Référentiels RH",
+            "items": [
+              {
+                "title": "Statut du Personnel CMR",
+                "meta": "Référentiel",
+                "icon": "scale",
+                "iconStyle": {
+                  "background": "#f8fafc",
+                  "color": "#475569"
+                },
+                "actionIcon": "folder-open"
+              },
+              {
+                "title": "Procédures RH Internes",
+                "meta": "15 documents",
+                "icon": "book-open",
+                "iconStyle": {
+                  "background": "#f0fdf4",
+                  "color": "#16a34a"
+                },
+                "actionIcon": "folder-open"
+              }
+            ]
+          },
+          {
+            "title": "Chartes RH",
+            "items": [
+              {
+                "title": "Charte Éthique & Déontologie",
+                "description": "Principes d'intégrité et comportements attendus.",
+                "meta": "Consulter",
+                "icon": "shield-check",
+                "iconStyle": {
+                  "background": "#f5f3ff",
+                  "color": "#7c3aed"
+                }
+              },
+              {
+                "title": "Charte RSE",
+                "description": "Engagements sociaux et environnementaux.",
+                "meta": "Consulter",
+                "icon": "leaf",
+                "iconStyle": {
+                  "background": "#ecfdf5",
+                  "color": "#059669"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

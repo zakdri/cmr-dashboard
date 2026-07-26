@@ -1,0 +1,18 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Référentiels RSE - codes",
+  "data": {
+    "rseReferentiels": {
+      "codes": [
+        {
+          "title": "Code éthique",
+          "file": "Code_Ethique.pdf"
+        },
+        {
+          "title": "Code de conduite",
+          "file": "Code_Conduite.pdf"
+        }
+      ]
+    }
+  }
+}

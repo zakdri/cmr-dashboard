@@ -1,0 +1,25 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Contenus pédagogiques QSE",
+  "data": {
+    "qsePages": {
+      "contenus": {
+        "title": "Contenus pédagogiques",
+        "icon": "megaphone",
+        "iconClass": "pink"
+      }
+    },
+    "qsePedago": [
+      {
+        "title": "Flash sécurité – EPI",
+        "meta": "Média / article",
+        "file": "Flash_Securite_EPI.pdf"
+      },
+      {
+        "title": "Vidéo – gestes de sécurité",
+        "meta": "Média / article",
+        "file": "Video_Gestes_Securite.mp4"
+      }
+    ]
+  }
+}

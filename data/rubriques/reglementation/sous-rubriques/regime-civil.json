@@ -1,0 +1,38 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Réglementation - regime-civil",
+  "data": {
+    "regPages": {
+      "regime-civil": {
+        "title": "Régime Civil",
+        "icon": "file-text",
+        "iconClass": "blue",
+        "description": "Cette sous-rubrique présente les textes applicables au régime civil et à ses règles de gestion.",
+        "searchPlaceholder": "Rechercher un texte du régime civil...",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Lois",
+            "value": "Loi"
+          },
+          {
+            "label": "Décrets",
+            "value": "Décret"
+          },
+          {
+            "label": "Circulaires",
+            "value": "Circulaire"
+          },
+          {
+            "label": "Décisions",
+            "value": "Décision"
+          }
+        ]
+      }
+    }
+  }
+}

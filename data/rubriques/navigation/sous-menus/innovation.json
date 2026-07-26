@@ -1,0 +1,25 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu innovation",
+  "data": {
+    "sidebarSubmenus": {
+      "innovation": {
+        "title": "Innovation",
+        "items": [
+          {
+            "label": "Suivi des projets",
+            "tab": "suivi"
+          },
+          {
+            "label": "Espace Idées",
+            "tab": "espace-idees"
+          },
+          {
+            "label": "Innov Event",
+            "tab": "innov-event"
+          }
+        ]
+      }
+    }
+  }
+}

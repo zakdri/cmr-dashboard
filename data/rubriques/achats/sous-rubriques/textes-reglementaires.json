@@ -1,0 +1,28 @@
+{
+  "rubrique": "achats",
+  "contenu": "Textes réglementaires",
+  "data": {
+    "achatsSections": [
+      {
+        "title": "Textes réglementaires",
+        "description": "Bibliothèque PDF des textes applicables aux achats.",
+        "summary": "Cette bibliothèque centralise les textes juridiques et réglementaires applicables aux marchés publics et aux procédures d'achat. Les documents sont proposés en format PDF pour consultation et téléchargement.",
+        "icon": "scale",
+        "iconStyle": {
+          "background": "#fef2f2",
+          "color": "#dc2626"
+        },
+        "documents": [
+          {
+            "title": "Décret relatif aux marchés publics.pdf",
+            "type": "PDF"
+          },
+          {
+            "title": "Circulaire procédures achats.pdf",
+            "type": "PDF"
+          }
+        ]
+      }
+    ]
+  }
+}

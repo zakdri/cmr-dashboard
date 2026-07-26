@@ -1,0 +1,61 @@
+{
+  "rubrique": "espaces-collaboratifs",
+  "contenu": "Vie interne et galerie",
+  "data": {
+    "collabPages": {
+      "vieinterne": {
+        "title": "Culture interne",
+        "icon": "heart",
+        "iconClass": "pink",
+        "publishLabel": "Publier",
+        "titlePlaceholder": "Titre",
+        "bodyPlaceholder": "Message…",
+        "cancelLabel": "Annuler",
+        "galleryTitle": "Galerie",
+        "galleryIcon": "image",
+        "galleryIconClass": "blue",
+        "consultLabel": "Consulter"
+      }
+    },
+    "collabCulturePosts": [
+      {
+        "id": "c1",
+        "title": "Bienvenue aux nouveaux arrivants",
+        "date": "Avr 2026",
+        "body": "Une session d’intégration est prévue cette semaine."
+      },
+      {
+        "id": "c2",
+        "title": "Semaine bien‑être",
+        "date": "Mars 2026",
+        "body": "Programme: sport, nutrition, échanges."
+      }
+    ],
+    "collabGallery": [
+      {
+        "title": "Photo – Atelier",
+        "file": "Galerie_Atelier_01.png"
+      },
+      {
+        "title": "Photo – Vie interne",
+        "file": "Galerie_Vie_02.png"
+      },
+      {
+        "title": "Photo – Évènement",
+        "file": "Galerie_Event_03.png"
+      },
+      {
+        "title": "Photo – Team",
+        "file": "Galerie_Team_04.png"
+      },
+      {
+        "title": "Photo – Conférence",
+        "file": "Galerie_Conf_05.png"
+      },
+      {
+        "title": "Photo – Workshop",
+        "file": "Galerie_WS_06.png"
+      }
+    ]
+  }
+}

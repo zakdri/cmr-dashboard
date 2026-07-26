@@ -1,0 +1,22 @@
+{
+  "rubrique": "strategie-et-projets",
+  "contenu": "Projet de refonte de l’intranet",
+  "data": {
+    "projetsItems": [
+      {
+        "id": "refonte-intranet",
+        "title": "Projet Refonte Intranet",
+        "description": "Phase 2 : Conception SFD / Maquettes",
+        "status": "Ouvert",
+        "progressLabel": "Progression:",
+        "progress": 70,
+        "icon": "briefcase",
+        "iconStyle": {
+          "background": "#eff6ff",
+          "color": "#3b82f6"
+        },
+        "progressColor": "#3b82f6"
+      }
+    ]
+  }
+}

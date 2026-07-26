@@ -1,0 +1,35 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Rapports de gouvernance",
+  "data": {
+    "orgGovPages": {
+      "rapports-gouvernance": {
+        "title": "Rapports gouvernance",
+        "icon": "folder-lock",
+        "iconClass": "blue"
+      }
+    },
+    "orgGovRapportsGouvernanceData": [
+      {
+        "dossier": "Conseil d'administration",
+        "title": "Rapport CA — T1 2026",
+        "file": "Rapport_CA_T1_2026.pdf"
+      },
+      {
+        "dossier": "Conseil d'administration",
+        "title": "Dossier préparatoire CA Mars 2026",
+        "file": "Dossier_Preparatoire_CA_Mar_2026.pdf"
+      },
+      {
+        "dossier": "Instances de gouvernance",
+        "title": "Synthèse gouvernance 2025",
+        "file": "Synthese_Gouvernance_2025.pdf"
+      },
+      {
+        "dossier": "Instances de gouvernance",
+        "title": "Charte des comités — version 2026",
+        "file": "Charte_Comites_2026.pdf"
+      }
+    ]
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "rubrique": "systemes-information-transformation-digitale",
+  "contenu": "Configuration des Systèmes d’information et de la transformation digitale",
+  "data": {
+    "sitdHeader": {
+      "title": "Espace SI / SITD",
+      "description": "Sécurité de l'information, SMSI, référentiel IT, contrats de services et exploitation documentaire."
+    },
+    "sitdMainTabs": [
+      {
+        "label": "Sécurité De L'Information",
+        "tab": "securite-si"
+      },
+      {
+        "label": "SMSI",
+        "tab": "smsi"
+      },
+      {
+        "label": "Référentiel IT",
+        "tab": "referentiel-it"
+      },
+      {
+        "label": "Contrats de services",
+        "tab": "contrats-services"
+      },
+      {
+        "label": "Exploitation",
+        "tab": "exploitation"
+      }
+    ],
+    "sitdSectionSummaries": {
+      "securite-si": "La rubrique Sécurité De L'Information regroupe les contenus de sensibilisation, les parcours e-learning, les événements et les campagnes dédiés à la sécurité.",
+      "smsi": "La rubrique SMSI centralise les politiques, procédures, cartographies des risques et éléments de pilotage du système de management de la sécurité de l'information.",
+      "referentiel-it": "La rubrique Référentiel IT rassemble les documents de référence IT issus de la GED OpenText et classés selon les critères DSI.",
+      "contrats-services": "La rubrique Contrats de services centralise les engagements documentaires par structure métier.",
+      "exploitation": "La rubrique Exploitation donne accès aux outils d'exploitation et aux documents disponibles via la GED OpenText."
+    },
+    "sitdSectionConfig": {
+      "securite-si": {
+        "subs": [
+          {
+            "id": "sensibilisation-cyber",
+            "label": "Sensibilisation"
+          },
+          {
+            "id": "modules-elearning",
+            "label": "Modules E-Learning"
+          },
+          {
+            "id": "evenements-securite",
+            "label": "Événements Sécurité De L'Information"
+          },
+          {
+            "id": "campagnes-si",
+            "label": "Campagnes Sécurité De L'Information"
+          }
+        ],
+        "defaultSub": "sensibilisation-cyber"
+      },
+      "smsi": {
+        "subs": [
+          {
+            "id": "smsi-politiques",
+            "label": "Politiques"
+          },
+          {
+            "id": "smsi-procedures",
+            "label": "Procédures"
+          },
+          {
+            "id": "smsi-risques",
+            "label": "Cartographie des risques"
+          },
+          {
+            "id": "smsi-pilotage",
+            "label": "Pilotage SI"
+          }
+        ],
+        "defaultSub": "smsi-politiques"
+      },
+      "referentiel-it": {
+        "subs": [
+          {
+            "id": "referentiel-it",
+            "label": "Référentiel IT"
+          }
+        ],
+        "defaultSub": "referentiel-it"
+      },
+      "contrats-services": {
+        "subs": [
+          {
+            "id": "contrats-services",
+            "label": "Contrats de services"
+          }
+        ],
+        "defaultSub": "contrats-services"
+      },
+      "exploitation": {
+        "subs": [
+          {
+            "id": "exploitation",
+            "label": "Exploitation"
+          }
+        ],
+        "defaultSub": "exploitation"
+      }
+    },
+    "sitdLabels": {
+      "accessLabel": "Accéder",
+      "startLabel": "Démarrer",
+      "detailLabel": "Voir détail",
+      "campaignProgressPrefix": "Progression campagne :",
+      "elearningNote": "À interfacer avec la plateforme e-learning existante (maquette).",
+      "elearningMetaSuffix": "Catalogue / lecteur",
+      "sensibilisationMeta": "Portail dynamique — consulter & suivre",
+      "supportMetaPrefix": "Bibliothèque documentaire",
+      "searchBpPlaceholder": "Rechercher une bonne pratique…",
+      "emptyResult": "Aucun résultat.",
+      "bpMetaSuffix": "Dossiers / catégories",
+      "glpiWidgetTitle": "Widget GLPI — tickets",
+      "glpiTitlePlaceholder": "Objet du ticket",
+      "glpiDescriptionPlaceholder": "Description…",
+      "glpiCreateLabel": "Créer ticket (maquette)",
+      "glpiAccessTitle": "Accès GLPI",
+      "glpiAccessDescription": "Interfaçage widget / lien — synchronisation SI (maquette).",
+      "glpiOpenLabel": "Ouvrir GLPI",
+      "glpiOpenFile": "Guide_Acces_GLPI.pdf",
+      "glpiOpenTitle": "Guide accès GLPI",
+      "newTicketPrefix": "Nouveau • ",
+      "withDescriptionLabel": "Avec description",
+      "withoutDescriptionLabel": "Sans description",
+      "dashboardNote": "Dashboard KPI — pilotage SI (maquette).",
+      "participationPrefix": "Participation :",
+      "respondLabel": "Répondre",
+      "analyzeLabel": "Analyser",
+      "surveyThanks": "Merci pour votre participation (maquette).",
+      "surveyResultsFile": "Resultats_Enquete_SI.pdf",
+      "surveyResultsTitle": "Résultats enquête",
+      "surveyNote": "À mutualiser avec l’espace RH (enquêtes).",
+      "slaColumns": [
+        "Service",
+        "Engagement SLA",
+        "Indicateur",
+        "Statut",
+        "Fiche"
+      ],
+      "consultLabel": "Consulter",
+      "consultSheetLabel": "Consulter la fiche",
+      "docMetaPrefix": "GED OpenText",
+      "downloadLabel": "Télécharger",
+      "allLabel": "Tous",
+      "pdfPublicMeta": "PDF • Grand public CMR",
+      "pdfReservedMeta": "PDF • Public réservé",
+      "openElearningLabel": "Ouvrir la plateforme e-learning",
+      "elearningUrl": "https://elearning.cmr.local",
+      "operationsFolderLabel": "Accéder au répertoire d'exploitation",
+      "operationsFolderUrl": "file://outils-exploitation-cmr",
+      "gedOpenTextLabel": "Consulter les documents GED OpenText",
+      "gedOpenTextUrl": "https://ged-opentext.cmr.local/exploitation"
+    }
+  }
+}

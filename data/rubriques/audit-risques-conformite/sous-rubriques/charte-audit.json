@@ -1,0 +1,30 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Charte d’audit",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "charte-audit",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Audit interne",
+        "sousRubrique": "Charte Audit",
+        "fonctionnalite": "Publication de la charte d'audit",
+        "description": "Mettre à disposition la charte d'audit institutionnelle.",
+        "typeContenu": "Document",
+        "typeUx": "Page / PDF",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Institutionnel"
+      }
+    ],
+    "arcCharteDocs": [
+      {
+        "title": "Charte d'audit interne — version 2026",
+        "file": "Charte_Audit_Interne_2026.pdf",
+        "date": "Jan 2026"
+      }
+    ]
+  }
+}

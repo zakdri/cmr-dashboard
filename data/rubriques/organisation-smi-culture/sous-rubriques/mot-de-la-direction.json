@@ -1,0 +1,19 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Mot de la Direction",
+  "data": {
+    "orgGovPages": {
+      "direction": {
+        "title": "Mot de la Direction",
+        "badge": "SMI & Organisation & RSE",
+        "date": "25 Avril 2026",
+        "messageTitle": "Point d’étape sur la feuille de route 2026",
+        "message": "Chers collaborateurs, nous poursuivons la modernisation de nos processus et de notre organisation. L’objectif de ce trimestre est de renforcer la gouvernance des projets, d’améliorer la qualité de service et de consolider nos référentiels.",
+        "downloadLabel": "Télécharger la note",
+        "downloadHandler": "openMockDownload('Note_DG_2026_T2.pdf','Note DG — priorités du trimestre');",
+        "newsLabel": "Voir l’actualité liée",
+        "newsHandler": "goToActualites(1);"
+      }
+    }
+  }
+}

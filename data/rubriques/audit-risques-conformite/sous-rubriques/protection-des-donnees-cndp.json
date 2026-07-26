@@ -1,0 +1,43 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Protection des données et CNDP",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "cndp",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Risque & conformité",
+        "sousRubrique": "CNDP",
+        "fonctionnalite": "Rubrique autorisations CNDP",
+        "description": "Publier les autorisations et référentiels CNDP.",
+        "typeContenu": "Document réglementaire",
+        "typeUx": "Fiches / documents",
+        "interactions": "Consulter",
+        "cible": "Collaborateurs",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Conformité réglementaire"
+      }
+    ],
+    "arcCndpItems": [
+      {
+        "ref": "AUT-2025-14",
+        "title": "Autorisation — Traitement données RH",
+        "date": "2025",
+        "file": "CNDP_Autorisation_RH.pdf"
+      },
+      {
+        "ref": "AUT-2026-03",
+        "title": "Autorisation — Portail collaborateur",
+        "date": "Fév 2026",
+        "file": "CNDP_Autorisation_Portail.pdf"
+      },
+      {
+        "ref": "REF-CNDP",
+        "title": "Référentiel — Registre des traitements",
+        "date": "MAJ 2026",
+        "file": "CNDP_Registre_Traitements.pdf"
+      }
+    ]
+  }
+}

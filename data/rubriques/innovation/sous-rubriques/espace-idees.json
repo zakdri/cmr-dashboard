@@ -1,0 +1,113 @@
+{
+  "rubrique": "innovation",
+  "contenu": "Espace Idées",
+  "data": {
+    "innovationPages": {
+      "espace-idees": {
+        "title": "Espace Idées",
+        "icon": "lightbulb",
+        "iconClass": "pink",
+        "description": "Cette rubrique permet de déposer des idées spontanées et des propositions CMR Innov.",
+        "spontaneousLabel": "Dépôt d'idée spontanée",
+        "cmrInnovLabel": "CMR Innov",
+        "ideaButton": "Proposer une idée",
+        "innovButton": "Proposer Innov",
+        "ideaFormTitle": "Formulaire de dépôt",
+        "innovFormTitle": "Formulaire de dépôt Innov",
+        "sendLabel": "Envoyer"
+      }
+    },
+    "innovationThemeOptions": [
+      "Approche Novatrice Client-Centric",
+      "Investissement institutionnel",
+      "Transformation Interne",
+      "Excellence Opérationnelle",
+      "RSE"
+    ],
+    "innovationSpontaneousThemeOptions": [
+      "Approche Novatrice Client-Centric",
+      "Investissement institutionnel",
+      "Transformation Interne",
+      "Excellence Opérationnelle",
+      "RSE"
+    ],
+    "innovationCmrInnovThemeOptions": [
+      "RSE",
+      "Technologie",
+      "Excellence Opérationnelle"
+    ],
+    "cmrInnovItems": [
+      {
+        "id": "ci1",
+        "title": "Challenge Data Retraite",
+        "theme": "Technologie",
+        "period": "01/06/2026 - 30/06/2026",
+        "image": "images/intranet/slider2.png"
+      },
+      {
+        "id": "ci2",
+        "title": "Innov Service Collaborateur",
+        "theme": "Excellence Opérationnelle",
+        "period": "15/05/2026 - 15/06/2026",
+        "image": "images/intranet/slider1.png"
+      }
+    ],
+    "ideas": [
+      {
+        "id": "i1",
+        "title": "Assistant IA pour tri des demandes",
+        "axis": "Data/IA",
+        "score": 42,
+        "desc": "Automatiser le tri/catégorisation des demandes (GLPI / mail) + routage.",
+        "comments": 5
+      },
+      {
+        "id": "i2",
+        "title": "Dématérialisation PV comités",
+        "axis": "Processus",
+        "score": 28,
+        "desc": "PV standardisés, signature et archivage GED avec métadonnées.",
+        "comments": 2
+      },
+      {
+        "id": "i3",
+        "title": "Tableau de bord satisfaction interne",
+        "axis": "Service",
+        "score": 19,
+        "desc": "KPIs + feedback loop pour actions RH/communication.",
+        "comments": 1
+      }
+    ],
+    "socialComments": [
+      {
+        "author": "Collaborateur 02",
+        "when": "il y a 2h",
+        "text": "Très bonne idée, on peut commencer par un POC sur une catégorie."
+      },
+      {
+        "author": "Collaborateur 03",
+        "when": "hier",
+        "text": "Attention aux données sensibles, prévoir anonymisation."
+      }
+    ],
+    "socialReactions": {
+      "like": 31,
+      "idea": 12,
+      "fire": 6
+    },
+    "socialVotes": [
+      {
+        "label": "Assistant IA tri demandes",
+        "score": 72
+      },
+      {
+        "label": "Démat PV comités",
+        "score": 54
+      },
+      {
+        "label": "Dashboard satisfaction",
+        "score": 29
+      }
+    ]
+  }
+}

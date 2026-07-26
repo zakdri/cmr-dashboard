@@ -1,0 +1,65 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Configuration du Knowledge Management",
+  "data": {
+    "kmHeader": {
+      "title": "Knowledge Management",
+      "description": "L’espace Knowledge Management centralise les référentiels métiers, le glossaire, les retours d’expérience, les communautés, les contributions et les articles de capitalisation."
+    },
+    "kmTabs": [
+      {
+        "id": "referentiels",
+        "label": "Référentiels métiers"
+      },
+      {
+        "id": "glossaire",
+        "label": "Glossaire"
+      },
+      {
+        "id": "rex",
+        "label": "REX"
+      },
+      {
+        "id": "communautes",
+        "label": "Communautés"
+      },
+      {
+        "id": "contributions",
+        "label": "Contributions"
+      },
+      {
+        "id": "publications",
+        "label": "Articles / bilans"
+      },
+      {
+        "id": "integration-km",
+        "label": "Intégration KM"
+      }
+    ],
+    "kmLabels": {
+      "documentsLabel": "documents",
+      "consultLabel": "Consulter",
+      "joinLabel": "Rejoindre",
+      "membersLabel": "Membres",
+      "threadsLabel": "discussions",
+      "startLabel": "Ouvrir",
+      "downloadLabel": "Télécharger",
+      "readLabel": "Lire",
+      "todayLabel": "Aujourd’hui",
+      "defaultRexTheme": "Projet",
+      "newTicketStatus": "Ouvert • P3",
+      "sentTicketStatus": "Envoyé • Nouveau",
+      "detailButtonLabel": "Détail",
+      "emptyTermLabel": "Aucun terme.",
+      "emptyRexLabel": "Aucun REX.",
+      "emptyContentLabel": "Aucun contenu.",
+      "responsesLabel": "réponses",
+      "participationsLabel": "Participations",
+      "audienceLabel": "Audience",
+      "channelLabel": "Canal",
+      "channelValue": "Formulaire / sondage",
+      "participateLabel": "Participer",
+      "selectedLabel": "Sélectionné"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - integration-knowledge-management",
+  "data": {
+    "kmPages": {
+      "integration-km": {
+        "title": "Intégration KM",
+        "icon": "images",
+        "iconClass": "blue",
+        "description": "Cette rubrique, issue de l'ancien espace Métier, regroupe les contenus multimédias utiles à l'intégration et à la transmission des connaissances métiers."
+      }
+    },
+    "kmIntegrationMedia": [
+      {
+        "title": "Capsule - Process liquidation",
+        "meta": "Vidéo · 4 min",
+        "file": "Media_Capsule_Liquidation.mp4",
+        "icon": "play-circle"
+      },
+      {
+        "title": "Infographie - Parcours assuré",
+        "meta": "Image · PNG",
+        "file": "Media_Infographie_Parcours.png",
+        "icon": "image"
+      },
+      {
+        "title": "Album - Atelier métier",
+        "meta": "Galerie · 12 photos",
+        "file": "Media_Album_Atelier.zip",
+        "icon": "gallery-horizontal"
+      },
+      {
+        "title": "Présentation - Domaine Retraite",
+        "meta": "Présentation · PPT",
+        "file": "Media_Presentation_Retraite.pptx",
+        "icon": "presentation"
+      }
+    ]
+  }
+}

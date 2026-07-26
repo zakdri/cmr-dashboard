@@ -1,0 +1,57 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Manuels des procédures",
+  "data": {
+    "orgGovPages": {
+      "referentiels": {
+        "title": "Manuels des procédures",
+        "foldersTitle": "Processus",
+        "documentsTitle": "Documents associés"
+      }
+    },
+    "referentiels": [
+      {
+        "id": "r1",
+        "dossier": "Processus pilotage organisationnel",
+        "docs": [
+          {
+            "file": "Manuel_Processus_Pilotage_Organisationnel.pdf",
+            "label": "Manuel du processus pilotage organisationnel"
+          },
+          {
+            "file": "Procedure_Mise_A_Jour_Organisation.pdf",
+            "label": "Procédure de mise à jour de l’organisation"
+          }
+        ]
+      },
+      {
+        "id": "r2",
+        "dossier": "Processus gouvernance interne",
+        "docs": [
+          {
+            "file": "Manuel_Processus_Gouvernance_Interne.pdf",
+            "label": "Manuel du processus gouvernance interne"
+          },
+          {
+            "file": "Procedure_Circuit_Decisionnel.pdf",
+            "label": "Procédure circuit décisionnel"
+          }
+        ]
+      },
+      {
+        "id": "r3",
+        "dossier": "Processus documentation SMI",
+        "docs": [
+          {
+            "file": "Manuel_Processus_Documentation_SMI.pdf",
+            "label": "Manuel du processus documentation SMI"
+          },
+          {
+            "file": "Procedure_Gestion_Documents_SMI.pdf",
+            "label": "Procédure gestion des documents SMI"
+          }
+        ]
+      }
+    ]
+  }
+}

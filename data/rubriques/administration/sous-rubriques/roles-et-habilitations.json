@@ -1,0 +1,49 @@
+{
+  "rubrique": "administration",
+  "contenu": "Rôles et habilitations",
+  "data": {
+    "adminSectionConfig": {
+      "habilitations": {
+        "subs": [
+          {
+            "id": "roles",
+            "label": "Rôles"
+          }
+        ],
+        "defaultSub": "roles"
+      }
+    },
+    "adminPageCards": {
+      "roles": {
+        "rolesTitle": "Rôles",
+        "rolesIcon": "key",
+        "rolesIconClass": "orange",
+        "assignTitle": "Attribution",
+        "assignIcon": "user-cog",
+        "assignIconClass": "blue"
+      }
+    },
+    "adminRoles": [
+      {
+        "id": "r_admin",
+        "name": "Administrateur",
+        "desc": "Tous droits (admin)."
+      },
+      {
+        "id": "r_contrib",
+        "name": "Contributeur",
+        "desc": "Publier / modifier contenus."
+      },
+      {
+        "id": "r_user",
+        "name": "Utilisateur",
+        "desc": "Consulter."
+      }
+    ],
+    "adminUserRoles": {
+      "u1": "Administrateur",
+      "u2": "Contributeur",
+      "u3": "Utilisateur"
+    }
+  }
+}

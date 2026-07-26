@@ -1,0 +1,28 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "FAQ QSE-RSE",
+  "data": {
+    "orgGovPages": {
+      "culture-faq": {
+        "title": "FAQ",
+        "icon": "circle-help",
+        "iconClass": "blue",
+        "searchPlaceholder": "Rechercher une question..."
+      }
+    },
+    "orgGovCultureFaq": [
+      {
+        "question": "Comment déclarer une non-conformité ?",
+        "answer": "La déclaration se fait via la sous-rubrique Remontées terrain avec la typologie adaptée."
+      },
+      {
+        "question": "Où trouver les supports de sensibilisation ?",
+        "answer": "Les supports sont disponibles dans Contenus pédagogiques avec consultation et téléchargement."
+      },
+      {
+        "question": "Qui suit les actions d’audit SMI ?",
+        "answer": "Les pilotes de processus et correspondants SMI suivent les actions selon la matrice communiquée par la CMR."
+      }
+    ]
+  }
+}

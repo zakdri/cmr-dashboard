@@ -1,0 +1,155 @@
+{
+  "rubrique": "responsabilite-sociale-environnementale",
+  "contenu": "Configuration de la Responsabilité sociale et environnementale",
+  "data": {
+    "rseHeader": {
+      "title": "Espace RSE",
+      "description": "Référentiels RSE, reporting, initiatives, participation et animation."
+    },
+    "rseMainTabs": [
+      {
+        "label": "Référentiels RSE",
+        "tab": "referentiels"
+      },
+      {
+        "label": "Reporting",
+        "tab": "reporting"
+      },
+      {
+        "label": "Initiatives",
+        "tab": "initiatives"
+      },
+      {
+        "label": "Communication",
+        "tab": "communication"
+      },
+      {
+        "label": "Participation",
+        "tab": "participation"
+      },
+      {
+        "label": "Structuration",
+        "tab": "structuration"
+      },
+      {
+        "label": "Interactivité",
+        "tab": "interactivite"
+      }
+    ],
+    "rseSectionConfig": {
+      "referentiels": {
+        "label": "Référentiels RSE",
+        "subs": [
+          {
+            "id": "politiques",
+            "label": "Politiques"
+          },
+          {
+            "id": "chartes",
+            "label": "Chartes"
+          },
+          {
+            "id": "codes",
+            "label": "Codes éthiques"
+          },
+          {
+            "id": "guides",
+            "label": "Guides pratiques"
+          }
+        ],
+        "defaultSub": "politiques"
+      },
+      "reporting": {
+        "label": "Reporting",
+        "subs": [
+          {
+            "id": "rapports",
+            "label": "Rapports RSE"
+          }
+        ],
+        "defaultSub": "rapports"
+      },
+      "initiatives": {
+        "label": "Initiatives",
+        "subs": [
+          {
+            "id": "actions",
+            "label": "Actions RSE"
+          }
+        ],
+        "defaultSub": "actions"
+      },
+      "communication": {
+        "label": "Communication",
+        "subs": [
+          {
+            "id": "infos",
+            "label": "Information RSE"
+          }
+        ],
+        "defaultSub": "infos"
+      },
+      "participation": {
+        "label": "Participation",
+        "subs": [
+          {
+            "id": "idees",
+            "label": "Idées"
+          },
+          {
+            "id": "contributions",
+            "label": "Contributions"
+          },
+          {
+            "id": "rex",
+            "label": "Retours d’expérience"
+          }
+        ],
+        "defaultSub": "idees"
+      },
+      "structuration": {
+        "label": "Structuration",
+        "subs": [
+          {
+            "id": "axes",
+            "label": "Axes stratégiques"
+          }
+        ],
+        "defaultSub": "axes"
+      },
+      "interactivite": {
+        "label": "Interactivité",
+        "subs": [
+          {
+            "id": "echanges",
+            "label": "Échanges"
+          },
+          {
+            "id": "sensibilisation",
+            "label": "Sensibilisation"
+          },
+          {
+            "id": "animation",
+            "label": "Animation"
+          }
+        ],
+        "defaultSub": "echanges"
+      }
+    },
+    "rseLabels": {
+      "consultLabel": "Consulter",
+      "scoreLabel": "Score",
+      "voteUpLabel": "Voter +1",
+      "voteDownLabel": "Voter -1",
+      "todayLabel": "Aujourd’hui",
+      "filterLabel": "Filtrer",
+      "messagePlaceholder": "Écrire un message…",
+      "commentLabel": "Commenter",
+      "currentUserLabel": "Vous",
+      "nowLabel": "à l’instant",
+      "participateLabel": "Participer",
+      "resultsLabel": "Voir résultats",
+      "resultsPrefix": "Résultats"
+    }
+  }
+}

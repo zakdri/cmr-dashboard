@@ -1,0 +1,38 @@
+{
+  "rubrique": "mediatheque",
+  "module": "mediatheque",
+  "fichiers": [
+    {
+      "contenu": "Configuration de la médiathèque",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Accueil de la médiathèque",
+      "fichier": "sous-rubriques/accueil-mediatheque.json"
+    },
+    {
+      "contenu": "Photothèque",
+      "fichier": "sous-rubriques/phototheque.json"
+    },
+    {
+      "contenu": "Vidéothèque",
+      "fichier": "sous-rubriques/videotheque.json"
+    },
+    {
+      "contenu": "Catégories de contenus",
+      "fichier": "sous-rubriques/categories-de-contenus.json"
+    },
+    {
+      "contenu": "Consultation des contenus",
+      "fichier": "sous-rubriques/consultation-des-contenus.json"
+    },
+    {
+      "contenu": "Téléchargement des contenus",
+      "fichier": "sous-rubriques/telechargement-des-contenus.json"
+    },
+    {
+      "contenu": "Intégration de la médiathèque aux autres espaces",
+      "fichier": "sous-rubriques/integration-aux-autres-espaces.json"
+    }
+  ]
+}

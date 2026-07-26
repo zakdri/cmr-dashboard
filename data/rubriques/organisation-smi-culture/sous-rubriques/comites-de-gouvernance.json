@@ -1,0 +1,81 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Comités de gouvernance",
+  "data": {
+    "orgGovPages": {
+      "comites": {
+        "title": "Rubrique Comités",
+        "listTitle": "Liste des comités",
+        "detailTitle": "Dossier du comité",
+        "emptyDetail": "Sélectionnez un comité.",
+        "timelineTitle": "Décisions & comptes rendus"
+      }
+    },
+    "comitesData": [
+      {
+        "id": "k1",
+        "nom": "Comité d'audit",
+        "periodicite": "Trimestriel",
+        "docs": [
+          {
+            "file": "PV_Comite_Audit_T1_2026.pdf",
+            "label": "PV T1 2026"
+          },
+          {
+            "file": "PV_Comite_Audit_T4_2025.pdf",
+            "label": "PV T4 2025"
+          }
+        ]
+      },
+      {
+        "id": "k2",
+        "nom": "Comité de pilotage",
+        "periodicite": "Mensuel",
+        "docs": [
+          {
+            "file": "PV_COPIL_Avr_2026.pdf",
+            "label": "PV Avril 2026"
+          },
+          {
+            "file": "PV_COPIL_Mars_2026.pdf",
+            "label": "PV Mars 2026"
+          }
+        ]
+      }
+    ],
+    "orgGovComitesTimelineData": [
+      {
+        "date": "Avr 2026",
+        "comite": "Comité de pilotage",
+        "type": "CR",
+        "title": "CR COPIL — priorités T2",
+        "file": "CR_COPIL_Avr_2026.pdf",
+        "kpi": "12 décisions actées"
+      },
+      {
+        "date": "Mar 2026",
+        "comite": "Comité d'audit",
+        "type": "Décision",
+        "title": "Validation plan d'audit 2026",
+        "file": "Decision_Comite_Audit_Mar_2026.pdf",
+        "kpi": "87 % reco. implémentées"
+      },
+      {
+        "date": "Fév 2026",
+        "comite": "Comité de pilotage",
+        "type": "KPI",
+        "title": "Tableau de bord stratégique T1",
+        "file": "KPI_Strategiques_T1_2026.pdf",
+        "kpi": "Satisfaction assurés : 82 %"
+      },
+      {
+        "date": "Jan 2026",
+        "comite": "Comité de pilotage",
+        "type": "CR",
+        "title": "CR COPIL — lancement année",
+        "file": "CR_COPIL_Jan_2026.pdf",
+        "kpi": "Feuille de route validée"
+      }
+    ]
+  }
+}

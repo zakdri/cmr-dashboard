@@ -1,0 +1,450 @@
+{
+  "module": "rh",
+  "generatedFrom": "manifest.json",
+  "data": {
+    "rhHeader": {
+      "title": "Mes Services RH",
+      "description": "Un espace centré sur les services RH utiles au collaborateur : carrière, documents, mobilité, enquêtes et forums."
+    },
+    "rhTabs": [
+      {
+        "id": "carriere",
+        "label": "Ma Carrière"
+      },
+      {
+        "id": "documents",
+        "label": "Documents RH"
+      },
+      {
+        "id": "offres",
+        "label": "Postes Vacants"
+      },
+      {
+        "id": "mobilite",
+        "label": "Mobilité spontanée"
+      },
+      {
+        "id": "enquetes",
+        "label": "Enquêtes RH"
+      },
+      {
+        "id": "forums",
+        "label": "Forums & Groupes"
+      }
+    ],
+    "rhPages": {
+      "carriere": {
+        "description": "La rubrique Ma Carrière donne une vue synthétique du profil collaborateur et du parcours RH associé.",
+        "profile": {
+          "title": "Profil Collaborateur",
+          "fields": [
+            {
+              "label": "Poste",
+              "value": "Consultant Senior"
+            },
+            {
+              "label": "Affectation",
+              "value": "Digital & Innovation"
+            }
+          ],
+          "action": "Consulter le profil"
+        },
+        "pathTitle": "Parcours collaborateur",
+        "pathDescription": "Le parcours est présenté sous forme de panneaux consultables avec descriptions, pièces jointes et liens utiles.",
+        "pathSteps": [
+          {
+            "title": "Onboarding",
+            "description": "Accueil, installation, accès aux outils et intégration dans l'équipe.",
+            "attachments": [
+              "Guide d'accueil.pdf",
+              "Check-list onboarding.pdf"
+            ],
+            "linkLabel": "Accéder aux démarches"
+          },
+          {
+            "title": "Développement",
+            "description": "Suivi des objectifs, accompagnement managérial et développement professionnel.",
+            "attachments": [
+              "Guide entretien annuel.pdf"
+            ],
+            "linkLabel": "Consulter le parcours"
+          },
+          {
+            "title": "Formation",
+            "description": "Demandes de formation spontanées et programmes Level Up.",
+            "attachments": [
+              "Catalogue formation.pdf"
+            ],
+            "linkLabel": "Voir les workflows"
+          },
+          {
+            "title": "Offboarding",
+            "description": "Étapes administratives et documents de sortie.",
+            "attachments": [
+              "Check-list offboarding.pdf"
+            ],
+            "linkLabel": "Consulter les étapes"
+          }
+        ]
+      },
+      "documents": {
+        "description": "La rubrique Documents RH conserve l'organisation par catégories. Les valeurs institutionnelles sont transférées vers l'espace Gouvernance.",
+        "categories": [
+          {
+            "title": "Documents administratifs",
+            "items": [
+              {
+                "title": "Demande d'Attestation de Travail.pdf",
+                "meta": "Formulaire",
+                "icon": "file-text",
+                "iconStyle": {
+                  "background": "#fef2f2",
+                  "color": "#dc2626"
+                },
+                "actionIcon": "download"
+              },
+              {
+                "title": "Modèle Demande de Congé Exceptionnel.docx",
+                "meta": "Modèle Word",
+                "icon": "file-text",
+                "iconStyle": {
+                  "background": "#eff6ff",
+                  "color": "#2563eb"
+                },
+                "actionIcon": "download"
+              }
+            ]
+          },
+          {
+            "title": "Référentiels RH",
+            "items": [
+              {
+                "title": "Statut du Personnel CMR",
+                "meta": "Référentiel",
+                "icon": "scale",
+                "iconStyle": {
+                  "background": "#f8fafc",
+                  "color": "#475569"
+                },
+                "actionIcon": "folder-open"
+              },
+              {
+                "title": "Procédures RH Internes",
+                "meta": "15 documents",
+                "icon": "book-open",
+                "iconStyle": {
+                  "background": "#f0fdf4",
+                  "color": "#16a34a"
+                },
+                "actionIcon": "folder-open"
+              }
+            ]
+          },
+          {
+            "title": "Chartes RH",
+            "items": [
+              {
+                "title": "Charte Éthique & Déontologie",
+                "description": "Principes d'intégrité et comportements attendus.",
+                "meta": "Consulter",
+                "icon": "shield-check",
+                "iconStyle": {
+                  "background": "#f5f3ff",
+                  "color": "#7c3aed"
+                }
+              },
+              {
+                "title": "Charte RSE",
+                "description": "Engagements sociaux et environnementaux.",
+                "meta": "Consulter",
+                "icon": "leaf",
+                "iconStyle": {
+                  "background": "#ecfdf5",
+                  "color": "#059669"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mobilite": {
+        "description": "La mobilité spontanée permet au collaborateur d'exprimer un souhait de mobilité interne hors poste vacant publié.",
+        "workflow": {
+          "title": "Workflow Mobilité spontanée",
+          "description": "La demande est déposée par le collaborateur puis instruite selon les habilitations RH.",
+          "steps": [
+            {
+              "title": "Dépôt",
+              "description": "Saisie de la motivation et du périmètre souhaité.",
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            },
+            {
+              "title": "Instruction RH",
+              "description": "Analyse de la demande et vérification des opportunités.",
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            },
+            {
+              "title": "Retour collaborateur",
+              "description": "Notification de la suite donnée à la demande.",
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            }
+          ]
+        },
+        "formTitle": "Déposer une demande de mobilité",
+        "fields": [
+          "Poste ou domaine souhaité",
+          "Motivation",
+          "Disponibilité"
+        ],
+        "submitLabel": "Envoyer la demande"
+      },
+      "enquetes": {
+        "description": "Les enquêtes RH regroupent les baromètres sociaux, les enquêtes d'engagement, les indicateurs et les rapports associés.",
+        "kpis": [
+          {
+            "value": "87%",
+            "label": "Engagement",
+            "trend": "+3 pts vs 2025",
+            "color": "#16a34a"
+          },
+          {
+            "value": "92%",
+            "label": "Participation",
+            "trend": "Baromètre 2026",
+            "color": "#2563eb"
+          },
+          {
+            "value": "4.2/5",
+            "label": "Satisfaction",
+            "trend": "Moyenne déclarée",
+            "color": "#f59e0b"
+          }
+        ],
+        "surveysTitle": "Enquêtes disponibles",
+        "proposeLabel": "Proposer une enquête",
+        "surveys": [
+          {
+            "title": "Baromètre Social 2026",
+            "description": "Mesure annuelle du climat social.",
+            "longDescription": "Questionnaire destiné à mesurer l'engagement, la qualité de vie au travail et les irritants prioritaires.",
+            "theme": "Climat social",
+            "accessLabel": "Accéder au questionnaire",
+            "accessUrl": "#",
+            "submitLabel": "Envoyer",
+            "icon": "clipboard-list",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            },
+            "meta": "Voir plus"
+          },
+          {
+            "title": "Enquête Bien-être au Travail",
+            "description": "Retours collaborateurs sur les conditions de travail.",
+            "longDescription": "Enquête ciblée sur l'équilibre, l'environnement de travail et les besoins d'accompagnement.",
+            "theme": "QVT",
+            "accessLabel": "Accéder au questionnaire",
+            "accessUrl": "#",
+            "submitLabel": "Déposer",
+            "icon": "smile",
+            "iconStyle": {
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            },
+            "meta": "Voir plus"
+          }
+        ],
+        "historyTitle": "Historique et rapports",
+        "historyYears": [
+          "2026",
+          "2025",
+          "2024"
+        ],
+        "history": [
+          {
+            "year": "2026",
+            "title": "Baromètre Social 2026",
+            "description": "Enquête annuelle climat social.",
+            "meta": "En cours",
+            "icon": "calendar-days",
+            "iconStyle": {
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            }
+          },
+          {
+            "year": "2025",
+            "title": "Enquête Télétravail 2025",
+            "description": "Analyse des pratiques de télétravail.",
+            "meta": "Clôturée",
+            "icon": "calendar-days",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            }
+          },
+          {
+            "year": "2024",
+            "title": "Baromètre Engagement 2024",
+            "description": "Mesure de l'engagement collaborateur.",
+            "meta": "Clôturée",
+            "icon": "calendar-days",
+            "iconStyle": {
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            }
+          }
+        ],
+        "reportsTitle": "Rapports des enquêtes et baromètres",
+        "reports": [
+          {
+            "title": "Rapport Baromètre Social 2025.pdf",
+            "description": "Rapport documentaire.",
+            "meta": "Télécharger",
+            "icon": "file-bar-chart",
+            "iconStyle": {
+              "background": "#fef2f2",
+              "color": "#dc2626"
+            },
+            "actionIcon": "download"
+          },
+          {
+            "title": "Synthèse Engagement 2024.pdf",
+            "description": "Synthèse des résultats.",
+            "meta": "Télécharger",
+            "icon": "file-bar-chart",
+            "iconStyle": {
+              "background": "#fef2f2",
+              "color": "#dc2626"
+            },
+            "actionIcon": "download"
+          }
+        ]
+      },
+      "forums": {
+        "description": "Les forums et groupes regroupent les espaces collaboratifs RH autour de communautés et de discussions utiles.",
+        "items": [
+          {
+            "title": "Forum Bien-être & QVT",
+            "description": "243 membres · 12 discussions actives",
+            "meta": "Ouvrir",
+            "icon": "messages-square",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            }
+          },
+          {
+            "title": "Communauté Managers",
+            "description": "87 membres · 6 discussions actives",
+            "meta": "Ouvrir",
+            "icon": "users",
+            "iconStyle": {
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            }
+          },
+          {
+            "title": "Communauté Innovation RH",
+            "description": "134 membres · 8 discussions actives",
+            "meta": "Ouvrir",
+            "icon": "lightbulb",
+            "iconStyle": {
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            }
+          }
+        ]
+      }
+    },
+    "rhOffresIntro": "Les postes vacants internes restent accessibles avec leur workflow de consultation et de candidature.",
+    "rhOffresFilters": {
+      "directions": [
+        "Toutes les directions",
+        "DSI",
+        "Direction Financière",
+        "Direction de la Communication",
+        "Direction Technique"
+      ],
+      "niveaux": [
+        "Tous les niveaux",
+        "Cadre",
+        "Expert",
+        "Manager"
+      ]
+    },
+    "rhOffresList": [
+      {
+        "id": "bi",
+        "title": "Chef de Projet BI (H/F)",
+        "meta": "Direction des Systèmes d'Information · Casablanca · Cadre",
+        "published": "Publié il y a 3 jours · 2 candidatures",
+        "status": "Ouvert",
+        "statusBackground": "#dcfce7",
+        "statusColor": "#15803d"
+      },
+      {
+        "id": "comdig",
+        "title": "Responsable Communication Digital (H/F)",
+        "meta": "Direction de la Communication · Siège · Manager",
+        "published": "Publié il y a 5 jours · 4 candidatures",
+        "status": "Ouvert",
+        "statusBackground": "#dcfce7",
+        "statusColor": "#15803d"
+      },
+      {
+        "id": "actuariat",
+        "title": "Analyste Risques & Actuariat (H/F)",
+        "meta": "Direction Technique · Casablanca · Expert",
+        "published": "Clôture le 30/04/2026 · 7 candidatures",
+        "status": "Clôture imminente",
+        "statusBackground": "#fef3c7",
+        "statusColor": "#92400e"
+      }
+    ],
+    "offresData": {
+      "bi": {
+        "titre": "Chef de Projet BI (H/F)",
+        "direction": "Direction des Systèmes d'Information",
+        "lieu": "Casablanca",
+        "niveau": "Cadre",
+        "date": "15/05/2026",
+        "mission": "Piloter les projets de Business Intelligence de la DSI : recueil des besoins métiers, conception des tableaux de bord et suivi de la qualité des livrables.",
+        "profil": [
+          "Bac+5 en Informatique, Data ou équivalent",
+          "Minimum 5 ans d'expérience en BI / Data",
+          "Maîtrise de Power BI et SQL"
+        ]
+      },
+      "comdig": {
+        "titre": "Responsable Communication Digital (H/F)",
+        "direction": "Direction de la Communication",
+        "lieu": "Siège - Rabat",
+        "niveau": "Manager",
+        "date": "20/05/2026",
+        "mission": "Définir et piloter la stratégie de communication digitale de la CMR.",
+        "profil": [
+          "Bac+5 en Communication ou Marketing Digital",
+          "Minimum 7 ans d'expérience",
+          "Excellentes capacités rédactionnelles"
+        ]
+      },
+      "actuariat": {
+        "titre": "Analyste Risques & Actuariat (H/F)",
+        "direction": "Direction Technique",
+        "lieu": "Casablanca",
+        "niveau": "Expert",
+        "date": "30/04/2026",
+        "mission": "Réaliser les études actuarielles et les modélisations nécessaires à la gestion des régimes de retraite.",
+        "profil": [
+          "Bac+5 en Actuariat ou Statistiques",
+          "Minimum 4 ans d'expérience",
+          "Maîtrise de R ou Python"
+        ]
+      }
+    }
+  }
+}

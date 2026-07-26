@@ -1,0 +1,25 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - publications-et-bilans",
+  "data": {
+    "kmPages": {
+      "publications": {
+        "title": "Articles / bilans",
+        "icon": "newspaper",
+        "iconClass": "orange"
+      }
+    },
+    "kmPublications": [
+      {
+        "title": "Bilan SI – Mars 2026",
+        "meta": "Article • SI",
+        "file": "Bilan_SI_Mars_2026.pdf"
+      },
+      {
+        "title": "Bilan RH – T1 2026",
+        "meta": "Article • RH",
+        "file": "Bilan_RH_T1_2026.pdf"
+      }
+    ]
+  }
+}

@@ -1,36 +1,152 @@
 {
-  "generatedFrom": "js/app.js",
-  "updatedAt": "2026-06-08",
-  "mode": "split-by-space",
-  "spaces": [
-    "spaces/header.json",
-    "spaces/navigation.json",
-    "spaces/modals.json",
-    "spaces/dashboard.json",
-    "spaces/applis.json",
-    "spaces/achats.json",
-    "spaces/actualites.json",
-    "spaces/notifications.json",
-    "spaces/alerts.json",
-    "spaces/agenda-interne.json",
-    "spaces/annuaire.json",
-    "spaces/gouvernance.json",
-    "spaces/organisation.json",
-    "spaces/rh.json",
-    "spaces/academy.json",
-    "spaces/vie-sociale.json",
-    "spaces/communication-interne.json",
-    "spaces/innovation.json",
-    "spaces/rse.json",
-    "spaces/qse.json",
-    "spaces/sitd.json",
-    "spaces/arc.json",
-    "spaces/reglementation.json",
-    "spaces/documentaires.json",
-    "spaces/collaboratifs.json",
-    "spaces/projets.json",
-    "spaces/mediatheque.json",
-    "spaces/admin.json",
-    "spaces/km.json"
+  "generatedFrom": "data/rubriques/*/manifest.json",
+  "updatedAt": "2026-07-26",
+  "mode": "functional-modules",
+  "modules": [
+    {
+      "name": "academy",
+      "manifest": "rubriques/cmr-academy/manifest.json",
+      "bundle": "rubriques/cmr-academy/bundle.json"
+    },
+    {
+      "name": "achats",
+      "manifest": "rubriques/achats/manifest.json",
+      "bundle": "rubriques/achats/bundle.json"
+    },
+    {
+      "name": "actualites",
+      "manifest": "rubriques/actualites/manifest.json",
+      "bundle": "rubriques/actualites/bundle.json"
+    },
+    {
+      "name": "admin",
+      "manifest": "rubriques/administration/manifest.json",
+      "bundle": "rubriques/administration/bundle.json"
+    },
+    {
+      "name": "agenda-interne",
+      "manifest": "rubriques/agenda-interne/manifest.json",
+      "bundle": "rubriques/agenda-interne/bundle.json"
+    },
+    {
+      "name": "alerts",
+      "manifest": "rubriques/alertes/manifest.json",
+      "bundle": "rubriques/alertes/bundle.json"
+    },
+    {
+      "name": "annuaire",
+      "manifest": "rubriques/annuaire/manifest.json",
+      "bundle": "rubriques/annuaire/bundle.json"
+    },
+    {
+      "name": "applis",
+      "manifest": "rubriques/mes-applications/manifest.json",
+      "bundle": "rubriques/mes-applications/bundle.json"
+    },
+    {
+      "name": "arc",
+      "manifest": "rubriques/audit-risques-conformite/manifest.json",
+      "bundle": "rubriques/audit-risques-conformite/bundle.json"
+    },
+    {
+      "name": "collaboratifs",
+      "manifest": "rubriques/espaces-collaboratifs/manifest.json",
+      "bundle": "rubriques/espaces-collaboratifs/bundle.json"
+    },
+    {
+      "name": "communication-interne",
+      "manifest": "rubriques/communication-interne/manifest.json",
+      "bundle": "rubriques/communication-interne/bundle.json"
+    },
+    {
+      "name": "dashboard",
+      "manifest": "rubriques/accueil/manifest.json",
+      "bundle": "rubriques/accueil/bundle.json"
+    },
+    {
+      "name": "documentaires",
+      "manifest": "rubriques/espaces-documentaires-metiers/manifest.json",
+      "bundle": "rubriques/espaces-documentaires-metiers/bundle.json"
+    },
+    {
+      "name": "gouvernance",
+      "manifest": "rubriques/gouvernance/manifest.json",
+      "bundle": "rubriques/gouvernance/bundle.json"
+    },
+    {
+      "name": "header",
+      "manifest": "rubriques/entete/manifest.json",
+      "bundle": "rubriques/entete/bundle.json"
+    },
+    {
+      "name": "innovation",
+      "manifest": "rubriques/innovation/manifest.json",
+      "bundle": "rubriques/innovation/bundle.json"
+    },
+    {
+      "name": "km",
+      "manifest": "rubriques/knowledge-management/manifest.json",
+      "bundle": "rubriques/knowledge-management/bundle.json"
+    },
+    {
+      "name": "mediatheque",
+      "manifest": "rubriques/mediatheque/manifest.json",
+      "bundle": "rubriques/mediatheque/bundle.json"
+    },
+    {
+      "name": "modals",
+      "manifest": "rubriques/fenetres-modales/manifest.json",
+      "bundle": "rubriques/fenetres-modales/bundle.json"
+    },
+    {
+      "name": "navigation",
+      "manifest": "rubriques/navigation/manifest.json",
+      "bundle": "rubriques/navigation/bundle.json"
+    },
+    {
+      "name": "notifications",
+      "manifest": "rubriques/notifications/manifest.json",
+      "bundle": "rubriques/notifications/bundle.json"
+    },
+    {
+      "name": "organisation",
+      "manifest": "rubriques/organisation-smi-culture/manifest.json",
+      "bundle": "rubriques/organisation-smi-culture/bundle.json"
+    },
+    {
+      "name": "projets",
+      "manifest": "rubriques/strategie-et-projets/manifest.json",
+      "bundle": "rubriques/strategie-et-projets/bundle.json"
+    },
+    {
+      "name": "qse",
+      "manifest": "rubriques/qualite-securite-environnement/manifest.json",
+      "bundle": "rubriques/qualite-securite-environnement/bundle.json"
+    },
+    {
+      "name": "reglementation",
+      "manifest": "rubriques/reglementation/manifest.json",
+      "bundle": "rubriques/reglementation/bundle.json"
+    },
+    {
+      "name": "rh",
+      "manifest": "rubriques/ressources-humaines/manifest.json",
+      "bundle": "rubriques/ressources-humaines/bundle.json"
+    },
+    {
+      "name": "rse",
+      "manifest": "rubriques/responsabilite-sociale-environnementale/manifest.json",
+      "bundle": "rubriques/responsabilite-sociale-environnementale/bundle.json"
+    },
+    {
+      "name": "sitd",
+      "manifest": "rubriques/systemes-information-transformation-digitale/manifest.json",
+      "bundle": "rubriques/systemes-information-transformation-digitale/bundle.json"
+    },
+    {
+      "name": "vie-sociale",
+      "manifest": "rubriques/vie-sociale/manifest.json",
+      "bundle": "rubriques/vie-sociale/bundle.json"
+    }
   ]
 }

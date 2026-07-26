@@ -1,0 +1,57 @@
+{
+  "rubrique": "cmr-academy",
+  "contenu": "Sous-rubrique formation",
+  "data": {
+    "academyPages": {
+      "formation": {
+        "description": "La rubrique Formation centralise dans CMR Academy les demandes de formation et leur circuit de validation.",
+        "workflows": [
+          {
+            "title": "Demande de formation spontanée",
+            "description": "Soumettre une demande individuelle de formation pour validation RH.",
+            "meta": "Workflow RH",
+            "icon": "graduation-cap",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            }
+          },
+          {
+            "title": "Formation Level Up",
+            "description": "Suivre les demandes liées au dispositif Level Up.",
+            "meta": "Workflow RH",
+            "icon": "trending-up",
+            "iconStyle": {
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            }
+          }
+        ],
+        "validation": {
+          "title": "Circuit de validation",
+          "description": "Les demandes suivent un circuit collaborateur, manager puis RH.",
+          "steps": [
+            {
+              "title": "Collaborateur",
+              "description": "Saisie et dépôt de la demande.",
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            },
+            {
+              "title": "Manager",
+              "description": "Avis et validation managériale.",
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            },
+            {
+              "title": "RH",
+              "description": "Instruction, planification et notification.",
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

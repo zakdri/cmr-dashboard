@@ -1,0 +1,27 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Quiz et auto-évaluation QSE-RSE",
+  "data": {
+    "orgGovPages": {
+      "culture-quiz": {
+        "title": "Quiz et auto-évaluation",
+        "icon": "list-checks",
+        "iconClass": "purple"
+      }
+    },
+    "orgGovCultureQuizzes": [
+      {
+        "id": "quiz-qualite",
+        "title": "Quiz qualité",
+        "score": 82,
+        "participants": 124
+      },
+      {
+        "id": "quiz-sst",
+        "title": "Auto-évaluation SST",
+        "score": 76,
+        "participants": 98
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu responsabilite-sociale-environnementale",
+  "data": {
+    "sidebarSubmenus": {
+      "rse": {
+        "title": "Espace RSE",
+        "items": [
+          {
+            "label": "Référentiels RSE",
+            "tab": "referentiels"
+          },
+          {
+            "label": "Reporting",
+            "tab": "reporting"
+          },
+          {
+            "label": "Initiatives",
+            "tab": "initiatives"
+          },
+          {
+            "label": "Communication",
+            "tab": "communication"
+          },
+          {
+            "label": "Participation",
+            "tab": "participation"
+          },
+          {
+            "label": "Structuration",
+            "tab": "structuration"
+          },
+          {
+            "label": "Interactivité",
+            "tab": "interactivite"
+          }
+        ]
+      }
+    }
+  }
+}

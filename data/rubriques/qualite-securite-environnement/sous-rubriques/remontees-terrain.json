@@ -1,0 +1,22 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Remontées terrain QSE",
+  "data": {
+    "qsePages": {
+      "remontees": {
+        "title": "Remontées terrain",
+        "icon": "alert-triangle",
+        "iconClass": "blue",
+        "titlePlaceholder": "Objet / anomalie",
+        "descriptionPlaceholder": "Description…",
+        "submitLabel": "Déclarer"
+      }
+    },
+    "qseRemontees": [
+      {
+        "title": "Zone glissante – escalier",
+        "date": "Mars 2026"
+      }
+    ]
+  }
+}

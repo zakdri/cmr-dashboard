@@ -1,0 +1,131 @@
+{
+  "rubrique": "ressources-humaines",
+  "contenu": "Enquêtes RH",
+  "data": {
+    "rhPages": {
+      "enquetes": {
+        "description": "Les enquêtes RH regroupent les baromètres sociaux, les enquêtes d'engagement, les indicateurs et les rapports associés.",
+        "kpis": [
+          {
+            "value": "87%",
+            "label": "Engagement",
+            "trend": "+3 pts vs 2025",
+            "color": "#16a34a"
+          },
+          {
+            "value": "92%",
+            "label": "Participation",
+            "trend": "Baromètre 2026",
+            "color": "#2563eb"
+          },
+          {
+            "value": "4.2/5",
+            "label": "Satisfaction",
+            "trend": "Moyenne déclarée",
+            "color": "#f59e0b"
+          }
+        ],
+        "surveysTitle": "Enquêtes disponibles",
+        "proposeLabel": "Proposer une enquête",
+        "surveys": [
+          {
+            "title": "Baromètre Social 2026",
+            "description": "Mesure annuelle du climat social.",
+            "longDescription": "Questionnaire destiné à mesurer l'engagement, la qualité de vie au travail et les irritants prioritaires.",
+            "theme": "Climat social",
+            "accessLabel": "Accéder au questionnaire",
+            "accessUrl": "#",
+            "submitLabel": "Envoyer",
+            "icon": "clipboard-list",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            },
+            "meta": "Voir plus"
+          },
+          {
+            "title": "Enquête Bien-être au Travail",
+            "description": "Retours collaborateurs sur les conditions de travail.",
+            "longDescription": "Enquête ciblée sur l'équilibre, l'environnement de travail et les besoins d'accompagnement.",
+            "theme": "QVT",
+            "accessLabel": "Accéder au questionnaire",
+            "accessUrl": "#",
+            "submitLabel": "Déposer",
+            "icon": "smile",
+            "iconStyle": {
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            },
+            "meta": "Voir plus"
+          }
+        ],
+        "historyTitle": "Historique et rapports",
+        "historyYears": [
+          "2026",
+          "2025",
+          "2024"
+        ],
+        "history": [
+          {
+            "year": "2026",
+            "title": "Baromètre Social 2026",
+            "description": "Enquête annuelle climat social.",
+            "meta": "En cours",
+            "icon": "calendar-days",
+            "iconStyle": {
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            }
+          },
+          {
+            "year": "2025",
+            "title": "Enquête Télétravail 2025",
+            "description": "Analyse des pratiques de télétravail.",
+            "meta": "Clôturée",
+            "icon": "calendar-days",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            }
+          },
+          {
+            "year": "2024",
+            "title": "Baromètre Engagement 2024",
+            "description": "Mesure de l'engagement collaborateur.",
+            "meta": "Clôturée",
+            "icon": "calendar-days",
+            "iconStyle": {
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            }
+          }
+        ],
+        "reportsTitle": "Rapports des enquêtes et baromètres",
+        "reports": [
+          {
+            "title": "Rapport Baromètre Social 2025.pdf",
+            "description": "Rapport documentaire.",
+            "meta": "Télécharger",
+            "icon": "file-bar-chart",
+            "iconStyle": {
+              "background": "#fef2f2",
+              "color": "#dc2626"
+            },
+            "actionIcon": "download"
+          },
+          {
+            "title": "Synthèse Engagement 2024.pdf",
+            "description": "Synthèse des résultats.",
+            "meta": "Télécharger",
+            "icon": "file-bar-chart",
+            "iconStyle": {
+              "background": "#fef2f2",
+              "color": "#dc2626"
+            },
+            "actionIcon": "download"
+          }
+        ]
+      }
+    }
+  }
+}

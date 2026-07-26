@@ -1,0 +1,10 @@
+{
+  "rubrique": "gouvernance",
+  "contenu": "Organigramme de la CMR",
+  "data": {
+    "governanceOrgChart": {
+      "image": "images/intranet/organigramme-cmr.svg",
+      "linkLabel": "Consulter l'organigramme dans Organisation & RSE"
+    }
+  }
+}

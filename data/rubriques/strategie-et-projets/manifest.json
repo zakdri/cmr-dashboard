@@ -1,0 +1,18 @@
+{
+  "rubrique": "strategie-et-projets",
+  "module": "projets",
+  "fichiers": [
+    {
+      "contenu": "Présentation Stratégie et Projets",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Plan stratégique",
+      "fichier": "projets/plan-strategique.json"
+    },
+    {
+      "contenu": "Projet de refonte de l’intranet",
+      "fichier": "projets/refonte-intranet.json"
+    }
+  ]
+}

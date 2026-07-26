@@ -1,0 +1,24 @@
+{
+  "rubrique": "administration",
+  "contenu": "Administration - usage",
+  "data": {
+    "adminSectionConfig": {
+      "usage": {
+        "subs": [
+          {
+            "id": "usage",
+            "label": "Usage plateforme"
+          }
+        ],
+        "defaultSub": "usage"
+      }
+    },
+    "adminPageCards": {
+      "usage": {
+        "title": "Usage plateforme (dashboard)",
+        "icon": "bar-chart-3",
+        "iconClass": "green"
+      }
+    }
+  }
+}

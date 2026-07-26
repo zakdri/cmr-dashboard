@@ -1,0 +1,100 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - referentiels-metiers",
+  "data": {
+    "kmPages": {
+      "referentiels": {
+        "foldersTitle": "Référentiels métiers",
+        "foldersIcon": "folder",
+        "foldersIconClass": "purple",
+        "guidesTitle": "Documents du domaine",
+        "guidesIcon": "file-text",
+        "guidesIconClass": "blue",
+        "searchPlaceholder": "Rechercher un document…",
+        "description": "Cette rubrique organise les référentiels métiers par domaine et affiche les documents associés au domaine sélectionné."
+      }
+    },
+    "kmReferentiels": [
+      {
+        "id": "retraite",
+        "label": "Gestion de la retraite",
+        "docs": [
+          {
+            "file": "Guide_Indicateurs_Retraite.pdf",
+            "label": "Guide des indicateurs de retraite",
+            "type": "Document"
+          },
+          {
+            "file": "Guide_Instruction_Dossiers.pdf",
+            "label": "Guide d’instruction des dossiers",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "portefeuille",
+        "label": "Gestion du portefeuille financier",
+        "docs": [
+          {
+            "file": "Guide_Portefeuille_Financier.pdf",
+            "label": "Guide de suivi du portefeuille financier",
+            "type": "Document"
+          },
+          {
+            "file": "Procedure_Allocation_Actifs.pdf",
+            "label": "Procédure allocation des actifs",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "etudes-actuariat",
+        "label": "Gestion des études & actuariat",
+        "docs": [
+          {
+            "file": "Methodologie_Etudes_Actuarielles.pdf",
+            "label": "Méthodologie des études actuarielles",
+            "type": "Document"
+          },
+          {
+            "file": "Referentiel_Hypotheses_Actuariat.pdf",
+            "label": "Référentiel des hypothèses actuarielles",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "relation-client",
+        "label": "Gestion de la relation client",
+        "docs": [
+          {
+            "file": "Guide_Relation_Client.pdf",
+            "label": "Guide relation client",
+            "type": "Document"
+          },
+          {
+            "file": "Procedure_Traitement_Reclamations.pdf",
+            "label": "Procédure traitement des réclamations",
+            "type": "Document"
+          }
+        ]
+      },
+      {
+        "id": "risk-management",
+        "label": "Gestion du Risk Management",
+        "docs": [
+          {
+            "file": "Referentiel_Risques_Metiers.pdf",
+            "label": "Référentiel des risques métiers",
+            "type": "Document"
+          },
+          {
+            "file": "Cartographie_Risques_Processus.pdf",
+            "label": "Cartographie risques et processus",
+            "type": "Document"
+          }
+        ]
+      }
+    ]
+  }
+}

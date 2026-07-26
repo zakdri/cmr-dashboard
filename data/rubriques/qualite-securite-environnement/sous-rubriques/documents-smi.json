@@ -1,0 +1,23 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Documents SMI",
+  "data": {
+    "qsePages": {
+      "docs": {
+        "title": "Documents SMI",
+        "icon": "folder-open",
+        "iconClass": "blue"
+      }
+    },
+    "qseSmiDocs": [
+      {
+        "title": "Manuel SMI",
+        "file": "Manuel_SMI.pdf"
+      },
+      {
+        "title": "Procédures & supports",
+        "file": "Procedures_SMI.zip"
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "rubrique": "navigation",
+  "contenu": "Sous-menu gouvernance",
+  "data": {
+    "sidebarSubmenus": {
+      "gouvernance": {
+        "title": "Gouvernance",
+        "items": [
+          {
+            "label": "Mot du Directeur",
+            "tab": "mot-directeur"
+          },
+          {
+            "label": "Système de gouvernance",
+            "tab": "systeme"
+          },
+          {
+            "label": "Missions & Valeurs",
+            "tab": "missions-valeurs"
+          },
+          {
+            "label": "Organigramme",
+            "tab": "organigramme"
+          }
+        ]
+      }
+    }
+  }
+}

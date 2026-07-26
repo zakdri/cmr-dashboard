@@ -1,0 +1,43 @@
+{
+  "rubrique": "audit-risques-conformite",
+  "contenu": "Plans d’audit",
+  "data": {
+    "arcFeatures": [
+      {
+        "id": "plan-audit",
+        "espace": "Espace Audit, Risque & Conformité",
+        "rubrique": "Audit interne",
+        "sousRubrique": "Plan d'audit",
+        "fonctionnalite": "Publication des plans d'audit",
+        "description": "Publier les plans annuels et pluriannuels d'audit.",
+        "typeContenu": "Document",
+        "typeUx": "Tableau / calendrier",
+        "interactions": "Consulter",
+        "cible": "Profils habilités",
+        "priorite": "Haute",
+        "statutDesign": "À définir",
+        "commentaires": "Accès restreint"
+      }
+    ],
+    "arcPlansAudit": [
+      {
+        "periode": "2026",
+        "type": "Annuel",
+        "statut": "Validé",
+        "file": "Plan_Audit_2026.pdf"
+      },
+      {
+        "periode": "2026-2028",
+        "type": "Pluriannuel",
+        "statut": "En vigueur",
+        "file": "Plan_Audit_Pluriannuel_2026-2028.pdf"
+      },
+      {
+        "periode": "T2 2026",
+        "type": "Calendrier missions",
+        "statut": "Publié",
+        "file": "Calendrier_Missions_Audit_T2_2026.pdf"
+      }
+    ]
+  }
+}

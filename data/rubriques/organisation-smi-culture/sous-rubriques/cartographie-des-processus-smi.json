@@ -1,0 +1,105 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Cartographie des processus SMI",
+  "data": {
+    "orgGovPages": {
+      "smi-cartographie": {
+        "title": "Cartographie des processus",
+        "icon": "git-branch",
+        "iconClass": "purple"
+      }
+    },
+    "orgGovSmiCartographieData": {
+      "families": [
+        {
+          "id": "management",
+          "label": "Management",
+          "processes": [
+            {
+              "id": "pilotage-smi",
+              "title": "Pilotage SMI",
+              "description": "Définir, suivre et améliorer le système de management intégré.",
+              "docs": [
+                {
+                  "label": "Cartographie pilotage SMI",
+                  "file": "Cartographie_Pilotage_SMI.pdf"
+                },
+                {
+                  "label": "Fiche processus pilotage SMI",
+                  "file": "Fiche_Processus_Pilotage_SMI.pdf"
+                }
+              ]
+            },
+            {
+              "id": "revue-direction",
+              "title": "Revue de direction",
+              "description": "Organiser les revues périodiques et suivre les décisions associées.",
+              "docs": [
+                {
+                  "label": "Cartographie revue de direction",
+                  "file": "Cartographie_Revue_Direction.pdf"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "support",
+          "label": "Support",
+          "processes": [
+            {
+              "id": "documentation",
+              "title": "Maîtrise documentaire",
+              "description": "Gérer les documents, versions, validations et archivage SMI.",
+              "docs": [
+                {
+                  "label": "Cartographie maîtrise documentaire",
+                  "file": "Cartographie_Maitrise_Documentaire.pdf"
+                }
+              ]
+            },
+            {
+              "id": "competences",
+              "title": "Compétences et sensibilisation",
+              "description": "Piloter les compétences et actions de sensibilisation QSE/RSE.",
+              "docs": [
+                {
+                  "label": "Cartographie compétences SMI",
+                  "file": "Cartographie_Competences_SMI.pdf"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "realisation",
+          "label": "Réalisation",
+          "processes": [
+            {
+              "id": "service-assures",
+              "title": "Service aux assurés",
+              "description": "Maîtriser les processus de service et de traitement des demandes.",
+              "docs": [
+                {
+                  "label": "Cartographie service assurés",
+                  "file": "Cartographie_Service_Assures.pdf"
+                }
+              ]
+            },
+            {
+              "id": "amelioration",
+              "title": "Amélioration continue",
+              "description": "Traiter les non-conformités, actions correctives et opportunités.",
+              "docs": [
+                {
+                  "label": "Cartographie amélioration continue",
+                  "file": "Cartographie_Amelioration_Continue.pdf"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

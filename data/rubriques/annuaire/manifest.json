@@ -1,0 +1,14 @@
+{
+  "rubrique": "annuaire",
+  "module": "annuaire",
+  "fichiers": [
+    {
+      "contenu": "Configuration de l’annuaire",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Collaborateurs de l’annuaire",
+      "fichier": "liste-des-collaborateurs.json"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "rubrique": "alertes",
+  "module": "alerts",
+  "fichiers": [
+    {
+      "contenu": "Configuration des alertes",
+      "fichier": "configuration-generale.json"
+    },
+    {
+      "contenu": "Alertes publiées",
+      "fichier": "liste-des-alertes.json"
+    }
+  ]
+}

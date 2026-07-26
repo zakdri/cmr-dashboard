@@ -1,0 +1,56 @@
+{
+  "rubrique": "reglementation",
+  "contenu": "Notes juridiques",
+  "data": {
+    "regPages": {
+      "notes-juridiques": {
+        "title": "Notes",
+        "icon": "file-pen-line",
+        "iconClass": "blue",
+        "description": "Cette sous-rubrique regroupe les notes juridiques publiées pour préciser ou accompagner l’application des textes.",
+        "searchPlaceholder": "Rechercher une note...",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Retraite",
+            "value": "Retraite"
+          },
+          {
+            "label": "Gouvernance",
+            "value": "Gouvernance"
+          },
+          {
+            "label": "Conformité",
+            "value": "Conformité"
+          },
+          {
+            "label": "Procédures",
+            "value": "Procédures"
+          }
+        ]
+      }
+    },
+    "regDocumentItems": [
+      {
+        "section": "notes-juridiques",
+        "title": "Note juridique – Application des règles de pension civile",
+        "theme": "Retraite",
+        "meta": "Note • PDF • Accès public",
+        "file": "Note_Application_Pension_Civile.pdf",
+        "public": true
+      },
+      {
+        "section": "notes-juridiques",
+        "title": "Note – Bonnes pratiques de conformité réglementaire",
+        "theme": "Conformité",
+        "meta": "Note • PDF • Accès public",
+        "file": "Note_Conformite_Reglementaire.pdf",
+        "public": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "rubrique": "knowledge-management",
+  "contenu": "Knowledge Management - gestion-electronique-des-documents",
+  "data": {
+    "kmPages": {
+      "ged": {
+        "title": "GED (intégration / accès)",
+        "icon": "database",
+        "iconClass": "blue",
+        "description": "Accès à la GED (ex: OpenText). Cette section sert de point d’entrée et de recherche fédérée.",
+        "primaryActionLabel": "Guide de connexion",
+        "primaryActionHandler": "openMockDownload('Guide_Connexion_GED.pdf','Guide connexion GED')",
+        "secondaryActionLabel": "Convention de nommage",
+        "secondaryActionHandler": "openMockDownload('Convention_Nommage.pdf','Convention de nommage')"
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "rubrique": "qualite-securite-environnement",
+  "contenu": "Indicateurs QSE",
+  "data": {
+    "qsePages": {
+      "indicateurs": {
+        "title": "Indicateurs QSE",
+        "icon": "gauge",
+        "iconClass": "green"
+      }
+    },
+    "qseKpisData": {
+      "items": [
+        {
+          "label": "Non‑conformités",
+          "value": "4"
+        },
+        {
+          "label": "Audits réalisés",
+          "value": "2"
+        },
+        {
+          "label": "Taux actions clôturées",
+          "value": "78%"
+        }
+      ],
+      "description": "Dashboard / widget (maquette) pour pilotage management/QSE."
+    }
+  }
+}
