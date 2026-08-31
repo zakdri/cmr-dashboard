@@ -7,23 +7,33 @@
       "items": [
         {
           "label": "HelpDesk",
-          "icon": "life-buoy"
+          "icon": "life-buoy",
+          "url": "#sitd/glpi",
+          "handler": "switchView('sitd'); switchSitdSection('exploitation'); switchSitdSub('glpi'); return false;"
         },
         {
           "label": "Mobilité spontanée",
-          "icon": "route"
+          "icon": "route",
+          "url": "#rh/mobilite",
+          "handler": "switchView('rh'); switchRhPageTab('mobilite'); return false;"
         },
         {
           "label": "Formation spontanée",
-          "icon": "graduation-cap"
+          "icon": "graduation-cap",
+          "url": "#academy/formation",
+          "handler": "switchView('academy'); switchAcademyPageTab('formation'); return false;"
         },
         {
           "label": "Réservation de salles",
-          "icon": "door-open"
+          "icon": "door-open",
+          "url": "#agenda-interne",
+          "handler": "switchView('agenda-interne'); return false;"
         },
         {
           "label": "Outlook",
-          "icon": "mail"
+          "icon": "mail",
+          "url": "https://outlook.office.com/mail/",
+          "target": "_blank"
         }
       ]
     }

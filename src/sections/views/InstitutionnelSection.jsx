@@ -264,27 +264,13 @@ export default function InstitutionnelSection() {
                 {pages.organigramme?.description}
               </p>
             </div>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <button
-                className="secondary-btn"
-                onClick={(event) => runLegacyHandler(event, "expandAllOrg()")}
-              >
-                Développer tout
-              </button>
-              <button
-                className="secondary-btn"
-                onClick={(event) => runLegacyHandler(event, "collapseAllOrg()")}
-              >
-                Réduire
-              </button>
-            </div>
           </div>
           <div
+            className="cmr-org-chart-shell"
             style={{
               background: "#fff",
               border: "1px solid #e2e8f0",
               borderRadius: 14,
-              padding: 18,
             }}
           >
             <div id="orgTree" />
@@ -329,26 +315,27 @@ export default function InstitutionnelSection() {
                 className="actu-search-input"
                 placeholder={pages.postes?.searchPlaceholder || "Rechercher une fiche ou une fonction..."}
                 onInput={(event) =>
-                  runLegacyHandler(event, "renderPostesList(this.value)")
+                  runLegacyHandler(event, "searchPostes(this.value)")
                 }
               />
             </div>
           </div>
           <div
-            className="dashboard-grid"
-            style={{ gridTemplateColumns: "1.2fr 1.8fr", gap: 24 }}
+            className="dashboard-grid cmr-position-workspace"
           >
-            <div className="dashboard-card">
+            <div className="dashboard-card cmr-position-list-panel">
               <div className="card-header">
                 <CardTitle
                   title={pages.postes?.listTitle}
                   icon="briefcase"
                   iconClass="purple"
                 />
+                <span id="postesCount" className="cmr-position-count" />
               </div>
               <div id="postesList" className="doc-list" />
+              <div id="postesPagination" className="cmr-position-pagination" />
             </div>
-            <div className="dashboard-card">
+            <div className="dashboard-card cmr-position-detail-panel">
               <div className="card-header">
                 <CardTitle
                   title={pages.postes?.detailTitle}

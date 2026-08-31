@@ -3,8 +3,8 @@
   "module": "dashboard",
   "fichiers": [
     {
-      "contenu": "Bandeau Flash Info",
-      "fichier": "bandeau-flash-information.json"
+      "contenu": "Bandeau Flash Info et messages défilants",
+      "fichier": "flash-informations.json"
     },
     {
       "contenu": "Actualités affichées sur l’accueil",

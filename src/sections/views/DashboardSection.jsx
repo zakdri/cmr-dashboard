@@ -610,14 +610,29 @@ function QuickAccess({ quickAccess }) {
         </button>
       </div>
       <div className="quick-access-grid">
-        {(quickAccess.items || []).map((item) => (
-          <a href="#" className="quick-access-item" key={item.label}>
-            <div className="quick-access-icon">
-              <i data-lucide={item.icon} style={{ width: 20, height: 20 }} />
-            </div>
-            <span className="quick-access-label">{item.label}</span>
-          </a>
-        ))}
+        {(quickAccess.items || []).map((item) => {
+          const opensNewTab = item.target === "_blank";
+
+          return (
+            <a
+              href={item.url || "#"}
+              target={item.target || undefined}
+              rel={opensNewTab ? "noopener noreferrer" : undefined}
+              className="quick-access-item"
+              key={item.label}
+              onClick={
+                item.handler
+                  ? (event) => runLegacyHandler(event, item.handler)
+                  : undefined
+              }
+            >
+              <div className="quick-access-icon">
+                <i data-lucide={item.icon} style={{ width: 20, height: 20 }} />
+              </div>
+              <span className="quick-access-label">{item.label}</span>
+            </a>
+          );
+        })}
       </div>
     </section>
   );

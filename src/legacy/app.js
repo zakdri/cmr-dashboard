@@ -792,30 +792,110 @@ function openAgendaTab(tabName) {
             if (route[1]) switchOrgGovSub(route[1]);
         }
 
-        // ====== ORGANIGRAMME (simple interactive tree) ======
+        // ====== ORGANIGRAMME ======
         const orgData = getCmrData('orgData', {});
 
-        function renderOrgNode(node, depth = 0) {
-            const hasChildren = (node.children || []).length > 0;
-            const id = `org_${Math.random().toString(16).slice(2)}`;
+        function getOrgServiceId(service, prefix = 'service') {
+            const slug = String(service.name || prefix)
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+            return `org-members-${prefix}-${slug}`;
+        }
+
+        function renderOrgServiceMembers(service, prefix = 'service') {
+            const members = service.members || [];
+            if (!members.length) return '';
+            const panelId = getOrgServiceId(service, prefix);
             return `
-                <div style="margin-left:${depth * 18}px; padding:10px 10px; border-radius:12px; border:1px solid #e2e8f0; background:#fff; margin-bottom:10px;">
-                    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <div style="width:34px;height:34px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;display:grid;place-items:center;color:#334155;">
-                                <i data-lucide="${hasChildren ? 'network' : 'user'}" style="width:16px;height:16px;"></i>
-                            </div>
-                            <div>
-                                <div style="font-weight:900;color:#0f172a;font-size:13px;">${node.name}</div>
-                                <div style="font-size:12px;color:var(--text-light);margin-top:2px;">${node.role}</div>
-                            </div>
+                <button class="cmr-org-service-toggle" type="button"
+                    aria-label="Afficher les membres du ${service.name}"
+                    aria-controls="${panelId}" aria-expanded="false"
+                    onclick="toggleOrgServiceMembers('${panelId}', this)">
+                    <span aria-hidden="true">+</span>
+                </button>
+                <div class="cmr-org-service-members" id="${panelId}" role="group" aria-label="Membres du ${service.name}" hidden>
+                    <div class="cmr-org-service-members-title">Équipe du service</div>
+                    ${members.map(member => `
+                        <div class="cmr-org-service-member">
+                            <span class="cmr-org-service-member-avatar" aria-hidden="true">${member.initials}</span>
+                            <span class="cmr-org-service-member-copy">
+                                <strong>${member.name}</strong>
+                                <small>${member.role}</small>
+                            </span>
                         </div>
-                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                            ${node.posteId ? `<button class="actu-filter-btn" style="padding:8px 10px;" onclick="openPosteFromOrg('${node.posteId}')">Fiche</button>` : ``}
-                            ${hasChildren ? `<button class="actu-filter-btn" style="padding:8px 10px;" onclick="toggleOrgChildren('${id}')">Détails</button>` : ``}
-                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderOrgCard(node, variant = 'pole', index = 0) {
+            const icon = variant === 'direction' ? 'landmark' : variant === 'service' ? 'shield-check' : 'users';
+            const number = String(index + 1).padStart(2, '0');
+            const visual = node.photo
+                ? `<img class="cmr-org-card-photo" src="${node.photo}" alt="Portrait illustratif pour ${node.name}" loading="lazy">`
+                : `<div class="cmr-org-card-icon"><i data-lucide="${icon}"></i></div>`;
+            const person = node.personName
+                ? `<div class="cmr-org-person-name">${node.personName}${node.personNameStatus === 'provisional' ? '<span class="cmr-org-person-status" title="Nom provisoire" aria-label="Nom provisoire">*</span>' : ''}</div>`
+                : '';
+            return `
+                <article class="cmr-org-card cmr-org-card--${variant}">
+                    ${variant === 'pole' ? `<span class="cmr-org-card-number">${number}</span>` : ''}
+                    ${visual}
+                    <div class="cmr-org-card-copy">
+                        ${variant === 'pole' ? `<div class="cmr-org-card-role">${node.role}</div>` : ''}
+                        ${person}
+                        <div class="cmr-org-card-name">${node.name}</div>
                     </div>
-                    ${hasChildren ? `<div id="${id}" data-org-collapsed="true" style="display:none; margin-top:10px;">${(node.children || []).map(c => renderOrgNode(c, depth + 1)).join('')}</div>` : ``}
+                    ${node.posteId ? `<button class="cmr-org-card-action" onclick="openPosteFromOrg('${node.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
+                    ${variant === 'service' ? renderOrgServiceMembers(node, 'direct') : ''}
+                </article>
+            `;
+        }
+
+        function renderOrgDivision(division, divisionIndex = 0) {
+            const services = division.children || [];
+            return `
+                <section class="cmr-org-division-unit">
+                    <article class="cmr-org-division-card">
+                        <img src="${division.photo}" alt="Portrait illustratif de ${division.personName}" loading="lazy">
+                        <span class="cmr-org-division-copy">
+                            <small>Chef de division</small>
+                            <strong>${division.personName}<sup title="Nom provisoire">*</sup></strong>
+                            <span>${division.name}</span>
+                        </span>
+                        ${division.posteId ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${division.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
+                    </article>
+                    <div class="cmr-org-service-tree">
+                        ${services.map((service, serviceIndex) => `
+                            <article class="cmr-org-service-card">
+                                <img src="${service.photo}" alt="Portrait illustratif de ${service.personName}" loading="lazy">
+                                <span>
+                                    <small>Chef de service</small>
+                                    <strong>${service.personName}<sup title="Nom provisoire">*</sup></strong>
+                                    <span>${service.name}</span>
+                                </span>
+                                ${service.posteId ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${service.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
+                                ${renderOrgServiceMembers(service, `division-${divisionIndex}-${serviceIndex}`)}
+                            </article>
+                        `).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderOrgPoleColumn(node, index) {
+            const divisions = node.children || [];
+            return `
+                <div class="cmr-org-pole-column">
+                    ${renderOrgCard(node, 'pole', index)}
+                    ${divisions.length ? `
+                        <div class="cmr-org-pole-branch">
+                            ${divisions.map((division, divisionIndex) => renderOrgDivision(division, `${index}-${divisionIndex}`)).join('')}
+                        </div>
+                    ` : ''}
                 </div>
             `;
         }
@@ -823,7 +903,33 @@ function openAgendaTab(tabName) {
         function renderOrgTree() {
             const container = document.getElementById('orgTree');
             if (!container) return;
-            container.innerHTML = renderOrgNode(orgData, 0);
+            const children = orgData.children || [];
+            const directServices = children.filter(node => (node.role || '').toLowerCase().includes('rattach'));
+            const poles = children.filter(node => !(node.role || '').toLowerCase().includes('rattach'));
+            const leftService = directServices[0];
+            const rightService = directServices[1];
+            const extraServices = directServices.slice(2);
+
+            container.innerHTML = `
+                <div class="cmr-org-chart" aria-label="Organigramme de la CMR">
+                    <div class="cmr-org-top-row">
+                        <div class="cmr-org-side cmr-org-side--left" data-org-collapsed="false">
+                            ${leftService ? renderOrgCard(leftService, 'service') : ''}
+                        </div>
+                        <div class="cmr-org-root">
+                            ${renderOrgCard(orgData, 'direction')}
+                        </div>
+                        <div class="cmr-org-side cmr-org-side--right" data-org-collapsed="false">
+                            ${rightService ? renderOrgCard(rightService, 'service') : ''}
+                        </div>
+                    </div>
+                    ${extraServices.length ? `<div class="cmr-org-extra-services" data-org-collapsed="false">${extraServices.map(node => renderOrgCard(node, 'service')).join('')}</div>` : ''}
+                    <div class="cmr-org-poles" data-org-collapsed="false">
+                        ${poles.map(renderOrgPoleColumn).join('')}
+                    </div>
+                    <div class="cmr-org-legend"><span>*</span> Noms et structure détaillée provisoires</div>
+                </div>
+            `;
             lucide.createIcons();
         }
 
@@ -831,14 +937,38 @@ function openAgendaTab(tabName) {
             const el = document.getElementById(id);
             if (!el) return;
             const collapsed = el.getAttribute('data-org-collapsed') === 'true';
-            el.style.display = collapsed ? 'block' : 'none';
+            el.style.display = collapsed ? '' : 'none';
             el.setAttribute('data-org-collapsed', collapsed ? 'false' : 'true');
             lucide.createIcons();
         }
 
+        function toggleOrgServiceMembers(panelId, button) {
+            const panel = document.getElementById(panelId);
+            if (!panel || !button) return;
+            const willOpen = panel.hidden;
+
+            document.querySelectorAll('#orgTree .cmr-org-service-members:not([hidden])').forEach(openPanel => {
+                if (openPanel === panel) return;
+                openPanel.hidden = true;
+                openPanel.closest('.cmr-org-service-card, .cmr-org-card--service')?.classList.remove('is-members-open');
+                const openButton = document.querySelector(`[aria-controls="${openPanel.id}"]`);
+                if (openButton) {
+                    openButton.setAttribute('aria-expanded', 'false');
+                    openButton.setAttribute('aria-label', 'Afficher les membres du service');
+                    openButton.querySelector('span').textContent = '+';
+                }
+            });
+
+            panel.hidden = !willOpen;
+            panel.closest('.cmr-org-service-card, .cmr-org-card--service')?.classList.toggle('is-members-open', willOpen);
+            button.setAttribute('aria-expanded', String(willOpen));
+            button.setAttribute('aria-label', `${willOpen ? 'Masquer' : 'Afficher'} les membres du service`);
+            button.querySelector('span').textContent = willOpen ? '−' : '+';
+        }
+
         function expandAllOrg() {
             document.querySelectorAll('#orgTree [data-org-collapsed]').forEach(el => {
-                el.style.display = 'block';
+                el.style.removeProperty('display');
                 el.setAttribute('data-org-collapsed', 'false');
             });
             lucide.createIcons();
@@ -1045,27 +1175,123 @@ function openAgendaTab(tabName) {
         }
 
         // ====== FICHES DE POSTES (list + structured page) ======
-        const postesData = getCmrData('postesData', []);
+        function flattenOrgNodes(node) {
+            if (!node || typeof node !== 'object') return [];
+            return [node, ...(node.children || []).flatMap(flattenOrgNodes)];
+        }
+
+        function buildDefaultPoste(node) {
+            const isDivision = node.role === 'Division';
+            const entityType = isDivision ? 'Division' : 'Service';
+            const safeFileName = String(node.name || entityType)
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-zA-Z0-9]+/g, '_')
+                .replace(/(^_|_$)/g, '');
+            return {
+                id: node.posteId,
+                titre: `Chef de ${entityType} ${node.name}`,
+                famille: `Fonction de responsabilité — ${entityType}`,
+                missions: isDivision
+                    ? [
+                        `Piloter les activités de la division « ${node.name} »`,
+                        'Coordonner les services et les équipes rattachés',
+                        'Suivre les objectifs, les risques et les indicateurs de performance'
+                    ]
+                    : [
+                        `Organiser et superviser les activités du service « ${node.name} »`,
+                        'Encadrer l’équipe et assurer la continuité opérationnelle',
+                        'Produire le reporting et contribuer à l’amélioration des processus'
+                    ],
+                competences: isDivision
+                    ? ['Pilotage d’activité', 'Management d’équipes', 'Coordination transverse']
+                    : ['Expertise métier', 'Organisation opérationnelle', 'Animation d’équipe'],
+                profil: isDivision
+                    ? ['Bac+5', '7+ ans d’expérience', 'Expérience confirmée en management']
+                    : ['Bac+5', '5+ ans d’expérience', 'Maîtrise du domaine du service'],
+                attachments: [{
+                    label: `Fiche fonction Chef de ${entityType} ${node.name}`,
+                    file: `Fiche_Fonction_${safeFileName}.pdf`
+                }]
+            };
+        }
+
+        const orgNodes = flattenOrgNodes(orgData);
+        const configuredPostesData = getCmrData('postesData', []);
+        const postesData = orgNodes
+            .filter(node => node.posteId)
+            .map(node => configuredPostesData.find(poste => poste.id === node.posteId) || buildDefaultPoste(node));
+        let posteSelectedId = null;
+        let postesPage = 1;
+        let postesQuery = '';
+        const postesPageSize = 6;
+
+        function getPosteProfile(id) {
+            return orgNodes.find(node => node.posteId === id) || {};
+        }
+
+        function searchPostes(q) {
+            postesPage = 1;
+            renderPostesList(q);
+        }
+
+        function changePostesPage(delta) {
+            postesPage += delta;
+            renderPostesList(document.getElementById('postesSearchInput')?.value || postesQuery);
+        }
 
         function renderPostesList(q) {
             const list = document.getElementById('postesList');
+            const count = document.getElementById('postesCount');
+            const pagination = document.getElementById('postesPagination');
             if (!list) return;
             const query = (q || '').trim().toLowerCase();
-            const items = postesData.filter(p => !query || [p.titre, p.famille].some(v => (v || '').toLowerCase().includes(query)));
+            postesQuery = query;
+            const hierarchyOrder = orgNodes.filter(node => node.posteId).map(node => node.posteId);
+            const items = postesData
+                .filter(p => {
+                    const profile = getPosteProfile(p.id);
+                    return !query || [p.titre, p.famille, profile.personName].some(v => (v || '').toLowerCase().includes(query));
+                })
+                .sort((a, b) => hierarchyOrder.indexOf(a.id) - hierarchyOrder.indexOf(b.id));
+            if (count) {
+                count.textContent = `${items.length} fiche${items.length > 1 ? 's' : ''}`;
+            }
             if (items.length === 0) {
                 list.innerHTML = `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">Aucun poste.</div>`;
+                if (pagination) pagination.innerHTML = '';
                 return;
             }
-            list.innerHTML = items.map(p => `
-                <div class="doc-item" onclick="openPosteDetail('${p.id}')">
-                    <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">${p.famille.slice(0,3).toUpperCase()}</div>
-                    <div class="doc-info">
-                        <div class="doc-title">${p.titre}</div>
-                        <div class="doc-meta">${p.famille}</div>
-                    </div>
+            const totalPages = Math.max(1, Math.ceil(items.length / postesPageSize));
+            postesPage = Math.min(Math.max(postesPage, 1), totalPages);
+            const pageItems = items.slice((postesPage - 1) * postesPageSize, postesPage * postesPageSize);
+            list.innerHTML = pageItems.map(p => {
+                const profile = getPosteProfile(p.id);
+                const provisional = profile.personNameStatus === 'provisional';
+                return `
+                <button class="cmr-position-list-item${posteSelectedId === p.id ? ' is-active' : ''}" data-poste-id="${p.id}" onclick="openPosteDetail('${p.id}')">
+                    ${profile.photo
+                        ? `<img class="cmr-position-list-photo" src="${profile.photo}" alt="" loading="lazy">`
+                        : `<span class="cmr-position-list-fallback"><i data-lucide="user-round"></i></span>`}
+                    <span class="cmr-position-list-copy">
+                        <span class="cmr-position-list-name">${profile.personName || 'Poste à pourvoir'}${provisional ? '<sup title="Nom provisoire">*</sup>' : ''}</span>
+                        <span class="cmr-position-list-title">${p.titre}</span>
+                        <span class="cmr-position-list-family">${p.famille}</span>
+                    </span>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
-                </div>
-            `).join('');
+                </button>`;
+            }).join('');
+            if (pagination) {
+                pagination.innerHTML = `
+                    <button type="button" onclick="changePostesPage(-1)" ${postesPage === 1 ? 'disabled' : ''} aria-label="Page précédente">
+                        <i data-lucide="chevron-left"></i> Précédent
+                    </button>
+                    <span>Page <strong>${postesPage}</strong> sur ${totalPages}</span>
+                    <button type="button" onclick="changePostesPage(1)" ${postesPage === totalPages ? 'disabled' : ''} aria-label="Page suivante">
+                        Suivant <i data-lucide="chevron-right"></i>
+                    </button>
+                `;
+            }
             lucide.createIcons();
         }
 
@@ -1073,10 +1299,26 @@ function openAgendaTab(tabName) {
             const p = postesData.find(x => x.id === id);
             const detail = document.getElementById('postesDetail');
             if (!p || !detail) return;
+            const profile = getPosteProfile(id);
+            const provisional = profile.personNameStatus === 'provisional';
+            posteSelectedId = id;
+            document.querySelectorAll('[data-poste-id]').forEach(item => {
+                item.classList.toggle('is-active', item.getAttribute('data-poste-id') === id);
+            });
             detail.innerHTML = `
-                <div style="font-weight:900;color:#0f172a;font-size:16px;">${p.titre}</div>
-                <div style="margin-top:4px;color:var(--text-light);font-size:12px;">Famille : <strong>${p.famille}</strong></div>
-                <hr style="border:none;border-top:1px solid #e2e8f0;margin:14px 0;">
+                <div class="cmr-position-profile-header">
+                    ${profile.photo
+                        ? `<img class="cmr-position-profile-photo" src="${profile.photo}" alt="Portrait illustratif de ${profile.personName || p.titre}">`
+                        : `<span class="cmr-position-profile-fallback"><i data-lucide="user-round"></i></span>`}
+                    <div class="cmr-position-profile-copy">
+                        <div class="cmr-position-profile-eyebrow">Responsable de la fonction</div>
+                        <div class="cmr-position-profile-name">${profile.personName || 'Poste à pourvoir'}${provisional ? '<sup title="Nom provisoire">*</sup>' : ''}</div>
+                        <div class="cmr-position-profile-title">${p.titre}</div>
+                        <span class="cmr-position-profile-family">${p.famille}</span>
+                    </div>
+                </div>
+                ${provisional ? '<div class="cmr-position-provisional-note"><span>*</span> Identité provisoire utilisée pour la maquette.</div>' : ''}
+                <hr class="cmr-position-profile-divider">
                 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px;">
                         <div style="font-weight:900;color:#1e293b;font-size:13px;">Missions</div>
@@ -1111,6 +1353,10 @@ function openAgendaTab(tabName) {
         }
 
         function openPosteFromOrg(id) {
+            const searchInput = document.getElementById('postesSearchInput');
+            if (searchInput) searchInput.value = '';
+            postesQuery = '';
+            postesPage = Math.floor(Math.max(0, postesData.findIndex(poste => poste.id === id)) / postesPageSize) + 1;
             switchOrgGovTab('postes');
             openPosteDetail(id);
         }

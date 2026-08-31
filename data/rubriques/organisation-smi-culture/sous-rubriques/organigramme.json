@@ -8,7 +8,7 @@
       },
       "organigramme": {
         "title": "Organigramme",
-        "description": "Organigramme limité aux niveaux du Directeur Général jusqu’aux Chefs de Pôles, avec les services directement rattachés au Directeur Général.",
+        "description": "Organigramme du Directeur Général jusqu’aux services, avec les pôles, divisions et rattachements hiérarchiques.",
         "expandLabel": "Développer tout",
         "collapseLabel": "Réduire"
       }
@@ -16,36 +16,215 @@
     "orgData": {
       "name": "Directeur Général",
       "role": "Direction Générale",
+      "personName": "Lotfi BOUJENDAR",
+      "personNameStatus": "official",
       "posteId": "dg",
+      "photo": "images/intranet/portraits/directeur-general.jpg",
       "children": [
         {
           "name": "Pôle Retraite",
           "role": "Chef de Pôle",
+          "personName": "Youssef BENJELLOUN",
+          "personNameStatus": "provisional",
           "posteId": "pole-retraite",
-          "children": []
+          "photo": "images/intranet/portraits/pole-retraite.jpg",
+          "children": [
+            {
+              "name": "Gestion des Pensions",
+              "role": "Division",
+              "posteId": "division-gestion-pensions",
+              "status": "provisional",
+              "personName": "Hanae BERRADA",
+              "personNameStatus": "provisional",
+              "photo": "images/intranet/portraits/hierarchy/division-gestion-pensions.jpg",
+              "children": [
+                {
+                  "name": "Liquidation des pensions", "role": "Service", "posteId": "service-liquidation-pensions", "status": "provisional", "personName": "Othmane BENOMAR", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-liquidation-pensions.jpg",
+                  "members": [
+                    { "name": "Nora EL FATHI", "role": "Gestionnaire pensions", "initials": "NE" },
+                    { "name": "Ayoub MOUTAOUAKIL", "role": "Chargé de liquidation", "initials": "AM" },
+                    { "name": "Hind LAKHDAR", "role": "Contrôleuse dossiers", "initials": "HL" }
+                  ]
+                },
+                {
+                  "name": "Paiement & Suivi", "role": "Service", "posteId": "service-paiement-suivi", "status": "provisional", "personName": "Kawtar AMRANI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-paiement-suivi.jpg",
+                  "members": [
+                    { "name": "Amine ZEROUAL", "role": "Gestionnaire paiements", "initials": "AZ" },
+                    { "name": "Sara OUKILI", "role": "Chargée du suivi", "initials": "SO" }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Relations Affiliés",
+              "role": "Division",
+              "posteId": "division-relations-affilies",
+              "status": "provisional",
+              "personName": "Karim LAHLOU",
+              "personNameStatus": "provisional",
+              "photo": "images/intranet/portraits/hierarchy/division-relations-affilies.jpg",
+              "children": [
+                {
+                  "name": "Accueil & Réclamations", "role": "Service", "posteId": "service-accueil-reclamations", "status": "provisional", "personName": "Meryem BENNIS", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-accueil-reclamations.jpg",
+                  "members": [
+                    { "name": "Salma RAHMOUNI", "role": "Conseillère accueil", "initials": "SR" },
+                    { "name": "Mehdi KETTANI", "role": "Chargé des réclamations", "initials": "MK" },
+                    { "name": "Aya EL HOUDA", "role": "Conseillère affiliés", "initials": "AE" }
+                  ]
+                },
+                {
+                  "name": "Prestations aux ayants droit", "role": "Service", "posteId": "service-prestations-ayants-droit", "status": "provisional", "personName": "Zakaria IDRISSI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-prestations-ayants-droit.jpg",
+                  "members": [
+                    { "name": "Imane CHAFI", "role": "Gestionnaire prestations", "initials": "IC" },
+                    { "name": "Bilal AMAL", "role": "Chargé des dossiers", "initials": "BA" }
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "name": "Pôle Finances & Portefeuille",
           "role": "Chef de Pôle",
+          "personName": "Nadia EL MANSOURI",
+          "personNameStatus": "provisional",
           "posteId": "pole-finances",
-          "children": []
+          "photo": "images/intranet/portraits/pole-finances.jpg",
+          "children": [
+            {
+              "name": "Finance & Comptabilité",
+              "role": "Division",
+              "posteId": "division-finance-comptabilite",
+              "status": "provisional",
+              "personName": "Souad TAZI",
+              "personNameStatus": "provisional",
+              "photo": "images/intranet/portraits/hierarchy/division-finance-comptabilite.jpg",
+              "children": [
+                {
+                  "name": "Comptabilité", "role": "Service", "posteId": "service-comptabilite", "status": "provisional", "personName": "Leila BENNANI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-comptabilite.jpg",
+                  "members": [
+                    { "name": "Yasmine AIT ALI", "role": "Comptable", "initials": "YA" },
+                    { "name": "Omar FASSI", "role": "Comptable fournisseurs", "initials": "OF" },
+                    { "name": "Lina BOUAZZA", "role": "Contrôleuse comptable", "initials": "LB" }
+                  ]
+                },
+                {
+                  "name": "Budget & Reporting", "role": "Service", "posteId": "service-budget-reporting", "status": "provisional", "personName": "Hamza NACIRI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-budget-reporting.jpg",
+                  "members": [
+                    { "name": "Adil BERRAHMA", "role": "Analyste budgétaire", "initials": "AB" },
+                    { "name": "Maha TAZI", "role": "Chargée du reporting", "initials": "MT" }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Gestion du Portefeuille",
+              "role": "Division",
+              "posteId": "division-gestion-portefeuille",
+              "status": "provisional",
+              "personName": "Anas CHRAIBI",
+              "personNameStatus": "provisional",
+              "photo": "images/intranet/portraits/hierarchy/division-gestion-portefeuille.jpg",
+              "children": [
+                {
+                  "name": "Placements", "role": "Service", "posteId": "service-placements", "status": "provisional", "personName": "Sara BELKACEM", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-placements.jpg",
+                  "members": [
+                    { "name": "Ismail NAJI", "role": "Analyste placements", "initials": "IN" },
+                    { "name": "Nadia SAIDI", "role": "Gestionnaire portefeuille", "initials": "NS" },
+                    { "name": "Reda BENSAID", "role": "Analyste risques", "initials": "RB" }
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "name": "Pôle Support & Transformation",
           "role": "Chef de Pôle",
+          "personName": "Mehdi AMRANI",
+          "personNameStatus": "provisional",
           "posteId": "pole-support",
-          "children": []
+          "photo": "images/intranet/portraits/pole-support-transformation.jpg",
+          "children": [
+            {
+              "name": "Capital Humain & Moyens",
+              "role": "Division",
+              "posteId": "division-capital-humain",
+              "status": "provisional",
+              "personName": "Ghita ALAOUI",
+              "personNameStatus": "provisional",
+              "photo": "images/intranet/portraits/hierarchy/division-capital-humain.jpg",
+              "children": [
+                {
+                  "name": "Ressources Humaines", "role": "Service", "posteId": "service-ressources-humaines", "status": "provisional", "personName": "Asmae FIKRI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-ressources-humaines.jpg",
+                  "members": [
+                    { "name": "Kenza ALAOUI", "role": "Chargée RH", "initials": "KA" },
+                    { "name": "Anouar BENNOUNA", "role": "Gestionnaire carrière", "initials": "AB" },
+                    { "name": "Sofia EL AMRANI", "role": "Chargée de formation", "initials": "SE" }
+                  ]
+                },
+                {
+                  "name": "Achats & Moyens généraux", "role": "Service", "posteId": "service-achats-moyens", "status": "provisional", "personName": "Yassine LAMRANI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-achats-moyens.jpg",
+                  "members": [
+                    { "name": "Hicham EL KADI", "role": "Acheteur", "initials": "HE" },
+                    { "name": "Mouna GHAZI", "role": "Gestionnaire moyens généraux", "initials": "MG" }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Transformation & SI",
+              "role": "Division",
+              "posteId": "division-transformation-si",
+              "status": "provisional",
+              "personName": "Rachid EL FASSI",
+              "personNameStatus": "provisional",
+              "photo": "images/intranet/portraits/hierarchy/division-transformation-si.jpg",
+              "children": [
+                {
+                  "name": "Systèmes d’information", "role": "Service", "posteId": "service-systemes-information", "status": "provisional", "personName": "Mehdi EL ALAMI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-systemes-information.jpg",
+                  "members": [
+                    { "name": "Oussama RIFI", "role": "Administrateur systèmes", "initials": "OR" },
+                    { "name": "Nisrine DAOUDI", "role": "Ingénieure support", "initials": "ND" },
+                    { "name": "Walid HADDAD", "role": "Analyste sécurité", "initials": "WH" }
+                  ]
+                },
+                {
+                  "name": "Transformation digitale", "role": "Service", "posteId": "service-transformation-digitale", "status": "provisional", "personName": "Salma BERRADA", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-transformation-digitale.jpg",
+                  "members": [
+                    { "name": "Yousra MAHFOUD", "role": "Cheffe de projet digital", "initials": "YM" },
+                    { "name": "Adam CHERKAOUI", "role": "Business analyst", "initials": "AC" }
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "name": "Service Audit Interne",
           "role": "Rattaché au DG",
+          "personName": "Salma EL IDRISSI",
+          "personNameStatus": "provisional",
           "posteId": "audit-interne",
+          "photo": "images/intranet/portraits/audit-interne.jpg",
+          "members": [
+            { "name": "Rania MANSOUR", "role": "Auditrice interne", "initials": "RM" },
+            { "name": "Ilyas BOUHADDOU", "role": "Auditeur interne", "initials": "IB" },
+            { "name": "Samira LAMLIH", "role": "Analyste contrôle", "initials": "SL" }
+          ],
           "children": []
         },
         {
           "name": "Service Communication Institutionnelle",
           "role": "Rattaché au DG",
+          "personName": "Imane ALAOUI",
+          "personNameStatus": "provisional",
           "posteId": "communication-dg",
+          "photo": "images/intranet/portraits/communication-institutionnelle.jpg",
+          "members": [
+            { "name": "Lamia AIT SAID", "role": "Chargée de communication", "initials": "LA" },
+            { "name": "Amal BOUKILI", "role": "Content manager", "initials": "AB" }
+          ],
           "children": []
         }
       ]
