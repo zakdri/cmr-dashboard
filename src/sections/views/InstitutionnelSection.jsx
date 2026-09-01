@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
 function getOrgGovData() {
@@ -141,6 +141,29 @@ function SummaryText({ children }) {
 export default function InstitutionnelSection() {
   const { header, tabs, overview, smallCards, pages, strategieDocs } =
     getOrgGovData();
+  const [isOrgChartExpanded, setIsOrgChartExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!isOrgChartExpanded) return undefined;
+
+    document.body.classList.add("org-chart-expanded");
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsOrgChartExpanded(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.classList.remove("org-chart-expanded");
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOrgChartExpanded]);
+
+  useEffect(() => {
+    requestAnimationFrame(() => window.lucide?.createIcons());
+  }, [isOrgChartExpanded]);
 
   return (
     <>
@@ -241,39 +264,48 @@ export default function InstitutionnelSection() {
         >
           <SummaryText>{pages.organisation?.description}</SummaryText>
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 16,
-              flexWrap: "wrap",
-              marginBottom: 16,
-            }}
+            className={`cmr-org-chart-viewer${
+              isOrgChartExpanded ? " is-expanded" : ""
+            }`}
           >
-            <div>
-              <div className="app-category-title" style={{ margin: 0 }}>
-                {pages.organigramme?.title}
+            <div className="cmr-org-chart-toolbar">
+              <div>
+                <div className="app-category-title" style={{ margin: 0 }}>
+                  {pages.organigramme?.title}
+                </div>
+                <p
+                  style={{
+                    margin: "8px 0 0 0",
+                    fontSize: 13,
+                    color: "var(--text-light)",
+                  }}
+                >
+                  {pages.organigramme?.description}
+                </p>
               </div>
-              <p
-                style={{
-                  margin: "8px 0 0 0",
-                  fontSize: 13,
-                  color: "var(--text-light)",
-                }}
+              <button
+                type="button"
+                className="cmr-org-fullscreen-button"
+                onClick={() => setIsOrgChartExpanded((expanded) => !expanded)}
+                aria-pressed={isOrgChartExpanded}
+                title={
+                  isOrgChartExpanded
+                    ? "Réduire l’organigramme"
+                    : "Agrandir l’organigramme dans la page"
+                }
               >
-                {pages.organigramme?.description}
-              </p>
+                <i
+                  data-lucide={isOrgChartExpanded ? "minimize-2" : "maximize-2"}
+                  aria-hidden="true"
+                />
+                <span>
+                  {isOrgChartExpanded ? "Réduire" : "Agrandir"}
+                </span>
+              </button>
             </div>
-          </div>
-          <div
-            className="cmr-org-chart-shell"
-            style={{
-              background: "#fff",
-              border: "1px solid #e2e8f0",
-              borderRadius: 14,
-            }}
-          >
-            <div id="orgTree" />
+            <div className="cmr-org-chart-shell">
+              <div id="orgTree" />
+            </div>
           </div>
         </div>
 

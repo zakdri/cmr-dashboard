@@ -6984,8 +6984,109 @@
 
 /* Organigramme — structure inspirée d'un organigramme institutionnel,
    déclinée dans l'identité visuelle CMR. */
+.cmr-org-chart-viewer {
+  background: #fff;
+}
+
+.cmr-org-chart-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 8px 18px -18px rgba(15, 23, 42, 0.75);
+}
+
+.cmr-org-chart-viewer:not(.is-expanded) .cmr-org-chart-toolbar {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.cmr-org-fullscreen-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 14px;
+  flex: 0 0 auto;
+  border: 1px solid #c9dced;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--cmr-primary);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 108, 181, 0.08);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.cmr-org-fullscreen-button:hover {
+  border-color: var(--cmr-primary);
+  background: #eef6ff;
+  transform: translateY(-1px);
+}
+
+.cmr-org-fullscreen-button:focus-visible {
+  outline: 3px solid rgba(37, 108, 181, 0.25);
+  outline-offset: 2px;
+}
+
+.cmr-org-fullscreen-button svg {
+  width: 17px;
+  height: 17px;
+}
+
 .cmr-org-chart-shell {
   overflow: visible;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.cmr-org-chart-viewer.is-expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+body.org-chart-expanded .main-content {
+  margin-right: 0;
+}
+
+body.org-chart-expanded .sidebar-right {
+  display: none;
+}
+
+.cmr-org-chart-viewer.is-expanded .cmr-org-chart-toolbar {
+  margin-bottom: 8px;
+}
+
+.cmr-org-chart-viewer.is-expanded .cmr-org-chart-shell {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+.cmr-org-chart-viewer.is-expanded .cmr-org-chart {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.cmr-org-chart-viewer.is-expanded .cmr-org-top-row,
+.cmr-org-chart-viewer.is-expanded .cmr-org-poles {
+  width: calc(100% - 24px);
+  max-width: 1320px;
 }
 
 .cmr-org-chart {
