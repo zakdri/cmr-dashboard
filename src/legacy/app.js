@@ -1449,17 +1449,20 @@ function openAgendaTab(tabName) {
         }
 
         // ====== COMPLÉMENT ORGA & GOUVERNANCE (écrans fonctionnels) ======
-        const orgGovSmiPolitiquesData = getCmrData('orgGovSmiPolitiquesData', []);
+        let orgGovSmiPolitiquesData = getCmrData('orgGovSmiPolitiquesData', []);
 
-        const orgGovSmiDossiersData = getCmrData('orgGovSmiDossiersData', []);
+        let orgGovSmiDossiersData = getCmrData('orgGovSmiDossiersData', []);
         let orgGovSmiDossierCurrent = 'dp1';
         let orgGovSmiDossierFilter = 'all';
 
         const orgGovSmiAuditsData = getCmrData('orgGovSmiAuditsData', []);
 
-        const orgGovSmiCartographieData = getCmrData('orgGovSmiCartographieData', { families: [] });
+        let orgGovSmiCartographieData = getCmrData('orgGovSmiCartographieData', { families: [] });
         let orgGovSmiCartFamily = 'management';
         let orgGovSmiCartProcess = null;
+        let orgGovSmiDocsLoaded = false;
+        let orgGovSmiDocsLoading = false;
+        let orgGovSmiDocsError = null;
 
         const orgGovSmiPilotageRoles = getCmrData('orgGovSmiPilotageRoles', []);
         let orgGovSmiPilotageRole = null;
@@ -1485,15 +1488,216 @@ function openAgendaTab(tabName) {
         const orgGovRapportsGouvernanceData = getCmrData('orgGovRapportsGouvernanceData', []);
         const orgGovKpiStrategiquesData = getCmrData('orgGovKpiStrategiquesData', { metrics: [], documents: [] });
 
+        function getSmiDocumentsApiUrl(params = {}) {
+            const url = new URL('api/documents.php', document.baseURI);
+            url.searchParams.set('path', 'Intranet CMR/Organisation & RSE/SMI');
+            Object.entries(params).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && value !== '') {
+                    url.searchParams.set(key, value);
+                }
+            });
+            return url.toString();
+        }
+
+        function normalizeOrgGovSmiDocument(documentItem) {
+            const protocolUri = documentItem.protocolUri || '';
+            const fileName = documentItem.fileName || documentItem.title || 'document.pdf';
+            return {
+                ...documentItem,
+                title: documentItem.title || fileName,
+                label: documentItem.label || documentItem.title || fileName,
+                fileName,
+                file: protocolUri
+                    ? getSmiDocumentsApiUrl({
+                        action: 'download',
+                        protocolUri,
+                        fileName
+                    })
+                    : (documentItem.file || fileName),
+                folderLabel: documentItem.folderLabel || 'SMI'
+            };
+        }
+
+        function slugifySmiLabel(value) {
+            return String(value || 'smi')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '') || 'smi';
+        }
+
+        function orgGovSmiDocumentMatchesFolder(documentItem, folderName) {
+            return String(documentItem.folderLabel || '')
+                .toLowerCase()
+                .startsWith(folderName.toLowerCase());
+        }
+
+        function getSmiDocumentSegments(documentItem) {
+            if (Array.isArray(documentItem.segments)) return documentItem.segments;
+            return String(documentItem.folderLabel || '')
+                .split('/')
+                .map(segment => segment.trim())
+                .filter(Boolean);
+        }
+
+        function buildOrgGovSmiDossiers(documents) {
+            const dossierMap = new Map();
+            documents.forEach((documentItem) => {
+                if (
+                    orgGovSmiDocumentMatchesFolder(documentItem, 'Politiques SMI') ||
+                    orgGovSmiDocumentMatchesFolder(documentItem, 'Cartographie des processus')
+                ) {
+                    return;
+                }
+
+                const segments = getSmiDocumentSegments(documentItem);
+                const dossierSegments = orgGovSmiDocumentMatchesFolder(documentItem, 'Dossiers processus')
+                    ? segments.slice(1)
+                    : segments;
+                const dossier = dossierSegments.join(' / ') || 'Autres documents SMI';
+                if (!dossierMap.has(dossier)) {
+                    dossierMap.set(dossier, {
+                        id: `smi-${slugifySmiLabel(dossier)}`,
+                        dossier,
+                        docs: []
+                    });
+                }
+
+                dossierMap.get(dossier).docs.push({
+                    ...documentItem,
+                    label: documentItem.label || documentItem.title,
+                    type: 'Document SMI'
+                });
+            });
+
+            return Array.from(dossierMap.values());
+        }
+
+        function buildOrgGovSmiCartographie(documents) {
+            const cartographieDocuments = documents.filter(documentItem =>
+                orgGovSmiDocumentMatchesFolder(documentItem, 'Cartographie des processus')
+            );
+
+            if (!cartographieDocuments.length) {
+                return { families: [] };
+            }
+
+            const familyMap = new Map();
+            cartographieDocuments.forEach((documentItem, index) => {
+                const segments = getSmiDocumentSegments(documentItem);
+                const familyLabel = segments[1] || 'Cartographie';
+                const processLabel = segments[2] || documentItem.title || `Processus ${index + 1}`;
+                const familyId = `family-${slugifySmiLabel(familyLabel)}`;
+                const processId = `process-${slugifySmiLabel(`${familyLabel}-${processLabel}`)}`;
+
+                if (!familyMap.has(familyId)) {
+                    familyMap.set(familyId, {
+                        id: familyId,
+                        label: familyLabel,
+                        processes: []
+                    });
+                }
+
+                const family = familyMap.get(familyId);
+                let process = family.processes.find(item => item.id === processId);
+                if (!process) {
+                    process = {
+                        id: processId,
+                        title: processLabel,
+                        description: segments.slice(3).join(' / ') || familyLabel,
+                        docs: []
+                    };
+                    family.processes.push(process);
+                }
+
+                process.docs.push({
+                    label: documentItem.title,
+                    file: documentItem.file
+                });
+            });
+
+            return { families: Array.from(familyMap.values()) };
+        }
+
+        function applyOrgGovSmiDocuments(documents) {
+            if (documents.length) {
+                orgGovSmiPolitiquesData = documents.filter(documentItem =>
+                    orgGovSmiDocumentMatchesFolder(documentItem, 'Politiques SMI')
+                );
+                orgGovSmiDossiersData = buildOrgGovSmiDossiers(documents);
+                orgGovSmiDossierCurrent = orgGovSmiDossiersData[0]?.id || '';
+            } else {
+                orgGovSmiPolitiquesData = [];
+                orgGovSmiDossiersData = [];
+                orgGovSmiDossierCurrent = '';
+            }
+
+            orgGovSmiCartographieData = buildOrgGovSmiCartographie(documents);
+            orgGovSmiCartFamily = orgGovSmiCartographieData.families?.[0]?.id || '';
+            orgGovSmiCartProcess = null;
+        }
+
+        async function loadOrgGovSmiDocumentsFromApi(renderAfterLoad, options = {}) {
+            const forceRefresh = options.forceRefresh === true;
+            if (!forceRefresh && (orgGovSmiDocsLoaded || orgGovSmiDocsLoading)) return;
+            if (forceRefresh && orgGovSmiDocsLoading) return;
+
+            let shouldRefreshAfterCache = false;
+            orgGovSmiDocsLoading = true;
+            orgGovSmiDocsError = null;
+
+            try {
+                const response = await fetch(getSmiDocumentsApiUrl(forceRefresh ? { refresh: '1' } : {}), {
+                    headers: { Accept: 'application/json' },
+                    cache: 'no-store'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const payload = await response.json();
+                const documents = (Array.isArray(payload.data) ? payload.data : []).map(normalizeOrgGovSmiDocument);
+                applyOrgGovSmiDocuments(documents);
+                orgGovSmiDocsLoaded = true;
+                shouldRefreshAfterCache = !forceRefresh && payload?.meta?.cache === 'hit';
+            } catch (error) {
+                orgGovSmiDocsError = error;
+                orgGovSmiDocsLoaded = true;
+            } finally {
+                orgGovSmiDocsLoading = false;
+                if (typeof renderAfterLoad === 'function') renderAfterLoad();
+                if (shouldRefreshAfterCache) {
+                    loadOrgGovSmiDocumentsFromApi(renderAfterLoad, { forceRefresh: true });
+                }
+            }
+        }
+
+        function renderOrgGovSmiLocalModeNote() {
+            return orgGovSmiDocsError
+                ? '<div style="margin-bottom:12px;padding:10px 12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;color:#9a3412;font-size:12px;">Mode local : les documents Moovapps seront chargés après déploiement sur le serveur CMR.</div>'
+                : '';
+        }
+
         function renderOrgGovSmiPolitiques() {
             const list = document.getElementById('orgGovSmiPolitiques');
             if (!list) return;
-            list.innerHTML = orgGovSmiPolitiquesData.map(d => `
-                <div class="doc-item" onclick="openMockDownload('${d.file}','${d.title}')">
+            if (!orgGovSmiDocsLoaded && !orgGovSmiDocsLoading) {
+                list.innerHTML = '<div style="padding:14px 0;color:#64748b;font-size:13px;">Chargement des documents SMI...</div>';
+                loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiPolitiques);
+                return;
+            }
+            if (!orgGovSmiPolitiquesData.length) {
+                list.innerHTML = renderOrgGovSmiLocalModeNote() + '<div style="padding:12px;color:#64748b;font-size:13px;">Aucun document Moovapps dans Politiques SMI.</div>';
+                return;
+            }
+            list.innerHTML = renderOrgGovSmiLocalModeNote() + orgGovSmiPolitiquesData.map(d => `
+                <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.title))})">
                     <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">SMI</div>
                     <div class="doc-info">
-                        <div class="doc-title">${d.title}</div>
-                        <div class="doc-meta">Référentiel · Dossiers documentaires</div>
+                        <div class="doc-title">${escapeHtml(d.title)}</div>
+                        <div class="doc-meta">${escapeHtml(d.folderLabel || 'Référentiel · Dossiers documentaires')}</div>
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -1504,12 +1708,27 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiCartographie() {
             const root = document.getElementById('orgGovSmiCartographie');
             if (!root) return;
-            const families = orgGovSmiCartographieData.families || [];
+            if (!orgGovSmiDocsLoaded && !orgGovSmiDocsLoading) {
+                root.innerHTML = '<div style="padding:14px 0;color:#64748b;font-size:13px;">Chargement des documents SMI...</div>';
+                loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiCartographie);
+                return;
+            }
+            const families = (orgGovSmiCartographieData.families || [])
+                .map(family => ({
+                    ...family,
+                    processes: (family.processes || []).filter(process => (process.docs || []).length > 0)
+                }))
+                .filter(family => family.processes.length > 0);
+            if (!families.length) {
+                root.innerHTML = renderOrgGovSmiLocalModeNote() + '<div style="padding:12px;color:#64748b;font-size:13px;">Aucun document Moovapps dans Cartographie des processus.</div>';
+                return;
+            }
             const family = families.find(f => f.id === orgGovSmiCartFamily) || families[0];
             orgGovSmiCartFamily = family?.id || '';
             const process = (family?.processes || []).find(p => p.id === orgGovSmiCartProcess) || family?.processes?.[0];
             orgGovSmiCartProcess = process?.id || null;
             root.innerHTML = `
+                ${renderOrgGovSmiLocalModeNote()}
                 <div class="dashboard-grid" style="grid-template-columns:.9fr 1.1fr 1.4fr;gap:18px;">
                     <div>
                         <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Familles</div>
@@ -1537,9 +1756,9 @@ function openAgendaTab(tabName) {
                         <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Documents de cartographie</div>
                         <div class="doc-list">
                             ${(process?.docs || []).map(d => `
-                                <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
+                                <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.label))})">
                                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
-                                    <div class="doc-info"><div class="doc-title">${d.label}</div><div class="doc-meta">${process.title}</div></div>
+                                    <div class="doc-info"><div class="doc-title">${escapeHtml(d.label)}</div><div class="doc-meta">${escapeHtml(process.title)}</div></div>
                                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                                 </div>
                             `).join('')}
@@ -1557,11 +1776,11 @@ function openAgendaTab(tabName) {
             if (!docsHost || !folder) return;
             const docs = (folder.docs || []).filter(doc => orgGovSmiDossierFilter === 'all' || doc.type === orgGovSmiDossierFilter);
             docsHost.innerHTML = docs.map(doc => `
-                <div class="doc-item" onclick="openMockDownload('${doc.file}','${doc.label}')">
+                <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(doc.file))},${escapeHtml(JSON.stringify(doc.label))})">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
                     <div class="doc-info">
-                        <div class="doc-title">${doc.label}</div>
-                        <div class="doc-meta">${doc.type || folder.dossier}</div>
+                        <div class="doc-title">${escapeHtml(doc.label)}</div>
+                        <div class="doc-meta">${escapeHtml(doc.type || folder.dossier)}</div>
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -1580,7 +1799,23 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiDossiers() {
             const host = document.getElementById('orgGovSmiDossiers');
             if (!host) return;
+            if (!orgGovSmiDocsLoaded && !orgGovSmiDocsLoading) {
+                host.innerHTML = '<div style="padding:14px 18px;color:#64748b;font-size:13px;">Chargement des documents SMI...</div>';
+                loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiDossiers);
+                return;
+            }
+            if (!orgGovSmiDossiersData.length) {
+                host.innerHTML = renderOrgGovSmiLocalModeNote() + '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Aucun dossier processus Moovapps disponible.</div>';
+                return;
+            }
+            const dossierFilters = ['all', ...Array.from(new Set(
+                orgGovSmiDossiersData
+                    .flatMap(folder => folder.docs || [])
+                    .map(doc => doc.type)
+                    .filter(Boolean)
+            ))];
             host.innerHTML = `
+                ${renderOrgGovSmiLocalModeNote()}
                 <div class="dashboard-grid" style="grid-template-columns:1.1fr 1.9fr;gap:18px;padding:18px;">
                     <div>
                         <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Dossiers processus</div>
@@ -1590,7 +1825,7 @@ function openAgendaTab(tabName) {
                         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
                             <div style="font-weight:900;color:#0f172a;font-size:13px;">Documents</div>
                             <div id="orgGovSmiDossierFilters" style="display:flex;gap:8px;flex-wrap:wrap;">
-                                ${['all','CIB & GTB','Formulaire','Registre'].map(f => `<button class="actu-filter-btn${orgGovSmiDossierFilter === f ? ' active' : ''}" data-filter="${f}" onclick="setOrgGovSmiDossierFilter('${f}')">${f === 'all' ? 'Tous' : f}</button>`).join('')}
+                                ${dossierFilters.map(f => `<button class="actu-filter-btn${orgGovSmiDossierFilter === f ? ' active' : ''}" data-filter="${escapeHtml(f)}" onclick="setOrgGovSmiDossierFilter(${escapeHtml(JSON.stringify(f))})">${f === 'all' ? 'Tous' : escapeHtml(f)}</button>`).join('')}
                             </div>
                         </div>
                         <div id="orgGovSmiDossiersDocs" class="doc-list"></div>
@@ -1603,7 +1838,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-item" onclick="openOrgGovSmiDossier('${f.id}')">
                         <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">GED</div>
                         <div class="doc-info">
-                            <div class="doc-title">${f.dossier}</div>
+                            <div class="doc-title">${escapeHtml(f.dossier)}</div>
                             <div class="doc-meta">${f.docs.length} document(s)</div>
                         </div>
                         <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
@@ -2062,13 +2297,25 @@ function openAgendaTab(tabName) {
                 try {
                     if (!pdfUrl) throw new Error('missing url');
                     const res = await fetch(pdfUrl, { cache: 'no-store' });
-                    if (!res.ok) throw new Error('not ok');
+                    if (!res.ok) {
+                        const detail = await res.text().catch(() => '');
+                        throw new Error(detail || `HTTP ${res.status}`);
+                    }
                     const blob = await res.blob();
+                    if (!blob.type.includes('pdf') && blob.size < 2048) {
+                        const detail = await blob.text().catch(() => '');
+                        throw new Error(detail || 'Le fichier retourné n est pas un PDF.');
+                    }
                     pdfPreviewObjectUrl = URL.createObjectURL(blob);
                     frame.src = pdfPreviewObjectUrl;
                 } catch (e) {
-                    const bytes = Uint8Array.from(atob(SAMPLE_PDF_BASE64), c => c.charCodeAt(0));
-                    const blob = new Blob([bytes], { type: 'application/pdf' });
+                    const message = escapeHtml(e?.message || 'Document indisponible.');
+                    const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;padding:28px;color:#1f2937;">
+                        <h2 style="margin:0 0 12px;">Document indisponible</h2>
+                        <p style="line-height:1.6;">Le document existe dans Moovapps, mais le contenu PDF n a pas pu être récupéré.</p>
+                        <pre style="white-space:pre-wrap;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:12px;color:#991b1b;">${message}</pre>
+                    </body></html>`;
+                    const blob = new Blob([html], { type: 'text/html' });
                     pdfPreviewObjectUrl = URL.createObjectURL(blob);
                     frame.src = pdfPreviewObjectUrl;
                 }
