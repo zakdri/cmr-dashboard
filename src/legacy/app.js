@@ -1488,6 +1488,10 @@ function openAgendaTab(tabName) {
         const orgGovRapportsGouvernanceData = getCmrData('orgGovRapportsGouvernanceData', []);
         const orgGovKpiStrategiquesData = getCmrData('orgGovKpiStrategiquesData', { metrics: [], documents: [] });
 
+        function shouldUseSmiDocumentsApi() {
+            return !window.location.hostname.toLowerCase().endsWith('github.io');
+        }
+
         function getSmiDocumentsApiUrl(params = {}) {
             const url = new URL('api/documents.php', document.baseURI);
             url.searchParams.set('path', 'Intranet CMR/Organisation & RSE/SMI');
@@ -1639,6 +1643,11 @@ function openAgendaTab(tabName) {
         }
 
         async function loadOrgGovSmiDocumentsFromApi(renderAfterLoad, options = {}) {
+            if (!shouldUseSmiDocumentsApi()) {
+                orgGovSmiDocsLoaded = true;
+                return;
+            }
+
             const forceRefresh = options.forceRefresh === true;
             if (!forceRefresh && (orgGovSmiDocsLoaded || orgGovSmiDocsLoading)) return;
             if (forceRefresh && orgGovSmiDocsLoading) return;
@@ -1683,7 +1692,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiPolitiques() {
             const list = document.getElementById('orgGovSmiPolitiques');
             if (!list) return;
-            if (!orgGovSmiDocsLoaded && !orgGovSmiDocsLoading) {
+            if (shouldUseSmiDocumentsApi() && !orgGovSmiDocsLoaded && !orgGovSmiDocsLoading) {
                 list.innerHTML = '<div style="padding:14px 0;color:#64748b;font-size:13px;">Chargement des documents SMI...</div>';
                 loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiPolitiques);
                 return;
@@ -1708,7 +1717,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiCartographie() {
             const root = document.getElementById('orgGovSmiCartographie');
             if (!root) return;
-            if (!orgGovSmiDocsLoaded && !orgGovSmiDocsLoading) {
+            if (shouldUseSmiDocumentsApi() && !orgGovSmiDocsLoaded && !orgGovSmiDocsLoading) {
                 root.innerHTML = '<div style="padding:14px 0;color:#64748b;font-size:13px;">Chargement des documents SMI...</div>';
                 loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiCartographie);
                 return;
@@ -1799,7 +1808,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiDossiers() {
             const host = document.getElementById('orgGovSmiDossiers');
             if (!host) return;
-            if (!orgGovSmiDocsLoaded && !orgGovSmiDocsLoading) {
+            if (shouldUseSmiDocumentsApi() && !orgGovSmiDocsLoaded && !orgGovSmiDocsLoading) {
                 host.innerHTML = '<div style="padding:14px 18px;color:#64748b;font-size:13px;">Chargement des documents SMI...</div>';
                 loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiDossiers);
                 return;
