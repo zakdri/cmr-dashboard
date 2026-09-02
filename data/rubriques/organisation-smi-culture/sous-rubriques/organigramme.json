@@ -4,227 +4,280 @@
   "data": {
     "orgGovPages": {
       "organisation": {
-        "description": "Cette rubrique centralise l’organigramme, les fiches et fonctions de postes ainsi que les manuels des procédures."
+        "description": "Cette rubrique centralise l'organigramme, les fiches et fonctions de postes ainsi que les manuels des procédures."
       },
       "organigramme": {
         "title": "Organigramme",
-        "description": "Organigramme du Directeur Général jusqu’aux services, avec les pôles, divisions et rattachements hiérarchiques.",
+        "description": "Organigramme public officiel de la CMR, repris depuis le portail institutionnel avec les photos publiées.",
         "expandLabel": "Développer tout",
         "collapseLabel": "Réduire"
       }
     },
     "orgData": {
-      "name": "Directeur Général",
-      "role": "Direction Générale",
+      "name": "Direction",
+      "role": "Directeur Général",
       "personName": "Lotfi BOUJENDAR",
       "personNameStatus": "official",
       "posteId": "dg",
-      "photo": "images/intranet/portraits/directeur-general.jpg",
+      "photo": "images/intranet/portraits/official/lotfi-boujendar.png",
+      "sourceUrl": "https://www.cmr.gov.ma/Portal/cmr/gouvernance_org#organigramme",
       "children": [
         {
-          "name": "Pôle Retraite",
-          "role": "Chef de Pôle",
-          "personName": "Youssef BENJELLOUN",
-          "personNameStatus": "provisional",
-          "posteId": "pole-retraite",
-          "photo": "images/intranet/portraits/pole-retraite.jpg",
-          "children": [
-            {
-              "name": "Gestion des Pensions",
-              "role": "Division",
-              "posteId": "division-gestion-pensions",
-              "status": "provisional",
-              "personName": "Hanae BERRADA",
-              "personNameStatus": "provisional",
-              "photo": "images/intranet/portraits/hierarchy/division-gestion-pensions.jpg",
-              "children": [
-                {
-                  "name": "Liquidation des pensions", "role": "Service", "posteId": "service-liquidation-pensions", "status": "provisional", "personName": "Othmane BENOMAR", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-liquidation-pensions.jpg",
-                  "members": [
-                    { "name": "Nora EL FATHI", "role": "Gestionnaire pensions", "initials": "NE" },
-                    { "name": "Ayoub MOUTAOUAKIL", "role": "Chargé de liquidation", "initials": "AM" },
-                    { "name": "Hind LAKHDAR", "role": "Contrôleuse dossiers", "initials": "HL" }
-                  ]
-                },
-                {
-                  "name": "Paiement & Suivi", "role": "Service", "posteId": "service-paiement-suivi", "status": "provisional", "personName": "Kawtar AMRANI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-paiement-suivi.jpg",
-                  "members": [
-                    { "name": "Amine ZEROUAL", "role": "Gestionnaire paiements", "initials": "AZ" },
-                    { "name": "Sara OUKILI", "role": "Chargée du suivi", "initials": "SO" }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Relations Affiliés",
-              "role": "Division",
-              "posteId": "division-relations-affilies",
-              "status": "provisional",
-              "personName": "Karim LAHLOU",
-              "personNameStatus": "provisional",
-              "photo": "images/intranet/portraits/hierarchy/division-relations-affilies.jpg",
-              "children": [
-                {
-                  "name": "Accueil & Réclamations", "role": "Service", "posteId": "service-accueil-reclamations", "status": "provisional", "personName": "Meryem BENNIS", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-accueil-reclamations.jpg",
-                  "members": [
-                    { "name": "Salma RAHMOUNI", "role": "Conseillère accueil", "initials": "SR" },
-                    { "name": "Mehdi KETTANI", "role": "Chargé des réclamations", "initials": "MK" },
-                    { "name": "Aya EL HOUDA", "role": "Conseillère affiliés", "initials": "AE" }
-                  ]
-                },
-                {
-                  "name": "Prestations aux ayants droit", "role": "Service", "posteId": "service-prestations-ayants-droit", "status": "provisional", "personName": "Zakaria IDRISSI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-prestations-ayants-droit.jpg",
-                  "members": [
-                    { "name": "Imane CHAFI", "role": "Gestionnaire prestations", "initials": "IC" },
-                    { "name": "Bilal AMAL", "role": "Chargé des dossiers", "initials": "BA" }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Pôle Finances & Portefeuille",
-          "role": "Chef de Pôle",
-          "personName": "Nadia EL MANSOURI",
-          "personNameStatus": "provisional",
-          "posteId": "pole-finances",
-          "photo": "images/intranet/portraits/pole-finances.jpg",
-          "children": [
-            {
-              "name": "Finance & Comptabilité",
-              "role": "Division",
-              "posteId": "division-finance-comptabilite",
-              "status": "provisional",
-              "personName": "Souad TAZI",
-              "personNameStatus": "provisional",
-              "photo": "images/intranet/portraits/hierarchy/division-finance-comptabilite.jpg",
-              "children": [
-                {
-                  "name": "Comptabilité", "role": "Service", "posteId": "service-comptabilite", "status": "provisional", "personName": "Leila BENNANI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-comptabilite.jpg",
-                  "members": [
-                    { "name": "Yasmine AIT ALI", "role": "Comptable", "initials": "YA" },
-                    { "name": "Omar FASSI", "role": "Comptable fournisseurs", "initials": "OF" },
-                    { "name": "Lina BOUAZZA", "role": "Contrôleuse comptable", "initials": "LB" }
-                  ]
-                },
-                {
-                  "name": "Budget & Reporting", "role": "Service", "posteId": "service-budget-reporting", "status": "provisional", "personName": "Hamza NACIRI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-budget-reporting.jpg",
-                  "members": [
-                    { "name": "Adil BERRAHMA", "role": "Analyste budgétaire", "initials": "AB" },
-                    { "name": "Maha TAZI", "role": "Chargée du reporting", "initials": "MT" }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Gestion du Portefeuille",
-              "role": "Division",
-              "posteId": "division-gestion-portefeuille",
-              "status": "provisional",
-              "personName": "Anas CHRAIBI",
-              "personNameStatus": "provisional",
-              "photo": "images/intranet/portraits/hierarchy/division-gestion-portefeuille.jpg",
-              "children": [
-                {
-                  "name": "Placements", "role": "Service", "posteId": "service-placements", "status": "provisional", "personName": "Sara BELKACEM", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-placements.jpg",
-                  "members": [
-                    { "name": "Ismail NAJI", "role": "Analyste placements", "initials": "IN" },
-                    { "name": "Nadia SAIDI", "role": "Gestionnaire portefeuille", "initials": "NS" },
-                    { "name": "Reda BENSAID", "role": "Analyste risques", "initials": "RB" }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Pôle Support & Transformation",
-          "role": "Chef de Pôle",
-          "personName": "Mehdi AMRANI",
-          "personNameStatus": "provisional",
-          "posteId": "pole-support",
-          "photo": "images/intranet/portraits/pole-support-transformation.jpg",
-          "children": [
-            {
-              "name": "Capital Humain & Moyens",
-              "role": "Division",
-              "posteId": "division-capital-humain",
-              "status": "provisional",
-              "personName": "Ghita ALAOUI",
-              "personNameStatus": "provisional",
-              "photo": "images/intranet/portraits/hierarchy/division-capital-humain.jpg",
-              "children": [
-                {
-                  "name": "Ressources Humaines", "role": "Service", "posteId": "service-ressources-humaines", "status": "provisional", "personName": "Asmae FIKRI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-ressources-humaines.jpg",
-                  "members": [
-                    { "name": "Kenza ALAOUI", "role": "Chargée RH", "initials": "KA" },
-                    { "name": "Anouar BENNOUNA", "role": "Gestionnaire carrière", "initials": "AB" },
-                    { "name": "Sofia EL AMRANI", "role": "Chargée de formation", "initials": "SE" }
-                  ]
-                },
-                {
-                  "name": "Achats & Moyens généraux", "role": "Service", "posteId": "service-achats-moyens", "status": "provisional", "personName": "Yassine LAMRANI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-achats-moyens.jpg",
-                  "members": [
-                    { "name": "Hicham EL KADI", "role": "Acheteur", "initials": "HE" },
-                    { "name": "Mouna GHAZI", "role": "Gestionnaire moyens généraux", "initials": "MG" }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Transformation & SI",
-              "role": "Division",
-              "posteId": "division-transformation-si",
-              "status": "provisional",
-              "personName": "Rachid EL FASSI",
-              "personNameStatus": "provisional",
-              "photo": "images/intranet/portraits/hierarchy/division-transformation-si.jpg",
-              "children": [
-                {
-                  "name": "Systèmes d’information", "role": "Service", "posteId": "service-systemes-information", "status": "provisional", "personName": "Mehdi EL ALAMI", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-systemes-information.jpg",
-                  "members": [
-                    { "name": "Oussama RIFI", "role": "Administrateur systèmes", "initials": "OR" },
-                    { "name": "Nisrine DAOUDI", "role": "Ingénieure support", "initials": "ND" },
-                    { "name": "Walid HADDAD", "role": "Analyste sécurité", "initials": "WH" }
-                  ]
-                },
-                {
-                  "name": "Transformation digitale", "role": "Service", "posteId": "service-transformation-digitale", "status": "provisional", "personName": "Salma BERRADA", "personNameStatus": "provisional", "photo": "images/intranet/portraits/hierarchy/service-transformation-digitale.jpg",
-                  "members": [
-                    { "name": "Yousra MAHFOUD", "role": "Cheffe de projet digital", "initials": "YM" },
-                    { "name": "Adam CHERKAOUI", "role": "Business analyst", "initials": "AC" }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Service Audit Interne",
+          "name": "Service Audit",
           "role": "Rattaché au DG",
-          "personName": "Salma EL IDRISSI",
-          "personNameStatus": "provisional",
+          "personName": "Amal SEBAAI",
+          "personNameStatus": "official",
           "posteId": "audit-interne",
-          "photo": "images/intranet/portraits/audit-interne.jpg",
-          "members": [
-            { "name": "Rania MANSOUR", "role": "Auditrice interne", "initials": "RM" },
-            { "name": "Ilyas BOUHADDOU", "role": "Auditeur interne", "initials": "IB" },
-            { "name": "Samira LAMLIH", "role": "Analyste contrôle", "initials": "SL" }
-          ],
+          "photo": "images/intranet/portraits/official/amal-sebaai.jpg",
           "children": []
         },
         {
-          "name": "Service Communication Institutionnelle",
-          "role": "Rattaché au DG",
-          "personName": "Imane ALAOUI",
-          "personNameStatus": "provisional",
-          "posteId": "communication-dg",
-          "photo": "images/intranet/portraits/communication-institutionnelle.jpg",
-          "members": [
-            { "name": "Lamia AIT SAID", "role": "Chargée de communication", "initials": "LA" },
-            { "name": "Amal BOUKILI", "role": "Content manager", "initials": "AB" }
+          "name": "Secrétariat Général",
+          "role": "Secrétariat Général",
+          "personName": "Hatim BENMILOUD",
+          "personNameStatus": "official",
+          "posteId": "secretariat-general",
+          "photo": "images/intranet/portraits/official/hatim-benmiloud.png",
+          "children": [
+            {
+              "name": "Pôle Opérations",
+              "role": "Pôle",
+              "personName": "Mohamed Khalil CHERRADI EL FADILI",
+              "personNameStatus": "official",
+              "posteId": "pole-operations",
+              "photo": "images/intranet/portraits/official/mohamed-khalil-cherradi-el-fadili.png",
+              "children": [],
+              "hiddenChildren": [
+                {
+                  "name": "Division Constitution des Droits",
+                  "role": "Division",
+                  "personName": "Mohamed DAOUIJI",
+                  "personNameStatus": "official",
+                  "posteId": "division-constitution-droits",
+                  "photo": "images/intranet/portraits/official/mohamed-daouiji.jpg",
+                  "children": []
+                },
+                {
+                  "name": "Division Concession des Droits",
+                  "role": "Division",
+                  "personName": "Rachid MAHFOUDI",
+                  "personNameStatus": "official",
+                  "posteId": "division-concession-droits",
+                  "photo": "images/intranet/portraits/official/rachid-mahfoudi.png",
+                  "children": []
+                },
+                {
+                  "name": "Division Paiement des Prestations",
+                  "role": "Division",
+                  "personName": "Said LOUCIFI",
+                  "personNameStatus": "official",
+                  "posteId": "division-paiement-prestations",
+                  "photo": "images/intranet/portraits/official/said-loucifi.png",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Pôle Clients",
+              "role": "Pôle",
+              "personName": "Khadija EL HOUDAIGUI",
+              "personNameStatus": "official",
+              "posteId": "pole-clients",
+              "photo": "images/intranet/portraits/official/khadija-el-houdaigui.jpg",
+              "children": [],
+              "hiddenChildren": [
+                {
+                  "name": "Division Relation client",
+                  "role": "Division",
+                  "personName": "Aicha KADIRI",
+                  "personNameStatus": "official",
+                  "posteId": "division-relation-client",
+                  "photo": "images/intranet/portraits/official/aicha-kadiri.png",
+                  "children": []
+                },
+                {
+                  "name": "Division Expérience client",
+                  "role": "Division",
+                  "personName": "Mohamed HAMZAOUI",
+                  "personNameStatus": "official",
+                  "posteId": "division-experience-client",
+                  "photo": "images/intranet/portraits/official/mohamed-hamzaoui.png",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Pôle Ressources",
+              "role": "Pôle",
+              "personNameStatus": "official",
+              "children": [],
+              "hiddenChildren": [
+                {
+                  "name": "Division Capital Humain",
+                  "role": "Division",
+                  "personName": "Omar BOUDI",
+                  "personNameStatus": "official",
+                  "posteId": "division-capital-humain",
+                  "photo": "images/intranet/portraits/official/omar-boudi.png",
+                  "children": []
+                },
+                {
+                  "name": "Division Achats et Logistique",
+                  "role": "Division",
+                  "personName": "Fadwa BENNANI",
+                  "personNameStatus": "official",
+                  "posteId": "division-achats-logistique",
+                  "photo": "images/intranet/portraits/official/fadwa-bennani.png",
+                  "children": []
+                },
+                {
+                  "name": "Division Financière et Comptable",
+                  "role": "Division",
+                  "personName": "Mohamed ESSALMANI",
+                  "personNameStatus": "official",
+                  "posteId": "division-financiere-comptable",
+                  "photo": "images/intranet/portraits/official/mohamed-essalmani.png",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Pôle Pilotage",
+              "role": "Pôle",
+              "personName": "Hayat BOUKRA",
+              "personNameStatus": "official",
+              "posteId": "pole-pilotage",
+              "photo": "images/intranet/portraits/official/hayat-boukra.jpg",
+              "children": [],
+              "hiddenChildren": [
+                {
+                  "name": "Division Planification et Contrôle de Gestion",
+                  "role": "Division",
+                  "personNameStatus": "official",
+                  "children": []
+                },
+                {
+                  "name": "Division Organisation et AMOA",
+                  "role": "Division",
+                  "personName": "Hafid BELHAJ",
+                  "personNameStatus": "official",
+                  "posteId": "division-organisation-amoa",
+                  "photo": "images/intranet/portraits/official/hafid-belhaj.png",
+                  "children": []
+                },
+                {
+                  "name": "Division Data Office",
+                  "role": "Division",
+                  "personName": "Nour El Houda EL ALAMI",
+                  "personNameStatus": "official",
+                  "posteId": "division-data-office",
+                  "photo": "images/intranet/portraits/official/nour-el-houda-el-alami.jpg",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Pôle Système d'Information et Transformation Digitale",
+              "role": "Pôle",
+              "personName": "Mohamed ESSAIDI",
+              "personNameStatus": "official",
+              "posteId": "pole-systeme-information-transformation-digitale",
+              "photo": "images/intranet/portraits/official/mohamed-essaidi.png",
+              "children": [],
+              "hiddenChildren": [
+                {
+                  "name": "Division Étude et Développement",
+                  "role": "Division",
+                  "personName": "Rachid EL MOKRI",
+                  "personNameStatus": "official",
+                  "posteId": "division-etude-developpement",
+                  "photo": "images/intranet/portraits/official/rachid-el-mokri.png",
+                  "children": []
+                },
+                {
+                  "name": "Division Exploitation, Systèmes et Réseaux",
+                  "role": "Division",
+                  "personName": "Rachid MOUSTAID",
+                  "personNameStatus": "official",
+                  "posteId": "division-exploitation-systemes-reseaux",
+                  "photo": "images/intranet/portraits/official/rachid-moustaid.png",
+                  "children": []
+                },
+                {
+                  "name": "Division Sécurité de l'information",
+                  "role": "Division",
+                  "personNameStatus": "official",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Pôle Gestion du Portefeuille",
+              "role": "Pôle",
+              "personName": "Mohamed Jaber KHAMLICHI",
+              "personNameStatus": "official",
+              "posteId": "pole-gestion-portefeuille",
+              "photo": "images/intranet/portraits/official/mohamed-jaber-khamlichi.png",
+              "children": [],
+              "hiddenChildren": [
+                {
+                  "name": "Division Gestion",
+                  "role": "Division",
+                  "personName": "Fouad BOUKHNIF",
+                  "personNameStatus": "official",
+                  "posteId": "division-gestion-portefeuille-gestion",
+                  "photo": "images/intranet/portraits/official/fouad-boukhnif.jpg",
+                  "children": []
+                },
+                {
+                  "name": "Division Opérations",
+                  "role": "Division",
+                  "personName": "My Slimane KABIRI",
+                  "personNameStatus": "official",
+                  "posteId": "division-gestion-portefeuille-operations",
+                  "photo": "images/intranet/portraits/official/my-slimane-kabiri.png",
+                  "children": []
+                }
+              ]
+            }
           ],
+          "secondaryChildren": [
+            {
+              "name": "Division Contrôle des Engagements et des Paiements",
+              "role": "Division",
+              "personName": "Naoual OUCIBLE",
+              "personNameStatus": "official",
+              "posteId": "division-controle-engagements-paiements",
+              "photo": "images/intranet/portraits/official/naoual-oucible.png",
+              "children": []
+            },
+            {
+              "name": "Division Études et Affaires Juridiques",
+              "role": "Division",
+              "personName": "Ali ZAKI",
+              "personNameStatus": "official",
+              "posteId": "division-etudes-affaires-juridiques",
+              "photo": "images/intranet/portraits/official/ali-zaki.png",
+              "children": []
+            },
+            {
+              "name": "Division Risk management",
+              "role": "Division",
+              "personName": "Brahim NAHI",
+              "personNameStatus": "official",
+              "posteId": "division-risk-management",
+              "photo": "images/intranet/portraits/official/brahim-nahi.png",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Division Gouvernance et Communication Externe",
+          "role": "Rattachée au DG",
+          "personName": "Hasnaa AIT HAMOU",
+          "personNameStatus": "official",
+          "posteId": "division-gouvernance-communication-externe",
+          "photo": "images/intranet/portraits/official/hasnaa-ait-hamou.jpg",
           "children": []
         }
       ]

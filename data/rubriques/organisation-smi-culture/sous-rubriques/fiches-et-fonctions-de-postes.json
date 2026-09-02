@@ -14,101 +14,23 @@
     },
     "postesData": [
       {
-        "id": "pole-retraite",
-        "titre": "Chef de Pôle Retraite",
-        "famille": "Fonction de responsabilité",
-        "missions": [
-          "Piloter les activités liées à la gestion de la retraite",
-          "Coordonner les divisions et services rattachés",
-          "Suivre les indicateurs de performance et de qualité"
-        ],
-        "competences": [
-          "Pilotage métier",
-          "Management",
-          "Maîtrise des processus retraite"
-        ],
-        "profil": [
-          "Bac+5",
-          "10+ ans",
-          "Expérience en management public"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Chef de Pôle Retraite",
-            "file": "Fiche_Fonction_Chef_Pole_Retraite.pdf"
-          }
-        ]
-      },
-      {
-        "id": "pole-finances",
-        "titre": "Chef de Pôle Finances & Portefeuille",
-        "famille": "Fonction de responsabilité",
-        "missions": [
-          "Piloter la gestion financière et le portefeuille",
-          "Superviser le reporting financier",
-          "Contribuer aux arbitrages stratégiques"
-        ],
-        "competences": [
-          "Finance",
-          "Gestion d’actifs",
-          "Analyse stratégique"
-        ],
-        "profil": [
-          "Bac+5",
-          "10+ ans",
-          "Expertise finance et portefeuille"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Chef de Pôle Finances",
-            "file": "Fiche_Fonction_Chef_Pole_Finances.pdf"
-          }
-        ]
-      },
-      {
-        "id": "pole-support",
-        "titre": "Chef de Pôle Support & Transformation",
-        "famille": "Fonction de responsabilité",
-        "missions": [
-          "Piloter les fonctions support",
-          "Accompagner les programmes de transformation",
-          "Assurer la coordination transverse"
-        ],
-        "competences": [
-          "Transformation",
-          "Organisation",
-          "Management transversal"
-        ],
-        "profil": [
-          "Bac+5",
-          "10+ ans",
-          "Expérience en pilotage transverse"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Chef de Pôle Support",
-            "file": "Fiche_Fonction_Chef_Pole_Support.pdf"
-          }
-        ]
-      },
-      {
         "id": "dg",
         "titre": "Directeur Général",
-        "famille": "Direction Générale",
+        "famille": "Direction",
         "missions": [
-          "Définir les orientations stratégiques",
-          "Superviser la gouvernance globale",
-          "Assurer la représentation institutionnelle"
+          "Définir les orientations stratégiques de la CMR",
+          "Piloter la gouvernance générale et la performance institutionnelle",
+          "Représenter la CMR auprès des instances et partenaires"
         ],
         "competences": [
           "Leadership institutionnel",
-          "Gouvernance",
+          "Gouvernance publique",
           "Pilotage stratégique"
         ],
         "profil": [
           "Nomination réglementaire",
-          "Expérience confirmée",
-          "Vision stratégique"
+          "Expérience confirmée en gestion publique",
+          "Vision stratégique et capacité d'arbitrage"
         ],
         "attachments": [
           {
@@ -119,53 +41,651 @@
       },
       {
         "id": "audit-interne",
-        "titre": "Responsable Audit Interne",
+        "titre": "Responsable Service Audit",
         "famille": "Service rattaché au DG",
         "missions": [
-          "Piloter les missions d’audit",
-          "Suivre les recommandations",
-          "Contribuer à la maîtrise des risques"
+          "Piloter les missions d'audit interne",
+          "Suivre les recommandations et les plans d'actions",
+          "Contribuer à la maîtrise des risques et du contrôle interne"
         ],
         "competences": [
-          "Audit",
+          "Audit interne",
           "Contrôle interne",
           "Analyse des risques"
         ],
         "profil": [
           "Bac+5",
-          "7+ ans",
-          "Certification audit appréciée"
+          "Expérience confirmée en audit ou contrôle",
+          "Connaissance des environnements publics"
         ],
         "attachments": [
           {
-            "label": "Fiche poste Responsable Audit Interne",
-            "file": "Fiche_Poste_Responsable_Audit_Interne.pdf"
+            "label": "Fiche poste Responsable Service Audit",
+            "file": "Fiche_Poste_Service_Audit.pdf"
           }
         ]
       },
       {
-        "id": "communication-dg",
-        "titre": "Responsable Communication Institutionnelle",
-        "famille": "Service rattaché au DG",
+        "id": "secretariat-general",
+        "titre": "Secrétaire Général",
+        "famille": "Secrétariat Général",
         "missions": [
-          "Piloter la communication institutionnelle",
-          "Coordonner les prises de parole",
-          "Assurer la cohérence éditoriale"
+          "Coordonner les pôles et directions rattachés",
+          "Assurer le suivi des décisions institutionnelles",
+          "Veiller à la cohérence des dispositifs de pilotage"
         ],
         "competences": [
-          "Communication",
-          "Relations institutionnelles",
-          "Rédaction"
+          "Coordination transverse",
+          "Gouvernance",
+          "Management stratégique"
         ],
         "profil": [
           "Bac+5",
-          "7+ ans",
-          "Expérience communication publique"
+          "Expérience confirmée en management",
+          "Culture administrative et institutionnelle"
         ],
         "attachments": [
           {
-            "label": "Fiche poste Communication Institutionnelle",
-            "file": "Fiche_Poste_Communication_Institutionnelle.pdf"
+            "label": "Fiche fonction Secrétaire Général",
+            "file": "Fiche_Fonction_Secretaire_General.pdf"
+          }
+        ]
+      },
+      {
+        "id": "pole-operations",
+        "titre": "Responsable Pôle Opérations",
+        "famille": "Pôle",
+        "missions": [
+          "Piloter les activités opérationnelles",
+          "Coordonner les divisions rattachées au pôle",
+          "Suivre la qualité de service et les indicateurs opérationnels"
+        ],
+        "competences": [
+          "Management opérationnel",
+          "Pilotage d'activité",
+          "Optimisation des processus"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en pilotage d'activités métier",
+          "Capacité de coordination multi-équipes"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche fonction Pôle Opérations",
+            "file": "Fiche_Fonction_Pole_Operations.pdf"
+          }
+        ]
+      },
+      {
+        "id": "pole-clients",
+        "titre": "Responsable Pôle Clients",
+        "famille": "Pôle",
+        "missions": [
+          "Piloter l'expérience et la relation clients",
+          "Coordonner les dispositifs d'accueil et de service",
+          "Suivre les engagements de qualité vis-à-vis des usagers"
+        ],
+        "competences": [
+          "Relation client",
+          "Qualité de service",
+          "Management d'équipes"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en gestion de la relation client",
+          "Sens du service public"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche fonction Pôle Clients",
+            "file": "Fiche_Fonction_Pole_Clients.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-relation-client",
+        "titre": "Responsable Division Relation client",
+        "famille": "Division - Pôle Clients",
+        "missions": [
+          "Piloter les dispositifs de relation client",
+          "Coordonner les canaux d'accueil et de traitement des demandes",
+          "Suivre la qualité de réponse et les engagements de service"
+        ],
+        "competences": [
+          "Relation client",
+          "Qualité de service",
+          "Coordination opérationnelle"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en relation client ou gestion de service public",
+          "Sens de l'écoute et du suivi des engagements"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Relation client",
+            "file": "Fiche_Poste_Division_Relation_Client.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-experience-client",
+        "titre": "Responsable Division Expérience client",
+        "famille": "Division - Pôle Clients",
+        "missions": [
+          "Piloter les parcours et l'expérience client",
+          "Identifier les irritants et proposer des améliorations de service",
+          "Mesurer la satisfaction et suivre les plans d'action associés"
+        ],
+        "competences": [
+          "Expérience client",
+          "Analyse de parcours",
+          "Amélioration continue"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en expérience client, qualité ou transformation de service",
+          "Capacité d'analyse et orientation usager"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Expérience client",
+            "file": "Fiche_Poste_Division_Experience_Client.pdf"
+          }
+        ]
+      },
+      {
+        "id": "pole-pilotage",
+        "titre": "Responsable Pôle Pilotage",
+        "famille": "Pôle",
+        "missions": [
+          "Piloter les dispositifs de suivi et de performance",
+          "Consolider les indicateurs stratégiques",
+          "Animer les cycles de reporting et d'aide à la décision"
+        ],
+        "competences": [
+          "Pilotage de performance",
+          "Reporting",
+          "Analyse décisionnelle"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en pilotage ou contrôle de gestion",
+          "Maîtrise des outils d'analyse"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche fonction Pôle Pilotage",
+            "file": "Fiche_Fonction_Pole_Pilotage.pdf"
+          }
+        ]
+      },
+      {
+        "id": "pole-systeme-information-transformation-digitale",
+        "titre": "Responsable Pôle Système d'Information et Transformation Digitale",
+        "famille": "Pôle",
+        "missions": [
+          "Piloter le système d'information et les chantiers digitaux",
+          "Coordonner les projets de transformation",
+          "Garantir la continuité, la sécurité et l'évolution des services numériques"
+        ],
+        "competences": [
+          "Systèmes d'information",
+          "Transformation digitale",
+          "Management de projets"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience SI et transformation",
+          "Maîtrise des enjeux de sécurité et de conduite du changement"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche fonction Pôle Système d'Information et Transformation Digitale",
+            "file": "Fiche_Fonction_Pole_SITD.pdf"
+          }
+        ]
+      },
+      {
+        "id": "pole-gestion-portefeuille",
+        "titre": "Responsable Pôle Gestion du Portefeuille",
+        "famille": "Pôle",
+        "missions": [
+          "Piloter la gestion du portefeuille",
+          "Suivre les arbitrages et indicateurs financiers",
+          "Contribuer à la sécurisation et à la performance des placements"
+        ],
+        "competences": [
+          "Gestion de portefeuille",
+          "Analyse financière",
+          "Maîtrise des risques"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en finance ou gestion d'actifs",
+          "Culture risque et performance"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche fonction Pôle Gestion du Portefeuille",
+            "file": "Fiche_Fonction_Pole_Gestion_Portefeuille.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-controle-engagements-paiements",
+        "titre": "Responsable Division Contrôle des Engagements et des Paiements",
+        "famille": "Division",
+        "missions": [
+          "Superviser le contrôle des engagements et paiements",
+          "Assurer la conformité des contrôles réalisés",
+          "Produire le reporting lié aux opérations contrôlées"
+        ],
+        "competences": [
+          "Contrôle des engagements",
+          "Contrôle des paiements",
+          "Rigueur réglementaire"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en contrôle ou gestion financière",
+          "Maîtrise des procédures administratives"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Contrôle des Engagements et des Paiements",
+            "file": "Fiche_Poste_Division_Controle_Engagements_Paiements.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-etudes-affaires-juridiques",
+        "titre": "Responsable Division Études et Affaires Juridiques",
+        "famille": "Division",
+        "missions": [
+          "Piloter les études juridiques",
+          "Accompagner les directions sur les affaires juridiques",
+          "Contribuer à la veille et à la sécurisation juridique"
+        ],
+        "competences": [
+          "Droit public",
+          "Analyse juridique",
+          "Veille réglementaire"
+        ],
+        "profil": [
+          "Bac+5 en droit ou équivalent",
+          "Expérience en affaires juridiques",
+          "Capacité de conseil et de synthèse"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Études et Affaires Juridiques",
+            "file": "Fiche_Poste_Division_Etudes_Affaires_Juridiques.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-risk-management",
+        "titre": "Responsable Division Risk management",
+        "famille": "Division",
+        "missions": [
+          "Animer le dispositif de risk management",
+          "Identifier, évaluer et suivre les risques majeurs",
+          "Accompagner les plans de mitigation et de reporting"
+        ],
+        "competences": [
+          "Risk management",
+          "Cartographie des risques",
+          "Contrôle et reporting"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en risques, audit ou contrôle",
+          "Maîtrise des méthodes d'évaluation des risques"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Risk management",
+            "file": "Fiche_Poste_Division_Risk_Management.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-gouvernance-communication-externe",
+        "titre": "Responsable Division Gouvernance et Communication Externe",
+        "famille": "Division rattachée au DG",
+        "missions": [
+          "Piloter la gouvernance et la communication externe",
+          "Coordonner les dispositifs institutionnels de communication",
+          "Assurer la cohérence des messages et supports externes"
+        ],
+        "competences": [
+          "Gouvernance",
+          "Communication institutionnelle",
+          "Relations externes"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en gouvernance ou communication",
+          "Capacité de coordination et de représentation"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Gouvernance et Communication Externe",
+            "file": "Fiche_Poste_Division_Gouvernance_Communication_Externe.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-constitution-droits",
+        "titre": "Responsable Division Constitution des Droits",
+        "famille": "Division - Pôle Opérations",
+        "missions": [
+          "Piloter les activités de constitution des droits",
+          "Coordonner le traitement des dossiers et la conformité des décisions",
+          "Suivre les indicateurs opérationnels de la division"
+        ],
+        "competences": [
+          "Gestion des droits",
+          "Maîtrise réglementaire",
+          "Pilotage d'activité"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en gestion de prestations ou dossiers réglementaires",
+          "Capacité de coordination et de contrôle"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Constitution des Droits",
+            "file": "Fiche_Poste_Division_Constitution_Droits.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-concession-droits",
+        "titre": "Responsable Division Concession des Droits",
+        "famille": "Division - Pôle Opérations",
+        "missions": [
+          "Superviser la concession des droits",
+          "Garantir la qualité et la traçabilité du traitement des dossiers",
+          "Coordonner les équipes et les contrôles liés à l'activité"
+        ],
+        "competences": [
+          "Concession des droits",
+          "Contrôle qualité",
+          "Management opérationnel"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en opérations retraite ou protection sociale",
+          "Rigueur réglementaire et sens du service"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Concession des Droits",
+            "file": "Fiche_Poste_Division_Concession_Droits.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-paiement-prestations",
+        "titre": "Responsable Division Paiement des Prestations",
+        "famille": "Division - Pôle Opérations",
+        "missions": [
+          "Piloter le paiement des prestations",
+          "Sécuriser les cycles de paiement et les contrôles associés",
+          "Assurer le reporting des opérations de paiement"
+        ],
+        "competences": [
+          "Paiement des prestations",
+          "Contrôle opérationnel",
+          "Reporting"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en gestion financière ou prestations sociales",
+          "Maîtrise des procédures et des délais opérationnels"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Paiement des Prestations",
+            "file": "Fiche_Poste_Division_Paiement_Prestations.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-capital-humain",
+        "titre": "Responsable Division Capital Humain",
+        "famille": "Division - Pôle Ressources",
+        "missions": [
+          "Piloter la gestion du capital humain",
+          "Accompagner les dispositifs RH et le développement des compétences",
+          "Suivre les indicateurs sociaux et les plans d'action RH"
+        ],
+        "competences": [
+          "Gestion RH",
+          "Développement des compétences",
+          "Dialogue et accompagnement"
+        ],
+        "profil": [
+          "Bac+5 en ressources humaines ou management",
+          "Expérience confirmée en gestion RH",
+          "Capacité d'écoute, d'organisation et de pilotage"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Capital Humain",
+            "file": "Fiche_Poste_Division_Capital_Humain.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-achats-logistique",
+        "titre": "Responsable Division Achats et Logistique",
+        "famille": "Division - Pôle Ressources",
+        "missions": [
+          "Superviser les achats et la logistique",
+          "Garantir le respect des procédures et des engagements fournisseurs",
+          "Optimiser les moyens matériels et les services généraux"
+        ],
+        "competences": [
+          "Achats publics",
+          "Logistique",
+          "Gestion fournisseurs"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en achats, marchés ou logistique",
+          "Rigueur procédurale et capacité de négociation"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Achats et Logistique",
+            "file": "Fiche_Poste_Division_Achats_Logistique.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-financiere-comptable",
+        "titre": "Responsable Division Financière et Comptable",
+        "famille": "Division - Pôle Ressources",
+        "missions": [
+          "Piloter les activités financières et comptables",
+          "Assurer la fiabilité des opérations et des arrêtés comptables",
+          "Produire les reportings financiers et contribuer au contrôle budgétaire"
+        ],
+        "competences": [
+          "Comptabilité",
+          "Finance publique",
+          "Contrôle budgétaire"
+        ],
+        "profil": [
+          "Bac+5 en finance, comptabilité ou audit",
+          "Expérience confirmée en gestion financière",
+          "Maîtrise des normes et procédures comptables"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Financière et Comptable",
+            "file": "Fiche_Poste_Division_Financiere_Comptable.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-organisation-amoa",
+        "titre": "Responsable Division Organisation et AMOA",
+        "famille": "Division - Pôle Pilotage",
+        "missions": [
+          "Piloter les projets d'organisation et d'assistance à maîtrise d'ouvrage",
+          "Formaliser les besoins métier et accompagner la conduite du changement",
+          "Coordonner les chantiers d'amélioration des processus"
+        ],
+        "competences": [
+          "Organisation",
+          "AMOA",
+          "Conduite du changement"
+        ],
+        "profil": [
+          "Bac+5",
+          "Expérience en organisation, AMOA ou transformation",
+          "Capacité d'analyse, de synthèse et d'animation"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Organisation et AMOA",
+            "file": "Fiche_Poste_Division_Organisation_AMOA.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-data-office",
+        "titre": "Responsable Division Data Office",
+        "famille": "Division - Pôle Pilotage",
+        "missions": [
+          "Piloter la gouvernance et la valorisation des données",
+          "Développer les dispositifs de reporting, qualité et analyse data",
+          "Accompagner les métiers dans l'exploitation décisionnelle des données"
+        ],
+        "competences": [
+          "Data management",
+          "Business intelligence",
+          "Qualité des données"
+        ],
+        "profil": [
+          "Bac+5 en data, statistiques, informatique ou équivalent",
+          "Expérience en gouvernance de données ou BI",
+          "Culture analytique et orientation métier"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Data Office",
+            "file": "Fiche_Poste_Division_Data_Office.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-etude-developpement",
+        "titre": "Responsable Division Étude et Développement",
+        "famille": "Division - Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Piloter les études et développements applicatifs",
+          "Coordonner les projets SI avec les métiers et les équipes techniques",
+          "Assurer la qualité, la maintenabilité et l'évolution des solutions"
+        ],
+        "competences": [
+          "Études SI",
+          "Développement applicatif",
+          "Management de projets"
+        ],
+        "profil": [
+          "Bac+5 en informatique ou équivalent",
+          "Expérience en développement, architecture ou pilotage SI",
+          "Maîtrise des méthodes projet et de la qualité logicielle"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Étude et Développement",
+            "file": "Fiche_Poste_Division_Etude_Developpement.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-exploitation-systemes-reseaux",
+        "titre": "Responsable Division Exploitation, Systèmes et Réseaux",
+        "famille": "Division - Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Superviser l'exploitation, les systèmes et les réseaux",
+          "Garantir la disponibilité, la performance et la continuité des services",
+          "Coordonner le support technique et les évolutions d'infrastructure"
+        ],
+        "competences": [
+          "Infrastructure SI",
+          "Exploitation",
+          "Systèmes et réseaux"
+        ],
+        "profil": [
+          "Bac+5 en informatique, réseaux ou systèmes",
+          "Expérience en exploitation SI ou infrastructure",
+          "Culture service, sécurité et continuité"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Exploitation, Systèmes et Réseaux",
+            "file": "Fiche_Poste_Division_Exploitation_Systemes_Reseaux.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-gestion-portefeuille-gestion",
+        "titre": "Responsable Division Gestion",
+        "famille": "Division - Pôle Gestion du Portefeuille",
+        "missions": [
+          "Piloter les activités de gestion du portefeuille",
+          "Suivre les positions, arbitrages et indicateurs de performance",
+          "Contribuer à la maîtrise des risques financiers"
+        ],
+        "competences": [
+          "Gestion de portefeuille",
+          "Analyse financière",
+          "Suivi de performance"
+        ],
+        "profil": [
+          "Bac+5 en finance, économie ou gestion",
+          "Expérience en gestion d'actifs ou portefeuille",
+          "Maîtrise de l'analyse risque-rendement"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Gestion",
+            "file": "Fiche_Poste_Division_Gestion_Portefeuille.pdf"
+          }
+        ]
+      },
+      {
+        "id": "division-gestion-portefeuille-operations",
+        "titre": "Responsable Division Opérations",
+        "famille": "Division - Pôle Gestion du Portefeuille",
+        "missions": [
+          "Superviser les opérations liées au portefeuille",
+          "Sécuriser les traitements, rapprochements et contrôles opérationnels",
+          "Assurer le suivi des flux et la coordination avec les parties prenantes"
+        ],
+        "competences": [
+          "Opérations financières",
+          "Contrôle des flux",
+          "Coordination opérationnelle"
+        ],
+        "profil": [
+          "Bac+5 en finance, gestion ou équivalent",
+          "Expérience en opérations de marché ou gestion financière",
+          "Rigueur, fiabilité et maîtrise des contrôles"
+        ],
+        "attachments": [
+          {
+            "label": "Fiche poste Division Opérations",
+            "file": "Fiche_Poste_Division_Operations_Portefeuille.pdf"
           }
         ]
       }

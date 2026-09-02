@@ -1,0 +1,36 @@
+## Organisation diagram and fiche popup QA
+
+- Checked the local preview at `http://127.0.0.1:5174/cmr-dashboard/`.
+- Verified `Organisation & RSE` navigation opens the section, then the `Organigramme` card opens the diagram page.
+- Verified the diagram shows the official CMR hierarchy, names, and portrait assets from the public organigramme source.
+- Verified a diagram `Fiche` button opens an in-page popup with the attached reference style: white card, pale-blue identity header, round portrait, section cards, and an `X` close button.
+- Verified the diagram now includes 6 down-circle expansion controls for the official pôle branches, including Pôle Clients.
+- Verified the corrected hierarchy: Secrétariat Général connects to the three direct SG divisions first, then the connector continues to the six pôles below them.
+- Verified Pôle Opérations expands to Mohamed DAOUIJI, Rachid MAHFOUDI, and Said LOUCIFI.
+- Verified Pôle Clients expands to Aicha KADIRI and Mohamed HAMZAOUI.
+- Verified Naoual OUCIBLE, Ali ZAKI, and Brahim NAHI appear between Hatim BENMILOUD and the six pôle cards, matching the official screenshot structure.
+- Verified the main pôle-row connector now runs through the blue endpoint/intersection points instead of leaving the points visually detached from the horizontal rail.
+- Verified the child-branch horizontal connector rules are trimmed to terminate inside their blue points.
+- Verified the official six-pôle row uses the correct six-column connector math, so the horizontal rail now reaches the first and sixth blue points.
+- Verified visible card sizing is consistent by row: Lotfi BOUJENDAR direction card `330x190`, direct row cards for Amal SEBAAI, Hatim BENMILOUD, and Hasnaa AIT HAMOU `270x220`, secondary SG division cards `180x205`, pôle cards `172x252`, and expanded hidden division cards `172x168`.
+- Verified visible profile images, division fallbacks, and the empty pôle profile icon render at `62x62` across the organigramme; nested service portraits render at the updated fixed size.
+- Verified each down-circle control sits below the card body with a measured 37px gap from the nearest `Fiche` button, avoiding overlap on long pôle titles.
+- Verified expanded hidden-profile columns use 38px vertical gaps, so connector dots no longer sit on top of the previous `Fiche` button.
+- Verified `Source : portail officiel CMR` is no longer visible in the organigramme page.
+- Verified the official top hierarchy now places Lotfi BOUJENDAR above a single direct row containing Amal SEBAAI, Hatim BENMILOUD, and Hasnaa AIT HAMOU.
+- Verified Amal SEBAAI, Hatim BENMILOUD, and Hasnaa AIT HAMOU share the same top Y position in the direct row beneath Lotfi BOUJENDAR.
+- Verified Hatim BENMILOUD no longer shows the pôle number and uses the neutral `1px #dbe7f1` top border instead of a blue top frame.
+- Verified Lotfi BOUJENDAR keeps image and text centered, with the `Fiche` button below the text and near the bottom of the direction card.
+- Verified clicking a pôle down-circle opens its hidden profiles as a horizontal row, not a vertical stack.
+- Verified clicking a pôle down-circle does not auto-center the result in the viewport; the opened hidden-profile row stays centered under the clicked drop button.
+- Verified the hidden branch connector starts from the clicked drop button and shows the official child profiles captured from the CMR portal.
+- Verified the connector over Naoual OUCIBLE, Ali ZAKI, and Brahim NAHI ends exactly at the first and third blue points.
+- Verified browser geometry after opening Pôle Ressources: hidden branch center equals clicked button center, secondary-line endpoint deltas are `0`, pôle-line endpoint deltas are `0`, and no console errors were reported.
+- Verified Mohamed DAOUIJI's expanded card content fits inside the card at `172x196`, including the `Fiche` button.
+- Verified all non-direction organigramme profile cards use the same gray profile-card background as Naoual OUCIBLE / Ali ZAKI / Brahim NAHI, while the Direction card keeps white text.
+- Verified `Agrandir/Réduire` is scoped to the organigramme: after using `Agrandir`, switching to Accueil removes `org-chart-expanded`, clears the expanded viewer state, and restores `.sidebar-right` with `display:flex`.
+- Verified a hidden profile fiche opens in the modal, the modal height fits the viewport, and the `X` close button returns to the diagram without navigation.
+- Verified `Fiches et fonctions de postes` remains a separate page with 26 official named-profile fiche entries, search, and in-page detail selection.
+- Verified search for `Aicha` returns Aicha KADIRI and search for `HAMZAOUI` returns Mohamed HAMZAOUI.
+
+final result: passed

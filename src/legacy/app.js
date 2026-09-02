@@ -496,6 +496,10 @@ function openAgendaTab(tabName) {
 
         // SPA LOGIC
         function switchView(viewId) {
+            if (viewId !== 'institutionnel') {
+                window.dispatchEvent(new CustomEvent('cmr:close-org-chart-expanded'));
+                document.body.classList.remove('org-chart-expanded');
+            }
             hideSidebarSubmenu();
 
             // Toggle Body Class for Layout changes
@@ -689,6 +693,10 @@ function openAgendaTab(tabName) {
         let orgGovSection = 'overview';
 
         function orgGovShowPage(pageId) {
+            if (pageId !== 'organigramme') {
+                window.dispatchEvent(new CustomEvent('cmr:close-org-chart-expanded'));
+                document.body.classList.remove('org-chart-expanded');
+            }
             const all = [
                 'overview', 'organigramme', 'postes', 'presentation', 'strategie', 'referentiels',
                 'comites', 'direction', 'smi-politiques', 'smi-dossiers', 'smi-audits',
@@ -805,6 +813,29 @@ function openAgendaTab(tabName) {
             return `org-members-${prefix}-${slug}`;
         }
 
+        function getOrgHiddenPanelId(node, prefix = 'node') {
+            const slug = String(node.posteId || node.name || prefix)
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+            return `org-hidden-${prefix}-${slug}`;
+        }
+
+        function renderOrgHiddenToggle(node, panelId) {
+            const hiddenCount = (node.hiddenChildren || []).length;
+            if (!hiddenCount) return '';
+            return `
+                <button class="cmr-org-expand-toggle" type="button"
+                    aria-label="Afficher les profils rattachés à ${node.name}"
+                    aria-controls="${panelId}" aria-expanded="false"
+                    onclick="toggleOrgHiddenChildren('${panelId}', this)">
+                    <i data-lucide="circle-chevron-down"></i>
+                </button>
+            `;
+        }
+
         function renderOrgServiceMembers(service, prefix = 'service') {
             const members = service.members || [];
             if (!members.length) return '';
@@ -831,9 +862,10 @@ function openAgendaTab(tabName) {
             `;
         }
 
-        function renderOrgCard(node, variant = 'pole', index = 0) {
+        function renderOrgCard(node, variant = 'pole', index = 0, options = {}) {
             const icon = variant === 'direction' ? 'landmark' : variant === 'service' ? 'shield-check' : 'users';
             const number = String(index + 1).padStart(2, '0');
+            const hiddenPanelId = options.hiddenPanelId || '';
             const visual = node.photo
                 ? `<img class="cmr-org-card-photo" src="${node.photo}" alt="Portrait illustratif pour ${node.name}" loading="lazy">`
                 : `<div class="cmr-org-card-icon"><i data-lucide="${icon}"></i></div>`;
@@ -850,6 +882,7 @@ function openAgendaTab(tabName) {
                         <div class="cmr-org-card-name">${node.name}</div>
                     </div>
                     ${node.posteId ? `<button class="cmr-org-card-action" onclick="openPosteFromOrg('${node.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
+                    ${hiddenPanelId ? renderOrgHiddenToggle(node, hiddenPanelId) : ''}
                     ${variant === 'service' ? renderOrgServiceMembers(node, 'direct') : ''}
                 </article>
             `;
@@ -857,45 +890,78 @@ function openAgendaTab(tabName) {
 
         function renderOrgDivision(division, divisionIndex = 0) {
             const services = division.children || [];
+            const label = division.role || 'Division';
+            const personStatus = division.personNameStatus === 'provisional'
+                ? '<sup title="Nom provisoire">*</sup>'
+                : '';
+            const visual = division.photo
+                ? `<img src="${division.photo}" alt="Portrait de ${division.personName || division.name}" loading="lazy">`
+                : `<span class="cmr-org-division-fallback"><i data-lucide="layers"></i></span>`;
             return `
                 <section class="cmr-org-division-unit">
                     <article class="cmr-org-division-card">
-                        <img src="${division.photo}" alt="Portrait illustratif de ${division.personName}" loading="lazy">
+                        ${visual}
                         <span class="cmr-org-division-copy">
-                            <small>Chef de division</small>
-                            <strong>${division.personName}<sup title="Nom provisoire">*</sup></strong>
+                            <small>${label}</small>
+                            ${division.personName ? `<strong>${division.personName}${personStatus}</strong>` : ''}
                             <span>${division.name}</span>
                         </span>
                         ${division.posteId ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${division.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
                     </article>
-                    <div class="cmr-org-service-tree">
+                    ${services.length ? `<div class="cmr-org-service-tree">
                         ${services.map((service, serviceIndex) => `
                             <article class="cmr-org-service-card">
-                                <img src="${service.photo}" alt="Portrait illustratif de ${service.personName}" loading="lazy">
+                                ${service.photo
+                                    ? `<img src="${service.photo}" alt="Portrait de ${service.personName || service.name}" loading="lazy">`
+                                    : `<span class="cmr-org-service-fallback"><i data-lucide="layers"></i></span>`}
                                 <span>
-                                    <small>Chef de service</small>
-                                    <strong>${service.personName}<sup title="Nom provisoire">*</sup></strong>
+                                    <small>${service.role || 'Service'}</small>
+                                    ${service.personName ? `<strong>${service.personName}${service.personNameStatus === 'provisional' ? '<sup title="Nom provisoire">*</sup>' : ''}</strong>` : ''}
                                     <span>${service.name}</span>
                                 </span>
                                 ${service.posteId ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${service.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
                                 ${renderOrgServiceMembers(service, `division-${divisionIndex}-${serviceIndex}`)}
                             </article>
                         `).join('')}
-                    </div>
+                    </div>` : ''}
                 </section>
+            `;
+        }
+
+        function renderOrgHiddenBranch(node, prefix) {
+            const hiddenDivisions = node.hiddenChildren || [];
+            if (!hiddenDivisions.length) return '';
+            const panelId = getOrgHiddenPanelId(node, prefix);
+            return `
+                <div class="cmr-org-hidden-branch" id="${panelId}" role="group" aria-label="Profils rattachés à ${node.name}" style="--org-hidden-count: ${hiddenDivisions.length};" hidden>
+                    ${hiddenDivisions.map((division, divisionIndex) => renderOrgDivision(division, `${prefix}-hidden-${divisionIndex}`)).join('')}
+                </div>
+            `;
+        }
+
+        function renderOrgSecondaryBranch(node, prefix) {
+            const secondaryDivisions = node.secondaryChildren || [];
+            if (!secondaryDivisions.length) return '';
+            return `
+                <div class="cmr-org-secondary-branch" aria-label="Divisions rattachées à ${node.name}">
+                    ${secondaryDivisions.map((division, divisionIndex) => renderOrgDivision(division, `${prefix}-secondary-${divisionIndex}`)).join('')}
+                </div>
             `;
         }
 
         function renderOrgPoleColumn(node, index) {
             const divisions = node.children || [];
+            const hiddenDivisions = node.hiddenChildren || [];
+            const hiddenPanelId = hiddenDivisions.length ? getOrgHiddenPanelId(node, `pole-${index}`) : '';
             return `
                 <div class="cmr-org-pole-column">
-                    ${renderOrgCard(node, 'pole', index)}
+                    ${renderOrgCard(node, 'pole', index, { hiddenPanelId })}
                     ${divisions.length ? `
                         <div class="cmr-org-pole-branch">
                             ${divisions.map((division, divisionIndex) => renderOrgDivision(division, `${index}-${divisionIndex}`)).join('')}
                         </div>
                     ` : ''}
+                    ${renderOrgHiddenBranch(node, `pole-${index}`)}
                 </div>
             `;
         }
@@ -905,29 +971,58 @@ function openAgendaTab(tabName) {
             if (!container) return;
             const children = orgData.children || [];
             const directServices = children.filter(node => (node.role || '').toLowerCase().includes('rattach'));
-            const poles = children.filter(node => !(node.role || '').toLowerCase().includes('rattach'));
+            const mainBranches = children.filter(node => !(node.role || '').toLowerCase().includes('rattach'));
             const leftService = directServices[0];
             const rightService = directServices[1];
             const extraServices = directServices.slice(2);
+            const isOfficialLayout = mainBranches.length === 1 && (mainBranches[0].children || []).length > 3;
+            const branch = isOfficialLayout ? mainBranches[0] : null;
+            const poles = branch ? (branch.children || []) : mainBranches;
 
             container.innerHTML = `
-                <div class="cmr-org-chart" aria-label="Organigramme de la CMR">
-                    <div class="cmr-org-top-row">
-                        <div class="cmr-org-side cmr-org-side--left" data-org-collapsed="false">
-                            ${leftService ? renderOrgCard(leftService, 'service') : ''}
-                        </div>
+                <div class="cmr-org-chart${isOfficialLayout ? ' cmr-org-chart--official' : ''}" aria-label="Organigramme de la CMR">
+                    ${branch ? `
+                        <div class="cmr-org-top-row cmr-org-top-row--solo">
                         <div class="cmr-org-root">
                             ${renderOrgCard(orgData, 'direction')}
                         </div>
-                        <div class="cmr-org-side cmr-org-side--right" data-org-collapsed="false">
-                            ${rightService ? renderOrgCard(rightService, 'service') : ''}
                         </div>
-                    </div>
-                    ${extraServices.length ? `<div class="cmr-org-extra-services" data-org-collapsed="false">${extraServices.map(node => renderOrgCard(node, 'service')).join('')}</div>` : ''}
-                    <div class="cmr-org-poles" data-org-collapsed="false">
-                        ${poles.map(renderOrgPoleColumn).join('')}
-                    </div>
-                    <div class="cmr-org-legend"><span>*</span> Noms et structure détaillée provisoires</div>
+                        <div class="cmr-org-main-branch" data-org-collapsed="false">
+                            <div class="cmr-org-direct-row" aria-label="Rattachements directs de la Direction">
+                                <div class="cmr-org-direct-unit cmr-org-direct-unit--service">
+                                    ${leftService ? renderOrgCard(leftService, 'service') : ''}
+                                </div>
+                                <div class="cmr-org-direct-unit cmr-org-direct-unit--main">
+                            <div class="cmr-org-main-node">
+                                ${renderOrgCard(branch, 'pole', 0)}
+                            </div>
+                                </div>
+                                <div class="cmr-org-direct-unit cmr-org-direct-unit--service">
+                                    ${rightService ? renderOrgCard(rightService, 'service') : ''}
+                                </div>
+                            </div>
+                            ${renderOrgSecondaryBranch(branch, 'secretariat-general')}
+                            <div class="cmr-org-poles cmr-org-poles--official">
+                                ${poles.map(renderOrgPoleColumn).join('')}
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="cmr-org-top-row">
+                            <div class="cmr-org-side cmr-org-side--left" data-org-collapsed="false">
+                                ${leftService ? renderOrgCard(leftService, 'service') : ''}
+                            </div>
+                            <div class="cmr-org-root">
+                                ${renderOrgCard(orgData, 'direction')}
+                            </div>
+                            <div class="cmr-org-side cmr-org-side--right" data-org-collapsed="false">
+                                ${rightService ? renderOrgCard(rightService, 'service') : ''}
+                            </div>
+                        </div>
+                        ${extraServices.length ? `<div class="cmr-org-extra-services" data-org-collapsed="false">${extraServices.map(node => renderOrgCard(node, 'service')).join('')}</div>` : ''}
+                        <div class="cmr-org-poles" data-org-collapsed="false">
+                            ${poles.map(renderOrgPoleColumn).join('')}
+                        </div>
+                    `}
                 </div>
             `;
             lucide.createIcons();
@@ -939,6 +1034,35 @@ function openAgendaTab(tabName) {
             const collapsed = el.getAttribute('data-org-collapsed') === 'true';
             el.style.display = collapsed ? '' : 'none';
             el.setAttribute('data-org-collapsed', collapsed ? 'false' : 'true');
+            lucide.createIcons();
+        }
+
+        function toggleOrgHiddenChildren(panelId, button) {
+            const panel = document.getElementById(panelId);
+            if (!panel || !button) return;
+            const shouldOpen = panel.hidden;
+            if (shouldOpen) {
+                document.querySelectorAll('#orgTree .cmr-org-hidden-branch:not([hidden])').forEach(openPanel => {
+                    if (openPanel === panel) return;
+                    openPanel.hidden = true;
+                    const openButton = document.querySelector(`[aria-controls="${openPanel.id}"]`);
+                    if (openButton) {
+                        openButton.setAttribute('aria-expanded', 'false');
+                        openButton.classList.remove('is-open');
+                        const openIcon = openButton.querySelector('svg, i');
+                        if (openIcon) {
+                            openIcon.outerHTML = '<i data-lucide="circle-chevron-down"></i>';
+                        }
+                    }
+                });
+            }
+            panel.hidden = !shouldOpen;
+            button.setAttribute('aria-expanded', String(shouldOpen));
+            button.classList.toggle('is-open', shouldOpen);
+            const icon = button.querySelector('svg, i');
+            if (icon) {
+                icon.outerHTML = `<i data-lucide="${shouldOpen ? 'circle-chevron-up' : 'circle-chevron-down'}"></i>`;
+            }
             lucide.createIcons();
         }
 
@@ -1177,7 +1301,12 @@ function openAgendaTab(tabName) {
         // ====== FICHES DE POSTES (list + structured page) ======
         function flattenOrgNodes(node) {
             if (!node || typeof node !== 'object') return [];
-            return [node, ...(node.children || []).flatMap(flattenOrgNodes)];
+            const children = [
+                ...(node.children || []),
+                ...(node.hiddenChildren || []),
+                ...(node.secondaryChildren || [])
+            ];
+            return [node, ...children.flatMap(flattenOrgNodes)];
         }
 
         function buildDefaultPoste(node) {
@@ -1295,20 +1424,15 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        function openPosteDetail(id) {
+        function buildPosteDetailHtml(id) {
             const p = postesData.find(x => x.id === id);
-            const detail = document.getElementById('postesDetail');
-            if (!p || !detail) return;
+            if (!p) return '';
             const profile = getPosteProfile(id);
             const provisional = profile.personNameStatus === 'provisional';
-            posteSelectedId = id;
-            document.querySelectorAll('[data-poste-id]').forEach(item => {
-                item.classList.toggle('is-active', item.getAttribute('data-poste-id') === id);
-            });
-            detail.innerHTML = `
+            return `
                 <div class="cmr-position-profile-header">
                     ${profile.photo
-                        ? `<img class="cmr-position-profile-photo" src="${profile.photo}" alt="Portrait illustratif de ${profile.personName || p.titre}">`
+                        ? `<img class="cmr-position-profile-photo" src="${profile.photo}" alt="Portrait de ${profile.personName || p.titre}">`
                         : `<span class="cmr-position-profile-fallback"><i data-lucide="user-round"></i></span>`}
                     <div class="cmr-position-profile-copy">
                         <div class="cmr-position-profile-eyebrow">Responsable de la fonction</div>
@@ -1349,16 +1473,84 @@ function openAgendaTab(tabName) {
                     </div>
                 </div>
             `;
+        }
+
+        function openPosteDetail(id) {
+            const p = postesData.find(x => x.id === id);
+            const detail = document.getElementById('postesDetail');
+            if (!p || !detail) return;
+            posteSelectedId = id;
+            document.querySelectorAll('[data-poste-id]').forEach(item => {
+                item.classList.toggle('is-active', item.getAttribute('data-poste-id') === id);
+            });
+            detail.innerHTML = buildPosteDetailHtml(id);
             lucide.createIcons();
         }
 
+        function ensurePosteModal() {
+            let modal = document.getElementById('posteOrgModal');
+            if (modal) return modal;
+
+            modal = document.createElement('div');
+            modal.id = 'posteOrgModal';
+            modal.className = 'cmr-position-modal';
+            modal.hidden = true;
+            const closeInline = "document.getElementById('posteOrgModal').hidden=true;document.body.classList.remove('cmr-position-modal-open');event.preventDefault();event.stopPropagation()";
+            modal.innerHTML = `
+                <div class="cmr-position-modal-backdrop" data-poste-modal-close onpointerdown="${closeInline}" onmousedown="${closeInline}" onclick="${closeInline}"></div>
+                <section class="cmr-position-modal-card" role="dialog" aria-modal="true" aria-labelledby="posteOrgModalTitle">
+                    <button type="button" class="cmr-position-modal-close" data-poste-modal-close onpointerdown="${closeInline}" onmousedown="${closeInline}" onclick="${closeInline}" aria-label="Fermer">
+                        <i data-lucide="x"></i>
+                    </button>
+                    <div class="cmr-position-modal-title">
+                        <span><i data-lucide="file-text"></i></span>
+                        <h3 id="posteOrgModalTitle">Fiche de poste / fonction</h3>
+                    </div>
+                    <div id="posteOrgModalBody" class="cmr-position-modal-body"></div>
+                </section>
+            `;
+            document.body.appendChild(modal);
+            const handleModalClosePointer = event => {
+                if (event.target === modal || event.target.closest('[data-poste-modal-close]')) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    closePosteModal();
+                }
+            };
+            modal.addEventListener('pointerdown', handleModalClosePointer);
+            modal.addEventListener('mousedown', handleModalClosePointer);
+            modal.addEventListener('click', handleModalClosePointer);
+            return modal;
+        }
+
+        function openPosteModal(id) {
+            const html = buildPosteDetailHtml(id);
+            if (!html) return;
+            const modal = ensurePosteModal();
+            const body = document.getElementById('posteOrgModalBody');
+            if (!body) return;
+            body.innerHTML = html;
+            modal.hidden = false;
+            document.body.classList.add('cmr-position-modal-open');
+            modal.querySelector('.cmr-position-modal-close')?.focus();
+            lucide.createIcons();
+        }
+
+        function closePosteModal() {
+            const modal = document.getElementById('posteOrgModal');
+            if (!modal) return;
+            modal.hidden = true;
+            document.body.classList.remove('cmr-position-modal-open');
+        }
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                closePosteModal();
+            }
+        });
+
         function openPosteFromOrg(id) {
-            const searchInput = document.getElementById('postesSearchInput');
-            if (searchInput) searchInput.value = '';
-            postesQuery = '';
-            postesPage = Math.floor(Math.max(0, postesData.findIndex(poste => poste.id === id)) / postesPageSize) + 1;
-            switchOrgGovTab('postes');
-            openPosteDetail(id);
+            openPosteModal(id);
         }
 
         // ====== RÉFÉRENTIELS (dossier + documents) ======
@@ -7116,3 +7308,19 @@ function openAgendaTab(tabName) {
                 renderNotifPage(notifData);
             }
         };
+
+        Object.assign(window, {
+            switchView,
+            openSubmenuView,
+            switchOrgGovTab,
+            switchOrgGovSection,
+            switchOrgGovSub,
+            openPosteFromOrg,
+            openPosteDetail,
+            changePostesPage,
+            searchPostes,
+            closePosteModal,
+            toggleOrgHiddenChildren,
+            toggleOrgServiceMembers,
+            openMockDownload
+        });

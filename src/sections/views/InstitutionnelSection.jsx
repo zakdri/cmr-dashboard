@@ -165,6 +165,15 @@ export default function InstitutionnelSection() {
     requestAnimationFrame(() => window.lucide?.createIcons());
   }, [isOrgChartExpanded]);
 
+  useEffect(() => {
+    const closeExpandedOrgChart = () => setIsOrgChartExpanded(false);
+    window.addEventListener("cmr:close-org-chart-expanded", closeExpandedOrgChart);
+    return () => {
+      window.removeEventListener("cmr:close-org-chart-expanded", closeExpandedOrgChart);
+      document.body.classList.remove("org-chart-expanded");
+    };
+  }, []);
+
   return (
     <>
       <div id="view-institutionnel" className="view-section km-container">
