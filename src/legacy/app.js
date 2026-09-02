@@ -1064,6 +1064,15 @@ function openAgendaTab(tabName) {
                 icon.outerHTML = `<i data-lucide="${shouldOpen ? 'circle-chevron-up' : 'circle-chevron-down'}"></i>`;
             }
             lucide.createIcons();
+            if (shouldOpen) {
+                window.setTimeout(() => {
+                    const panelRect = panel.getBoundingClientRect();
+                    const buttonRect = button.getBoundingClientRect();
+                    const lineX = (buttonRect.left + buttonRect.width / 2) - panelRect.left;
+                    panel.style.setProperty('--org-hidden-line-x', `${lineX}px`);
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+                }, 80);
+            }
         }
 
         function toggleOrgServiceMembers(panelId, button) {

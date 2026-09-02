@@ -7831,6 +7831,10 @@ body.org-chart-expanded .sidebar-right {
   display: none;
 }
 
+.cmr-org-main-node > .cmr-org-card--pole .cmr-org-card-role {
+  display: none;
+}
+
 .cmr-org-poles--official {
   grid-template-columns: repeat(6, minmax(150px, 1fr));
   gap: 12px;
@@ -7998,10 +8002,10 @@ body.org-chart-expanded .sidebar-right {
 }
 
 .cmr-org-poles--official .cmr-org-pole-column:last-child .cmr-org-hidden-branch {
-  left: auto;
-  right: 0;
+  left: 0;
+  right: auto;
   justify-content: end;
-  transform: none;
+  transform: translateX(calc(-100% + 172px));
   --org-hidden-line-x: calc(100% - 86px);
 }
 
