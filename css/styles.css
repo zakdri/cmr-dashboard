@@ -7309,7 +7309,7 @@ body.org-chart-expanded .sidebar-right {
 
 .cmr-org-card-role {
   margin-bottom: 5px;
-  color: var(--org-blue);
+  color: #64748b;
   font-size: 10px;
   font-weight: 800;
   line-height: 1.35;
@@ -7318,7 +7318,7 @@ body.org-chart-expanded .sidebar-right {
 }
 
 .cmr-org-card-name {
-  color: var(--org-dark);
+  color: #64748b;
   font-size: 13px;
   font-weight: 800;
   line-height: 1.35;
@@ -7330,7 +7330,7 @@ body.org-chart-expanded .sidebar-right {
   justify-content: center;
   gap: 5px;
   margin-bottom: 3px;
-  color: var(--org-dark);
+  color: #334155;
   font-size: 13px;
   font-weight: 800;
   line-height: 1.25;
@@ -7350,6 +7350,7 @@ body.org-chart-expanded .sidebar-right {
 .cmr-org-card--service .cmr-org-card-name {
   font-size: 11px;
   font-weight: 700;
+  color: #64748b;
 }
 
 .cmr-org-card--service .cmr-org-card-copy {
@@ -7775,12 +7776,14 @@ body.org-chart-expanded .sidebar-right {
 .cmr-org-direct-unit--service .cmr-org-card--service .cmr-org-person-name {
   justify-content: center;
   font-size: 13px;
+  color: #334155;
 }
 
 .cmr-org-direct-unit--service .cmr-org-card--service .cmr-org-card-name {
   font-size: 12px;
   font-weight: 800;
   line-height: 1.35;
+  color: #64748b;
 }
 
 .cmr-org-direct-unit--service .cmr-org-card--service .cmr-org-card-action {
@@ -7949,6 +7952,7 @@ body.org-chart-expanded .sidebar-right {
 }
 
 .cmr-org-hidden-branch {
+  --org-hidden-line-x: 50%;
   position: relative;
   left: 50%;
   display: grid;
@@ -7969,7 +7973,7 @@ body.org-chart-expanded .sidebar-right {
 .cmr-org-hidden-branch::before {
   content: "";
   position: absolute;
-  left: 50%;
+  left: var(--org-hidden-line-x);
   top: -68px;
   width: 2px;
   height: 47px;
@@ -7981,9 +7985,24 @@ body.org-chart-expanded .sidebar-right {
   content: "";
   position: absolute;
   top: -22px;
-  left: 81px;
-  right: 81px;
+  left: min(81px, var(--org-hidden-line-x));
+  right: min(81px, calc(100% - var(--org-hidden-line-x)));
   border-top: 2px solid var(--org-line);
+}
+
+.cmr-org-poles--official .cmr-org-pole-column:first-child .cmr-org-hidden-branch {
+  left: 0;
+  justify-content: start;
+  transform: none;
+  --org-hidden-line-x: 86px;
+}
+
+.cmr-org-poles--official .cmr-org-pole-column:last-child .cmr-org-hidden-branch {
+  left: auto;
+  right: 0;
+  justify-content: end;
+  transform: none;
+  --org-hidden-line-x: calc(100% - 86px);
 }
 
 .cmr-org-hidden-branch .cmr-org-division-unit::before {
@@ -8123,7 +8142,7 @@ body.org-chart-expanded .sidebar-right {
 
 .cmr-org-division-copy small,
 .cmr-org-service-card small {
-  color: var(--org-blue);
+  color: #64748b;
   font-size: 9px;
   font-weight: 850;
   letter-spacing: 0.055em;

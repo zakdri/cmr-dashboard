@@ -29,6 +29,8 @@
 - Verified Mohamed DAOUIJI's expanded card content fits inside the card at `172x196`, including the `Fiche` button.
 - Verified all non-direction organigramme profile cards use the same gray profile-card background as Naoual OUCIBLE / Ali ZAKI / Brahim NAHI, while the Direction card keeps white text.
 - Verified `Agrandir/Réduire` is scoped to the organigramme: after using `Agrandir`, switching to Accueil removes `org-chart-expanded`, clears the expanded viewer state, and restores `.sidebar-right` with `display:flex`.
+- Verified the Pôle Opérations hidden branch stays inside the visible chart area, so Mohamed DAOUIJI is no longer clipped by the left layout/sidebar.
+- Verified direct-card role/title labels render in neutral gray: Service Audit, Secrétariat Général, and Division Gouvernance et Communication Externe.
 - Verified a hidden profile fiche opens in the modal, the modal height fits the viewport, and the `X` close button returns to the diagram without navigation.
 - Verified `Fiches et fonctions de postes` remains a separate page with 26 official named-profile fiche entries, search, and in-page detail selection.
 - Verified search for `Aicha` returns Aicha KADIRI and search for `HAMZAOUI` returns Mohamed HAMZAOUI.
