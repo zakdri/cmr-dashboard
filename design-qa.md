@@ -33,6 +33,8 @@
 - Verified direct-card role/title labels render in neutral gray: Service Audit, Secrétariat Général, and Division Gouvernance et Communication Externe.
 - Verified the Pôle Gestion du Portefeuille hidden branch reveals My Slimane KABIRI inside the visible viewport and its connector line starts exactly from the clicked drop button.
 - Verified Hatim BENMILOUD displays only one `Secrétariat Général` label, under the name.
+- Verified visual labels under portraits (`PÔLE`, `DIVISION`, nested service labels) are hidden in the organigramme.
+- Verified non-direction organigramme text sizing is homogeneous: profile names at `13px`, function/entity titles at `12px`, with Direction remaining white.
 - Verified a hidden profile fiche opens in the modal, the modal height fits the viewport, and the `X` close button returns to the diagram without navigation.
 - Verified `Fiches et fonctions de postes` remains a separate page with 26 official named-profile fiche entries, search, and in-page detail selection.
 - Verified search for `Aicha` returns Aicha KADIRI and search for `HAMZAOUI` returns Mohamed HAMZAOUI.
