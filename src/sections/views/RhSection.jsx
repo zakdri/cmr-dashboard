@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+import { GED_ROOT_PATH, groupDocumentsByFirstSegment, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function getRhData() {
   const data = window.CMR_DATA?.data || {};
@@ -23,6 +25,22 @@ function IconBox({ icon = "file-text", style }) {
     <div className="doc-icon-large" style={style}>
       <i data-lucide={icon} style={{ width: 24, height: 24 }} />
     </div>
+  );
+}
+
+function GedDocumentCard({ documentItem }) {
+  const title = documentItem.title || documentItem.label || documentItem.fileName;
+  return (
+    <SimpleCard
+      item={{
+        title,
+        meta: documentItem.folderLabel || documentItem.fileName,
+        icon: "file-text",
+        iconStyle: { background: "#eff6ff", color: "#2563eb" },
+        actionIcon: "download",
+      }}
+      onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(documentItem.file)},${JSON.stringify(title)})`)}
+    />
   );
 }
 
@@ -65,9 +83,19 @@ function WorkflowCard({ workflow }) {
   );
 }
 
-function CareerPage({ page }) {
+function CareerPage({ page, active }) {
   const profile = page.profile || {};
   const [openStep, setOpenStep] = useState(page.pathSteps?.[0]?.title || "");
+  const gedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Mes Services RH", "Ma Carrière"), { enabled: active });
+  const gedByFolder = useMemo(() => {
+    const map = new Map();
+    gedState.documents.forEach((doc) => {
+      const key = doc.segments?.[0] || "";
+      if (!map.has(key)) map.set(key, []);
+      map.get(key).push(doc);
+    });
+    return map;
+  }, [gedState.documents]);
   return (
     <div id="page-rh-carriere" className="km-tab-content" style={{ display: "block" }}>
       <SectionIntro text={page.description} />
@@ -111,8 +139,18 @@ function CareerPage({ page }) {
                 <div className="rh-path-panel-body">
                   <p>{step.description}</p>
                   <div className="rh-path-attachments">
-                    {(step.attachments || []).map((attachment) => (
-                      <span key={attachment}>{attachment}</span>
+                    {(shouldUseDocumentsApi() && !gedState.error
+                      ? (gedByFolder.get(step.title) || [])
+                      : (step.attachments || []).map((attachment) => ({ title: attachment, file: attachment }))
+                    ).map((attachment) => (
+                      <button
+                        type="button"
+                        key={attachment.file || attachment.title}
+                        style={{ border: 0, cursor: "pointer" }}
+                        onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(attachment.file)},${JSON.stringify(attachment.title)})`)}
+                      >
+                        {attachment.title}
+                      </button>
                     ))}
                   </div>
                   <button className="secondary-btn">{step.linkLabel}</button>
@@ -126,15 +164,24 @@ function CareerPage({ page }) {
   );
 }
 
-function DocumentsPage({ page }) {
+function DocumentsPage({ page, active }) {
   const [query, setQuery] = useState("");
+  const gedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Mes Services RH", "Documents RH"), { enabled: active });
   const term = query.trim().toLowerCase();
-  const categories = (page.categories || []).map((category) => ({
+  const localCategories = (page.categories || []).map((category) => ({
     ...category,
     items: (category.items || []).filter((item) =>
       [item.title, item.description, item.meta].join(" ").toLowerCase().includes(term),
     ),
   }));
+  const gedCategories = groupDocumentsByFirstSegment(gedState.documents, "Documents RH")
+    .map((category) => ({
+      ...category,
+      items: category.items.filter((item) =>
+        [item.title, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term),
+      ),
+    }));
+  const categories = shouldUseDocumentsApi() && !gedState.error ? gedCategories : localCategories;
 
   return (
     <div id="page-rh-documents" className="km-tab-content" style={{ display: "none" }}>
@@ -147,11 +194,21 @@ function DocumentsPage({ page }) {
           onChange={(event) => setQuery(event.target.value)}
         />
       </div>
+      {gedState.loading ? <div style={{ padding: 14, color: "#64748b", fontSize: 13 }}>Chargement des documents RH...</div> : null}
+      {gedState.error ? <div style={{ padding: 12, color: "#9a3412", background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 10, fontSize: 12 }}>Les documents RH Moovapps ne sont pas disponibles pour le moment.</div> : null}
       {categories.filter((category) => !term || category.items.length).map((category) => (
         <div className="content-card" style={{ marginTop: 18 }} key={category.title}>
           <h3>{category.title}</h3>
           <div className="km-grid" style={{ marginTop: 16 }}>
-            {(category.items || []).map((item) => <SimpleCard item={item} key={item.title} />)}
+            {shouldUseDocumentsApi() && !gedState.error ? (category.items || []).map((item) => (
+              <GedDocumentCard documentItem={item} key={item.id || item.fileName} />
+            )) : (category.items || []).map((item) => (
+              <SimpleCard
+                item={item}
+                key={item.title}
+                onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.title)},${JSON.stringify(item.title)})`)}
+              />
+            ))}
           </div>
         </div>
       ))}
@@ -274,10 +331,11 @@ function MobilitePage({ page }) {
   );
 }
 
-function EnquetesPage({ page }) {
+function EnquetesPage({ page, active }) {
   const [query, setQuery] = useState("");
   const [selectedSurveyTitle, setSelectedSurveyTitle] = useState(page.surveys?.[0]?.title || "");
   const [historyYear, setHistoryYear] = useState(page.historyYears?.[0] || "Tous");
+  const reportsGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Mes Services RH", "Enquêtes RH"), { enabled: active });
   const term = query.trim().toLowerCase();
   const surveys = (page.surveys || []).filter((survey) =>
     [survey.title, survey.description, survey.longDescription, survey.theme]
@@ -291,6 +349,11 @@ function EnquetesPage({ page }) {
     page.surveys?.[0] ||
     {};
   const history = (page.history || []).filter((item) => historyYear === "Tous" || item.year === historyYear);
+  const reportItems = shouldUseDocumentsApi() && !reportsGedState.error
+    ? reportsGedState.documents.filter((item) =>
+        [item.title, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term),
+      )
+    : (page.reports || []);
 
   return (
     <div id="page-rh-enquetes" className="km-tab-content" style={{ display: "none" }}>
@@ -358,8 +421,17 @@ function EnquetesPage({ page }) {
         </div>
         <div className="content-card">
           <h3>{page.reportsTitle}</h3>
+          {reportsGedState.loading ? <div style={{ padding: 14, color: "#64748b", fontSize: 13 }}>Chargement des rapports RH...</div> : null}
           <div className="rh-enquete-list">
-            {(page.reports || []).map((item) => <SimpleCard item={item} key={item.title} />)}
+            {shouldUseDocumentsApi() && !reportsGedState.error
+              ? reportItems.map((item) => <GedDocumentCard documentItem={item} key={item.id || item.fileName} />)
+              : reportItems.map((item) => (
+                <SimpleCard
+                  item={item}
+                  key={item.title}
+                  onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.title)},${JSON.stringify(item.title)})`)}
+                />
+              ))}
           </div>
         </div>
       </div>
@@ -393,6 +465,8 @@ function ForumsPage({ page }) {
 
 export default function RhSection() {
   const { header, tabs, pages, offresIntro, offresFilters, offresList } = getRhData();
+  const isViewActive = useViewActive("rh");
+  const [activeTab, setActiveTab] = useState(tabs[0]?.id || "carriere");
 
   return (
     <div id="view-rh" className="view-section km-container">
@@ -403,18 +477,18 @@ export default function RhSection() {
       <div className="km-navbar" style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 30, borderBottom: "2px solid #e2e8f0", overflowX: "auto" }}>
         {tabs.map((tab, index) => (
           <React.Fragment key={tab.id}>
-            <div className={`km-nav-item${index === 0 ? " active" : ""}`} onClick={(event) => runLegacyHandler(event, `switchRhPageTab('${tab.id}')`)} style={{ whiteSpace: "nowrap", padding: "12px 16px" }}>
+            <div className={`km-nav-item${activeTab === tab.id ? " active" : ""}`} onClick={(event) => { setActiveTab(tab.id); runLegacyHandler(event, `switchRhPageTab('${tab.id}')`); }} style={{ whiteSpace: "nowrap", padding: "12px 16px" }}>
               {tab.label}
             </div>
             {index < tabs.length - 1 ? <span style={{ color: "#cbd5e1" }}>|</span> : null}
           </React.Fragment>
         ))}
       </div>
-      <CareerPage page={pages.carriere || {}} />
-      <DocumentsPage page={pages.documents || {}} />
+      <CareerPage page={pages.carriere || {}} active={isViewActive && activeTab === "carriere"} />
+      <DocumentsPage page={pages.documents || {}} active={isViewActive && activeTab === "documents"} />
       <OffresPage offresIntro={offresIntro} offresFilters={offresFilters} offresList={offresList} />
       <MobilitePage page={pages.mobilite || {}} />
-      <EnquetesPage page={pages.enquetes || {}} />
+      <EnquetesPage page={pages.enquetes || {}} active={isViewActive && activeTab === "enquetes"} />
       <ForumsPage page={pages.forums || {}} />
     </div>
   );

@@ -1,4 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+import { GED_ROOT_PATH, groupDocumentsByFirstSegment, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function getAchatsData() {
   const data = window.CMR_DATA?.data || {};
@@ -53,11 +56,37 @@ function MetricGrid({ metrics = [] }) {
   );
 }
 
-function DocumentList({ documents = [] }) {
+function GedStatus({ state, label = "documents" }) {
+  if (!shouldUseDocumentsApi()) return null;
+  if (state.loading) return <div style={{ padding: 14, color: "#64748b", fontSize: 13 }}>Chargement des {label}...</div>;
+  if (state.error) return <div style={{ padding: 12, color: "#9a3412", background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 10, fontSize: 12 }}>Les documents Moovapps ne sont pas disponibles pour le moment.</div>;
+  return null;
+}
+
+function GedRow({ documentItem }) {
+  const title = documentItem.title || documentItem.label || documentItem.fileName;
+  return (
+    <button
+      className="doc-row achats-document-row"
+      type="button"
+      onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(documentItem.file)},${JSON.stringify(title)})`)}
+    >
+      <div>
+        <strong>{title}</strong>
+        <p>{documentItem.folderLabel || documentItem.fileName}</p>
+      </div>
+      <span>{documentItem.extension || "DOC"}</span>
+    </button>
+  );
+}
+
+function DocumentList({ documents = [], gedPath, active }) {
   const [query, setQuery] = useState("");
-  const filteredDocuments = documents.filter((item) => {
+  const gedState = useGedDocuments(gedPath, { enabled: active });
+  const sourceDocuments = shouldUseDocumentsApi() && !gedState.error ? gedState.documents : documents;
+  const filteredDocuments = sourceDocuments.filter((item) => {
     const term = query.trim().toLowerCase();
-    return [item.title, item.type].join(" ").toLowerCase().includes(term);
+    return [item.title, item.type, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term);
   });
 
   return (
@@ -70,8 +99,11 @@ function DocumentList({ documents = [] }) {
           onChange={(event) => setQuery(event.target.value)}
         />
       </div>
+      <GedStatus state={gedState} />
       <div className="achats-doc-list">
-        {filteredDocuments.map((item) => (
+        {shouldUseDocumentsApi() && !gedState.error ? filteredDocuments.map((item) => (
+          <GedRow documentItem={item} key={item.id || item.fileName} />
+        )) : filteredDocuments.map((item) => (
           <div className="doc-row achats-document-row" key={item.title}>
             <div>
               <strong>{item.title}</strong>
@@ -80,15 +112,25 @@ function DocumentList({ documents = [] }) {
             <span>{item.type}</span>
           </div>
         ))}
+        {!gedState.loading && !filteredDocuments.length ? <p className="empty-state">Aucun document trouvé.</p> : null}
       </div>
     </>
   );
 }
 
-function CpsTree({ tree = [] }) {
+function CpsTree({ tree = [], gedPath, active }) {
   const [query, setQuery] = useState("");
+  const gedState = useGedDocuments(gedPath, { enabled: active });
   const term = query.trim().toLowerCase();
-  const filteredTree = tree
+  const gedTree = groupDocumentsByFirstSegment(gedState.documents, "Documents").map((group) => ({
+    year: group.title,
+    children: groupDocumentsByFirstSegment(
+      group.items.map((item) => ({ ...item, segments: item.segments?.slice(1) || [] })),
+      group.title,
+    ).map((child) => ({ title: child.title, docs: child.items })),
+  }));
+  const sourceTree = shouldUseDocumentsApi() && !gedState.error ? gedTree : tree;
+  const filteredTree = sourceTree
     .map((year) => {
       const children = (year.children || []).filter((child) =>
         [year.year, child.title, ...(child.docs || [])]
@@ -110,6 +152,7 @@ function CpsTree({ tree = [] }) {
           onChange={(event) => setQuery(event.target.value)}
         />
       </div>
+      <GedStatus state={gedState} />
       <div className="achats-tree-list">
         {filteredTree.map((year) => (
           <details className="doc-card static-card achats-tree-card" key={year.year} open>
@@ -118,29 +161,42 @@ function CpsTree({ tree = [] }) {
               <div className="achats-tree-node" key={child.title}>
                 <strong>{child.title}</strong>
                 {(child.docs || []).map((doc) => (
-                  <div className="doc-card-meta" key={doc}>
-                    <span>{doc}</span>
+                  <button
+                    className="doc-card-meta"
+                    key={typeof doc === "object" ? doc.id || doc.fileName : doc}
+                    type="button"
+                    style={{ width: "100%", border: 0, background: "transparent", cursor: "pointer" }}
+                    onClick={(event) => {
+                      if (typeof doc === "object") {
+                        runLegacyHandler(event, `openMockDownload(${JSON.stringify(doc.file)},${JSON.stringify(doc.title)})`);
+                      }
+                    }}
+                  >
+                    <span>{typeof doc === "object" ? doc.title : doc}</span>
                     <i data-lucide="download" style={{ width: 16 }} />
-                  </div>
+                  </button>
                 ))}
               </div>
             ))}
           </details>
         ))}
+        {!gedState.loading && !filteredTree.length ? <p className="empty-state">Aucun document trouvé.</p> : null}
       </div>
     </>
   );
 }
 
-function SectionBody({ section }) {
+function SectionBody({ section, active }) {
+  const gedPath = joinGedPath(GED_ROOT_PATH, "Espace Achats", section.title);
   if (section.metrics) return <MetricGrid metrics={section.metrics} />;
-  if (section.tree) return <CpsTree tree={section.tree} />;
-  if (section.documents) return <DocumentList documents={section.documents} />;
+  if (section.tree) return <CpsTree tree={section.tree} gedPath={gedPath} active={active} />;
+  if (section.documents) return <DocumentList documents={section.documents} gedPath={gedPath} active={active} />;
   return <WorkflowList items={section.items || []} />;
 }
 
 export default function AchatsSection() {
   const { header, sections } = getAchatsData();
+  const isViewActive = useViewActive("achats");
   const [activeIndex, setActiveIndex] = useState(0);
   const activeSection = useMemo(
     () => sections[activeIndex] || sections[0] || {},
@@ -183,7 +239,7 @@ export default function AchatsSection() {
         {activeSection.summary ? (
           <p className="achats-summary">{activeSection.summary}</p>
         ) : null}
-        <SectionBody section={activeSection} />
+        <SectionBody section={activeSection} active={isViewActive} />
       </div>
     </div>
   );

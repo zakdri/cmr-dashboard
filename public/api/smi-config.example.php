@@ -9,6 +9,13 @@ return [
     'password' => 'CHANGE_ME',
     'timeout' => '500',
     'cache_enabled' => true,
-    'cache_ttl_seconds' => 300,
+    'cache_ttl_seconds' => 60,
     'cache_dir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cmr-dashboard-documents-cache',
+
+    // L API decouvre automatiquement les protocol-uri des dossiers et les garde en cache.
+    'auto_resolve_folder_protocol_uris' => true,
+    'folder_protocol_cache_ttl_seconds' => 86400,
+
+    // Optionnel: laisser vide. Remplir seulement si tu veux forcer un dossier precis.
+    'folder_protocol_uris' => [],
 ];

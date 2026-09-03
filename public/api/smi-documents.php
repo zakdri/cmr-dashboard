@@ -8,6 +8,7 @@ const DEFAULT_GED_LIBRARY_PROTOCOL_URI = 'uri://vdoc/datastore/036-000002-000';
 const DEFAULT_INTRANET_ROOT_PATH = 'Intranet CMR';
 const DEFAULT_SMI_FILTER_PATH = 'Intranet CMR/Organisation & RSE/SMI';
 const DEFAULT_CACHE_TTL_SECONDS = 300;
+const DEFAULT_FOLDER_PROTOCOL_CACHE_TTL_SECONDS = 86400;
 
 function respond(int $status, array $payload): void
 {
@@ -41,6 +42,9 @@ function load_config(): array
         'cache_enabled' => config_bool($fileConfig['cache_enabled'] ?? getenv('MOOVAPPS_DOCUMENTS_CACHE_ENABLED') ?: true),
         'cache_ttl_seconds' => max(0, (int)($fileConfig['cache_ttl_seconds'] ?? getenv('MOOVAPPS_DOCUMENTS_CACHE_TTL') ?: DEFAULT_CACHE_TTL_SECONDS)),
         'cache_dir' => (string)($fileConfig['cache_dir'] ?? getenv('MOOVAPPS_DOCUMENTS_CACHE_DIR') ?: (sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cmr-dashboard-documents-cache')),
+        'folder_protocol_uris' => normalize_folder_protocol_uris($fileConfig['folder_protocol_uris'] ?? []),
+        'auto_resolve_folder_protocol_uris' => config_bool($fileConfig['auto_resolve_folder_protocol_uris'] ?? getenv('MOOVAPPS_AUTO_RESOLVE_FOLDER_PROTOCOL_URIS') ?: true),
+        'folder_protocol_cache_ttl_seconds' => max(0, (int)($fileConfig['folder_protocol_cache_ttl_seconds'] ?? getenv('MOOVAPPS_FOLDER_PROTOCOL_CACHE_TTL') ?: DEFAULT_FOLDER_PROTOCOL_CACHE_TTL_SECONDS)),
         'cookie_file' => is_string($cookieFile) ? $cookieFile : '',
     ];
 }
@@ -53,6 +57,25 @@ function config_bool($value): bool
 
     $normalized = strtolower(trim((string)$value));
     return !in_array($normalized, ['0', 'false', 'no', 'off'], true);
+}
+
+function normalize_folder_protocol_uris($value): array
+{
+    if (!is_array($value)) {
+        return [];
+    }
+
+    $normalized = [];
+    foreach ($value as $path => $protocolUri) {
+        $path = normalize_path((string)$path);
+        $protocolUri = trim((string)$protocolUri);
+        if ($path !== '' && $protocolUri !== '' && strtoupper($protocolUri) !== 'CHANGE_ME') {
+            $normalized[$path] = $protocolUri;
+        }
+    }
+
+    uksort($normalized, static fn(string $a, string $b): int => count(split_path($b)) <=> count(split_path($a)));
+    return $normalized;
 }
 
 function moovapps_post(array $config, string $module, string $cmd, array $body, ?string $token = null): array
@@ -176,12 +199,24 @@ function path_starts_with(array $pathSegments, array $prefixSegments): bool
     }
 
     foreach ($prefixSegments as $index => $segment) {
-        if (strtolower($pathSegments[$index]) !== strtolower($segment)) {
+        if (!same_path_segment($pathSegments[$index], $segment)) {
             return false;
         }
     }
 
     return true;
+}
+
+function same_path_segment(string $left, string $right): bool
+{
+    $normalize = static function (string $value): string {
+        $value = trim($value);
+        $lower = function_exists('mb_strtolower') ? mb_strtolower($value, 'UTF-8') : strtolower($value);
+        $ascii = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $lower);
+        return preg_replace('/[^a-z0-9]+/', '', is_string($ascii) ? $ascii : $lower) ?? $lower;
+    };
+
+    return $normalize($left) === $normalize($right);
 }
 
 function find_path_prefix_offset(array $pathSegments, array $prefixSegments): ?int
@@ -235,9 +270,33 @@ function document_scope_from_request(array $config): array
         $path = DEFAULT_SMI_FILTER_PATH;
     }
 
+    $normalizedPath = normalize_path($path);
+    $folderProtocol = folder_protocol_uri_for_path($config, $normalizedPath);
+
     return [
-        'filter_path' => normalize_path($path),
-        'filter_segments' => split_path($path),
+        'filter_path' => $normalizedPath,
+        'filter_segments' => split_path($normalizedPath),
+        'scope_protocol_uri' => $folderProtocol['protocolUri'],
+        'scope_protocol_path' => $folderProtocol['path'],
+    ];
+}
+
+function folder_protocol_uri_for_path(array $config, string $filterPath): array
+{
+    $filterSegments = split_path($filterPath);
+    foreach ($config['folder_protocol_uris'] as $configuredPath => $protocolUri) {
+        $configuredSegments = split_path((string)$configuredPath);
+        if (path_starts_with($filterSegments, $configuredSegments)) {
+            return [
+                'path' => (string)$configuredPath,
+                'protocolUri' => (string)$protocolUri,
+            ];
+        }
+    }
+
+    return [
+        'path' => '',
+        'protocolUri' => '',
     ];
 }
 
@@ -310,6 +369,161 @@ function write_cached_documents(array $config, array $scope, array $payload): vo
     @rename($tmpFile, $cacheFile);
 }
 
+function folder_protocol_cache_file(array $config): ?string
+{
+    if (!$config['cache_enabled'] || $config['folder_protocol_cache_ttl_seconds'] <= 0) {
+        return null;
+    }
+
+    $cacheDir = rtrim((string)$config['cache_dir'], "\\/");
+    if ($cacheDir === '') {
+        return null;
+    }
+
+    return $cacheDir . DIRECTORY_SEPARATOR . 'folder-protocol-uris-' . sha1($config['ged_library_protocol_uri']) . '.json';
+}
+
+function read_folder_protocol_cache(array $config): array
+{
+    $cacheFile = folder_protocol_cache_file($config);
+    if ($cacheFile === null || !is_file($cacheFile) || !is_readable($cacheFile)) {
+        return [];
+    }
+
+    $age = time() - filemtime($cacheFile);
+    if ($age > $config['folder_protocol_cache_ttl_seconds']) {
+        return [];
+    }
+
+    $cached = json_decode((string)file_get_contents($cacheFile), true);
+    return normalize_folder_protocol_uris(is_array($cached) ? $cached : []);
+}
+
+function write_folder_protocol_cache(array $config, array $folderProtocolUris): void
+{
+    $cacheFile = folder_protocol_cache_file($config);
+    if ($cacheFile === null) {
+        return;
+    }
+
+    $cacheDir = dirname($cacheFile);
+    if (!is_dir($cacheDir) && !@mkdir($cacheDir, 0775, true) && !is_dir($cacheDir)) {
+        return;
+    }
+
+    $json = json_encode(normalize_folder_protocol_uris($folderProtocolUris), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if ($json !== false) {
+        @file_put_contents($cacheFile, $json, LOCK_EX);
+    }
+}
+
+function best_folder_protocol_match(array $folderProtocolUris, string $filterPath): array
+{
+    $filterSegments = split_path($filterPath);
+    foreach (normalize_folder_protocol_uris($folderProtocolUris) as $configuredPath => $protocolUri) {
+        $configuredSegments = split_path((string)$configuredPath);
+        if (path_starts_with($filterSegments, $configuredSegments)) {
+            return [
+                'path' => (string)$configuredPath,
+                'protocolUri' => (string)$protocolUri,
+            ];
+        }
+    }
+
+    return ['path' => '', 'protocolUri' => ''];
+}
+
+function library_view_payload(string $scopeType, string $scopeUri, string $maxLevel): array
+{
+    return [
+        'view' => [
+            '@xmlns:vw1' => 'http://www.axemble.com/vdoc/view',
+            'header' => [
+                'scopes' => [
+                    $scopeType => [
+                        '@protocol-uri' => $scopeUri,
+                        '@self-closing' => 'true',
+                    ],
+                ],
+                'configuration' => [
+                    'param' => [
+                        '@name' => 'maxlevel',
+                        '@value' => $maxLevel,
+                        '@self-closing' => 'true',
+                    ],
+                ],
+                'definition' => [
+                    '@class' => 'com.axemble.vdoc.sdk.interfaces.IFolder',
+                    'definition' => [
+                        '@class' => 'com.axemble.vdoc.sdk.interfaces.IFile',
+                        '@self-closing' => 'true',
+                    ],
+                ],
+            ],
+        ],
+    ];
+}
+
+function view_library_scope(array $config, string $token, string $scopeType, string $scopeUri, string $maxLevel): array
+{
+    return moovapps_post($config, 'library', 'view', library_view_payload($scopeType, $scopeUri, $maxLevel), $token);
+}
+
+function find_child_folder(array $response, string $name): ?array
+{
+    foreach (normalize_list($response['view']['body']['folder'] ?? []) as $folder) {
+        if (!is_array($folder)) {
+            continue;
+        }
+
+        if (same_path_segment((string)($folder['@name'] ?? ''), $name)) {
+            return $folder;
+        }
+    }
+
+    return null;
+}
+
+function resolve_folder_protocol_uri_from_moovapps(array $config, string $token, string $filterPath): array
+{
+    if (!$config['auto_resolve_folder_protocol_uris']) {
+        return ['path' => '', 'protocolUri' => ''];
+    }
+
+    $folderProtocolUris = array_replace(read_folder_protocol_cache($config), $config['folder_protocol_uris']);
+    $match = best_folder_protocol_match($folderProtocolUris, $filterPath);
+    $currentPath = (string)$match['path'];
+    $currentUri = (string)$match['protocolUri'];
+    $remainingSegments = split_path($filterPath);
+
+    if ($currentPath !== '' && $currentUri !== '') {
+        $remainingSegments = array_slice($remainingSegments, count(split_path($currentPath)));
+        $scopeType = 'folder';
+        $scopeUri = $currentUri;
+    } else {
+        $scopeType = 'library';
+        $scopeUri = $config['ged_library_protocol_uri'];
+    }
+
+    foreach ($remainingSegments as $segment) {
+        $response = view_library_scope($config, $token, $scopeType, $scopeUri, '1');
+        $folder = find_child_folder($response, $segment);
+        if ($folder === null || empty($folder['@protocol-uri'])) {
+            write_folder_protocol_cache($config, $folderProtocolUris);
+            return ['path' => '', 'protocolUri' => ''];
+        }
+
+        $currentPath = normalize_path($currentPath === '' ? $segment : $currentPath . '/' . $segment);
+        $currentUri = (string)$folder['@protocol-uri'];
+        $folderProtocolUris[$currentPath] = $currentUri;
+        $scopeType = 'folder';
+        $scopeUri = $currentUri;
+    }
+
+    write_folder_protocol_cache($config, $folderProtocolUris);
+    return ['path' => $currentPath, 'protocolUri' => $currentUri];
+}
+
 function map_resource(array $resource, string $folderPath, array $scope): ?array
 {
     $fileName = (string)($resource['@reference'] ?? 'Document SMI');
@@ -362,38 +576,24 @@ function collect_documents(array $folders, array &$documents, array $scope): voi
 
 function list_smi_documents(array $config, string $token, array $scope): void
 {
-    $response = moovapps_post($config, 'library', 'view', [
-        'view' => [
-            '@xmlns:vw1' => 'http://www.axemble.com/vdoc/view',
-            'header' => [
-                'scopes' => [
-                    'library' => [
-                        '@protocol-uri' => $config['ged_library_protocol_uri'],
-                        '@self-closing' => 'true',
-                    ],
-                ],
-                'configuration' => [
-                    'param' => [
-                        '@name' => 'maxlevel',
-                        '@value' => '-1',
-                        '@self-closing' => 'true',
-                    ],
-                ],
-                'definition' => [
-                    '@class' => 'com.axemble.vdoc.sdk.interfaces.IFolder',
-                    'definition' => [
-                        '@class' => 'com.axemble.vdoc.sdk.interfaces.IFile',
-                        '@self-closing' => 'true',
-                    ],
-                ],
-            ],
-        ],
-    ], $token);
+    $scopeProtocolUri = (string)($scope['scope_protocol_uri'] ?? '');
+    if ($scopeProtocolUri === '') {
+        $resolvedFolder = resolve_folder_protocol_uri_from_moovapps($config, $token, $scope['filter_path']);
+        $scopeProtocolUri = (string)$resolvedFolder['protocolUri'];
+        $scope['scope_protocol_uri'] = $scopeProtocolUri;
+        $scope['scope_protocol_path'] = (string)$resolvedFolder['path'];
+    }
+
+    $scopeType = $scopeProtocolUri !== '' ? 'folder' : 'library';
+    $scopeUri = $scopeProtocolUri !== '' ? $scopeProtocolUri : $config['ged_library_protocol_uri'];
+
+    $response = view_library_scope($config, $token, $scopeType, $scopeUri, '-1');
 
     $documents = [];
+    $rootResourceFolderPath = $scopeType === 'folder' ? $scope['filter_path'] : '/DefaultOrganization/GED';
     foreach (normalize_list($response['view']['body']['resource'] ?? []) as $resource) {
         if (is_array($resource)) {
-            $document = map_resource($resource, '/DefaultOrganization/GED', $scope);
+            $document = map_resource($resource, $rootResourceFolderPath, $scope);
             if ($document !== null) {
                 $documents[] = $document;
             }
@@ -406,6 +606,9 @@ function list_smi_documents(array $config, string $token, array $scope): void
         'meta' => [
             'source' => 'moovapps',
             'libraryProtocolUri' => $config['ged_library_protocol_uri'],
+            'scopeType' => $scopeType,
+            'scopeProtocolUri' => $scopeProtocolUri,
+            'scopeProtocolPath' => (string)($scope['scope_protocol_path'] ?? ''),
             'filterPath' => $scope['filter_path'],
             'count' => count($documents),
             'cache' => 'miss',

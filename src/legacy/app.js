@@ -209,6 +209,295 @@ function openAgendaTab(tabName) {
                 .replaceAll("'", '&#039;');
         }
 
+        const GED_ROOT_PATH = 'Intranet CMR';
+        const gedDocumentsCache = new Map();
+        const gedDocumentsState = new Map();
+
+        const gedViewPathMap = {
+            rh: 'Mes Services RH',
+            km: 'Knowledge Management',
+            sitd: 'SITD',
+            reglementation: 'Réglementation',
+            rse: 'Organisation & RSE',
+            qse: 'Organisation & RSE',
+            documentaires: 'Espace Achats',
+            achats: 'Espace Achats',
+            'communication-interne': 'Communication interne',
+            collaboratifs: 'Espaces collaboratifs',
+            mediatheque: 'Communication interne/Médiathèque',
+            arc: 'Audit Risques Conformité',
+            gouvernance: 'Gouvernance'
+        };
+
+        const gedRhPathMap = {
+            carriere: 'Ma Carrière',
+            documents: 'Documents RH',
+            enquetes: 'Enquêtes RH',
+            mobilite: 'Mobilité spontanée',
+            offres: 'Postes Vacants',
+            forums: 'Forums & Groupes'
+        };
+
+        const gedKmPathMap = {
+            referentiels: 'Référentiels métiers',
+            rex: 'REX',
+            docs: 'Documents partagés',
+            livrables: 'Articles & bilans/Livrables',
+            modeles: 'Articles & bilans/Modèles de documents',
+            publications: 'Articles & bilans/Publications et bilans',
+            supports: 'Supports pédagogiques',
+            'audit-risque': 'Audit risques et conformité',
+            'integration-km': 'Intégration KM'
+        };
+
+        const gedSitdPathMap = {
+            'sensibilisation-cyber': "Sécurité De L'Information/Sensibilisation",
+            'modules-elearning': "Sécurité De L'Information/Modules E-Learning",
+            'evenements-securite': "Sécurité De L'Information/Événements Sécurité De L'Information",
+            'campagnes-si': "Sécurité De L'Information/Campagnes Sécurité De L'Information",
+            'smsi-politiques': 'SMSI/Politiques SMSI',
+            'smsi-procedures': 'SMSI/Procédures SMSI',
+            'smsi-risques': 'SMSI/Cartographie des risques SMSI',
+            'smsi-pilotage': 'SMSI/Pilotage SMSI',
+            'referentiel-it': 'Référentiel IT',
+            'contrats-services': 'Contrats de services',
+            exploitation: 'Exploitation'
+        };
+
+        function shouldUseDocumentsApi() {
+            return !window.location.hostname.toLowerCase().endsWith('github.io');
+        }
+
+        function joinGedPath(...parts) {
+            return parts
+                .filter(Boolean)
+                .map(part => String(part).replace(/^\/+|\/+$/g, ''))
+                .filter(Boolean)
+                .join('/');
+        }
+
+        function getDocumentsApiUrl(path = GED_ROOT_PATH, params = {}) {
+            const url = new URL('api/documents.php', document.baseURI);
+            url.searchParams.set('path', path);
+            Object.entries(params).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && value !== '') {
+                    url.searchParams.set(key, value);
+                }
+            });
+            return url.toString();
+        }
+
+        function normalizeGedText(value) {
+            return String(value || '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim();
+        }
+
+        function normalizeGedDocument(documentItem) {
+            const protocolUri = documentItem.protocolUri || '';
+            const fileName = documentItem.fileName || documentItem.title || 'document.pdf';
+            return {
+                ...documentItem,
+                title: documentItem.title || fileName,
+                label: documentItem.label || documentItem.title || fileName,
+                fileName,
+                file: protocolUri
+                    ? getDocumentsApiUrl(GED_ROOT_PATH, {
+                        action: 'download',
+                        protocolUri,
+                        fileName
+                    })
+                    : (documentItem.file || fileName)
+            };
+        }
+
+        async function fetchGedDocuments(path = GED_ROOT_PATH, options = {}) {
+            if (!shouldUseDocumentsApi()) return [];
+            const cacheKey = `${path}|${options.refresh ? 'refresh' : 'cached'}`;
+            if (!options.refresh && gedDocumentsCache.has(cacheKey)) {
+                return gedDocumentsCache.get(cacheKey);
+            }
+
+            const response = await fetch(getDocumentsApiUrl(path, options.refresh ? { refresh: '1' } : {}), {
+                headers: { Accept: 'application/json' },
+                cache: 'no-store'
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const payload = await response.json();
+            const documents = (Array.isArray(payload.data) ? payload.data : []).map(normalizeGedDocument);
+            if (!options.refresh) {
+                gedDocumentsCache.set(cacheKey, documents);
+            }
+            return documents;
+        }
+
+        function getGedDocumentsState(path, renderAfterLoad) {
+            if (!shouldUseDocumentsApi()) return null;
+
+            const state = gedDocumentsState.get(path) || {
+                loaded: false,
+                loading: false,
+                error: null,
+                documents: []
+            };
+            gedDocumentsState.set(path, state);
+
+            if (!state.loaded && !state.loading) {
+                state.loading = true;
+                fetchGedDocuments(path)
+                    .then(documents => {
+                        state.documents = documents;
+                        state.loaded = true;
+                        state.error = null;
+                    })
+                    .catch(error => {
+                        state.error = error;
+                        state.loaded = true;
+                    })
+                    .finally(() => {
+                        state.loading = false;
+                        if (typeof renderAfterLoad === 'function') renderAfterLoad();
+                    });
+            }
+
+            return state;
+        }
+
+        function renderGedLoading(label = 'documents') {
+            return `<div style="padding:14px;color:#64748b;font-size:13px;">Chargement des ${label}...</div>`;
+        }
+
+        function renderGedError(label = 'documents') {
+            return `<div style="padding:12px;color:#9a3412;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;font-size:12px;">Les ${label} Moovapps ne sont pas disponibles pour le moment.</div>`;
+        }
+
+        function getGedFileKind(fileName) {
+            const ext = String(fileName || '').split('?')[0].split('.').pop()?.toLowerCase() || '';
+            if (ext === 'pdf') return 'PDF';
+            if (['doc', 'docx'].includes(ext)) return 'DOC';
+            if (['xls', 'xlsx', 'csv'].includes(ext)) return 'XLS';
+            if (['ppt', 'pptx'].includes(ext)) return 'PPT';
+            return 'DOC';
+        }
+
+        function renderGedDocItem(documentItem, meta = '') {
+            const label = documentItem.label || documentItem.title || documentItem.fileName || 'Document';
+            const file = documentItem.file || documentItem.fileName || '';
+            const kind = getGedFileKind(label);
+            return `
+                <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(file))},${escapeHtml(JSON.stringify(label))})">
+                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(kind)}</div>
+                    <div class="doc-info">
+                        <div class="doc-title">${escapeHtml(label)}</div>
+                        <div class="doc-meta">${escapeHtml(meta || documentItem.folderLabel || documentItem.intranetPath || '')}</div>
+                    </div>
+                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                </div>
+            `;
+        }
+
+        function groupGedDocumentsByFirstSegment(documents, fallbackLabel = 'Documents') {
+            const groups = new Map();
+            documents.forEach(documentItem => {
+                const segments = Array.isArray(documentItem.segments) ? documentItem.segments : [];
+                const groupLabel = segments[0] || documentItem.folderLabel || fallbackLabel;
+                if (!groups.has(groupLabel)) {
+                    groups.set(groupLabel, {
+                        id: `ged-${slugifySmiLabel(groupLabel)}`,
+                        label: groupLabel,
+                        docs: []
+                    });
+                }
+                groups.get(groupLabel).docs.push(documentItem);
+            });
+            return Array.from(groups.values()).filter(group => group.docs.length > 0);
+        }
+
+        function getActiveViewId() {
+            const active = document.querySelector('.view-section.active');
+            return active?.id?.replace(/^view-/, '') || '';
+        }
+
+        function getActiveGedSearchPaths() {
+            const viewId = getActiveViewId();
+            const base = gedViewPathMap[viewId];
+            if (!base) return [GED_ROOT_PATH];
+
+            const paths = [];
+            if (viewId === 'rh' && submenuSelections.rh) {
+                paths.push(joinGedPath(GED_ROOT_PATH, base, gedRhPathMap[submenuSelections.rh] || submenuSelections.rh));
+            }
+            if (viewId === 'km' && submenuSelections.km) {
+                paths.push(joinGedPath(GED_ROOT_PATH, base, gedKmPathMap[submenuSelections.km] || submenuSelections.km));
+            }
+            if (viewId === 'sitd' && typeof sitdSub !== 'undefined') {
+                paths.push(joinGedPath(GED_ROOT_PATH, base, gedSitdPathMap[sitdSub] || sitdSub));
+            }
+            if ((viewId === 'reglementation') && typeof regSub !== 'undefined') {
+                paths.push(joinGedPath(GED_ROOT_PATH, base, regGedPathMap[regSub] || regSub));
+            }
+
+            paths.push(joinGedPath(GED_ROOT_PATH, base));
+            paths.push(GED_ROOT_PATH);
+            return Array.from(new Set(paths));
+        }
+
+        function findBestGedDocument(documents, filename, title) {
+            const wantedFile = normalizeGedText(filename);
+            const wantedTitle = normalizeGedText(title);
+            const candidates = documents
+                .map(doc => {
+                    const haystack = normalizeGedText([
+                        doc.title,
+                        doc.fileName,
+                        doc.folderLabel,
+                        doc.folderPath,
+                        doc.intranetPath
+                    ].filter(Boolean).join(' '));
+                    const exactFile = wantedFile && normalizeGedText(doc.fileName) === wantedFile;
+                    const exactTitle = wantedTitle && normalizeGedText(doc.title) === wantedTitle;
+                    const containsFile = wantedFile && haystack.includes(wantedFile);
+                    const containsTitle = wantedTitle && haystack.includes(wantedTitle);
+                    return {
+                        doc,
+                        score: (exactFile ? 100 : 0) + (exactTitle ? 80 : 0) + (containsFile ? 40 : 0) + (containsTitle ? 30 : 0)
+                    };
+                })
+                .filter(item => item.score > 0)
+                .sort((a, b) => b.score - a.score);
+            return candidates[0]?.doc || null;
+        }
+
+        async function resolveGedDocumentForClick(filename, title) {
+            if (!shouldUseDocumentsApi()) return null;
+            const rawName = String(filename || '');
+            if (/^(https?:)?\/\//i.test(rawName) || rawName.includes('/api/documents.php') || rawName.includes('api/documents.php')) {
+                return null;
+            }
+
+            const paths = getActiveGedSearchPaths();
+            for (const path of paths) {
+                try {
+                    let documents = await fetchGedDocuments(path);
+                    let match = findBestGedDocument(documents, filename, title);
+                    if (match) return match;
+
+                    documents = await fetchGedDocuments(path, { refresh: true });
+                    match = findBestGedDocument(documents, filename, title);
+                    if (match) return match;
+                } catch (error) {
+                    // Keep trying broader GED paths.
+                }
+            }
+            return null;
+        }
+
         function openTickerDetail(newsId) {
             const item = cmrNewsItems.find(x => x.id === newsId);
             const modal = document.getElementById('tickerDetailModal');
@@ -1650,16 +1939,16 @@ function openAgendaTab(tabName) {
         }
 
         // ====== COMPLÉMENT ORGA & GOUVERNANCE (écrans fonctionnels) ======
-        let orgGovSmiPolitiquesData = getCmrData('orgGovSmiPolitiquesData', []);
+        let orgGovSmiPolitiquesData = shouldUseSmiDocumentsApi() ? [] : getCmrData('orgGovSmiPolitiquesData', []);
 
-        let orgGovSmiDossiersData = getCmrData('orgGovSmiDossiersData', []);
-        let orgGovSmiDossierCurrent = 'dp1';
+        let orgGovSmiDossiersData = shouldUseSmiDocumentsApi() ? [] : getCmrData('orgGovSmiDossiersData', []);
+        let orgGovSmiDossierCurrent = shouldUseSmiDocumentsApi() ? '' : 'dp1';
         let orgGovSmiDossierFilter = 'all';
 
         const orgGovSmiAuditsData = getCmrData('orgGovSmiAuditsData', []);
 
-        let orgGovSmiCartographieData = getCmrData('orgGovSmiCartographieData', { families: [] });
-        let orgGovSmiCartFamily = 'management';
+        let orgGovSmiCartographieData = shouldUseSmiDocumentsApi() ? { families: [] } : getCmrData('orgGovSmiCartographieData', { families: [] });
+        let orgGovSmiCartFamily = shouldUseSmiDocumentsApi() ? '' : 'management';
         let orgGovSmiCartProcess = null;
         let orgGovSmiDocsLoaded = false;
         let orgGovSmiDocsLoading = false;
@@ -1690,18 +1979,11 @@ function openAgendaTab(tabName) {
         const orgGovKpiStrategiquesData = getCmrData('orgGovKpiStrategiquesData', { metrics: [], documents: [] });
 
         function shouldUseSmiDocumentsApi() {
-            return !window.location.hostname.toLowerCase().endsWith('github.io');
+            return shouldUseDocumentsApi();
         }
 
         function getSmiDocumentsApiUrl(params = {}) {
-            const url = new URL('api/documents.php', document.baseURI);
-            url.searchParams.set('path', 'Intranet CMR/Organisation & RSE/SMI');
-            Object.entries(params).forEach(([key, value]) => {
-                if (value !== undefined && value !== null && value !== '') {
-                    url.searchParams.set(key, value);
-                }
-            });
-            return url.toString();
+            return getDocumentsApiUrl('Intranet CMR/Organisation & RSE/SMI', params);
         }
 
         function normalizeOrgGovSmiDocument(documentItem) {
@@ -1853,7 +2135,6 @@ function openAgendaTab(tabName) {
             if (!forceRefresh && (orgGovSmiDocsLoaded || orgGovSmiDocsLoading)) return;
             if (forceRefresh && orgGovSmiDocsLoading) return;
 
-            let shouldRefreshAfterCache = false;
             orgGovSmiDocsLoading = true;
             orgGovSmiDocsError = null;
 
@@ -1871,16 +2152,12 @@ function openAgendaTab(tabName) {
                 const documents = (Array.isArray(payload.data) ? payload.data : []).map(normalizeOrgGovSmiDocument);
                 applyOrgGovSmiDocuments(documents);
                 orgGovSmiDocsLoaded = true;
-                shouldRefreshAfterCache = !forceRefresh && payload?.meta?.cache === 'hit';
             } catch (error) {
                 orgGovSmiDocsError = error;
                 orgGovSmiDocsLoaded = true;
             } finally {
                 orgGovSmiDocsLoading = false;
                 if (typeof renderAfterLoad === 'function') renderAfterLoad();
-                if (shouldRefreshAfterCache) {
-                    loadOrgGovSmiDocumentsFromApi(renderAfterLoad, { forceRefresh: true });
-                }
             }
         }
 
@@ -2059,9 +2336,43 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
+        function renderOrgGovSmiFolderDocuments(elementId, folderName, renderAfterLoad, iconLabel, fallbackItems = []) {
+            const host = document.getElementById(elementId);
+            if (!host) return true;
+            if (shouldUseSmiDocumentsApi()) {
+                const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'SMI', folderName), renderAfterLoad);
+                if (state?.loading && !state.loaded) {
+                    host.innerHTML = renderGedLoading('documents');
+                    return true;
+                }
+                if (state?.error) {
+                    host.innerHTML = renderGedError('documents');
+                    return true;
+                }
+                if (!state?.documents?.length) {
+                    host.innerHTML = `<div style="padding:12px;color:#64748b;font-size:13px;">Aucun document Moovapps dans ${escapeHtml(folderName)}.</div>`;
+                    return true;
+                }
+                host.innerHTML = state.documents.map(d => `
+                    <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.title))})">
+                        <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">${escapeHtml(iconLabel)}</div>
+                        <div class="doc-info">
+                            <div class="doc-title">${escapeHtml(d.title)}</div>
+                            <div class="doc-meta">${escapeHtml(d.folderLabel || d.fileName || folderName)}</div>
+                        </div>
+                        <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+                return true;
+            }
+            return false;
+        }
+
         function renderOrgGovSmiAudits() {
             const list = document.getElementById('orgGovSmiAudits');
             if (!list) return;
+            if (renderOrgGovSmiFolderDocuments('orgGovSmiAudits', 'Audit SMI', renderOrgGovSmiAudits, 'AUD')) return;
             list.innerHTML = orgGovSmiAuditsData.map(a => `
                 <div class="doc-item" onclick="openMockDownload('${a.file}','${a.title}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">AUD</div>
@@ -2078,6 +2389,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiPilotage() {
             const root = document.getElementById('orgGovSmiPilotage');
             if (!root) return;
+            if (renderOrgGovSmiFolderDocuments('orgGovSmiPilotage', 'Organisation de pilotage SMI', renderOrgGovSmiPilotage, 'SMI')) return;
             const current = orgGovSmiPilotageRoles.find(r => r.id === orgGovSmiPilotageRole) || orgGovSmiPilotageRoles[0];
             orgGovSmiPilotageRole = current?.id || null;
             root.innerHTML = `
@@ -2106,6 +2418,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiGovernance() {
             const root = document.getElementById('orgGovSmiGovernance');
             if (!root) return;
+            if (renderOrgGovSmiFolderDocuments('orgGovSmiGovernance', 'Gouvernance interne', renderOrgGovSmiGovernance, 'GOV')) return;
             const current = orgGovSmiGovernanceInstances.find(i => i.id === orgGovSmiGovernanceInstance) || orgGovSmiGovernanceInstances[0];
             orgGovSmiGovernanceInstance = current?.id || null;
             root.innerHTML = `
@@ -2139,6 +2452,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiCertification() {
             const root = document.getElementById('orgGovSmiCertification');
             if (!root) return;
+            if (renderOrgGovSmiFolderDocuments('orgGovSmiCertification', 'Certification', renderOrgGovSmiCertification, 'CERT')) return;
             root.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
                     ${orgGovSmiCertifications.map(c => `
@@ -2157,6 +2471,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiNormes() {
             const list = document.getElementById('orgGovSmiNormes');
             if (!list) return;
+            if (renderOrgGovSmiFolderDocuments('orgGovSmiNormes', 'Normes et standards', renderOrgGovSmiNormes, 'STD')) return;
             list.innerHTML = orgGovSmiPolitiquesData.map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.title}')">
                     <div class="doc-icon" style="background:#f5f3ff;color:#7c3aed;font-weight:900;">STD</div>
@@ -2428,7 +2743,22 @@ function openAgendaTab(tabName) {
         }
 
         // ====== Téléchargement (mock) ======
-        function openMockDownload(filename, title) {
+        function openResolvedGedDocument(fileUrl, title) {
+            const name = String(fileUrl || '');
+            if (/\.pdf(\?.*)?$/i.test(name) || /[?&]fileName=[^&]*\.pdf(?:&|$)/i.test(name)) {
+                openPdfPreviewModal(fileUrl, title);
+                return;
+            }
+            window.open(fileUrl, '_blank', 'noopener');
+        }
+
+        async function openMockDownload(filename, title) {
+            const resolvedDocument = await resolveGedDocumentForClick(filename, title);
+            if (resolvedDocument?.file && resolvedDocument.file !== filename) {
+                openResolvedGedDocument(resolvedDocument.file, resolvedDocument.title || title || filename);
+                return;
+            }
+
             // Pour tous les PDF consultables: ouvrir un preview modal (pas de redirection)
             const name = (filename || '').toString();
             if (/\.pdf(\?.*)?$/i.test(name)) {
@@ -3509,7 +3839,26 @@ function openAgendaTab(tabName) {
         function filterSitdDocuments(subId) {
             const config = sitdFilters[subId] || {};
             const q = (sitdSearchState[subId] || '').trim().toLowerCase();
-            return sitdDocumentItems.filter(doc => {
+            const gedPath = joinGedPath(GED_ROOT_PATH, gedViewPathMap.sitd, gedSitdPathMap[subId] || subId);
+            const state = getGedDocumentsState(gedPath, () => renderSitdPage(subId));
+            const sourceDocuments = state
+                ? state.documents.map(documentItem => {
+                    const segments = Array.isArray(documentItem.segments) ? documentItem.segments : [];
+                    return {
+                        ...documentItem,
+                        section: subId,
+                        title: documentItem.title,
+                        file: documentItem.file,
+                        theme: segments[0] || documentItem.folderLabel || '',
+                        year: segments.find(segment => /^\d{4}$/.test(segment)) || '',
+                        access: documentItem.folderLabel || '',
+                        structure: segments.slice(0, -1).join(' / '),
+                        meta: documentItem.fileName || documentItem.folderLabel || ''
+                    };
+                })
+                : sitdDocumentItems;
+
+            return sourceDocuments.filter(doc => {
                 if (doc.section !== subId) return false;
                 if (q) {
                     const haystack = [
@@ -3540,6 +3889,10 @@ function openAgendaTab(tabName) {
 
         function renderSitdDocumentList(subId) {
             const config = sitdFilters[subId] || {};
+            const gedPath = joinGedPath(GED_ROOT_PATH, gedViewPathMap.sitd, gedSitdPathMap[subId] || subId);
+            const state = getGedDocumentsState(gedPath, () => renderSitdPage(subId));
+            if (state?.loading && !state.loaded) return renderGedLoading('documents');
+            if (state?.error) return renderGedError('documents');
             const docs = filterSitdDocuments(subId);
             const filters = [
                 config.themeFilters ? renderSitdFilterButtons(subId, 'theme', config.themeFilters) : '',
@@ -4287,27 +4640,36 @@ function openAgendaTab(tabName) {
         const qseResultatsAudits = getCmrData('qseResultatsAudits', []);
         const qseContributions = getCmrData('qseContributions', []);
 
-        function renderQsePolitiques() {
-            const grid = document.getElementById('qsePolitiquesGrid');
+        function renderQseGedOrStaticCards(elementId, pathSuffix, staticItems, renderAfterLoad) {
+            const grid = document.getElementById(elementId);
             if (!grid) return;
-            grid.innerHTML = qsePolitiques.map(d => `
-                <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${d.file}','${d.title}')">
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.qse, pathSuffix), renderAfterLoad);
+            if (state?.loading && !state.loaded) {
+                grid.innerHTML = renderGedLoading('documents');
+                return;
+            }
+            if (state?.error) {
+                grid.innerHTML = renderGedError('documents');
+                return;
+            }
+            const items = state
+                ? state.documents.map(doc => ({ title: doc.title, file: doc.file, meta: doc.folderLabel || doc.fileName }))
+                : staticItems;
+            grid.innerHTML = items.map(d => `
+                <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.title))})">
                     <div class="doc-icon-large pdf" style="background:#f8fafc;color:#475569;"><i data-lucide="file-text" style="width:24px;height:24px;"></i></div>
-                    <div class="doc-card-title">${d.title}</div>
-                    <div class="doc-card-meta"><span>${qseLabels.consultLabel || ''}</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
+                    <div class="doc-card-title">${escapeHtml(d.title)}</div>
+                    <div class="doc-card-meta"><span>${escapeHtml(d.meta || qseLabels.consultLabel || '')}</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
                 </div>
-            `).join('');
+            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`;
+            lucide.createIcons();
+        }
+
+        function renderQsePolitiques() {
+            renderQseGedOrStaticCards('qsePolitiquesGrid', 'Culture QSE - RSE/Communication QSE - RSE', qsePolitiques, renderQsePolitiques);
         }
         function renderQseReferentiels() {
-            const grid = document.getElementById('qseReferentielsGrid');
-            if (!grid) return;
-            grid.innerHTML = qseReferentiels.map(d => `
-                <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${d.file}','${d.title}')">
-                    <div class="doc-icon-large pdf" style="background:#f8fafc;color:#475569;"><i data-lucide="shield-check" style="width:24px;height:24px;"></i></div>
-                    <div class="doc-card-title">${d.title}</div>
-                    <div class="doc-card-meta"><span>${qseLabels.consultLabel || ''}</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
-                </div>
-            `).join('');
+            renderQseGedOrStaticCards('qseReferentielsGrid', 'Culture QSE - RSE/Contenus pédagogiques', qseReferentiels, renderQseReferentiels);
         }
         function renderQseSmiDocs() {
             const list = document.getElementById('qseSmiDocs');
@@ -4429,7 +4791,19 @@ function openAgendaTab(tabName) {
         function renderQseCulture() {
             const list = document.getElementById('qseCulture');
             if (!list) return;
-            list.innerHTML = qseCultureItems.map(c => `
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.qse, 'Culture QSE - RSE/Communication QSE - RSE'), renderQseCulture);
+            if (state?.loading && !state.loaded) {
+                list.innerHTML = renderGedLoading('documents');
+                return;
+            }
+            if (state?.error) {
+                list.innerHTML = renderGedError('documents');
+                return;
+            }
+            const items = state
+                ? state.documents.map(doc => ({ title: doc.title, file: doc.file, meta: doc.folderLabel || doc.fileName }))
+                : qseCultureItems;
+            list.innerHTML = items.map(c => `
                 <div class="doc-item" onclick="openMockDownload('${c.file}','${c.title}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">QSE</div>
                     <div class="doc-info"><div class="doc-title">${c.title}</div><div class="doc-meta">${c.meta}</div></div>
@@ -4444,7 +4818,19 @@ function openAgendaTab(tabName) {
         function renderQseCulturePortail() {
             const grid = document.getElementById('qseCulturePortail');
             if (!grid) return;
-            grid.innerHTML = qseCulturePortailItems.map(c => `
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.qse, 'Culture QSE - RSE/Contenus pédagogiques'), renderQseCulturePortail);
+            if (state?.loading && !state.loaded) {
+                grid.innerHTML = renderGedLoading('documents');
+                return;
+            }
+            if (state?.error) {
+                grid.innerHTML = renderGedError('documents');
+                return;
+            }
+            const items = state
+                ? state.documents.map(doc => ({ title: doc.title, file: doc.file, type: getGedFileKind(doc.fileName) }))
+                : qseCulturePortailItems;
+            grid.innerHTML = items.map(c => `
                 <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${c.file}','${c.title}')">
                     <div class="doc-icon-large" style="background:#eff6ff;color:#2563eb;"><i data-lucide="${c.type === 'Vidéo' ? 'play-circle' : 'megaphone'}" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${c.title}</div>
@@ -4488,6 +4874,17 @@ function openAgendaTab(tabName) {
         const regPages = ['legal-gouvernance','regime-civil','regime-militaire','regime-non-cotisants','notes-juridiques','prises-position','modeles','jurisprudence','veille-juridique'];
         const regLegalSubIds = ['legal-gouvernance','regime-civil','regime-militaire','regime-non-cotisants'];
         const regDocumentSubIds = ['notes-juridiques','prises-position','modeles','jurisprudence','veille-juridique'];
+        const regGedPathMap = {
+            'legal-gouvernance': 'Légal & Réglementaires',
+            'regime-civil': 'Légal & Réglementaires/Régime civil',
+            'regime-militaire': 'Légal & Réglementaires/Régime militaire',
+            'regime-non-cotisants': 'Légal & Réglementaires/Régime non cotisants',
+            'notes-juridiques': 'Notes & Prise de position',
+            'prises-position': 'Notes & Prise de position',
+            modeles: 'Bibliothèque des modèles',
+            jurisprudence: 'Jurisprudence',
+            'veille-juridique': 'Veille juridique'
+        };
 
         const regSectionConfig = getCmrData('regSectionConfig', {});
         const regSectionSummaries = getCmrData('regSectionSummaries', {});
@@ -4593,9 +4990,29 @@ function openAgendaTab(tabName) {
         function renderRegLegalDocs(subId) {
             const root = document.getElementById(`regLegalList-${subId}`);
             if (!root) return;
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.reglementation, regGedPathMap[subId] || subId), () => renderRegLegalDocs(subId));
+            if (state?.loading && !state.loaded) {
+                root.innerHTML = renderGedLoading('documents');
+                return;
+            }
+            if (state?.error) {
+                root.innerHTML = renderGedError('documents');
+                return;
+            }
             const q = (document.getElementById(`regLegalSearch-${subId}`)?.value || '').toLowerCase().trim();
             const selectedType = regLegalTypeBySub[subId] || 'all';
-            const items = regTextesItems.filter(i => {
+            const sourceItems = state
+                ? state.documents.map(doc => ({
+                    title: doc.title,
+                    file: doc.file,
+                    type: (doc.segments || [])[0] || 'PDF',
+                    ref: doc.fileName || '',
+                    date: doc.updatedAt || '',
+                    tags: doc.segments || [],
+                    section: subId
+                }))
+                : regTextesItems;
+            const items = sourceItems.filter(i => {
                 const sectionOk = !i.section || i.section === subId;
                 const typeOk = selectedType === 'all' || i.type === selectedType;
                 const qOk = !q || (i.title + ' ' + i.ref + ' ' + (i.tags || []).join(' ')).toLowerCase().includes(q);
@@ -4625,9 +5042,27 @@ function openAgendaTab(tabName) {
         function renderRegDocumentDocs(subId) {
             const root = document.getElementById(`regDocumentList-${subId}`);
             if (!root) return;
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.reglementation, regGedPathMap[subId] || subId), () => renderRegDocumentDocs(subId));
+            if (state?.loading && !state.loaded) {
+                root.innerHTML = renderGedLoading('documents');
+                return;
+            }
+            if (state?.error) {
+                root.innerHTML = renderGedError('documents');
+                return;
+            }
             const q = (document.getElementById(`regDocumentSearch-${subId}`)?.value || '').toLowerCase().trim();
             const selectedTheme = regDocumentThemeBySub[subId] || 'all';
-            const items = regDocumentItems.filter(i => {
+            const sourceItems = state
+                ? state.documents.map(doc => ({
+                    title: doc.title,
+                    file: doc.file,
+                    theme: (doc.segments || [])[0] || doc.folderLabel || 'Document',
+                    meta: doc.fileName || doc.folderLabel || '',
+                    section: subId
+                }))
+                : regDocumentItems;
+            const items = sourceItems.filter(i => {
                 const sectionOk = i.section === subId;
                 const themeOk = selectedTheme === 'all' || i.theme === selectedTheme;
                 const qOk = !q || (i.title + ' ' + i.theme + ' ' + i.meta).toLowerCase().includes(q);
@@ -6177,8 +6612,29 @@ function openAgendaTab(tabName) {
             const folders = document.getElementById('kmRefFolders');
             const docs = document.getElementById('kmRefDocs');
             if (!folders || !docs) return;
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.km, gedKmPathMap.referentiels), renderKmReferentiels);
+            if (state?.loading && !state.loaded) {
+                folders.innerHTML = renderGedLoading('référentiels');
+                docs.innerHTML = '';
+                return;
+            }
+            if (state?.error) {
+                folders.innerHTML = renderGedError('référentiels');
+                docs.innerHTML = '';
+                return;
+            }
+            const sourceFolders = state
+                ? groupGedDocumentsByFirstSegment(state.documents, 'Référentiels métiers').map(group => ({
+                    id: group.id,
+                    label: group.label,
+                    docs: group.docs.map(doc => ({ label: doc.title, file: doc.file }))
+                }))
+                : kmReferentiels;
             const q = (document.getElementById('kmRefSearch')?.value || '').trim().toLowerCase();
-            folders.innerHTML = kmReferentiels.map(f => `
+            if (sourceFolders.length && !sourceFolders.some(x => x.id === kmRefActive)) {
+                kmRefActive = sourceFolders[0].id;
+            }
+            folders.innerHTML = sourceFolders.map(f => `
                 <div class="doc-item" onclick="kmRefActive='${f.id}'; renderKmReferentiels();">
                     <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">REF</div>
                     <div class="doc-info">
@@ -6188,7 +6644,7 @@ function openAgendaTab(tabName) {
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('');
-            const active = kmReferentiels.find(x => x.id === kmRefActive) || kmReferentiels[0];
+            const active = sourceFolders.find(x => x.id === kmRefActive) || sourceFolders[0];
             const items = (active?.docs || []).filter(d => !q || d.label.toLowerCase().includes(q) || d.file.toLowerCase().includes(q));
             docs.innerHTML = items.map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
@@ -6199,7 +6655,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('');
+            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`;
             lucide.createIcons();
         }
 
@@ -6354,7 +6810,28 @@ function openAgendaTab(tabName) {
             const folders = document.getElementById('kmDocsFolders');
             const list = document.getElementById('kmDocsList');
             if (!folders || !list) return;
-            folders.innerHTML = kmDocs.map(f => `
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.km, gedKmPathMap.docs), renderKmDocs);
+            if (state?.loading && !state.loaded) {
+                folders.innerHTML = renderGedLoading('documents');
+                list.innerHTML = '';
+                return;
+            }
+            if (state?.error) {
+                folders.innerHTML = renderGedError('documents');
+                list.innerHTML = '';
+                return;
+            }
+            const sourceFolders = state
+                ? groupGedDocumentsByFirstSegment(state.documents, 'Documents partagés').map(group => ({
+                    id: group.id,
+                    label: group.label,
+                    docs: group.docs.map(doc => ({ label: doc.title, file: doc.file }))
+                }))
+                : kmDocs;
+            if (sourceFolders.length && !sourceFolders.some(x => x.id === kmDocsActive)) {
+                kmDocsActive = sourceFolders[0].id;
+            }
+            folders.innerHTML = sourceFolders.map(f => `
                 <div class="doc-item" onclick="kmDocsActive='${f.id}'; renderKmDocs();">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">DOC</div>
                     <div class="doc-info">
@@ -6364,7 +6841,7 @@ function openAgendaTab(tabName) {
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('');
-            const active = kmDocs.find(x => x.id === kmDocsActive) || kmDocs[0];
+            const active = sourceFolders.find(x => x.id === kmDocsActive) || sourceFolders[0];
             list.innerHTML = (active?.docs || []).map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
                     <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">PDF</div>
@@ -6374,7 +6851,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('');
+            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`;
             lucide.createIcons();
         }
 
@@ -6441,6 +6918,34 @@ function openAgendaTab(tabName) {
             renderKmContributions();
         }
 
+        function renderKmGedOrStaticList(elementId, pathSuffix, staticItems, iconLabel = 'PDF', renderAfterLoad) {
+            const list = document.getElementById(elementId);
+            if (!list) return;
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.km, pathSuffix), renderAfterLoad);
+            if (state?.loading && !state.loaded) {
+                list.innerHTML = renderGedLoading('documents');
+                return;
+            }
+            if (state?.error) {
+                list.innerHTML = renderGedError('documents');
+                return;
+            }
+            const sourceItems = state
+                ? state.documents.map(doc => ({ title: doc.title, label: doc.title, file: doc.file, meta: doc.folderLabel || doc.fileName }))
+                : staticItems;
+            list.innerHTML = sourceItems.map(item => `
+                <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(item.file))},${escapeHtml(JSON.stringify(item.title || item.label))})">
+                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(iconLabel)}</div>
+                    <div class="doc-info">
+                        <div class="doc-title">${escapeHtml(item.title || item.label)}</div>
+                        <div class="doc-meta">${escapeHtml(item.meta || item.file || '')}</div>
+                    </div>
+                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                </div>
+            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`;
+            lucide.createIcons();
+        }
+
         function filterKmCatalogue(type, btn) {
             kmCatalogueType = type;
             document.querySelectorAll('#view-km .actu-filter-btn').forEach(b => b.classList.remove('active'));
@@ -6471,51 +6976,15 @@ function openAgendaTab(tabName) {
         }
 
         function renderKmLivrables() {
-            const list = document.getElementById('kmLivrablesList');
-            if (!list) return;
-            list.innerHTML = kmLivrables.map(l => `
-                <div class="doc-item" onclick="openMockDownload('${l.file}','${l.title}')">
-                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">LIV</div>
-                    <div class="doc-info">
-                        <div class="doc-title">${l.title}</div>
-                        <div class="doc-meta">${l.file}</div>
-                    </div>
-                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
-                </div>
-            `).join('');
-            lucide.createIcons();
+            renderKmGedOrStaticList('kmLivrablesList', gedKmPathMap.livrables, kmLivrables, 'LIV', renderKmLivrables);
         }
 
         function renderKmModeles() {
-            const list = document.getElementById('kmModelesList');
-            if (!list) return;
-            list.innerHTML = kmModeles.map(m => `
-                <div class="doc-item" onclick="openMockDownload('${m.file}','${m.title}')">
-                    <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">TPL</div>
-                    <div class="doc-info">
-                        <div class="doc-title">${m.title}</div>
-                        <div class="doc-meta">${m.file}</div>
-                    </div>
-                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
-                </div>
-            `).join('');
-            lucide.createIcons();
+            renderKmGedOrStaticList('kmModelesList', gedKmPathMap.modeles, kmModeles, 'TPL', renderKmModeles);
         }
 
         function renderKmPublications() {
-            const list = document.getElementById('kmPubList');
-            if (!list) return;
-            list.innerHTML = kmPublications.map(p => `
-                <div class="doc-item" onclick="openMockDownload('${p.file}','${p.title}')">
-                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">ART</div>
-                    <div class="doc-info">
-                        <div class="doc-title">${p.title}</div>
-                        <div class="doc-meta">${p.meta}</div>
-                    </div>
-                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
-                </div>
-            `).join('');
-            lucide.createIcons();
+            renderKmGedOrStaticList('kmPubList', gedKmPathMap.publications, kmPublications, 'ART', renderKmPublications);
         }
 
         function renderKmGlpi() {
@@ -6545,19 +7014,7 @@ function openAgendaTab(tabName) {
         }
 
         function renderKmSupports() {
-            const grid = document.getElementById('kmSupportsGrid');
-            if (!grid) return;
-            grid.innerHTML = kmSupports.map(s => `
-                <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${s.file}','${s.title}')">
-                    <div class="doc-icon-large" style="background:#fdf4ff;color:#a855f7;">
-                        <i data-lucide="graduation-cap" style="width: 24px; height: 24px;"></i>
-                    </div>
-                    <div class="doc-card-title">${s.title}</div>
-                    <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${s.meta}</p>
-                    <div class="doc-card-meta"><span style="color:#7c3aed;font-weight:800;">${kmLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
-                </div>
-            `).join('');
-            lucide.createIcons();
+            renderKmGedOrStaticList('kmSupportsGrid', gedKmPathMap.supports, kmSupports, 'SUP', renderKmSupports);
         }
 
         function renderKmStories() {
@@ -6633,19 +7090,7 @@ function openAgendaTab(tabName) {
         }
 
         function renderKmAuditRisque() {
-            const list = document.getElementById('kmAuditRisqueList');
-            if (!list) return;
-            list.innerHTML = kmAuditRisque.map(d => `
-                <div class="doc-item" onclick="openMockDownload('${d.file}','${d.title}')">
-                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">AUD</div>
-                    <div class="doc-info">
-                        <div class="doc-title">${d.title}</div>
-                        <div class="doc-meta">${d.meta}</div>
-                    </div>
-                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
-                </div>
-            `).join('');
-            lucide.createIcons();
+            renderKmGedOrStaticList('kmAuditRisqueList', gedKmPathMap['audit-risque'], kmAuditRisque, 'AUD', renderKmAuditRisque);
         }
 
         function renderKmCapsulesUx() {
