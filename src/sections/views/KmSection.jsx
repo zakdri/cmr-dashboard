@@ -142,10 +142,16 @@ export default function KmSection() {
   const regimesProcessus = pages["regimes-processus"] || {};
   const integrationKm = pages["integration-km"] || {};
   const integrationMedia = window.CMR_DATA?.data?.kmIntegrationMedia || [];
+  const [activeTab, setActiveTab] = useState(tabs[0]?.id || "referentiels");
   const [integrationQuery, setIntegrationQuery] = useState("");
   const visibleIntegrationMedia = integrationMedia.filter((item) => [item.title, item.meta, item.file].join(" ").toLowerCase().includes(integrationQuery.trim().toLowerCase()));
 
   useEffect(() => { window.lucide?.createIcons(); }, [integrationQuery]);
+  useEffect(() => {
+    const syncTab = (event) => setActiveTab(event.detail?.tab || tabs[0]?.id || "referentiels");
+    window.addEventListener("cmr:km-tab", syncTab);
+    return () => window.removeEventListener("cmr:km-tab", syncTab);
+  }, [tabs]);
 
   return (
     <>
@@ -172,7 +178,7 @@ export default function KmSection() {
               {index > 0 && <Separator />}
               <div
                 data-km-tab={tab.id}
-                className={`km-nav-item${index === 0 ? " active" : ""}`}
+                className={`km-nav-item${activeTab === tab.id ? " active" : ""}`}
                 onClick={(event) => runLegacyHandler(event, `switchPageKmTab('${tab.id}')`)}
                 style={{ whiteSpace: "nowrap", padding: "12px 16px" }}
               >

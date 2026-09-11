@@ -7,7 +7,7 @@ header('Cache-Control: no-store');
 const DEFAULT_GED_LIBRARY_PROTOCOL_URI = 'uri://vdoc/datastore/036-000002-000';
 const DEFAULT_INTRANET_ROOT_PATH = 'Intranet CMR';
 const DEFAULT_SMI_FILTER_PATH = 'Intranet CMR/Organisation & RSE/SMI';
-const DEFAULT_CACHE_TTL_SECONDS = 300;
+const DEFAULT_CACHE_TTL_SECONDS = 30;
 const DEFAULT_FOLDER_PROTOCOL_CACHE_TTL_SECONDS = 86400;
 
 function respond(int $status, array $payload): void
@@ -207,16 +207,68 @@ function path_starts_with(array $pathSegments, array $prefixSegments): bool
     return true;
 }
 
+function path_starts_with_compatible(array $pathSegments, array $prefixSegments): bool
+{
+    if (count($prefixSegments) > count($pathSegments)) {
+        return false;
+    }
+
+    foreach ($prefixSegments as $index => $segment) {
+        if (!same_path_segment($pathSegments[$index], $segment)
+            && !compatible_path_segment($pathSegments[$index], $segment)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 function same_path_segment(string $left, string $right): bool
 {
-    $normalize = static function (string $value): string {
-        $value = trim($value);
-        $lower = function_exists('mb_strtolower') ? mb_strtolower($value, 'UTF-8') : strtolower($value);
-        $ascii = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $lower);
-        return preg_replace('/[^a-z0-9]+/', '', is_string($ascii) ? $ascii : $lower) ?? $lower;
-    };
+    return normalize_path_segment($left) === normalize_path_segment($right);
+}
 
-    return $normalize($left) === $normalize($right);
+function normalize_path_segment(string $value): string
+{
+    $value = trim($value);
+    $lower = function_exists('mb_strtolower') ? mb_strtolower($value, 'UTF-8') : strtolower($value);
+    $ascii = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $lower);
+    return preg_replace('/[^a-z0-9]+/', '', is_string($ascii) ? $ascii : $lower) ?? $lower;
+}
+
+function canonical_path_segment(string $value): string
+{
+    $value = trim($value);
+    $lower = function_exists('mb_strtolower') ? mb_strtolower($value, 'UTF-8') : strtolower($value);
+    $ascii = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $lower);
+    $tokens = preg_split('/[^a-z0-9]+/', is_string($ascii) ? $ascii : $lower, -1, PREG_SPLIT_NO_EMPTY);
+    $ignoredWords = ['a', 'au', 'aux', 'd', 'de', 'des', 'du', 'l', 'la', 'le', 'les'];
+
+    return implode('', array_values(array_filter(
+        is_array($tokens) ? $tokens : [],
+        static fn(string $token): bool => !in_array($token, $ignoredWords, true)
+    )));
+}
+
+function compatible_path_segment(string $left, string $right): bool
+{
+    $leftNormalized = normalize_path_segment($left);
+    $rightNormalized = normalize_path_segment($right);
+    $shortestLength = min(strlen($leftNormalized), strlen($rightNormalized));
+
+    if ($shortestLength < 4) {
+        return false;
+    }
+
+    if (strpos($leftNormalized, $rightNormalized) === 0
+        || strpos($rightNormalized, $leftNormalized) === 0) {
+        return true;
+    }
+
+    $leftCanonical = canonical_path_segment($left);
+    $rightCanonical = canonical_path_segment($right);
+
+    return strlen($leftCanonical) >= 4 && $leftCanonical === $rightCanonical;
 }
 
 function find_path_prefix_offset(array $pathSegments, array $prefixSegments): ?int
@@ -420,12 +472,39 @@ function write_folder_protocol_cache(array $config, array $folderProtocolUris): 
 function best_folder_protocol_match(array $folderProtocolUris, string $filterPath): array
 {
     $filterSegments = split_path($filterPath);
-    foreach (normalize_folder_protocol_uris($folderProtocolUris) as $configuredPath => $protocolUri) {
+    $normalizedProtocolUris = normalize_folder_protocol_uris($folderProtocolUris);
+    foreach ($normalizedProtocolUris as $configuredPath => $protocolUri) {
         $configuredSegments = split_path((string)$configuredPath);
         if (path_starts_with($filterSegments, $configuredSegments)) {
             return [
                 'path' => (string)$configuredPath,
                 'protocolUri' => (string)$protocolUri,
+            ];
+        }
+    }
+
+    $compatibleMatches = [];
+    foreach ($normalizedProtocolUris as $configuredPath => $protocolUri) {
+        $configuredSegments = split_path((string)$configuredPath);
+        if (path_starts_with_compatible($filterSegments, $configuredSegments)) {
+            $compatibleMatches[] = [
+                'path' => (string)$configuredPath,
+                'protocolUri' => (string)$protocolUri,
+                'depth' => count($configuredSegments),
+            ];
+        }
+    }
+
+    if ($compatibleMatches !== []) {
+        $maxDepth = max(array_column($compatibleMatches, 'depth'));
+        $deepestMatches = array_values(array_filter(
+            $compatibleMatches,
+            static fn(array $match): bool => $match['depth'] === $maxDepth
+        ));
+        if (count($deepestMatches) === 1) {
+            return [
+                'path' => $deepestMatches[0]['path'],
+                'protocolUri' => $deepestMatches[0]['protocolUri'],
             ];
         }
     }
@@ -471,7 +550,8 @@ function view_library_scope(array $config, string $token, string $scopeType, str
 
 function find_child_folder(array $response, string $name): ?array
 {
-    foreach (normalize_list($response['view']['body']['folder'] ?? []) as $folder) {
+    $folders = normalize_list($response['view']['body']['folder'] ?? []);
+    foreach ($folders as $folder) {
         if (!is_array($folder)) {
             continue;
         }
@@ -481,7 +561,12 @@ function find_child_folder(array $response, string $name): ?array
         }
     }
 
-    return null;
+    $compatibleFolders = array_values(array_filter($folders, static function ($folder) use ($name): bool {
+        return is_array($folder)
+            && compatible_path_segment((string)($folder['@name'] ?? ''), $name);
+    }));
+
+    return count($compatibleFolders) === 1 ? $compatibleFolders[0] : null;
 }
 
 function resolve_folder_protocol_uri_from_moovapps(array $config, string $token, string $filterPath): array
@@ -513,7 +598,8 @@ function resolve_folder_protocol_uri_from_moovapps(array $config, string $token,
             return ['path' => '', 'protocolUri' => ''];
         }
 
-        $currentPath = normalize_path($currentPath === '' ? $segment : $currentPath . '/' . $segment);
+        $actualSegment = trim((string)($folder['@name'] ?? '')) ?: $segment;
+        $currentPath = normalize_path($currentPath === '' ? $actualSegment : $currentPath . '/' . $actualSegment);
         $currentUri = (string)$folder['@protocol-uri'];
         $folderProtocolUris[$currentPath] = $currentUri;
         $scopeType = 'folder';
@@ -584,22 +670,29 @@ function list_smi_documents(array $config, string $token, array $scope): void
         $scope['scope_protocol_path'] = (string)$resolvedFolder['path'];
     }
 
+    $resolvedFilterPath = (string)($scope['scope_protocol_path'] ?? '');
+    $documentScope = $scope;
+    if ($resolvedFilterPath !== '' && count(split_path($resolvedFilterPath)) === count($scope['filter_segments'])) {
+        $documentScope['filter_path'] = $resolvedFilterPath;
+        $documentScope['filter_segments'] = split_path($resolvedFilterPath);
+    }
+
     $scopeType = $scopeProtocolUri !== '' ? 'folder' : 'library';
     $scopeUri = $scopeProtocolUri !== '' ? $scopeProtocolUri : $config['ged_library_protocol_uri'];
 
     $response = view_library_scope($config, $token, $scopeType, $scopeUri, '-1');
 
     $documents = [];
-    $rootResourceFolderPath = $scopeType === 'folder' ? $scope['filter_path'] : '/DefaultOrganization/GED';
+    $rootResourceFolderPath = $scopeType === 'folder' ? $documentScope['filter_path'] : '/DefaultOrganization/GED';
     foreach (normalize_list($response['view']['body']['resource'] ?? []) as $resource) {
         if (is_array($resource)) {
-            $document = map_resource($resource, $rootResourceFolderPath, $scope);
+            $document = map_resource($resource, $rootResourceFolderPath, $documentScope);
             if ($document !== null) {
                 $documents[] = $document;
             }
         }
     }
-    collect_documents(normalize_list($response['view']['body']['folder'] ?? []), $documents, $scope);
+    collect_documents(normalize_list($response['view']['body']['folder'] ?? []), $documents, $documentScope);
 
     $payload = [
         'data' => $documents,
@@ -610,6 +703,7 @@ function list_smi_documents(array $config, string $token, array $scope): void
             'scopeProtocolUri' => $scopeProtocolUri,
             'scopeProtocolPath' => (string)($scope['scope_protocol_path'] ?? ''),
             'filterPath' => $scope['filter_path'],
+            'resolvedFilterPath' => $documentScope['filter_path'],
             'count' => count($documents),
             'cache' => 'miss',
             'cacheTtlSeconds' => $config['cache_ttl_seconds'],
@@ -618,6 +712,33 @@ function list_smi_documents(array $config, string $token, array $scope): void
 
     write_cached_documents($config, $scope, $payload);
     respond(200, $payload);
+}
+
+function content_type_for_file(string $name, string $reportedType = ''): string
+{
+    $mimeTypes = [
+        'pdf' => 'application/pdf',
+        'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png',
+        'gif' => 'image/gif', 'webp' => 'image/webp', 'bmp' => 'image/bmp',
+        'avif' => 'image/avif', 'svg' => 'image/svg+xml',
+        'mp4' => 'video/mp4', 'webm' => 'video/webm', 'ogv' => 'video/ogg',
+        'ogg' => 'video/ogg', 'mov' => 'video/quicktime', 'm4v' => 'video/x-m4v',
+    ];
+    $extension = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+    if (isset($mimeTypes[$extension])) {
+        return $mimeTypes[$extension];
+    }
+
+    $normalizedReportedType = strtolower(trim(explode(';', $reportedType, 2)[0] ?? ''));
+    if ($normalizedReportedType !== ''
+        && $normalizedReportedType !== 'application/octet-stream'
+        && $normalizedReportedType !== 'text/plain'
+        && $normalizedReportedType !== 'text/html') {
+        return $reportedType;
+    }
+
+    return 'application/octet-stream';
 }
 
 function stream_document_download(array $config, string $token): void
@@ -654,13 +775,29 @@ function stream_document_download(array $config, string $token): void
     $separator = contains_text($uri, '?') ? '&' : '?';
     $downloadUrl = $config['moovapps_file_base_url'] . $uri . $separator . '_AuthenticationKey=' . rawurlencode($token);
 
-    $ch = curl_init($downloadUrl);
-    curl_setopt_array($ch, [
+    $requestedRange = trim((string)($_SERVER['HTTP_RANGE'] ?? ''));
+    $upstreamHeaders = [];
+    $curlOptions = [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_CONNECTTIMEOUT => 8,
         CURLOPT_TIMEOUT => 60,
-    ]);
+        CURLOPT_HEADERFUNCTION => static function ($curl, string $headerLine) use (&$upstreamHeaders): int {
+            $length = strlen($headerLine);
+            $separator = strpos($headerLine, ':');
+            if ($separator !== false) {
+                $headerName = strtolower(trim(substr($headerLine, 0, $separator)));
+                $upstreamHeaders[$headerName] = trim(substr($headerLine, $separator + 1));
+            }
+            return $length;
+        },
+    ];
+    if ($requestedRange !== '') {
+        $curlOptions[CURLOPT_HTTPHEADER] = ['Range: ' . $requestedRange];
+    }
+
+    $ch = curl_init($downloadUrl);
+    curl_setopt_array($ch, $curlOptions);
     if ($config['cookie_file'] !== '') {
         curl_setopt($ch, CURLOPT_COOKIEJAR, $config['cookie_file']);
         curl_setopt($ch, CURLOPT_COOKIEFILE, $config['cookie_file']);
@@ -673,10 +810,10 @@ function stream_document_download(array $config, string $token): void
     curl_close($ch);
 
     if (($binary === false || $binary === '' || $status >= 400) && $filePath !== '' && is_file($filePath) && is_readable($filePath)) {
-        $extension = strtolower(pathinfo($name, PATHINFO_EXTENSION));
-        $contentType = $extension === 'pdf' ? 'application/pdf' : 'application/octet-stream';
+        $contentType = content_type_for_file($name, $contentType);
 
         header('Content-Type: ' . $contentType);
+        header('X-Content-Type-Options: nosniff');
         header('Content-Disposition: inline; filename="' . addcslashes($name, "\\\"") . '"');
         header('Content-Length: ' . filesize($filePath));
         http_response_code(200);
@@ -694,10 +831,21 @@ function stream_document_download(array $config, string $token): void
         ]);
     }
 
-    header('Content-Type: ' . ($contentType !== '' ? $contentType : 'application/octet-stream'));
+    $contentType = content_type_for_file($name, $contentType);
+    header('Content-Type: ' . $contentType);
+    header('X-Content-Type-Options: nosniff');
     header('Content-Disposition: inline; filename="' . addcslashes($name, "\\\"") . '"');
+    header('Cache-Control: private, no-store');
+    if (isset($upstreamHeaders['accept-ranges'])) {
+        header('Accept-Ranges: ' . $upstreamHeaders['accept-ranges']);
+    } elseif ($requestedRange !== '') {
+        header('Accept-Ranges: bytes');
+    }
+    if (isset($upstreamHeaders['content-range'])) {
+        header('Content-Range: ' . $upstreamHeaders['content-range']);
+    }
     header('Content-Length: ' . strlen((string)$binary));
-    http_response_code(200);
+    http_response_code($status === 206 ? 206 : 200);
     echo $binary;
     exit;
 }

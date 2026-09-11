@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { documentsApiUrl, normalizeGedDocument, shouldUseDocumentsApi } from "./gedDocuments.js";
+import {
+  GED_DOCUMENTS_CHANGED_EVENT,
+  fetchGedDocuments,
+  gedPathsOverlap,
+  readCachedGedDocuments,
+  shouldUseDocumentsApi,
+} from "./gedDocuments.js";
 
 export function useViewActive(viewId) {
   const [active, setActive] = useState(() => {
@@ -24,14 +30,18 @@ export function useViewActive(viewId) {
 
 export function useGedDocuments(path, options = {}) {
   const enabled = options.enabled ?? true;
+  const initialDocuments = shouldUseDocumentsApi() && enabled ? readCachedGedDocuments(path) : null;
   const [state, setState] = useState({
-    loading: shouldUseDocumentsApi() && enabled,
+    loading: shouldUseDocumentsApi() && enabled && initialDocuments === null,
     error: null,
-    documents: [],
+    documents: initialDocuments || [],
   });
 
   useEffect(() => {
     let cancelled = false;
+    let requestNumber = 0;
+    let loadingPromise = null;
+    let lastRevalidation = 0;
     if (!shouldUseDocumentsApi() || !enabled || !path) {
       setState({ loading: false, error: null, documents: [] });
       return () => {
@@ -39,27 +49,74 @@ export function useGedDocuments(path, options = {}) {
       };
     }
 
-    setState({ loading: true, error: null, documents: [] });
-    fetch(documentsApiUrl(path), {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json();
-      })
-      .then((payload) => {
-        if (!cancelled) {
-          const documents = (Array.isArray(payload.data) ? payload.data : []).map(normalizeGedDocument);
-          setState({ loading: false, error: null, documents });
+    const cachedDocuments = readCachedGedDocuments(path);
+    setState({
+      loading: cachedDocuments === null,
+      error: null,
+      documents: cachedDocuments || [],
+    });
+
+    async function load({ refresh = false, preserveDocuments = false } = {}) {
+      if (loadingPromise) return loadingPromise;
+
+      const currentRequest = ++requestNumber;
+      setState((current) => ({
+        loading: !preserveDocuments,
+        error: null,
+        documents: preserveDocuments ? current.documents : [],
+      }));
+
+      loadingPromise = (async () => {
+        try {
+          const result = await fetchGedDocuments(path, { refresh });
+          if (!cancelled && currentRequest === requestNumber) {
+            setState({ loading: false, error: null, documents: result.documents });
+          }
+          return result;
+        } catch (error) {
+          if (!cancelled && currentRequest === requestNumber) {
+            setState((current) => ({ loading: false, error, documents: current.documents }));
+          }
+          return null;
+        } finally {
+          loadingPromise = null;
         }
-      })
-      .catch((error) => {
-        if (!cancelled) setState({ loading: false, error, documents: [] });
+      })();
+
+      return loadingPromise;
+    }
+
+    const revalidate = () => {
+      const now = Date.now();
+      if (loadingPromise || now - lastRevalidation < 1000) return loadingPromise;
+      lastRevalidation = now;
+      return load({ refresh: true, preserveDocuments: true });
+    };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") revalidate();
+    };
+    const handleDocumentsChanged = (event) => {
+      if (!event.detail?.path || gedPathsOverlap(path, event.detail.path)) revalidate();
+    };
+
+    async function loadInitialDocuments() {
+      const result = await load({
+        refresh: cachedDocuments !== null,
+        preserveDocuments: cachedDocuments !== null,
       });
+      if (cachedDocuments === null && result?.meta?.cache === "hit") revalidate();
+    }
+
+    loadInitialDocuments();
+    window.addEventListener("focus", revalidate);
+    window.addEventListener(GED_DOCUMENTS_CHANGED_EVENT, handleDocumentsChanged);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       cancelled = true;
+      window.removeEventListener("focus", revalidate);
+      window.removeEventListener(GED_DOCUMENTS_CHANGED_EVENT, handleDocumentsChanged);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [path, enabled]);
 

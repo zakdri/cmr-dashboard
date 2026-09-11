@@ -6725,11 +6725,13 @@
   background: #fff;
 }
 
-.communication-media-card img {
+.communication-media-card img,
+.communication-media-card video {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  background: #0f172a;
 }
 
 .communication-media-card > div {

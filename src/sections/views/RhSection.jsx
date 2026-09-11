@@ -1,6 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
-import { GED_ROOT_PATH, groupDocumentsByFirstSegment, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import {
+  GED_ROOT_PATH,
+  joinGedPath,
+  mergeDocumentsIntoGroups,
+  normalizeGedKey,
+  shouldUseDocumentsApi,
+} from "../../services/gedDocuments.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function getRhData() {
@@ -139,7 +145,7 @@ function CareerPage({ page, active }) {
                 <div className="rh-path-panel-body">
                   <p>{step.description}</p>
                   <div className="rh-path-attachments">
-                    {(shouldUseDocumentsApi() && !gedState.error
+                    {(shouldUseDocumentsApi()
                       ? (gedByFolder.get(step.title) || [])
                       : (step.attachments || []).map((attachment) => ({ title: attachment, file: attachment }))
                     ).map((attachment) => (
@@ -168,20 +174,15 @@ function DocumentsPage({ page, active }) {
   const [query, setQuery] = useState("");
   const gedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Mes Services RH", "Documents RH"), { enabled: active });
   const term = query.trim().toLowerCase();
-  const localCategories = (page.categories || []).map((category) => ({
-    ...category,
-    items: (category.items || []).filter((item) =>
-      [item.title, item.description, item.meta].join(" ").toLowerCase().includes(term),
-    ),
-  }));
-  const gedCategories = groupDocumentsByFirstSegment(gedState.documents, "Documents RH")
-    .map((category) => ({
+  const sourceCategories = shouldUseDocumentsApi()
+    ? mergeDocumentsIntoGroups(page.categories || [], gedState.documents, { fallbackLabel: "Documents RH" })
+    : (page.categories || []);
+  const categories = sourceCategories.map((category) => ({
       ...category,
-      items: category.items.filter((item) =>
-        [item.title, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term),
+      items: (category.items || []).filter((item) =>
+        [item.title, item.description, item.meta, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term),
       ),
     }));
-  const categories = shouldUseDocumentsApi() && !gedState.error ? gedCategories : localCategories;
 
   return (
     <div id="page-rh-documents" className="km-tab-content" style={{ display: "none" }}>
@@ -196,11 +197,11 @@ function DocumentsPage({ page, active }) {
       </div>
       {gedState.loading ? <div style={{ padding: 14, color: "#64748b", fontSize: 13 }}>Chargement des documents RH...</div> : null}
       {gedState.error ? <div style={{ padding: 12, color: "#9a3412", background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 10, fontSize: 12 }}>Les documents RH Moovapps ne sont pas disponibles pour le moment.</div> : null}
-      {categories.filter((category) => !term || category.items.length).map((category) => (
+      {categories.filter((category) => !term || normalizeGedKey(category.title).includes(normalizeGedKey(term)) || category.items.length).map((category) => (
         <div className="content-card" style={{ marginTop: 18 }} key={category.title}>
           <h3>{category.title}</h3>
           <div className="km-grid" style={{ marginTop: 16 }}>
-            {shouldUseDocumentsApi() && !gedState.error ? (category.items || []).map((item) => (
+            {shouldUseDocumentsApi() ? (category.items || []).map((item) => (
               <GedDocumentCard documentItem={item} key={item.id || item.fileName} />
             )) : (category.items || []).map((item) => (
               <SimpleCard
@@ -349,7 +350,7 @@ function EnquetesPage({ page, active }) {
     page.surveys?.[0] ||
     {};
   const history = (page.history || []).filter((item) => historyYear === "Tous" || item.year === historyYear);
-  const reportItems = shouldUseDocumentsApi() && !reportsGedState.error
+  const reportItems = shouldUseDocumentsApi()
     ? reportsGedState.documents.filter((item) =>
         [item.title, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term),
       )
@@ -468,6 +469,12 @@ export default function RhSection() {
   const isViewActive = useViewActive("rh");
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || "carriere");
 
+  useEffect(() => {
+    const syncTab = (event) => setActiveTab(event.detail?.tab || tabs[0]?.id || "carriere");
+    window.addEventListener("cmr:rh-tab", syncTab);
+    return () => window.removeEventListener("cmr:rh-tab", syncTab);
+  }, [tabs]);
+
   return (
     <div id="view-rh" className="view-section km-container">
       <div className="km-header">
@@ -477,7 +484,7 @@ export default function RhSection() {
       <div className="km-navbar" style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 30, borderBottom: "2px solid #e2e8f0", overflowX: "auto" }}>
         {tabs.map((tab, index) => (
           <React.Fragment key={tab.id}>
-            <div className={`km-nav-item${activeTab === tab.id ? " active" : ""}`} onClick={(event) => { setActiveTab(tab.id); runLegacyHandler(event, `switchRhPageTab('${tab.id}')`); }} style={{ whiteSpace: "nowrap", padding: "12px 16px" }}>
+            <div data-rh-tab={tab.id} className={`km-nav-item${activeTab === tab.id ? " active" : ""}`} onClick={(event) => { setActiveTab(tab.id); runLegacyHandler(event, `switchRhPageTab('${tab.id}')`); }} style={{ whiteSpace: "nowrap", padding: "12px 16px" }}>
               {tab.label}
             </div>
             {index < tabs.length - 1 ? <span style={{ color: "#cbd5e1" }}>|</span> : null}

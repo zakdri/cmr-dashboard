@@ -93,10 +93,10 @@ export default function GouvernanceSection() {
   const governanceGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Gouvernance", "Système de gouvernance", "Espace documentaire"), { enabled: isViewActive && activeTab === "systeme" && systemTab === "documents" });
   const committeesGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Gouvernance", "Système de gouvernance", "Comités spécialisés"), { enabled: isViewActive && activeTab === "systeme" && systemTab === "comites" });
   const committee = useMemo(() => committees.find((item) => item.id === selectedCommittee) || committees[0] || {}, [committees, selectedCommittee]);
-  const documents = shouldUseDocumentsApi() && !governanceGedState.error
+  const documents = shouldUseDocumentsApi()
     ? governanceGedState.documents.filter((doc) => [doc.title, doc.fileName, doc.folderLabel].join(" ").toLowerCase().includes(documentQuery.toLowerCase()))
     : (committee.documents || []).filter((file) => file.toLowerCase().includes(documentQuery.toLowerCase()));
-  const committeeGedDocs = shouldUseDocumentsApi() && !committeesGedState.error
+  const committeeGedDocs = shouldUseDocumentsApi()
     ? committeesGedState.documents.filter((doc) => [doc.title, doc.fileName, doc.folderLabel, doc.folderPath].join(" ").toLowerCase().includes((committee.name || "").toLowerCase()))
     : [];
 
@@ -113,7 +113,15 @@ export default function GouvernanceSection() {
     <div id="view-gouvernance" className="view-section km-container">
       <div className="km-header"><h2>{header.title}</h2><p>{header.description}</p></div>
       <div id="governanceMainNavbar">
-        <GovernanceNav items={tabs} activeId={activeTab} onSelect={setActiveTab} className="governance-navbar" />
+        <GovernanceNav
+          items={tabs}
+          activeId={activeTab}
+          onSelect={(tabId) => {
+            setActiveTab(tabId);
+            window.switchGovernanceTab?.(tabId);
+          }}
+          className="governance-navbar"
+        />
       </div>
 
       {activeTab === "mot-directeur" ? <article className="content-card governance-director-article"><img src={director.photo} alt="Directeur Général de la CMR" /><div><span className="governance-eyebrow">Mot du Directeur</span><h3>{director.title}</h3><p>{director.description}</p><div className="governance-signature">{director.name}</div></div></article> : null}
@@ -123,7 +131,7 @@ export default function GouvernanceSection() {
           <p className="section-intro">Le système de gouvernance regroupe les instances décisionnelles, les comités spécialisés et leurs documents de référence.</p>
           <GovernanceNav className="governance-system-tabs" activeId={systemTab} onSelect={setSystemTab} items={[{ id: "conseil", label: "Conseil d'administration" }, { id: "comites", label: "Comités spécialisés" }, { id: "documents", label: "Espace documentaire" }]} />
           {systemTab === "conseil" ? <div className="content-card governance-system-panel"><h3>Conseil d'administration</h3><p className="section-intro">Instance centrale d'orientation, de décision et de supervision de la CMR.</p><BoardPage board={board} /></div> : null}
-          {systemTab === "comites" ? <div className="content-card governance-system-panel"><h3>Comités spécialisés</h3><CommitteeFilters committees={committees} selected={selectedCommittee} onSelect={setSelectedCommittee} /><div className="governance-committee-detail"><h4>{committee.name}</h4><p>{committee.description}</p><div className="governance-detail-grid"><div><h5>Missions</h5><ul>{(committee.missions || []).map((item) => <li key={item}>{item}</li>)}</ul></div><div><h5>Membres</h5><ul>{(committee.members || []).map((item) => <li key={item}>{item}</li>)}</ul></div></div><GedStatus state={committeesGedState} />{committeeGedDocs.length ? committeeGedDocs.map((doc) => <DocumentRow file={doc} key={doc.id || doc.fileName} />) : <DocumentRow file={committee.charter} />}</div></div> : null}
+          {systemTab === "comites" ? <div className="content-card governance-system-panel"><h3>Comités spécialisés</h3><CommitteeFilters committees={committees} selected={selectedCommittee} onSelect={setSelectedCommittee} /><div className="governance-committee-detail"><h4>{committee.name}</h4><p>{committee.description}</p><div className="governance-detail-grid"><div><h5>Missions</h5><ul>{(committee.missions || []).map((item) => <li key={item}>{item}</li>)}</ul></div><div><h5>Membres</h5><ul>{(committee.members || []).map((item) => <li key={item}>{item}</li>)}</ul></div></div><GedStatus state={committeesGedState} />{shouldUseDocumentsApi() ? (committeeGedDocs.length ? committeeGedDocs.map((doc) => <DocumentRow file={doc} key={doc.id || doc.fileName} />) : (!committeesGedState.loading && !committeesGedState.error ? <p className="empty-state">Aucun document.</p> : null)) : <DocumentRow file={committee.charter} />}</div></div> : null}
           {systemTab === "documents" ? <div className="content-card governance-system-panel"><div className="governance-access-note"><i data-lucide="lock-keyhole" /><div><strong>Accès restreint</strong><span>Les documents sont affichés selon les habilitations du profil connecté.</span></div></div><div className="section-search-row"><i data-lucide="search" /><input value={documentQuery} onChange={(event) => setDocumentQuery(event.target.value)} placeholder="Rechercher un document de gouvernance..." /></div><GedStatus state={governanceGedState} /><div className="governance-document-list">{documents.map((file) => <DocumentRow file={file} key={typeof file === "string" ? file : file.id || file.fileName} />)}{!governanceGedState.loading && !documents.length ? <p className="empty-state">Aucun document trouvé.</p> : null}</div></div> : null}
         </div>
       ) : null}

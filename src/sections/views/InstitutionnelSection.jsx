@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+import { GED_ROOT_PATH, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function getOrgGovData() {
   const data = window.CMR_DATA?.data || {};
@@ -93,7 +95,7 @@ function SimpleDocCard({ doc }) {
       onClick={(event) =>
         runLegacyHandler(
           event,
-          `openMockDownload('${doc.file}','${doc.downloadTitle}');`,
+          `openMockDownload(${JSON.stringify(doc.file)},${JSON.stringify(doc.downloadTitle || doc.title)});`,
         )
       }
     >
@@ -141,7 +143,14 @@ function SummaryText({ children }) {
 export default function InstitutionnelSection() {
   const { header, tabs, overview, smallCards, pages, strategieDocs } =
     getOrgGovData();
+  const [activeSection, setActiveSection] = useState(tabs[0]?.id || "overview");
   const [isOrgChartExpanded, setIsOrgChartExpanded] = useState(false);
+  const isViewActive = useViewActive("institutionnel");
+  const apiEnabled = shouldUseDocumentsApi();
+  const directionGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Organisation & RSE", "Direction"), {
+    enabled: isViewActive && activeSection === "direction",
+  });
+  const visibleStrategieDocs = apiEnabled ? directionGedState.documents : strategieDocs;
 
   useEffect(() => {
     if (!isOrgChartExpanded) return undefined;
@@ -167,12 +176,15 @@ export default function InstitutionnelSection() {
 
   useEffect(() => {
     const closeExpandedOrgChart = () => setIsOrgChartExpanded(false);
+    const syncSection = (event) => setActiveSection(event.detail?.section || tabs[0]?.id || "overview");
     window.addEventListener("cmr:close-org-chart-expanded", closeExpandedOrgChart);
+    window.addEventListener("cmr:orggov-section", syncSection);
     return () => {
       window.removeEventListener("cmr:close-org-chart-expanded", closeExpandedOrgChart);
+      window.removeEventListener("cmr:orggov-section", syncSection);
       document.body.classList.remove("org-chart-expanded");
     };
-  }, []);
+  }, [tabs]);
 
   return (
     <>
@@ -213,7 +225,7 @@ export default function InstitutionnelSection() {
               )}
               <div
                 data-orggov-section={tab.id}
-                className={`km-nav-item${index === 0 ? " active" : ""}`}
+                className={`km-nav-item${activeSection === tab.id ? " active" : ""}`}
                 onClick={(event) =>
                   runLegacyHandler(event, `switchOrgGovSection('${tab.id}')`)
                 }
@@ -497,9 +509,14 @@ export default function InstitutionnelSection() {
             {pages.strategie?.title}
           </div>
           <div className="km-grid">
-            {strategieDocs.map((doc) => (
-              <SimpleDocCard key={doc.file} doc={doc} />
+            {visibleStrategieDocs.map((doc) => (
+              <SimpleDocCard key={doc.protocolUri || doc.file} doc={doc} />
             ))}
+            {apiEnabled && visibleStrategieDocs.length === 0 ? (
+              <div style={{ color: "var(--text-light)", fontSize: 13 }}>
+                {directionGedState.loading ? "Chargement des documents..." : "Aucun document."}
+              </div>
+            ) : null}
           </div>
         </div>
 

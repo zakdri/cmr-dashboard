@@ -1,5 +1,10 @@
+import bundledManifest from '../../data/cmr-data.json';
+
 const DATA_ROOT = 'data/';
-const ROOT_MANIFEST = `${DATA_ROOT}cmr-data.json`;
+const bundledModuleFiles = import.meta.glob('../../data/rubriques/*/bundle.json', {
+  eager: true,
+  import: 'default',
+});
 
 async function fetchJson(url) {
   const response = await fetch(url, { cache: 'no-store' });
@@ -75,10 +80,21 @@ async function loadModule(moduleReference) {
 }
 
 async function loadModularData(manifest) {
-  const modules = await Promise.all(manifest.modules.map(loadModule));
+  const modules = manifest.modules.map((moduleReference) => {
+    const bundlePath = typeof moduleReference === 'object' ? moduleReference.bundle : '';
+    const bundledModule = bundledModuleFiles[`../../data/${bundlePath}`];
+    if (bundledModule?.data && typeof bundledModule.data === 'object') {
+      return bundledModule.data;
+    }
+    return null;
+  });
   const data = {};
 
-  for (const moduleData of modules) {
+  for (let index = 0; index < modules.length; index += 1) {
+    let moduleData = modules[index];
+    if (!moduleData) {
+      moduleData = await loadModule(manifest.modules[index]);
+    }
     for (const [key, value] of Object.entries(moduleData)) {
       if (Object.hasOwn(data, key)) {
         throw new Error(`Clé de données dupliquée : ${key}`);
@@ -103,7 +119,7 @@ async function loadLegacySpaces(manifest) {
 
 export async function loadApplicationData() {
   window.CMR_DATA = { data: {} };
-  const manifest = await fetchJson(ROOT_MANIFEST);
+  const manifest = bundledManifest;
 
   let data;
   if (Array.isArray(manifest.modules)) {

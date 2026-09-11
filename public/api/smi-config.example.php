@@ -9,7 +9,7 @@ return [
     'password' => 'CHANGE_ME',
     'timeout' => '500',
     'cache_enabled' => true,
-    'cache_ttl_seconds' => 60,
+    'cache_ttl_seconds' => 30,
     'cache_dir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cmr-dashboard-documents-cache',
 
     // L API decouvre automatiquement les protocol-uri des dossiers et les garde en cache.

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
-import { GED_ROOT_PATH, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import { GED_ROOT_PATH, joinGedPath, normalizeGedKey, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 const mediaThumbnails = [
@@ -11,9 +11,9 @@ const mediaThumbnails = [
 ];
 
 const communicationGedPathMap = {
-  recrutements: "Recrutement",
-  notes: "Notes de service",
-  juridique: "Notes & Prises de position juridiques",
+  recrutement: "Recrutement",
+  "notes-service": "Notes de service",
+  "notes-juridiques": "Notes & Prises de position juridiques",
 };
 
 function getCommunicationData() {
@@ -56,15 +56,20 @@ function GedStatus({ state }) {
   return null;
 }
 
-function MediaGallery({ items, type, query }) {
+function MediaGallery({ items, type, query, state }) {
   const term = query.trim().toLowerCase();
   const visible = items.filter((item) => [item.title, item.category, item.date].join(" ").toLowerCase().includes(term));
 
   return (
     <div className="communication-media-grid">
+      <GedStatus state={state} />
       {visible.map((item, index) => (
-        <article className="communication-media-card" key={item.id}>
-          <img src={mediaThumbnails[index % mediaThumbnails.length]} alt="" />
+        <article className="communication-media-card" key={item.id || item.protocolUri || item.fileName}>
+          {item.mediaKind === "video" ? (
+            <video controls preload="metadata" src={item.file} />
+          ) : (
+            <img src={item.file || mediaThumbnails[index % mediaThumbnails.length]} alt={item.title || ""} loading="lazy" />
+          )}
           <div>
             <span>{type}</span>
             <h4>{item.title}</h4>
@@ -76,7 +81,7 @@ function MediaGallery({ items, type, query }) {
           </div>
         </article>
       ))}
-      {!visible.length ? <p className="empty-state">Aucun média trouvé.</p> : null}
+      {!state.loading && !visible.length ? <p className="empty-state">Aucun média trouvé.</p> : null}
     </div>
   );
 }
@@ -96,13 +101,31 @@ export default function CommunicationInterneSection() {
     : GED_ROOT_PATH;
   const overviewGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Communication interne", "Communication interne"), { enabled: isViewActive && activeArea === "communication" && !detail });
   const detailGedState = useGedDocuments(detailGedPath, { enabled: isViewActive && activeArea === "communication" && Boolean(detail) && detail.id !== "chartes" });
+  const photoGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Communication interne", "Médiathèque", "Photothèque"), { enabled: isViewActive && activeArea === "media" });
+  const videoGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Communication interne", "Médiathèque", "Vidéothèque"), { enabled: isViewActive && activeArea === "media" });
   const years = useMemo(() => ["Tous", ...Array.from(new Set((detail?.items || []).map((item) => item.year)))], [detail]);
-  const detailSourceItems = shouldUseDocumentsApi() && detail?.id !== "chartes" && !detailGedState.error ? detailGedState.documents : detail?.items || [];
+  const detailSourceItems = shouldUseDocumentsApi() && detail?.id !== "chartes" ? detailGedState.documents : detail?.items || [];
   const detailItems = detailSourceItems.filter((item) => {
     const term = query.trim().toLowerCase();
     const haystack = [item.title, item.meta, item.date, item.fileName, item.folderLabel].join(" ").toLowerCase();
     return (year === "Tous" || item.year === year) && (!term || haystack.includes(term));
   });
+  const imageExtensions = new Set(["jpg", "jpeg", "png", "gif", "webp", "bmp", "avif", "svg"]);
+  const videoExtensions = new Set(["mp4", "webm", "ogg", "ogv", "mov", "m4v"]);
+  const mapMedia = (item, mediaKind) => ({
+    ...item,
+    mediaKind,
+    category: item.segments?.[0] || item.folderLabel || (mediaKind === "video" ? "Vidéothèque" : "Photothèque"),
+    date: item.updatedAt || item.createdAt || "",
+  });
+  const apiImages = photoGedState.documents
+    .filter((item) => imageExtensions.has((item.fileName || item.title || "").split(".").pop()?.toLowerCase()))
+    .map((item) => mapMedia(item, "image"));
+  const apiVideos = videoGedState.documents
+    .filter((item) => videoExtensions.has((item.fileName || item.title || "").split(".").pop()?.toLowerCase()))
+    .map((item) => mapMedia(item, "video"));
+  const visibleMediaImages = shouldUseDocumentsApi() ? apiImages : mediaImages;
+  const visibleMediaVideos = shouldUseDocumentsApi() ? apiVideos : mediaVideos;
 
   useEffect(() => {
     window.lucide?.createIcons();
@@ -134,8 +157,8 @@ export default function CommunicationInterneSection() {
                   <div className="doc-list">
                     {(() => {
                       const folder = communicationGedPathMap[section.id] || section.title;
-                      const previewItems = shouldUseDocumentsApi() && !overviewGedState.error
-                        ? overviewGedState.documents.filter((doc) => doc.segments?.[0] === folder).slice(0, 3)
+                      const previewItems = shouldUseDocumentsApi()
+                        ? overviewGedState.documents.filter((doc) => normalizeGedKey(doc.segments?.[0]) === normalizeGedKey(folder)).slice(0, 3)
                         : (section.items || []).slice(0, 3);
                       if (overviewGedState.loading && shouldUseDocumentsApi()) return <p className="empty-state">Chargement...</p>;
                       return previewItems.map((item) => <ContentRow item={item} key={item.id || item.fileName || item.title} />);
@@ -188,7 +211,12 @@ export default function CommunicationInterneSection() {
             <button className={`filter-pill${mediaType === "videos" ? " active" : ""}`} onClick={() => setMediaType("videos")}>Vidéothèque</button>
           </div>
           <div className="section-search-row communication-media-search"><i data-lucide="search" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Rechercher un média..." /></div>
-          <MediaGallery items={mediaType === "photos" ? mediaImages : mediaVideos} type={mediaType === "photos" ? "Photo" : "Vidéo"} query={query} />
+          <MediaGallery
+            items={mediaType === "photos" ? visibleMediaImages : visibleMediaVideos}
+            type={mediaType === "photos" ? "Photo" : "Vidéo"}
+            query={query}
+            state={mediaType === "photos" ? photoGedState : videoGedState}
+          />
         </div>
       ) : null}
     </div>

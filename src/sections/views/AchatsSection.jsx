@@ -1,6 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
-import { GED_ROOT_PATH, groupDocumentsByFirstSegment, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import {
+  GED_ROOT_PATH,
+  groupDocumentsByFirstSegment,
+  joinGedPath,
+  normalizeGedKey,
+  shouldUseDocumentsApi,
+} from "../../services/gedDocuments.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function getAchatsData() {
@@ -83,7 +89,7 @@ function GedRow({ documentItem }) {
 function DocumentList({ documents = [], gedPath, active }) {
   const [query, setQuery] = useState("");
   const gedState = useGedDocuments(gedPath, { enabled: active });
-  const sourceDocuments = shouldUseDocumentsApi() && !gedState.error ? gedState.documents : documents;
+  const sourceDocuments = shouldUseDocumentsApi() ? gedState.documents : documents;
   const filteredDocuments = sourceDocuments.filter((item) => {
     const term = query.trim().toLowerCase();
     return [item.title, item.type, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term);
@@ -129,11 +135,33 @@ function CpsTree({ tree = [], gedPath, active }) {
       group.title,
     ).map((child) => ({ title: child.title, docs: child.items })),
   }));
-  const sourceTree = shouldUseDocumentsApi() && !gedState.error ? gedTree : tree;
+  const gedYears = new Map(gedTree.map((year) => [normalizeGedKey(year.year), year]));
+  const usedYears = new Set();
+  const mergedTree = tree.map((year) => {
+    const yearKey = normalizeGedKey(year.year);
+    const gedYear = gedYears.get(yearKey);
+    if (gedYear) usedYears.add(yearKey);
+    const gedChildren = new Map((gedYear?.children || []).map((child) => [normalizeGedKey(child.title), child]));
+    const usedChildren = new Set();
+    const children = (year.children || []).map((child) => {
+      const childKey = normalizeGedKey(child.title);
+      const gedChild = gedChildren.get(childKey);
+      if (gedChild) usedChildren.add(childKey);
+      return { ...child, docs: gedChild?.docs || [] };
+    });
+    (gedYear?.children || []).forEach((child) => {
+      if (!usedChildren.has(normalizeGedKey(child.title))) children.push(child);
+    });
+    return { ...year, children };
+  });
+  gedTree.forEach((year) => {
+    if (!usedYears.has(normalizeGedKey(year.year))) mergedTree.push(year);
+  });
+  const sourceTree = shouldUseDocumentsApi() ? mergedTree : tree;
   const filteredTree = sourceTree
     .map((year) => {
       const children = (year.children || []).filter((child) =>
-        [year.year, child.title, ...(child.docs || [])]
+        [year.year, child.title, ...(child.docs || []).map((doc) => typeof doc === "object" ? doc.title || doc.fileName : doc)]
           .join(" ")
           .toLowerCase()
           .includes(term),

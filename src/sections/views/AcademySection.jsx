@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+import {
+  GED_ROOT_PATH,
+  filterDocuments,
+  joinGedPath,
+  normalizeGedKey,
+  shouldUseDocumentsApi,
+} from "../../services/gedDocuments.js";
+import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function getAcademyData() {
   const data = window.CMR_DATA?.data || {};
@@ -12,22 +20,32 @@ function getAcademyData() {
 
 function DocCard({ item }) {
   return (
-    <div className="doc-card static-card academy-doc-card">
+    <button
+      type="button"
+      className="doc-card static-card academy-doc-card"
+      onClick={item.file ? (event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.file)},${JSON.stringify(item.title)})`) : undefined}
+    >
       <div className="doc-icon-large" style={{ background: "#eff6ff", color: "#2563eb" }}>
         <i data-lucide={item.icon || "file-text"} style={{ width: 24, height: 24 }} />
       </div>
       <div className="doc-card-title">{item.title}</div>
       {item.description ? <p style={{ fontSize: 12, color: "var(--text-light)" }}>{item.description}</p> : null}
       {item.meta ? <div className="doc-card-meta"><span>{item.meta}</span><i data-lucide="download" style={{ width: 16 }} /></div> : null}
-    </div>
+    </button>
   );
 }
 
-function FormationPage({ page }) {
+function EmptyDocuments({ loading }) {
+  return <div style={{ color: "var(--text-light)", fontSize: 13 }}>{loading ? "Chargement des documents..." : "Aucun document."}</div>;
+}
+
+function FormationPage({ page, documents, loading, apiEnabled }) {
   const [query, setQuery] = useState("");
-  const workflows = (page.workflows || []).filter((item) =>
-    [item.title, item.description, item.meta].join(" ").toLowerCase().includes(query.trim().toLowerCase()),
-  );
+  const workflows = apiEnabled
+    ? filterDocuments(documents, query)
+    : (page.workflows || []).filter((item) =>
+      [item.title, item.description, item.meta].join(" ").toLowerCase().includes(query.trim().toLowerCase()),
+    );
 
   return (
     <div id="page-academy-formation" className="km-tab-content" style={{ display: "none" }}>
@@ -37,7 +55,8 @@ function FormationPage({ page }) {
         <input placeholder="Rechercher un workflow formation..." value={query} onChange={(event) => setQuery(event.target.value)} />
       </div>
       <div className="km-grid" style={{ marginTop: 18 }}>
-        {workflows.map((item) => <DocCard item={item} key={item.title} />)}
+        {workflows.map((item) => <DocCard item={item} key={item.protocolUri || item.title} />)}
+        {apiEnabled && workflows.length === 0 ? <EmptyDocuments loading={loading} /> : null}
       </div>
       <div className="content-card" style={{ marginTop: 18 }}>
         <h3>{page.validation?.title}</h3>
@@ -58,7 +77,7 @@ function FormationPage({ page }) {
   );
 }
 
-function OnboardingPage({ page }) {
+function OnboardingPage({ page, documents, loading, apiEnabled }) {
   const [query, setQuery] = useState("");
   const [activeYear, setActiveYear] = useState((page.galleryYears || [])[0] || "");
   const [showAllGuides, setShowAllGuides] = useState(false);
@@ -68,9 +87,14 @@ function OnboardingPage({ page }) {
     items.filter((item) =>
       [item.title, item.description, item.meta].join(" ").toLowerCase().includes(term),
     );
-  const guides = filterItems(page.guides);
+  const apiDocuments = filterDocuments(documents, query);
+  const guides = apiEnabled
+    ? apiDocuments.filter((item) => !normalizeGedKey(item.intranetPath).includes("mentor"))
+    : filterItems(page.guides);
   const days = filterItems(page.days);
-  const mentoring = filterItems(page.mentoring);
+  const mentoring = apiEnabled
+    ? apiDocuments.filter((item) => normalizeGedKey(item.intranetPath).includes("mentor"))
+    : filterItems(page.mentoring);
   const visibleGuides = showAllGuides ? guides : guides.slice(0, 3);
   const selectedDay = days.find((day) => day.title === selectedDayTitle) || days[0] || {};
   const galleryImages = page.galleryByYear?.[activeYear] || [];
@@ -90,7 +114,8 @@ function OnboardingPage({ page }) {
         <h3>{page.guidesTitle}</h3>
         <p>{page.guidesDescription}</p>
         <div className="academy-doc-grid academy-doc-row-scroll">
-          {visibleGuides.map((item) => <DocCard item={item} key={item.title} />)}
+          {visibleGuides.map((item) => <DocCard item={item} key={item.protocolUri || item.title} />)}
+          {apiEnabled && visibleGuides.length === 0 ? <EmptyDocuments loading={loading} /> : null}
         </div>
         {guides.length > 3 ? (
           <button className="secondary-btn" style={{ marginTop: 16 }} onClick={() => setShowAllGuides(!showAllGuides)}>
@@ -132,7 +157,8 @@ function OnboardingPage({ page }) {
         <h3>{page.mentoringTitle}</h3>
         <p>{page.mentoringDescription}</p>
         <div className="academy-doc-grid academy-doc-row-scroll">
-          {mentoring.map((item) => <DocCard item={item} key={item.title} />)}
+          {mentoring.map((item) => <DocCard item={item} key={item.protocolUri || item.title} />)}
+          {apiEnabled && mentoring.length === 0 ? <EmptyDocuments loading={loading} /> : null}
         </div>
       </div>
       <div className="content-card" style={{ marginTop: 18 }}>
@@ -158,18 +184,26 @@ function OnboardingPage({ page }) {
   );
 }
 
-function DomainPage({ id, page }) {
-  const domains = page.domains || [];
-  const [selected, setSelected] = useState(domains[0] || "");
+function DomainPage({ id, page, documents, loading, apiEnabled }) {
+  const apiDomains = Array.from(new Set(documents.map((item) => item.segments?.[1]).filter(Boolean)));
+  const domains = apiEnabled ? apiDomains : (page.domains || []);
+  const [selected, setSelected] = useState((page.domains || [])[0] || "");
+  const effectiveSelected = domains.includes(selected) ? selected : (domains[0] || "");
   const [selectedTheme, setSelectedTheme] = useState("Tous");
   const [query, setQuery] = useState("");
   const term = query.trim().toLowerCase();
-  const availableThemes = ["Tous", ...Array.from(new Set((page.contents || [])
-    .filter((item) => !selected || item.domain === selected)
+  const sourceContents = apiEnabled ? documents.map((item) => ({
+    ...item,
+    domain: item.segments?.[1] || item.folderLabel || "Documents",
+    theme: item.segments?.[2] || item.folderLabel || "Documents",
+    type: item.fileName?.split(".").pop()?.toUpperCase() || "Document",
+  })) : (page.contents || []);
+  const availableThemes = ["Tous", ...Array.from(new Set(sourceContents
+    .filter((item) => !effectiveSelected || item.domain === effectiveSelected)
     .map((item) => item.theme)
     .filter(Boolean)))];
-  const contents = (page.contents || []).filter((item) => {
-    const matchDomain = !selected || item.domain === selected;
+  const contents = sourceContents.filter((item) => {
+    const matchDomain = !effectiveSelected || item.domain === effectiveSelected;
     const matchTheme = selectedTheme === "Tous" || item.theme === selectedTheme;
     const matchSearch = [item.title, item.theme, item.type, item.domain]
       .join(" ")
@@ -187,7 +221,7 @@ function DomainPage({ id, page }) {
           <div className={page.horizontalFilter ? "academy-horizontal-filter" : ""} style={page.horizontalFilter ? undefined : { display: "grid", gap: 10, marginTop: 16 }}>
             {domains.map((domain) => (
               <button
-                className={`filter-pill${domain === selected ? " active" : ""}`}
+                className={`filter-pill${domain === effectiveSelected ? " active" : ""}`}
                 key={domain}
                 onClick={() => {
                   setSelected(domain);
@@ -201,7 +235,7 @@ function DomainPage({ id, page }) {
           </div>
         </div>
         <div className="content-card">
-          <h3>{selected}</h3>
+          <h3>{effectiveSelected || "Documents"}</h3>
           {!page.horizontalFilter ? (
             <>
               <div className="academy-theme-label">{page.themeFilterTitle || "Thèmes"}</div>
@@ -228,7 +262,12 @@ function DomainPage({ id, page }) {
           </div>
           <div className="academy-doc-grid">
             {contents.map((item) => (
-              <div className="doc-card static-card academy-doc-card" key={item.title}>
+              <button
+                type="button"
+                className="doc-card static-card academy-doc-card"
+                key={item.protocolUri || item.title}
+                onClick={item.file ? (event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.file)},${JSON.stringify(item.title)})`) : undefined}
+              >
                 <div className="doc-icon-large" style={{ background: "#f0fdf4", color: "#16a34a" }}>
                   <i data-lucide="play-circle" style={{ width: 24, height: 24 }} />
                 </div>
@@ -238,8 +277,9 @@ function DomainPage({ id, page }) {
                   <span>{item.type}</span>
                   <i data-lucide="chevron-right" style={{ width: 16 }} />
                 </div>
-              </div>
+              </button>
             ))}
+            {apiEnabled && contents.length === 0 ? <EmptyDocuments loading={loading} /> : null}
           </div>
         </div>
       </div>
@@ -249,6 +289,20 @@ function DomainPage({ id, page }) {
 
 export default function AcademySection() {
   const { header, tabs, pages } = getAcademyData();
+  const active = useViewActive("academy");
+  const apiEnabled = shouldUseDocumentsApi();
+  const gedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "CMR Academy"), { enabled: active });
+  const documentsForTab = (tabId) => gedState.documents.filter((item) => {
+    const tab = tabs.find((candidate) => candidate.id === tabId);
+    const documentGroup = normalizeGedKey(item.segments?.[0] || item.folderLabel);
+    const tabKey = normalizeGedKey(tab?.label || tabId);
+    const belongsToKnownTab = tabs.some((candidate) => {
+      const candidateKey = normalizeGedKey(candidate.label || candidate.id);
+      return documentGroup === candidateKey || documentGroup.includes(candidateKey);
+    });
+    if (documentGroup === tabKey || documentGroup.includes(tabKey)) return true;
+    return tabId === "onboarding" && !belongsToKnownTab;
+  });
 
   return (
     <div id="view-academy" className="view-section km-container">
@@ -263,11 +317,11 @@ export default function AcademySection() {
           </div>
         ))}
       </div>
-      <OnboardingPage page={pages.onboarding || {}} />
-      <FormationPage page={pages.formation || {}} />
-      <DomainPage id="levelup" page={pages.levelup || {}} />
-      <DomainPage id="talent" page={pages.talent || {}} />
-      <DomainPage id="click" page={pages.click || {}} />
+      <OnboardingPage page={pages.onboarding || {}} documents={documentsForTab("onboarding")} loading={gedState.loading} apiEnabled={apiEnabled} />
+      <FormationPage page={pages.formation || {}} documents={documentsForTab("formation")} loading={gedState.loading} apiEnabled={apiEnabled} />
+      <DomainPage id="levelup" page={pages.levelup || {}} documents={documentsForTab("levelup")} loading={gedState.loading} apiEnabled={apiEnabled} />
+      <DomainPage id="talent" page={pages.talent || {}} documents={documentsForTab("talent")} loading={gedState.loading} apiEnabled={apiEnabled} />
+      <DomainPage id="click" page={pages.click || {}} documents={documentsForTab("click")} loading={gedState.loading} apiEnabled={apiEnabled} />
     </div>
   );
 }
