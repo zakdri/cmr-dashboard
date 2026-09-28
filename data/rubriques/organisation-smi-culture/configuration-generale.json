@@ -8,14 +8,6 @@
     },
     "orgGovMainTabs": [
       {
-        "id": "overview",
-        "label": "Vue d’ensemble"
-      },
-      {
-        "id": "direction",
-        "label": "Direction"
-      },
-      {
         "id": "organisation",
         "label": "Organisation"
       },
@@ -26,12 +18,13 @@
       {
         "id": "culture-qse-rse",
         "label": "Culture QSE - RSE"
+      },
+      {
+        "id": "rse",
+        "label": "RSE"
       }
     ],
     "orgGovSectionConfig": {
-      "overview": {
-        "page": "overview"
-      },
       "organisation": {
         "subs": [
           {
@@ -40,7 +33,11 @@
           },
           {
             "id": "postes",
-            "label": "Fiches et fonctions de postes"
+            "label": "Fiches de fonctions"
+          },
+          {
+            "id": "fiches-postes",
+            "label": "Fiches de postes"
           },
           {
             "id": "referentiels",
@@ -119,8 +116,26 @@
         ],
         "defaultSub": "culture-contenus"
       },
+      "rse": {
+        "subs": [
+          { "id": "rse-presentation", "label": "Présentation de la démarche RSE" },
+          { "id": "rse-politiques", "label": "Politiques RSE" },
+          { "id": "rse-domaines", "label": "Domaines d’Engagement RSE" },
+          { "id": "rse-documents", "label": "Documents de référence RSE" },
+          { "id": "rse-gouvernance", "label": "Organisation et Gouvernance RSE" },
+          { "id": "rse-evaluation", "label": "Évaluation RSE" },
+          { "id": "rse-ressources", "label": "Ressources RSE" }
+        ],
+        "defaultSub": "rse-presentation"
+      },
       "direction": {
         "page": "direction"
+      }
+    },
+    "orgGovPages": {
+      "fichesPostes": {
+        "title": "Fiches de postes",
+        "description": "Consultez les fiches de postes classées selon l’arborescence des dossiers Moovapps."
       }
     }
   }

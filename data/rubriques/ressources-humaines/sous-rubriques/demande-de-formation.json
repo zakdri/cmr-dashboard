@@ -1,0 +1,47 @@
+{
+  "rubrique": "ressources-humaines",
+  "contenu": "Demande de formation",
+  "data": {
+    "rhPages": {
+      "formation": {
+        "description": "Soumettre une demande individuelle de formation pour validation RH.",
+        "workflows": [
+          {
+            "title": "Demande de formation",
+            "description": "Soumettre une demande individuelle de formation pour validation RH.",
+            "meta": "Workflow RH",
+            "icon": "graduation-cap",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            }
+          }
+        ],
+        "validation": {
+          "title": "Circuit de validation",
+          "description": "Les demandes suivent un circuit collaborateur, manager puis RH.",
+          "steps": [
+            {
+              "title": "Collaborateur",
+              "description": "Saisie et dépôt de la demande.",
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            },
+            {
+              "title": "Manager",
+              "description": "Avis et validation managériale.",
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            },
+            {
+              "title": "RH",
+              "description": "Instruction, planification et notification.",
+              "background": "#f0fdf4",
+              "color": "#16a34a"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

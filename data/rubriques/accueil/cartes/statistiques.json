@@ -36,7 +36,8 @@
             "label": "Satisfaction",
             "icon": "star"
           }
-        ]
+        ],
+        "enabled": false
       }
     ]
   }

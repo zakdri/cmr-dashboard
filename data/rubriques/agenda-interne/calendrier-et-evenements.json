@@ -110,6 +110,50 @@
               "background": "#fdf2f8",
               "color": "#be185d"
             }
+          },
+          {
+            "time": "11 FÉV",
+            "title": "Journées d’intégration des nouveaux collaborateurs 2026",
+            "meta": "11 février 2026",
+            "date": "2026-02-11",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#256cb5",
+              "fontWeight": 800
+            }
+          },
+          {
+            "time": "12 FÉV",
+            "title": "Journées d’intégration des nouveaux collaborateurs 2026",
+            "meta": "12 février 2026",
+            "date": "2026-02-12",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#256cb5",
+              "fontWeight": 800
+            }
+          },
+          {
+            "time": "13 FÉV",
+            "title": "Journées d’intégration des nouveaux collaborateurs 2026",
+            "meta": "13 février 2026",
+            "date": "2026-02-13",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#256cb5",
+              "fontWeight": 800
+            }
+          },
+          {
+            "time": "08 MAR",
+            "title": "Ftour dînatoire en l’honneur des femmes de la CMR",
+            "meta": "8 mars 2026",
+            "date": "2026-03-08",
+            "iconStyle": {
+              "background": "#eff6ff",
+              "color": "#256cb5",
+              "fontWeight": 800
+            }
           }
         ]
       }

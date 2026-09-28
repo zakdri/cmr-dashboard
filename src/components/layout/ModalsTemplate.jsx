@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
-const QUICK_ACCESS_STORAGE_KEY = "cmr.quickAccess.selectedLabels";
+const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v4";
 
 const getModalsData = () => window.CMR_DATA?.data?.modals || {};
 
 function getQuickAccessItems(modals) {
   return (
     (typeof window !== "undefined" &&
-      window.CMR_DATA?.data?.dashboardQuickAccess?.items) ||
+      window.CMR_DATA?.data?.header?.quickLinks?.items) ||
     modals.quickAccess?.fallbackItems ||
     []
   );
@@ -30,7 +30,7 @@ function getSavedQuickAccessLabels(items) {
       availableLabels.has(label),
     );
 
-    return validSavedLabels.length > 0 ? validSavedLabels : fallbackLabels;
+    return validSavedLabels.length ? validSavedLabels : fallbackLabels;
   } catch {
     return fallbackLabels;
   }
@@ -217,7 +217,7 @@ export default function ModalsTemplate() {
                 <i data-lucide="zap" style={{ width: 20, height: 20 }} />
               </div>
               <div className="consent-modal-title" id="tickerDetailTitle">
-                Détail Info Express
+                <span id="tickerDetailHeading">Détail Info Express</span>
                 <span
                   className="consent-modal-subtitle"
                   id="tickerDetailSubtitle"
@@ -235,17 +235,18 @@ export default function ModalsTemplate() {
               </button>
             </div>
             <div className="consent-modal-content">
-              <p id="tickerDetailBody" style={{ marginBottom: 0 }} />
-            </div>
-            <div className="consent-modal-footer">
-              <button
-                className="primary-btn"
-                onClick={(event) =>
-                  runLegacyHandler(event, "goToFlashDetailFromModal()")
-                }
+              <figure
+                id="tickerDetailMedia"
+                style={{ display: "none", gap: 10, margin: "0 0 16px" }}
               >
-                Consulter
-              </button>
+                <img
+                  id="tickerDetailImage"
+                  alt=""
+                  style={{ display: "block", width: "100%", maxHeight: 480, objectFit: "contain", borderRadius: 8, background: "#f8fafc" }}
+                />
+                <figcaption id="tickerDetailImageTitle" style={{ fontWeight: 700, color: "#1e293b" }} />
+              </figure>
+              <p id="tickerDetailBody" style={{ marginBottom: 0 }} />
             </div>
           </div>
         </div>

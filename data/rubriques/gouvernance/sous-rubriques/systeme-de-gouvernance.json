@@ -3,81 +3,123 @@
   "contenu": "Système de gouvernance",
   "data": {
     "governanceBoard": {
-      "description": "Le Conseil d'administration définit les orientations majeures de la CMR et veille à leur mise en œuvre. Il assure le suivi de la performance, de la maîtrise des risques et de la bonne gestion de l'institution.",
+      "introduction": "Le Conseil d'Administration est l'organe suprême de gouvernance et de décision de la CMR. Il définit les orientations stratégiques de l'institution et veille à la réalisation de ses objectifs, conformément à ses missions.",
+      "description": "Présidé par le Chef du Gouvernement ou son délégataire, le Conseil d'Administration assure le pilotage stratégique de la CMR et veille à son bon fonctionnement et à son développement, conformément aux principes de bonne gouvernance. Il délibère sur les principales questions relatives à l'organisation, au fonctionnement et à la gestion de l'institution, tout en veillant à la pérennité des régimes de retraite qu'elle gère. Afin d'éclairer ses décisions, le Conseil a créé des comités spécialisés chargés d'examiner les dossiers relevant de leurs domaines de compétence et de formuler des avis et recommandations.\n\nLe Conseil d'Administration tient au moins deux sessions ordinaires par an et peut être réuni en session extraordinaire pour examiner toute question relevant de ses attributions.",
+      "missionsIntroduction": "Le Conseil d'Administration est chargé notamment de :",
       "missions": [
-        "Définir les orientations stratégiques de la CMR.",
-        "Approuver les programmes d'activité et les budgets.",
-        "Suivre la performance, les risques et les dispositifs de contrôle."
+        "Définir les orientations stratégiques et les objectifs de la CMR, ainsi que les grandes orientations en matière d'investissement des réserves des régimes de retraite.",
+        "Approuver le budget et le plan d’action annuel, et en suivre l’exécution.",
+        "Arrêter les comptes et examiner les états financiers de la CMR.",
+        "Arrêter l'organisation de la Caisse et instituer les comités spécialisés nécessaires à l’exercice de ses missions.",
+        "Suivre la mise en œuvre de la stratégie, du contrat-programme ainsi que les principales réalisations et performances de la Caisse.",
+        "Veiller à l'équilibre financier, à la pérennité des régimes de retraite et à la qualité de la gouvernance."
       ],
-      "composition": "Le Conseil réunit les représentants de l'État, les représentants des affiliés et pensionnés ainsi que les membres désignés conformément aux textes en vigueur.",
+      "composition": "Le Conseil d'Administration est composé de 14 membres selon une représentation tripartite garantissant une représentation équilibrée des principales parties prenantes de la CMR. Il comprend :\n\n• 7 représentants des organismes employeurs, issus des pouvoirs publics et des collectivités territoriales ;\n• 5 représentants des personnels affiliés aux régimes des pensions civiles et militaires ;\n• 2 représentants des retraités relevant de ces deux régimes.\n\nCette composition favorise une prise de décision collégiale et concertée, conformément aux principes de bonne gouvernance.",
       "regulation": "Reglement_interieur_Conseil_Administration.pdf",
       "currentComposition": [
-        "Présidence",
-        "Représentants de l'État",
-        "Représentants des affiliés",
-        "Représentants des pensionnés"
+        { "title": "MEMBRES DE DROIT", "members": [
+          { "name": "M. Aziz AKHANNOUCH", "role": "Chef du Gouvernement" },
+          { "name": "Mme Nadia FETTAH", "role": "Ministre de l’Economie et des Finances" },
+          { "name": "M. Abdelouafi LAFTIT", "role": "Ministre de l’Intérieur" },
+          { "name": "Mme Amal EL FALLAH SEGHROUCHNI", "role": "Ministre déléguée auprès du Chef du Gouvernement chargée de la Transition Numérique et de la Réforme Administrative" },
+          { "name": "M. Amine TEHRAOUI", "role": "Ministre de la Santé et de la Protection Sociale" },
+          { "name": "M. Abdellatif LOUDIYI", "role": "Ministre délégué auprès du Chef du Gouvernement, chargé de l’Administration de la Défense Nationale" }
+        ]},
+        { "title": "MEMBRES TITULAIRES", "members": [
+          { "name": "Mme Ouafae BOUAMRI", "role": "Représentante des présidents des collectivités territoriales" },
+          { "name": "Mme Mounia ISSAMI", "role": "Représentante des affiliés au régime des pensions civiles" },
+          { "name": "M. Mohamed BOUZAKIRI", "role": "Représentant des affiliés au régime des pensions civiles" },
+          { "name": "M. Hassan EL MARDI", "role": "Représentant des affiliés au régime des pensions civiles" },
+          { "name": "L’intendant-Colonel Aicha ERREDA", "role": "Représentante des affiliés au régime des pensions militaires (Forces Armées Royales)" },
+          { "name": "L’Inspecteur Principal de classe exceptionnelle Ismail BAIZRI", "role": "Représentant des affiliés au régime des pensions militaires (Forces Auxiliaires)" },
+          { "name": "M. Ahmed LAMBARKI", "role": "Représentant des retraités du régime des pensions civiles" },
+          { "name": "M. Mohamed KACEN", "role": "Représentant des retraités du régime des pensions militaires" }
+        ]},
+        { "title": "MEMBRES SUPPLÉANTS", "members": [
+          { "name": "M. Jamaa EL MOATASSIM", "role": "Représentant des présidents des collectivités territoriales" },
+          { "name": "M. Abdelaziz TACHI", "role": "Représentant des affiliés au régime des pensions civiles" },
+          { "name": "M. Abdelkrim ZARKANI", "role": "Représentant des affiliés au régime des pensions civiles" },
+          { "name": "M. Abdelhadi ZAHIDI", "role": "Représentant des affiliés au régime des pensions civiles" },
+          { "name": "L’intendant-Colonel El Houssine BOUDHAIMI", "role": "Représentant des affiliés au régime des pensions militaires (Forces Armées Royales)" },
+          { "name": "L’Inspecteur de 1ére Classe M. Hicham MOUMA", "role": "Représentant des affiliés au régime des pensions militaires (Forces Auxiliaires)" },
+          { "name": "M. Assou LAHDOUD", "role": "Représentant des retraités du régime des pensions civiles" },
+          { "name": "M. Houcine DADA", "role": "Représentant des retraités du régime des pensions militaires" }
+        ]}
       ]
     },
+    "governanceCommitteesIntroduction": "Le Conseil d'Administration s'appuie sur cinq comités spécialisés chargés d'approfondir l'examen des questions relevant de leurs domaines de compétence et de formuler des avis et recommandations destinés à éclairer les décisions du Conseil.",
     "governanceCommittees": [
       {
+        "id": "gouvernance-suivi",
+        "name": "Comité Permanent de Gouvernance et de Suivi",
+        "description": "Créé en 2001, le Comité Permanent de Gouvernance et de Suivi est chargé de préparer les travaux du Conseil d'Administration et d'assurer le suivi de l'exécution de ses décisions. Il accompagne également la mise en œuvre des orientations stratégiques de la CMR et veille au suivi des principaux projets structurants de l'institution. Il est composé de 8 membres représentant les différentes catégories d'administrateurs siégeant au Conseil d'Administration.\n\nLe Comité se réunit entre les deux sessions du Conseil d'Administration, au moins 5 fois au cours de chaque période, et chaque fois que les circonstances le nécessitent.",
+        "missions": ["Préparer les travaux du Conseil d'Administration.", "Assurer le suivi de l'exécution des décisions et résolutions du Conseil.", "Examiner le projet de vision stratégique et le plan d'action pluriannuel.", "Examiner le budget et le plan d'action annuel.", "Suivre les projets structurants de la CMR."],
+        "members": [
+          { "name": "M. le Secrétaire Général du Ministère de l’Economie et des Finances Ou son représentant M. Azzedine GAMOUH, adjoint au Directeur du Budget", "role": "Président, représentant du Ministre de l’Economie et des Finances" },
+          { "name": "M. Akram SOUILAH HAYANI", "role": "Représentant de la Ministre déléguée auprès du Chef du Gouvernement chargée de la Transition numérique et de la réforme Administrative" },
+          { "name": "M. Abdeslam ESSALHI En alternance avec M. Taib BOUHOUCHE", "role": "Représentant du Ministre de l’Intérieur et Représentant du Ministre de la Santé et de la Protection Sociale" },
+          { "name": "Mme Ouafae BOUAMRI", "role": "Représentante des Présidents des Collectivités Territoriales ou son suppléant" },
+          { "name": "Mme Mounia ISSAMI, M. Hassan ELMARDI et M. Mohamed BOUZAKIRI", "role": "Représentants des affiliés au régime des pensions civiles, en alternance et à raison de deux membres par session" },
+          { "name": "L’intendant-Colonel Aicha ERREDA ou le L’intendant-Colonel El Houssine BOUDHAIMI (Suppléant)", "role": "Représentante des affiliés au régime des pensions militaires" },
+          { "name": "M. Ahmed LAMBARKI en alternance avec M. Mohamed KACEN", "role": "Représentants des retraités" }
+        ],
+        "charter": "Charte_Comite_Gouvernance_Suivi.pdf"
+      },
+      {
+        "id": "allocation-actifs",
+        "name": "Comité d'Allocation d'Actifs",
+        "description": "Créé en 2009, le Comité d'Allocation d'Actifs assiste le Conseil d'Administration dans la définition et le suivi de la stratégie d'investissement des réserves des régimes de retraite gérés par la CMR. il examine les orientations d'investissement, évalue la performance des placements et formule des avis et recommandations afin d'assurer la cohérence de la stratégie d'investissement avec les objectifs de performance, les engagements des régimes et les exigences de maîtrise des risques. Il est présidé par un expert indépendant et comprend 5 autres membres, dont 2 experts indépendants reconnus pour leur expertise en matière d'investissement et de gestion d'actifs.\n\nLe Comité se réunit au moins 4 fois par an, à raison d'une réunion par trimestre, et autant de fois que nécessaire",
+        "missions": ["Contribuer à la définition des orientations stratégiques de la politique d'investissement des réserves des régimes de retraite.", "Examiner les hypothèses et scénarios des études d'Asset Liability Management (ALM) ainsi que les propositions d'allocation stratégique des actifs.", "Proposer au Conseil d'Administration, pour validation, l'allocation stratégique annuelle, les indices de référence (benchmarks) et les marges de manœuvre tactiques.", "Examiner les propositions d'externalisation de la gestion des fonds, évaluer les performances des gestionnaires externes et formuler les recommandations appropriées au Conseil d'Administration.", "Examiner la répartition des fonds de réserves externalisés en fonction de la situation financière des régimes et des opportunités offertes par les marchés financiers."],
+        "members": [
+          { "name": "Mme kawtar JOHRATI", "role": "Présidente du Comité CAA" },
+          { "name": "M. Akram SOUILAH HAYANI", "role": "Membre du Conseil d’Administration , Représentant de la Ministre déléguée auprès du Chef du Gouvernement chargée de la Transition numérique et de la réforme Administrative" },
+          { "name": "Mme Mounia ISSAMI", "role": "Membre du Conseil d’Administration" },
+          { "name": "M. Aomar YIDAR", "role": "Expert externe, membre indépendant" },
+          { "name": "M. Mohamed MEKOUAR", "role": "Expert externe, membre indépendant" }
+        ],
+        "charter": "Charte_Comite_Allocation_Actifs.pdf"
+      },
+      {
         "id": "audit",
-        "name": "Comité d'audit",
-        "description": "Instance spécialisée dans le suivi du contrôle interne, de l'audit et de la fiabilité de l'information.",
-        "missions": [
-          "Examiner le programme d'audit",
-          "Suivre les recommandations",
-          "Apprécier la maîtrise des risques"
-        ],
+        "name": "Comité d'Audit",
+        "description": "Créé en 2012, le Comité d'Audit assiste le Conseil d'Administration dans l'exercice de ses responsabilités en matière de fiabilité de l'information financière, d'efficacité du dispositif de contrôle interne, de respect des prescriptions juridiques et réglementaires ainsi que de suivi de l'action des auditeurs internes et externes. Il contribue à renforcer la transparence, la qualité des processus de contrôle et la bonne gouvernance de la CMR. Il est composé de 6 membres, dont 2 experts indépendants.\n\nLe Comité se réunit au moins 3 fois par an, dont une réunion obligatoirement tenue avant l'arrêté des comptes par le Conseil d'Administration, et autant de fois que nécessaire.",
+        "missions": ["Apprécier la régularité des opérations, la qualité de l'organisation, la fiabilité des systèmes d'information ainsi que les performances de l'organisme.", "Examiner les comptes annuels et intermédiaires, les états financiers et les conclusions des auditeurs avant leur présentation au Conseil d'Administration.", "Apprécier l'efficacité du dispositif de contrôle interne et veiller au suivi de sa mise en œuvre.", "Examiner le programme d'audit interne, les rapports et conclusions des missions d'audit, et assurer le suivi des recommandations formulées.", "Assurer un dialogue permanent avec les instances de contrôle de la CMR, notamment les auditeurs internes et externes ainsi que le contrôleur d'État, et formuler au Conseil d'Administration les avis et recommandations relevant de son domaine de compétence."],
         "members": [
-          "Président du comité",
-          "Deux administrateurs",
-          "Responsable Audit interne"
+          { "name": "M. Aziz LOUBANI", "role": "Président, représentant du Ministre de l’Economie et des Finances" },
+          { "name": "M. Hassan EL MARDI", "role": "Membre du Conseil d’Administration" },
+          { "name": "Mme Ouafaa BOUAMRI", "role": "Membre du Conseil d’Administration" },
+          { "name": "M. Mohamed EL HAJJOUJI", "role": "Expert externe, membre indépendant" },
+          { "name": "M. Mustapha KASSI", "role": "Expert externe, membre indépendant" },
+          { "name": "Mme Naima CHERKI", "role": "Contrôleur d’Etat auprès de la CMR" }
         ],
-        "charter": "Charte_Comite_Audit.pdf",
-        "documents": [
-          "PV_Comite_Audit_T1_2026.pdf",
-          "Rapport_Audit_2025.pdf"
-        ]
+        "charter": "Charte_Comite_Audit.pdf"
       },
       {
-        "id": "investissement",
-        "name": "Comité d'investissement",
-        "description": "Instance chargée du suivi des orientations et de la performance du portefeuille financier.",
-        "missions": [
-          "Examiner les allocations",
-          "Suivre la performance",
-          "Analyser les risques financiers"
-        ],
+        "id": "pilotage-actuariel",
+        "name": "Comité de Pilotage Actuariel",
+        "description": "Créé en 2018, le Comité de Pilotage Actuariel assiste le Conseil d'Administration dans le suivi des équilibres actuariels et de la pérennité financière des régimes de retraite gérés par la CMR et l'appréciation de leur pérennité. Il examine les analyses et études actuarielles permettant d'éclairer les décisions stratégiques relatives à l'évolution des régimes. Il est composé de 6 membres, dont un expert indépendant.\n\nLe Comité se réunit chaque année au mois d'avril afin de préparer la session du Conseil d'Administration consacrée à l'examen du bilan actuariel, et autant de fois que nécessaire.",
+        "missions": ["Suivre les équilibres financiers des régimes de retraite et apprécier les conditions de leur pérennité.", "Examiner les hypothèses, les données et les projections actuarielles servant à l'évaluation de la situation financière des régimes.", "Suivre les principaux indicateurs actuariels et analyser les risques susceptibles d'affecter l'équilibre financier des régimes.", "Proposer les études nécessaires au suivi de la situation actuarielle des régimes et valider le programme annuel des études actuarielles.", "Examiner les résultats des bilans actuariels et formuler au Conseil d'Administration les avis et recommandations nécessaires."],
         "members": [
-          "Président du comité",
-          "Représentants du Conseil",
-          "Direction des investissements"
+          { "name": "M. Nouaman AL AISSAMI", "role": "Président, représentant du Ministre de l'Economie et des Finances" },
+          { "name": "M. Mohamed BOUZAKIRI", "role": "Administrateur, représentant les affiliés au régime des pensions civiles" },
+          { "name": "L’intendant-Colonel Aicha ERREDA", "role": "Administrateur, Représentante des affiliés au régime des pensions militaires (Forces Armées Royales)" },
+          { "name": "M. Mohamed KACEN", "role": "Administrateur, représentant les retraités" },
+          { "name": "M. Mohammed AMRANI", "role": "Expert externe, membre indépendant" }
         ],
-        "charter": "Charte_Comite_Investissement.pdf",
-        "documents": [
-          "Note_Allocation_2026.pdf",
-          "Reporting_Portefeuille_T1_2026.pdf"
-        ]
+        "charter": "Charte_Comite_Pilotage_Actuariel.pdf"
       },
       {
-        "id": "strategie",
-        "name": "Comité stratégie",
-        "description": "Instance de suivi des orientations stratégiques et des programmes de transformation.",
-        "missions": [
-          "Suivre la feuille de route",
-          "Arbitrer les priorités",
-          "Évaluer l'avancement des programmes"
-        ],
+        "id": "risques",
+        "name": "Comité des Risques",
+        "description": "Créé en 2020, le Comité des Risques assiste le Conseil d'Administration dans la surveillance et le pilotage du dispositif de gestion des risques de la CMR. Il veille à l'identification, à l'évaluation et à la maîtrise des principaux risques susceptibles d'affecter la réalisation des objectifs de la Caisse, tout en contribuant au renforcement de sa résilience et de sa gouvernance. Il est composé de 6 membres, dont 2 experts indépendants.\n\nLe Comité se réunit au moins 2 fois par an et autant de fois que nécessaire.",
+        "missions": ["Définir la politique de gestion des risques de la Caisse et suivre sa mise en œuvre.", "Examiner périodiquement les cartographies des risques et analyser les principaux risques susceptibles d'affecter les activités et la pérennité des régimes.", "Veiller à la maîtrise des risques liés aux activités de la Caisse, notamment les risques opérationnels, financiers, stratégiques, de conformité et de réputation.", "S'assurer de la prise en compte des risques liés à la gestion actif-passif (ALM) et à la stratégie d'investissement des réserves.", "Évaluer l'efficacité du dispositif de gestion des risques et formuler au Conseil d'Administration les recommandations visant à son amélioration."],
         "members": [
-          "Président du comité",
-          "Administrateurs désignés",
-          "Direction Stratégie"
+          { "name": "M. Khalid BENDAOU", "role": "Président, représentant du Ministre de l’Economie et des Finances" },
+          { "name": "M. Ismail BAIZRI", "role": "Membre du conseil d’administration" },
+          { "name": "M. Mohamed BOUMASSAOUD", "role": "Expert externe, membre indépendant" },
+          { "name": "M. Mohamed SAAD", "role": "Expert externe, membre indépendant" }
         ],
-        "charter": "Charte_Comite_Strategie.pdf",
-        "documents": [
-          "Feuille_Route_2026.pdf",
-          "Suivi_Programmes_Strategiques.pdf"
-        ]
+        "charter": "Charte_Comite_Risques.pdf"
       }
     ]
   }

@@ -26,29 +26,31 @@
     ],
     "innovationSpontaneousThemeOptions": [
       "Approche Novatrice Client-Centric",
+      "Expérience Client",
       "Investissement institutionnel",
       "Transformation Interne",
       "Excellence Opérationnelle",
       "RSE"
     ],
-    "innovationCmrInnovThemeOptions": [
+    "innovationProjectIdeaThemeOptions": [
       "RSE",
       "Technologie",
-      "Excellence Opérationnelle"
+      "Excellence Opérationnelle",
+      "Expérience client",
+      "Expérience collaborateur",
+      "Transformation managériale"
     ],
     "cmrInnovItems": [
       {
         "id": "ci1",
         "title": "Challenge Data Retraite",
-        "theme": "Technologie",
-        "period": "01/06/2026 - 30/06/2026",
+        "description": "Challenge consacré aux usages innovants de la donnée dans le domaine de la retraite.",
         "image": "images/intranet/slider2.png"
       },
       {
         "id": "ci2",
         "title": "Innov Service Collaborateur",
-        "theme": "Excellence Opérationnelle",
-        "period": "15/05/2026 - 15/06/2026",
+        "description": "Initiative d’innovation destinée à améliorer les services proposés aux collaborateurs.",
         "image": "images/intranet/slider1.png"
       }
     ],

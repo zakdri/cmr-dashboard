@@ -1,0 +1,188 @@
+{
+  "rubrique": "mes-applications",
+  "contenu": "Applications métiers, organisation et pilotage",
+  "data": {
+    "applicationsCategories": [
+      {
+        "id": "metiers",
+        "title": "Métiers",
+        "items": [
+          {
+            "id": "ersal",
+            "title": "ERSAL",
+            "href": "http://ersal:8080/WERSAL/",
+            "icon": "send",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "crm",
+            "title": "CRM",
+            "href": "https://crm.cmr.gov.ma/CRMPROD/main.aspx",
+            "icon": "contact-round",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "attakmili",
+            "title": "ATTAKMILI",
+            "href": "http://attakmili/login",
+            "icon": "wallet",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "infirmite",
+            "title": "INFIRMITE",
+            "href": "https://infirmite.cmr.gov.ma/",
+            "icon": "heart-pulse",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "portail",
+            "title": "PORTAIL",
+            "href": "https://www.cmr.gov.ma/Portal/",
+            "icon": "globe",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-rabat",
+            "title": "FILE D’ATTENTE RABAT",
+            "href": "http://172.17.100.190:8080/login.jsp;JSESSIONID=7a09a1ef-eb67-4f78-b7fe-36101b8eeb6b",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-casablanca",
+            "title": "FILE D’ATTENTE CASABLANCA",
+            "href": "http://172.16.7.200:18080/login.jsp;JSESSIONID=339ae924-0ef1-4aa5-80f5-bb61bc319a64",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-tetouan",
+            "title": "FILE D’ATTENTE TETOUAN",
+            "href": "http://172.16.2.200:18080/login.jsp",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-oujda",
+            "title": "FILE D’ATTENTE OUJDA",
+            "href": "http://172.16.3.200:18080/",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-errachidia",
+            "title": "FILE D’ATTENTE ERRACHIDIA",
+            "href": "http://172.16.12.200:18080/login.jsp",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-fes",
+            "title": "FILE D’ATTENTE FES",
+            "href": "http://172.16.4.200:18080/login.jsp",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-marrakech",
+            "title": "FILE D’ATTENTE MARRAKECH",
+            "href": "http://172.16.6.200:18080/login.jsp",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-agadir",
+            "title": "FILE D’ATTENTE AGADIR",
+            "href": "http://172.16.11.200:18080/login.jsp",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-laayoune",
+            "title": "FILE D’ATTENTE LAAYOUNE",
+            "href": "http://172.16.10.200:18080/login.jsp",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-beni-mellal",
+            "title": "FILE D’ATTENTE BENI MELLAL",
+            "href": "http://172.16.15.202:18080/login.jsp",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          },
+          {
+            "id": "file-sale",
+            "title": "FILE D’ATTENTE SALE",
+            "href": "http://172.16.13.202:18080/login.jsp",
+            "icon": "list-ordered",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          }
+        ]
+      },
+      {
+        "id": "organisation",
+        "title": "Organisation",
+        "items": [
+          {
+            "id": "bpm-moovaps",
+            "title": "BPM MOOVAPS",
+            "href": "http://172.17.100.180/moovapps/easysite/workplace",
+            "icon": "workflow",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          }
+        ]
+      },
+      {
+        "id": "pilotage",
+        "title": "Pilotage",
+        "items": [
+          {
+            "id": "pwa",
+            "title": "PWA (PROJETS)",
+            "href": "https://cmrmaroc.sharepoint.com/sites/pwa/Projects.aspx",
+            "icon": "chart-gantt",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
+          }
+        ]
+      }
+    ]
+  }
+}

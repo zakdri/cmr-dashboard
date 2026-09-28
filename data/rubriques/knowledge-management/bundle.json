@@ -96,7 +96,7 @@
         ],
         "descriptionPlaceholder": "Description / leçons apprises…",
         "sendLabel": "Envoyer",
-        "description": "Cette rubrique permet de consulter les REX publiés et de soumettre un retour d’expérience, sous réserve d’habilitation et sans publication automatique.",
+        "description": "La rubrique « Retour d’expérience » permet de partager les enseignements issus des projets, actions et initiatives menés au sein de l’organisation. Elle met en lumière les expériences vécues par les équipes, les réussites obtenues, les difficultés rencontrées ainsi que les solutions mises en œuvre.",
         "habilitationNote": "La soumission est soumise à habilitation. Le REX soumis reste en attente de publication par l’équipe Knowledge Management.",
         "attachmentLabel": "Pièce jointe",
         "detailTitle": "Détail REX",
@@ -121,7 +121,7 @@
         "threadsTitle": "Dernières discussions",
         "threadsIcon": "message-circle",
         "threadsIconClass": "orange",
-        "description": "Cette rubrique présente les communautés de pratique et les dernières discussions, classées par thématique."
+        "description": "Un espace dédié aux échanges, au partage d’idées et aux initiatives pour renforcer les liens et la collaboration entre collaborateurs."
       },
       "amoa": {
         "listTitle": "AMOA / Conduite du changement",
@@ -379,26 +379,7 @@
         "def": "Assistance à Maîtrise d’Ouvrage."
       }
     ],
-    "kmRexData": [
-      {
-        "id": "rx1",
-        "title": "REX – Refonte intranet: adoption",
-        "theme": "Projet",
-        "date": "Avr 2026",
-        "body": "Ce qui a fonctionné: démos courtes, sponsors métier. À améliorer: clarifier les owners dès le début.",
-        "attachment": "REX_Refonte_Intranet.pdf",
-        "status": "Publié"
-      },
-      {
-        "id": "rx2",
-        "title": "REX – Processus tickets IT",
-        "theme": "Processus",
-        "date": "Mars 2026",
-        "body": "Standardiser les catégories et définir un SLA visible dans GLPI.",
-        "attachment": "REX_Processus_Tickets_IT.pdf",
-        "status": "Publié"
-      }
-    ],
+    "kmRexData": [],
     "kmElearning": [
       {
         "title": "Excel avancé (e‑learning)",
@@ -436,52 +417,8 @@
         "file": "Pedagogie_Dossier_Assure.pdf"
       }
     ],
-    "kmCommunautes": [
-      {
-        "id": "co1",
-        "name": "Communauté BI & Data",
-        "theme": "Data",
-        "members": 128,
-        "threads": 12
-      },
-      {
-        "id": "co2",
-        "name": "Communauté RH",
-        "theme": "Ressources humaines",
-        "members": 87,
-        "threads": 6
-      },
-      {
-        "id": "co3",
-        "name": "Communauté Qualité & Process",
-        "theme": "Processus",
-        "members": 54,
-        "threads": 4
-      }
-    ],
-    "kmThreads": [
-      {
-        "communityId": "co1",
-        "title": "Bonnes pratiques Power BI",
-        "theme": "Data",
-        "meta": "Data • 2h",
-        "badge": "Actif"
-      },
-      {
-        "communityId": "co2",
-        "title": "Mobilité interne – retours",
-        "theme": "Ressources humaines",
-        "meta": "Ressources humaines • hier",
-        "badge": "Nouveau"
-      },
-      {
-        "communityId": "co1",
-        "title": "Convention de nommage datasets",
-        "theme": "Data",
-        "meta": "Data • 3j",
-        "badge": "En cours"
-      }
-    ],
+    "kmCommunautes": [],
+    "kmThreads": [],
     "kmAmoa": [
       {
         "id": "a1",
@@ -525,24 +462,7 @@
         ]
       }
     ],
-    "kmContribData": [
-      {
-        "id": "ct1",
-        "title": "Astuce: réduire les doublons GED",
-        "date": "Avr 2026",
-        "startDate": "2026-04-01",
-        "endDate": "2026-04-30",
-        "body": "Utiliser la convention de nommage + métadonnées obligatoires."
-      },
-      {
-        "id": "ct2",
-        "title": "Check‑list avant PV comité",
-        "date": "Mars 2026",
-        "startDate": "2026-03-01",
-        "endDate": "2026-03-31",
-        "body": "Ordre du jour, participants, décisions, actions, annexes."
-      }
-    ],
+    "kmContribData": [],
     "kmCatalogueItems": [
       {
         "type": "Document",
@@ -630,32 +550,7 @@
         "file": "Bilan_RH_T1_2026.pdf"
       }
     ],
-    "kmIntegrationMedia": [
-      {
-        "title": "Capsule - Process liquidation",
-        "meta": "Vidéo · 4 min",
-        "file": "Media_Capsule_Liquidation.mp4",
-        "icon": "play-circle"
-      },
-      {
-        "title": "Infographie - Parcours assuré",
-        "meta": "Image · PNG",
-        "file": "Media_Infographie_Parcours.png",
-        "icon": "image"
-      },
-      {
-        "title": "Album - Atelier métier",
-        "meta": "Galerie · 12 photos",
-        "file": "Media_Album_Atelier.zip",
-        "icon": "gallery-horizontal"
-      },
-      {
-        "title": "Présentation - Domaine Retraite",
-        "meta": "Présentation · PPT",
-        "file": "Media_Presentation_Retraite.pptx",
-        "icon": "presentation"
-      }
-    ],
+    "kmIntegrationMedia": [],
     "kmGlpiTickets": [
       {
         "id": "t1",
@@ -705,35 +600,7 @@
         "file": "Story_Modernisation_GED.pdf"
       }
     ],
-    "kmCampagnes": [
-      {
-        "id": "cmp1",
-        "title": "Campagne relation client",
-        "domain": "Gestion de la relation client",
-        "audience": "Collaborateurs relation client",
-        "type": "Sondage",
-        "responses": 28,
-        "desc": "Recueillir les bonnes pratiques terrain pour enrichir le référentiel accueil."
-      },
-      {
-        "id": "cmp2",
-        "title": "Campagne gestion retraite",
-        "domain": "Gestion de la retraite",
-        "audience": "Équipes retraite",
-        "type": "Formulaire",
-        "responses": 16,
-        "desc": "Identifier les points de vigilance récurrents à capitaliser dans le traitement des dossiers."
-      },
-      {
-        "id": "cmp3",
-        "title": "Campagne Risk Management",
-        "domain": "Gestion du Risk Management",
-        "audience": "Référents risques",
-        "type": "Formulaire",
-        "responses": 9,
-        "desc": "Collecter les bonnes pratiques de suivi et mitigation des risques métiers."
-      }
-    ],
+    "kmCampagnes": [],
     "kmAuditRisque": [
       {
         "title": "Rubrique Audit & conformité",

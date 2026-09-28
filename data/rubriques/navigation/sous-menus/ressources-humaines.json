@@ -15,20 +15,24 @@
             "tab": "documents"
           },
           {
+            "label": "ATTAKMILI PLUS",
+            "tab": "attakmili"
+          },
+          {
             "label": "Postes Vacants",
             "tab": "offres"
           },
           {
-            "label": "Mobilité spontanée",
+            "label": "Demande de mobilité",
             "tab": "mobilite"
+          },
+          {
+            "label": "Demande de formation",
+            "tab": "formation"
           },
           {
             "label": "Enquêtes RH",
             "tab": "enquetes"
-          },
-          {
-            "label": "Forums & Groupes",
-            "tab": "forums"
           }
         ]
       }

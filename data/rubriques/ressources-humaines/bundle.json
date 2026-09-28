@@ -4,7 +4,7 @@
   "data": {
     "rhHeader": {
       "title": "Mes Services RH",
-      "description": "Un espace centré sur les services RH utiles au collaborateur : carrière, documents, mobilité, enquêtes et forums."
+      "description": "Un espace centré sur les services RH utiles au collaborateur : carrière, documents, mobilité et enquêtes."
     },
     "rhTabs": [
       {
@@ -16,20 +16,24 @@
         "label": "Documents RH"
       },
       {
+        "id": "attakmili",
+        "label": "ATTAKMILI PLUS"
+      },
+      {
         "id": "offres",
         "label": "Postes Vacants"
       },
       {
         "id": "mobilite",
-        "label": "Mobilité spontanée"
+        "label": "Demande de mobilité"
+      },
+      {
+        "id": "formation",
+        "label": "Demande de formation"
       },
       {
         "id": "enquetes",
         "label": "Enquêtes RH"
-      },
-      {
-        "id": "forums",
-        "label": "Forums & Groupes"
       }
     ],
     "rhPages": {
@@ -167,10 +171,51 @@
           }
         ]
       },
+      "attakmili": {
+        "title": "ATTAKMILI PLUS",
+        "description": "Consultez les informations, notes, formulaires et contenus d’accompagnement relatifs à ATTAKMILI PLUS.",
+        "searchPlaceholder": "Rechercher un document ATTAKMILI PLUS...",
+        "blocks": [
+          {
+            "title": "ATTAKMILI PLUS en bref",
+            "icon": "info",
+            "folderPath": [
+              "ATTAKMILI PLUS en bref"
+            ]
+          },
+          {
+            "title": "Note sur ATTAKMILI PLUS",
+            "icon": "notebook-text",
+            "folderPath": [
+              "Note sur ATTAKMILI PLUS"
+            ]
+          },
+          {
+            "title": "Formulaires",
+            "icon": "files",
+            "folderPath": [
+              "Formulaires"
+            ]
+          },
+          {
+            "title": "Accompagnement",
+            "icon": "hand-heart",
+            "children": [
+              {
+                "title": "Contenu textuel",
+                "folderPath": [
+                  "Accompagnement",
+                  "Contenu textuel"
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "mobilite": {
         "description": "La mobilité spontanée permet au collaborateur d'exprimer un souhait de mobilité interne hors poste vacant publié.",
         "workflow": {
-          "title": "Workflow Mobilité spontanée",
+          "title": "Demande de mobilité",
           "description": "La demande est déposée par le collaborateur puis instruite selon les habilitations RH.",
           "steps": [
             {
@@ -203,248 +248,154 @@
       },
       "enquetes": {
         "description": "Les enquêtes RH regroupent les baromètres sociaux, les enquêtes d'engagement, les indicateurs et les rapports associés.",
-        "kpis": [
+        "indicatorsTitle": "Synthèse des résultats",
+        "year": "2025",
+        "population": 403,
+        "responses": 289,
+        "participation": "72 %",
+        "period": "24/06/2025 au 17/07/2025",
+        "indicators": [
           {
-            "value": "87%",
-            "label": "Engagement",
-            "trend": "+3 pts vs 2025",
-            "color": "#16a34a"
+            "question": "Q08",
+            "title": "Fierté d’appartenance",
+            "description": "Sentiment de fierté d’appartenance",
+            "value": "96 %",
+            "icon": "users-round"
           },
           {
-            "value": "92%",
-            "label": "Participation",
-            "trend": "Baromètre 2026",
-            "color": "#2563eb"
+            "question": "Q14",
+            "title": "Valeurs",
+            "description": "Taux d’adhésion aux valeurs",
+            "value": "94 %",
+            "icon": "gem"
           },
           {
-            "value": "4.2/5",
-            "label": "Satisfaction",
-            "trend": "Moyenne déclarée",
-            "color": "#f59e0b"
+            "question": "Q24",
+            "title": "Gestion de carrière",
+            "description": "Taux de satisfaction des opportunités d’évolution offertes",
+            "value": "59 %",
+            "icon": "building-2"
+          },
+          {
+            "question": "Q27",
+            "title": "Relation avec le management",
+            "description": "Appréciation du management",
+            "value": "84 %",
+            "icon": "network"
+          },
+          {
+            "question": "Q30",
+            "title": "Communication interne",
+            "description": "Qualité de la communication",
+            "value": "75 %",
+            "icon": "messages-square"
+          },
+          {
+            "question": "Q34",
+            "title": "Équilibre vie privée-vie professionnelle",
+            "description": "Perception de la charge de travail",
+            "value": "70 %",
+            "icon": "scale"
+          },
+          {
+            "question": "Q37",
+            "title": "Rémunération",
+            "description": "Perception du système de rémunération et de la compétitivité salariale",
+            "value": "59 %",
+            "icon": "wallet"
+          },
+          {
+            "question": "Q40",
+            "title": "Services aux collaborateurs",
+            "description": "Appréciation des services aux collaborateurs",
+            "value": "80 %",
+            "icon": "hand-heart"
+          },
+          {
+            "question": "Q43",
+            "title": "Engagement RSE",
+            "description": "Perception du niveau d’engagement sur les sujets RSE",
+            "value": "76 %",
+            "icon": "leaf"
+          },
+          {
+            "question": "Q45",
+            "title": "Transformation technologique",
+            "description": "Perception de l’impact des transformations technologiques",
+            "value": "93 %",
+            "icon": "lightbulb"
           }
         ],
+        "summary": [
+          {
+            "label": "Taux de satisfaction moyen",
+            "value": "79 %"
+          },
+          {
+            "label": "Appréciation globale",
+            "question": "Q47",
+            "value": "89 %"
+          },
+          {
+            "label": "Employee Net Promoter Score",
+            "question": "Q49",
+            "value": "86 %"
+          }
+        ],
+        "methodology": {
+          "marginOfError": "3 %",
+          "confidence": "95 %",
+          "frenchResponses": "273 (94,5 %)",
+          "arabicResponses": "16 (5,5 %)"
+        },
         "surveysTitle": "Enquêtes disponibles",
-        "proposeLabel": "Proposer une enquête",
-        "surveys": [
-          {
-            "title": "Baromètre Social 2026",
-            "description": "Mesure annuelle du climat social.",
-            "longDescription": "Questionnaire destiné à mesurer l'engagement, la qualité de vie au travail et les irritants prioritaires.",
-            "theme": "Climat social",
-            "accessLabel": "Accéder au questionnaire",
-            "accessUrl": "#",
-            "submitLabel": "Envoyer",
-            "icon": "clipboard-list",
-            "iconStyle": {
-              "background": "#eff6ff",
-              "color": "#2563eb"
-            },
-            "meta": "Voir plus"
-          },
-          {
-            "title": "Enquête Bien-être au Travail",
-            "description": "Retours collaborateurs sur les conditions de travail.",
-            "longDescription": "Enquête ciblée sur l'équilibre, l'environnement de travail et les besoins d'accompagnement.",
-            "theme": "QVT",
-            "accessLabel": "Accéder au questionnaire",
-            "accessUrl": "#",
-            "submitLabel": "Déposer",
-            "icon": "smile",
-            "iconStyle": {
-              "background": "#f0fdf4",
-              "color": "#16a34a"
-            },
-            "meta": "Voir plus"
-          }
-        ],
-        "historyTitle": "Historique et rapports",
-        "historyYears": [
-          "2026",
-          "2025",
-          "2024"
-        ],
-        "history": [
-          {
-            "year": "2026",
-            "title": "Baromètre Social 2026",
-            "description": "Enquête annuelle climat social.",
-            "meta": "En cours",
-            "icon": "calendar-days",
-            "iconStyle": {
-              "background": "#fff7ed",
-              "color": "#ea580c"
-            }
-          },
-          {
-            "year": "2025",
-            "title": "Enquête Télétravail 2025",
-            "description": "Analyse des pratiques de télétravail.",
-            "meta": "Clôturée",
-            "icon": "calendar-days",
-            "iconStyle": {
-              "background": "#eff6ff",
-              "color": "#2563eb"
-            }
-          },
-          {
-            "year": "2024",
-            "title": "Baromètre Engagement 2024",
-            "description": "Mesure de l'engagement collaborateur.",
-            "meta": "Clôturée",
-            "icon": "calendar-days",
-            "iconStyle": {
-              "background": "#f0fdf4",
-              "color": "#16a34a"
-            }
-          }
-        ],
-        "reportsTitle": "Rapports des enquêtes et baromètres",
-        "reports": [
-          {
-            "title": "Rapport Baromètre Social 2025.pdf",
-            "description": "Rapport documentaire.",
-            "meta": "Télécharger",
-            "icon": "file-bar-chart",
-            "iconStyle": {
-              "background": "#fef2f2",
-              "color": "#dc2626"
-            },
-            "actionIcon": "download"
-          },
-          {
-            "title": "Synthèse Engagement 2024.pdf",
-            "description": "Synthèse des résultats.",
-            "meta": "Télécharger",
-            "icon": "file-bar-chart",
-            "iconStyle": {
-              "background": "#fef2f2",
-              "color": "#dc2626"
-            },
-            "actionIcon": "download"
-          }
-        ]
+        "surveys": [],
+        "historyTitle": "Historique des enquêtes",
+        "historyYears": [],
+        "history": []
       },
-      "forums": {
-        "description": "Les forums et groupes regroupent les espaces collaboratifs RH autour de communautés et de discussions utiles.",
-        "items": [
+      "formation": {
+        "description": "Soumettre une demande individuelle de formation pour validation RH.",
+        "workflows": [
           {
-            "title": "Forum Bien-être & QVT",
-            "description": "243 membres · 12 discussions actives",
-            "meta": "Ouvrir",
-            "icon": "messages-square",
+            "title": "Demande de formation",
+            "description": "Soumettre une demande individuelle de formation pour validation RH.",
+            "meta": "Workflow RH",
+            "icon": "graduation-cap",
             "iconStyle": {
               "background": "#eff6ff",
               "color": "#2563eb"
             }
-          },
-          {
-            "title": "Communauté Managers",
-            "description": "87 membres · 6 discussions actives",
-            "meta": "Ouvrir",
-            "icon": "users",
-            "iconStyle": {
+          }
+        ],
+        "validation": {
+          "title": "Circuit de validation",
+          "description": "Les demandes suivent un circuit collaborateur, manager puis RH.",
+          "steps": [
+            {
+              "title": "Collaborateur",
+              "description": "Saisie et dépôt de la demande.",
+              "background": "#eff6ff",
+              "color": "#2563eb"
+            },
+            {
+              "title": "Manager",
+              "description": "Avis et validation managériale.",
+              "background": "#fff7ed",
+              "color": "#ea580c"
+            },
+            {
+              "title": "RH",
+              "description": "Instruction, planification et notification.",
               "background": "#f0fdf4",
               "color": "#16a34a"
             }
-          },
-          {
-            "title": "Communauté Innovation RH",
-            "description": "134 membres · 8 discussions actives",
-            "meta": "Ouvrir",
-            "icon": "lightbulb",
-            "iconStyle": {
-              "background": "#fff7ed",
-              "color": "#ea580c"
-            }
-          }
-        ]
+          ]
+        }
       }
     },
     "rhOffresIntro": "Les postes vacants internes restent accessibles avec leur workflow de consultation et de candidature.",
-    "rhOffresFilters": {
-      "directions": [
-        "Toutes les directions",
-        "DSI",
-        "Direction Financière",
-        "Direction de la Communication",
-        "Direction Technique"
-      ],
-      "niveaux": [
-        "Tous les niveaux",
-        "Cadre",
-        "Expert",
-        "Manager"
-      ]
-    },
-    "rhOffresList": [
-      {
-        "id": "bi",
-        "title": "Chef de Projet BI (H/F)",
-        "meta": "Direction des Systèmes d'Information · Casablanca · Cadre",
-        "published": "Publié il y a 3 jours · 2 candidatures",
-        "status": "Ouvert",
-        "statusBackground": "#dcfce7",
-        "statusColor": "#15803d"
-      },
-      {
-        "id": "comdig",
-        "title": "Responsable Communication Digital (H/F)",
-        "meta": "Direction de la Communication · Siège · Manager",
-        "published": "Publié il y a 5 jours · 4 candidatures",
-        "status": "Ouvert",
-        "statusBackground": "#dcfce7",
-        "statusColor": "#15803d"
-      },
-      {
-        "id": "actuariat",
-        "title": "Analyste Risques & Actuariat (H/F)",
-        "meta": "Direction Technique · Casablanca · Expert",
-        "published": "Clôture le 30/04/2026 · 7 candidatures",
-        "status": "Clôture imminente",
-        "statusBackground": "#fef3c7",
-        "statusColor": "#92400e"
-      }
-    ],
-    "offresData": {
-      "bi": {
-        "titre": "Chef de Projet BI (H/F)",
-        "direction": "Direction des Systèmes d'Information",
-        "lieu": "Casablanca",
-        "niveau": "Cadre",
-        "date": "15/05/2026",
-        "mission": "Piloter les projets de Business Intelligence de la DSI : recueil des besoins métiers, conception des tableaux de bord et suivi de la qualité des livrables.",
-        "profil": [
-          "Bac+5 en Informatique, Data ou équivalent",
-          "Minimum 5 ans d'expérience en BI / Data",
-          "Maîtrise de Power BI et SQL"
-        ]
-      },
-      "comdig": {
-        "titre": "Responsable Communication Digital (H/F)",
-        "direction": "Direction de la Communication",
-        "lieu": "Siège - Rabat",
-        "niveau": "Manager",
-        "date": "20/05/2026",
-        "mission": "Définir et piloter la stratégie de communication digitale de la CMR.",
-        "profil": [
-          "Bac+5 en Communication ou Marketing Digital",
-          "Minimum 7 ans d'expérience",
-          "Excellentes capacités rédactionnelles"
-        ]
-      },
-      "actuariat": {
-        "titre": "Analyste Risques & Actuariat (H/F)",
-        "direction": "Direction Technique",
-        "lieu": "Casablanca",
-        "niveau": "Expert",
-        "date": "30/04/2026",
-        "mission": "Réaliser les études actuarielles et les modélisations nécessaires à la gestion des régimes de retraite.",
-        "profil": [
-          "Bac+5 en Actuariat ou Statistiques",
-          "Minimum 4 ans d'expérience",
-          "Maîtrise de R ou Python"
-        ]
-      }
-    }
+    "rhOffresList": [],
+    "offresData": {}
   }
 }

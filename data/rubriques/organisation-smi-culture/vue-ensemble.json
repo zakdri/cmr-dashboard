@@ -27,8 +27,8 @@
             "action": "Consulter"
           },
           {
-            "title": "Fiches et fonctions de postes",
-            "desc": "Responsabilités, missions, fiches PDF et fonctions de responsabilité.",
+            "title": "Fiches de fonctions",
+            "desc": "Responsabilités, missions et fiches PDF de chaque fonction.",
             "icon": "briefcase",
             "handler": "switchOrgGovTab('postes'); return false;",
             "hoverBg": "#f0fdf4",

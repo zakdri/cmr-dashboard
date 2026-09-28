@@ -1,13 +1,132 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
 const getHeaderData = () => window.CMR_DATA?.data?.header || {};
+const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v4";
+
+function normalizeSearchText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function getGlobalSearchEntries() {
+  const data = window.CMR_DATA?.data || {};
+  const mainItems = data.sidebarMainItems || [];
+  const submenus = data.sidebarSubmenus || {};
+  const entries = [];
+
+  mainItems.forEach((item) => {
+    const submenu = submenus[item.id];
+    const firstSubItem = submenu?.items?.[0];
+    entries.push({
+      id: `main-${item.id}`,
+      label: item.label,
+      category: "Rubrique",
+      icon: item.icon || "layout-grid",
+      handler: firstSubItem
+        ? `openSubmenuView('${item.id}','${firstSubItem.tab}')`
+        : item.handler,
+      searchText: `${item.label} ${submenu?.title || ""}`,
+    });
+
+    (submenu?.items || []).forEach((subItem) => {
+      entries.push({
+        id: `${item.id}-${subItem.tab}`,
+        label: subItem.label,
+        category: submenu.title || item.label,
+        icon: item.icon || "file-text",
+        handler: `openSubmenuView('${item.id}','${subItem.tab}')`,
+        searchText: `${subItem.label} ${submenu.title || ""} ${item.label}`,
+      });
+    });
+  });
+
+  return entries;
+}
+
+function getSavedQuickLinkLabels(items) {
+  const fallbackLabels = items.map((item) => item.label);
+  try {
+    const savedLabels = JSON.parse(window.localStorage.getItem(QUICK_ACCESS_STORAGE_KEY) || "null");
+    if (!Array.isArray(savedLabels)) return fallbackLabels;
+    const availableLabels = new Set(fallbackLabels);
+    const validLabels = savedLabels.filter((label) => availableLabels.has(label));
+    return validLabels.length ? validLabels : fallbackLabels;
+  } catch {
+    return fallbackLabels;
+  }
+}
 
 export default function HeaderTemplate() {
   const header = getHeaderData();
   const notifications = header.notifications || {};
   const quickLinks = header.quickLinks || {};
   const user = header.user || {};
+  const quickLinkItems = quickLinks.items || [];
+  const [selectedQuickLinkLabels, setSelectedQuickLinkLabels] = useState(() => getSavedQuickLinkLabels(quickLinkItems));
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [activeSearchIndex, setActiveSearchIndex] = useState(0);
+  const globalSearchEntries = getGlobalSearchEntries();
+  const normalizedQuery = normalizeSearchText(searchQuery.trim());
+  const searchResults = useMemo(() => {
+    if (normalizedQuery.length < 2) return [];
+    return globalSearchEntries
+      .filter((item) => normalizeSearchText(item.searchText).includes(normalizedQuery))
+      .sort((itemA, itemB) => {
+        const aStarts = normalizeSearchText(itemA.label).startsWith(normalizedQuery);
+        const bStarts = normalizeSearchText(itemB.label).startsWith(normalizedQuery);
+        return Number(bStarts) - Number(aStarts) || itemA.label.localeCompare(itemB.label, "fr");
+      })
+      .slice(0, 8);
+  }, [globalSearchEntries, normalizedQuery]);
+  const showSearchResults = searchFocused && normalizedQuery.length >= 2;
+
+  useEffect(() => {
+    const handleQuickAccessUpdated = (event) => {
+      setSelectedQuickLinkLabels(event.detail?.labels || getSavedQuickLinkLabels(quickLinkItems));
+    };
+    window.addEventListener("cmr:quick-access-updated", handleQuickAccessUpdated);
+    return () => window.removeEventListener("cmr:quick-access-updated", handleQuickAccessUpdated);
+  }, [quickLinkItems]);
+
+  useEffect(() => {
+    setActiveSearchIndex(0);
+  }, [searchQuery, showSearchResults]);
+
+  function openSearchResult(event, result) {
+    if (!result?.handler) return;
+    runLegacyHandler(event, result.handler);
+    setSearchQuery("");
+    setSearchFocused(false);
+  }
+
+  function handleSearchKeyDown(event) {
+    if (event.key === "Escape") {
+      setSearchQuery("");
+      setSearchFocused(false);
+      event.currentTarget.blur();
+      return;
+    }
+    if (!searchResults.length) return;
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setActiveSearchIndex((index) => (index + 1) % searchResults.length);
+    }
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setActiveSearchIndex((index) => (index - 1 + searchResults.length) % searchResults.length);
+    }
+    if (event.key === "Enter") {
+      event.preventDefault();
+      openSearchResult(event, searchResults[activeSearchIndex]);
+    }
+  }
+
+  const selectedQuickLinks = quickLinkItems.filter((item) => selectedQuickLinkLabels.includes(item.label));
+  const visibleQuickLinks = selectedQuickLinks.length ? selectedQuickLinks : quickLinkItems;
 
   return (
     <>
@@ -86,16 +205,49 @@ export default function HeaderTemplate() {
         </div>
         <div className="search-container">
           <div className="search-pill">
-            <i
-              data-lucide="search"
-              style={{ width: 20, height: 20, color: "#94a3b8" }}
+            <span className="global-search-leading-icon" aria-hidden="true" />
+            <input
+              type="search"
+              placeholder="Rechercher dans l'intranet..."
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => window.setTimeout(() => setSearchFocused(false), 120)}
+              onKeyDown={handleSearchKeyDown}
+              aria-label="Recherche globale dans l’intranet"
+              aria-expanded={showSearchResults}
+              aria-controls="globalSearchResults"
             />
-            <input type="text" placeholder="Rechercher dans l'intranet..." />
-            <i
-              data-lucide="command"
-              style={{ width: 16, height: 16, color: "#cbd5e1" }}
-            />
+            <button
+              type="button"
+              className="global-search-clear"
+              onClick={() => setSearchQuery("")}
+              aria-label={searchQuery ? "Effacer la recherche" : "Recherche globale"}
+              disabled={!searchQuery}
+            >
+              {searchQuery ? "×" : "⌘"}
+            </button>
           </div>
+          {showSearchResults ? (
+            <div className="global-search-results" id="globalSearchResults" role="listbox">
+              {searchResults.length ? searchResults.map((result, index) => (
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={index === activeSearchIndex}
+                  className={`global-search-result${index === activeSearchIndex ? " active" : ""}`}
+                  key={result.id}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onMouseEnter={() => setActiveSearchIndex(index)}
+                  onClick={(event) => openSearchResult(event, result)}
+                >
+                  <span className="global-search-result-icon" aria-hidden="true">{result.label.charAt(0)}</span>
+                  <span><strong>{result.label}</strong><small>{result.category}</small></span>
+                  <span className="global-search-result-arrow" aria-hidden="true">›</span>
+                </button>
+              )) : <p className="global-search-empty">Aucun résultat trouvé.</p>}
+            </div>
+          ) : null}
         </div>
         <div className="header-actions">
           <div style={{ position: "relative" }}>
@@ -178,8 +330,15 @@ export default function HeaderTemplate() {
                 </span>
               </div>
               <div className="quick-links-grid">
-                {(quickLinks.items || []).map((item) => (
-                  <a href={item.href} className="quick-link-item" key={item.label}>
+                {visibleQuickLinks.map((item) => (
+                  <a
+                    href={item.href}
+                    target={item.target || undefined}
+                    rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+                    className="quick-link-item"
+                    key={item.label}
+                    onClick={item.handler ? (event) => runLegacyHandler(event, item.handler) : undefined}
+                  >
                     <div className="quick-link-icon">
                       <i data-lucide={item.icon} style={{ width: 18 }} />
                     </div>

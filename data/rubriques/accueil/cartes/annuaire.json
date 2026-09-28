@@ -5,6 +5,7 @@
     "dashboardCards": [
       {
         "type": "docList",
+        "enabled": false,
         "title": "Annuaire",
         "icon": "book-user",
         "iconClass": "green",

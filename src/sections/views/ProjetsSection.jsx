@@ -1,59 +1,253 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { icons } from "lucide";
+import { GED_ROOT_PATH, joinGedPath, normalizeGedKey } from "../../services/gedDocuments.js";
+import { useGedDocuments } from "../../services/useGedDocuments.js";
 
-function getProjetsData() {
+const STRATEGY_VISION_PATH = joinGedPath(
+  GED_ROOT_PATH,
+  "Stratégie & Projets CMR",
+  "Stratégie CMR",
+  "Vision & Orientations",
+);
+
+const PROJECT_TOOLS_PATH = joinGedPath(
+  GED_ROOT_PATH,
+  "Stratégie & Projets CMR",
+  "Projets CMR",
+  "Démarche",
+);
+
+function LucideIcon({ name, ...props }) {
+  const iconName = String(name || "")
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join("");
+  const iconNode = icons[iconName];
+  if (!iconNode) return null;
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      {iconNode.map(([tag, attributes], index) => React.createElement(tag, { ...attributes, key: `${tag}-${index}` }))}
+    </svg>
+  );
+}
+
+function getSpace() {
   const data = window.CMR_DATA?.data || {};
-  return {
-    header: data.projetsHeader || {},
-    items: data.projetsItems || [],
+  return { header: data.projetsHeader || {}, content: data.strategieProjetsSpace || {} };
+}
+
+function Tabs({ items, active, change, label }) {
+  return (
+    <div className="km-navbar governance-tabbar cmr-space-tabs" role="tablist" aria-label={label}>
+      {items.map(({ id, title }, index) => (
+        <React.Fragment key={id}>
+          {index > 0 ? <span className="km-nav-separator" aria-hidden="true">|</span> : null}
+          <button type="button" role="tab" aria-selected={active === id} className={`km-nav-item${active === id ? " active" : ""}`} onClick={() => change(id)}>{title}</button>
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+function StrategicPlanDocument({ plan }) {
+  const state = useGedDocuments(STRATEGY_VISION_PATH);
+  const documentItem = state.documents.find((item) => /\.pdf$/i.test(item.fileName || item.title || ""));
+  const downloadUrl = documentItem?.file
+    ? `${documentItem.file}${documentItem.file.includes("?") ? "&" : "?"}download=1`
+    : "";
+
+  return (
+    <section className="cmr-space-section cmr-space-documents cmr-strategy-document">
+      <div className="cmr-space-heading"><h4>{plan?.title}</h4></div>
+      {plan?.description ? <p>{plan.description}</p> : null}
+      {state.loading ? <p className="empty-state">Chargement du document Moovapps...</p> : null}
+      {!state.loading && state.error ? <p className="empty-state">Le document Moovapps n’est pas disponible pour le moment.</p> : null}
+      {!state.loading && !state.error && !documentItem ? <p className="empty-state">Aucun document PDF disponible dans ce dossier.</p> : null}
+      {documentItem ? (
+        <div className="cmr-strategy-pdf">
+          <div className="cmr-strategy-pdf-actions">
+            <a className="secondary-btn" href={documentItem.file} target="_blank" rel="noreferrer"><LucideIcon name="external-link" />Ouvrir</a>
+            <a className="secondary-btn" href={downloadUrl}><LucideIcon name="download" />Télécharger</a>
+          </div>
+          <iframe className="cmr-strategy-pdf-frame" src={documentItem.file} title={documentItem.title || documentItem.fileName || "Document PDF"} />
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function Vision({ strategy }) {
+  return (
+    <div className="cmr-space-content">
+      <div className="cmr-space-heading"><h3>Vision &amp; Orientations</h3></div>
+      <section className="content-card cmr-strategy-vision">
+        <blockquote>« {strategy.vision?.statement} »</blockquote>
+        <div className="cmr-strategy-band-title">Nos Orientations Stratégiques</div>
+        <div className="cmr-strategy-os-grid">
+          {(strategy.vision?.strategicOrientations || []).map((item) => <article key={item.code}><LucideIcon name={item.icon} /><p><strong>{item.code}</strong> - {item.title}</p></article>)}
+        </div>
+        <div className="cmr-strategy-band-title">Nos Enablers</div>
+        <div className="cmr-strategy-enablers">
+          {(strategy.vision?.enablers || []).map((item, index) => <article key={`${item.code}-${index}`}><p><strong>{item.code}</strong> - {item.title}</p><LucideIcon name={item.icon} /></article>)}
+        </div>
+      </section>
+      <StrategicPlanDocument plan={strategy.plan} />
+    </div>
+  );
+}
+
+function Review({ review, exampleLabel }) {
+  const charters = review.charters || [];
+  const kpis = review.kpis || [];
+  return (
+    <div className="cmr-space-content">
+      <div className="cmr-space-heading"><h3>{review.title}</h3>{exampleLabel ? <span className="cmr-space-example">{exampleLabel}</span> : null}</div>
+      <p className="cmr-space-lead">{review.summary}</p>
+      {charters.length ? <section className="cmr-space-section">
+        <h4>Chartes</h4>
+        <div className="cmr-space-charters">
+          {charters.map((charter) => <article className="cmr-space-charter" key={charter.id}><img src={charter.image} alt={charter.imageAlt} loading="lazy" /><div><strong>{charter.title}</strong><p>{charter.description}</p></div></article>)}
+        </div>
+      </section> : null}
+      {kpis.length ? <section className="cmr-space-section"><h4>KPI</h4><div className="cmr-space-kpis">{kpis.map((kpi) => <div className="cmr-space-kpi" key={kpi.id}><strong>{kpi.value}</strong><span>{kpi.label}</span></div>)}</div></section> : null}
+    </div>
+  );
+}
+
+function Approach({ approach }) {
+  const toolsState = useGedDocuments(PROJECT_TOOLS_PATH);
+  const toolDocument = (label) => {
+    const labelKey = normalizeGedKey(label);
+    return toolsState.documents.find((documentItem) => normalizeGedKey(
+      [documentItem.title, documentItem.fileName, documentItem.folderLabel].filter(Boolean).join(" "),
+    ).includes(labelKey));
   };
+
+  return (
+    <div className="cmr-space-content">
+      <section className="cmr-project-journey">
+        <header className="cmr-project-journey-header">
+          <div><h3>{approach.heading}</h3><p>{approach.tagline}</p></div>
+          <strong>{approach.slogan}</strong>
+        </header>
+
+        <div className="cmr-space-approach" aria-label="Étapes du parcours du chef de projet">
+          {(approach.steps || []).map((step, index) => <article className={`cmr-space-approach-step cmr-space-approach-${step.tone || "blue"}`} key={step.id}><span className="cmr-space-step-number">{String(index + 1).padStart(2, "0")}</span><div className="cmr-space-step-heading"><span className="cmr-space-step-icon"><LucideIcon name={step.icon} /></span><h4>{step.title}</h4></div><p className="cmr-space-step-subtitle">{step.subtitle}</p><ul>{(step.items || []).map((item) => <li key={item}>{item}</li>)}</ul></article>)}
+        </div>
+
+        <section className="cmr-project-transverse cmr-project-governance">
+          <div className="cmr-project-transverse-title"><span><LucideIcon name={approach.governance?.icon} /></span><div><h4>{approach.governance?.title}</h4><p>{approach.governance?.subtitle}</p></div></div>
+          <div className="cmr-project-governance-items">
+            {(approach.governance?.items || []).map((item) => <div key={item.title}><span><LucideIcon name={item.icon} /></span><p><strong>{item.title}</strong><small>{item.description}</small></p></div>)}
+          </div>
+        </section>
+
+        <section className="cmr-project-transverse cmr-project-tools">
+          <div className="cmr-project-transverse-title"><span><LucideIcon name={approach.tools?.icon} /></span><div><h4>{approach.tools?.title}</h4><p>{approach.tools?.subtitle}</p></div></div>
+          <div className="cmr-project-tool-links">
+            {(approach.tools?.items || []).map((item) => {
+              const documentItem = toolDocument(item);
+              return documentItem ? <a key={item} href={documentItem.file} target="_blank" rel="noreferrer">{item}<LucideIcon name="external-link" /></a> : <span key={item} title="Ressource non disponible dans Moovapps">{item}</span>;
+            })}
+          </div>
+        </section>
+      </section>
+    </div>
+  );
+}
+
+function Projects({ axes = [] }) {
+  const [selectedAxisId, setSelectedAxisId] = useState(axes[0]?.id || "");
+  const selectedAxis = axes.find((axis) => axis.id === selectedAxisId) || axes[0];
+
+  useEffect(() => {
+    if (!axes.some((axis) => axis.id === selectedAxisId)) setSelectedAxisId(axes[0]?.id || "");
+  }, [axes, selectedAxisId]);
+
+  return (
+    <div className="cmr-space-content">
+      <div className="cmr-space-heading"><h3>Projets CMR</h3></div>
+      {selectedAxis ? (
+        <div className="cmr-pas-layout">
+          <nav className="cmr-pas-axis-list" aria-label="Orientations stratégiques et enablers">
+            {axes.map((axis) => (
+              <button
+                type="button"
+                key={axis.id}
+                className={selectedAxis.id === axis.id ? "active" : ""}
+                aria-pressed={selectedAxis.id === axis.id}
+                onClick={() => setSelectedAxisId(axis.id)}
+              >
+                <span>{axis.code}</span>
+                <strong>{axis.title}</strong>
+                <small>{axis.projects?.length || 0} projet(s)</small>
+                <LucideIcon name="chevron-right" />
+              </button>
+            ))}
+          </nav>
+
+          <section className="cmr-pas-table-panel">
+            <header><span>{selectedAxis.code}</span><h4>{selectedAxis.title}</h4></header>
+            <div className="cmr-pas-table-scroll">
+              <table>
+                <colgroup><col /><col className="cmr-pas-year-column" /><col className="cmr-pas-structure-column" /></colgroup>
+                <thead><tr><th>Projets stratégiques</th><th>Année</th><th>Structure</th></tr></thead>
+                <tbody>
+                  {(selectedAxis.projects || []).map((project, index) => (
+                    <tr key={`${project.project}-${project.year}-${index}`}>
+                      <td>{project.project}</td>
+                      <td>{project.year}</td>
+                      <td>{project.structure}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      ) : <p className="cmr-space-empty">Aucun projet disponible.</p>}
+    </div>
+  );
 }
 
 export default function ProjetsSection() {
-  const { header, items } = getProjetsData();
-
+  const { header, content } = getSpace();
+  const [major, setMajor] = useState("strategy");
+  const [strategyPage, setStrategyPage] = useState("vision");
+  const [projectsPage, setProjectsPage] = useState("approach");
+  const strategy = content.strategy || {};
+  const projects = content.projects || {};
   return (
-    <>
-      <div id="view-projets" className="view-section km-container">
-        <div className="km-header">
-          <h2>{header.title}</h2>
-          <p>{header.description}</p>
-        </div>
-        <div className="km-grid">
-          {items.map((project) => (
-            <div className="doc-card" key={project.id}>
-              <div className="doc-icon-large" style={project.iconStyle}>
-                <i data-lucide={project.icon} style={{ width: 24, height: 24 }} />
-              </div>
-              <div className="doc-card-title">{project.title}</div>
-              <p style={{ fontSize: 13, marginTop: 8 }}>{project.description}</p>
-              <div
-                style={{
-                  height: 6,
-                  background: "#f1f5f9",
-                  borderRadius: 3,
-                  overflow: "hidden",
-                  marginTop: 10,
-                }}
-              >
-                <div
-                  style={{
-                    width: `${project.progress}%`,
-                    height: "100%",
-                    background: project.progressColor,
-                  }}
-                />
-              </div>
-              <div className="doc-card-meta">
-                <span style={{ fontWeight: 600 }}>{project.status}</span>
-                <span>
-                  Progression: {project.progress}%
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      {/* DOCUMENTAIRES VIEW */}
-    </>
+    <div id="view-projets" className="view-section km-container cmr-space">
+      <div className="km-header"><h2>{header.title}</h2><p>{header.description}</p></div>
+      <p className="cmr-space-intro">{content.intro}</p>
+      <Tabs label="Rubriques de Stratégie et Projets CMR" items={[{ id: "strategy", title: strategy.title || "Stratégie CMR" }, { id: "projects", title: projects.title || "Projets CMR" }]} active={major} change={setMajor} />
+      <div className="cmr-space-summary"><h3>{major === "strategy" ? strategy.title : projects.title}</h3><p>{major === "strategy" ? strategy.summary : projects.summary}</p></div>
+      {major === "strategy" ? (
+        <>
+          <Tabs label="Sous-rubriques Stratégie CMR" items={[{ id: "vision", title: "Vision & Orientations" }, { id: "review", title: "Bilan stratégique" }]} active={strategyPage} change={setStrategyPage} />
+          {strategyPage === "vision" ? <Vision strategy={strategy} /> : <Review review={strategy.review || {}} exampleLabel={content.exampleLabel} />}
+        </>
+      ) : (
+        <>
+          <Tabs label="Sous-rubriques Projets CMR" items={[{ id: "approach", title: "Démarche" }, { id: "projects", title: "Projets CMR" }]} active={projectsPage} change={setProjectsPage} />
+          {projectsPage === "approach" ? <Approach approach={projects.approach || {}} /> : <Projects axes={projects.axes || []} />}
+        </>
+      )}
+    </div>
   );
 }

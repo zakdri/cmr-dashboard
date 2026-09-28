@@ -400,6 +400,7 @@ export default function KmSection() {
               <div className="km-grid" style={{ marginTop: 16 }}>
                 {visibleIntegrationMedia.map((item) => <button className="doc-card km-integration-card" key={item.title} onClick={(event) => runLegacyHandler(event, `openMockDownload('${item.file}','${item.title}')`)}><div className="doc-icon-large" style={{ background: "#eff6ff", color: "#256cb5" }}><i data-lucide={item.icon} /></div><div className="doc-card-title">{item.title}</div><p>{item.meta}</p><div className="doc-card-meta"><span>Consulter</span><i data-lucide="arrow-right" /></div></button>)}
               </div>
+              {visibleIntegrationMedia.length === 0 ? <p className="empty-state">Aucun contenu disponible.</p> : null}
             </div>
           </DashboardCard>
         </div>

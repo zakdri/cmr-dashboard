@@ -19,7 +19,7 @@
       "fichier": "sous-rubriques/organigramme.json"
     },
     {
-      "contenu": "Fiches et fonctions de postes",
+      "contenu": "Fiches de fonctions",
       "fichier": "sous-rubriques/fiches-et-fonctions-de-postes.json"
     },
     {
@@ -77,6 +77,10 @@
     {
       "contenu": "Normes et standards SMI",
       "fichier": "sous-rubriques/normes-et-standards-smi.json"
+    },
+    {
+      "contenu": "Espace RSE",
+      "fichier": "sous-rubriques/espace-rse.json"
     },
     {
       "contenu": "Contenus pédagogiques QSE-RSE",

@@ -42,6 +42,15 @@
             "hoverBorder": "#bae6fd",
             "iconBackground": "#0078d4",
             "actionIcon": "external-link"
+          },
+          {
+            "id": "open-text",
+            "title": "OPEN TEXT",
+            "href": "https://ged.cmr.intra/",
+            "icon": "folder-open",
+            "action": "Ouvrir",
+            "actionIcon": "external-link",
+            "iconBackground": "#256cb5"
           }
         ]
       }

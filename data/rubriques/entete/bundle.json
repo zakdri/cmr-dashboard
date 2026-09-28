@@ -31,34 +31,34 @@
       "quickLinks": {
         "items": [
           {
-            "label": "Congés",
-            "icon": "calendar-plus",
-            "href": "#"
+            "label": "Helpdesk",
+            "icon": "life-buoy",
+            "href": "http://pc/",
+            "target": "_blank"
           },
           {
-            "label": "Salles",
-            "icon": "door-open",
-            "href": "#"
+            "label": "Demande de mobilité",
+            "icon": "route",
+            "href": "#rh/mobilite",
+            "handler": "openSubmenuView('rh','mobilite'); return false;"
           },
           {
-            "label": "Frais",
-            "icon": "file-text",
-            "href": "#"
+            "label": "Demande de formation",
+            "icon": "graduation-cap",
+            "href": "#rh/formation",
+            "handler": "openSubmenuView('rh','formation'); return false;"
           },
           {
-            "label": "Notes",
-            "icon": "sticky-note",
-            "href": "#"
+            "label": "Outlook",
+            "icon": "mail",
+            "href": "https://outlook.office.com/mail/",
+            "target": "_blank"
           },
           {
-            "label": "Tickets",
-            "icon": "ticket",
-            "href": "#"
-          },
-          {
-            "label": "Docs",
-            "icon": "book-open",
-            "href": "#"
+            "label": "Espace PGP",
+            "icon": "globe-2",
+            "href": "http://172.17.100.180:8080/moovapps/easysite/pgp",
+            "target": "_blank"
           }
         ]
       },

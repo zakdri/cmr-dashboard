@@ -15,6 +15,10 @@
       "fichier": "sous-rubriques/documents-ressources-humaines.json"
     },
     {
+      "contenu": "ATTAKMILI PLUS",
+      "fichier": "sous-rubriques/attakmili-plus.json"
+    },
+    {
       "contenu": "Offres d’emploi",
       "fichier": "sous-rubriques/offres-emploi.json"
     },
@@ -27,8 +31,8 @@
       "fichier": "sous-rubriques/enquetes-ressources-humaines.json"
     },
     {
-      "contenu": "Forums et groupes RH",
-      "fichier": "sous-rubriques/forums-et-groupes.json"
+      "contenu": "Demande de formation",
+      "fichier": "sous-rubriques/demande-de-formation.json"
     }
   ]
 }

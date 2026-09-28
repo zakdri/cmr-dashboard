@@ -8,7 +8,7 @@ function getInnovationData() {
     tabs: data.innovationTabs || [],
     pages: data.innovationPages || {},
     spontaneousThemes: data.innovationSpontaneousThemeOptions || [],
-    cmrInnovThemes: data.innovationCmrInnovThemeOptions || [],
+    projectIdeaThemes: data.innovationProjectIdeaThemeOptions || [],
   };
 }
 
@@ -153,7 +153,7 @@ function FileInput({ id, accept, label }) {
 }
 
 export default function InnovationSection() {
-  const { header, tabs, pages, spontaneousThemes, cmrInnovThemes } = getInnovationData();
+  const { header, tabs, pages, spontaneousThemes, projectIdeaThemes } = getInnovationData();
   const suivi = pages.suivi || {};
   const espaceIdees = pages["espace-idees"] || {};
   const innovEvent = pages["innov-event"] || {};
@@ -221,37 +221,71 @@ export default function InnovationSection() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 <FileInput id="projectImage" accept="image/*" label="Image du projet" />
                 <Field id="projectTitle" placeholder="Titre du projet" />
-                <Field id="projectSummary" placeholder="Synthèse du projet" />
-                <Field id="projectObjective" placeholder="Objectif" />
-                <Field id="projectTeam" placeholder="Équipe projet" />
-                <Field id="projectMentor" placeholder="Mentor" />
+                <Field id="projectMentor" placeholder="Sponsor" />
               </div>
-              <div style={{ marginTop: 12 }}>
+              <div style={{ display: "grid", gap: 12, marginTop: 12 }}>
+                <Field id="projectSummary" placeholder="Synthèse du projet" as="textarea" />
+                <Field id="projectObjective" placeholder="Objectif" as="textarea" />
+                <Field id="projectTeam" placeholder="Équipe projet" as="textarea" />
                 <Field id="projectInsights" placeholder="Insights" as="textarea" />
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
+                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "toggleInnovationProjectForm()") } style={{ marginRight: 8 }}>
+                  Annuler
+                </button>
                 <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitInnovationProject()")}>
                   Ajouter
                 </button>
               </div>
             </div>
-            <SearchField
-              id="projectSheetSearch"
-              placeholder="Rechercher une fiche projet..."
-              handler="renderInnovationProjectCards()"
-            />
-            <div id="innovationProjectCards" style={{ padding: 18 }} />
+            <div id="innovationProjectStatus" role="status" style={{ display: "none", padding: "10px 18px 0", fontSize: 13 }} />
+            <div id="innovationProjectBrowse">
+              <SearchField
+                id="projectSheetSearch"
+                placeholder="Rechercher une fiche projet..."
+                handler="renderInnovationProjectCards()"
+              />
+              <div id="innovationProjectCards" style={{ padding: 18 }} />
+            </div>
           </DashboardCard>
         </div>
 
         <div id="innovationProjectIdeas" className="innovation-project-sub" style={{ display: "none" }}>
-          <DashboardCard page={{ ...suivi, title: suivi.projectIdeasLabel, icon: "lightbulb", iconClass: "green" }}>
-            <SearchField
-              id="projectIdeaSearch"
-              placeholder="Rechercher un projet idée..."
-              handler="renderInnovationProjectIdeaCards()"
-            />
-            <div id="innovationProjectIdeaCards" style={{ padding: 18 }} />
+          <DashboardCard
+            page={{ ...suivi, title: suivi.projectIdeasLabel, icon: "lightbulb", iconClass: "green" }}
+            action={
+              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "toggleInnovationProjectIdeaForm()") }>
+                Ajouter
+              </button>
+            }
+          >
+            <div id="innovationProjectIdeaForm" style={{ display: "none", padding: 18, borderBottom: "1px solid #f1f5f9" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <Field id="projectIdeaTitle" label="Titre" placeholder="Titre du projet idée" />
+                <ThemeSelect id="projectIdeaTheme" themes={projectIdeaThemes} />
+                <Field id="projectIdeaStart" label="Période - Du" type="date" />
+                <Field id="projectIdeaEnd" label="Période - Au" type="date" />
+                <FileInput id="projectIdeaImage" accept="image/*" label="Image illustrative" />
+                <FileInput id="projectIdeaDocs" accept="application/pdf" label="Supports documentaires (PDF uniquement)" />
+              </div>
+              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
+                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "toggleInnovationProjectIdeaForm()") } style={{ marginRight: 8 }}>
+                  Annuler
+                </button>
+                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitInnovationProjectIdea()") }>
+                  Ajouter
+                </button>
+              </div>
+            </div>
+            <div id="innovationProjectIdeaStatus" role="status" style={{ display: "none", padding: "10px 18px 0", fontSize: 13 }} />
+            <div id="innovationProjectIdeaBrowse">
+              <SearchField
+                id="projectIdeaSearch"
+                placeholder="Rechercher un projet idée..."
+                handler="renderInnovationProjectIdeaCards()"
+              />
+              <div id="innovationProjectIdeaCards" style={{ padding: 18 }} />
+            </div>
           </DashboardCard>
         </div>
       </div>
@@ -265,7 +299,7 @@ export default function InnovationSection() {
             </button>
           }
         >
-          <div id="innovationProjectDetail" style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
+          <div id="innovationProjectDetail" className="innovation-project-detail">
             Sélectionnez un projet.
           </div>
         </DashboardCard>
@@ -280,7 +314,7 @@ export default function InnovationSection() {
             </button>
           }
         >
-          <div id="innovationProjectIdeaDetail" style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
+          <div id="innovationProjectIdeaDetail" className="innovation-project-detail">
             Sélectionnez un projet idée.
           </div>
         </DashboardCard>
@@ -302,7 +336,7 @@ export default function InnovationSection() {
           <DashboardCard
             page={{ ...espaceIdees, title: "Boîte à idées" }}
             action={
-              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "focusInnovationField('spontaneousIdeaTitle')")}>
+              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "openSpontaneousIdeaForm()") }>
                 {espaceIdees.ideaButton}
               </button>
             }
@@ -314,15 +348,24 @@ export default function InnovationSection() {
             />
             <div id="innovationSpontaneousIdeas" className="doc-list" />
           </DashboardCard>
-          <DashboardCard page={{ ...espaceIdees, title: espaceIdees.ideaFormTitle, icon: "square-pen", iconClass: "blue" }}>
-            <div style={{ padding: 18, display: "grid", gap: 12 }}>
+          <DashboardCard page={{ ...espaceIdees, title: "Détail de l’idée", icon: "file-text", iconClass: "blue" }}>
+            <div id="spontaneousIdeaDetail" style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
+              Sélectionnez une idée pour afficher son détail.
+            </div>
+            <div id="spontaneousIdeaForm" style={{ padding: 18, display: "none", gap: 12 }}>
               <Field id="spontaneousIdeaTitle" placeholder="Titre de l'idée" />
               <ThemeSelect id="spontaneousIdeaTheme" themes={spontaneousThemes} />
               <Field id="spontaneousIdeaDesc" placeholder="Description de l'idée" as="textarea" />
-              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitSpontaneousIdea()")}>
-                {espaceIdees.sendLabel}
-              </button>
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "showInnovationIdeaPanel('spontaneous', 'detail')") }>
+                  Annuler
+                </button>
+                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitSpontaneousIdea()") }>
+                  {espaceIdees.sendLabel}
+                </button>
+              </div>
             </div>
+            <div id="spontaneousIdeaStatus" role="status" style={{ display: "none", padding: "0 18px 18px", fontSize: 13 }} />
           </DashboardCard>
         </div>
 
@@ -330,7 +373,7 @@ export default function InnovationSection() {
           <DashboardCard
             page={{ ...espaceIdees, title: "CMR Innov", icon: "sparkles", iconClass: "green" }}
             action={
-              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "focusInnovationField('cmrInnovTitle')")}>
+              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "openCmrInnovForm()") }>
                 {espaceIdees.innovButton}
               </button>
             }
@@ -342,20 +385,24 @@ export default function InnovationSection() {
             />
             <div id="innovationCmrInnovList" className="doc-list" />
           </DashboardCard>
-          <DashboardCard page={{ ...espaceIdees, title: espaceIdees.innovFormTitle, icon: "square-pen", iconClass: "blue" }}>
-            <div style={{ padding: 18, display: "grid", gap: 12 }}>
-              <Field id="cmrInnovTitle" label="Titre" placeholder="Saisir le titre" />
-              <ThemeSelect id="cmrInnovTheme" themes={cmrInnovThemes} />
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <Field id="cmrInnovStart" label="Période - Du" placeholder="Du" type="date" />
-                <Field id="cmrInnovEnd" label="Période - Au" placeholder="Au" type="date" />
-              </div>
-              <FileInput id="cmrInnovImage" accept="image/*" label="Image illustrative" />
-              <FileInput id="cmrInnovDocs" accept="application/pdf" label="Supports documentaires (PDF uniquement)" />
-              <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitCmrInnov()")}>
-                {espaceIdees.sendLabel}
-              </button>
+          <DashboardCard page={{ ...espaceIdees, title: "Détail CMR Innov", icon: "file-text", iconClass: "blue" }}>
+            <div id="cmrInnovDetail" style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
+              Sélectionnez un projet pour afficher son détail.
             </div>
+            <div id="cmrInnovForm" style={{ padding: 18, display: "none", gap: 12 }}>
+              <Field id="cmrInnovTitle" label="Titre" placeholder="Saisir le titre" />
+              <FileInput id="cmrInnovImage" accept="image/*" label="Image" />
+              <Field id="cmrInnovDescription" label="Description" placeholder="Saisir la description" as="textarea" />
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "showInnovationIdeaPanel('cmr-innov', 'detail')") }>
+                  Annuler
+                </button>
+                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitCmrInnov()") }>
+                  {espaceIdees.sendLabel}
+                </button>
+              </div>
+            </div>
+            <div id="cmrInnovStatus" role="status" style={{ display: "none", padding: "0 18px 18px", fontSize: 13 }} />
           </DashboardCard>
         </div>
       </div>
@@ -364,13 +411,41 @@ export default function InnovationSection() {
         <p style={{ color: "var(--text-light)", fontSize: 13, lineHeight: 1.7, margin: "0 0 12px" }}>
           {innovEvent.description}
         </p>
-        <DashboardCard page={innovEvent}>
-          <SearchField
-            id="innovEventSearch"
-            placeholder="Rechercher un Innov Event..."
-            handler="renderInnovEvent()"
-          />
-          <div id="innovationEventCards" style={{ padding: 18 }} />
+        <DashboardCard
+          page={innovEvent}
+          action={
+            <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "toggleInnovEventForm()") }>
+              Ajouter
+            </button>
+          }
+        >
+          <div id="innovEventForm" style={{ display: "none", padding: 18, borderBottom: "1px solid #f1f5f9" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <Field id="innovEventTitle" label="Titre" placeholder="Titre de l’événement" />
+              <Field id="innovEventDate" label="Date" type="date" />
+            </div>
+            <div style={{ display: "grid", gap: 12, marginTop: 12 }}>
+              <FileInput id="innovEventImage" accept="image/*" label="Image" />
+              <Field id="innovEventDescription" placeholder="Description de l’événement" as="textarea" />
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "toggleInnovEventForm()") } style={{ marginRight: 8 }}>
+                  Annuler
+                </button>
+                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "submitInnovEvent()") }>
+                  Ajouter
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="innovEventStatus" role="status" style={{ display: "none", padding: "10px 18px 0", fontSize: 13 }} />
+          <div id="innovEventBrowse">
+            <SearchField
+              id="innovEventSearch"
+              placeholder="Rechercher un Innov Event..."
+              handler="renderInnovEvent()"
+            />
+            <div id="innovationEventCards" style={{ padding: 18 }} />
+          </div>
         </DashboardCard>
       </div>
 
@@ -383,7 +458,7 @@ export default function InnovationSection() {
             </button>
           }
         >
-          <div id="innovationEventDetail" style={{ padding: 18, color: "var(--text-light)", fontSize: 13 }}>
+          <div id="innovationEventDetail" className="innovation-project-detail">
             Sélectionnez un Innov Event.
           </div>
         </DashboardCard>

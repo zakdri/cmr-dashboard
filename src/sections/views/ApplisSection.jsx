@@ -32,6 +32,8 @@ export default function ApplisSection() {
               <a
                 key={app.id}
                 href={app.href || "#"}
+                target={app.href && app.href !== "#" ? "_blank" : undefined}
+                rel="noopener noreferrer"
                 className="app-card-large"
                 style={{
                   "--hover-bg": app.hoverBg || "#f8fafc",

@@ -60,7 +60,7 @@
       },
       {
         "id": "vie-sociale",
-        "label": "Vie Sociale",
+        "label": "Bien être & Vie sociale",
         "icon": "coffee",
         "handler": "switchView('vie-sociale')"
       },
@@ -147,7 +147,7 @@
             "tab": "mot-directeur"
           },
           {
-            "label": "Système de gouvernance",
+            "label": "Instances de gouvernance",
             "tab": "systeme"
           },
           {
@@ -193,20 +193,20 @@
         "title": "Espace Réglementaire",
         "items": [
           {
-            "label": "Légal & Réglementaires",
-            "tab": "referentiels"
-          },
-          {
-            "label": "Notes & Prise de position",
-            "tab": "notes-position"
-          },
-          {
             "label": "Bibliothèque des modèles",
             "tab": "modeles"
           },
           {
+            "label": "Gouvernance",
+            "tab": "gouvernance"
+          },
+          {
             "label": "Jurisprudence",
             "tab": "jurisprudence"
+          },
+          {
+            "label": "Légal et réglementaire",
+            "tab": "legal-reglementaire"
           },
           {
             "label": "Veille juridique",
@@ -273,40 +273,8 @@
         "title": "Administration & Pilotage",
         "items": [
           {
-            "label": "Utilisateurs",
-            "tab": "utilisateurs"
-          },
-          {
-            "label": "Habilitations",
-            "tab": "habilitations"
-          },
-          {
-            "label": "Accès",
-            "tab": "acces"
-          },
-          {
-            "label": "Pilotage (usage)",
-            "tab": "usage"
-          },
-          {
-            "label": "Pilotage (reporting)",
-            "tab": "reporting"
-          },
-          {
             "label": "Contenus (CMS)",
             "tab": "cms"
-          },
-          {
-            "label": "Sécurité",
-            "tab": "securite"
-          },
-          {
-            "label": "Traçabilité",
-            "tab": "tracabilite"
-          },
-          {
-            "label": "Pilotage (performance)",
-            "tab": "performance"
           }
         ]
       },
@@ -430,20 +398,24 @@
             "tab": "documents"
           },
           {
+            "label": "ATTAKMILI PLUS",
+            "tab": "attakmili"
+          },
+          {
             "label": "Postes Vacants",
             "tab": "offres"
           },
           {
-            "label": "Mobilité spontanée",
+            "label": "Demande de mobilité",
             "tab": "mobilite"
+          },
+          {
+            "label": "Demande de formation",
+            "tab": "formation"
           },
           {
             "label": "Enquêtes RH",
             "tab": "enquetes"
-          },
-          {
-            "label": "Forums & Groupes",
-            "tab": "forums"
           }
         ]
       }

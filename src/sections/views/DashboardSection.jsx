@@ -1,7 +1,22 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+import { GED_ROOT_PATH, joinGedPath, normalizeGedKey } from "../../services/gedDocuments.js";
+import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
-const QUICK_ACCESS_STORAGE_KEY = "cmr.quickAccess.selectedLabels";
+const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v4";
+
+function getSavedQuickAccessLabels(items) {
+  const fallbackLabels = items.map((item) => item.label);
+  try {
+    const savedLabels = JSON.parse(window.localStorage.getItem(QUICK_ACCESS_STORAGE_KEY) || "null");
+    if (!Array.isArray(savedLabels)) return fallbackLabels;
+    const availableLabels = new Set(fallbackLabels);
+    const validLabels = savedLabels.filter((label) => availableLabels.has(label));
+    return validLabels.length ? validLabels : fallbackLabels;
+  } catch {
+    return fallbackLabels;
+  }
+}
 
 function getDashboardData() {
   const data = window.CMR_DATA?.data || {};
@@ -13,26 +28,6 @@ function getDashboardData() {
     cards: data.dashboardCards || [],
     vieSocialeEvents: data.vieSocialeEvents || [],
   };
-}
-
-function getSavedQuickAccessLabels(items) {
-  const fallbackLabels = items.map((item) => item.label);
-
-  try {
-    const savedLabels = JSON.parse(
-      window.localStorage.getItem(QUICK_ACCESS_STORAGE_KEY) || "null",
-    );
-    if (!Array.isArray(savedLabels)) return fallbackLabels;
-
-    const availableLabels = new Set(fallbackLabels);
-    const validSavedLabels = savedLabels.filter((label) =>
-      availableLabels.has(label),
-    );
-
-    return validSavedLabels.length > 0 ? validSavedLabels : fallbackLabels;
-  } catch {
-    return fallbackLabels;
-  }
 }
 
 function CardHeader({ card }) {
@@ -141,12 +136,12 @@ function AppsCard({ card }) {
       <CardHeader card={card} />
       <div className="app-grid">
         {(card.items || []).slice(0, 4).map((item) => (
-          <div className="app-item" key={item.label}>
+          <a className="app-item" key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
             <div className="app-icon" style={{ background: item.background }}>
               <i data-lucide={item.icon} style={{ width: 22, height: 22 }} />
             </div>
             <span className="app-name">{item.label}</span>
-          </div>
+          </a>
         ))}
       </div>
     </div>
@@ -204,6 +199,7 @@ const monthIndexes = {
 };
 
 function parseVieSocialeEventDate(event) {
+  if (event.sortDate) return new Date(`${event.sortDate}T00:00:00`).getTime();
   const [monthName, year] = (event.month || "").split(" ");
   return new Date(
     Number(year) || 0,
@@ -213,6 +209,7 @@ function parseVieSocialeEventDate(event) {
 }
 
 function formatVieSocialeEventDate(event) {
+  if (event.dateLabel) return event.dateLabel;
   const [monthName = "", year = ""] = (event.month || "").split(" ");
   const monthLabel = monthName.charAt(0) + monthName.slice(1).toLowerCase();
   return `${event.day} ${monthLabel} ${year}`.trim();
@@ -233,7 +230,85 @@ function buildVieSocialeDashboardItems(events, maxItems) {
     }));
 }
 
+function buildRhRecentDashboardItems(fallbackItems, documents) {
+  const categories = [
+    { key: "nomination", fallback: fallbackItems[0] },
+    { key: "recrutement", fallback: fallbackItems[1] },
+    { key: "depart", fallback: fallbackItems[2] },
+  ];
+
+  return categories.map(({ key, fallback }) => {
+    if (!fallback) return null;
+    const matches = documents.filter((documentItem) => normalizeGedKey([
+      ...(documentItem.segments || []),
+      documentItem.folderLabel,
+      documentItem.intranetPath,
+      documentItem.fileName,
+      documentItem.title,
+    ].filter(Boolean).join(" ")).includes(key));
+    const latest = [...matches].sort((left, right) => {
+      const leftDate = Date.parse(left.updatedAt || left.createdAt || "") || 0;
+      const rightDate = Date.parse(right.updatedAt || right.createdAt || "") || 0;
+      return rightDate - leftDate;
+    })[0];
+    if (!latest) return fallback;
+
+    const timestamp = Date.parse(latest.updatedAt || latest.createdAt || "");
+    const dateLabel = Number.isNaN(timestamp)
+      ? "Document récent"
+      : new Intl.DateTimeFormat("fr-FR").format(new Date(timestamp));
+    return {
+      ...fallback,
+      title: latest.title || latest.fileName || fallback.title,
+      meta: `${fallback.title} • ${dateLabel}`,
+      handler: latest.file
+        ? `openMockDownload(${JSON.stringify(latest.file)},${JSON.stringify(latest.title || latest.fileName || fallback.title)})`
+        : fallback.handler,
+    };
+  }).filter(Boolean);
+}
+
 function hydrateDashboardCard(card, dataSources) {
+  if (card.source === "rhRecentDocuments") {
+    return {
+      ...card,
+      items: buildRhRecentDashboardItems(card.items || [], dataSources.rhDocuments || []),
+    };
+  }
+  if (card.source === "attakmiliDocuments") {
+    const documents = dataSources.rhDocuments || [];
+    return {
+      ...card,
+      items: (card.items || []).map((item) => {
+        const expectedPath = (item.folderPath || []).map(normalizeGedKey);
+        const matchingDocuments = documents.filter((documentItem) => {
+          const segments = (documentItem.segments?.length
+            ? documentItem.segments
+            : String(documentItem.folderLabel || "").split("/"))
+            .filter(Boolean)
+            .map(normalizeGedKey);
+          if (segments.length < expectedPath.length) return false;
+          return expectedPath.every((segment, index) => segments[index] === segment)
+            || expectedPath.every((segment, index) =>
+              segments[segments.length - expectedPath.length + index] === segment,
+            );
+        });
+        const latest = [...matchingDocuments].sort((left, right) =>
+          (Date.parse(right.updatedAt || right.createdAt || "") || 0)
+          - (Date.parse(left.updatedAt || left.createdAt || "") || 0),
+        )[0];
+        if (!latest) return item;
+        return {
+          ...item,
+          title: latest.title || latest.fileName || item.title,
+          meta: `${item.title} • Document disponible`,
+          handler: latest.file
+            ? `openMockDownload(${JSON.stringify(latest.file)},${JSON.stringify(latest.title || latest.fileName || item.title)})`
+            : item.handler,
+        };
+      }),
+    };
+  }
   if (card.source !== "vieSocialeEvents") return card;
 
   return {
@@ -587,6 +662,20 @@ function DgMessage({ message }) {
 }
 
 function QuickAccess({ quickAccess }) {
+  const items = quickAccess.items || [];
+  const [selectedLabels, setSelectedLabels] = useState(() => getSavedQuickAccessLabels(items));
+
+  useEffect(() => {
+    const handleQuickAccessUpdated = (event) => {
+      setSelectedLabels(event.detail?.labels ?? getSavedQuickAccessLabels(items));
+    };
+    window.addEventListener("cmr:quick-access-updated", handleQuickAccessUpdated);
+    return () => window.removeEventListener("cmr:quick-access-updated", handleQuickAccessUpdated);
+  }, [items]);
+
+  const selectedItems = items.filter((item) => selectedLabels.includes(item.label));
+  const visibleItems = selectedItems.length ? selectedItems : items;
+
   return (
     <section className="quick-access-bar">
       <div className="quick-access-header">
@@ -610,7 +699,7 @@ function QuickAccess({ quickAccess }) {
         </button>
       </div>
       <div className="quick-access-grid">
-        {(quickAccess.items || []).map((item) => {
+        {visibleItems.map((item) => {
           const opensNewTab = item.target === "_blank";
 
           return (
@@ -640,48 +729,14 @@ function QuickAccess({ quickAccess }) {
 
 export default function DashboardSection() {
   const { ticker, news, dgMessage, quickAccess, cards, vieSocialeEvents } = getDashboardData();
-  const quickAccessItems = quickAccess.items || [];
-  const [selectedQuickAccessLabels, setSelectedQuickAccessLabels] = useState(
-    () => getSavedQuickAccessLabels(quickAccessItems),
-  );
-
-  useEffect(() => {
-    setSelectedQuickAccessLabels(getSavedQuickAccessLabels(quickAccessItems));
-  }, [quickAccessItems]);
-
-  useEffect(() => {
-    function handleQuickAccessUpdated(event) {
-      setSelectedQuickAccessLabels(event.detail?.labels || []);
-    }
-
-    window.addEventListener(
-      "cmr:quick-access-updated",
-      handleQuickAccessUpdated,
-    );
-    return () => {
-      window.removeEventListener(
-        "cmr:quick-access-updated",
-        handleQuickAccessUpdated,
-      );
-    };
-  }, []);
-
-  useEffect(() => {
-    window.lucide?.createIcons();
-  }, [selectedQuickAccessLabels]);
-
-  const visibleQuickAccess = useMemo(
-    () => ({
-      ...quickAccess,
-      items: quickAccessItems.filter((item) =>
-        selectedQuickAccessLabels.includes(item.label),
-      ),
-    }),
-    [quickAccess, quickAccessItems, selectedQuickAccessLabels],
-  );
+  const dashboardActive = useViewActive("dashboard");
+  const rhDocumentsState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Mes Services RH"), { enabled: dashboardActive });
   const hydratedCards = useMemo(
-    () => cards.map((card) => hydrateDashboardCard(card, { vieSocialeEvents })),
-    [cards, vieSocialeEvents],
+    () => cards.filter(card => card.enabled !== false).map((card) => hydrateDashboardCard(card, {
+      vieSocialeEvents,
+      rhDocuments: rhDocumentsState.documents,
+    })),
+    [cards, vieSocialeEvents, rhDocumentsState.documents],
   );
 
   return (
@@ -692,10 +747,12 @@ export default function DashboardSection() {
             <i data-lucide="zap" style={{ width: 16, height: 16 }} />
             FLASH INFO
           </div>
-          <div className="ticker-wrapper" id="tickerWrapper"></div>
+          <div className="ticker-viewport">
+            <div className="ticker-wrapper" id="tickerWrapper"></div>
+          </div>
         </div>
         <NewsBlock news={news} />
-        <QuickAccess quickAccess={visibleQuickAccess} />
+        <QuickAccess quickAccess={quickAccess} />
         <div className="dashboard-grid">
           {hydratedCards.map((card) => (
             <DashboardCard card={card} key={card.title} />

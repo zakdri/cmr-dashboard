@@ -2,30 +2,6 @@
   "rubrique": "systemes-information-transformation-digitale",
   "contenu": "Référentiel IT et bonnes pratiques",
   "data": {
-    "sitdFilters": {
-      "referentiel-it": {
-        "type": "theme",
-        "filters": [
-          {
-            "label": "Tous",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "Architecture",
-            "value": "Architecture"
-          },
-          {
-            "label": "Exploitation",
-            "value": "Exploitation"
-          },
-          {
-            "label": "Support",
-            "value": "Support"
-          }
-        ]
-      }
-    },
     "sitdDocumentItems": [
       {
         "section": "referentiel-it",

@@ -3,89 +3,103 @@
   "generatedFrom": "manifest.json",
   "data": {
     "vieSocialeHeader": {
-      "title": "Espace Vie Sociale",
-      "description": "Renforcez la cohésion interne : Événements, Galerie photos et Capsules vidéo."
+      "title": "Bien être & Vie sociale",
+      "description": "Un espace dédié au bien-être, à la santé et à la vie sociale des collaborateurs."
     },
-    "vieSocialeIntro": "Valorisez la vie sociale et l'engagement collaborateur : événements, photos et initiatives collaboratives.",
+    "bienEtre": {
+      "title": "Bien être",
+      "description": "Consultez les services et dispositifs dédiés au bien-être des collaborateurs.",
+      "blocks": [
+        {
+          "title": "Médecin de travail",
+          "icon": "stethoscope",
+          "iconClass": "blue"
+        },
+        {
+          "title": "Comité hygiène & sécurité",
+          "icon": "shield-check",
+          "iconClass": "orange"
+        },
+        {
+          "title": "Soutien psychologique",
+          "icon": "heart-handshake",
+          "iconClass": "green"
+        }
+      ]
+    },
+    "vieSocialeIntro": {
+      "title": "Bienvenue dans l’espace Vie Sociale de la CMR",
+      "paragraphs": [
+        "La Vie Sociale contribue à renforcer la cohésion, le bien-être et la convivialité au sein de la CMR.",
+        "À travers des actions sportives, culturelles, solidaires et de sensibilisation, elle favorise les échanges, le partage et le vivre-ensemble entre collaborateurs.",
+        "Encadrée par une Charte de la Vie Sociale et animée par un Comité de la Vie Sociale, cette dynamique s’inscrit dans une démarche de participation et d’amélioration continue.",
+        "Cet espace vous permet de découvrir les actions réalisées, suivre les événements à venir et partager vos idées."
+      ],
+      "emphasis": [
+        "Vie Sociale",
+        "actions sportives, culturelles, solidaires et de sensibilisation",
+        "Charte de la Vie Sociale",
+        "Comité de la Vie Sociale",
+        "découvrir les actions réalisées, suivre les événements à venir et partager vos idées"
+      ],
+      "highlight": "Ensemble, faisons vivre la convivialité, la solidarité et l’esprit d’équipe au sein de la CMR."
+    },
     "vieSocialeEventsTitle": "Événements & Initiatives",
     "vieSocialeGalleryTitle": "Galerie Vie Sociale",
     "vieSocialeGalleryMoreLabel": "Voir tout",
     "vieSocialeEvents": [
       {
-        "day": "05",
-        "month": "MAI 2026",
-        "title": "Journée Portes Ouvertes CMR",
+        "day": "10",
+        "month": "SEPTEMBRE 2026",
+        "dateLabel": "10 Septembre 2026",
+        "sortDate": "2026-09-10",
+        "title": "Collecte solidaire",
         "tag": "Événement",
         "tagStyle": {
-          "background": "#fdf2f8",
-          "color": "#be185d"
+          "background": "#fff7ed",
+          "color": "#c2410c"
         },
-        "meta": "Siège CMR · 9h00 – 17h00 · Ouvert à tous",
-        "description": "Découvrez les coulisses de la CMR et les projets en cours lors de notre grande journée annuelle.",
+        "meta": "Action solidaire",
+        "description": "VOS DONS ONT TROUVÉ LEUR PLUS BELLE DESTINATION : LEURS SOURIRES",
         "button": "",
-        "dateBackground": "linear-gradient(135deg,#ec4899,#db2777)",
-        "buttonBackground": "#db2777"
+        "dateBackground": "linear-gradient(135deg,#f97316,#ea580c)",
+        "buttonBackground": "#ea580c"
       },
       {
-        "day": "20",
-        "month": "MAI 2026",
-        "title": "Team Building Digital 2026",
-        "tag": "Initiative",
+        "day": "18",
+        "month": "MAI 2025",
+        "dateLabel": "18 Mai 2025",
+        "sortDate": "2025-05-18",
+        "title": "Rabat Run",
+        "tag": "Événement",
         "tagStyle": {
           "background": "#eff6ff",
           "color": "#1d4ed8"
         },
-        "meta": "Salle Innovation · Direction Digital & IT",
-        "description": "Hackathon interne, défis collaboratifs et remise des trophées CMR Digital Awards.",
+        "meta": "Événement sportif",
+        "description": "LA CMR est fière de saluer la performance remarquable de M. BELHAJ Hafid.",
         "button": "",
         "dateBackground": "linear-gradient(135deg,#3b82f6,#2563eb)",
         "buttonBackground": "#2563eb"
       },
       {
-        "day": "12",
-        "month": "JUIN 2026",
-        "title": "Fête de Fin d'Année CMR",
+        "day": "1er–31",
+        "month": "OCTOBRE",
+        "dateLabel": "Du 1er octobre au 31 octobre",
+        "sortDate": "2026-10-01",
+        "title": "Octobre Rose",
         "tag": "Événement",
         "tagStyle": {
-          "background": "#fef3c7",
-          "color": "#92400e"
+          "background": "#fdf2f8",
+          "color": "#be185d"
         },
-        "meta": "Hôtel Sofitel Rabat · 19h00 · Sur invitation",
-        "description": "Soirée annuelle de célébration des réussites et de cohésion entre toutes les équipes CMR.",
+        "meta": "Sensibilisation au dépistage",
+        "description": "Un mois pour se rappeler qu'un dépistage peut sauver une vie.",
         "button": "",
-        "dateBackground": "linear-gradient(135deg,#f59e0b,#d97706)",
-        "buttonBackground": "#d97706"
+        "dateBackground": "linear-gradient(135deg,#ec4899,#db2777)",
+        "buttonBackground": "#db2777"
       }
     ],
-    "vieSocialeGallery": [
-      {
-        "src": "images/intranet/news_contract.jpg",
-        "alt": "Signature du contrat programme"
-      },
-      {
-        "src": "images/intranet/news_board.jpg",
-        "alt": "Conseil d'administration CMR"
-      },
-      {
-        "src": "images/intranet/news_academy.jpg",
-        "alt": "Session CMR Academy"
-      },
-      {
-        "src": "images/intranet/slider_cmr_tech.png",
-        "alt": "Innovation et transformation digitale"
-      },
-      {
-        "src": "images/intranet/slider_partnership.png",
-        "alt": "Partenariat CMR"
-      },
-      {
-        "src": "images/intranet/slider3.png",
-        "alt": "Temps fort vie sociale"
-      },
-      {
-        "src": "images/intranet/slider2.png",
-        "alt": "Initiative collaborateurs"
-      }
-    ]
+    "vieSocialeGallery": []
   }
 }

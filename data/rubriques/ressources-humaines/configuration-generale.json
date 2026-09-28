@@ -4,7 +4,7 @@
   "data": {
     "rhHeader": {
       "title": "Mes Services RH",
-      "description": "Un espace centré sur les services RH utiles au collaborateur : carrière, documents, mobilité, enquêtes et forums."
+      "description": "Un espace centré sur les services RH utiles au collaborateur : carrière, documents, mobilité et enquêtes."
     },
     "rhTabs": [
       {
@@ -16,20 +16,24 @@
         "label": "Documents RH"
       },
       {
+        "id": "attakmili",
+        "label": "ATTAKMILI PLUS"
+      },
+      {
         "id": "offres",
         "label": "Postes Vacants"
       },
       {
         "id": "mobilite",
-        "label": "Mobilité spontanée"
+        "label": "Demande de mobilité"
+      },
+      {
+        "id": "formation",
+        "label": "Demande de formation"
       },
       {
         "id": "enquetes",
         "label": "Enquêtes RH"
-      },
-      {
-        "id": "forums",
-        "label": "Forums & Groupes"
       }
     ]
   }

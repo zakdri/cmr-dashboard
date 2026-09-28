@@ -5,126 +5,40 @@
     "rhPages": {
       "enquetes": {
         "description": "Les enquêtes RH regroupent les baromètres sociaux, les enquêtes d'engagement, les indicateurs et les rapports associés.",
-        "kpis": [
-          {
-            "value": "87%",
-            "label": "Engagement",
-            "trend": "+3 pts vs 2025",
-            "color": "#16a34a"
-          },
-          {
-            "value": "92%",
-            "label": "Participation",
-            "trend": "Baromètre 2026",
-            "color": "#2563eb"
-          },
-          {
-            "value": "4.2/5",
-            "label": "Satisfaction",
-            "trend": "Moyenne déclarée",
-            "color": "#f59e0b"
-          }
+        "indicatorsTitle": "Synthèse des résultats",
+        "year": "2025",
+        "population": 403,
+        "responses": 289,
+        "participation": "72 %",
+        "period": "24/06/2025 au 17/07/2025",
+        "indicators": [
+          { "question": "Q08", "title": "Fierté d’appartenance", "description": "Sentiment de fierté d’appartenance", "value": "96 %", "icon": "users-round" },
+          { "question": "Q14", "title": "Valeurs", "description": "Taux d’adhésion aux valeurs", "value": "94 %", "icon": "gem" },
+          { "question": "Q24", "title": "Gestion de carrière", "description": "Taux de satisfaction des opportunités d’évolution offertes", "value": "59 %", "icon": "building-2" },
+          { "question": "Q27", "title": "Relation avec le management", "description": "Appréciation du management", "value": "84 %", "icon": "network" },
+          { "question": "Q30", "title": "Communication interne", "description": "Qualité de la communication", "value": "75 %", "icon": "messages-square" },
+          { "question": "Q34", "title": "Équilibre vie privée-vie professionnelle", "description": "Perception de la charge de travail", "value": "70 %", "icon": "scale" },
+          { "question": "Q37", "title": "Rémunération", "description": "Perception du système de rémunération et de la compétitivité salariale", "value": "59 %", "icon": "wallet" },
+          { "question": "Q40", "title": "Services aux collaborateurs", "description": "Appréciation des services aux collaborateurs", "value": "80 %", "icon": "hand-heart" },
+          { "question": "Q43", "title": "Engagement RSE", "description": "Perception du niveau d’engagement sur les sujets RSE", "value": "76 %", "icon": "leaf" },
+          { "question": "Q45", "title": "Transformation technologique", "description": "Perception de l’impact des transformations technologiques", "value": "93 %", "icon": "lightbulb" }
         ],
+        "summary": [
+          { "label": "Taux de satisfaction moyen", "value": "79 %" },
+          { "label": "Appréciation globale", "question": "Q47", "value": "89 %" },
+          { "label": "Employee Net Promoter Score", "question": "Q49", "value": "86 %" }
+        ],
+        "methodology": {
+          "marginOfError": "3 %",
+          "confidence": "95 %",
+          "frenchResponses": "273 (94,5 %)",
+          "arabicResponses": "16 (5,5 %)"
+        },
         "surveysTitle": "Enquêtes disponibles",
-        "proposeLabel": "Proposer une enquête",
-        "surveys": [
-          {
-            "title": "Baromètre Social 2026",
-            "description": "Mesure annuelle du climat social.",
-            "longDescription": "Questionnaire destiné à mesurer l'engagement, la qualité de vie au travail et les irritants prioritaires.",
-            "theme": "Climat social",
-            "accessLabel": "Accéder au questionnaire",
-            "accessUrl": "#",
-            "submitLabel": "Envoyer",
-            "icon": "clipboard-list",
-            "iconStyle": {
-              "background": "#eff6ff",
-              "color": "#2563eb"
-            },
-            "meta": "Voir plus"
-          },
-          {
-            "title": "Enquête Bien-être au Travail",
-            "description": "Retours collaborateurs sur les conditions de travail.",
-            "longDescription": "Enquête ciblée sur l'équilibre, l'environnement de travail et les besoins d'accompagnement.",
-            "theme": "QVT",
-            "accessLabel": "Accéder au questionnaire",
-            "accessUrl": "#",
-            "submitLabel": "Déposer",
-            "icon": "smile",
-            "iconStyle": {
-              "background": "#f0fdf4",
-              "color": "#16a34a"
-            },
-            "meta": "Voir plus"
-          }
-        ],
-        "historyTitle": "Historique et rapports",
-        "historyYears": [
-          "2026",
-          "2025",
-          "2024"
-        ],
-        "history": [
-          {
-            "year": "2026",
-            "title": "Baromètre Social 2026",
-            "description": "Enquête annuelle climat social.",
-            "meta": "En cours",
-            "icon": "calendar-days",
-            "iconStyle": {
-              "background": "#fff7ed",
-              "color": "#ea580c"
-            }
-          },
-          {
-            "year": "2025",
-            "title": "Enquête Télétravail 2025",
-            "description": "Analyse des pratiques de télétravail.",
-            "meta": "Clôturée",
-            "icon": "calendar-days",
-            "iconStyle": {
-              "background": "#eff6ff",
-              "color": "#2563eb"
-            }
-          },
-          {
-            "year": "2024",
-            "title": "Baromètre Engagement 2024",
-            "description": "Mesure de l'engagement collaborateur.",
-            "meta": "Clôturée",
-            "icon": "calendar-days",
-            "iconStyle": {
-              "background": "#f0fdf4",
-              "color": "#16a34a"
-            }
-          }
-        ],
-        "reportsTitle": "Rapports des enquêtes et baromètres",
-        "reports": [
-          {
-            "title": "Rapport Baromètre Social 2025.pdf",
-            "description": "Rapport documentaire.",
-            "meta": "Télécharger",
-            "icon": "file-bar-chart",
-            "iconStyle": {
-              "background": "#fef2f2",
-              "color": "#dc2626"
-            },
-            "actionIcon": "download"
-          },
-          {
-            "title": "Synthèse Engagement 2024.pdf",
-            "description": "Synthèse des résultats.",
-            "meta": "Télécharger",
-            "icon": "file-bar-chart",
-            "iconStyle": {
-              "background": "#fef2f2",
-              "color": "#dc2626"
-            },
-            "actionIcon": "download"
-          }
-        ]
+        "surveys": [],
+        "historyTitle": "Historique des enquêtes",
+        "historyYears": [],
+        "history": []
       }
     }
   }

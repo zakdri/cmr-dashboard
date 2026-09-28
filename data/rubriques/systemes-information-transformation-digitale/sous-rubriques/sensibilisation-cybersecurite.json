@@ -2,30 +2,6 @@
   "rubrique": "systemes-information-transformation-digitale",
   "contenu": "Sensibilisation à la cybersécurité",
   "data": {
-    "sitdFilters": {
-      "sensibilisation-cyber": {
-        "type": "theme",
-        "filters": [
-          {
-            "label": "Tous",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "Phishing",
-            "value": "Phishing"
-          },
-          {
-            "label": "MFA",
-            "value": "MFA"
-          },
-          {
-            "label": "Protection des données",
-            "value": "Protection des données"
-          }
-        ]
-      }
-    },
     "sitdDocumentItems": [
       {
         "section": "sensibilisation-cyber",

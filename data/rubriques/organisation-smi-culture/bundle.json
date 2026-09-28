@@ -8,14 +8,6 @@
     },
     "orgGovMainTabs": [
       {
-        "id": "overview",
-        "label": "Vue d’ensemble"
-      },
-      {
-        "id": "direction",
-        "label": "Direction"
-      },
-      {
         "id": "organisation",
         "label": "Organisation"
       },
@@ -26,12 +18,13 @@
       {
         "id": "culture-qse-rse",
         "label": "Culture QSE - RSE"
+      },
+      {
+        "id": "rse",
+        "label": "RSE"
       }
     ],
     "orgGovSectionConfig": {
-      "overview": {
-        "page": "overview"
-      },
       "organisation": {
         "subs": [
           {
@@ -40,7 +33,11 @@
           },
           {
             "id": "postes",
-            "label": "Fiches et fonctions de postes"
+            "label": "Fiches de fonctions"
+          },
+          {
+            "id": "fiches-postes",
+            "label": "Fiches de postes"
           },
           {
             "id": "referentiels",
@@ -119,8 +116,196 @@
         ],
         "defaultSub": "culture-contenus"
       },
+      "rse": {
+        "subs": [
+          {
+            "id": "rse-presentation",
+            "label": "Présentation de la démarche RSE"
+          },
+          {
+            "id": "rse-politiques",
+            "label": "Politiques RSE"
+          },
+          {
+            "id": "rse-domaines",
+            "label": "Domaines d’Engagement RSE"
+          },
+          {
+            "id": "rse-documents",
+            "label": "Documents de référence RSE"
+          },
+          {
+            "id": "rse-gouvernance",
+            "label": "Organisation et Gouvernance RSE"
+          },
+          {
+            "id": "rse-evaluation",
+            "label": "Évaluation RSE"
+          },
+          {
+            "id": "rse-ressources",
+            "label": "Ressources RSE"
+          }
+        ],
+        "defaultSub": "rse-presentation"
+      },
       "direction": {
         "page": "direction"
+      }
+    },
+    "orgGovPages": {
+      "fichesPostes": {
+        "title": "Fiches de postes",
+        "description": "Consultez les fiches de postes classées selon l’arborescence des dossiers Moovapps."
+      },
+      "direction": {
+        "enabled": false
+      },
+      "organisation": {
+        "description": "Cette rubrique centralise l'organigramme, les fiches et fonctions de postes ainsi que les manuels des procédures."
+      },
+      "organigramme": {
+        "title": "Organigramme",
+        "description": "Découvrez l’organisation interne de la CMR.",
+        "expandLabel": "Développer tout",
+        "collapseLabel": "Réduire"
+      },
+      "postes": {
+        "title": "Fiches de fonctions",
+        "description": "Consulter les missions, les compétences et les pièces jointes de chaque fonction.",
+        "searchPlaceholder": "Rechercher un poste…",
+        "listTitle": "Liste",
+        "detailTitle": "Fiche de fonction",
+        "emptyDetail": "Sélectionnez un poste dans la liste."
+      },
+      "referentiels": {
+        "title": "Manuels des procédures",
+        "foldersTitle": "Processus",
+        "documentsTitle": "Documents associés"
+      },
+      "presentation": {
+        "title": "Gouvernance interne",
+        "panelTitle": "Gouvernance interne",
+        "description": "Accédez à la structure de gouvernance : instances, comités, responsabilités, et processus de décision. Cette page centralise les éléments de référence pour comprendre “qui décide quoi” et “comment”.",
+        "items": [
+          {
+            "title": "Instances",
+            "desc": "Conseil, comités, réunions de pilotage."
+          },
+          {
+            "title": "Rôles & responsabilités",
+            "desc": "RACI simplifié des décisions clés."
+          },
+          {
+            "title": "Documents",
+            "desc": "Référentiels, charte, PV, notes."
+          }
+        ]
+      },
+      "comites": {
+        "title": "Rubrique Comités",
+        "listTitle": "Liste des comités",
+        "detailTitle": "Dossier du comité",
+        "emptyDetail": "Sélectionnez un comité.",
+        "timelineTitle": "Décisions & comptes rendus"
+      },
+      "cartographie": {
+        "title": "Cartographie des processus",
+        "icon": "git-branch",
+        "iconClass": "purple"
+      },
+      "kpi-strategiques": {
+        "title": "KPI stratégiques",
+        "icon": "gauge",
+        "iconClass": "green"
+      },
+      "rapports-gouvernance": {
+        "title": "Rapports gouvernance",
+        "icon": "folder-lock",
+        "iconClass": "blue"
+      },
+      "smi": {
+        "description": "Cette rubrique regroupe les politiques, cartographies, dossiers processus, dispositifs de pilotage, audits, certifications et normes SMI."
+      },
+      "smi-politiques": {
+        "title": "Politiques SMI",
+        "icon": "shield-check",
+        "iconClass": "green"
+      },
+      "smi-cartographie": {
+        "title": "Cartographie des processus",
+        "icon": "git-branch",
+        "iconClass": "purple"
+      },
+      "smi-dossiers": {
+        "title": "Dossiers processus",
+        "icon": "folder-tree",
+        "iconClass": "blue",
+        "subtitle": "Processus"
+      },
+      "smi-pilotage": {
+        "title": "Organisation de pilotage SMI",
+        "icon": "users-round",
+        "iconClass": "green"
+      },
+      "smi-gouvernance-interne": {
+        "title": "Gouvernance interne",
+        "icon": "presentation",
+        "iconClass": "blue"
+      },
+      "smi-audits": {
+        "title": "Audit SMI",
+        "icon": "clipboard-check",
+        "iconClass": "orange"
+      },
+      "smi-certification": {
+        "title": "Certification",
+        "icon": "badge-check",
+        "iconClass": "green"
+      },
+      "smi-normes": {
+        "title": "Normes et standards",
+        "icon": "book-open-check",
+        "iconClass": "purple"
+      },
+      "culture-qse-rse": {
+        "description": "Cette rubrique fusionne les anciens espaces QSE et RSE pour centraliser les contenus de sensibilisation, communication, participation et suivi."
+      },
+      "culture-contenus": {
+        "title": "Contenus pédagogiques",
+        "icon": "graduation-cap",
+        "iconClass": "green"
+      },
+      "culture-faq": {
+        "title": "FAQ",
+        "icon": "circle-help",
+        "iconClass": "blue",
+        "searchPlaceholder": "Rechercher une question..."
+      },
+      "culture-communication": {
+        "title": "Communication QSE - RSE",
+        "icon": "newspaper",
+        "iconClass": "orange"
+      },
+      "culture-quiz": {
+        "title": "Quiz et auto-évaluation",
+        "icon": "list-checks",
+        "iconClass": "purple"
+      },
+      "culture-idees": {
+        "title": "Boîte à idées",
+        "icon": "lightbulb",
+        "iconClass": "green"
+      },
+      "culture-remontees": {
+        "title": "Remontées terrain",
+        "icon": "triangle-alert",
+        "iconClass": "orange"
+      },
+      "culture-stats": {
+        "title": "Statistiques",
+        "icon": "bar-chart-3",
+        "iconClass": "blue"
       }
     },
     "orgGovOverview": [
@@ -148,8 +333,8 @@
             "action": "Consulter"
           },
           {
-            "title": "Fiches et fonctions de postes",
-            "desc": "Responsabilités, missions, fiches PDF et fonctions de responsabilité.",
+            "title": "Fiches de fonctions",
+            "desc": "Responsabilités, missions et fiches PDF de chaque fonction.",
             "icon": "briefcase",
             "handler": "switchOrgGovTab('postes'); return false;",
             "hoverBg": "#f0fdf4",
@@ -288,168 +473,9 @@
         "actionColor": "#15803d"
       }
     ],
-    "orgGovPages": {
-      "direction": {
-        "title": "Mot de la Direction",
-        "badge": "SMI & Organisation & RSE",
-        "date": "25 Avril 2026",
-        "messageTitle": "Point d’étape sur la feuille de route 2026",
-        "message": "Chers collaborateurs, nous poursuivons la modernisation de nos processus et de notre organisation. L’objectif de ce trimestre est de renforcer la gouvernance des projets, d’améliorer la qualité de service et de consolider nos référentiels.",
-        "downloadLabel": "Télécharger la note",
-        "downloadHandler": "openMockDownload('Note_DG_2026_T2.pdf','Note DG — priorités du trimestre');",
-        "newsLabel": "Voir l’actualité liée",
-        "newsHandler": "goToActualites(1);"
-      },
-      "organisation": {
-        "description": "Cette rubrique centralise l'organigramme, les fiches et fonctions de postes ainsi que les manuels des procédures."
-      },
-      "organigramme": {
-        "title": "Organigramme",
-        "description": "Découvrez l’organisation interne de la CMR.",
-        "expandLabel": "Développer tout",
-        "collapseLabel": "Réduire"
-      },
-      "postes": {
-        "title": "Fiches et fonctions de postes",
-        "description": "Consulter une fiche de poste ou une fiche de fonction, avec missions, responsabilités, profil et pièces jointes PDF.",
-        "searchPlaceholder": "Rechercher un poste…",
-        "listTitle": "Liste",
-        "detailTitle": "Fiche de poste / fonction",
-        "emptyDetail": "Sélectionnez un poste dans la liste."
-      },
-      "referentiels": {
-        "title": "Manuels des procédures",
-        "foldersTitle": "Processus",
-        "documentsTitle": "Documents associés"
-      },
-      "presentation": {
-        "title": "Gouvernance interne",
-        "panelTitle": "Gouvernance interne",
-        "description": "Accédez à la structure de gouvernance : instances, comités, responsabilités, et processus de décision. Cette page centralise les éléments de référence pour comprendre “qui décide quoi” et “comment”.",
-        "items": [
-          {
-            "title": "Instances",
-            "desc": "Conseil, comités, réunions de pilotage."
-          },
-          {
-            "title": "Rôles & responsabilités",
-            "desc": "RACI simplifié des décisions clés."
-          },
-          {
-            "title": "Documents",
-            "desc": "Référentiels, charte, PV, notes."
-          }
-        ]
-      },
-      "comites": {
-        "title": "Rubrique Comités",
-        "listTitle": "Liste des comités",
-        "detailTitle": "Dossier du comité",
-        "emptyDetail": "Sélectionnez un comité.",
-        "timelineTitle": "Décisions & comptes rendus"
-      },
-      "cartographie": {
-        "title": "Cartographie des processus",
-        "icon": "git-branch",
-        "iconClass": "purple"
-      },
-      "kpi-strategiques": {
-        "title": "KPI stratégiques",
-        "icon": "gauge",
-        "iconClass": "green"
-      },
-      "rapports-gouvernance": {
-        "title": "Rapports gouvernance",
-        "icon": "folder-lock",
-        "iconClass": "blue"
-      },
-      "smi": {
-        "description": "Cette rubrique regroupe les politiques, cartographies, dossiers processus, dispositifs de pilotage, audits, certifications et normes SMI."
-      },
-      "smi-politiques": {
-        "title": "Politiques SMI",
-        "icon": "shield-check",
-        "iconClass": "green"
-      },
-      "smi-cartographie": {
-        "title": "Cartographie des processus",
-        "icon": "git-branch",
-        "iconClass": "purple"
-      },
-      "smi-dossiers": {
-        "title": "Dossiers processus",
-        "icon": "folder-tree",
-        "iconClass": "blue",
-        "subtitle": "Processus"
-      },
-      "smi-pilotage": {
-        "title": "Organisation de pilotage SMI",
-        "icon": "users-round",
-        "iconClass": "green"
-      },
-      "smi-gouvernance-interne": {
-        "title": "Gouvernance interne",
-        "icon": "presentation",
-        "iconClass": "blue"
-      },
-      "smi-audits": {
-        "title": "Audit SMI",
-        "icon": "clipboard-check",
-        "iconClass": "orange"
-      },
-      "smi-certification": {
-        "title": "Certification",
-        "icon": "badge-check",
-        "iconClass": "green"
-      },
-      "smi-normes": {
-        "title": "Normes et standards",
-        "icon": "book-open-check",
-        "iconClass": "purple"
-      },
-      "culture-qse-rse": {
-        "description": "Cette rubrique fusionne les anciens espaces QSE et RSE pour centraliser les contenus de sensibilisation, communication, participation et suivi."
-      },
-      "culture-contenus": {
-        "title": "Contenus pédagogiques",
-        "icon": "graduation-cap",
-        "iconClass": "green"
-      },
-      "culture-faq": {
-        "title": "FAQ",
-        "icon": "circle-help",
-        "iconClass": "blue",
-        "searchPlaceholder": "Rechercher une question..."
-      },
-      "culture-communication": {
-        "title": "Communication QSE - RSE",
-        "icon": "newspaper",
-        "iconClass": "orange"
-      },
-      "culture-quiz": {
-        "title": "Quiz et auto-évaluation",
-        "icon": "list-checks",
-        "iconClass": "purple"
-      },
-      "culture-idees": {
-        "title": "Boîte à idées",
-        "icon": "lightbulb",
-        "iconClass": "green"
-      },
-      "culture-remontees": {
-        "title": "Remontées terrain",
-        "icon": "triangle-alert",
-        "iconClass": "orange"
-      },
-      "culture-stats": {
-        "title": "Statistiques",
-        "icon": "bar-chart-3",
-        "iconClass": "blue"
-      }
-    },
     "orgData": {
       "name": "Direction",
-      "role": "Directeur Général",
+      "role": "Directeur",
       "personName": "Lotfi BOUJENDAR",
       "personNameStatus": "official",
       "posteId": "dg",
@@ -463,7 +489,9 @@
           "personNameStatus": "official",
           "posteId": "audit-interne",
           "photo": "images/intranet/portraits/official/amal-sebaai.jpg",
-          "children": []
+          "children": [],
+          "hasFiche": true,
+          "functionTitle": "Chef de Service Audit"
         },
         {
           "name": "Secrétariat Général",
@@ -489,7 +517,31 @@
                   "personNameStatus": "official",
                   "posteId": "division-constitution-droits",
                   "photo": "images/intranet/portraits/official/mohamed-daouiji.jpg",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service affiliation et suivi carrière",
+                      "role": "Service",
+                      "posteId": "chef-de-service-affiliations-et-suivi-de-carriere",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service affiliation et suivi carrière"
+                    },
+                    {
+                      "name": "Chef de service de suivi des cotisations",
+                      "role": "Service",
+                      "posteId": "chef-de-service-suivi-des-cotisations",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de service de suivi des cotisations"
+                    },
+                    {
+                      "name": "Chef de service vérification et certification",
+                      "role": "Service",
+                      "posteId": "chef-de-service-verification-et-certification",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de service vérification et certification"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de division de Constitution des droits"
                 },
                 {
                   "name": "Division Concession des Droits",
@@ -498,7 +550,24 @@
                   "personNameStatus": "official",
                   "posteId": "division-concession-droits",
                   "photo": "images/intranet/portraits/official/rachid-mahfoudi.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Liquidation des Prestations D'ayants-cause",
+                      "role": "Service",
+                      "posteId": "chef-de-service-liquidation-des-prestations-dayants-cause",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Liquidation des Prestations D'ayants-cause"
+                    },
+                    {
+                      "name": "Chef de Service Liquidation des Prestations Principales",
+                      "role": "Service",
+                      "posteId": "chef-de-service-liquidation-des-prestations-principales",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Liquidation des Prestations Principales"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Concession de Droits"
                 },
                 {
                   "name": "Division Paiement des Prestations",
@@ -507,9 +576,35 @@
                   "personNameStatus": "official",
                   "posteId": "division-paiement-prestations",
                   "photo": "images/intranet/portraits/official/said-loucifi.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Centralisation et Suivi",
+                      "role": "Service",
+                      "posteId": "chef-de-service-centralisation-et-suivi",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Centralisation et Suivi"
+                    },
+                    {
+                      "name": "Chef de Service Controle et Mise en Paiement",
+                      "role": "Service",
+                      "posteId": "chef-de-service-controle-et-mise-en-paiement",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Controle et Mise en Paiement"
+                    },
+                    {
+                      "name": "Chef de Service de Controle de Maintien de Droits",
+                      "role": "Service",
+                      "posteId": "chef-de-service-controle-de-maintien-de-droit",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service de Controle de Maintien de Droits"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Paiement des Prestations"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Opérations"
             },
             {
               "name": "Pôle Clients",
@@ -527,7 +622,38 @@
                   "personNameStatus": "official",
                   "posteId": "division-relation-client",
                   "photo": "images/intranet/portraits/official/aicha-kadiri.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Centre d'accueil de Rabat",
+                      "role": "Service",
+                      "posteId": "chef-du-centre-daccueil-de-rabat",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Centre d'accueil de Rabat"
+                    },
+                    {
+                      "name": "Chef de Délégation",
+                      "role": "Service",
+                      "posteId": "chef-de-delegation",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Délégation"
+                    },
+                    {
+                      "name": "Chef de Service Animation de Réseau",
+                      "role": "Service",
+                      "posteId": "chef-de-service-animation-du-reseau",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Animation de Réseau"
+                    },
+                    {
+                      "name": "Chef de Service Service Client",
+                      "role": "Service",
+                      "posteId": "chef-de-service-service-client",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Service Client"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "DIVISION RELATION CLIENT"
                 },
                 {
                   "name": "Division Expérience client",
@@ -536,14 +662,36 @@
                   "personNameStatus": "official",
                   "posteId": "division-experience-client",
                   "photo": "images/intranet/portraits/official/mohamed-hamzaoui.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Développement des services et Marketing",
+                      "role": "Service",
+                      "posteId": "chef-de-service-developpement-des-services-et-marketing",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Développement des services et Marketing"
+                    },
+                    {
+                      "name": "Chef de Service Ecoute Clients et Partenariats",
+                      "role": "Service",
+                      "posteId": "chef-de-service-ecoute-client-et-partenariats",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Ecoute Clients et Partenariats"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "DIVISION EXPERIENCE CLIENT"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Client :"
             },
             {
               "name": "Pôle Ressources",
               "role": "Pôle",
+              "personName": "Mohamed ESSAIDI",
               "personNameStatus": "official",
+              "interim": true,
+              "photo": "images/intranet/portraits/official/mohamed-essaidi.png",
               "children": [],
               "hiddenChildren": [
                 {
@@ -553,7 +701,24 @@
                   "personNameStatus": "official",
                   "posteId": "division-capital-humain",
                   "photo": "images/intranet/portraits/official/omar-boudi.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Administration des Ressources Humaines",
+                      "role": "Service",
+                      "posteId": "chef-de-service-administration-des-ressources-humaines",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Administration des Ressources Humaines"
+                    },
+                    {
+                      "name": "Chef de Service Développement des Ressources Humaines et Communication Interne",
+                      "role": "Service",
+                      "posteId": "chef-de-service-developpement-des-ressources-humaines-et-communication-interne",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Développement des Ressources Humaines et Communication Interne"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Capital Humain"
                 },
                 {
                   "name": "Division Achats et Logistique",
@@ -562,7 +727,31 @@
                   "personNameStatus": "official",
                   "posteId": "division-achats-logistique",
                   "photo": "images/intranet/portraits/official/fadwa-bennani.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Achats et Suivi des Marchés",
+                      "role": "Service",
+                      "posteId": "chef-de-service-achats-et-suivi-des-marches",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Achats et Suivi des Marchés"
+                    },
+                    {
+                      "name": "Chef de Service Gestion des Archives et Numérisation",
+                      "role": "Service",
+                      "posteId": "chef-de-service-gestion-des-archives-et-numerisation",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Gestion des Archives et Numérisation"
+                    },
+                    {
+                      "name": "Chef de Service Logistique et Facility Management",
+                      "role": "Service",
+                      "posteId": "chef-de-service-logistique-facility-management",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Logistique et Facility Management"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Achats et Logistiques"
                 },
                 {
                   "name": "Division Financière et Comptable",
@@ -571,9 +760,36 @@
                   "personNameStatus": "official",
                   "posteId": "division-financiere-comptable",
                   "photo": "images/intranet/portraits/official/mohamed-essalmani.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Comptabilité",
+                      "role": "Service",
+                      "posteId": "chef-de-service-comptabilite",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Comptabilité"
+                    },
+                    {
+                      "name": "Chef de Service Financier",
+                      "role": "Service",
+                      "posteId": "chef-de-service-financier",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Financier"
+                    },
+                    {
+                      "name": "Chef de Service Recouvrement",
+                      "role": "Service",
+                      "posteId": "chef-du-service-recouvrement",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Recouvrement"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Financière et Comptable"
                 }
-              ]
+              ],
+              "posteId": "pole-ressources",
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Ressources"
             },
             {
               "name": "Pôle Pilotage",
@@ -587,8 +803,28 @@
                 {
                   "name": "Division Planification et Contrôle de Gestion",
                   "role": "Division",
+                  "personName": "Fatima KOURSS",
                   "personNameStatus": "official",
-                  "children": []
+                  "photo": "images/intranet/portraits/official/fatima-kourss.jpg",
+                  "children": [
+                    {
+                      "name": "Chef de Service Controle de Gestion",
+                      "role": "Service",
+                      "posteId": "chef-de-service-controle-de-gestion",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Controle de Gestion"
+                    },
+                    {
+                      "name": "Chef de Service Planification Stratégique et PMO",
+                      "role": "Service",
+                      "posteId": "chef-de-service-planification-strategique-et-pmo",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Planification Stratégique et PMO"
+                    }
+                  ],
+                  "posteId": "division-planification-controle-gestion",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Planification et Controle de Gestion"
                 },
                 {
                   "name": "Division Organisation et AMOA",
@@ -597,7 +833,24 @@
                   "personNameStatus": "official",
                   "posteId": "division-organisation-amoa",
                   "photo": "images/intranet/portraits/official/hafid-belhaj.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Assistance à la Maitrise d'Ouvrage",
+                      "role": "Service",
+                      "posteId": "chef-de-service-assistance-a-la-maitrise-douvrage",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Assistance à la Maitrise d'Ouvrage"
+                    },
+                    {
+                      "name": "Chef de Service Organisation et Systèmes de Management",
+                      "role": "Service",
+                      "posteId": "chef-de-service-organisation-et-systemes-de-management",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Organisation et Systèmes de Management"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Organisation et AMOA"
                 },
                 {
                   "name": "Division Data Office",
@@ -606,9 +859,36 @@
                   "personNameStatus": "official",
                   "posteId": "division-data-office",
                   "photo": "images/intranet/portraits/official/nour-el-houda-el-alami.jpg",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Data Lab",
+                      "role": "Service",
+                      "posteId": "chef-de-service-data-lab",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Data Lab"
+                    },
+                    {
+                      "name": "Chef de Service Data Management",
+                      "role": "Service",
+                      "posteId": "chef-de-service-data-management",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Data Management"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Data Office"
+                },
+                {
+                  "name": "Chef de Service Innovation et Conduite de Changement",
+                  "role": "Service",
+                  "posteId": "chef-de-service-innovation-et-conduite-de-changement",
+                  "photo": "images/intranet/portraits/official/chef-service-innovation-conduite-changement.png",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Innovation et Conduite de Changement"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Pilotage"
             },
             {
               "name": "Pôle Système d'Information et Transformation Digitale",
@@ -626,7 +906,24 @@
                   "personNameStatus": "official",
                   "posteId": "division-etude-developpement",
                   "photo": "images/intranet/portraits/official/rachid-el-mokri.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Développement et Intergration",
+                      "role": "Service",
+                      "posteId": "chef-de-service-developpement-et-integration",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Développement et Intergration"
+                    },
+                    {
+                      "name": "Chef de Service Etudes et Urbanisation des systèmes d'information",
+                      "role": "Service",
+                      "posteId": "chef-de-service-etudes-et-urbanisation-des-systemes-dinformation",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Etudes et Urbanisation des systèmes d'information"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Etudes et Développement"
                 },
                 {
                   "name": "Division Exploitation, Systèmes et Réseaux",
@@ -635,15 +932,61 @@
                   "personNameStatus": "official",
                   "posteId": "division-exploitation-systemes-reseaux",
                   "photo": "images/intranet/portraits/official/rachid-moustaid.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Exploitation et Appui aux Utilisateurs",
+                      "role": "Service",
+                      "posteId": "chef-de-service-exploitation-et-appui-aux-utilisateurs",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Exploitation et Appui aux Utilisateurs"
+                    },
+                    {
+                      "name": "Chef de Service Système et Réseaux",
+                      "role": "Service",
+                      "posteId": "chef-de-service-systemes-et-reseaux",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Système et Réseaux"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Exploitation Systèmes et Réseaux"
                 },
                 {
                   "name": "Division Sécurité de l'information",
                   "role": "Division",
+                  "personName": "Nabil CHIADMI",
                   "personNameStatus": "official",
-                  "children": []
+                  "photo": "images/intranet/portraits/official/nabil-chiadmi.png",
+                  "children": [
+                    {
+                      "name": "Chef de Service Gouvernance de la sécurité de l'information",
+                      "role": "Service",
+                      "posteId": "chef-de-service-gouvernance-de-la-securite-de-linformation",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Gouvernance de la sécurité de l'information"
+                    },
+                    {
+                      "name": "Chef de Service Sécurité Opérationnelle",
+                      "role": "Service",
+                      "posteId": "chef-de-service-securite-operationnelle",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Sécurité Opérationnelle"
+                    }
+                  ],
+                  "posteId": "division-securite-information",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Sécurité de l'information"
+                },
+                {
+                  "name": "Chef de Service Transformation Digitale",
+                  "role": "Service",
+                  "posteId": "chef-de-service-transformation-digitale",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Transformation Digitale"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Système d'information et Transformation Digitale"
             },
             {
               "name": "Pôle Gestion du Portefeuille",
@@ -661,7 +1004,38 @@
                   "personNameStatus": "official",
                   "posteId": "division-gestion-portefeuille-gestion",
                   "photo": "images/intranet/portraits/official/fouad-boukhnif.jpg",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Asset Management",
+                      "role": "Service",
+                      "posteId": "chef-de-service-asset-management",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Asset Management"
+                    },
+                    {
+                      "name": "Chef de Service Conformité et Conrole Interne",
+                      "role": "Service",
+                      "posteId": "chef-de-service-conformite-et-controle-interne",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Conformité et Conrole Interne"
+                    },
+                    {
+                      "name": "Chef de Service Gestion des Investissements Alternatifs",
+                      "role": "Service",
+                      "posteId": "chef-de-service-gestion-des-investissements-alternatifs",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Gestion des Investissements Alternatifs"
+                    },
+                    {
+                      "name": "Chef de Service Recherche et Analyse",
+                      "role": "Service",
+                      "posteId": "chef-de-service-recherche-et-analyse",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Recherche et Analyse"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Gestion"
                 },
                 {
                   "name": "Division Opérations",
@@ -670,9 +1044,28 @@
                   "personNameStatus": "official",
                   "posteId": "division-gestion-portefeuille-operations",
                   "photo": "images/intranet/portraits/official/my-slimane-kabiri.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Back Office",
+                      "role": "Service",
+                      "posteId": "chef-de-service-back-office",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Back Office"
+                    },
+                    {
+                      "name": "Chef de Service Middle Office",
+                      "role": "Service",
+                      "posteId": "chef-de-service-middle-office",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Middle Office"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Opérations"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Gestion de Portefeuille"
             }
           ],
           "secondaryChildren": [
@@ -683,7 +1076,24 @@
               "personNameStatus": "official",
               "posteId": "division-controle-engagements-paiements",
               "photo": "images/intranet/portraits/official/naoual-oucible.png",
-              "children": []
+              "children": [
+                {
+                  "name": "Chef de Service Contrôle des Engagements",
+                  "role": "Service",
+                  "posteId": "chef-de-service-controle-des-engagements",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Contrôle des Engagements"
+                },
+                {
+                  "name": "Chef de Service Contrôle des Paiements",
+                  "role": "Service",
+                  "posteId": "chef-de-service-controle-des-paiements",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Contrôle des Paiements"
+                }
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Division Contrôle des Engagements et des Paiements"
             },
             {
               "name": "Division Études et Affaires Juridiques",
@@ -692,7 +1102,31 @@
               "personNameStatus": "official",
               "posteId": "division-etudes-affaires-juridiques",
               "photo": "images/intranet/portraits/official/ali-zaki.png",
-              "children": []
+              "children": [
+                {
+                  "name": "Chef de Service Contentieux",
+                  "role": "Service",
+                  "posteId": "chef-de-service-contentieux",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Contentieux"
+                },
+                {
+                  "name": "Chef de Service Etudes et Actuariatx",
+                  "role": "Service",
+                  "posteId": "chef-de-service-etudes-et-actuariat",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Etudes et Actuariatx"
+                },
+                {
+                  "name": "Chef de Service Médiation et Veille Juridique",
+                  "role": "Service",
+                  "posteId": "chef-de-service-mediation-et-veille-juridique",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Médiation et Veille Juridique"
+                }
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Division Etudes et Affaires Juridiques"
             },
             {
               "name": "Division Risk management",
@@ -701,741 +1135,2249 @@
               "personNameStatus": "official",
               "posteId": "division-risk-management",
               "photo": "images/intranet/portraits/official/brahim-nahi.png",
-              "children": []
+              "children": [
+                {
+                  "name": "Chef de Service Controle Permanent",
+                  "role": "Service",
+                  "posteId": "chef-de-service-controle-permanent",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Controle Permanent"
+                },
+                {
+                  "name": "Chef de Service Risques et Conformité",
+                  "role": "Service",
+                  "posteId": "chef-de-service-risques-et-conformite",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Risques et Conformité"
+                }
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Division Risk Management"
             }
-          ]
+          ],
+          "hasFiche": false
         },
         {
           "name": "Division Gouvernance et Communication Externe",
           "role": "Rattachée au DG",
-          "personName": "Hasnaa AIT HAMOU",
+          "personName": "Hasnae AIT HAMMOU",
           "personNameStatus": "official",
           "posteId": "division-gouvernance-communication-externe",
           "photo": "images/intranet/portraits/official/hasnaa-ait-hamou.jpg",
-          "children": []
+          "children": [
+            {
+              "name": "Chef de Service Communication Externe et Coopération Internationale",
+              "role": "Service",
+              "posteId": "chef-de-service-communication-externe-et-cooperation-internationale",
+              "hasFiche": true,
+              "functionTitle": "Chef de Service Communication Externe et Coopération Internationale"
+            },
+            {
+              "name": "Chef de Service Gouvernance",
+              "role": "Service",
+              "posteId": "chef-de-service-gouvernance",
+              "hasFiche": true,
+              "functionTitle": "Chef de Service Gouvernance"
+            }
+          ],
+          "hasFiche": true,
+          "functionTitle": "Chef de Division Gouvernance et Communication Externe"
         }
-      ]
+      ],
+      "hasFiche": false,
+      "functionTitle": "Directeur"
     },
     "postesData": [
       {
-        "id": "dg",
-        "titre": "Directeur Général",
-        "famille": "Direction",
-        "missions": [
-          "Définir les orientations stratégiques de la CMR",
-          "Piloter la gouvernance générale et la performance institutionnelle",
-          "Représenter la CMR auprès des instances et partenaires"
-        ],
-        "competences": [
-          "Leadership institutionnel",
-          "Gouvernance publique",
-          "Pilotage stratégique"
-        ],
-        "profil": [
-          "Nomination réglementaire",
-          "Expérience confirmée en gestion publique",
-          "Vision stratégique et capacité d'arbitrage"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Directeur Général",
-            "file": "Fiche_Fonction_Directeur_General.pdf"
-          }
-        ]
-      },
-      {
-        "id": "audit-interne",
-        "titre": "Responsable Service Audit",
-        "famille": "Service rattaché au DG",
-        "missions": [
-          "Piloter les missions d'audit interne",
-          "Suivre les recommandations et les plans d'actions",
-          "Contribuer à la maîtrise des risques et du contrôle interne"
-        ],
-        "competences": [
-          "Audit interne",
-          "Contrôle interne",
-          "Analyse des risques"
-        ],
-        "profil": [
-          "Bac+5",
-          "Expérience confirmée en audit ou contrôle",
-          "Connaissance des environnements publics"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche poste Responsable Service Audit",
-            "file": "Fiche_Poste_Service_Audit.pdf"
-          }
-        ]
-      },
-      {
-        "id": "secretariat-general",
-        "titre": "Secrétaire Général",
-        "famille": "Secrétariat Général",
-        "missions": [
-          "Coordonner les pôles et directions rattachés",
-          "Assurer le suivi des décisions institutionnelles",
-          "Veiller à la cohérence des dispositifs de pilotage"
-        ],
-        "competences": [
-          "Coordination transverse",
-          "Gouvernance",
-          "Management stratégique"
-        ],
-        "profil": [
-          "Bac+5",
-          "Expérience confirmée en management",
-          "Culture administrative et institutionnelle"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Secrétaire Général",
-            "file": "Fiche_Fonction_Secretaire_General.pdf"
-          }
-        ]
-      },
-      {
-        "id": "pole-operations",
-        "titre": "Responsable Pôle Opérations",
-        "famille": "Pôle",
-        "missions": [
-          "Piloter les activités opérationnelles",
-          "Coordonner les divisions rattachées au pôle",
-          "Suivre la qualité de service et les indicateurs opérationnels"
-        ],
-        "competences": [
-          "Management opérationnel",
-          "Pilotage d'activité",
-          "Optimisation des processus"
-        ],
-        "profil": [
-          "Bac+5",
-          "Expérience en pilotage d'activités métier",
-          "Capacité de coordination multi-équipes"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Pôle Opérations",
-            "file": "Fiche_Fonction_Pole_Operations.pdf"
-          }
-        ]
-      },
-      {
-        "id": "pole-clients",
-        "titre": "Responsable Pôle Clients",
-        "famille": "Pôle",
-        "missions": [
-          "Piloter l'expérience et la relation clients",
-          "Coordonner les dispositifs d'accueil et de service",
-          "Suivre les engagements de qualité vis-à-vis des usagers"
-        ],
-        "competences": [
-          "Relation client",
-          "Qualité de service",
-          "Management d'équipes"
-        ],
-        "profil": [
-          "Bac+5",
-          "Expérience en gestion de la relation client",
-          "Sens du service public"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Pôle Clients",
-            "file": "Fiche_Fonction_Pole_Clients.pdf"
-          }
-        ]
-      },
-      {
-        "id": "division-relation-client",
-        "titre": "Responsable Division Relation client",
-        "famille": "Division - Pôle Clients",
-        "missions": [
-          "Piloter les dispositifs de relation client",
-          "Coordonner les canaux d'accueil et de traitement des demandes",
-          "Suivre la qualité de réponse et les engagements de service"
-        ],
-        "competences": [
-          "Relation client",
-          "Qualité de service",
-          "Coordination opérationnelle"
-        ],
-        "profil": [
-          "Bac+5",
-          "Expérience en relation client ou gestion de service public",
-          "Sens de l'écoute et du suivi des engagements"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Relation client",
-            "file": "Fiche_Poste_Division_Relation_Client.pdf"
-          }
-        ]
-      },
-      {
-        "id": "division-experience-client",
-        "titre": "Responsable Division Expérience client",
-        "famille": "Division - Pôle Clients",
-        "missions": [
-          "Piloter les parcours et l'expérience client",
-          "Identifier les irritants et proposer des améliorations de service",
-          "Mesurer la satisfaction et suivre les plans d'action associés"
-        ],
-        "competences": [
-          "Expérience client",
-          "Analyse de parcours",
-          "Amélioration continue"
-        ],
-        "profil": [
-          "Bac+5",
-          "Expérience en expérience client, qualité ou transformation de service",
-          "Capacité d'analyse et orientation usager"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Expérience client",
-            "file": "Fiche_Poste_Division_Experience_Client.pdf"
-          }
-        ]
-      },
-      {
-        "id": "pole-pilotage",
-        "titre": "Responsable Pôle Pilotage",
-        "famille": "Pôle",
-        "missions": [
-          "Piloter les dispositifs de suivi et de performance",
-          "Consolider les indicateurs stratégiques",
-          "Animer les cycles de reporting et d'aide à la décision"
-        ],
-        "competences": [
-          "Pilotage de performance",
-          "Reporting",
-          "Analyse décisionnelle"
-        ],
-        "profil": [
-          "Bac+5",
-          "Expérience en pilotage ou contrôle de gestion",
-          "Maîtrise des outils d'analyse"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Pôle Pilotage",
-            "file": "Fiche_Fonction_Pole_Pilotage.pdf"
-          }
-        ]
-      },
-      {
-        "id": "pole-systeme-information-transformation-digitale",
-        "titre": "Responsable Pôle Système d'Information et Transformation Digitale",
-        "famille": "Pôle",
-        "missions": [
-          "Piloter le système d'information et les chantiers digitaux",
-          "Coordonner les projets de transformation",
-          "Garantir la continuité, la sécurité et l'évolution des services numériques"
-        ],
-        "competences": [
-          "Systèmes d'information",
-          "Transformation digitale",
-          "Management de projets"
-        ],
-        "profil": [
-          "Bac+5",
-          "Expérience SI et transformation",
-          "Maîtrise des enjeux de sécurité et de conduite du changement"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Pôle Système d'Information et Transformation Digitale",
-            "file": "Fiche_Fonction_Pole_SITD.pdf"
-          }
-        ]
-      },
-      {
-        "id": "pole-gestion-portefeuille",
-        "titre": "Responsable Pôle Gestion du Portefeuille",
-        "famille": "Pôle",
-        "missions": [
-          "Piloter la gestion du portefeuille",
-          "Suivre les arbitrages et indicateurs financiers",
-          "Contribuer à la sécurisation et à la performance des placements"
-        ],
-        "competences": [
-          "Gestion de portefeuille",
-          "Analyse financière",
-          "Maîtrise des risques"
-        ],
-        "profil": [
-          "Bac+5",
-          "Expérience en finance ou gestion d'actifs",
-          "Culture risque et performance"
-        ],
-        "attachments": [
-          {
-            "label": "Fiche fonction Pôle Gestion du Portefeuille",
-            "file": "Fiche_Fonction_Pole_Gestion_Portefeuille.pdf"
-          }
-        ]
-      },
-      {
         "id": "division-controle-engagements-paiements",
-        "titre": "Responsable Division Contrôle des Engagements et des Paiements",
-        "famille": "Division",
+        "titre": "Chef de Division Contrôle des Engagements et des Paiements",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Superviser le contrôle des engagements et paiements",
-          "Assurer la conformité des contrôles réalisés",
-          "Produire le reporting lié aux opérations contrôlées"
+          "Assurer le contrôle à priori de la régularité des engagements et de l’exécution budgétaire ;",
+          "Assurer le contrôle de la régularité des dépenses ;",
+          "Contribuer à la mise en place et à l’amélioration du référentiel de contrôle interne relatif à la gestion des dépenses ;",
+          "Veiller à la préparation des reporting et des rapports destinés à la Direction, aux organes de gouvernance et aux organismes de contrôle."
         ],
         "competences": [
-          "Contrôle des engagements",
-          "Contrôle des paiements",
-          "Rigueur réglementaire"
+          "Maîtrise totale de la réglementation régissant la commande publique et les dépenses du personnel;",
+          "Maîtrise totale de la réglementation régissant le contrôle financier des établissements publics ;",
+          "Maîtrise totale de l’organisation financière et comptable de la Caisse ;",
+          "Maîtrise des techniques de contrôle interne et de gestion des risques ;",
+          "Connaissance des techniques de planification et de pilotage avec capacité de leur mise en œuvre.",
+          "Maîtrise des outils de reporting et de tableaux de bord."
         ],
-        "profil": [
-          "Bac+5",
-          "Expérience en contrôle ou gestion financière",
-          "Maîtrise des procédures administratives"
+        "folderAliases": [
+          "CHEF DE Division CONTRÔLE DES ENGAGEMENTS ET DES PAIEMENTS"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Contrôle des Engagements et des Paiements",
-            "file": "Fiche_Poste_Division_Controle_Engagements_Paiements.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 3,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1002
+        }
+      },
+      {
+        "id": "chef-de-service-controle-des-engagements",
+        "titre": "Chef de Service Contrôle des Engagements",
+        "famille": "Entités rattachées à la Direction",
+        "missions": [
+          "Assurer le contrôle à priori de la régularité des engagements et de l’exécution budgétaire ;",
+          "Produire les reporting et les rapports destinés aux organes de gouvernance et des organismes de contrôle."
+        ],
+        "competences": [
+          "Maîtrise totale de la réglementation régissant la commande publique et les dépenses du personnel ;",
+          "Maîtrise totale de la réglementation régissant le contrôle financier des établissements publics ;",
+          "Maîtrise totale de l’organisation financières et comptables de la Caisse ;",
+          "Maîtrise des techniques de contrôle interne et de gestion des risques ;",
+          "Connaissance des techniques de planification et de pilotage avec capacité de leur mise en œuvre;",
+          "Maîtrise des outils de reporting et de tableaux de bord."
+        ],
+        "folderAliases": [
+          "Chef de service Contrôle des Engagements"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 6,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1016
+        }
+      },
+      {
+        "id": "chef-de-service-controle-des-paiements",
+        "titre": "Chef de Service Contrôle des Paiements",
+        "famille": "Entités rattachées à la Direction",
+        "missions": [
+          "Assurer le contrôle de la régularité des dépenses ;",
+          "Produire les reporting et les rapports relatifs à son activité."
+        ],
+        "competences": [
+          "Maîtrise totale de la réglementation régissant la commande publique et les dépenses du personnel;",
+          "Maîtrise totale de la réglementation régissant la gestion de la dépense et du contrôle financier des établissements publics ;",
+          "Maîtrise totale de l’organisation financières et comptables de la Caisse ;",
+          "Maîtrise des techniques de contrôle interne et de gestion des risques ;",
+          "Connaissance des techniques de planification et de pilotage avec capacité de leur mise en œuvre;",
+          "Maîtrise des outils de reporting et de tableaux de bord."
+        ],
+        "folderAliases": [
+          "Chef de Service Contrôle des PaiEments"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 9,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1027
+        }
       },
       {
         "id": "division-etudes-affaires-juridiques",
-        "titre": "Responsable Division Études et Affaires Juridiques",
-        "famille": "Division",
+        "titre": "Chef de Division Etudes et Affaires Juridiques",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Piloter les études juridiques",
-          "Accompagner les directions sur les affaires juridiques",
-          "Contribuer à la veille et à la sécurisation juridique"
+          "Réaliser les études actuarielles et les bilans actuariels annuels ;",
+          "Réaliser les études sectorielles nécessaires pour les activités de la CMR ;",
+          "Assurer l'appui et la veille juridiques ;",
+          "Assurer la médiation et la gestion des différends."
         ],
         "competences": [
-          "Droit public",
-          "Analyse juridique",
-          "Veille réglementaire"
+          "Bonne connaissance de l’activité de la CMR et son contexte interne et externe ;",
+          "Un très bon stratège ;",
+          "Bonne capacité d’anticipation, d’analyse et de diagnostic ;",
+          "Une longue expérience dans le domaine de la prévoyance sociale ;",
+          "Une maîtrise des techniques de pilotage de projets stratégiques ;",
+          "Maîtrise du contexte juridique et réglementaire de la CMR."
         ],
-        "profil": [
-          "Bac+5 en droit ou équivalent",
-          "Expérience en affaires juridiques",
-          "Capacité de conseil et de synthèse"
+        "folderAliases": [
+          "Chef de Division Etudes et Affaires Juridiques"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Études et Affaires Juridiques",
-            "file": "Fiche_Poste_Division_Etudes_Affaires_Juridiques.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 13,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1088
+        }
       },
       {
-        "id": "division-risk-management",
-        "titre": "Responsable Division Risk management",
-        "famille": "Division",
+        "id": "chef-de-service-contentieux",
+        "titre": "Chef de Service Contentieux",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Animer le dispositif de risk management",
-          "Identifier, évaluer et suivre les risques majeurs",
-          "Accompagner les plans de mitigation et de reporting"
+          "Superviser la gestion des dossiers en contentieux ;",
+          "Assurer le suivi des réclamations institutionnelles et de leur traitement ;",
+          "Superviser la gestion des dossiers de pensions alimentaires et assurer l’accompagnent juridique."
         ],
         "competences": [
-          "Risk management",
-          "Cartographie des risques",
-          "Contrôle et reporting"
+          "Maîtrise des branches du droit de son domaine d’activité directe (droit de la Retraite) ;",
+          "Maîtrise de la rédaction des mémoires et notes de synthèse ;",
+          "Maîtrise des techniques d’analyse et de synthèse de la documentation juridique ;",
+          "Connaissance d’autres branches du droit."
         ],
-        "profil": [
-          "Bac+5",
-          "Expérience en risques, audit ou contrôle",
-          "Maîtrise des méthodes d'évaluation des risques"
+        "folderAliases": [
+          "Chef de  Service CONTENTIEUX"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Risk management",
-            "file": "Fiche_Poste_Division_Risk_Management.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 17,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1137
+        }
+      },
+      {
+        "id": "chef-de-service-etudes-et-actuariat",
+        "titre": "Chef de Service Etudes et Actuariatx",
+        "famille": "Entités rattachées à la Direction",
+        "missions": [
+          "Réaliser les bilans et études actuarielles, anticiper et maîtriser les risques financiers que prends la CMR ;",
+          "Réaliser les études statistiques, sectorielles et de prospection ;",
+          "Superviser les études sous-traitées."
+        ],
+        "competences": [
+          "Maîtrise du fonctionnement global de la Caisse et de son contexte ;",
+          "Capacité d’anticipation, d’analyse et de diagnostic ;",
+          "Maîtrise parfaite des techniques de modélisation statistique et actuariat ;",
+          "Connaissances des techniques d’analyse financière.",
+          "Connaissance du contexte juridique et réglementaire de la CMR."
+        ],
+        "folderAliases": [
+          "Chef de Service Etudes et Actuariat"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 20,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1104
+        }
+      },
+      {
+        "id": "chef-de-service-mediation-et-veille-juridique",
+        "titre": "Chef de Service Médiation et Veille Juridique",
+        "famille": "Entités rattachées à la Direction",
+        "missions": [
+          "Assurer la médiation interne et le suivi des doléances du médiateur du Royaume ;",
+          "Réaliser des études juridiques ;",
+          "Assurer la veille juridique et la diffusion de l’information juridique ;",
+          "Apporter conseil et expertise juridiques aux différentes entités de la Caisse ;",
+          "Veiller sur la bonne application des lois et de la réglementation en vigueur."
+        ],
+        "competences": [
+          "Maîtrise des branches du droit de son domaine d’activité directe (droit de la Retraite) ;",
+          "Maîtrise de la rédaction des mémoires et notes de synthèse ;",
+          "Maîtrise des techniques d’analyse et de synthèse de la documentation juridique ;",
+          "Connaissance d’autres branches du droit ;",
+          "Connaissance des règles applicables en matière de gestion du contrat de travail."
+        ],
+        "folderAliases": [
+          "Chef de Service Médiation et veille juridique"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 23,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1120
+        }
       },
       {
         "id": "division-gouvernance-communication-externe",
-        "titre": "Responsable Division Gouvernance et Communication Externe",
-        "famille": "Division rattachée au DG",
+        "titre": "Chef de Division Gouvernance et Communication Externe",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Piloter la gouvernance et la communication externe",
-          "Coordonner les dispositifs institutionnels de communication",
-          "Assurer la cohérence des messages et supports externes"
+          "Apporter l’appui pour le bon fonctionnement des instances de gouvernance de la CMR ;",
+          "Proposer et mettre en œuvre la stratégie de communication externe et les activités de coopération internationale."
         ],
         "competences": [
-          "Gouvernance",
-          "Communication institutionnelle",
-          "Relations externes"
+          "Maitrise de l’environnement institutionnel de la CMR et de ses évolutions ;",
+          "Maîtrise de la réglementation régissant la CMR et les régimes et prestations qu’elle gère ;",
+          "Capacité de rédaction (arabe, français, anglais) ;",
+          "Bonne élocution ;",
+          "Parfaite connaissance de l’activité de la Caisse, son contexte, son organisation ainsi que ses orientations stratégiques ;",
+          "Connaissance générale des sciences de l’information et de la communication ;",
+          "Bilingue : Français/Arabe, la maîtrise d’autres langues étrangères est très souhaitable ;",
+          "Connaissance des règles déontologiques, éthiques et juridiques ;",
+          "Connaissance des éléments de base de la réglementation relative à la fonction publique, aux contrats et aux obligations ;",
+          "Connaissance des outils de publication (PAO) et logiciels appropriés en traitement de teste et d’images, des logiciels d’infographie papier et maîtrise de la chaîne graphique, des logiciels d’infographie web et de communication électronique ;",
+          "Maîtrise des techniques de conduite des projets."
         ],
-        "profil": [
-          "Bac+5",
-          "Expérience en gouvernance ou communication",
-          "Capacité de coordination et de représentation"
+        "folderAliases": [
+          "Chef de Division Gouvernance et communication externe"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Gouvernance et Communication Externe",
-            "file": "Fiche_Poste_Division_Gouvernance_Communication_Externe.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 27,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1039
+        }
       },
       {
-        "id": "division-constitution-droits",
-        "titre": "Responsable Division Constitution des Droits",
-        "famille": "Division - Pôle Opérations",
+        "id": "chef-de-service-communication-externe-et-cooperation-internationale",
+        "titre": "Chef de Service Communication Externe et Coopération Internationale",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Piloter les activités de constitution des droits",
-          "Coordonner le traitement des dossiers et la conformité des décisions",
-          "Suivre les indicateurs opérationnels de la division"
+          "Elaborer les propositions et assurer la mise en œuvre des plans d’action de la CMR en matière de Communication externe ;",
+          "Elaborer les propositions et assurer la mise en œuvre des plans d’action de la CMR en matière de Coopération internationale."
         ],
         "competences": [
-          "Gestion des droits",
-          "Maîtrise réglementaire",
-          "Pilotage d'activité"
+          "Parfaite connaissance de l’activité de la Caisse, son contexte, son organisation ainsi que ses orientations stratégiques ;",
+          "Connaissance générale des sciences de l’information et de la communication ;",
+          "Connaissance des missions et des priorités de la Caisse ;",
+          "Maîtrise des langues Anglais/Français/Arabe et des techniques de rédactions administratives ;",
+          "Connaissance des règles déontologiques, éthiques, juridiques de la profession (copyright, droit d’auteur) ;",
+          "Connaissance des outils de publication (PAO) et logiciels appropriés en traitement de test et d’images, des logiciels d’infographie papier et maîtrise de la chaîne graphique, des logiciels d’infographie web et de communication électronique ;",
+          "Maîtrise des techniques de conduite des projets."
         ],
-        "profil": [
-          "Bac+5",
-          "Expérience en gestion de prestations ou dossiers réglementaires",
-          "Capacité de coordination et de contrôle"
+        "folderAliases": [
+          "Chef de  Service Communication externe et Coopération internationale"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Constitution des Droits",
-            "file": "Fiche_Poste_Division_Constitution_Droits.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 31,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1071
+        }
       },
       {
-        "id": "division-concession-droits",
-        "titre": "Responsable Division Concession des Droits",
-        "famille": "Division - Pôle Opérations",
+        "id": "chef-de-service-gouvernance",
+        "titre": "Chef de Service Gouvernance",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Superviser la concession des droits",
-          "Garantir la qualité et la traçabilité du traitement des dossiers",
-          "Coordonner les équipes et les contrôles liés à l'activité"
+          "Assurer la préparation et le suivi des travaux du Conseil d’Administration et des autres comités issus du conseil ;",
+          "Préparer les dossiers d’élection ou de désignation des membres du Conseil d’Administration ;",
+          "Assurer une veille et un appui en matière de système de gouvernance."
         ],
         "competences": [
-          "Concession des droits",
-          "Contrôle qualité",
-          "Management opérationnel"
+          "Maîtrise de la réglementation de la Caisse ;",
+          "Maitrise des règles de gouvernance des établissements publics ;",
+          "Maîtrise de l'organisation de la Caisse ;",
+          "Capacité de rédaction (arabe et française)."
         ],
-        "profil": [
-          "Bac+5",
-          "Expérience en opérations retraite ou protection sociale",
-          "Rigueur réglementaire et sens du service"
+        "folderAliases": [
+          "Chef de service Gouvernance"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Concession des Droits",
-            "file": "Fiche_Poste_Division_Concession_Droits.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 35,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1058
+        }
       },
       {
-        "id": "division-paiement-prestations",
-        "titre": "Responsable Division Paiement des Prestations",
-        "famille": "Division - Pôle Opérations",
+        "id": "division-risk-management",
+        "titre": "Chef de Division Risk Management",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Piloter le paiement des prestations",
-          "Sécuriser les cycles de paiement et les contrôles associés",
-          "Assurer le reporting des opérations de paiement"
+          "Veiller à l’optimisation et à l’efficacité du dispositif de contrôle interne ;",
+          "Effectuer les missions de vérification, d’évaluation et d’inspection que la Direction lui confie ;",
+          "Assurer le contrôle permanent des activités ;",
+          "Garantir l’identification, l’évaluation et la maîtrise des risques ;",
+          "Garantir la conformité des activités au cadre législatif, réglementaire et conventionnel."
         ],
         "competences": [
-          "Paiement des prestations",
-          "Contrôle opérationnel",
-          "Reporting"
+          "Maîtriser des techniques de contrôle interne, d’audit et de gestion des risques ;",
+          "Maîtrise du cadre législatif, réglementaire et conventionnel de la Caisse ;",
+          "Connaissance de l’organisation de la Caisse et des interactions entre les différentes entités ;",
+          "Connaissance des techniques de planification et de pilotage avec capacité de leur mise en œuvre."
         ],
-        "profil": [
-          "Bac+5",
-          "Expérience en gestion financière ou prestations sociales",
-          "Maîtrise des procédures et des délais opérationnels"
+        "folderAliases": [
+          "CHEF DE Division Risk Management"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Paiement des Prestations",
-            "file": "Fiche_Poste_Division_Paiement_Prestations.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 39,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 969
+        }
       },
       {
-        "id": "division-capital-humain",
-        "titre": "Responsable Division Capital Humain",
-        "famille": "Division - Pôle Ressources",
+        "id": "chef-de-service-controle-permanent",
+        "titre": "Chef de Service Controle Permanent",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Piloter la gestion du capital humain",
-          "Accompagner les dispositifs RH et le développement des compétences",
-          "Suivre les indicateurs sociaux et les plans d'action RH"
+          "Garantir la performance du contrôle permanent de premier niveau ;",
+          "Assurer le contrôle permanent à posteriori."
         ],
         "competences": [
-          "Gestion RH",
-          "Développement des compétences",
-          "Dialogue et accompagnement"
+          "Maîtrise du cadre législatif, réglementaire et conventionnel de la Caisse ;",
+          "Maîtrise des métiers de la Caisse et des problématiques de conformité ;",
+          "Bonne connaissance des processus / produits / services de la Caisse ;",
+          "Bonne connaissance du dispositif de délégations et d’habilitations des agents de la Caisse ;",
+          "Bonne connaissance des outils, des procédures et des sécurités informatiques."
         ],
-        "profil": [
-          "Bac+5 en ressources humaines ou management",
-          "Expérience confirmée en gestion RH",
-          "Capacité d'écoute, d'organisation et de pilotage"
+        "folderAliases": [
+          "Chef de Service Contrôle permanent"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Capital Humain",
-            "file": "Fiche_Poste_Division_Capital_Humain.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 42,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 981
+        }
       },
       {
-        "id": "division-achats-logistique",
-        "titre": "Responsable Division Achats et Logistique",
-        "famille": "Division - Pôle Ressources",
+        "id": "chef-de-service-risques-et-conformite",
+        "titre": "Chef de Service Risques et Conformité",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Superviser les achats et la logistique",
-          "Garantir le respect des procédures et des engagements fournisseurs",
-          "Optimiser les moyens matériels et les services généraux"
+          "Mettre en place le dispositif de gestion et de prévention des risques opérationnels, financiers, professionnels et environnementaux ;",
+          "Assurer l’identification, l’évaluation et la maîtrise des risques et opportunités inhérents aux activités, au personnel et à l’environnement ;",
+          "Assurer la conformité aux obligations législatives, réglementaires et déontologiques."
         ],
         "competences": [
-          "Achats publics",
-          "Logistique",
-          "Gestion fournisseurs"
+          "Maîtrise du cadre législatif, réglementaire et conventionnel de la Caisse ;",
+          "Connaissance des techniques de gestion des risques et de négociation ;",
+          "Bonne connaissance de la réglementation relative à la santé et sécurité au travail et à l’environnement ;",
+          "Bonne connaissance des processus / produits / services de la Caisse."
         ],
-        "profil": [
-          "Bac+5",
-          "Expérience en achats, marchés ou logistique",
-          "Rigueur procédurale et capacité de négociation"
+        "folderAliases": [
+          "Chef DE SERVICE RisqueS et Conformité"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Achats et Logistique",
-            "file": "Fiche_Poste_Division_Achats_Logistique.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 45,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 992
+        }
       },
       {
-        "id": "division-financiere-comptable",
-        "titre": "Responsable Division Financière et Comptable",
-        "famille": "Division - Pôle Ressources",
+        "id": "audit-interne",
+        "titre": "Chef de Service Audit",
+        "famille": "Entités rattachées à la Direction",
         "missions": [
-          "Piloter les activités financières et comptables",
-          "Assurer la fiabilité des opérations et des arrêtés comptables",
-          "Produire les reportings financiers et contribuer au contrôle budgétaire"
+          "Evaluer périodiquement l’adéquation et l’efficacité du dispositif de gouvernance, de gestion des risques et de contrôle ;",
+          "Proposer des actions d'amélioration dans une finalité d’optimisation de la maîtrise de l'ensemble de ses activités."
         ],
         "competences": [
-          "Comptabilité",
-          "Finance publique",
-          "Contrôle budgétaire"
+          "Maîtrise totale des techniques et des normes professionnelles d’audit ;",
+          "Bonne connaissance de l’organisation de la Caisse et de ses évolutions ainsi que de son environnement extérieur ;",
+          "Bonne connaissance des processus métiers de la Caisse et de leurs interactions ;",
+          "Connaissances de base en sécurité informatique, comptabilité, droit et fiscalité, finance, et statistiques."
         ],
-        "profil": [
-          "Bac+5 en finance, comptabilité ou audit",
-          "Expérience confirmée en gestion financière",
-          "Maîtrise des normes et procédures comptables"
+        "folderAliases": [
+          "Chef de service Audit"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Financière et Comptable",
-            "file": "Fiche_Poste_Division_Financiere_Comptable.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 49,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 1150
+        }
       },
       {
-        "id": "division-organisation-amoa",
-        "titre": "Responsable Division Organisation et AMOA",
-        "famille": "Division - Pôle Pilotage",
+        "id": "pole-clients",
+        "titre": "Chef de Pôle Client :",
+        "famille": "Pôle Clients",
         "missions": [
-          "Piloter les projets d'organisation et d'assistance à maîtrise d'ouvrage",
-          "Formaliser les besoins métier et accompagner la conduite du changement",
-          "Coordonner les chantiers d'amélioration des processus"
+          "Développer et mettre en œuvre une stratégie de la gestion des relations avec les clients (GRC) conformément à la politique qualité ;",
+          "Concevoir, pour le compte de la Direction, la stratégie de partenariat « métier » et assurer l’évaluation de sa mise en œuvre ;",
+          "Optimiser les activités opérationnelles d’accueil, d’animation du réseau et de la gestion des relations avec les clients ;",
+          "Veiller sur la conception et le développement de services répondant aux besoins des clients."
         ],
         "competences": [
-          "Organisation",
-          "AMOA",
-          "Conduite du changement"
+          "Maitrise des exigences règlementaires et des règles internes relatives aux régimes des pensions et aux prestations gérés par la Caisse ;",
+          "Maîtrise des techniques de planification et de pilotage ;",
+          "Bonne connaissance des métiers partenaires internes (opérations, achats, ressources humaines et système d’information) et de leurs contraintes ;",
+          "Bonne connaissance de l’écosystème de la CMR et capacité de développer un réseau professionnel orienté partenariat."
         ],
-        "profil": [
-          "Bac+5",
-          "Expérience en organisation, AMOA ou transformation",
-          "Capacité d'analyse, de synthèse et d'animation"
+        "folderAliases": [
+          "Chef de Pôle Clients"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Organisation et AMOA",
-            "file": "Fiche_Poste_Division_Organisation_AMOA.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 53,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 244
+        }
       },
       {
-        "id": "division-data-office",
-        "titre": "Responsable Division Data Office",
-        "famille": "Division - Pôle Pilotage",
+        "id": "division-relation-client",
+        "titre": "DIVISION RELATION CLIENT",
+        "famille": "Pôle Clients",
         "missions": [
-          "Piloter la gouvernance et la valorisation des données",
-          "Développer les dispositifs de reporting, qualité et analyse data",
-          "Accompagner les métiers dans l'exploitation décisionnelle des données"
+          "Organiser, planifier et superviser la réalisation des activités multicanales, d’information, d’accueil et de traitement des requêtes et des demandes de services des clients ;",
+          "Veiller sur le traitement des réclamations ;",
+          "Piloter le fonctionnement du réseau des représentations et des délégations régionales et leur apporter l’encadrement et le support nécessaires."
         ],
         "competences": [
-          "Data management",
-          "Business intelligence",
-          "Qualité des données"
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et aux prestations ;",
+          "Maitrise du parcours client et des caractéristiques des services et prestations de la Caisse ;",
+          "Maitrise de l’environnement institutionnel de la CMR et des engagements de services réciproques pris avec les partenaires."
         ],
-        "profil": [
-          "Bac+5 en data, statistiques, informatique ou équivalent",
-          "Expérience en gouvernance de données ou BI",
-          "Culture analytique et orientation métier"
+        "folderAliases": [
+          "Chef DE DIVISION RELATION CLIENT"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Data Office",
-            "file": "Fiche_Poste_Division_Data_Office.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 57,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 257
+        }
       },
       {
-        "id": "division-etude-developpement",
-        "titre": "Responsable Division Étude et Développement",
-        "famille": "Division - Pôle Système d'Information et Transformation Digitale",
+        "id": "chef-du-centre-daccueil-de-rabat",
+        "titre": "Chef de Centre d'accueil de Rabat",
+        "famille": "Pôle Clients",
         "missions": [
-          "Piloter les études et développements applicatifs",
-          "Coordonner les projets SI avec les métiers et les équipes techniques",
-          "Assurer la qualité, la maintenabilité et l'évolution des solutions"
+          "Assurer la gestion de la relation directe avec les clients qui se présentent au centre d’accueil de Rabat."
         ],
         "competences": [
-          "Études SI",
-          "Développement applicatif",
-          "Management de projets"
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et aux prestations gérés par la Caisse ;",
+          "Maitrise totale du parcours client et des caractéristiques des services et prestations fournies par la Caisse ;",
+          "Connaissances des métiers support et de leurs contraintes (achats, ressources humaines et système d’information)",
+          "Aptitude pour la communication et la promotion des produits et services de la Caisse."
         ],
-        "profil": [
-          "Bac+5 en informatique ou équivalent",
-          "Expérience en développement, architecture ou pilotage SI",
-          "Maîtrise des méthodes projet et de la qualité logicielle"
+        "folderAliases": [
+          "Chef du Centre d’accueil de rabat"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Étude et Développement",
-            "file": "Fiche_Poste_Division_Etude_Developpement.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 59,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 299
+        }
       },
       {
-        "id": "division-exploitation-systemes-reseaux",
-        "titre": "Responsable Division Exploitation, Systèmes et Réseaux",
-        "famille": "Division - Pôle Système d'Information et Transformation Digitale",
+        "id": "chef-de-delegation",
+        "titre": "Chef de Délégation",
+        "famille": "Pôle Clients",
         "missions": [
-          "Superviser l'exploitation, les systèmes et les réseaux",
-          "Garantir la disponibilité, la performance et la continuité des services",
-          "Coordonner le support technique et les évolutions d'infrastructure"
+          "Assurer la gestion de la relation directe avec les clients qui se présentent à la délégation ;",
+          "Assurer une relation de proximité avec les employeurs (collectivités territoriales et établissements publics) et les partenaires."
         ],
         "competences": [
-          "Infrastructure SI",
-          "Exploitation",
-          "Systèmes et réseaux"
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et aux prestations gérés par la Caisse ;",
+          "Maitrise totale du parcours client et des caractéristiques des services et prestations fournies par la Caisse ;",
+          "Connaissances des métiers support et de leurs contraintes (achats, ressources humaines et système d’information)",
+          "Bonne connaissance de l’écosystème local et capacité de gérer la relation avec les partenaires locaux pour l’atteinte des objectifs",
+          "Aptitude pour la communication et la promotion des produits et services de la Caisse."
         ],
-        "profil": [
-          "Bac+5 en informatique, réseaux ou systèmes",
-          "Expérience en exploitation SI ou infrastructure",
-          "Culture service, sécurité et continuité"
+        "folderAliases": [
+          "Chef de délégation"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Exploitation, Systèmes et Réseaux",
-            "file": "Fiche_Poste_Division_Exploitation_Systemes_Reseaux.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 62,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 288
+        }
       },
       {
-        "id": "division-gestion-portefeuille-gestion",
-        "titre": "Responsable Division Gestion",
-        "famille": "Division - Pôle Gestion du Portefeuille",
+        "id": "chef-de-service-animation-du-reseau",
+        "titre": "Chef de Service Animation de Réseau",
+        "famille": "Pôle Clients",
         "missions": [
-          "Piloter les activités de gestion du portefeuille",
-          "Suivre les positions, arbitrages et indicateurs de performance",
-          "Contribuer à la maîtrise des risques financiers"
+          "Garantir l’encadrement et le support nécessaires au bon fonctionnement du réseau ;",
+          "Superviser l’exécution des activités confiées au réseau."
         ],
         "competences": [
-          "Gestion de portefeuille",
-          "Analyse financière",
-          "Suivi de performance"
+          "Maitrise des exigences règlementaires et des règles internes relatives aux régimes des pensions et aux prestations gérés par la Caisse ;",
+          "Maitrise du parcours client et des caractéristiques des services et prestations fournies par la Caisse ;",
+          "Connaissances des techniques d’évaluation et d’audit avec capacité de leur mise en œuvre ;",
+          "Connaissances des fonctions internes support (achats, ressources humaines et système d’information) et de leurs contraintes."
         ],
-        "profil": [
-          "Bac+5 en finance, économie ou gestion",
-          "Expérience en gestion d'actifs ou portefeuille",
-          "Maîtrise de l'analyse risque-rendement"
+        "folderAliases": [
+          "Chef de Service Animation du réseau"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Gestion",
-            "file": "Fiche_Poste_Division_Gestion_Portefeuille.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 65,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 278
+        }
+      },
+      {
+        "id": "chef-de-service-service-client",
+        "titre": "Chef de Service Service Client",
+        "famille": "Pôle Clients",
+        "missions": [
+          "Réaliser les activités multicanales d’accueil et de service client ;",
+          "Assurer le traitement des réclamations des clients."
+        ],
+        "competences": [
+          "Maitrise totale du parcours client, des procédures et des caractéristiques des services et prestations fournies par la Caisse ;",
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et aux prestations de la Caisse ;",
+          "Maitrise de l’environnement institutionnel de la CMR et des engagements de services réciproques pris avec les partenaires.",
+          "Maitrise totale des fonctionnalités des outils informatiques et de la téléphonie d’accueil et service client."
+        ],
+        "folderAliases": [
+          "Chef DE SERVICE service client"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 68,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 267
+        }
+      },
+      {
+        "id": "division-experience-client",
+        "titre": "DIVISION EXPERIENCE CLIENT",
+        "famille": "Pôle Clients",
+        "missions": [
+          "Assurer la détermination, la surveillance et la mise à jour des exigences des clients et des parties intéressées et la mesure de la satisfaction des clients ;",
+          "Assurer le développement et l’entretien des partenariats « métier de la retraite » ;",
+          "Piloter les actions de conception et de développement des produits et services au profit des clients et des partenaires ;",
+          "Piloter et évaluer les actions de promotion et de communication relatives aux produits et services."
+        ],
+        "competences": [
+          "Bonne connaissance des techniques de conception et développement des produits/services avec capacité de leur mise en œuvre ;",
+          "Maitrise de l’écosystème de la CMR et capacité de développer un réseau professionnel orienté partenariat métier ;",
+          "Bonne connaissance des techniques de Marketing, d’élaboration et d’exploitation d’enquêtes statistiques et de sondage d’opinion avec capacité de leur mise en œuvre."
+        ],
+        "folderAliases": [
+          "Chef de Division EXPéRIENCE CLIENT"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 72,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 307
+        }
+      },
+      {
+        "id": "chef-de-service-developpement-des-services-et-marketing",
+        "titre": "Chef de Service Développement des services et Marketing",
+        "famille": "Pôle Clients",
+        "missions": [
+          "Assurer la conception et le développement des produits et services au profit des clients et des partenaires ;",
+          "Assurer la promotion des produits et services de la CMR et appuyer leur commercialisation."
+        ],
+        "competences": [
+          "Maitrise des techniques de conception et développement des produits/services ;",
+          "Maitrise des techniques de Marketing."
+        ],
+        "folderAliases": [
+          "Chef de Service Développement des services et Marketing"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 73,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 328
+        }
+      },
+      {
+        "id": "chef-de-service-ecoute-client-et-partenariats",
+        "titre": "Chef de Service Ecoute Clients et Partenariats",
+        "famille": "Pôle Clients",
+        "missions": [
+          "Assurer la détermination et la surveillance des retours des clients et des parties intéressées ;",
+          "Mettre en œuvre les actions de développement et d’entretien des partenariats « métier »."
+        ],
+        "competences": [
+          "Maitrise des techniques d’élaboration et d’exploitation d’enquêtes statistiques et de sondage ;",
+          "Bonne connaissance de l’écosystème de la CMR et capacité de développer un réseau professionnel orienté partenariat métier ;",
+          "Connaissance des éléments de base de la réglementation relative aux contrats et aux obligations."
+        ],
+        "folderAliases": [
+          "Chef de Service Ecoute client et Partenariats"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 77,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 319
+        }
+      },
+      {
+        "id": "pole-gestion-portefeuille",
+        "titre": "Chef de Pôle Gestion de Portefeuille",
+        "famille": "Pôle Gestion du Portefeuille",
+        "missions": [
+          "Organiser, planifier et superviser les activités de gestion du portefeuille de la Caisse et suivre ses performances ;",
+          "Implémenter et piloter le processus de la gestion déléguée ;",
+          "Piloter et implémenter le processus de gestion des investissements alternatifs ;",
+          "Garantir la cohérence du processus d’investissement des excédents financiers gérés par la Caisse et sa conformité avec la réglementation, la déontologie et les règles et contraintes de gestion ;",
+          "Veiller à la gestion efficace des risques liés aux opérations d’investissement des excédents."
+        ],
+        "competences": [
+          "Maîtrise des marchés financiers et du Private Equity sur lesquels intervient la CMR ;",
+          "Maîtrise des techniques de gestion de portefeuille et de l’organisation du métier de gestion d’actifs ;",
+          "Connaissance des outils nécessaires pour une reddition pertinente et transparente des comptes ;",
+          "Maîtrise des processus et des procédures régissant l’activité du Pôle."
+        ],
+        "folderAliases": [
+          "Chef de pôle gestion du portefeuille"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 80,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 348
+        }
       },
       {
         "id": "division-gestion-portefeuille-operations",
-        "titre": "Responsable Division Opérations",
-        "famille": "Division - Pôle Gestion du Portefeuille",
+        "titre": "Chef de Division Opérations",
+        "famille": "Pôle Gestion du Portefeuille",
         "missions": [
-          "Superviser les opérations liées au portefeuille",
-          "Sécuriser les traitements, rapprochements et contrôles opérationnels",
-          "Assurer le suivi des flux et la coordination avec les parties prenantes"
+          "Veiller sur la réalisation du contrôle de premier niveau des opérations engagées ;",
+          "Veiller sur le dénouement des opérations ;",
+          "Superviser l’enregistrement comptable des opérations."
         ],
         "competences": [
-          "Opérations financières",
-          "Contrôle des flux",
-          "Coordination opérationnelle"
+          "Maîtrise du fonctionnement des marchés financiers sur lesquels intervient la CMR ;",
+          "Maîtrise des techniques d’évaluation de suivi des performances et des risques de portefeuille ;",
+          "Maîtrise des techniques comptables ;",
+          "Connaissance des dispositions réglementaires régissant l’activité de placement."
         ],
-        "profil": [
-          "Bac+5 en finance, gestion ou équivalent",
-          "Expérience en opérations de marché ou gestion financière",
-          "Rigueur, fiabilité et maîtrise des contrôles"
+        "folderAliases": [
+          "Chef de division opérations"
         ],
-        "attachments": [
-          {
-            "label": "Fiche poste Division Opérations",
-            "file": "Fiche_Poste_Division_Operations_Portefeuille.pdf"
-          }
-        ]
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 84,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 363
+        }
+      },
+      {
+        "id": "chef-de-service-back-office",
+        "titre": "Chef de Service Back Office",
+        "famille": "Pôle Gestion du Portefeuille",
+        "missions": [
+          "Assurer la gestion administrative des FDS et contribuer au bon dénouement du processus de financement des prestations ;",
+          "Assurer le suivi quotidien de la trésorerie et la fiabilisation des données comptables avant diffusion."
+        ],
+        "competences": [
+          "Connaissance des dispositions réglementaires régissant l’activité de gestion du portefeuille ;",
+          "Maîtrise du fonctionnement des marchés financiers ;",
+          "Maîtrise des techniques comptables."
+        ],
+        "folderAliases": [
+          "Chef de service back office"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 85,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 376
+        }
+      },
+      {
+        "id": "chef-de-service-middle-office",
+        "titre": "Chef de Service Middle Office",
+        "famille": "Pôle Gestion du Portefeuille",
+        "missions": [
+          "Superviser le contrôle des opérations engagées et leurs validations ;",
+          "Assurer le suivi et l’analyse de la performance et du risque."
+        ],
+        "competences": [
+          "Connaissance des méthodes d’analyse des performances financières ;",
+          "Maîtrise des marchés de capitaux, leurs règles et règlements ;",
+          "Maîtrise des techniques comptables liés aux actifs gérés ;",
+          "Connaissance des dispositions réglementaires régissant l’activité de placement."
+        ],
+        "folderAliases": [
+          "Chef de service middle office"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 88,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 386
+        }
+      },
+      {
+        "id": "division-gestion-portefeuille-gestion",
+        "titre": "Chef de Division Gestion",
+        "famille": "Pôle Gestion du Portefeuille",
+        "missions": [
+          "Contribuer à la définition de la stratégie d’investissement et de la politique de placement ;",
+          "Implémentation de la Politique de placement sur les marchés de base ;",
+          "Implémentation de la politique de placement sur les classes des instruments « alternatifs »."
+        ],
+        "competences": [
+          "Maîtrise des marchés financiers sur lesquels intervient la CMR (Monétaire, Obligataire, Actions, Immobilier, ...etc.) ;",
+          "Maîtrise des techniques de gestion de portefeuille et de l’organisation du métier de gestion d’actifs ;",
+          "Maîtrise des paramètres de risque ;",
+          "Maîtriser l’économie marocaine."
+        ],
+        "folderAliases": [
+          "Chef de division gestion"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 91,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 398
+        }
+      },
+      {
+        "id": "chef-de-service-asset-management",
+        "titre": "Chef de Service Asset Management",
+        "famille": "Pôle Gestion du Portefeuille",
+        "missions": [
+          "Implémenter la politique de placement sur les marchés de base ;",
+          "Assurer la meilleure exécution des transactions sur les marchés de base."
+        ],
+        "competences": [
+          "Maîtrise des marchés financiers sur lesquels intervient la CMR ;",
+          "Maîtrise des techniques de gestion de portefeuille et de l’organisation du métier de gestion d’actifs ;",
+          "Maîtrise de la réglementation régissant les activités de gestion du portefeuille."
+        ],
+        "folderAliases": [
+          "Chef de service Asset Management"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 94,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 408
+        }
+      },
+      {
+        "id": "chef-de-service-conformite-et-controle-interne",
+        "titre": "Chef de Service Conformité et Conrole Interne",
+        "famille": "Pôle Gestion du Portefeuille",
+        "missions": [
+          "Assurer le contrôle de deuxième niveau pour la gestion financière des Fonds de Réserves ;",
+          "Fiabiliser les informations communiquées par le Pôle Gestion de Portefeuille ;",
+          "Faire évoluer et optimiser le dispositif du contrôle interne des activités du pôle gestion de portefeuille."
+        ],
+        "competences": [
+          "Maîtrise du fonctionnement des marchés financiers ;",
+          "Maîtrise des techniques de Contrôle et de gestion des risques opérationnels",
+          "Connaissances des techniques financières ;",
+          "Connaissance du contexte juridique et réglementaire de la gestion du portefeuille de la CMR."
+        ],
+        "folderAliases": [
+          "CHEF DE SERVICE Conformité et CONTROLE INTERNE"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 97,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 431
+        }
+      },
+      {
+        "id": "chef-de-service-gestion-des-investissements-alternatifs",
+        "titre": "Chef de Service Gestion des Investissements Alternatifs",
+        "famille": "Pôle Gestion du Portefeuille",
+        "missions": [
+          "Optimiser la gestion des participations de la CMR et des investissements « alternatifs » ;",
+          "Suivre les mandats de la gestion déléguée."
+        ],
+        "competences": [
+          "Maîtrise des techniques de l’analyse financière ;",
+          "Connaissance en matière de droit des affaires, fiscalité et du marché financier ;",
+          "Bonne connaissance du tissu économique marocain public et privé ;",
+          "Maîtrise des techniques d’évaluation et valorisation des entreprises ;",
+          "Connaissance des outils et techniques d’évaluation et maîtrise des risques."
+        ],
+        "folderAliases": [
+          "Chef de service gestion des investissements alternatifs"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 100,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 418
+        }
+      },
+      {
+        "id": "chef-de-service-recherche-et-analyse",
+        "titre": "Chef de Service Recherche et Analyse",
+        "famille": "Pôle Gestion du Portefeuille",
+        "missions": [
+          "Participer à l’élaboration de la stratégie d’investissement ;",
+          "Assurer une veille en matière d’information sur les différents compartiments du marché financier ;",
+          "Elaborer des analyses quantitatives et des modélisations des risques financiers."
+        ],
+        "competences": [
+          "Maîtrise du fonctionnement global de la gestion du portefeuille de la CMR ;",
+          "Bonne connaissance en modélisation statistique ;",
+          "Connaissances des techniques financières ;",
+          "Connaissances en finance, fiscalité et droit ;",
+          "Connaissance du contexte juridique et réglementaire de la gestion du portefeuille de la CMR."
+        ],
+        "folderAliases": [
+          "CHEF DE SERVICE Recherche et Analyse"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 103,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 445
+        }
+      },
+      {
+        "id": "pole-operations",
+        "titre": "Chef de Pôle Opérations",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Piloter les activités opérationnelles de constitution des droits, de leur concession et de mise en paiement des prestations dans le respect de la réglementation et pour l’atteinte des objectifs de qualité des services ;",
+          "Veiller sur la mise en œuvre des partenariats relatifs aux opérations et proposer les actions de leur évolution."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et aux prestations gérés par la Caisse ;",
+          "Maîtrise des techniques de planification et de pilotage ;",
+          "Bonne connaissance des métiers partenaires internes (achats, ressources humaines, relation client et système d’information) et de leurs contraintes ;",
+          "Bonne connaissance de l’écosystème de la CMR et capacité de développer un réseau professionnel orienté partenariat."
+        ],
+        "folderAliases": [
+          "Chef de Pôle Opérations"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 107,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 105
+        }
+      },
+      {
+        "id": "division-concession-droits",
+        "titre": "Chef de Division Concession de Droits",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Organiser, planifier et superviser la liquidation des pensions et droits au profit des affiliés et leurs ayants cause conformément à la règlementation ;",
+          "Assurer la concession des pensions et droits et leurs mises à jour ou révisions ;",
+          "Assurer l’exécution des vérifications et contrôles des opérations de liquidation et de concession."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires, des statuts de la fonction publique et des organismes affiliés à la CMR et des règles internes relatives à la liquidation et la concession des droits aux prestations ;",
+          "Connaissance des statuts de la fonction publique, des militaires et des organismes affiliés à la CMR ;",
+          "Maîtrise des techniques de planification et de pilotage des activités ;",
+          "Savoir gérer la relation avec le réseau des partenaires pour faciliter l’atteinte des objectifs de son domaine."
+        ],
+        "folderAliases": [
+          "Chef de division concession des droits"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 110,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 159
+        }
+      },
+      {
+        "id": "chef-de-service-liquidation-des-prestations-dayants-cause",
+        "titre": "Chef de Service Liquidation des Prestations D'ayants-cause",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Assurer la liquidation des pensions et droits pour les ayants cause (décès en activité et réversion) conformément à la règlementation ;",
+          "Assurer la révision et la mise à jour des pensions et des droits des ayants causes."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et des retraites, gérés par la CMR ;",
+          "Connaissance des statuts de la fonction publique, des militaires et des organismes affiliés à la CMR ;",
+          "Maîtrise des applications informatiques de liquidation."
+        ],
+        "folderAliases": [
+          "Chef de service liquidation des prestations d’ayants-cause"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 113,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 179
+        }
+      },
+      {
+        "id": "chef-de-service-liquidation-des-prestations-principales",
+        "titre": "Chef de Service Liquidation des Prestations Principales",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Assurer la liquidation des pensions et droits au profit des affiliés (premier droit) conformément à la règlementation ;",
+          "Assurer la révision et la mise à jour des droits."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et des retraites, gérés par la CMR ;",
+          "Connaissance des statuts de la fonction publique, des militaires et des organismes affiliés à la CMR ;",
+          "Maîtrise des applications informatiques de liquidation."
+        ],
+        "folderAliases": [
+          "Chef de service LIQUIDATION DES prestations principales"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 116,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 170
+        }
+      },
+      {
+        "id": "division-constitution-droits",
+        "titre": "Chef de division de Constitution des droits",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Garantir l’exhaustivité et la fiabilité des fichiers d’affiliations, de suivi des carrières et des cotisations;",
+          "Assurer le recouvrement des cotisations salariales et des contributions patronales ;",
+          "Assurer l’exécution des vérifications et contrôles des affiliations et des cotisations."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives à la constitution des droits aux prestations ;",
+          "Maîtrise des techniques de planification et de pilotage ;",
+          "Connaissance des statuts de la fonction publique, des militaires et des organismes affiliés à la CMR ;",
+          "Savoir gérer la relation avec le réseau des partenaires pour faciliter l’atteinte des objectifs."
+        ],
+        "folderAliases": [
+          "Chef de division constitution des droits"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 120,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 115
+        }
+      },
+      {
+        "id": "chef-de-service-affiliations-et-suivi-de-carriere",
+        "titre": "Chef de Service affiliation et suivi carrière",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Garantir l'exhaustivité et la fiabilité des fichiers d’affiliations et de suivi de carrière relatifs aux régimes des pensions et des retraites gérées par la CMR."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et des retraites, gérés par la CMR ;",
+          "Connaissance des statuts de la fonction publique, des militaires et des organismes affiliés à la CMR ;",
+          "Maitrise des applications informatiques des opérations ;",
+          "Savoir gérer la relation avec les partenaires internes et externes du service pour l’atteinte des objectifs."
+        ],
+        "folderAliases": [
+          "Chef de service Affiliations et Suivi de carrière"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 124,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 126
+        }
+      },
+      {
+        "id": "chef-de-service-suivi-des-cotisations",
+        "titre": "Chef de service de suivi des cotisations",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Garantir l’exhaustivité et la fiabilité des fichiers des cotisations relatives aux régimes des pensions et des retraites gérées par la CMR ;",
+          "Assurer le recouvrement des cotisations salariales et des contributions patronales."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et des retraites, gérés par la CMR ;",
+          "Connaissance des statuts de la fonction publique, des militaires et des organismes affiliés à la CMR ;",
+          "Connaissance de la comptabilité publique et des bonnes pratiques en matière de recouvrement des cotisations de la sécurité sociale ;",
+          "Maitrise des applications informatiques opérations ;",
+          "Savoir gérer la relation avec les partenaires internes et externes du service pour l’atteinte des objectifs."
+        ],
+        "folderAliases": [
+          "Chef DE SERVICE Suivi des Cotisations"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 127,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 135
+        }
+      },
+      {
+        "id": "chef-de-service-verification-et-certification",
+        "titre": "Chef de service vérification et certification",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Réaliser les vérifications des données d’affiliation, de carrière et des cotisations ;",
+          "Assurer la vérification des carrières et des cotisations pour la liquidation des droits."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives aux régimes des pensions et des retraites, gérés par la CMR ;",
+          "Connaissance des statuts de la fonction publique, des militaires et des organismes affiliés à la CMR ;",
+          "Maitrise des applications informatiques des opérations ;",
+          "Savoir gérer la relation avec les partenaires internes et externes du service pour l’atteinte des objectifs."
+        ],
+        "folderAliases": [
+          "Chef DE SERVICE VERIFICATION ET Certification"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 130,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 147
+        }
+      },
+      {
+        "id": "division-paiement-prestations",
+        "titre": "Chef de Division Paiement des Prestations",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Assurer le contrôle et le paiement des prestations conformément aux exigences règlementaires et aux engagements de la CMR ;",
+          "Piloter la réalisation des contrôles de maintien de droits ;",
+          "Tenir une comptabilité auxiliaire des prestations."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives au paiement des prestations ;",
+          "Maîtrise des techniques de planification et de pilotage des activités ;",
+          "Savoir gérer la relation avec le réseau des partenaires pour faciliter l’atteinte des objectifs"
+        ],
+        "folderAliases": [
+          "Chef de division paiement des prestations"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 134,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 197
+        }
+      },
+      {
+        "id": "chef-de-service-centralisation-et-suivi",
+        "titre": "Chef de Service Centralisation et Suivi",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Assurer le mandatement et le suivi des paiements ;",
+          "Assurer les contrôles et le suivi après paiement ;",
+          "Tenir une comptabilité auxiliaire prestations."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives au paiement des prestations ;",
+          "Connaissances de base de la comptabilité avec capacité d’application ;",
+          "Savoir gérer la relation avec les partenaires externes du service pour l’atteinte des objectifs."
+        ],
+        "folderAliases": [
+          "Chef de service centralisation et suivi"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 137,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 216
+        }
+      },
+      {
+        "id": "chef-de-service-controle-et-mise-en-paiement",
+        "titre": "Chef de Service Controle et Mise en Paiement",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Assurer le contrôle des droits avant la mise en paiement ;",
+          "Assurer la gestion des paiements périodiques ;",
+          "Veiller sur la maitrise des risques de paiement et sur l’efficacité des contrôles."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives au paiement des prestations ;",
+          "Maîtrise des techniques de planification et de pilotage des activités ;",
+          "Connaissances en comptabilité et contrôle interne avec capacité mise en œuvre."
+        ],
+        "folderAliases": [
+          "Chef de service contrôle et mise en paiement"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 140,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 206
+        }
+      },
+      {
+        "id": "chef-de-service-controle-de-maintien-de-droit",
+        "titre": "Chef de Service de Controle de Maintien de Droits",
+        "famille": "Pôle Opérations",
+        "missions": [
+          "Réaliser les contrôles périodiques de maintien de droit ;",
+          "Assurer la tenue à jour du fichier des pensionnés ;",
+          "Prendre en charge les précomptes conventionnés."
+        ],
+        "competences": [
+          "Maitrise totale des exigences règlementaires et des règles internes relatives au paiement des prestations ;",
+          "Connaissances de base de la statistique avec capacité d’application ;",
+          "Savoir gérer la relation avec les partenaires externes du service pour l’atteinte des objectifs."
+        ],
+        "folderAliases": [
+          "Chef de Service contrôle de maintien de droit"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 143,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 225
+        }
+      },
+      {
+        "id": "pole-pilotage",
+        "titre": "Chef de Pôle Pilotage",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Assister la Direction à la définition des objectifs et à l’élaboration des plans d’actions stratégiques et opérationnels ;",
+          "Mettre en place et animer le dispositif de planification et de pilotage ;",
+          "Doter la Caisse d’un référentiel d’organisation adapté, à jour et qui permet une meilleure maîtrise des activités et un renforcement du dispositif de contrôle interne ;",
+          "Assurer l’amélioration des processus et l’assistance à la maîtrise d’ouvrage des projets SI ;",
+          "Veiller sur la gestion des dispositifs de la gouvernance des données ;",
+          "Garantir la mise en œuvre des démarches d’innovation et de conduite du changement."
+        ],
+        "competences": [
+          "Maitrise des techniques de planification, de contrôle de gestion, d’organisation et de conduite du changement ;",
+          "Maîtrise des techniques de planification et de pilotage des projets ;",
+          "Bonne connaissance des métiers et de l’organisation de la CMR ainsi que son environnement interne et externe ;",
+          "Bonne connaissance des méthodes et outils d’innovation et de gouvernance des données ;",
+          "Bonne connaissance de l’écosystème de la CMR et capacité de développer un réseau professionnel orienté partenariat."
+        ],
+        "folderAliases": [
+          "Chef de Pôle Pilotage"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 146,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 810
+        }
+      },
+      {
+        "id": "division-data-office",
+        "titre": "Chef de Division Data Office",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Proposer et mettre en œuvre la stratégie de gouvernance des données en cohérence avec les orientations stratégiques de la Caisse ;",
+          "Mettre en place, coordonner et piloter le dispositif global de gouvernance des données ;",
+          "Promouvoir la valorisation des données et la culture axée sur la donnée à l’échelle de la CMR."
+        ],
+        "competences": [
+          "Maîtrise des connaissances essentielles de l’organisation de la CMR, des missions de ses structures et de son environnement institutionnel ;",
+          "Maîtrise des processus de gouvernance des données ;",
+          "Bonne connaissance des environnements Data, SI, outils de Data Management et des architecture des systèmes d’information. ;",
+          "Maîtrise des techniques de la gestion de projet et de la conduite du changement."
+        ],
+        "folderAliases": [
+          "CHEF DE DIVISION DATA OFFICE"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 149,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 914
+        }
+      },
+      {
+        "id": "chef-de-service-data-lab",
+        "titre": "Chef de Service Data Lab",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Piloter les projets d’idéation et d’expérimentation autour de la donnée ;",
+          "Mettre en œuvre des solutions de data science et de valorisation des données répondant aux besoins métiers et promouvoir la culture de la donnée."
+        ],
+        "competences": [
+          "Maîtrise des connaissances essentielles de l’organisation de la CMR, des missions de ses structures et de son environnement institutionnel ;",
+          "Maîtrise de techniques et outils de la Data Science, de l’Analytics et du Business Intelligence et ceux de modélisation et visualisation des données ;",
+          "Maîtrise des techniques de gestion des projets de valorisation des données ;",
+          "Bonne connaissance des environnements Data."
+        ],
+        "folderAliases": [
+          "CHEF DE SERVICE DATA LAB"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 152,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 936
+        }
+      },
+      {
+        "id": "chef-de-service-data-management",
+        "titre": "Chef de Service Data Management",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Mettre en œuvre la gouvernance opérationnelle des données ;",
+          "Coordonner la structuration et la normalisation des données à tous les niveaux de la Caisse."
+        ],
+        "competences": [
+          "Maîtrise des connaissances essentielles de l’organisation de la CMR, des missions de ses structures et de son environnement institutionnel ;",
+          "Maîtrise des dispositifs et processus de gestion de la qualité des données et des référentiels de données ;",
+          "Maîtrise des référentiels et des dictionnaires de données, avec capacité à structurer, documenter et maintenir la donnée de référence ;",
+          "Bonne connaissance des architectures SI et des outils de Data Management ;",
+          "Maîtrise des techniques de la gestion de projet et de la conduite du changement."
+        ],
+        "folderAliases": [
+          "CHEF DE SERVICE DATA MANAGEMENT"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 155,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 925
+        }
+      },
+      {
+        "id": "division-organisation-amoa",
+        "titre": "Chef de Division Organisation et AMOA",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Proposer et définir les projets organisationnels en veillant sur leur alignement avec les objectifs stratégiques et accompagner leur réalisation ;",
+          "Tenir à jour les référentiels d’organisation et veiller à leur cohérence ;",
+          "Surveiller et améliorer le système de management de la CMR et veiller sur la conformité par rapport aux référentiels choisis ;",
+          "Assurer l’assistance à la maitrise d'ouvrage et la conduite du changement des projets SI."
+        ],
+        "competences": [
+          "Maîtrise des théories et techniques d’organisation ;",
+          "Maîtrise des techniques de contrôle interne ;",
+          "Bonne connaissance de la culture et de l’organisation de la Caisse et de ses évolutions ainsi que de son environnement extérieur ;",
+          "Maîtrise des mécanismes d’ensemble de la Caisse et des interactions entre les différents services ;",
+          "Connaissance des techniques de conduite de projet ;",
+          "Connaissance des techniques d’animation et de communication ;",
+          "Connaissance des différents modes d'organisation du secteur de la retraite ou de secteurs similaires."
+        ],
+        "folderAliases": [
+          "Chef de division Organisation  et AMOA"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 158,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 867
+        }
+      },
+      {
+        "id": "chef-de-service-assistance-a-la-maitrise-douvrage",
+        "titre": "Chef de Service Assistance à la Maitrise d'Ouvrage",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Apporter l’assistance nécessaire aux entités dans l’identification et la formalisation de leurs besoins à l’égard de projets informatiques touchant les modes de fonctionnement de la Caisse ;",
+          "Participer au suivi de réalisation desdits projets dans les différentes étapes de leur cycle de vie."
+        ],
+        "competences": [
+          "Maîtrise des techniques de management de projet ;",
+          "Bonne connaissance des techniques de rédaction de spécifications fonctionnelles et de cahiers des charges ;",
+          "Maîtrise des techniques d’animation de réunion ;",
+          "Techniques de communication."
+        ],
+        "folderAliases": [
+          "Chef de Service ASSISTANCE A LA MAITRISE D’OUVRAGE"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 161,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 902
+        }
+      },
+      {
+        "id": "chef-de-service-organisation-et-systemes-de-management",
+        "titre": "Chef de Service Organisation et Systèmes de Management",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Assurer les activités de modélisation et d’analyse des processus de la CMR et veiller sur leur optimisation en collaboration avec les opérationnels ;",
+          "Etudier, concevoir et proposer des procédures, méthodes et outils de gestion ;",
+          "Tenir et mettre à jour le référentiel d'organisation interne ;",
+          "Anticiper et conduire le changement suite à une évolution organisationnelle de la CMR ;",
+          "Assurer la surveillance et l’amélioration des systèmes de management normatifs mis en place et veiller sur leur conformité par rapport aux référentiels retenus."
+        ],
+        "competences": [
+          "Maîtrise des théories et techniques d’organisation ;",
+          "Maîtrise des techniques de contrôle interne ;",
+          "Maîtrise des exigences des référentiels retenus et de leur évolution ;",
+          "Bonne connaissance de la culture et de l’organisation de la Caisse et de ses évolutions ainsi que de son environnement extérieur ;",
+          "Connaissance des techniques de conduite de projet ;",
+          "Connaissance des techniques d’animation et de communication."
+        ],
+        "folderAliases": [
+          "Chef de service Organisation Et systèmes de management"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 164,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 884
+        }
+      },
+      {
+        "id": "division-planification-controle-gestion",
+        "titre": "Chef de Division Planification et Controle de Gestion",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Assurer l’élaboration et le suivi des plans d’action et des budgets ;",
+          "Contribuer à définir et à optimiser l’allocation des ressources budgétaires aux différentes entités ;",
+          "Mettre en œuvre les dispositifs de suivi et de monitoring des projets et de la performance ;",
+          "Exploiter les données de la comptabilité analytique et proposer des leviers d’optimisation."
+        ],
+        "competences": [
+          "Maîtrise des techniques de contrôle de gestion ;",
+          "Maîtrise des techniques de management de projet ;",
+          "Maîtrise des techniques d’animation de réunion ;",
+          "Maîtrise de la comptabilité budgétaire ;",
+          "Connaissance de la culture et de l’organisation de la Caisse et de ses évolutions ainsi que de son environnement extérieur ;",
+          "Connaissance des différents modes d'organisation du secteur de la retraite ou de secteurs similaires."
+        ],
+        "folderAliases": [
+          "Chef de Division Planification et Contrôle de gestion"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 167,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 827
+        }
+      },
+      {
+        "id": "chef-de-service-controle-de-gestion",
+        "titre": "Chef de Service Controle de Gestion",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Mettre en place et entretenir un système de contrôle de gestion permettant le suivi de la performance de la Caisse ;",
+          "Assurer l’analyse des coûts et proposer des leviers d’optimisation."
+        ],
+        "competences": [
+          "Maîtrise des techniques de contrôle de gestion ;",
+          "Maîtrise des techniques d’animation de réunion ;",
+          "Maîtrise des indicateurs comptables, financiers et actuariels de l’activité de la CMR ;",
+          "Connaissance de la culture et de l’organisation de la Caisse et de ses évolutions ainsi que de son environnement extérieur."
+        ],
+        "folderAliases": [
+          "Chef de Service Contrôle de Gestion"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 171,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 855
+        }
+      },
+      {
+        "id": "chef-de-service-planification-strategique-et-pmo",
+        "titre": "Chef de Service Planification Stratégique et PMO",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Assister à l’élaboration et au suivi des plans d’actions stratégiques et opérationnels ;",
+          "Animer le dispositif de planification et de suivi des programmes et projets avec la Direction et les managers."
+        ],
+        "competences": [
+          "Maîtrise des techniques de management de projet ;",
+          "Maîtrise des techniques d’animation de réunion ;",
+          "Parfaite connaissance de la culture et de l’organisation de la Caisse et de ses évolutions ainsi que de son environnement extérieur ;",
+          "Connaissance des différents modes d'organisation du secteur de la retraite ou de secteurs similaires."
+        ],
+        "folderAliases": [
+          "Chef de Service Planification stratégique et PMO"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 174,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 843
+        }
+      },
+      {
+        "id": "chef-de-service-innovation-et-conduite-de-changement",
+        "titre": "Chef de Service Innovation et Conduite de Changement",
+        "famille": "Pôle Pilotage",
+        "missions": [
+          "Promouvoir et développer la culture de l’innovation et favoriser l’adoption des meilleures pratiques ;",
+          "Proposer et expérimenter des projets transverses, multidisciplinaires et innovants en vue de réaliser de nouvelles prestations et produits au profit des clients et des améliorations des processus internes ;",
+          "Définir et piloter la démarche de conduite du changement accompagnant les projets de transformation, d’innovation et d’amélioration continue."
+        ],
+        "competences": [
+          "Bonne connaissance de l’organisation et des activités de la CMR et de son environnement ;",
+          "Maîtrise des nouveautés en matière de TIC ;",
+          "Maîtrise du processus d’innovation et des méthodes agiles ;",
+          "Maîtrise des méthodes et outils de conduite du changement ;",
+          "Maîtrise des techniques et outils de gestion de projet."
+        ],
+        "folderAliases": [
+          "Chef de Service Innovation et CONDUITE DE CHANGEMENT"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 177,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 949
+        }
+      },
+      {
+        "id": "pole-ressources",
+        "titre": "Chef de Pôle Ressources",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Veiller sur la gestion du Capital Humain et garantir son développement ;",
+          "Garantir la satisfaction des besoins de la Caisse en termes de moyens généreux de manière optimale et conformément à la réglementation ;",
+          "Assurer le pilotage des fonctions financière et comptable ;",
+          "Veiller sur la gestion des flux et du patrimoine documentaire."
+        ],
+        "competences": [
+          "Maitrise de la réglementation juridique, administrative et financière relative aux établissements publics ;",
+          "Connaissance de l’organisation de la Caisse, son contexte et son écosystème ;",
+          "Bonnes connaissances en Gestion des Ressources Humaines et du management des équipes ;",
+          "Bonne connaissance en gestion des achats et passation des marchés publics ;",
+          "Bonne connaissance en gestion comptable et financière ;",
+          "Connaissance des politiques et techniques de la communication interne ;",
+          "Connaissance en management de la santé, de la sécurité au travail et de l’environnement ;",
+          "Bonne connaissance des techniques et des outils du management de projets ;",
+          "Maîtrise de l’organisation financière de la Caisse ;",
+          "Maîtrise des règles comptables générales et celles relatives au domaine des retraites."
+        ],
+        "folderAliases": [
+          "Chef dE Pôle Ressources"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 181,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 461
+        }
+      },
+      {
+        "id": "division-achats-logistique",
+        "titre": "Chef de Division Achats et Logistiques",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Veiller au bon approvisionnement de la CMR, en optimisant le coût, la qualité et les délais dans le respect des budgets et de la réglementation ;",
+          "Optimiser et rationaliser les moyens logistiques de la CMR ;",
+          "Assurer la gestion de l'exploitation et de la maintenance du patrimoine immobilier et le Facility management ;",
+          "Superviser la gestion des archives de la CMR, en veillant à la conformité réglementaire et à la fluidité des flux documentaires."
+        ],
+        "competences": [
+          "Maîtrise de l’organisation de la Caisse ;",
+          "Maîtrise de la réglementation en matière de marchés publics ;",
+          "Bonne connaissance des techniques de gestion des archives ;",
+          "Connaissance des procédures budgétaires de la Caisse ;",
+          "Connaissance des notions de comptabilité."
+        ],
+        "folderAliases": [
+          "Chef de division achats et logistique"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 184,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 483
+        }
+      },
+      {
+        "id": "chef-de-service-achats-et-suivi-des-marches",
+        "titre": "Chef de Service Achats et Suivi des Marchés",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Participer à la définition de la politique d’achat de la Caisse et assurer sa mise en œuvre ;",
+          "Réaliser les achats de la Caisse en optimisant le rapport coût/quantités/qualité/délais ;",
+          "Assurer le suivi administratif des marchés de la Caisse, depuis leur notification jusqu’à leur clôture, et initier les paiements des dépenses."
+        ],
+        "competences": [
+          "Bonne connaissance des techniques de négociations ;",
+          "Maîtrise des procédures d’achats de la Caisse ;",
+          "Maîtrise des techniques d’achats ;",
+          "Maîtrise des textes de lois en matière de la commande publique (marchés, BC, contrats,) ;",
+          "Connaissance des procédures budgétaires de la Caisse."
+        ],
+        "folderAliases": [
+          "Chef de service achats ET suivi des MARCHÉS"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 187,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 497
+        }
+      },
+      {
+        "id": "chef-de-service-gestion-des-archives-et-numerisation",
+        "titre": "Chef de Service Gestion des Archives et Numérisation",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Assurer la mise en œuvre de la politique de gestion d’archivage de la CMR ;",
+          "Gérer l’activité du bureau d’ordre de la CMR ;",
+          "Assurer l’exploitation de la GED (numérisation, dispatching en workflow des dossiers, conservation...) ;",
+          "Assurer les opérations de gestion du fonds archivistique de la CMR."
+        ],
+        "competences": [
+          "Maîtrise totale des techniques de gestion des documents et des archives ;",
+          "Maîtrise des dispositions réglementaires régissant l’activité de la gestion des archives ;",
+          "Connaissance des outils informatiques et des Systèmes d’Information relatifs à la gestion des documents et des archives."
+        ],
+        "folderAliases": [
+          "Chef de service gestion des archives et numérisation"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 190,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 524
+        }
+      },
+      {
+        "id": "chef-de-service-logistique-facility-management",
+        "titre": "Chef de Service Logistique et Facility Management",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Assurer la gestion des moyens généraux et veiller sur leur maintenance, entretien, contrôle et sauvegarde ;",
+          "Optimiser le patrimoine immobilier et veiller sur sa pérennité ;",
+          "Proposer les moyens logistiques adéquats et veiller sur leur allocation dans le cadre du budget et des besoins."
+        ],
+        "competences": [
+          "Maitrise des réglementations applicables pour les marchés publics, le travail, l'urbanisme, les autorisations administratives, les ERP, etc.",
+          "Maitrise des techniques et de la réglementation en matière de maintenance, de contrôle et des règles de sécurité et de sûreté applicables aux personnes et aux biens et de la protection de l’environnement ;",
+          "Maitrise des méthodes et outils de l’ingénieur : identification, modélisation et résolution de problèmes, l’utilisation des outils informatiques, l’analyse de systèmes, gestion des projets et des chantiers, gestion des approvisionnements et des stocks, etc. ;",
+          "Maîtrise des connaissances essentielles avec capacité de mise en œuvre, de la maintenance industrielle, des normes techniques en vigueur et des évolutions techniques ;",
+          "Connaissances de base de la réglementation et des procédures propres à la construction immobilière, aux opérations d'acquisition, de cession et de location, et aux contrats d'assurance ;",
+          "Connaissances de base de la technologie du bâtiment, du dessin d'architecture, de la technique de lecture de plans et de l'ensemble de corps d'état et de leurs fonctionnalités."
+        ],
+        "folderAliases": [
+          "Chef de service logistique & facility management"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 193,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 511
+        }
+      },
+      {
+        "id": "division-capital-humain",
+        "titre": "Chef de Division Capital Humain",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Mettre en œuvre la politique de développement et de gestion des ressources humaines ;",
+          "Elaborer et mettre en œuvre l'action sociale ;",
+          "Assurer la communication interne et la promotion et la diffusion des valeurs communes."
+        ],
+        "competences": [
+          "Maîtrise de l’organisation de la Caisse ;",
+          "Bonnes connaissances en Gestion des Ressources Humaines dans le domaine public ;",
+          "Connaissances juridiques et de la législation du travail ;",
+          "Maîtrise des techniques de communication."
+        ],
+        "folderAliases": [
+          "Chef de division capital humain"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 197,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 539
+        }
+      },
+      {
+        "id": "chef-de-service-administration-des-ressources-humaines",
+        "titre": "Chef de Service Administration des Ressources Humaines",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Assurer les activités liées à l’administration du personnel ;",
+          "Assurer les activités liées à l’établissement de la paie du personnel ;",
+          "Gérer les actions sociales et celles relatives à la préservation de la santé et sécurité au travail du personnel."
+        ],
+        "competences": [
+          "Maîtrise totale du statut et des règlements internes de la Caisse ;",
+          "Maîtrise de l’organisation de la CMR ;",
+          "Maîtrise de la gestion des contrats de travail ;",
+          "Maîtrise des règles de calcul de la paie, des primes et des charges sociales ;",
+          "Maîtrise de la réglementation et des règlements internes en matière de la santé et sécurité au travail."
+        ],
+        "folderAliases": [
+          "Chef de service administration des ressources humaines"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 200,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 554
+        }
+      },
+      {
+        "id": "chef-de-service-developpement-des-ressources-humaines-et-communication-interne",
+        "titre": "Chef de Service Développement des Ressources Humaines et Communication Interne",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Assurer la mise en œuvre de la gestion prévisionnelle des emplois et des compétences au sein de la Caisse ;",
+          "Mettre en œuvre les plans de recrutement du personnel ;",
+          "Mettre en œuvre les plans de développement des compétences du capital humain de la Caisse ;",
+          "Participer au développement et à la mise en œuvre de la politique de communication interne."
+        ],
+        "competences": [
+          "Maîtrise de l’organisation de la Caisse ;",
+          "Maîtrise des outils d’ingénierie des ressources humaines ;",
+          "Maîtrise des mécanismes et des outils de GPEC ;",
+          "Maîtrise des techniques d’entretien et d’évaluation ;",
+          "Maîtrise des techniques d’élaboration et de mise en œuvre de plans de formation ;",
+          "Bonne connaissance du droit du travail et de la réglementation en matière d’embauche ;",
+          "Bonne connaissance des diplômes et des filières de formation ;",
+          "Bonne connaissance du marché du travail ;",
+          "Connaître les techniques de rédaction des annonces."
+        ],
+        "folderAliases": [
+          "Chef de service développement des ressources humaines et communication interne"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 203,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 569
+        }
+      },
+      {
+        "id": "division-financiere-comptable",
+        "titre": "Chef de Division Financière et Comptable",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Mettre en place et tenir à jour la comptabilité générale, analytique et budgétaire ;",
+          "Produire les états comptables et veiller à la certification des comptes ;",
+          "Assurer une gestion optimale des flux de trésorerie ;",
+          "Assurer l'ordonnancement des dépenses ;",
+          "Assurer l'exécution du budget ;",
+          "Assurer le recouvrement."
+        ],
+        "competences": [
+          "Maîtrise des règles comptables générales et celles relatives au domaine des retraites ;",
+          "Maîtrise des connaissances techniques et réglementaires applicables à son domaine d’activité, ainsi que les supports informatiques utilisés ;",
+          "Connaissance des prestations de la Caisse et de son organisation ;",
+          "Maîtrise des procédures comptables ;",
+          "Maîtrise des outils de reporting et de tableaux de bord."
+        ],
+        "folderAliases": [
+          "Chef de division financière et comptable"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 207,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 590
+        }
+      },
+      {
+        "id": "chef-de-service-comptabilite",
+        "titre": "Chef de Service Comptabilité",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Assurer la tenue à jour et fiable de la comptabilité de la CMR, générale, analytique et budgétaire ;",
+          "Produire les états de synthèse de la CMR (Bilan et CPC)."
+        ],
+        "competences": [
+          "Maîtrise des règles comptables générales et celles relatives au domaine des retraites ;",
+          "Maîtrise des connaissances techniques et réglementaires applicables à son domaine d’activité, ainsi que les supports informatiques utilisés ;",
+          "Maîtrise des prestations de la Caisse et de son organisation ;",
+          "Maîtrise des procédures comptables."
+        ],
+        "folderAliases": [
+          "Chef de service comptabilité"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 210,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 608
+        }
+      },
+      {
+        "id": "chef-de-service-financier",
+        "titre": "Chef de Service Financier",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Assurer une gestion optimale des flux de trésorerie de la CMR ;",
+          "Assurer le suivi de l’exécution budgétaire dans le respect des procédures et obligations réglementaires."
+        ],
+        "competences": [
+          "Connaissance des techniques de la comptabilité budgétaire ;",
+          "Connaissance des procédures et techniques bancaires (droit bancaire, normes des moyens de paiement, processus de sécurisation, etc.) ;",
+          "Connaissance des prestations de la Caisse et de son organisation ;",
+          "Maîtrise de la gestion des flux de trésorerie et de l’analyse des indicateurs financiers ;"
+        ],
+        "folderAliases": [
+          "Chef dE service financier"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 213,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 620
+        }
+      },
+      {
+        "id": "chef-du-service-recouvrement",
+        "titre": "Chef de Service Recouvrement",
+        "famille": "Pôle Ressources",
+        "missions": [
+          "Contrôler et s’assurer du recouvrement de toutes les créances de la CMR ;",
+          "Prendre en charge le recouvrement des créances non recouvrées à l’amiable conformément au code de recouvrement des créances publiques."
+        ],
+        "competences": [
+          "Bonne connaissance de la réglementation régissant l'organisation et la gestion de la CMR ;",
+          "Bonne connaissance de la réglementation régissant les régimes gérés par la CMR ;",
+          "Bonne connaissance des Processus \"métiers\" de la CMR ;",
+          "Maîtrise des techniques de recouvrement ;",
+          "Bonne connaissance des mathématiques financières."
+        ],
+        "folderAliases": [
+          "Chef du service recouvrement"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 216,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 631
+        }
+      },
+      {
+        "id": "pole-systeme-information-transformation-digitale",
+        "titre": "Chef de Pôle Système d'information et Transformation Digitale",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Doter la CMR d’un système d’information adapté, fiable et sécurisé qui permet de :",
+          "Répondre aux orientations de développement stratégique de la Caisse ;",
+          "Garantir un fonctionnement optimal ;",
+          "Améliorer les processus internes.",
+          "Mettre en œuvre la transformation digitale conformément à la stratégie de la CMR ;",
+          "Définir l’orientation stratégique en termes de sécurité de l’information."
+        ],
+        "competences": [
+          "Maîtrise du contexte informatique de la CMR ;",
+          "Maîtrise des technologies de l’information du marché, et de leurs évolutions ;",
+          "Connaissance du fonctionnement et de l’organisation générale de la Caisse ;",
+          "Maîtrise de la méthode de conduite de projet et les outils associés ;",
+          "Maîtrise des techniques de communication et de prise de parole."
+        ],
+        "folderAliases": [
+          "Chef de Pôle Système D’INFORMATION ET Transformation digitale"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 220,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 655
+        }
+      },
+      {
+        "id": "division-etude-developpement",
+        "titre": "Chef de Division Etudes et Développement",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Définir l'architecture et les orientations du système d’information de la CMR ;",
+          "Assurer la réalisation des projets applicatifs et l’intégration des solutions SI."
+        ],
+        "competences": [
+          "Maîtrise des architectures informatiques et des outils (systèmes de bases de données, etc.) ;",
+          "Maîtrise des techniques de conception, de développement et de test des applications informatiques ;",
+          "Maîtrise de la méthode de conduite de projet et les outils associés ;",
+          "Connaissance de l’activité, de l’organisation et du système d’information de la Caisse."
+        ],
+        "folderAliases": [
+          "Chef de Division Etudes et Développement"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 223,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 672
+        }
+      },
+      {
+        "id": "chef-de-service-developpement-et-integration",
+        "titre": "Chef de Service Développement et Intergration",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Assurer la responsabilité de maître d’œuvre dans la réalisation et l’intégration de solutions applicatives ;",
+          "Contribuer aux études sur les évolutions du système d’information."
+        ],
+        "competences": [
+          "Maîtrise des architectures informatiques et des outils (systèmes de bases de données, etc.) ;",
+          "Maîtrise des techniques de conception, de développement et de test des applications informatiques ;",
+          "Maîtrise de la méthode de conduite de projet et les outils associés ;",
+          "Connaissance de l’activité, de l’organisation et du système d’information de la Caisse."
+        ],
+        "folderAliases": [
+          "CHef de Service développement et intégration"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 226,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 696
+        }
+      },
+      {
+        "id": "chef-de-service-etudes-et-urbanisation-des-systemes-dinformation",
+        "titre": "Chef de Service Etudes et Urbanisation des systèmes d'information",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Assurer une veille technologique en TIC et proposer les orientations et plans d’évolution du système d’information de la CMR ;",
+          "Assurer les études relatives aux projets du système d’information."
+        ],
+        "competences": [
+          "Maîtrise des architectures informatiques et des outils (systèmes de bases de données, etc.) ;",
+          "Connaissance de l’activité, de l’organisation et du système d’information de la Caisse.",
+          "Maîtrise de la méthode de conduite de projet et les outils associés ;",
+          "Bonnes connaissances des principes d’urbanisation ;",
+          "Bonnes connaissances en matière de sécurité SI."
+        ],
+        "folderAliases": [
+          "Chef de service Etudes et Urbanisation des Systèmes d’Information"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 229,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 683
+        }
+      },
+      {
+        "id": "division-exploitation-systemes-reseaux",
+        "titre": "Chef de Division Exploitation Systèmes et Réseaux",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Garantir la fourniture des services du SI et leur maintien en conditions opérationnelles ;",
+          "Assurer le support des utilisateurs et la gestion des incidents et des problèmes."
+        ],
+        "competences": [
+          "Maîtrise des architectures informatiques ;",
+          "Bonne maîtrise des systèmes d’exploitation, réseaux et de sécurité ;",
+          "Bonne maîtrise des outils et techniques DBA (Data Base Administration) ;",
+          "Connaissance de l’organisation de la Caisse et de son système d’information ;",
+          "Maîtrise des techniques d’audit et de certification des données ;",
+          "Très bonne connaissance des applications d’exploitation ;",
+          "Maîtrise de la méthode de conduite de projet et les outils associés."
+        ],
+        "folderAliases": [
+          "CHef de Division exploitation, systèmes et réseaux"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 232,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 711
+        }
+      },
+      {
+        "id": "chef-de-service-exploitation-et-appui-aux-utilisateurs",
+        "titre": "Chef de Service Exploitation et Appui aux Utilisateurs",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Mettre en place des processus d’exploitation informatiques sécurisés et fiables ;",
+          "Assurer l’assurance technique et l’appui aux utilisateurs ;",
+          "Assurer la gestion du parc informatique."
+        ],
+        "competences": [
+          "Maîtrise des architectures informatiques ;",
+          "Connaissance de l’organisation de la Caisse et de son système d’information ;",
+          "Maîtrise des techniques d’audit et de certification des données ;",
+          "Bonne connaissance des applications d’exploitation ;",
+          "Maîtrise de la méthode de conduite de projet et les outils associés."
+        ],
+        "folderAliases": [
+          "CHef de Service Exploitation et Appui aux utilisateurs"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 235,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 741
+        }
+      },
+      {
+        "id": "chef-de-service-systemes-et-reseaux",
+        "titre": "Chef de Service Système et Réseaux",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Participer à la conception des architectures informatiques ;",
+          "Gérer et administrer les systèmes informatiques, les Réseaux, la Téléphonie sur IP et la Sécurité de l’infrastructure ;",
+          "Administrer les systèmes de gestion de bases de données (SGBD) ;",
+          "Assurer la disponibilité et l’optimisation des moyens informatiques ;",
+          "Assurer une veille technologique du marché des solutions systèmes, réseaux, bases de données et sécurité ;",
+          "Assurer la gestion opérationnelle des Datacenters de la Caisse."
+        ],
+        "competences": [
+          "Maîtrise des architectures informatiques ;",
+          "Maîtrise des systèmes d’exploitation, réseaux et de sécurité ;",
+          "Connaissance de l’organisation de la Caisse et de son système d’information ;",
+          "Bonne connaissance des applications d’exploitation ;",
+          "Maîtrise de la méthode de conduite de projet et les outils associés."
+        ],
+        "folderAliases": [
+          "Chef de Service systèmes et réseaux"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 238,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 724
+        }
+      },
+      {
+        "id": "division-securite-information",
+        "titre": "Chef de Division Sécurité de l'information",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Piloter la gouvernance de la sécurité de l’information et la gestion du système de management de la sécurité de l’information ;",
+          "Garantir l’efficacité des dispositifs de contrôle de sécurité et le pilotage de la sécurité opérationnelle."
+        ],
+        "competences": [
+          "Maîtrise de l’organisation de la Caisse, de ses enjeux stratégiques et de la cartographie de son système d’information ;",
+          "Maîtrise des architectures informatiques et des infrastructures de sécurité complexes ;",
+          "Maîtrise des techniques d’audit, des référentiels de contrôle et des processus de certification de la sécurité de l’information ;",
+          "Maîtrise des outils d’exploitation et de surveillance en temps réel (SIEM, EDR) nécessaires au pilotage du SOC ;",
+          "Maîtrise des méthodes de conduite de projet et des outils de planification associés ;",
+          "Maîtrise des cadres légaux, normatifs et réglementaires relatifs à la sécurité des systèmes d’information."
+        ],
+        "folderAliases": [
+          "CHEF DE DIVISION sécurité DE L’INFORMATION"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 241,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 758
+        }
+      },
+      {
+        "id": "chef-de-service-gouvernance-de-la-securite-de-linformation",
+        "titre": "Chef de Service Gouvernance de la sécurité de l'information",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Déployer la politique de sécurité du système d’information et le système de management de la sécurité de l’information ;",
+          "Evaluer l’efficacité, la conformité et la continuité du dispositif de sécurité du système d’information."
+        ],
+        "competences": [
+          "Maîtrise de l’organisation de la CMR et de son système d’information ;",
+          "Maîtrise des outils et techniques de sécurité des systèmes d’information ;",
+          "Maîtrise des techniques d’audit de sécurité, de gestion des risques et de conformité ;",
+          "Bonne connaissance des normes et standards de sécurité de l’information (ISO 27001, etc.) ;",
+          "Bonne connaissance des applications d’exploitation et des enjeux de la sécurité opérationnelle;",
+          "Connaissance des lois et réglementations applicables en matière de sécurité des systèmes d’information ;",
+          "Maîtrise des principes de gestion de projet et de conduite du changement."
+        ],
+        "folderAliases": [
+          "CHEF DE SERVICE GOUVERNANCE DE LA SECURITE DE L’INFORMATION"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 244,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 771
+        }
+      },
+      {
+        "id": "chef-de-service-securite-operationnelle",
+        "titre": "Chef de Service Sécurité Opérationnelle",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Assurer la supervision de la sécurité opérationnelle et la surveillance du Système d’Information;",
+          "Gérer les incidents liés à la sécurité d’information."
+        ],
+        "competences": [
+          "Maîtrise de l’organisation de la CMR et de son système d’information ;",
+          "Maîtrise des architectures informatiques (réseaux, systèmes, cloud, etc.) ;",
+          "Bonne connaissance des outils d’exploitation et de supervision ;",
+          "Maîtrise des techniques de réponse aux incidents et de l’analyse forensique ;",
+          "Maîtrise des concepts et outils de cybersécurité et de supervision de la sécurité (SOC, SIEM, EDR)."
+        ],
+        "folderAliases": [
+          "CHEF DE SERVICE Sécurité Opérationnelle"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 247,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 783
+        }
+      },
+      {
+        "id": "chef-de-service-transformation-digitale",
+        "titre": "Chef de Service Transformation Digitale",
+        "famille": "Pôle Système d'Information et Transformation Digitale",
+        "missions": [
+          "Assurer l’initiation et l'accompagnement à la mise en œuvre de la stratégie digitale ;",
+          "Assister à la réalisation des projets de digitalisation et de l’assurer pour les projets dont il a la charge."
+        ],
+        "competences": [
+          "Maîtrise des nouveautés en matière de TIC ;",
+          "Connaissance de l’organisation de la Caisse et de son système d’information ;",
+          "Maîtrise de la méthode de conduite de projet et les outils associés."
+        ],
+        "folderAliases": [
+          "CHEF DE Service Transformation digitale"
+        ],
+        "attachments": [],
+        "source": {
+          "titlesDocument": "CMR - Fiches et Fonctions de postes.docx",
+          "titleParagraph": 250,
+          "manualDocument": "Manuel des fiches de fonctions - adapté.docx",
+          "manualParagraph": 793
+        }
       }
     ],
     "referentiels": [
       {
         "id": "r1",
-        "dossier": "Processus pilotage organisationnel",
-        "docs": [
-          {
-            "file": "Manuel_Processus_Pilotage_Organisationnel.pdf",
-            "label": "Manuel du processus pilotage organisationnel"
-          },
-          {
-            "file": "Procedure_Mise_A_Jour_Organisation.pdf",
-            "label": "Procédure de mise à jour de l’organisation"
-          }
-        ]
+        "dossier": "Procédures SMI",
+        "docs": []
       },
       {
         "id": "r2",
-        "dossier": "Processus gouvernance interne",
-        "docs": [
-          {
-            "file": "Manuel_Processus_Gouvernance_Interne.pdf",
-            "label": "Manuel du processus gouvernance interne"
-          },
-          {
-            "file": "Procedure_Circuit_Decisionnel.pdf",
-            "label": "Procédure circuit décisionnel"
-          }
-        ]
+        "dossier": "Processus Accueil et Réclamations",
+        "docs": []
       },
       {
         "id": "r3",
-        "dossier": "Processus documentation SMI",
-        "docs": [
-          {
-            "file": "Manuel_Processus_Documentation_SMI.pdf",
-            "label": "Manuel du processus documentation SMI"
-          },
-          {
-            "file": "Procedure_Gestion_Documents_SMI.pdf",
-            "label": "Procédure gestion des documents SMI"
-          }
-        ]
+        "dossier": "Processus Actuarielles et techniques",
+        "docs": []
+      },
+      {
+        "id": "r4",
+        "dossier": "Processus Affiliation et Suivi de Carrière",
+        "docs": []
+      },
+      {
+        "id": "r5",
+        "dossier": "Processus Contentieux",
+        "docs": []
+      },
+      {
+        "id": "r6",
+        "dossier": "Processus Contrôle de Gestion",
+        "docs": []
+      },
+      {
+        "id": "r7",
+        "dossier": "Processus Contrôle et paiement",
+        "docs": []
+      },
+      {
+        "id": "r8",
+        "dossier": "Processus Contrôle Permanent",
+        "docs": []
+      },
+      {
+        "id": "r9",
+        "dossier": "Processus d'Audit",
+        "docs": []
+      },
+      {
+        "id": "r10",
+        "dossier": "Processus d'Organisation",
+        "docs": []
+      },
+      {
+        "id": "r11",
+        "dossier": "Processus de Gestion de la Logistique",
+        "docs": []
+      },
+      {
+        "id": "r12",
+        "dossier": "Processus de Gestion des Achats",
+        "docs": []
+      },
+      {
+        "id": "r13",
+        "dossier": "Processus de Gestion des Cotisations",
+        "docs": []
+      },
+      {
+        "id": "r14",
+        "dossier": "Processus de Liquidation des Droits",
+        "docs": []
+      },
+      {
+        "id": "r15",
+        "dossier": "Processus de Planification",
+        "docs": []
+      },
+      {
+        "id": "r16",
+        "dossier": "Processus du Développement des Ressources Humaines",
+        "docs": []
+      },
+      {
+        "id": "r17",
+        "dossier": "Processus Financier et Comptable",
+        "docs": []
+      },
+      {
+        "id": "r18",
+        "dossier": "Processus Gestion Administrative du Personnel",
+        "docs": []
+      },
+      {
+        "id": "r19",
+        "dossier": "Processus Gestion des Archives",
+        "docs": []
+      },
+      {
+        "id": "r20",
+        "dossier": "Processus Gestion des risques",
+        "docs": []
+      },
+      {
+        "id": "r21",
+        "dossier": "Processus Gestion du Courrier",
+        "docs": []
+      },
+      {
+        "id": "r22",
+        "dossier": "Processus Gestion du système d'information",
+        "docs": []
+      },
+      {
+        "id": "r23",
+        "dossier": "Processus Médiation, veille et conseil juridique",
+        "docs": []
+      },
+      {
+        "id": "r24",
+        "dossier": "Processus Partenariat et Coopération",
+        "docs": []
       }
     ],
     "comitesData": [
@@ -1898,6 +3840,107 @@
         "file": "Certification_ISO_45001.pdf"
       }
     ],
+    "orgGovRsePortal": {
+      "gedFolder": "RSE",
+      "banner": {
+        "tagline": "Ensemble, construisons une CMR citoyenne, responsable et durable",
+        "logo": "images/intranet/rse/logo-rse.png"
+      },
+      "presentation": {
+        "title": "Présentation de la démarche RSE",
+        "visual": "images/intranet/rse/domaines-engagement-rse.png",
+        "paragraphs": [
+          "Dans un contexte national marqué par une transformation profonde du modèle de développement, portée par la Vision Royale et la mise en œuvre de la Stratégie Nationale de Développement Durable, la Caisse Marocaine des Retraites (CMR) s’inscrit pleinement dans cette dynamique en plaçant la responsabilité, la transparence, la durabilité et l’éthique au cœur de son modèle de gouvernance.",
+          "Fidèle à ses valeurs de client-centric, de collaboration, d’agilité, d’innovation et de durabilité, la CMR affirme son rôle d’institution publique citoyenne engagée au service du bien commun et du développement durable.",
+          "La Responsabilité Sociétale des Entreprises (RSE) constitue pour la CMR un levier de performance, de transformation et d’exemplarité, intégrant les enjeux environnementaux, sociaux et de gouvernance (ESG) dans l’ensemble de ses activités et décisions.",
+          "Structurée autour de six domaines et treize engagements, la démarche RSE s’appuie sur la norme ISO 26000, les Objectifs de Développement Durable (ODD) et les orientations nationales en matière de développement durable, de politique climatique et de performance publique responsable.",
+          "Elle est déployée à travers une feuille de route participative, construite avec les parties prenantes, afin de renforcer l’impact positif de la CMR dans son écosystème."
+        ]
+      },
+      "politiques": {
+        "title": "Politiques RSE",
+        "description": "Cette sous-rubrique regroupe les politiques formalisant les orientations et engagements institutionnels de la CMR en matière de responsabilité sociétale.",
+        "folder": "Politiques RSE",
+        "items": [
+          "Politique RSE",
+          "Politique Achats Responsables"
+        ]
+      },
+      "domains": {
+        "title": "Domaines d’Engagement RSE",
+        "description": "Cette sous-rubrique présente les domaines d’engagement de la CMR, leurs objectifs et les engagements associés.",
+        "folder": "Domaines d’Engagement RSE",
+        "items": [
+          {
+            "title": "Engagements de Gouvernance",
+            "objective": "Garantir l’engagement de bonne gouvernance à tous les niveaux",
+            "color": "#123b78"
+          },
+          {
+            "title": "Engagements pour l’Humain",
+            "objective": "Assumer pleinement notre responsabilité d’employeur",
+            "color": "#e86100"
+          },
+          {
+            "title": "Engagements Éthiques",
+            "objective": "Assurer avec loyauté et intégrité notre responsabilité dans la conduite des affaires",
+            "color": "#a60055"
+          },
+          {
+            "title": "Engagements Client-Centric",
+            "objective": "Mettre le client au centre de nos décisions et actions",
+            "color": "#009ebd"
+          },
+          {
+            "title": "Engagements de Développement Sociétal",
+            "objective": "S’engager pleinement auprès de nos partenaires et des communautés",
+            "color": "#d6a600"
+          },
+          {
+            "title": "Engagements pour l’Environnement",
+            "objective": "Respecter l’environnement et réduire notre empreinte écologique",
+            "color": "#65a918"
+          }
+        ]
+      },
+      "documents": {
+        "title": "Documents de référence RSE",
+        "description": "Cette sous-rubrique regroupe les documents structurants qui encadrent la démarche RSE de la CMR et précisent ses principes, ses engagements et ses règles de conduite.",
+        "folder": "Documents de référence RSE",
+        "items": [
+          "Manuel RSE",
+          "Charte RSE",
+          "Code d’Éthique"
+        ]
+      },
+      "governance": {
+        "title": "Organisation et Gouvernance RSE",
+        "description": "Cette sous-rubrique présente le dispositif mis en place pour piloter, animer, suivre et améliorer la démarche RSE.",
+        "folder": "Organisation et Gouvernance RSE",
+        "actors": [
+          "Responsable RSE",
+          "Sponsor RSE",
+          "Référent RSE",
+          "Comité RSE"
+        ]
+      },
+      "evaluation": {
+        "title": "Évaluation RSE",
+        "description": "Diffusion des certificats, attestations de maturité et labels RSE obtenus par la CMR.",
+        "folder": "Evaluation RSE"
+      },
+      "resources": {
+        "title": "Ressources RSE",
+        "description": "Espace de sensibilisation, de formation et de partage de connaissances autour de la RSE.",
+        "folder": "Ressources RSE",
+        "categories": [
+          "Normes et standards RSE",
+          "Guides pratiques",
+          "Vidéos",
+          "Ouvrages et liens utiles"
+        ]
+      }
+    },
     "orgGovCultureContents": [
       {
         "title": "Flash information qualité",
@@ -1952,20 +3995,7 @@
         "file": "CR_Action_RSE.pdf"
       }
     ],
-    "orgGovCultureQuizzes": [
-      {
-        "id": "quiz-qualite",
-        "title": "Quiz qualité",
-        "score": 82,
-        "participants": 124
-      },
-      {
-        "id": "quiz-sst",
-        "title": "Auto-évaluation SST",
-        "score": 76,
-        "participants": 98
-      }
-    ],
+    "orgGovCultureQuizzes": [],
     "orgGovCultureIdeas": [
       {
         "title": "Réduction impressions",

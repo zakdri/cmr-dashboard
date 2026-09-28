@@ -6,6 +6,568 @@
       "title": "Stratégie & Projets CMR",
       "description": "Vision transverse de la stratégie, du portefeuille projets, des indicateurs et des livrables."
     },
+    "strategieProjetsSpace": {
+      "intro": "Une vision, des orientations, des projets. Cet espace réunit les grands axes de la stratégie de la CMR et les projets qui la concrétisent au quotidien.",
+      "exampleLabel": "",
+      "strategy": {
+        "title": "Stratégie CMR",
+        "summary": "Le cadre stratégique qui définit les ambitions de la CMR et guide sa trajectoire de transformation et de développement.",
+        "vision": {
+          "title": "Vision",
+          "statement": "Être un acteur de référence pour une nouvelle expérience Retraite Publique innovante, agile et durable",
+          "strategicOrientations": [
+            {
+              "code": "OS.1",
+              "title": "Développer une approche novatrice client-Centric",
+              "icon": "hand-heart"
+            },
+            {
+              "code": "OS.2",
+              "title": "Renforcer le positionnement de la CMR en tant qu’investisseur institutionnel performant et innovant",
+              "icon": "brain-circuit"
+            },
+            {
+              "code": "OS.3",
+              "title": "Accélérer la transformation interne en faveur de la performance et de l’excellence opérationnelle",
+              "icon": "network"
+            },
+            {
+              "code": "OS.4",
+              "title": "Consolider les principes de la bonne gouvernance et développer la responsabilité sociétale",
+              "icon": "sprout"
+            }
+          ],
+          "enablers": [
+            {
+              "code": "Enbl.",
+              "title": "Accélérer la transformation managériale en faveur du développement des compétences, de l’innovation et de l’intelligence collective",
+              "icon": "brain"
+            },
+            {
+              "code": "Enbl.",
+              "title": "Faire du Digital et de l’innovation des catalyseurs de la performance et de l’excellence opérationnelle",
+              "icon": "blocks"
+            }
+          ]
+        },
+        "orientations": [
+          {
+            "id": "client",
+            "title": "Client-Centric",
+            "description": "Simplifier les parcours et améliorer la qualité des services rendus aux usagers."
+          },
+          {
+            "id": "investissement",
+            "title": "Investissement diversifié et innovant",
+            "description": "Diversifier les approches d'investissement et accompagner l'évolution des besoins."
+          },
+          {
+            "id": "transformation",
+            "title": "Transformation interne",
+            "description": "Faire évoluer les processus et les outils pour renforcer l'efficacité collective."
+          },
+          {
+            "id": "gouvernance",
+            "title": "Bonne gouvernance et RSE",
+            "description": "Inscrire la transparence et la responsabilité sociale dans les pratiques de pilotage."
+          },
+          {
+            "id": "management",
+            "title": "Transformation managériale",
+            "description": "Accompagner les équipes et développer des modes de management collaboratifs."
+          },
+          {
+            "id": "digital",
+            "title": "Digital et Innovation",
+            "description": "Mobiliser le numérique et l'innovation pour faire évoluer les services de la CMR."
+          },
+          {
+            "id": "confiance",
+            "title": "Confiance avec les parties prenantes",
+            "description": "Renforcer le dialogue et la coopération avec les partenaires de la CMR."
+          }
+        ],
+        "plan": {
+          "title": "Plan de Développement Stratégique"
+        },
+        "review": {
+          "title": "Bilan stratégique",
+          "summary": "Un état des lieux de l’avancement de la stratégie, des réalisations et des principaux résultats obtenus.",
+          "charters": [],
+          "kpis": []
+        }
+      },
+      "projects": {
+        "title": "Projets CMR",
+        "summary": "Un aperçu des projets portés par la CMR et de leur contribution à ses orientations stratégiques.",
+        "approach": {
+          "title": "Démarche",
+          "heading": "Le parcours du chef de projet",
+          "tagline": "Des étapes clés et des ressources pour mener vos projets avec succès",
+          "slogan": "Ensemble, faisons avancer nos projets !",
+          "steps": [
+            {
+              "id": "lancement",
+              "title": "Je lance mon projet",
+              "subtitle": "Cadrer & démarrer",
+              "icon": "rocket",
+              "tone": "green",
+              "items": [
+                "Définir les objectifs et les résultats attendus",
+                "Comprendre le besoin",
+                "Définir le périmètre",
+                "Identifier les parties prenantes",
+                "Constituer l’équipe projet"
+              ]
+            },
+            {
+              "id": "planification",
+              "title": "Je planifie mon projet",
+              "subtitle": "Organiser & préparer",
+              "icon": "calendar-days",
+              "tone": "blue",
+              "items": [
+                "Construire le planning",
+                "Identifier les ressources",
+                "Identifier les indicateurs d’impact",
+                "Évaluer les risques",
+                "Finaliser et valider les documents de référence"
+              ]
+            },
+            {
+              "id": "pilotage",
+              "title": "Je pilote mon projet",
+              "subtitle": "Suivre & maîtriser",
+              "icon": "chart-no-axes-combined",
+              "tone": "orange",
+              "items": [
+                "Suivre l’avancement et les jalons",
+                "Suivre les coûts / ressources",
+                "Coordonner les acteurs",
+                "Gérer les risques et points de blocage",
+                "Suivre les dépendances",
+                "Produire le reporting",
+                "Alerter et proposer les arbitrages nécessaires"
+              ]
+            },
+            {
+              "id": "cloture",
+              "title": "Je clôture & j’évalue mon projet",
+              "subtitle": "Finaliser, mesurer & capitaliser",
+              "icon": "flag",
+              "tone": "purple",
+              "items": [
+                "Vérifier l’atteinte des livrables",
+                "Formaliser la clôture",
+                "Évaluer le déploiement",
+                "Mesurer l’appropriation / l’utilisation",
+                "Évaluer les résultats et impacts",
+                "Recueillir les retours d’expérience",
+                "Capitaliser les enseignements"
+              ]
+            }
+          ],
+          "governance": {
+            "title": "Gouvernance & Décisions",
+            "subtitle": "Tout au long du cycle de vie du projet",
+            "icon": "users-round",
+            "items": [
+              {
+                "title": "Comités de suivi",
+                "description": "Suivre et échanger",
+                "icon": "users-round"
+              },
+              {
+                "title": "Reporting décisionnel",
+                "description": "Partager l’avancement",
+                "icon": "file-text"
+              },
+              {
+                "title": "Escalade des blocages",
+                "description": "Identifier et remonter",
+                "icon": "chart-no-axes-combined"
+              },
+              {
+                "title": "Arbitrages",
+                "description": "Décider et orienter",
+                "icon": "gavel"
+              },
+              {
+                "title": "Suivi des décisions",
+                "description": "Assurer la mise en œuvre",
+                "icon": "circle-check-big"
+              }
+            ]
+          },
+          "tools": {
+            "title": "Mes outils",
+            "subtitle": "Les ressources utiles au chef de projet",
+            "icon": "briefcase-business",
+            "items": [
+              "Charte projet",
+              "Matrice RACI",
+              "MS Project"
+            ]
+          }
+        },
+        "axes": [
+          {
+            "id": "os1",
+            "code": "OS.1",
+            "title": "Développer une approche novatrice Client-Centric",
+            "projects": [
+              {
+                "project": "Déployer la culture client « CXM »",
+                "year": "2025-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Personnaliser les offres de services à travers une segmentation fine et dynamique des clients (Data, IA, écoute client …)",
+                "year": "2025",
+                "structure": "PC"
+              },
+              {
+                "project": "Mettre en place le centre de contact unifié",
+                "year": "2025",
+                "structure": "PC"
+              },
+              {
+                "project": "Déployer un nouveau modèle d’agence « NMA »",
+                "year": "2026-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Développer des relais de proximité (agences mobiles, points de service mutualisés)",
+                "year": "2026-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Renforcer l'offre digitale pour créer de la valeur ajoutée dans l’expérience client",
+                "year": "2025-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Développer l'usage des e-services avec une inclusion numérique plus marquée des clients",
+                "year": "2025-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Mettre en place une agence digitale de la CMR",
+                "year": "2025",
+                "structure": "PC"
+              },
+              {
+                "project": "Mettre en place une gamme diversifiée du produit Attakmili",
+                "year": "2026",
+                "structure": "PC"
+              },
+              {
+                "project": "Restructurer la démarche d’acquisition et de transformation des leads et de distribution du produit Attakmili",
+                "year": "2025",
+                "structure": "PC"
+              }
+            ]
+          },
+          {
+            "id": "os2",
+            "code": "OS.2",
+            "title": "Renforcer le positionnement de la CMR en tant qu’investisseur institutionnel performant et innovant",
+            "projects": [
+              {
+                "project": "Poursuivre le processus d'ouverture du capital des OPCI détenus par la CMR, dans le cadre d’une gestion agile de la liquidité et des contraintes ALM du RPC",
+                "year": "2025-2027",
+                "structure": "PGP"
+              },
+              {
+                "project": "Renforcer l’exposition de la CMR dans la classe du Private Equity et participer à l’initiative portée par le FM6I",
+                "year": "2025-2027",
+                "structure": "PGP"
+              },
+              {
+                "project": "S’ouvrir sur les opportunités liées aux nouveaux instruments financiers (ETF, marché à termes, …)",
+                "year": "2025",
+                "structure": "PGP"
+              },
+              {
+                "project": "Maintenir les certifications (ISAE 3402 Type 2 et performances)",
+                "year": "2025-2027",
+                "structure": "PGP"
+              }
+            ]
+          },
+          {
+            "id": "os3",
+            "code": "OS.3",
+            "title": "Accélérer la transformation interne en faveur de la performance et de l’excellence opérationnelle",
+            "projects": [
+              {
+                "project": "Automatiser le contrôle de droits et le calcul et la délivrance des prestations",
+                "year": "2025-2027",
+                "structure": "PO"
+              },
+              {
+                "project": "Optimiser les processus métiers en s'appuyant notamment sur les partenaires (interopérabilité, échanges de données, Lean Management...)",
+                "year": "2025-2027",
+                "structure": "PO"
+              },
+              {
+                "project": "Consolider la digitalisation des processus de traitement Attakmili Front to End",
+                "year": "2025",
+                "structure": "PO"
+              },
+              {
+                "project": "Développer une posture de « Aller vers » pour garantir les droits des clients",
+                "year": "2025",
+                "structure": "PO"
+              },
+              {
+                "project": "Renforcer la culture de la performance et instaurer des mécanismes réguliers de dialogue de gestion",
+                "year": "2025",
+                "structure": "PO"
+              },
+              {
+                "project": "Consolider la gestion par objectif et renforcer le dispositif de pilotage de la stratégie et de la performance",
+                "year": "2025-2027",
+                "structure": "PO"
+              },
+              {
+                "project": "Ancrer la culture data et déployer la gouvernance des données",
+                "year": "2025-2027",
+                "structure": "PP"
+              },
+              {
+                "project": "Mettre en place un socle data unifié",
+                "year": "2025-2027",
+                "structure": "PP"
+              },
+              {
+                "project": "Mettre en place un dispositif pour garantir la qualité et la conformité des données",
+                "year": "2025-2027",
+                "structure": "PP"
+              },
+              {
+                "project": "Valoriser la Data à travers des cas d'usage à fort impact",
+                "year": "2025-2027",
+                "structure": "PP"
+              },
+              {
+                "project": "Déployer le nouveau système d’information métier",
+                "year": "2025-2027",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Poursuivre la réalisation des projets issus du SDSI 2022 – 2025",
+                "year": "2025",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Actualiser le SDSI pour la période 2026 - 2030",
+                "year": "2025",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Assurer la transition du Système de Management de la Sécurité Informatique vers la norme ISO IEC 27001:2022",
+                "year": "2025",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Maintenir la conformité à la loi 05-20 sur la cybersécurité",
+                "year": "2025",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Se conformer à la Directive Nationale de la Sécurité des Systèmes d’Information (DNSSI V2)",
+                "year": "2025",
+                "structure": "PSITD"
+              }
+            ]
+          },
+          {
+            "id": "os4",
+            "code": "OS.4",
+            "title": "Consolider les principes de la bonne gouvernance et développer la responsabilité sociétale",
+            "projects": [
+              {
+                "project": "Déployer la culture RSE en interne et auprès des membres des instances de gouvernance",
+                "year": "2025-2026",
+                "structure": "PP"
+              },
+              {
+                "project": "Déployer un dispositif structuré RSE conforme aux normes et aux bonnes pratiques",
+                "year": "2025",
+                "structure": "PP"
+              },
+              {
+                "project": "Mettre en œuvre la feuille de route issue de la stratégie RSE de la CMR",
+                "year": "2025-2027",
+                "structure": "PP"
+              },
+              {
+                "project": "Adopter une démarche d’investissement responsable",
+                "year": "2025-2027",
+                "structure": "PGP"
+              },
+              {
+                "project": "Déployer un programme « Planifier ma retraite » destiné aux affiliés",
+                "year": "2026-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Déployer un programme « Bien vivre ma retraite » destiné aux retraités",
+                "year": "2026-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Développer des services complémentaires avec un écosystème de partenaires (assurance, services financiers, transport, loisirs …)",
+                "year": "2026-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Poursuivre l'alignement aux normes et référentiels institutionnels nationaux et internationaux de bonne gouvernance",
+                "year": "2025-2027",
+                "structure": "DGCE"
+              },
+              {
+                "project": "Mettre en place un programme d'accompagnement et de développement des compétences des membres des instances de gouvernance",
+                "year": "2025-2027",
+                "structure": "DGCE"
+              },
+              {
+                "project": "Renforcer la politique de certification",
+                "year": "2025-2027",
+                "structure": "DRM"
+              }
+            ]
+          },
+          {
+            "id": "enb1",
+            "code": "Enb.I",
+            "title": "Accélérer la transformation managériale en faveur du développement des compétences, de l’innovation et de l’intelligence collective",
+            "projects": [
+              {
+                "project": "Repenser les parcours collaborateurs",
+                "year": "2025",
+                "structure": "PR"
+              },
+              {
+                "project": "Mettre en place la CMR Academy",
+                "year": "2025-2027",
+                "structure": "PR"
+              },
+              {
+                "project": "Déployer une politique de gestion et de valorisation des talents",
+                "year": "2025",
+                "structure": "PR"
+              },
+              {
+                "project": "Mettre en place des initiatives en faveur du bien-être des collaborateurs",
+                "year": "2025-2027",
+                "structure": "PR"
+              },
+              {
+                "project": "Transformer les pratiques et les postures managériales",
+                "year": "2025-2027",
+                "structure": "PR"
+              },
+              {
+                "project": "Consolider la transformation culturelle à travers un dispositif de conduite du changement",
+                "year": "2025-2027",
+                "structure": "PR"
+              },
+              {
+                "project": "Mettre en place un cadre et des pratiques favorisant l’innovation et l’intelligence collective",
+                "year": "2025",
+                "structure": "PR"
+              }
+            ]
+          },
+          {
+            "id": "enb2",
+            "code": "Enb.II",
+            "title": "Faire du Digital et de l’innovation des catalyseurs de la performance et de l’excellence opérationnelle",
+            "projects": [
+              {
+                "project": "Apporter l'expertise technique, technologique et méthodologique pour la mise en place de l'approche Client-centric et pour accompagner les métiers dans la transformation interne",
+                "year": "2025-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Mettre en place une Roadmap des services digitaux",
+                "year": "2025",
+                "structure": "PC"
+              },
+              {
+                "project": "Mettre en place les standards d'accessibilité numérique au niveau des services digitaux",
+                "year": "2025-2027",
+                "structure": "PC"
+              },
+              {
+                "project": "Elargir l’automatisation des processus à travers le RPA",
+                "year": "2025-2027",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Elargir l’adoption de l’IA et de l'IA générative",
+                "year": "2025-2027",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Mettre en place une gouvernance intégrée de la mise en œuvre de la stratégie digitale",
+                "year": "2025",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Mettre en place une Digital Factory",
+                "year": "2025-2027",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Développer les capacités digitales de la CMR",
+                "year": "2025-2027",
+                "structure": "PSITD"
+              },
+              {
+                "project": "Développer des expertises dans le Digital",
+                "year": "2025-2027",
+                "structure": "PSITD"
+              }
+            ]
+          },
+          {
+            "id": "enb3",
+            "code": "Enb.III",
+            "title": "Renforcer la relation de confiance avec les parties prenantes",
+            "projects": [
+              {
+                "project": "Mettre en place un dispositif de suivi de la perception de l'image de marque de la CMR",
+                "year": "2025",
+                "structure": "DGCE"
+              },
+              {
+                "project": "Mettre en œuvre une stratégie de Relations Publiques et développer la visibilité médiatique de la Caisse",
+                "year": "2025-2027",
+                "structure": "DGCE"
+              },
+              {
+                "project": "Renforcer la communication institutionnelle digitale (E-branding, marque employeur,...)",
+                "year": "2025-2026",
+                "structure": "DGCE"
+              },
+              {
+                "project": "Positionner la CMR en tant que moteur d’expertise et d’innovation dans son écosystème au niveau national",
+                "year": "2025-2027",
+                "structure": "DGCE"
+              },
+              {
+                "project": "Faire rayonner l’expertise et le savoir-faire de la CMR auprès de ses pairs internationaux, en particulier Sud-Sud",
+                "year": "2025-2027",
+                "structure": "DGCE"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "projetsItems": [
       {
         "id": "plan-strategique",

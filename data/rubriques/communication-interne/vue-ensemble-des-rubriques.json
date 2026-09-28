@@ -31,17 +31,6 @@
             "title": "Tenue du Conseil d’Administration",
             "meta": "Gouvernance • 2 jours",
             "handler": "goToActualites(2); return false;"
-          },
-          {
-            "label": "DIG",
-            "labelStyle": {
-              "background": "#fff7ed",
-              "color": "#ea580c",
-              "fontWeight": 800
-            },
-            "title": "Feuille de route digitale 2026",
-            "meta": "Digital • 1 Avril",
-            "handler": "goToActualites(8); return false;"
           }
         ]
       },
@@ -92,40 +81,51 @@
         "icon": "zap",
         "iconClass": "orange",
         "action": "Voir",
-        "actionHandler": "openCommFlashDetail('strategie-roadmap'); return false;",
+        "actionHandler": "openCommFlashDetail('bornes-information-sila'); return false;",
         "items": [
           {
-            "label": "IT",
-            "labelStyle": {
-              "background": "#fff7ed",
-              "color": "#ea580c",
-              "fontWeight": 800
-            },
-            "title": "Maintenance serveur “Paie”",
-            "meta": "Ce vendredi • 18:00",
-            "handler": "openTickerDetail('it-maint-paie')"
-          },
-          {
-            "label": "SOC",
+            "label": "INFO",
             "labelStyle": {
               "background": "#eff6ff",
               "color": "#256cb5",
               "fontWeight": 800
             },
-            "title": "Colonies de vacances 2026",
-            "meta": "Inscriptions ouvertes",
-            "handler": "openTickerDetail('social-colonies')"
+            "title": "De nouvelles bornes d'information arrivent dans nos espaces صلة",
+            "meta": "",
+            "handler": "openTickerDetail('bornes-information-sila')"
           },
           {
-            "label": "STR",
+            "label": "INFO",
             "labelStyle": {
-              "background": "#f0fdf4",
-              "color": "#16a34a",
+              "background": "#eff6ff",
+              "color": "#256cb5",
               "fontWeight": 800
             },
-            "title": "Lancement feuille de route 2026",
-            "meta": "Stratégie • Aujourd’hui",
-            "handler": "openTickerDetail('strategie-roadmap')"
+            "title": "Découvrez le nouvel intranet de la CMR",
+            "meta": "",
+            "handler": "openTickerDetail('nouvel-intranet-cmr')"
+          },
+          {
+            "label": "INFO",
+            "labelStyle": {
+              "background": "#eff6ff",
+              "color": "#256cb5",
+              "fontWeight": 800
+            },
+            "title": "نبسط المساطر من أجل مرتفقينا، المنشور رقم 8/2026",
+            "meta": "",
+            "handler": "openTickerDetail('simplification-procedures-8-2026')"
+          },
+          {
+            "label": "INFO",
+            "labelStyle": {
+              "background": "#eff6ff",
+              "color": "#256cb5",
+              "fontWeight": 800
+            },
+            "title": "SMACAF Accéder au support de sensibilisation",
+            "meta": "",
+            "handler": "openTickerDetail('smacaf-support-sensibilisation')"
           }
         ]
       },
@@ -177,41 +177,7 @@
         "iconClass": "purple",
         "action": "Consulter",
         "actionHandler": "goToActualites(); return false;",
-        "items": [
-          {
-            "label": "INT",
-            "labelStyle": {
-              "background": "#fdf4ff",
-              "color": "#9333ea",
-              "fontWeight": 800
-            },
-            "title": "Interview — Retour d’expérience “Digit‑Passe”",
-            "meta": "Innovation • 3 jours",
-            "handler": "goToActualites(4); return false;"
-          },
-          {
-            "label": "DOS",
-            "labelStyle": {
-              "background": "#eff6ff",
-              "color": "#256cb5",
-              "fontWeight": 800
-            },
-            "title": "Dossier — Comité d’audit",
-            "meta": "Gouvernance • Mars",
-            "handler": "goToActualites(10); return false;"
-          },
-          {
-            "label": "SOC",
-            "labelStyle": {
-              "background": "#f0fdf4",
-              "color": "#16a34a",
-              "fontWeight": 800
-            },
-            "title": "Article — Colonies de vacances 2026",
-            "meta": "Social • 28 Mars",
-            "handler": "goToActualites(9); return false;"
-          }
-        ]
+        "items": []
       },
       {
         "title": "Multimédia",

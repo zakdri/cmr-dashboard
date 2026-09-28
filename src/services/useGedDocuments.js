@@ -35,6 +35,7 @@ export function useGedDocuments(path, options = {}) {
     loading: shouldUseDocumentsApi() && enabled && initialDocuments === null,
     error: null,
     documents: initialDocuments || [],
+    folders: [],
   });
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export function useGedDocuments(path, options = {}) {
     let loadingPromise = null;
     let lastRevalidation = 0;
     if (!shouldUseDocumentsApi() || !enabled || !path) {
-      setState({ loading: false, error: null, documents: [] });
+      setState({ loading: false, error: null, documents: [], folders: [] });
       return () => {
         cancelled = true;
       };
@@ -54,6 +55,7 @@ export function useGedDocuments(path, options = {}) {
       loading: cachedDocuments === null,
       error: null,
       documents: cachedDocuments || [],
+      folders: [],
     });
 
     async function load({ refresh = false, preserveDocuments = false } = {}) {
@@ -64,18 +66,29 @@ export function useGedDocuments(path, options = {}) {
         loading: !preserveDocuments,
         error: null,
         documents: preserveDocuments ? current.documents : [],
+        folders: preserveDocuments ? current.folders : [],
       }));
 
       loadingPromise = (async () => {
         try {
           const result = await fetchGedDocuments(path, { refresh });
           if (!cancelled && currentRequest === requestNumber) {
-            setState({ loading: false, error: null, documents: result.documents });
+            setState({
+              loading: false,
+              error: null,
+              documents: result.documents,
+              folders: result.folders || [],
+            });
           }
           return result;
         } catch (error) {
           if (!cancelled && currentRequest === requestNumber) {
-            setState((current) => ({ loading: false, error, documents: current.documents }));
+            setState((current) => ({
+              loading: false,
+              error,
+              documents: current.documents,
+              folders: current.folders,
+            }));
           }
           return null;
         } finally {

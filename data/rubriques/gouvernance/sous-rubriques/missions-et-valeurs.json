@@ -2,33 +2,34 @@
   "rubrique": "gouvernance",
   "contenu": "Missions et valeurs",
   "data": {
-    "governanceMissions": "La CMR assure la gestion pérenne des régimes de retraite qui lui sont confiés, garantit la qualité du service rendu aux affiliés et pensionnés et contribue à la solidité du système de protection sociale.",
-    "governanceValues": [
+    "governanceMissions": "La Caisse Marocaine des Retraites (CMR) est un établissement public doté de la personnalité morale et de l'autonomie financière. Acteur majeur du système national de prévoyance sociale, elle œuvre à garantir une gestion performante, durable et sécurisée des régimes de retraite qui lui sont confiés à travers trois missions complémentaires : la gestion administrative des régimes et des prestations, la gestion financière des réserves et le pilotage actuariel des régimes.",
+    "governanceMissionItems": [
       {
-        "id": "innovation",
-        "label": "Innovation",
-        "icon": "lightbulb"
+        "title": "Gérer les régimes de retraite et les prestations",
+        "description": "La CMR assure la gestion administrative des régimes de retraite et des prestations qui lui sont confiés, dans le respect de la réglementation en vigueur et au service de ses affiliés, retraités et bénéficiaires. À ce titre, elle gère :",
+        "items": [
+          "Régime Pensions Civiles ;",
+          "Régime Pensions Militaires ;",
+          "Régime Attakmili ;",
+          "Régimes Non Cotisants ;",
+          "Prestations pour Tiers."
+        ]
       },
       {
-        "id": "collaboration",
-        "label": "Collaboration",
-        "icon": "users-round"
+        "title": "Gérer les réserves financières des régimes",
+        "description": "La CMR assure la gestion financière des réserves des régimes de retraite placés sous sa responsabilité, conformément à la réglementation en vigueur. Elle met en œuvre une politique d'investissement visant à concilier performance, maîtrise des risques et préservation d'un niveau de liquidité adapté afin de garantir la sécurité et la valorisation des réserves."
       },
       {
-        "id": "client",
-        "label": "Client-Centric",
-        "icon": "heart-handshake"
-      },
-      {
-        "id": "agilite",
-        "label": "Agilité",
-        "icon": "zap"
-      },
-      {
-        "id": "durabilite",
-        "label": "Durabilité",
-        "icon": "leaf"
+        "title": "Assurer le pilotage actuariel des régimes",
+        "description": "La CMR réalise le suivi actuariel des régimes de retraite qu'elle gère à travers l'élaboration de bilans actuariels certifiés soumis à ses instances de gouvernance. Ces analyses permettent d'évaluer la situation financière des régimes, d'apprécier leur équilibre à long terme et d'éclairer les pouvoirs publics dans leurs décisions afin de contribuer à la pérennité et à la solvabilité du système de retraite."
       }
+    ],
+    "governanceValues": [
+      { "id": "innovation", "label": "Innovation", "icon": "lightbulb" },
+      { "id": "collaboration", "label": "Collaboration", "icon": "users-round" },
+      { "id": "client", "label": "Client-Centric", "icon": "heart-handshake" },
+      { "id": "agilite", "label": "Agilité", "icon": "zap" },
+      { "id": "durabilite", "label": "Durabilité", "icon": "leaf" }
     ]
   }
 }

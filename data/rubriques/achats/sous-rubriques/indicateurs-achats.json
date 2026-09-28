@@ -7,6 +7,7 @@
         "title": "Indicateurs",
         "description": "Pilotage des indicateurs clés des achats.",
         "summary": "Cette rubrique présente les principaux indicateurs de pilotage des achats afin de donner une lecture synthétique de l'activité : appels d'offres lancés, avancement du PPA, factures reçues et délais moyens de certification.",
+        "updatedAt": "Dernière mise à jour le 23/09/2026",
         "icon": "bar-chart-3",
         "iconStyle": {
           "background": "#f0fdf4",
@@ -15,19 +16,19 @@
         "metrics": [
           {
             "label": "AO lancés",
-            "value": "24"
+            "value": "33"
           },
           {
             "label": "Taux réalisation PPA",
-            "value": "68%"
+            "value": "71,74%"
           },
           {
             "label": "Factures reçues",
-            "value": "143"
+            "value": "278"
           },
           {
             "label": "Délai moyen certification",
-            "value": "4,8 j"
+            "value": "11,84 j"
           }
         ]
       }

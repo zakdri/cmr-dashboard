@@ -21,7 +21,7 @@
         ],
         "descriptionPlaceholder": "Description / leçons apprises…",
         "sendLabel": "Envoyer",
-        "description": "Cette rubrique permet de consulter les REX publiés et de soumettre un retour d’expérience, sous réserve d’habilitation et sans publication automatique.",
+        "description": "La rubrique « Retour d’expérience » permet de partager les enseignements issus des projets, actions et initiatives menés au sein de l’organisation. Elle met en lumière les expériences vécues par les équipes, les réussites obtenues, les difficultés rencontrées ainsi que les solutions mises en œuvre.",
         "habilitationNote": "La soumission est soumise à habilitation. Le REX soumis reste en attente de publication par l’équipe Knowledge Management.",
         "attachmentLabel": "Pièce jointe",
         "detailTitle": "Détail REX",
@@ -30,25 +30,6 @@
         "emptyDetail": "Sélectionnez un REX."
       }
     },
-    "kmRexData": [
-      {
-        "id": "rx1",
-        "title": "REX – Refonte intranet: adoption",
-        "theme": "Projet",
-        "date": "Avr 2026",
-        "body": "Ce qui a fonctionné: démos courtes, sponsors métier. À améliorer: clarifier les owners dès le début.",
-        "attachment": "REX_Refonte_Intranet.pdf",
-        "status": "Publié"
-      },
-      {
-        "id": "rx2",
-        "title": "REX – Processus tickets IT",
-        "theme": "Processus",
-        "date": "Mars 2026",
-        "body": "Standardiser les catégories et définir un SLA visible dans GLPI.",
-        "attachment": "REX_Processus_Tickets_IT.pdf",
-        "status": "Publié"
-      }
-    ]
+    "kmRexData": []
   }
 }

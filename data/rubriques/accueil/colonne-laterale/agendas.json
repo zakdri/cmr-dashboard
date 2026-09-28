@@ -42,17 +42,35 @@
         "cmrItems": [
           {
             "month": "FÉV",
-            "day": "15",
-            "monthBackground": "#ef4444",
-            "title": "Assemblée Générale",
-            "meta": "Auditorium Principal"
+            "day": "11",
+            "monthBackground": "#256cb5",
+            "title": "Journées d’intégration des nouveaux collaborateurs 2026",
+            "meta": "11 février 2026",
+            "date": "2026-02-11"
+          },
+          {
+            "month": "FÉV",
+            "day": "12",
+            "monthBackground": "#256cb5",
+            "title": "Journées d’intégration des nouveaux collaborateurs 2026",
+            "meta": "12 février 2026",
+            "date": "2026-02-12"
+          },
+          {
+            "month": "FÉV",
+            "day": "13",
+            "monthBackground": "#256cb5",
+            "title": "Journées d’intégration des nouveaux collaborateurs 2026",
+            "meta": "13 février 2026",
+            "date": "2026-02-13"
           },
           {
             "month": "MAR",
             "day": "08",
-            "monthBackground": "#3b82f6",
-            "title": "Journée de la Femme",
-            "meta": "Événement Interne"
+            "monthBackground": "#256cb5",
+            "title": "Ftour dînatoire en l’honneur des femmes de la CMR",
+            "meta": "8 mars 2026",
+            "date": "2026-03-08"
           }
         ]
       }

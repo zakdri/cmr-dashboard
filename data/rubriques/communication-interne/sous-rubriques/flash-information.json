@@ -11,31 +11,27 @@
         "description": "Les informations rapides diffusées à l'ensemble des collaborateurs.",
         "items": [
           {
-            "title": "Maintenance programmée de la plateforme",
-            "date": "Aujourd'hui",
-            "year": "2026",
-            "meta": "SITD",
+            "title": "De nouvelles bornes d'information arrivent dans nos espaces صلة",
+            "date": "",
+            "meta": "",
             "kind": "INFO"
           },
           {
-            "title": "Mise à jour du calendrier CMR",
-            "date": "Hier",
-            "year": "2026",
-            "meta": "Communication",
+            "title": "Découvrez le nouvel intranet de la CMR",
+            "date": "",
+            "meta": "",
             "kind": "INFO"
           },
           {
-            "title": "Ouverture des inscriptions CMR Academy",
-            "date": "15 juillet 2026",
-            "year": "2026",
-            "meta": "Formation",
+            "title": "نبسط المساطر من أجل مرتفقينا، المنشور رقم 8/2026",
+            "date": "",
+            "meta": "",
             "kind": "INFO"
           },
           {
-            "title": "Lancement de la campagne RSE",
-            "date": "08 juillet 2026",
-            "year": "2026",
-            "meta": "RSE",
+            "title": "SMACAF Accéder au support de sensibilisation",
+            "date": "",
+            "meta": "",
             "kind": "INFO"
           }
         ]

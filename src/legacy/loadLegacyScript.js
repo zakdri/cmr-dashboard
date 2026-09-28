@@ -1,15 +1,25 @@
 import legacyAppUrl from './app.js?url';
 
-export function loadLegacyScript() {
-  return new Promise((resolve, reject) => {
-    const previous = document.querySelector('script[data-cmr-legacy-app="true"]');
-    if (previous) previous.remove();
+const LEGACY_LOADER_KEY = '__cmrLegacyAppLoadPromise';
 
+export function loadLegacyScript() {
+  if (window[LEGACY_LOADER_KEY]) return window[LEGACY_LOADER_KEY];
+
+  window[LEGACY_LOADER_KEY] = new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.src = `${legacyAppUrl}?v=${Date.now()}`;
     script.dataset.cmrLegacyApp = 'true';
-    script.onload = resolve;
-    script.onerror = () => reject(new Error('Impossible de charger le moteur legacy'));
+    script.onload = () => {
+      script.dataset.loaded = 'true';
+      resolve();
+    };
+    script.onerror = () => {
+      delete window[LEGACY_LOADER_KEY];
+      script.remove();
+      reject(new Error('Impossible de charger le moteur legacy'));
+    };
     document.body.appendChild(script);
   });
+
+  return window[LEGACY_LOADER_KEY];
 }

@@ -9,7 +9,14 @@
         "icon": "user-plus",
         "iconClass": "blue",
         "description": "Les dernières annonces et les documents RH relatifs au recrutement.",
-        "filterByYear": true,
+        "folderFilters": [
+          "Chef de la Division Planification et Contrôle de Gestion",
+          "Chef de la Division Sécurité de l’Information",
+          "Chef de Service Administration des Ressources Humaines",
+          "Chef du Service Communication Externe et Coopération Internationale",
+          "Chef du Service Contrôle de Gestion",
+          "Chef du Service Gouvernance"
+        ],
         "items": [
           {
             "title": "Avis de recrutement - Chef de projet SI",

@@ -79,7 +79,7 @@ export default function AdminSection() {
           }}
         />
 
-        <div id="page-admin-comptes" className="km-tab-content" style={{ display: "block" }}>
+        <div id="page-admin-comptes" className="km-tab-content" style={{ display: "none" }}>
           <div className="dashboard-grid" style={{ gridTemplateColumns: "1.7fr 1.3fr", gap: 24 }}>
             <DashboardCard
               page={comptes}
@@ -206,7 +206,7 @@ export default function AdminSection() {
           </DashboardCard>
         </div>
 
-        <div id="page-admin-cms" className="km-tab-content" style={{ display: "none" }}>
+        <div id="page-admin-cms" className="km-tab-content" style={{ display: "block" }}>
           <DashboardCard page={cards.cms || {}}>
             <div style={{ padding: 18 }}>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>

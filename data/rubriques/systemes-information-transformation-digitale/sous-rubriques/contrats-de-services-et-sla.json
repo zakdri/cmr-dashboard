@@ -2,30 +2,6 @@
   "rubrique": "systemes-information-transformation-digitale",
   "contenu": "Contrats de services et SLA",
   "data": {
-    "sitdFilters": {
-      "contrats-services": {
-        "type": "structure",
-        "filters": [
-          {
-            "label": "Toutes",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "DSI",
-            "value": "DSI"
-          },
-          {
-            "label": "DAF",
-            "value": "DAF"
-          },
-          {
-            "label": "DCH",
-            "value": "DCH"
-          }
-        ]
-      }
-    },
     "sitdDocumentItems": [
       {
         "section": "contrats-services",

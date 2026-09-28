@@ -60,7 +60,7 @@
       },
       {
         "id": "vie-sociale",
-        "label": "Vie Sociale",
+        "label": "Bien être & Vie sociale",
         "icon": "coffee",
         "handler": "switchView('vie-sociale')"
       },

@@ -5,6 +5,7 @@
     "dashboardCards": [
       {
         "type": "docList",
+        "source": "rhRecentDocuments",
         "title": "Vie RH",
         "icon": "users-round",
         "iconClass": "green",

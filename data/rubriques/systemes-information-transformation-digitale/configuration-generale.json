@@ -33,7 +33,7 @@
       "smsi": "La rubrique SMSI centralise les politiques, procédures, cartographies des risques et éléments de pilotage du système de management de la sécurité de l'information.",
       "referentiel-it": "La rubrique Référentiel IT rassemble les documents de référence IT issus de la GED OpenText et classés selon les critères DSI.",
       "contrats-services": "La rubrique Contrats de services centralise les engagements documentaires par structure métier.",
-      "exploitation": "La rubrique Exploitation donne accès aux outils d'exploitation et aux documents disponibles via la GED OpenText."
+      "exploitation": "La rubrique Exploitation présente les outils et documents du répertoire d'exploitation Moovapps."
     },
     "sitdSectionConfig": {
       "securite-si": {
@@ -48,11 +48,7 @@
           },
           {
             "id": "evenements-securite",
-            "label": "Événements Sécurité De L'Information"
-          },
-          {
-            "id": "campagnes-si",
-            "label": "Campagnes Sécurité De L'Information"
+            "label": "Événements et campagnes Sécurité De L'Information"
           }
         ],
         "defaultSub": "sensibilisation-cyber"
@@ -66,14 +62,6 @@
           {
             "id": "smsi-procedures",
             "label": "Procédures"
-          },
-          {
-            "id": "smsi-risques",
-            "label": "Cartographie des risques"
-          },
-          {
-            "id": "smsi-pilotage",
-            "label": "Pilotage SI"
           }
         ],
         "defaultSub": "smsi-politiques"
@@ -154,10 +142,10 @@
       "pdfReservedMeta": "PDF • Public réservé",
       "openElearningLabel": "Ouvrir la plateforme e-learning",
       "elearningUrl": "https://elearning.cmr.local",
-      "operationsFolderLabel": "Accéder au répertoire d'exploitation",
-      "operationsFolderUrl": "file://outils-exploitation-cmr",
-      "gedOpenTextLabel": "Consulter les documents GED OpenText",
-      "gedOpenTextUrl": "https://ged-opentext.cmr.local/exploitation"
+      "operationsFolderLabel": "Répertoire des outils d'exploitation",
+      "operationsFolderUrl": "http://172.17.100.180:8080/moovapps/easysite/pgp",
+      "gedOpenTextLabel": "Documents du répertoire Moovapps",
+      "gedOpenTextUrl": ""
     }
   }
 }

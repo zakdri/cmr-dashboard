@@ -1,11 +1,11 @@
 {
   "rubrique": "accueil",
-  "contenu": "Carte d’accueil - Vie Sociale",
+  "contenu": "Carte d’accueil - Bien être & Vie sociale",
   "data": {
     "dashboardCards": [
       {
         "type": "docList",
-        "title": "Vie Sociale",
+        "title": "Bien être & Vie sociale",
         "icon": "calendar-clock",
         "iconClass": "blue",
         "actionLabel": "Voir plus",

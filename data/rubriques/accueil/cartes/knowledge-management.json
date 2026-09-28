@@ -42,22 +42,7 @@
           {
             "id": "rex",
             "label": "REX",
-            "items": [
-              {
-                "iconBadge": "rss",
-                "title": "REX – Refonte intranet: adoption",
-                "meta": "Projet • Avr 2026",
-                "background": "#f0fdf4",
-                "color": "#16a34a"
-              },
-              {
-                "iconBadge": "trending-up",
-                "title": "REX – Processus tickets IT",
-                "meta": "Processus • Mars 2026",
-                "background": "#fdf4ff",
-                "color": "#d946ef"
-              }
-            ]
+            "items": []
           }
         ]
       }

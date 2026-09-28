@@ -5,6 +5,7 @@
     "dashboardCards": [
       {
         "type": "ideas",
+        "enabled": false,
         "title": "Capital Idées",
         "icon": "lightbulb",
         "iconClass": "pink",

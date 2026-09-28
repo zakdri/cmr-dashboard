@@ -33,31 +33,6 @@
       "Vie interne",
       "Qualité de service"
     ],
-    "collabForumThreads": [
-      {
-        "id": "t1",
-        "title": "Nouveau dispositif d'accompagnement des parcours",
-        "theme": "Ressources humaines",
-        "author": "Direction du Capital Humain",
-        "date": "Aujourd’hui",
-        "body": "Partagez vos questions et retours sur le nouveau dispositif d'accompagnement des parcours collaborateurs.",
-        "replies": [
-          {
-            "author": "Collaborateur 03",
-            "date": "Aujourd’hui",
-            "text": "Voir la procédure interne (rubrique réglementaire)."
-          }
-        ]
-      },
-      {
-        "id": "t2",
-        "title": "Vos retours sur les nouveaux espaces collaboratifs",
-        "theme": "Transformation",
-        "author": "Direction du Capital Humain",
-        "date": "Hier",
-        "body": "Ce sujet recueille vos retours sur les usages et l'ergonomie des nouveaux espaces de travail.",
-        "replies": []
-      }
-    ]
+    "collabForumThreads": []
   }
 }

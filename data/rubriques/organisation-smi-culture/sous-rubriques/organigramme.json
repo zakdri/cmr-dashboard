@@ -15,7 +15,7 @@
     },
     "orgData": {
       "name": "Direction",
-      "role": "Directeur Général",
+      "role": "Directeur",
       "personName": "Lotfi BOUJENDAR",
       "personNameStatus": "official",
       "posteId": "dg",
@@ -29,7 +29,9 @@
           "personNameStatus": "official",
           "posteId": "audit-interne",
           "photo": "images/intranet/portraits/official/amal-sebaai.jpg",
-          "children": []
+          "children": [],
+          "hasFiche": true,
+          "functionTitle": "Chef de Service Audit"
         },
         {
           "name": "Secrétariat Général",
@@ -55,7 +57,31 @@
                   "personNameStatus": "official",
                   "posteId": "division-constitution-droits",
                   "photo": "images/intranet/portraits/official/mohamed-daouiji.jpg",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service affiliation et suivi carrière",
+                      "role": "Service",
+                      "posteId": "chef-de-service-affiliations-et-suivi-de-carriere",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service affiliation et suivi carrière"
+                    },
+                    {
+                      "name": "Chef de service de suivi des cotisations",
+                      "role": "Service",
+                      "posteId": "chef-de-service-suivi-des-cotisations",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de service de suivi des cotisations"
+                    },
+                    {
+                      "name": "Chef de service vérification et certification",
+                      "role": "Service",
+                      "posteId": "chef-de-service-verification-et-certification",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de service vérification et certification"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de division de Constitution des droits"
                 },
                 {
                   "name": "Division Concession des Droits",
@@ -64,7 +90,24 @@
                   "personNameStatus": "official",
                   "posteId": "division-concession-droits",
                   "photo": "images/intranet/portraits/official/rachid-mahfoudi.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Liquidation des Prestations D'ayants-cause",
+                      "role": "Service",
+                      "posteId": "chef-de-service-liquidation-des-prestations-dayants-cause",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Liquidation des Prestations D'ayants-cause"
+                    },
+                    {
+                      "name": "Chef de Service Liquidation des Prestations Principales",
+                      "role": "Service",
+                      "posteId": "chef-de-service-liquidation-des-prestations-principales",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Liquidation des Prestations Principales"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Concession de Droits"
                 },
                 {
                   "name": "Division Paiement des Prestations",
@@ -73,9 +116,35 @@
                   "personNameStatus": "official",
                   "posteId": "division-paiement-prestations",
                   "photo": "images/intranet/portraits/official/said-loucifi.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Centralisation et Suivi",
+                      "role": "Service",
+                      "posteId": "chef-de-service-centralisation-et-suivi",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Centralisation et Suivi"
+                    },
+                    {
+                      "name": "Chef de Service Controle et Mise en Paiement",
+                      "role": "Service",
+                      "posteId": "chef-de-service-controle-et-mise-en-paiement",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Controle et Mise en Paiement"
+                    },
+                    {
+                      "name": "Chef de Service de Controle de Maintien de Droits",
+                      "role": "Service",
+                      "posteId": "chef-de-service-controle-de-maintien-de-droit",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service de Controle de Maintien de Droits"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Paiement des Prestations"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Opérations"
             },
             {
               "name": "Pôle Clients",
@@ -93,7 +162,38 @@
                   "personNameStatus": "official",
                   "posteId": "division-relation-client",
                   "photo": "images/intranet/portraits/official/aicha-kadiri.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Centre d'accueil de Rabat",
+                      "role": "Service",
+                      "posteId": "chef-du-centre-daccueil-de-rabat",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Centre d'accueil de Rabat"
+                    },
+                    {
+                      "name": "Chef de Délégation",
+                      "role": "Service",
+                      "posteId": "chef-de-delegation",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Délégation"
+                    },
+                    {
+                      "name": "Chef de Service Animation de Réseau",
+                      "role": "Service",
+                      "posteId": "chef-de-service-animation-du-reseau",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Animation de Réseau"
+                    },
+                    {
+                      "name": "Chef de Service Service Client",
+                      "role": "Service",
+                      "posteId": "chef-de-service-service-client",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Service Client"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "DIVISION RELATION CLIENT"
                 },
                 {
                   "name": "Division Expérience client",
@@ -102,14 +202,36 @@
                   "personNameStatus": "official",
                   "posteId": "division-experience-client",
                   "photo": "images/intranet/portraits/official/mohamed-hamzaoui.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Développement des services et Marketing",
+                      "role": "Service",
+                      "posteId": "chef-de-service-developpement-des-services-et-marketing",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Développement des services et Marketing"
+                    },
+                    {
+                      "name": "Chef de Service Ecoute Clients et Partenariats",
+                      "role": "Service",
+                      "posteId": "chef-de-service-ecoute-client-et-partenariats",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Ecoute Clients et Partenariats"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "DIVISION EXPERIENCE CLIENT"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Client :"
             },
             {
               "name": "Pôle Ressources",
               "role": "Pôle",
+              "personName": "Mohamed ESSAIDI",
               "personNameStatus": "official",
+              "interim": true,
+              "photo": "images/intranet/portraits/official/mohamed-essaidi.png",
               "children": [],
               "hiddenChildren": [
                 {
@@ -119,7 +241,24 @@
                   "personNameStatus": "official",
                   "posteId": "division-capital-humain",
                   "photo": "images/intranet/portraits/official/omar-boudi.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Administration des Ressources Humaines",
+                      "role": "Service",
+                      "posteId": "chef-de-service-administration-des-ressources-humaines",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Administration des Ressources Humaines"
+                    },
+                    {
+                      "name": "Chef de Service Développement des Ressources Humaines et Communication Interne",
+                      "role": "Service",
+                      "posteId": "chef-de-service-developpement-des-ressources-humaines-et-communication-interne",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Développement des Ressources Humaines et Communication Interne"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Capital Humain"
                 },
                 {
                   "name": "Division Achats et Logistique",
@@ -128,7 +267,31 @@
                   "personNameStatus": "official",
                   "posteId": "division-achats-logistique",
                   "photo": "images/intranet/portraits/official/fadwa-bennani.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Achats et Suivi des Marchés",
+                      "role": "Service",
+                      "posteId": "chef-de-service-achats-et-suivi-des-marches",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Achats et Suivi des Marchés"
+                    },
+                    {
+                      "name": "Chef de Service Gestion des Archives et Numérisation",
+                      "role": "Service",
+                      "posteId": "chef-de-service-gestion-des-archives-et-numerisation",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Gestion des Archives et Numérisation"
+                    },
+                    {
+                      "name": "Chef de Service Logistique et Facility Management",
+                      "role": "Service",
+                      "posteId": "chef-de-service-logistique-facility-management",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Logistique et Facility Management"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Achats et Logistiques"
                 },
                 {
                   "name": "Division Financière et Comptable",
@@ -137,9 +300,36 @@
                   "personNameStatus": "official",
                   "posteId": "division-financiere-comptable",
                   "photo": "images/intranet/portraits/official/mohamed-essalmani.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Comptabilité",
+                      "role": "Service",
+                      "posteId": "chef-de-service-comptabilite",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Comptabilité"
+                    },
+                    {
+                      "name": "Chef de Service Financier",
+                      "role": "Service",
+                      "posteId": "chef-de-service-financier",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Financier"
+                    },
+                    {
+                      "name": "Chef de Service Recouvrement",
+                      "role": "Service",
+                      "posteId": "chef-du-service-recouvrement",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Recouvrement"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Financière et Comptable"
                 }
-              ]
+              ],
+              "posteId": "pole-ressources",
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Ressources"
             },
             {
               "name": "Pôle Pilotage",
@@ -153,8 +343,28 @@
                 {
                   "name": "Division Planification et Contrôle de Gestion",
                   "role": "Division",
+                  "personName": "Fatima KOURSS",
                   "personNameStatus": "official",
-                  "children": []
+                  "photo": "images/intranet/portraits/official/fatima-kourss.jpg",
+                  "children": [
+                    {
+                      "name": "Chef de Service Controle de Gestion",
+                      "role": "Service",
+                      "posteId": "chef-de-service-controle-de-gestion",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Controle de Gestion"
+                    },
+                    {
+                      "name": "Chef de Service Planification Stratégique et PMO",
+                      "role": "Service",
+                      "posteId": "chef-de-service-planification-strategique-et-pmo",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Planification Stratégique et PMO"
+                    }
+                  ],
+                  "posteId": "division-planification-controle-gestion",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Planification et Controle de Gestion"
                 },
                 {
                   "name": "Division Organisation et AMOA",
@@ -163,7 +373,24 @@
                   "personNameStatus": "official",
                   "posteId": "division-organisation-amoa",
                   "photo": "images/intranet/portraits/official/hafid-belhaj.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Assistance à la Maitrise d'Ouvrage",
+                      "role": "Service",
+                      "posteId": "chef-de-service-assistance-a-la-maitrise-douvrage",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Assistance à la Maitrise d'Ouvrage"
+                    },
+                    {
+                      "name": "Chef de Service Organisation et Systèmes de Management",
+                      "role": "Service",
+                      "posteId": "chef-de-service-organisation-et-systemes-de-management",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Organisation et Systèmes de Management"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Organisation et AMOA"
                 },
                 {
                   "name": "Division Data Office",
@@ -172,9 +399,36 @@
                   "personNameStatus": "official",
                   "posteId": "division-data-office",
                   "photo": "images/intranet/portraits/official/nour-el-houda-el-alami.jpg",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Data Lab",
+                      "role": "Service",
+                      "posteId": "chef-de-service-data-lab",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Data Lab"
+                    },
+                    {
+                      "name": "Chef de Service Data Management",
+                      "role": "Service",
+                      "posteId": "chef-de-service-data-management",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Data Management"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Data Office"
+                },
+                {
+                  "name": "Chef de Service Innovation et Conduite de Changement",
+                  "role": "Service",
+                  "posteId": "chef-de-service-innovation-et-conduite-de-changement",
+                  "photo": "images/intranet/portraits/official/chef-service-innovation-conduite-changement.png",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Innovation et Conduite de Changement"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Pilotage"
             },
             {
               "name": "Pôle Système d'Information et Transformation Digitale",
@@ -192,7 +446,24 @@
                   "personNameStatus": "official",
                   "posteId": "division-etude-developpement",
                   "photo": "images/intranet/portraits/official/rachid-el-mokri.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Développement et Intergration",
+                      "role": "Service",
+                      "posteId": "chef-de-service-developpement-et-integration",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Développement et Intergration"
+                    },
+                    {
+                      "name": "Chef de Service Etudes et Urbanisation des systèmes d'information",
+                      "role": "Service",
+                      "posteId": "chef-de-service-etudes-et-urbanisation-des-systemes-dinformation",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Etudes et Urbanisation des systèmes d'information"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Etudes et Développement"
                 },
                 {
                   "name": "Division Exploitation, Systèmes et Réseaux",
@@ -201,15 +472,61 @@
                   "personNameStatus": "official",
                   "posteId": "division-exploitation-systemes-reseaux",
                   "photo": "images/intranet/portraits/official/rachid-moustaid.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Exploitation et Appui aux Utilisateurs",
+                      "role": "Service",
+                      "posteId": "chef-de-service-exploitation-et-appui-aux-utilisateurs",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Exploitation et Appui aux Utilisateurs"
+                    },
+                    {
+                      "name": "Chef de Service Système et Réseaux",
+                      "role": "Service",
+                      "posteId": "chef-de-service-systemes-et-reseaux",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Système et Réseaux"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Exploitation Systèmes et Réseaux"
                 },
                 {
                   "name": "Division Sécurité de l'information",
                   "role": "Division",
+                  "personName": "Nabil CHIADMI",
                   "personNameStatus": "official",
-                  "children": []
+                  "photo": "images/intranet/portraits/official/nabil-chiadmi.png",
+                  "children": [
+                    {
+                      "name": "Chef de Service Gouvernance de la sécurité de l'information",
+                      "role": "Service",
+                      "posteId": "chef-de-service-gouvernance-de-la-securite-de-linformation",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Gouvernance de la sécurité de l'information"
+                    },
+                    {
+                      "name": "Chef de Service Sécurité Opérationnelle",
+                      "role": "Service",
+                      "posteId": "chef-de-service-securite-operationnelle",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Sécurité Opérationnelle"
+                    }
+                  ],
+                  "posteId": "division-securite-information",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Sécurité de l'information"
+                },
+                {
+                  "name": "Chef de Service Transformation Digitale",
+                  "role": "Service",
+                  "posteId": "chef-de-service-transformation-digitale",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Transformation Digitale"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Système d'information et Transformation Digitale"
             },
             {
               "name": "Pôle Gestion du Portefeuille",
@@ -227,7 +544,38 @@
                   "personNameStatus": "official",
                   "posteId": "division-gestion-portefeuille-gestion",
                   "photo": "images/intranet/portraits/official/fouad-boukhnif.jpg",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Asset Management",
+                      "role": "Service",
+                      "posteId": "chef-de-service-asset-management",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Asset Management"
+                    },
+                    {
+                      "name": "Chef de Service Conformité et Conrole Interne",
+                      "role": "Service",
+                      "posteId": "chef-de-service-conformite-et-controle-interne",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Conformité et Conrole Interne"
+                    },
+                    {
+                      "name": "Chef de Service Gestion des Investissements Alternatifs",
+                      "role": "Service",
+                      "posteId": "chef-de-service-gestion-des-investissements-alternatifs",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Gestion des Investissements Alternatifs"
+                    },
+                    {
+                      "name": "Chef de Service Recherche et Analyse",
+                      "role": "Service",
+                      "posteId": "chef-de-service-recherche-et-analyse",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Recherche et Analyse"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Gestion"
                 },
                 {
                   "name": "Division Opérations",
@@ -236,9 +584,28 @@
                   "personNameStatus": "official",
                   "posteId": "division-gestion-portefeuille-operations",
                   "photo": "images/intranet/portraits/official/my-slimane-kabiri.png",
-                  "children": []
+                  "children": [
+                    {
+                      "name": "Chef de Service Back Office",
+                      "role": "Service",
+                      "posteId": "chef-de-service-back-office",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Back Office"
+                    },
+                    {
+                      "name": "Chef de Service Middle Office",
+                      "role": "Service",
+                      "posteId": "chef-de-service-middle-office",
+                      "hasFiche": true,
+                      "functionTitle": "Chef de Service Middle Office"
+                    }
+                  ],
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Division Opérations"
                 }
-              ]
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Pôle Gestion de Portefeuille"
             }
           ],
           "secondaryChildren": [
@@ -249,7 +616,24 @@
               "personNameStatus": "official",
               "posteId": "division-controle-engagements-paiements",
               "photo": "images/intranet/portraits/official/naoual-oucible.png",
-              "children": []
+              "children": [
+                {
+                  "name": "Chef de Service Contrôle des Engagements",
+                  "role": "Service",
+                  "posteId": "chef-de-service-controle-des-engagements",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Contrôle des Engagements"
+                },
+                {
+                  "name": "Chef de Service Contrôle des Paiements",
+                  "role": "Service",
+                  "posteId": "chef-de-service-controle-des-paiements",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Contrôle des Paiements"
+                }
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Division Contrôle des Engagements et des Paiements"
             },
             {
               "name": "Division Études et Affaires Juridiques",
@@ -258,7 +642,31 @@
               "personNameStatus": "official",
               "posteId": "division-etudes-affaires-juridiques",
               "photo": "images/intranet/portraits/official/ali-zaki.png",
-              "children": []
+              "children": [
+                {
+                  "name": "Chef de Service Contentieux",
+                  "role": "Service",
+                  "posteId": "chef-de-service-contentieux",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Contentieux"
+                },
+                {
+                  "name": "Chef de Service Etudes et Actuariatx",
+                  "role": "Service",
+                  "posteId": "chef-de-service-etudes-et-actuariat",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Etudes et Actuariatx"
+                },
+                {
+                  "name": "Chef de Service Médiation et Veille Juridique",
+                  "role": "Service",
+                  "posteId": "chef-de-service-mediation-et-veille-juridique",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Médiation et Veille Juridique"
+                }
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Division Etudes et Affaires Juridiques"
             },
             {
               "name": "Division Risk management",
@@ -267,20 +675,57 @@
               "personNameStatus": "official",
               "posteId": "division-risk-management",
               "photo": "images/intranet/portraits/official/brahim-nahi.png",
-              "children": []
+              "children": [
+                {
+                  "name": "Chef de Service Controle Permanent",
+                  "role": "Service",
+                  "posteId": "chef-de-service-controle-permanent",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Controle Permanent"
+                },
+                {
+                  "name": "Chef de Service Risques et Conformité",
+                  "role": "Service",
+                  "posteId": "chef-de-service-risques-et-conformite",
+                  "hasFiche": true,
+                  "functionTitle": "Chef de Service Risques et Conformité"
+                }
+              ],
+              "hasFiche": true,
+              "functionTitle": "Chef de Division Risk Management"
             }
-          ]
+          ],
+          "hasFiche": false
         },
         {
           "name": "Division Gouvernance et Communication Externe",
           "role": "Rattachée au DG",
-          "personName": "Hasnaa AIT HAMOU",
+          "personName": "Hasnae AIT HAMMOU",
           "personNameStatus": "official",
           "posteId": "division-gouvernance-communication-externe",
           "photo": "images/intranet/portraits/official/hasnaa-ait-hamou.jpg",
-          "children": []
+          "children": [
+            {
+              "name": "Chef de Service Communication Externe et Coopération Internationale",
+              "role": "Service",
+              "posteId": "chef-de-service-communication-externe-et-cooperation-internationale",
+              "hasFiche": true,
+              "functionTitle": "Chef de Service Communication Externe et Coopération Internationale"
+            },
+            {
+              "name": "Chef de Service Gouvernance",
+              "role": "Service",
+              "posteId": "chef-de-service-gouvernance",
+              "hasFiche": true,
+              "functionTitle": "Chef de Service Gouvernance"
+            }
+          ],
+          "hasFiche": true,
+          "functionTitle": "Chef de Division Gouvernance et Communication Externe"
         }
-      ]
+      ],
+      "hasFiche": false,
+      "functionTitle": "Directeur"
     }
   }
 }

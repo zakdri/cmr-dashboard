@@ -242,7 +242,7 @@ function canonical_path_segment(string $value): string
     $lower = function_exists('mb_strtolower') ? mb_strtolower($value, 'UTF-8') : strtolower($value);
     $ascii = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $lower);
     $tokens = preg_split('/[^a-z0-9]+/', is_string($ascii) ? $ascii : $lower, -1, PREG_SPLIT_NO_EMPTY);
-    $ignoredWords = ['a', 'au', 'aux', 'd', 'de', 'des', 'du', 'l', 'la', 'le', 'les'];
+    $ignoredWords = ['a', 'au', 'aux', 'd', 'de', 'des', 'du', 'et', 'l', 'la', 'le', 'les'];
 
     return implode('', array_values(array_filter(
         is_array($tokens) ? $tokens : [],
@@ -268,7 +268,16 @@ function compatible_path_segment(string $left, string $right): bool
     $leftCanonical = canonical_path_segment($left);
     $rightCanonical = canonical_path_segment($right);
 
-    return strlen($leftCanonical) >= 4 && $leftCanonical === $rightCanonical;
+    if (strlen($leftCanonical) >= 4 && $leftCanonical === $rightCanonical) {
+        return true;
+    }
+
+    // Accept small spelling variants used in GED folder labels, such as
+    // "Système/Systèmes" or "Intégration/Intergration". find_child_folder()
+    // only accepts this fallback when it identifies one unique folder.
+    $longestLength = max(strlen($leftCanonical), strlen($rightCanonical));
+    return $longestLength >= 8
+        && levenshtein($leftCanonical, $rightCanonical) <= ($longestLength >= 32 ? 2 : 1);
 }
 
 function find_path_prefix_offset(array $pathSegments, array $prefixSegments): ?int
@@ -639,14 +648,54 @@ function map_resource(array $resource, string $folderPath, array $scope): ?array
     ];
 }
 
-function collect_documents(array $folders, array &$documents, array $scope): void
+function response_folder_path(array $folder, string $parentPath, array $scope): string
+{
+    $reportedPath = normalize_path((string)($folder['@path'] ?? ''));
+    if ($reportedPath !== '' && find_path_prefix_offset(split_path($reportedPath), $scope['filter_segments']) !== null) {
+        return $reportedPath;
+    }
+
+    $folderName = trim((string)($folder['@name'] ?? ''));
+    if ($folderName !== '') {
+        return normalize_path($parentPath === '' ? $folderName : $parentPath . '/' . $folderName);
+    }
+
+    return normalize_path($parentPath === '' ? $reportedPath : $parentPath . '/' . $reportedPath);
+}
+
+function map_folder(string $folderPath, array $scope): ?array
+{
+    $folderSegments = split_path($folderPath);
+    $filterOffset = find_path_prefix_offset($folderSegments, $scope['filter_segments']);
+    if ($filterOffset === null) {
+        return null;
+    }
+
+    $relativeSegments = array_slice($folderSegments, $filterOffset + count($scope['filter_segments']));
+    if ($relativeSegments === []) {
+        return null;
+    }
+
+    return [
+        'name' => end($relativeSegments),
+        'folderPath' => $folderPath,
+        'folderLabel' => implode('/', $relativeSegments),
+        'segments' => $relativeSegments,
+    ];
+}
+
+function collect_documents(array $folders, array &$documents, array &$folderEntries, array $scope, string $parentPath): void
 {
     foreach ($folders as $folder) {
         if (!is_array($folder)) {
             continue;
         }
 
-        $folderPath = (string)($folder['@path'] ?? $folder['@name'] ?? '');
+        $folderPath = response_folder_path($folder, $parentPath, $scope);
+        $folderEntry = map_folder($folderPath, $scope);
+        if ($folderEntry !== null) {
+            $folderEntries[] = $folderEntry;
+        }
         foreach (normalize_list($folder['resource'] ?? []) as $resource) {
             if (is_array($resource)) {
                 $document = map_resource($resource, $folderPath, $scope);
@@ -656,7 +705,7 @@ function collect_documents(array $folders, array &$documents, array $scope): voi
             }
         }
 
-        collect_documents(normalize_list($folder['folder'] ?? []), $documents, $scope);
+        collect_documents(normalize_list($folder['folder'] ?? []), $documents, $folderEntries, $scope, $folderPath);
     }
 }
 
@@ -683,6 +732,7 @@ function list_smi_documents(array $config, string $token, array $scope): void
     $response = view_library_scope($config, $token, $scopeType, $scopeUri, '-1');
 
     $documents = [];
+    $folderEntries = [];
     $rootResourceFolderPath = $scopeType === 'folder' ? $documentScope['filter_path'] : '/DefaultOrganization/GED';
     foreach (normalize_list($response['view']['body']['resource'] ?? []) as $resource) {
         if (is_array($resource)) {
@@ -692,10 +742,17 @@ function list_smi_documents(array $config, string $token, array $scope): void
             }
         }
     }
-    collect_documents(normalize_list($response['view']['body']['folder'] ?? []), $documents, $documentScope);
+    collect_documents(
+        normalize_list($response['view']['body']['folder'] ?? []),
+        $documents,
+        $folderEntries,
+        $documentScope,
+        $rootResourceFolderPath
+    );
 
     $payload = [
         'data' => $documents,
+        'folders' => $folderEntries,
         'meta' => [
             'source' => 'moovapps',
             'libraryProtocolUri' => $config['ged_library_protocol_uri'],
@@ -718,6 +775,12 @@ function content_type_for_file(string $name, string $reportedType = ''): string
 {
     $mimeTypes = [
         'pdf' => 'application/pdf',
+        'ppt' => 'application/vnd.ms-powerpoint',
+        'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'doc' => 'application/msword',
+        'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'xls' => 'application/vnd.ms-excel',
+        'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png',
         'gif' => 'image/gif', 'webp' => 'image/webp', 'bmp' => 'image/bmp',
         'avif' => 'image/avif', 'svg' => 'image/svg+xml',
@@ -741,9 +804,22 @@ function content_type_for_file(string $name, string $reportedType = ''): string
     return 'application/octet-stream';
 }
 
+function content_disposition_for_file(string $name, bool $forceDownload = false): string
+{
+    $name = basename(str_replace('\\', '/', $name));
+    $name = preg_replace('/[\x00-\x1F\x7F]/', '', $name) ?: 'document';
+    $fallback = preg_replace('/[^\x20-\x7E]/', '_', $name);
+    $extension = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+    $disposition = $forceDownload || in_array($extension, ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'], true)
+        ? 'attachment' : 'inline';
+    return $disposition . '; filename="' . addcslashes($fallback, "\\\"")
+        . '"; filename*=UTF-8\'\'' . rawurlencode($name);
+}
+
 function stream_document_download(array $config, string $token): void
 {
     $protocolUri = (string)($_GET['protocolUri'] ?? '');
+    $forceDownload = (string)($_GET['download'] ?? '') === '1';
     if ($protocolUri === '') {
         respond(400, ['error' => 'PROTOCOL_URI_REQUIRED']);
     }
@@ -814,7 +890,7 @@ function stream_document_download(array $config, string $token): void
 
         header('Content-Type: ' . $contentType);
         header('X-Content-Type-Options: nosniff');
-        header('Content-Disposition: inline; filename="' . addcslashes($name, "\\\"") . '"');
+        header('Content-Disposition: ' . content_disposition_for_file($name, $forceDownload));
         header('Content-Length: ' . filesize($filePath));
         http_response_code(200);
         readfile($filePath);
@@ -834,7 +910,7 @@ function stream_document_download(array $config, string $token): void
     $contentType = content_type_for_file($name, $contentType);
     header('Content-Type: ' . $contentType);
     header('X-Content-Type-Options: nosniff');
-    header('Content-Disposition: inline; filename="' . addcslashes($name, "\\\"") . '"');
+    header('Content-Disposition: ' . content_disposition_for_file($name, $forceDownload));
     header('Cache-Control: private, no-store');
     if (isset($upstreamHeaders['accept-ranges'])) {
         header('Accept-Ranges: ' . $upstreamHeaders['accept-ranges']);

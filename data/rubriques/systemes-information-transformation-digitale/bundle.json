@@ -33,7 +33,7 @@
       "smsi": "La rubrique SMSI centralise les politiques, procédures, cartographies des risques et éléments de pilotage du système de management de la sécurité de l'information.",
       "referentiel-it": "La rubrique Référentiel IT rassemble les documents de référence IT issus de la GED OpenText et classés selon les critères DSI.",
       "contrats-services": "La rubrique Contrats de services centralise les engagements documentaires par structure métier.",
-      "exploitation": "La rubrique Exploitation donne accès aux outils d'exploitation et aux documents disponibles via la GED OpenText."
+      "exploitation": "La rubrique Exploitation présente les outils et documents du répertoire d'exploitation Moovapps."
     },
     "sitdSectionConfig": {
       "securite-si": {
@@ -48,11 +48,7 @@
           },
           {
             "id": "evenements-securite",
-            "label": "Événements Sécurité De L'Information"
-          },
-          {
-            "id": "campagnes-si",
-            "label": "Campagnes Sécurité De L'Information"
+            "label": "Événements et campagnes Sécurité De L'Information"
           }
         ],
         "defaultSub": "sensibilisation-cyber"
@@ -66,14 +62,6 @@
           {
             "id": "smsi-procedures",
             "label": "Procédures"
-          },
-          {
-            "id": "smsi-risques",
-            "label": "Cartographie des risques"
-          },
-          {
-            "id": "smsi-pilotage",
-            "label": "Pilotage SI"
           }
         ],
         "defaultSub": "smsi-politiques"
@@ -154,10 +142,10 @@
       "pdfReservedMeta": "PDF • Public réservé",
       "openElearningLabel": "Ouvrir la plateforme e-learning",
       "elearningUrl": "https://elearning.cmr.local",
-      "operationsFolderLabel": "Accéder au répertoire d'exploitation",
-      "operationsFolderUrl": "file://outils-exploitation-cmr",
-      "gedOpenTextLabel": "Consulter les documents GED OpenText",
-      "gedOpenTextUrl": "https://ged-opentext.cmr.local/exploitation"
+      "operationsFolderLabel": "Répertoire des outils d'exploitation",
+      "operationsFolderUrl": "http://172.17.100.180:8080/moovapps/easysite/pgp",
+      "gedOpenTextLabel": "Documents du répertoire Moovapps",
+      "gedOpenTextUrl": ""
     },
     "sitdFeatures": [
       {
@@ -331,14 +319,14 @@
         "rubrique": "Sécurité De L'Information",
         "sousRubrique": "Sensibilisation",
         "fonctionnalite": "Consultation des contenus de sensibilisation sécurité",
-        "description": "Cette sous-rubrique centralise les contenus de sensibilisation à la sécurité de l'information avec un filtre thématique.",
+        "description": "Cette sous-rubrique centralise les contenus de sensibilisation à la sécurité de l'information.",
         "typeContenu": "Document PDF",
-        "typeUx": "Liste filtrée",
-        "interactions": "Filtrer, consulter, télécharger",
+        "typeUx": "Liste de documents",
+        "interactions": "Consulter, télécharger",
         "cible": "Grand public CMR",
         "priorite": "Haute",
         "statutDesign": "Validé",
-        "commentaires": "Filtre à confirmer par la CMR"
+        "commentaires": ""
       },
       {
         "id": "modules-elearning",
@@ -359,16 +347,16 @@
         "id": "evenements-securite",
         "espace": "Espace SI / SITD",
         "rubrique": "Sécurité De L'Information",
-        "sousRubrique": "Événements Sécurité De L'Information",
-        "fonctionnalite": "Consultation des événements sécurité",
-        "description": "Cette sous-rubrique liste les événements liés à la sécurité de l'information avec un filtrage par thème et par année.",
+        "sousRubrique": "Événements et campagnes Sécurité De L'Information",
+        "fonctionnalite": "Consultation des événements et campagnes de sécurité",
+        "description": "Cette sous-rubrique regroupe les événements et les campagnes liés à la sécurité de l'information.",
         "typeContenu": "Document PDF",
-        "typeUx": "Liste filtrée",
-        "interactions": "Filtrer, consulter, télécharger",
+        "typeUx": "Liste de documents",
+        "interactions": "Rechercher, consulter, télécharger",
         "cible": "Grand public CMR",
         "priorite": "Haute",
         "statutDesign": "Validé",
-        "commentaires": "Filtres thème et année"
+        "commentaires": ""
       },
       {
         "id": "campagnes-si",
@@ -451,10 +439,10 @@
         "rubrique": "Référentiel IT",
         "sousRubrique": "Référentiel IT",
         "fonctionnalite": "Consultation du référentiel IT",
-        "description": "Cette rubrique rassemble les documents de référence IT avec un filtre dont les critères restent à confirmer par la DSI.",
+        "description": "Cette rubrique rassemble les documents de référence IT.",
         "typeContenu": "Document PDF",
-        "typeUx": "Liste filtrée",
-        "interactions": "Filtrer, consulter, télécharger",
+        "typeUx": "Liste de documents",
+        "interactions": "Rechercher, consulter, télécharger",
         "cible": "Grand public CMR / public réservé",
         "priorite": "Haute",
         "statutDesign": "Validé",
@@ -466,14 +454,14 @@
         "rubrique": "Contrats de services",
         "sousRubrique": "Contrats de services",
         "fonctionnalite": "Consultation des contrats de services par structure métier",
-        "description": "Cette rubrique présente les contrats de services avec un filtre par structure métier.",
+        "description": "Cette rubrique présente les contrats de services par structure métier.",
         "typeContenu": "Document PDF",
-        "typeUx": "Liste filtrée",
-        "interactions": "Filtrer, consulter, télécharger",
+        "typeUx": "Liste de documents",
+        "interactions": "Rechercher, consulter, télécharger",
         "cible": "Grand public CMR / public réservé",
         "priorite": "Haute",
         "statutDesign": "Validé",
-        "commentaires": "Liste des structures à confirmer par la CMR"
+        "commentaires": ""
       },
       {
         "id": "exploitation",
@@ -491,228 +479,6 @@
         "commentaires": "URLs définitives à communiquer par la CMR"
       }
     ],
-    "sitdFilters": {
-      "sensibilisation-cyber": {
-        "type": "theme",
-        "filters": [
-          {
-            "label": "Tous",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "Phishing",
-            "value": "Phishing"
-          },
-          {
-            "label": "MFA",
-            "value": "MFA"
-          },
-          {
-            "label": "Protection des données",
-            "value": "Protection des données"
-          }
-        ]
-      },
-      "evenements-securite": {
-        "type": "event",
-        "themeFilters": [
-          {
-            "label": "Tous les thèmes",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "Sensibilisation",
-            "value": "Sensibilisation"
-          },
-          {
-            "label": "Incident",
-            "value": "Incident"
-          },
-          {
-            "label": "Conformité",
-            "value": "Conformité"
-          }
-        ],
-        "yearFilters": [
-          {
-            "label": "Toutes les années",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "2026",
-            "value": "2026"
-          },
-          {
-            "label": "2025",
-            "value": "2025"
-          }
-        ]
-      },
-      "campagnes-si": {
-        "type": "campaign",
-        "yearFilters": [
-          {
-            "label": "Toutes les années",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "2026",
-            "value": "2026"
-          },
-          {
-            "label": "2025",
-            "value": "2025"
-          }
-        ],
-        "themeFilters": [
-          {
-            "label": "Tous les thèmes",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "Phishing",
-            "value": "Phishing"
-          },
-          {
-            "label": "Mots de passe",
-            "value": "Mots de passe"
-          },
-          {
-            "label": "Accès distant",
-            "value": "Accès distant"
-          }
-        ]
-      },
-      "smsi-politiques": {
-        "type": "access",
-        "filters": [
-          {
-            "label": "Grand public",
-            "value": "Grand public",
-            "active": true
-          },
-          {
-            "label": "Public réservé",
-            "value": "Public réservé"
-          }
-        ]
-      },
-      "smsi-procedures": {
-        "type": "theme",
-        "filters": [
-          {
-            "label": "Tous",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "Incidents",
-            "value": "Incidents"
-          },
-          {
-            "label": "Accès",
-            "value": "Accès"
-          },
-          {
-            "label": "Continuité",
-            "value": "Continuité"
-          }
-        ]
-      },
-      "smsi-risques": {
-        "type": "theme",
-        "filters": [
-          {
-            "label": "Tous",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "Applicatif",
-            "value": "Applicatif"
-          },
-          {
-            "label": "Infrastructure",
-            "value": "Infrastructure"
-          },
-          {
-            "label": "Données",
-            "value": "Données"
-          }
-        ]
-      },
-      "smsi-pilotage": {
-        "type": "theme",
-        "filters": [
-          {
-            "label": "Tous",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "KPI",
-            "value": "KPI"
-          },
-          {
-            "label": "Comités",
-            "value": "Comités"
-          },
-          {
-            "label": "Plans d'action",
-            "value": "Plans d'action"
-          }
-        ]
-      },
-      "referentiel-it": {
-        "type": "theme",
-        "filters": [
-          {
-            "label": "Tous",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "Architecture",
-            "value": "Architecture"
-          },
-          {
-            "label": "Exploitation",
-            "value": "Exploitation"
-          },
-          {
-            "label": "Support",
-            "value": "Support"
-          }
-        ]
-      },
-      "contrats-services": {
-        "type": "structure",
-        "filters": [
-          {
-            "label": "Toutes",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "DSI",
-            "value": "DSI"
-          },
-          {
-            "label": "DAF",
-            "value": "DAF"
-          },
-          {
-            "label": "DCH",
-            "value": "DCH"
-          }
-        ]
-      }
-    },
     "sitdDocumentItems": [
       {
         "section": "sensibilisation-cyber",
@@ -877,24 +643,6 @@
         "access": "Grand public",
         "meta": "PDF • Grand public CMR • GED OpenText",
         "file": "Contrat_Service_DAF.pdf"
-      },
-      {
-        "section": "exploitation",
-        "title": "Runbook d'exploitation – Incident majeur",
-        "theme": "Exploitation",
-        "year": "2026",
-        "access": "Public réservé",
-        "meta": "PDF • Public réservé • GED OpenText",
-        "file": "Runbook_Exploitation_Incident_Majeur.pdf"
-      },
-      {
-        "section": "exploitation",
-        "title": "Procédure d'exploitation – Supervision",
-        "theme": "Exploitation",
-        "year": "2026",
-        "access": "Public réservé",
-        "meta": "PDF • Public réservé • GED OpenText",
-        "file": "Procedure_Exploitation_Supervision.pdf"
       }
     ],
     "sitdSensibilisationCards": [
@@ -974,6 +722,88 @@
         "progress": 0
       }
     ],
+    "sitdFilters": {
+      "smsi-politiques": {
+        "type": "access",
+        "filters": [
+          {
+            "label": "Grand public",
+            "value": "Grand public",
+            "active": true
+          },
+          {
+            "label": "Public réservé",
+            "value": "Public réservé"
+          }
+        ]
+      },
+      "smsi-procedures": {
+        "type": "theme",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Incidents",
+            "value": "Incidents"
+          },
+          {
+            "label": "Accès",
+            "value": "Accès"
+          },
+          {
+            "label": "Continuité",
+            "value": "Continuité"
+          }
+        ]
+      },
+      "smsi-risques": {
+        "type": "theme",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "Applicatif",
+            "value": "Applicatif"
+          },
+          {
+            "label": "Infrastructure",
+            "value": "Infrastructure"
+          },
+          {
+            "label": "Données",
+            "value": "Données"
+          }
+        ]
+      },
+      "smsi-pilotage": {
+        "type": "theme",
+        "filters": [
+          {
+            "label": "Tous",
+            "value": "all",
+            "active": true
+          },
+          {
+            "label": "KPI",
+            "value": "KPI"
+          },
+          {
+            "label": "Comités",
+            "value": "Comités"
+          },
+          {
+            "label": "Plans d'action",
+            "value": "Plans d'action"
+          }
+        ]
+      }
+    },
     "sitdDashboardKpis": [
       {
         "label": "Disponibilité SI",
@@ -1053,39 +883,7 @@
         "statut": "Clôturée"
       }
     ],
-    "sitdOutilsSeau": [
-      {
-        "nom": "Supervision — Zabbix",
-        "role": "Monitoring",
-        "acces": "Habilité N2"
-      },
-      {
-        "nom": "Orchestration — Ansible",
-        "role": "Automatisation",
-        "acces": "Habilité N3"
-      },
-      {
-        "nom": "Logs — ELK Stack",
-        "role": "Analyse",
-        "acces": "Habilité N2"
-      }
-    ],
-    "sitdDocsExploitation": [
-      {
-        "title": "Runbook — Incident majeur",
-        "dossier": "Procédures",
-        "file": "Runbook_Incident_Majeur.pdf"
-      },
-      {
-        "title": "Procédure — Restauration BDD",
-        "dossier": "Bases de données",
-        "file": "Procedure_Restauration_BDD.pdf"
-      },
-      {
-        "title": "Documentation — Architecture réseau",
-        "dossier": "Infrastructure",
-        "file": "Doc_Architecture_Reseau.pdf"
-      }
-    ]
+    "sitdOutilsSeau": [],
+    "sitdDocsExploitation": []
   }
 }

@@ -6,7 +6,7 @@
       "mobilite": {
         "description": "La mobilité spontanée permet au collaborateur d'exprimer un souhait de mobilité interne hors poste vacant publié.",
         "workflow": {
-          "title": "Workflow Mobilité spontanée",
+          "title": "Demande de mobilité",
           "description": "La demande est déposée par le collaborateur puis instruite selon les habilitations RH.",
           "steps": [
             {

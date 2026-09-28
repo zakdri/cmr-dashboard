@@ -2,45 +2,6 @@
   "rubrique": "systemes-information-transformation-digitale",
   "contenu": "Événements de sécurité de l’information",
   "data": {
-    "sitdFilters": {
-      "evenements-securite": {
-        "type": "event",
-        "themeFilters": [
-          {
-            "label": "Tous les thèmes",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "Sensibilisation",
-            "value": "Sensibilisation"
-          },
-          {
-            "label": "Incident",
-            "value": "Incident"
-          },
-          {
-            "label": "Conformité",
-            "value": "Conformité"
-          }
-        ],
-        "yearFilters": [
-          {
-            "label": "Toutes les années",
-            "value": "all",
-            "active": true
-          },
-          {
-            "label": "2026",
-            "value": "2026"
-          },
-          {
-            "label": "2025",
-            "value": "2025"
-          }
-        ]
-      }
-    },
     "sitdDocumentItems": [
       {
         "section": "evenements-securite",

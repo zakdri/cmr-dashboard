@@ -9,19 +9,6 @@
         "iconClass": "purple"
       }
     },
-    "orgGovCultureQuizzes": [
-      {
-        "id": "quiz-qualite",
-        "title": "Quiz qualité",
-        "score": 82,
-        "participants": 124
-      },
-      {
-        "id": "quiz-sst",
-        "title": "Auto-évaluation SST",
-        "score": 76,
-        "participants": 98
-      }
-    ]
+    "orgGovCultureQuizzes": []
   }
 }

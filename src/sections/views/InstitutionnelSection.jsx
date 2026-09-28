@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { icons } from "lucide";
+import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
-import { GED_ROOT_PATH, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import { GED_ROOT_PATH, joinGedPath, normalizeGedKey, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function getOrgGovData() {
@@ -12,7 +14,36 @@ function getOrgGovData() {
     smallCards: data.orgGovSmallCards || [],
     pages: data.orgGovPages || {},
     strategieDocs: data.orgGovStrategieDocs || [],
+    rsePortal: data.orgGovRsePortal || {},
   };
+}
+
+function ReactLucideIcon({ name, ...props }) {
+  const iconName = String(name || "")
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join("");
+  const iconNode = icons[iconName];
+  if (!iconNode) return null;
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      {iconNode.map(([tag, attributes], index) => React.createElement(tag, { ...attributes, key: `${tag}-${index}` }))}
+    </svg>
+  );
 }
 
 function CardTitle({ title, icon, iconClass }) {
@@ -140,8 +171,410 @@ function SummaryText({ children }) {
   );
 }
 
+function GedFolderBrowser({ documents = [], folders = [], loading = false, error = null }) {
+  const [currentPath, setCurrentPath] = useState([]);
+
+  const allFolderSegments = useMemo(() => {
+    const paths = new Map();
+    [...folders, ...documents].forEach((item) => {
+      const segments = Array.isArray(item.segments)
+        ? item.segments.filter(Boolean)
+        : String(item.folderLabel || "").split("/").filter(Boolean);
+      segments.forEach((_, index) => {
+        const path = segments.slice(0, index + 1);
+        paths.set(path.map(normalizeGedKey).join("/"), path);
+      });
+    });
+    return Array.from(paths.values());
+  }, [documents, folders]);
+
+  const pathStartsWith = (segments, prefix) => prefix.every(
+    (segment, index) => normalizeGedKey(segments[index]) === normalizeGedKey(segment),
+  );
+
+  const childFolders = useMemo(() => {
+    const children = new Map();
+    allFolderSegments.forEach((segments) => {
+      if (!pathStartsWith(segments, currentPath) || segments.length <= currentPath.length) return;
+      const name = segments[currentPath.length];
+      const path = [...currentPath, name];
+      children.set(normalizeGedKey(name), { name, path });
+    });
+    return Array.from(children.values()).sort((left, right) => left.name.localeCompare(right.name, "fr"));
+  }, [allFolderSegments, currentPath]);
+
+  const directDocuments = useMemo(() => documents.filter((documentItem) => {
+    const segments = Array.isArray(documentItem.segments)
+      ? documentItem.segments.filter(Boolean)
+      : String(documentItem.folderLabel || "").split("/").filter(Boolean);
+    return segments.length === currentPath.length && pathStartsWith(segments, currentPath);
+  }), [documents, currentPath]);
+
+  const countDocumentsBelow = (folderPath) => documents.filter((documentItem) => {
+    const segments = Array.isArray(documentItem.segments) ? documentItem.segments : [];
+    return pathStartsWith(segments, folderPath);
+  }).length;
+
+  return (
+    <div className="cmr-job-folder-browser">
+      <div className="cmr-job-folder-toolbar">
+        <button
+          type="button"
+          className="cmr-job-folder-back"
+          onClick={() => setCurrentPath((path) => path.slice(0, -1))}
+          disabled={!currentPath.length}
+          title="Revenir au dossier précédent"
+        >
+          <ReactLucideIcon name="arrow-left" />
+        </button>
+        <nav aria-label="Fil d’Ariane des fiches de postes">
+          <button type="button" onClick={() => setCurrentPath([])}>Fiches de postes</button>
+          {currentPath.map((segment, index) => (
+            <React.Fragment key={`${segment}-${index}`}>
+              <ReactLucideIcon name="chevron-right" />
+              <button type="button" onClick={() => setCurrentPath(currentPath.slice(0, index + 1))}>{segment}</button>
+            </React.Fragment>
+          ))}
+        </nav>
+      </div>
+
+      {loading ? <p className="empty-state">Chargement de l’arborescence Moovapps...</p> : null}
+      {!loading && error ? <p className="empty-state">L’arborescence Moovapps n’est pas disponible pour le moment.</p> : null}
+
+      {!loading && !error && childFolders.length ? (
+        <div className="cmr-job-folder-grid">
+          {childFolders.map((folder) => (
+            <button type="button" key={folder.path.join("/")} onClick={() => setCurrentPath(folder.path)}>
+              <span className="cmr-job-folder-icon"><ReactLucideIcon name="folder" /></span>
+              <strong>{folder.name}</strong>
+              <small>{countDocumentsBelow(folder.path)} document(s)</small>
+              <ReactLucideIcon className="cmr-job-folder-open" name="chevron-right" />
+            </button>
+          ))}
+        </div>
+      ) : null}
+
+      {!loading && !error && directDocuments.length ? (
+        <div className="cmr-job-document-section">
+          <h4>Documents</h4>
+          <div className="cmr-job-document-grid">
+            {directDocuments.map((documentItem) => (
+              <button
+                type="button"
+                key={documentItem.id || documentItem.protocolUri || documentItem.fileName}
+                onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(documentItem.file)},${JSON.stringify(documentItem.title)})`)}
+              >
+                <span><ReactLucideIcon name="file-text" /></span>
+                <div><strong>{documentItem.title}</strong><small>{documentItem.fileName}</small></div>
+                <ReactLucideIcon name="download" />
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {!loading && !error && !childFolders.length && !directDocuments.length ? (
+        <p className="empty-state">Ce dossier est vide.</p>
+      ) : null}
+    </div>
+  );
+}
+
+function RseDocumentRows({ documents = [], emptyLabel = "Aucun document disponible." }) {
+  if (!documents.length) return <p className="empty-state">{emptyLabel}</p>;
+  return (
+    <div className="doc-list rse-portal-documents">
+      <PaginatedDocuments items={documents}>
+        {(visibleDocuments) => visibleDocuments.map((documentItem) => (
+          <button
+            type="button"
+            className="doc-item"
+            key={documentItem.id || documentItem.fileName}
+            onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(documentItem.file)},${JSON.stringify(documentItem.title)})`)}
+          >
+            <span className="doc-icon rse-portal-file-icon">PDF</span>
+            <span className="doc-info"><strong className="doc-title">{documentItem.title}</strong><span className="doc-meta">{documentItem.folderLabel || documentItem.fileName}</span></span>
+            <i data-lucide="download" aria-hidden="true" />
+          </button>
+        ))}
+      </PaginatedDocuments>
+    </div>
+  );
+}
+
+function RseReferenceBrowser({ items = [], documents = [], icon = "book-open", loading = false, horizontal = false }) {
+  const [selectedItem, setSelectedItem] = useState(items[0] || "");
+
+  useEffect(() => {
+    if (!items.includes(selectedItem)) setSelectedItem(items[0] || "");
+  }, [items, selectedItem]);
+
+  const matchingDocuments = useMemo(() => {
+    const selectedKey = normalizeGedKey(selectedItem);
+    if (!selectedKey) return [];
+    const selectedTokens = selectedKey.split(" ").filter((token) => token.length > 2);
+
+    return documents.filter((documentItem) => {
+      const documentKey = normalizeGedKey(
+        [documentItem.title, documentItem.fileName, ...(documentItem.segments || []).slice(1)]
+          .filter(Boolean)
+          .join(" "),
+      );
+      return documentKey.includes(selectedKey) || selectedTokens.every((token) => documentKey.includes(token));
+    });
+  }, [documents, selectedItem]);
+
+  const selectedDocument = matchingDocuments[0];
+
+  useEffect(() => {
+    window.requestAnimationFrame(() => window.lucide?.createIcons());
+  }, [selectedItem, selectedDocument]);
+
+  return (
+    <div className={`rse-two-pane${horizontal ? " rse-browser-horizontal" : ""}`}>
+      <div className="rse-reference-list">
+        {items.map((item) => (
+          <button
+            type="button"
+            key={item}
+            className={`rse-reference-option${selectedItem === item ? " active" : ""}`}
+            onClick={() => setSelectedItem(item)}
+            aria-pressed={selectedItem === item}
+          >
+            <i data-lucide={icon} aria-hidden="true" />
+            <strong>{item}</strong>
+            <i className="rse-reference-chevron" data-lucide="chevron-right" aria-hidden="true" />
+          </button>
+        ))}
+      </div>
+
+      <div className="rse-document-preview" aria-live="polite">
+        {loading ? <p className="rse-portal-loading">Chargement des documents RSE...</p> : null}
+        {!loading && selectedDocument ? (
+          <>
+            <div className="rse-document-preview-toolbar">
+              <div>
+                <strong>{selectedItem}</strong>
+                <span>{selectedDocument.fileName || selectedDocument.title}</span>
+              </div>
+              <button
+                type="button"
+                title="Télécharger le document"
+                aria-label={`Télécharger ${selectedItem}`}
+                onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(selectedDocument.file)},${JSON.stringify(selectedDocument.title)})`)}
+              >
+                <i data-lucide="download" aria-hidden="true" />
+              </button>
+            </div>
+            <iframe src={selectedDocument.file} title={`Aperçu - ${selectedItem}`} />
+            {matchingDocuments.length > 1 ? <RseDocumentRows documents={matchingDocuments} /> : null}
+          </>
+        ) : null}
+        {!loading && !selectedDocument ? (
+          <div className="rse-document-preview-empty">
+            <i data-lucide="file-search" aria-hidden="true" />
+            <strong>{selectedItem || "Document RSE"}</strong>
+            <span>Aucun fichier correspondant n'est disponible dans la GED.</span>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function RseDomainsBrowser({ domains = [], documents = [], loading = false }) {
+  const [selectedDomainTitle, setSelectedDomainTitle] = useState(domains[0]?.title || "");
+  const selectedDomain = domains.find((domain) => domain.title === selectedDomainTitle) || domains[0] || {};
+
+  useEffect(() => {
+    if (!domains.some((domain) => domain.title === selectedDomainTitle)) {
+      setSelectedDomainTitle(domains[0]?.title || "");
+    }
+  }, [domains, selectedDomainTitle]);
+
+  const engagementGroups = useMemo(() => {
+    const domainKey = normalizeGedKey(selectedDomain.title);
+    const groups = new Map();
+
+    (selectedDomain.engagements || []).forEach((engagement) => {
+      const item = typeof engagement === "string" ? { title: engagement } : engagement;
+      groups.set(normalizeGedKey(item.title), { ...item, documents: [] });
+    });
+
+    documents.forEach((documentItem) => {
+      const segments = documentItem.segments || [];
+      const domainIndex = segments.findIndex((segment, index) => {
+        if (index === 0) return false;
+        const segmentKey = normalizeGedKey(segment);
+        return segmentKey.includes(domainKey) || domainKey.includes(segmentKey);
+      });
+      if (domainIndex < 0) return;
+
+      const engagementTitle = segments[domainIndex + 1] || documentItem.title;
+      const engagementKey = normalizeGedKey(engagementTitle);
+      const existing = groups.get(engagementKey) || { title: engagementTitle, documents: [] };
+      const metadataKeywords = Array.isArray(documentItem.keywords)
+        ? documentItem.keywords
+        : Array.isArray(documentItem.tags)
+          ? documentItem.tags
+          : [];
+      const pathKeywords = segments.slice(domainIndex + 2);
+      groups.set(engagementKey, {
+        ...existing,
+        description: existing.description || documentItem.description || "",
+        keywords: existing.keywords || [...metadataKeywords, ...pathKeywords],
+        documents: [...existing.documents, documentItem],
+      });
+    });
+
+    return Array.from(groups.values());
+  }, [documents, selectedDomain]);
+
+  const [selectedEngagementTitle, setSelectedEngagementTitle] = useState("");
+
+  useEffect(() => {
+    if (!engagementGroups.some((engagement) => engagement.title === selectedEngagementTitle)) {
+      setSelectedEngagementTitle(engagementGroups[0]?.title || "");
+    }
+  }, [engagementGroups, selectedEngagementTitle]);
+
+  const selectedEngagement = engagementGroups.find((engagement) => engagement.title === selectedEngagementTitle);
+
+  useEffect(() => {
+    window.requestAnimationFrame(() => window.lucide?.createIcons());
+  }, [selectedDomainTitle, selectedEngagementTitle]);
+
+  return (
+    <div className="rse-domains-browser">
+      <nav className="rse-domain-selector" aria-label="Domaines d'engagement RSE">
+        {domains.map((domain) => (
+          <button
+            type="button"
+            key={domain.title}
+            className={selectedDomain.title === domain.title ? "active" : ""}
+            style={{ "--rse-domain-color": domain.color }}
+            onClick={() => setSelectedDomainTitle(domain.title)}
+            aria-pressed={selectedDomain.title === domain.title}
+          >
+            <span aria-hidden="true" />
+            <strong>{domain.title}</strong>
+            <i data-lucide="chevron-right" aria-hidden="true" />
+          </button>
+        ))}
+      </nav>
+
+      <section className="rse-domain-details" style={{ "--rse-domain-color": selectedDomain.color }}>
+        <span className="rse-domain-details-label">Objectif du domaine</span>
+        <h4>{selectedDomain.objective}</h4>
+        <div className="rse-domain-engagements-heading">Engagements associés</div>
+        {engagementGroups.length ? (
+          <div className="rse-domain-engagements">
+            {engagementGroups.map((engagement) => (
+              <button
+                type="button"
+                key={engagement.title}
+                className={selectedEngagement?.title === engagement.title ? "active" : ""}
+                onClick={() => setSelectedEngagementTitle(engagement.title)}
+              >
+                <strong>{engagement.title}</strong>
+                {engagement.description ? <span>{engagement.description}</span> : null}
+                {engagement.keywords?.length ? <small>{engagement.keywords.join(" · ")}</small> : null}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p className="rse-domain-empty">Aucun engagement n'est encore renseigné dans la GED.</p>
+        )}
+      </section>
+
+      <aside className="rse-domain-documents">
+        <h4>Documents associés</h4>
+        {loading ? <p className="rse-portal-loading">Chargement des fiches d'engagement...</p> : null}
+        {!loading ? (
+          <RseDocumentRows
+            documents={selectedEngagement?.documents || []}
+            emptyLabel="Aucune fiche d'engagement disponible pour cette sélection."
+          />
+        ) : null}
+      </aside>
+    </div>
+  );
+}
+
+function RsePortalContent({ portal, documents, loading }) {
+  const documentsByFolder = useMemo(() => {
+    const groups = new Map();
+    documents.forEach((documentItem) => {
+      const folder = documentItem.segments?.[0] || documentItem.folderLabel || "";
+      const key = normalizeGedKey(folder);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(documentItem);
+    });
+    return groups;
+  }, [documents]);
+  const folderDocuments = (folder) => documentsByFolder.get(normalizeGedKey(folder)) || [];
+  const banner = portal.banner || {};
+  const presentation = portal.presentation || {};
+  const policies = portal.politiques || {};
+  const domains = portal.domains || {};
+  const references = portal.documents || {};
+  const governance = portal.governance || {};
+  const evaluation = portal.evaluation || {};
+  const resources = portal.resources || {};
+  const loadingMessage = loading ? <p className="rse-portal-loading">Chargement des documents RSE...</p> : null;
+
+  const Banner = () => (
+    <div className="rse-portal-banner">
+      <img src={banner.logo} alt="Logo RSE CMR responsable et citoyenne" />
+      <h3>{banner.tagline}</h3>
+    </div>
+  );
+
+  return (
+    <>
+      <div id="page-orggov-rse-presentation" className="km-tab-content" style={{ display: "none" }}>
+        <Banner />
+        <section className="rse-presentation-layout">
+          <div className="rse-presentation-copy"><h3>{presentation.title}</h3>{(presentation.paragraphs || []).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+          <figure className="rse-domains-visual"><img src={presentation.visual} alt="Les six domaines d’engagement RSE de la CMR" /></figure>
+        </section>
+      </div>
+
+      <div id="page-orggov-rse-politiques" className="km-tab-content" style={{ display: "none" }}>
+        <Banner />
+        <section className="rse-portal-section"><h3>{policies.title}</h3><p>{policies.description}</p><RseReferenceBrowser items={policies.items || []} documents={folderDocuments(policies.folder)} icon="file-check" loading={loading} /></section>
+      </div>
+
+      <div id="page-orggov-rse-domaines" className="km-tab-content" style={{ display: "none" }}>
+        <Banner />
+        <section className="rse-portal-section"><h3>{domains.title}</h3><p>{domains.description}</p><RseDomainsBrowser domains={domains.items || []} documents={folderDocuments(domains.folder)} loading={loading} /></section>
+      </div>
+
+      <div id="page-orggov-rse-documents" className="km-tab-content" style={{ display: "none" }}>
+        <Banner />
+        <section className="rse-portal-section"><h3>{references.title}</h3><p>{references.description}</p><RseReferenceBrowser items={references.items || []} documents={folderDocuments(references.folder)} loading={loading} /></section>
+      </div>
+
+      <div id="page-orggov-rse-gouvernance" className="km-tab-content" style={{ display: "none" }}>
+        <Banner />
+        <section className="rse-portal-section"><h3>{governance.title}</h3><p>{governance.description}</p><RseReferenceBrowser items={governance.actors || []} documents={folderDocuments(governance.folder)} icon="user-round-check" loading={loading} /></section>
+      </div>
+
+      <div id="page-orggov-rse-evaluation" className="km-tab-content" style={{ display: "none" }}>
+        <Banner />
+        <section className="rse-portal-section"><h3>{evaluation.title}</h3><p>{evaluation.description}</p>{loadingMessage}<RseDocumentRows documents={folderDocuments(evaluation.folder)} emptyLabel="Aucune attestation ou certification disponible." /></section>
+      </div>
+
+      <div id="page-orggov-rse-ressources" className="km-tab-content" style={{ display: "none" }}>
+        <Banner />
+        <section className="rse-portal-section"><h3>{resources.title}</h3><p>{resources.description}</p><RseReferenceBrowser items={resources.categories || []} documents={folderDocuments(resources.folder)} icon="folder-open" loading={loading} horizontal /></section>
+      </div>
+    </>
+  );
+}
+
 export default function InstitutionnelSection() {
-  const { header, tabs, overview, smallCards, pages, strategieDocs } =
+  const { header, tabs, overview, smallCards, pages, strategieDocs, rsePortal } =
     getOrgGovData();
   const [activeSection, setActiveSection] = useState(tabs[0]?.id || "overview");
   const [isOrgChartExpanded, setIsOrgChartExpanded] = useState(false);
@@ -151,6 +584,13 @@ export default function InstitutionnelSection() {
     enabled: isViewActive && activeSection === "direction",
   });
   const visibleStrategieDocs = apiEnabled ? directionGedState.documents : strategieDocs;
+  const rseGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Organisation & RSE", rsePortal.gedFolder || "RSE"), {
+    enabled: isViewActive && activeSection === "rse",
+  });
+  const jobDescriptionsGedState = useGedDocuments(
+    joinGedPath(GED_ROOT_PATH, "Organisation & RSE", "Organisation", "Fiches de postes"),
+    { enabled: isViewActive && activeSection === "organisation" },
+  );
 
   useEffect(() => {
     if (!isOrgChartExpanded) return undefined;
@@ -411,6 +851,29 @@ export default function InstitutionnelSection() {
         </div>
 
         <div
+          id="page-orggov-fiches-postes"
+          className="km-tab-content"
+          style={{ display: "none" }}
+        >
+          <SummaryText>{pages.organisation?.description}</SummaryText>
+          <div className="cmr-job-folder-heading">
+            <div>
+              <div className="app-category-title" style={{ margin: 0 }}>
+                {pages.fichesPostes?.title || "Fiches de postes"}
+              </div>
+              <p>{pages.fichesPostes?.description}</p>
+            </div>
+            <ReactLucideIcon name="folders" />
+          </div>
+          <GedFolderBrowser
+            documents={jobDescriptionsGedState.documents}
+            folders={jobDescriptionsGedState.folders}
+            loading={jobDescriptionsGedState.loading}
+            error={jobDescriptionsGedState.error}
+          />
+        </div>
+
+        <div
           id="page-orggov-presentation"
           className="km-tab-content"
           style={{ display: "none" }}
@@ -509,9 +972,11 @@ export default function InstitutionnelSection() {
             {pages.strategie?.title}
           </div>
           <div className="km-grid">
-            {visibleStrategieDocs.map((doc) => (
-              <SimpleDocCard key={doc.protocolUri || doc.file} doc={doc} />
-            ))}
+            <PaginatedDocuments items={visibleStrategieDocs}>
+              {(visibleDocuments) => visibleDocuments.map((doc) => (
+                <SimpleDocCard key={doc.protocolUri || doc.file} doc={doc} />
+              ))}
+            </PaginatedDocuments>
             {apiEnabled && visibleStrategieDocs.length === 0 ? (
               <div style={{ color: "var(--text-light)", fontSize: 13 }}>
                 {directionGedState.loading ? "Chargement des documents..." : "Aucun document."}
@@ -697,121 +1162,13 @@ export default function InstitutionnelSection() {
           </div>
         ))}
 
-        <div
-          id="page-orggov-direction"
-          className="km-tab-content"
-          style={{ display: "none" }}
-        >
-          <div className="app-category-title" style={{ marginBottom: 14 }}>
-            {pages.direction?.title}
-          </div>
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #e2e8f0",
-              borderRadius: 14,
-              padding: 26,
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 14,
-                  background: "linear-gradient(135deg,#fb923c,#f59e0b)",
-                  color: "#fff",
-                  display: "grid",
-                  placeItems: "center",
-                  fontWeight: 900,
-                  flexShrink: 0,
-                }}
-              >
-                DG
-              </div>
-              <div style={{ flex: 1 }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: "var(--cmr-primary)",
-                      background: "#eff6ff",
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                    }}
-                  >
-                    {pages.direction?.badge}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: 12,
-                      color: "var(--text-light)",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 6,
-                    }}
-                  >
-                    <i data-lucide="calendar" style={{ width: 14, height: 14 }} />
-                    {pages.direction?.date}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    fontWeight: 900,
-                    fontSize: 18,
-                    color: "#0f172a",
-                    marginTop: 10,
-                  }}
-                >
-                  {pages.direction?.messageTitle}
-                </div>
-                <div
-                  style={{
-                    marginTop: 10,
-                    color: "var(--text-light)",
-                    fontSize: 13,
-                    lineHeight: "1.8",
-                  }}
-                >
-                  {pages.direction?.message}
-                </div>
-                <div
-                  style={{
-                    marginTop: 14,
-                    display: "flex",
-                    gap: 10,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <button
-                    className="secondary-btn"
-                    onClick={(event) =>
-                      runLegacyHandler(event, pages.direction?.downloadHandler)
-                    }
-                  >
-                    Télécharger la note
-                  </button>
-                  <button
-                    className="primary-btn"
-                    onClick={(event) =>
-                      runLegacyHandler(event, pages.direction?.newsHandler)
-                    }
-                  >
-                    Voir l’actualité liée
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <RsePortalContent
+          portal={rsePortal}
+          documents={rseGedState.documents}
+          loading={rseGedState.loading}
+        />
+
+        <div id="page-orggov-direction" className="km-tab-content" style={{ display: "none" }} />
       </div>
     </>
   );

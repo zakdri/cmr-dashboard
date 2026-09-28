@@ -12,34 +12,28 @@
         "actionHandler": "switchView('applis'); return false;",
         "items": [
           {
-            "label": "SIRH",
-            "icon": "users",
-            "background": "linear-gradient(135deg, #0ea5e9, #0284c7)"
+            "label": "ERSAL",
+            "icon": "send",
+            "href": "http://ersal:8080/WERSAL/",
+            "background": "#256cb5"
           },
           {
-            "label": "Paie",
-            "icon": "banknote",
-            "background": "linear-gradient(135deg, #6366f1, #4f46e5)"
+            "label": "CRM",
+            "icon": "contact-round",
+            "href": "https://crm.cmr.gov.ma/CRMPROD/main.aspx",
+            "background": "#256cb5"
           },
           {
-            "label": "GED",
+            "label": "OPEN TEXT",
             "icon": "folder-open",
-            "background": "linear-gradient(135deg, #a855f7, #9333ea)"
+            "href": "https://ged.cmr.intra/",
+            "background": "#256cb5"
           },
           {
-            "label": "Support",
+            "label": "HELPDESK",
             "icon": "life-buoy",
-            "background": "linear-gradient(135deg, #ec4899, #db2777)"
-          },
-          {
-            "label": "Com",
-            "icon": "megaphone",
-            "background": "linear-gradient(135deg, #10b981, #059669)"
-          },
-          {
-            "label": "Annuaire",
-            "icon": "book-user",
-            "background": "linear-gradient(135deg, #f59e0b, #d97706)"
+            "href": "http://pc/",
+            "background": "#256cb5"
           }
         ]
       }

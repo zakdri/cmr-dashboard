@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
+import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
+import { FormationPage } from "./AcademySection.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 import {
   GED_ROOT_PATH,
@@ -16,7 +18,6 @@ function getRhData() {
     tabs: data.rhTabs || [],
     pages: data.rhPages || {},
     offresIntro: data.rhOffresIntro || "",
-    offresFilters: data.rhOffresFilters || {},
     offresList: data.rhOffresList || [],
   };
 }
@@ -67,25 +68,50 @@ function SimpleCard({ item, onClick }) {
 }
 
 function WorkflowCard({ workflow }) {
+  useEffect(() => { window.lucide?.createIcons(); }, [workflow]);
+
   return (
-    <div className="content-card" style={{ marginTop: 20 }}>
+    <div className="content-card rh-workflow" style={{ marginTop: 20 }}>
       <h3>{workflow.title}</h3>
       <p style={{ color: "var(--text-light)", marginTop: 6 }}>{workflow.description}</p>
-      <div className="km-grid" style={{ marginTop: 18 }}>
+      <ol className="rh-workflow-chain" style={{ "--workflow-count": Math.max(1, workflow.steps?.length || 0) }}>
         {(workflow.steps || []).map((step, index) => (
-          <div className="doc-card static-card" key={step.title}>
-            <div
-              className="doc-icon-large"
+          <li className="rh-workflow-step" key={step.title}>
+            <span
+              className="rh-workflow-number"
               style={{ background: step.background || "#eff6ff", color: step.color || "#2563eb" }}
             >
               {index + 1}
-            </div>
-            <div className="doc-card-title">{step.title}</div>
-            <p style={{ fontSize: 12, color: "var(--text-light)" }}>{step.description}</p>
-          </div>
+            </span>
+            {index < workflow.steps.length - 1 ? <span className="rh-workflow-connector" aria-hidden="true" /> : null}
+            <h4>{step.title}</h4>
+            <p>{step.description}</p>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
+  );
+}
+
+function CareerAttachment({ attachment }) {
+  const title = attachment.title || attachment.fileName || attachment.label || "Document";
+  const extension = (attachment.fileName || title).match(/\.([a-z0-9]{2,5})$/i)?.[1]?.toUpperCase() || "DOC";
+  const kind = /^(PPT|PPTX)$/.test(extension) ? "presentation" : extension === "PDF" ? "pdf" : "document";
+
+  useEffect(() => { window.lucide?.createIcons(); }, []);
+
+  return (
+    <button
+      type="button"
+      className="rh-path-attachment"
+      title={`Télécharger ${title}`}
+      aria-label={`Télécharger ${title}`}
+      onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(attachment.file)},${JSON.stringify(title)})`)}
+    >
+      <span className={`rh-path-file-kind rh-path-file-kind--${kind}`} aria-hidden="true">{extension}</span>
+      <span className="rh-path-file-title">{title}</span>
+      <span className="rh-path-file-action" aria-hidden="true"><i data-lucide="download" /></span>
+    </button>
   );
 }
 
@@ -145,21 +171,15 @@ function CareerPage({ page, active }) {
                 <div className="rh-path-panel-body">
                   <p>{step.description}</p>
                   <div className="rh-path-attachments">
-                    {(shouldUseDocumentsApi()
+                    <PaginatedDocuments items={shouldUseDocumentsApi()
                       ? (gedByFolder.get(step.title) || [])
                       : (step.attachments || []).map((attachment) => ({ title: attachment, file: attachment }))
-                    ).map((attachment) => (
-                      <button
-                        type="button"
-                        key={attachment.file || attachment.title}
-                        style={{ border: 0, cursor: "pointer" }}
-                        onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(attachment.file)},${JSON.stringify(attachment.title)})`)}
-                      >
-                        {attachment.title}
-                      </button>
-                    ))}
+                    } resetKey={step.title}>
+                      {(attachments) => attachments.map((attachment) => (
+                        <CareerAttachment attachment={attachment} key={attachment.file || attachment.title} />
+                      ))}
+                    </PaginatedDocuments>
                   </div>
-                  <button className="secondary-btn">{step.linkLabel}</button>
                 </div>
               </details>
             ))}
@@ -179,6 +199,7 @@ function DocumentsPage({ page, active }) {
     : (page.categories || []);
   const categories = sourceCategories.map((category) => ({
       ...category,
+      title: normalizeGedKey(category.title) === normalizeGedKey("Chartes RH") ? "Chartes" : category.title,
       items: (category.items || []).filter((item) =>
         [item.title, item.description, item.meta, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term),
       ),
@@ -201,15 +222,17 @@ function DocumentsPage({ page, active }) {
         <div className="content-card" style={{ marginTop: 18 }} key={category.title}>
           <h3>{category.title}</h3>
           <div className="km-grid" style={{ marginTop: 16 }}>
-            {shouldUseDocumentsApi() ? (category.items || []).map((item) => (
-              <GedDocumentCard documentItem={item} key={item.id || item.fileName} />
-            )) : (category.items || []).map((item) => (
-              <SimpleCard
-                item={item}
-                key={item.title}
-                onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.title)},${JSON.stringify(item.title)})`)}
-              />
-            ))}
+            <PaginatedDocuments items={category.items || []} resetKey={`${category.title}:${query}`}>
+              {(visibleDocuments) => shouldUseDocumentsApi() ? visibleDocuments.map((item) => (
+                <GedDocumentCard documentItem={item} key={item.id || item.fileName} />
+              )) : visibleDocuments.map((item) => (
+                <SimpleCard
+                  item={item}
+                  key={item.title}
+                  onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.title)},${JSON.stringify(item.title)})`)}
+                />
+              ))}
+            </PaginatedDocuments>
           </div>
         </div>
       ))}
@@ -217,18 +240,99 @@ function DocumentsPage({ page, active }) {
   );
 }
 
-function OffresPage({ offresIntro, offresList, offresFilters }) {
+function documentMatchesFolderPath(documentItem, folderPath) {
+  const documentSegments = (documentItem.segments?.length
+    ? documentItem.segments
+    : String(documentItem.folderLabel || "").split("/"))
+    .filter(Boolean)
+    .map(normalizeGedKey);
+  const expectedSegments = (folderPath || []).map(normalizeGedKey);
+  if (!expectedSegments.length || documentSegments.length < expectedSegments.length) return false;
+
+  return expectedSegments.every((segment, index) => documentSegments[index] === segment)
+    || expectedSegments.every((segment, index) =>
+      documentSegments[documentSegments.length - expectedSegments.length + index] === segment,
+    );
+}
+
+function AttakmiliDocuments({ documents, resetKey }) {
+  return (
+    <div className="rh-attakmili-documents">
+      <PaginatedDocuments items={documents} resetKey={resetKey}>
+        {(visibleDocuments) => visibleDocuments.map((documentItem) => (
+          <GedDocumentCard documentItem={documentItem} key={documentItem.id || documentItem.fileName} />
+        ))}
+      </PaginatedDocuments>
+      {!documents.length ? <p className="empty-state">Aucun document disponible.</p> : null}
+    </div>
+  );
+}
+
+function AttakmiliPage({ page, active }) {
   const [query, setQuery] = useState("");
-  const [direction, setDirection] = useState((offresFilters.directions || [])[0] || "");
-  const [niveau, setNiveau] = useState((offresFilters.niveaux || [])[0] || "");
+  const gedState = useGedDocuments(
+    joinGedPath(GED_ROOT_PATH, "Mes Services RH", "ATTAKMILI PLUS"),
+    { enabled: active },
+  );
   const term = query.trim().toLowerCase();
-  const filteredOffres = offresList.filter((offre) => {
-    const haystack = [offre.title, offre.meta, offre.published, offre.status].join(" ").toLowerCase();
-    const matchSearch = haystack.includes(term);
-    const matchDirection = !direction || direction.startsWith("Toutes") || haystack.includes(direction.toLowerCase());
-    const matchNiveau = !niveau || niveau.startsWith("Tous") || haystack.includes(niveau.toLowerCase());
-    return matchSearch && matchDirection && matchNiveau;
-  });
+  const filteredDocuments = gedState.documents.filter((documentItem) =>
+    [documentItem.title, documentItem.fileName, documentItem.folderLabel]
+      .join(" ")
+      .toLowerCase()
+      .includes(term),
+  );
+
+  return (
+    <div id="page-rh-attakmili" className="km-tab-content" style={{ display: "none" }}>
+      <SectionIntro text={page.description} />
+      <div className="section-search-row">
+        <i data-lucide="search" style={{ width: 18 }} />
+        <input
+          placeholder={page.searchPlaceholder || "Rechercher un document ATTAKMILI PLUS..."}
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+        />
+      </div>
+      {gedState.loading ? <div className="rh-attakmili-status">Chargement des documents ATTAKMILI PLUS...</div> : null}
+      {gedState.error ? <div className="rh-attakmili-error">Les documents ATTAKMILI PLUS ne sont pas disponibles pour le moment.</div> : null}
+      <div className="rh-attakmili-grid">
+        {(page.blocks || []).map((block) => (
+          <section className="content-card rh-attakmili-block" key={block.title}>
+            <div className="rh-attakmili-block-title">
+              <IconBox icon={block.icon} style={{ background: "#eff6ff", color: "#256cb5" }} />
+              <h3>{block.title}</h3>
+            </div>
+            {block.children?.length ? block.children.map((child) => {
+              const documents = filteredDocuments.filter((documentItem) =>
+                documentMatchesFolderPath(documentItem, child.folderPath),
+              );
+              return (
+                <div className="rh-attakmili-child" key={child.title}>
+                  <h4>{child.title}</h4>
+                  <AttakmiliDocuments documents={documents} resetKey={`${child.title}:${query}`} />
+                </div>
+              );
+            }) : (
+              <AttakmiliDocuments
+                documents={filteredDocuments.filter((documentItem) =>
+                  documentMatchesFolderPath(documentItem, block.folderPath),
+                )}
+                resetKey={`${block.title}:${query}`}
+              />
+            )}
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function OffresPage({ offresIntro, offresList }) {
+  const [query, setQuery] = useState("");
+  const term = query.trim().toLowerCase();
+  const filteredOffres = offresList.filter((offre) =>
+    [offre.title, offre.meta, offre.published, offre.status].join(" ").toLowerCase().includes(term),
+  );
 
   return (
     <div id="page-rh-offres" className="km-tab-content" style={{ display: "none" }}>
@@ -242,14 +346,6 @@ function OffresPage({ offresIntro, offresList, offresFilters }) {
             onChange={(event) => setQuery(event.target.value)}
           />
         </div>
-        <div className="filter-row">
-          <select className="filter-select" value={direction} onChange={(event) => setDirection(event.target.value)}>
-            {(offresFilters.directions || []).map((item) => <option key={item}>{item}</option>)}
-          </select>
-          <select className="filter-select" value={niveau} onChange={(event) => setNiveau(event.target.value)}>
-            {(offresFilters.niveaux || []).map((item) => <option key={item}>{item}</option>)}
-          </select>
-        </div>
         <div style={{ display: "grid", gap: 12 }}>
           {filteredOffres.map((offre) => (
             <div className="doc-row rh-offer-row" key={offre.id} onClick={(event) => runLegacyHandler(event, `showOffrefiche('${offre.id}')`)}>
@@ -261,6 +357,7 @@ function OffresPage({ offresIntro, offresList, offresFilters }) {
               <span style={{ background: offre.statusBackground, color: offre.statusColor, padding: "6px 12px", borderRadius: 20, fontWeight: 700 }}>{offre.status}</span>
             </div>
           ))}
+          {!filteredOffres.length ? <p className="empty-state">Aucun poste vacant.</p> : null}
         </div>
       </div>
       <div id="offres-fiche" className="content-card" style={{ display: "none", marginTop: 18 }}>
@@ -332,11 +429,48 @@ function MobilitePage({ page }) {
   );
 }
 
-function EnquetesPage({ page, active }) {
+function IndicatorsSummary({ page }) {
+  const indicators = page.indicators || [];
+  useEffect(() => { window.lucide?.createIcons(); }, [indicators.length]);
+  if (!indicators.length) return null;
+  return (
+    <div className="rh-enquetes-indicators">
+      <div className="content-card rh-indicators-overview">
+        <div className="rh-indicators-overview-heading"><h3>{page.indicatorsTitle || "Synthèse des résultats"} {page.year}</h3><span>{page.period}</span></div>
+        <div className="rh-indicators-survey">
+          <div><strong>{page.population}</strong><span>Collaborateurs</span></div>
+          <div><strong>{page.responses}</strong><span>Réponses collectées</span></div>
+          <div><strong>{page.participation}</strong><span>Taux de participation</span></div>
+        </div>
+      </div>
+      <section className="rh-indicators-section" aria-label="Synthèse des indicateurs clés">
+        <h3>Synthèse des indicateurs clés</h3>
+        <div className="rh-indicators-grid">
+          {indicators.map((item) => (
+            <article className="content-card rh-indicator-card" key={item.question}>
+              <div className="rh-indicator-card-top"><span className="rh-indicator-icon"><i data-lucide={item.icon} aria-hidden="true" /></span><span className="rh-indicator-question">{item.question}</span></div>
+              <h4>{item.title}</h4>
+              <p>{item.description}</p>
+              <strong className="rh-indicator-value">{item.value}</strong>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="rh-indicators-section" aria-label="Résultats de synthèse">
+        <h3>Résultats de synthèse</h3>
+        <div className="rh-indicators-summary">
+          {(page.summary || []).map((item) => <div className="content-card rh-indicators-summary-item" key={item.label}><span>{item.label}{item.question ? ` · ${item.question}` : ""}</span><strong>{item.value}</strong></div>)}
+        </div>
+      </section>
+      <p className="rh-indicators-methodology">Marge d’erreur : {page.methodology?.marginOfError} · Niveau de confiance : {page.methodology?.confidence} · Répondants en français : {page.methodology?.frenchResponses} · Répondants en arabe : {page.methodology?.arabicResponses}</p>
+    </div>
+  );
+}
+
+function EnquetesPage({ page }) {
   const [query, setQuery] = useState("");
   const [selectedSurveyTitle, setSelectedSurveyTitle] = useState(page.surveys?.[0]?.title || "");
   const [historyYear, setHistoryYear] = useState(page.historyYears?.[0] || "Tous");
-  const reportsGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Mes Services RH", "Enquêtes RH"), { enabled: active });
   const term = query.trim().toLowerCase();
   const surveys = (page.surveys || []).filter((survey) =>
     [survey.title, survey.description, survey.longDescription, survey.theme]
@@ -350,30 +484,14 @@ function EnquetesPage({ page, active }) {
     page.surveys?.[0] ||
     {};
   const history = (page.history || []).filter((item) => historyYear === "Tous" || item.year === historyYear);
-  const reportItems = shouldUseDocumentsApi()
-    ? reportsGedState.documents.filter((item) =>
-        [item.title, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term),
-      )
-    : (page.reports || []);
 
   return (
     <div id="page-rh-enquetes" className="km-tab-content" style={{ display: "none" }}>
       <SectionIntro text={page.description} />
-      <div className="km-grid" style={{ marginTop: 18 }}>
-        {(page.kpis || []).map((kpi) => (
-          <div className="doc-card static-card rh-kpi-card" key={kpi.label}>
-            <div style={{ fontSize: 28, fontWeight: 900, color: kpi.color }}>{kpi.value}</div>
-            <div className="doc-card-title">{kpi.label}</div>
-            <p style={{ color: "var(--text-light)", fontSize: 12 }}>{kpi.trend}</p>
-          </div>
-        ))}
-      </div>
+      <IndicatorsSummary page={page} />
       <div className="rh-two-column">
         <div className="content-card">
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
-            <h3>{page.surveysTitle}</h3>
-            <button className="primary-btn">{page.proposeLabel}</button>
-          </div>
+          <h3>{page.surveysTitle}</h3>
           <div className="section-search-row" style={{ marginTop: 14 }}>
             <i data-lucide="search" style={{ width: 18 }} />
             <input
@@ -390,84 +508,49 @@ function EnquetesPage({ page, active }) {
                 onClick={() => setSelectedSurveyTitle(survey.title)}
               />
             ))}
+            {!surveys.length ? <p className="empty-state">Aucune enquête disponible.</p> : null}
           </div>
         </div>
         <div className="content-card">
-          <h3>{detail.title}</h3>
-          <p style={{ color: "var(--text-light)" }}>{detail.longDescription}</p>
-          <div className="doc-card-meta">
-            <span>{detail.theme}</span>
-            <a href={detail.accessUrl || "#"}>{detail.accessLabel}</a>
-          </div>
-          <button className="primary-btn" style={{ marginTop: 16 }}>{detail.submitLabel}</button>
+          {detail.title ? (
+            <>
+              <h3>{detail.title}</h3>
+              <p style={{ color: "var(--text-light)" }}>{detail.longDescription}</p>
+              <div className="doc-card-meta">
+                <span>{detail.theme}</span>
+                <a href={detail.accessUrl || "#"}>{detail.accessLabel}</a>
+              </div>
+            </>
+          ) : <p className="empty-state">Sélectionnez une enquête disponible.</p>}
         </div>
       </div>
-      <div className="rh-enquete-history-layout">
-        <div className="content-card">
-          <h3>{page.historyTitle}</h3>
-          <div className="academy-horizontal-filter">
-            {["Tous", ...(page.historyYears || [])].map((year) => (
-              <button
-                className={`filter-pill${year === historyYear ? " active" : ""}`}
-                key={year}
-                onClick={() => setHistoryYear(year)}
-              >
-                {year}
-              </button>
-            ))}
-          </div>
-          <div className="rh-enquete-list">
-            {history.map((item) => <SimpleCard item={item} key={item.title} />)}
-          </div>
+      <div className="content-card" style={{ marginTop: 18 }}>
+        <h3>{page.historyTitle}</h3>
+        <div className="academy-horizontal-filter">
+          {["Tous", ...(page.historyYears || [])].map((year) => (
+            <button
+              className={`filter-pill${year === historyYear ? " active" : ""}`}
+              key={year}
+              onClick={() => setHistoryYear(year)}
+            >
+              {year}
+            </button>
+          ))}
         </div>
-        <div className="content-card">
-          <h3>{page.reportsTitle}</h3>
-          {reportsGedState.loading ? <div style={{ padding: 14, color: "#64748b", fontSize: 13 }}>Chargement des rapports RH...</div> : null}
-          <div className="rh-enquete-list">
-            {shouldUseDocumentsApi() && !reportsGedState.error
-              ? reportItems.map((item) => <GedDocumentCard documentItem={item} key={item.id || item.fileName} />)
-              : reportItems.map((item) => (
-                <SimpleCard
-                  item={item}
-                  key={item.title}
-                  onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.title)},${JSON.stringify(item.title)})`)}
-                />
-              ))}
-          </div>
+        <div className="rh-enquete-list">
+          {history.map((item) => <SimpleCard item={item} key={item.title} />)}
+          {!history.length ? <p className="empty-state">Aucun historique disponible.</p> : null}
         </div>
-      </div>
-    </div>
-  );
-}
-
-function ForumsPage({ page }) {
-  const [query, setQuery] = useState("");
-  const items = (page.items || []).filter((item) =>
-    [item.title, item.description, item.meta].join(" ").toLowerCase().includes(query.trim().toLowerCase()),
-  );
-
-  return (
-    <div id="page-rh-forums" className="km-tab-content" style={{ display: "none" }}>
-      <SectionIntro text={page.description} />
-      <div className="section-search-row">
-        <i data-lucide="search" style={{ width: 18 }} />
-        <input
-          placeholder="Rechercher un forum ou groupe..."
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-      </div>
-      <div className="km-grid" style={{ marginTop: 18 }}>
-        {items.map((item) => <SimpleCard item={item} key={item.title} />)}
       </div>
     </div>
   );
 }
 
 export default function RhSection() {
-  const { header, tabs, pages, offresIntro, offresFilters, offresList } = getRhData();
+  const { header, tabs, pages, offresIntro, offresList } = getRhData();
   const isViewActive = useViewActive("rh");
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || "carriere");
+  const formationGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "CMR Academy", "Formation"), { enabled: isViewActive && activeTab === "formation" });
 
   useEffect(() => {
     const syncTab = (event) => setActiveTab(event.detail?.tab || tabs[0]?.id || "carriere");
@@ -493,10 +576,11 @@ export default function RhSection() {
       </div>
       <CareerPage page={pages.carriere || {}} active={isViewActive && activeTab === "carriere"} />
       <DocumentsPage page={pages.documents || {}} active={isViewActive && activeTab === "documents"} />
-      <OffresPage offresIntro={offresIntro} offresFilters={offresFilters} offresList={offresList} />
+      <AttakmiliPage page={pages.attakmili || {}} active={isViewActive && activeTab === "attakmili"} />
+      <OffresPage offresIntro={offresIntro} offresList={offresList} />
       <MobilitePage page={pages.mobilite || {}} />
-      <EnquetesPage page={pages.enquetes || {}} active={isViewActive && activeTab === "enquetes"} />
-      <ForumsPage page={pages.forums || {}} />
+      <FormationPage pageId="page-rh-formation" page={pages.formation || {}} documents={formationGedState.documents} loading={formationGedState.loading} apiEnabled={shouldUseDocumentsApi()} />
+      <EnquetesPage page={pages.enquetes || {}} />
     </div>
   );
 }

@@ -5,6 +5,7 @@
     "dashboardCards": [
       {
         "type": "docList",
+        "enabled": false,
         "title": "Gouvernance",
         "icon": "landmark",
         "iconClass": "purple",

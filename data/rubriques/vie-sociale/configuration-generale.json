@@ -1,12 +1,49 @@
 {
   "rubrique": "vie-sociale",
-  "contenu": "Configuration de la Vie sociale",
+  "contenu": "Configuration de Bien être & Vie sociale",
   "data": {
     "vieSocialeHeader": {
-      "title": "Espace Vie Sociale",
-      "description": "Renforcez la cohésion interne : Événements, Galerie photos et Capsules vidéo."
+      "title": "Bien être & Vie sociale",
+      "description": "Un espace dédié au bien-être, à la santé et à la vie sociale des collaborateurs."
     },
-    "vieSocialeIntro": "Valorisez la vie sociale et l'engagement collaborateur : événements, photos et initiatives collaboratives.",
+    "bienEtre": {
+      "title": "Bien être",
+      "description": "Consultez les services et dispositifs dédiés au bien-être des collaborateurs.",
+      "blocks": [
+        {
+          "title": "Médecin de travail",
+          "icon": "stethoscope",
+          "iconClass": "blue"
+        },
+        {
+          "title": "Comité hygiène & sécurité",
+          "icon": "shield-check",
+          "iconClass": "orange"
+        },
+        {
+          "title": "Soutien psychologique",
+          "icon": "heart-handshake",
+          "iconClass": "green"
+        }
+      ]
+    },
+    "vieSocialeIntro": {
+      "title": "Bienvenue dans l’espace Vie Sociale de la CMR",
+      "paragraphs": [
+        "La Vie Sociale contribue à renforcer la cohésion, le bien-être et la convivialité au sein de la CMR.",
+        "À travers des actions sportives, culturelles, solidaires et de sensibilisation, elle favorise les échanges, le partage et le vivre-ensemble entre collaborateurs.",
+        "Encadrée par une Charte de la Vie Sociale et animée par un Comité de la Vie Sociale, cette dynamique s’inscrit dans une démarche de participation et d’amélioration continue.",
+        "Cet espace vous permet de découvrir les actions réalisées, suivre les événements à venir et partager vos idées."
+      ],
+      "emphasis": [
+        "Vie Sociale",
+        "actions sportives, culturelles, solidaires et de sensibilisation",
+        "Charte de la Vie Sociale",
+        "Comité de la Vie Sociale",
+        "découvrir les actions réalisées, suivre les événements à venir et partager vos idées"
+      ],
+      "highlight": "Ensemble, faisons vivre la convivialité, la solidarité et l’esprit d’équipe au sein de la CMR."
+    },
     "vieSocialeEventsTitle": "Événements & Initiatives",
     "vieSocialeGalleryTitle": "Galerie Vie Sociale",
     "vieSocialeGalleryMoreLabel": "Voir tout"

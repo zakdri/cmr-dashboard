@@ -21,6 +21,10 @@
     {
       "contenu": "Applications - Support & IT",
       "fichier": "categories/support-informatique.json"
+    },
+    {
+      "contenu": "Applications CMR",
+      "fichier": "categories/applications-cmr.json"
     }
   ]
 }

@@ -7,6 +7,7 @@ function getRegData() {
     header: data.regHeader || {},
     pages: data.regPages || {},
     summaries: data.regSectionSummaries || {},
+    sections: data.regSectionConfig || {},
   };
 }
 
@@ -166,9 +167,24 @@ function LegalRegPage({ id, page, defaultVisible = false }) {
   );
 }
 
-function RegDocumentPage({ id, page }) {
+function RegDocumentPage({ id, page, folders = [], filterLabels = {}, includeAllFilter = true, defaultFolder = "all", defaultVisible = false }) {
+  const folderFilters = folders.map((folder) => ({
+    label: filterLabels[folder] || folder,
+    value: folder,
+    active: !includeAllFilter && folder === defaultFolder,
+  }));
+  const filters = folders.length
+    ? includeAllFilter
+      ? [{ label: "Tous", value: "all", active: true }, ...folderFilters]
+      : folderFilters
+    : [];
+
   return (
-    <div id={`page-reg-${id}`} className="km-tab-content" style={{ display: "none" }}>
+    <div
+      id={`page-reg-${id}`}
+      className="km-tab-content"
+      style={{ display: defaultVisible ? "block" : "none" }}
+    >
       <SimpleCardPage page={page || {}}>
         <div style={{ padding: 18 }}>
           {page?.description && (
@@ -188,7 +204,7 @@ function RegDocumentPage({ id, page }) {
             placeholder={page?.searchPlaceholder || "Rechercher un document..."}
             onInput={`renderRegDocumentDocs('${id}')`}
           />
-          <DocumentFilterButtons filters={page?.filters} pageId={id} />
+          <DocumentFilterButtons filters={filters} pageId={id} />
           <div id={`regDocumentList-${id}`} className="doc-list" />
         </div>
       </SimpleCardPage>
@@ -197,7 +213,8 @@ function RegDocumentPage({ id, page }) {
 }
 
 export default function ReglementationSection() {
-  const { header, pages, summaries } = getRegData();
+  const { header, pages, summaries, sections } = getRegData();
+  const folders = Object.values(sections).flatMap((section) => section.subs || []);
 
   return (
     <>
@@ -226,10 +243,10 @@ export default function ReglementationSection() {
             color: "var(--text-light)",
             fontSize: 13,
             lineHeight: 1.7,
-            margin: summaries.referentiels ? "0 0 12px" : 0,
+            margin: summaries.modeles ? "0 0 12px" : 0,
           }}
         >
-          {summaries.referentiels}
+          {summaries.modeles}
         </div>
         <div
           className="km-navbar"
@@ -246,19 +263,18 @@ export default function ReglementationSection() {
           }}
         ></div>
 
-        <LegalRegPage
-          id="legal-gouvernance"
-          page={pages["legal-gouvernance"]}
-          defaultVisible
-        />
-        <LegalRegPage id="regime-civil" page={pages["regime-civil"]} />
-        <LegalRegPage id="regime-militaire" page={pages["regime-militaire"]} />
-        <LegalRegPage id="regime-non-cotisants" page={pages["regime-non-cotisants"]} />
-        <RegDocumentPage id="notes-juridiques" page={pages["notes-juridiques"]} />
-        <RegDocumentPage id="prises-position" page={pages["prises-position"]} />
-        <RegDocumentPage id="modeles" page={pages.modeles} />
-        <RegDocumentPage id="jurisprudence" page={pages.jurisprudence} />
-        <RegDocumentPage id="veille-juridique" page={pages["veille-juridique"]} />
+        {folders.map((folder, index) => (
+          <RegDocumentPage
+            key={folder.id}
+            id={folder.id}
+            page={pages[folder.id]}
+            folders={folder.folders}
+            filterLabels={folder.filterLabels}
+            includeAllFilter={folder.includeAllFilter}
+            defaultFolder={folder.defaultFolder}
+            defaultVisible={index === 0}
+          />
+        ))}
 
         <div id="page-reg-textes" className="km-tab-content" style={{ display: "none" }}>
           <SimpleCardPage page={pages.textes || {}}>

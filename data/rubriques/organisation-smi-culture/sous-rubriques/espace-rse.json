@@ -1,0 +1,66 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Espace RSE",
+  "data": {
+    "orgGovRsePortal": {
+      "gedFolder": "RSE",
+      "banner": {
+        "tagline": "Ensemble, construisons une CMR citoyenne, responsable et durable",
+        "logo": "images/intranet/rse/logo-rse.png"
+      },
+      "presentation": {
+        "title": "Présentation de la démarche RSE",
+        "visual": "images/intranet/rse/domaines-engagement-rse.png",
+        "paragraphs": [
+          "Dans un contexte national marqué par une transformation profonde du modèle de développement, portée par la Vision Royale et la mise en œuvre de la Stratégie Nationale de Développement Durable, la Caisse Marocaine des Retraites (CMR) s’inscrit pleinement dans cette dynamique en plaçant la responsabilité, la transparence, la durabilité et l’éthique au cœur de son modèle de gouvernance.",
+          "Fidèle à ses valeurs de client-centric, de collaboration, d’agilité, d’innovation et de durabilité, la CMR affirme son rôle d’institution publique citoyenne engagée au service du bien commun et du développement durable.",
+          "La Responsabilité Sociétale des Entreprises (RSE) constitue pour la CMR un levier de performance, de transformation et d’exemplarité, intégrant les enjeux environnementaux, sociaux et de gouvernance (ESG) dans l’ensemble de ses activités et décisions.",
+          "Structurée autour de six domaines et treize engagements, la démarche RSE s’appuie sur la norme ISO 26000, les Objectifs de Développement Durable (ODD) et les orientations nationales en matière de développement durable, de politique climatique et de performance publique responsable.",
+          "Elle est déployée à travers une feuille de route participative, construite avec les parties prenantes, afin de renforcer l’impact positif de la CMR dans son écosystème."
+        ]
+      },
+      "politiques": {
+        "title": "Politiques RSE",
+        "description": "Cette sous-rubrique regroupe les politiques formalisant les orientations et engagements institutionnels de la CMR en matière de responsabilité sociétale.",
+        "folder": "Politiques RSE",
+        "items": ["Politique RSE", "Politique Achats Responsables"]
+      },
+      "domains": {
+        "title": "Domaines d’Engagement RSE",
+        "description": "Cette sous-rubrique présente les domaines d’engagement de la CMR, leurs objectifs et les engagements associés.",
+        "folder": "Domaines d’Engagement RSE",
+        "items": [
+          { "title": "Engagements de Gouvernance", "objective": "Garantir l’engagement de bonne gouvernance à tous les niveaux", "color": "#123b78" },
+          { "title": "Engagements pour l’Humain", "objective": "Assumer pleinement notre responsabilité d’employeur", "color": "#e86100" },
+          { "title": "Engagements Éthiques", "objective": "Assurer avec loyauté et intégrité notre responsabilité dans la conduite des affaires", "color": "#a60055" },
+          { "title": "Engagements Client-Centric", "objective": "Mettre le client au centre de nos décisions et actions", "color": "#009ebd" },
+          { "title": "Engagements de Développement Sociétal", "objective": "S’engager pleinement auprès de nos partenaires et des communautés", "color": "#d6a600" },
+          { "title": "Engagements pour l’Environnement", "objective": "Respecter l’environnement et réduire notre empreinte écologique", "color": "#65a918" }
+        ]
+      },
+      "documents": {
+        "title": "Documents de référence RSE",
+        "description": "Cette sous-rubrique regroupe les documents structurants qui encadrent la démarche RSE de la CMR et précisent ses principes, ses engagements et ses règles de conduite.",
+        "folder": "Documents de référence RSE",
+        "items": ["Manuel RSE", "Charte RSE", "Code d’Éthique"]
+      },
+      "governance": {
+        "title": "Organisation et Gouvernance RSE",
+        "description": "Cette sous-rubrique présente le dispositif mis en place pour piloter, animer, suivre et améliorer la démarche RSE.",
+        "folder": "Organisation et Gouvernance RSE",
+        "actors": ["Responsable RSE", "Sponsor RSE", "Référent RSE", "Comité RSE"]
+      },
+      "evaluation": {
+        "title": "Évaluation RSE",
+        "description": "Diffusion des certificats, attestations de maturité et labels RSE obtenus par la CMR.",
+        "folder": "Evaluation RSE"
+      },
+      "resources": {
+        "title": "Ressources RSE",
+        "description": "Espace de sensibilisation, de formation et de partage de connaissances autour de la RSE.",
+        "folder": "Ressources RSE",
+        "categories": ["Normes et standards RSE", "Guides pratiques", "Vidéos", "Ouvrages et liens utiles"]
+      }
+    }
+  }
+}

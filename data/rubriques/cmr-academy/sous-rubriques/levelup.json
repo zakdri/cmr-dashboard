@@ -5,9 +5,9 @@
     "academyPages": {
       "levelup": {
         "description": "Level Up organise les contenus de montée en compétences par domaine métier et centralise les workflows de demande de formation transférés depuis Mes Services RH.",
-        "filterTitle": "Domaines métiers",
+        "filterTitle": "Thèmes",
         "searchPlaceholder": "Rechercher un contenu Level Up...",
-        "themeFilterTitle": "Thèmes",
+        "showThemeFilter": false,
         "domains": [
           "Gestion de la retraite",
           "Gestion du portefeuille financier",

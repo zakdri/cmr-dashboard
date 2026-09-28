@@ -7,54 +7,24 @@
     },
     "cmrNewsItems": [
       {
-        "id": "cmr-actu-contrat",
-        "category": "CMR Actualités",
-        "text": "Signature du nouveau contrat programme État-CMR pour la période 2026-2028."
+        "id": "bornes-information-sila",
+        "category": "Flash Infos",
+        "text": "De nouvelles bornes d'information arrivent dans nos espaces صلة"
       },
       {
-        "id": "rh-eval",
-        "category": "RH",
-        "text": "Campagne d'évaluation annuelle lancée – Date limite le 28 février."
+        "id": "nouvel-intranet-cmr",
+        "category": "Flash Infos",
+        "text": "Découvrez le nouvel intranet de la CMR"
       },
       {
-        "id": "it-maint-paie",
-        "category": "IT",
-        "text": "Maintenance prévue sur le serveur \"Paie\" ce vendredi à 18h00."
+        "id": "simplification-procedures-8-2026",
+        "category": "Flash Infos",
+        "text": "نبسط المساطر من أجل مرتفقينا، المنشور رقم 8/2026"
       },
       {
-        "id": "social-colonies",
-        "category": "Social",
-        "text": "Inscriptions ouvertes pour les colonies de vacances 2026."
-      },
-      {
-        "id": "innovation-digitpasse",
-        "category": "Innovation",
-        "text": "Félicitations à l'équipe \"Digit-Passe\" pour le prix de l'innovation !"
-      },
-      {
-        "id": "strategie-roadmap",
-        "category": "Stratégie",
-        "text": "Lancement de la feuille de route digitale 2026."
-      },
-      {
-        "id": "partenariat-cnops",
-        "category": "Partenariat",
-        "text": "Accord signé avec la CNOPS pour l'échange de données."
-      },
-      {
-        "id": "formation-elearning",
-        "category": "Formation",
-        "text": "Nouveaux modules e-learning disponibles sur CMR Academy."
-      },
-      {
-        "id": "gouv-audit",
-        "category": "Gouvernance",
-        "text": "Réunion du comité d'audit prévue le 15 mars."
-      },
-      {
-        "id": "climat-social",
-        "category": "Climat Social",
-        "text": "Enquête de satisfaction interne : Taux de participation de 85%."
+        "id": "smacaf-support-sensibilisation",
+        "category": "Flash Infos",
+        "text": "SMACAF Accéder au support de sensibilisation"
       }
     ],
     "dashboardNews": {
@@ -65,48 +35,41 @@
       "actionHandler": "goToActualites(); return false;",
       "slides": [
         {
-          "title": "Signature du nouveau contrat programme Etat-CMR 2026-2028",
-          "meta": "Portée Stratégique • Hier",
-          "image": "images/intranet/news_contract.jpg",
-          "alt": "Signature Contrat Programme",
-          "handler": "goToActualites(1); return false;"
-        },
-        {
           "title": "Tenue de la session ordinaire du Conseil d'Administration",
-          "meta": "Gouvernance • 2 jours",
+          "meta": "Gouvernance • 12/01/2026",
           "image": "images/intranet/news_board.jpg",
           "alt": "Conseil d'Administration",
           "handler": "goToActualites(2); return false;"
         },
         {
-          "title": "Lancement des nouveaux ateliers de la \"CMR Academy\"",
-          "meta": "Formation & Développement • 1 semaine",
-          "image": "images/intranet/news_academy.jpg",
-          "alt": "CMR Academy",
-          "handler": "goToActualites(5); return false;"
+          "title": "Signature du nouveau contrat-programme État-CMR 2025-2027",
+          "meta": "Portée Stratégique • 12/01/2026",
+          "image": "images/intranet/news_contract.jpg",
+          "alt": "Signature Contrat Programme",
+          "handler": "goToActualites(1); return false;"
         }
       ],
       "miniItems": [
+        {
+          "title": "Tenue de la session ordinaire du Conseil d'Administration",
+          "meta": "Gouvernance • 12/01/2026",
+          "image": "images/intranet/news_board.jpg",
+          "alt": "Conseil d'Administration",
+          "handler": "goToActualites(2); return false;"
+        },
+        {
+          "title": "Signature du nouveau contrat-programme État-CMR 2025-2027",
+          "meta": "Portée Stratégique • 12/01/2026",
+          "image": "images/intranet/news_contract.jpg",
+          "alt": "Signature Contrat Programme",
+          "handler": "goToActualites(1); return false;"
+        },
         {
           "title": "Déploiement de la solution de signature électronique",
           "meta": "Direction Digitale • Janv 2026",
           "image": "images/intranet/slider_cmr_tech.png",
           "alt": "Signature Electronique",
           "handler": "goToActualites(3); return false;"
-        },
-        {
-          "title": "Résultats de la campagne d'innovation \"Digit-Passe\"",
-          "meta": "Comité Innovation • 3 jours",
-          "image": "images/intranet/slider2.png",
-          "alt": "Innovation",
-          "handler": "goToActualites(4); return false;"
-        },
-        {
-          "title": "Lancement du programme de formation \"CMR Academy\"",
-          "meta": "Ressources Humaines • 1 semaine",
-          "image": "images/intranet/slider3.png",
-          "alt": "RH",
-          "handler": "goToActualites(5); return false;"
         }
       ]
     },
@@ -141,33 +104,33 @@
       "title": "Services & Accès utiles",
       "items": [
         {
-          "label": "HelpDesk",
+          "label": "Helpdesk",
           "icon": "life-buoy",
-          "url": "#sitd/glpi",
-          "handler": "switchView('sitd'); switchSitdSection('exploitation'); switchSitdSub('glpi'); return false;"
+          "url": "http://pc/",
+          "target": "_blank"
         },
         {
-          "label": "Mobilité spontanée",
+          "label": "Demande de mobilité",
           "icon": "route",
           "url": "#rh/mobilite",
-          "handler": "switchView('rh'); switchRhPageTab('mobilite'); return false;"
+          "handler": "openSubmenuView('rh','mobilite'); return false;"
         },
         {
-          "label": "Formation spontanée",
+          "label": "Demande de formation",
           "icon": "graduation-cap",
-          "url": "#academy/formation",
-          "handler": "switchView('academy'); switchAcademyPageTab('formation'); return false;"
-        },
-        {
-          "label": "Réservation de salles",
-          "icon": "door-open",
-          "url": "#agenda-interne",
-          "handler": "switchView('agenda-interne'); return false;"
+          "url": "#rh/formation",
+          "handler": "openSubmenuView('rh','formation'); return false;"
         },
         {
           "label": "Outlook",
           "icon": "mail",
           "url": "https://outlook.office.com/mail/",
+          "target": "_blank"
+        },
+        {
+          "label": "Espace PGP",
+          "icon": "globe-2",
+          "url": "http://172.17.100.180:8080/moovapps/easysite/pgp",
           "target": "_blank"
         }
       ]
@@ -182,34 +145,28 @@
         "actionHandler": "switchView('applis'); return false;",
         "items": [
           {
-            "label": "SIRH",
-            "icon": "users",
-            "background": "linear-gradient(135deg, #0ea5e9, #0284c7)"
+            "label": "ERSAL",
+            "icon": "send",
+            "href": "http://ersal:8080/WERSAL/",
+            "background": "#256cb5"
           },
           {
-            "label": "Paie",
-            "icon": "banknote",
-            "background": "linear-gradient(135deg, #6366f1, #4f46e5)"
+            "label": "CRM",
+            "icon": "contact-round",
+            "href": "https://crm.cmr.gov.ma/CRMPROD/main.aspx",
+            "background": "#256cb5"
           },
           {
-            "label": "GED",
+            "label": "OPEN TEXT",
             "icon": "folder-open",
-            "background": "linear-gradient(135deg, #a855f7, #9333ea)"
+            "href": "https://ged.cmr.intra/",
+            "background": "#256cb5"
           },
           {
-            "label": "Support",
+            "label": "HELPDESK",
             "icon": "life-buoy",
-            "background": "linear-gradient(135deg, #ec4899, #db2777)"
-          },
-          {
-            "label": "Com",
-            "icon": "megaphone",
-            "background": "linear-gradient(135deg, #10b981, #059669)"
-          },
-          {
-            "label": "Annuaire",
-            "icon": "book-user",
-            "background": "linear-gradient(135deg, #f59e0b, #d97706)"
+            "href": "http://pc/",
+            "background": "#256cb5"
           }
         ]
       },
@@ -246,7 +203,8 @@
             "label": "Satisfaction",
             "icon": "star"
           }
-        ]
+        ],
+        "enabled": false
       },
       {
         "type": "stats",
@@ -275,39 +233,78 @@
             "label": "Postes vacants",
             "icon": "user-plus"
           }
-        ]
+        ],
+        "enabled": false
       },
       {
         "type": "docList",
-        "title": "Widgets dynamiques",
-        "icon": "sparkles",
+        "title": "ATTAKMILI",
+        "icon": "shield-plus",
         "iconClass": "blue",
-        "actionLabel": "Actualiser",
-        "actionIcon": "refresh-cw",
+        "actionLabel": "Voir plus",
+        "actionHandler": "openSubmenuView('rh','attakmili'); return false;",
+        "actionIcon": "arrow-right",
         "actionNoWrap": true,
+        "source": "attakmiliDocuments",
         "items": [
           {
-            "badge": "EVT",
-            "title": "Événements",
-            "meta": "À venir • Agenda personnel & Calendrier CMR",
+            "badge": "01",
+            "title": "ATTAKMILI PLUS en bref",
+            "meta": "Aucun document disponible",
             "background": "#eff6ff",
             "color": "#256cb5",
             "icon": "chevron-right",
-            "handler": "switchView('agenda-interne'); return false;"
+            "folderPath": [
+              "ATTAKMILI PLUS",
+              "ATTAKMILI PLUS en bref"
+            ],
+            "handler": "openSubmenuView('rh','attakmili'); return false;"
           },
           {
-            "badge": "ALT",
-            "title": "Alertes",
-            "meta": "Infos importantes • À surveiller",
+            "badge": "02",
+            "title": "Note sur ATTAKMILI PLUS",
+            "meta": "Aucun document disponible",
             "background": "#fff7ed",
             "color": "#ea580c",
             "icon": "chevron-right",
-            "handler": "switchView('alertes'); return false;"
+            "folderPath": [
+              "ATTAKMILI PLUS",
+              "Note sur ATTAKMILI PLUS"
+            ],
+            "handler": "openSubmenuView('rh','attakmili'); return false;"
+          },
+          {
+            "badge": "03",
+            "title": "Formulaires",
+            "meta": "Aucun document disponible",
+            "background": "#f0fdf4",
+            "color": "#16a34a",
+            "icon": "chevron-right",
+            "folderPath": [
+              "ATTAKMILI PLUS",
+              "Formulaires"
+            ],
+            "handler": "openSubmenuView('rh','attakmili'); return false;"
+          },
+          {
+            "badge": "04",
+            "title": "Accompagnement",
+            "meta": "Aucun contenu disponible",
+            "background": "#f5f3ff",
+            "color": "#7c3aed",
+            "icon": "chevron-right",
+            "folderPath": [
+              "ATTAKMILI PLUS",
+              "Accompagnement",
+              "Contenu textuel"
+            ],
+            "handler": "openSubmenuView('rh','attakmili'); return false;"
           }
         ]
       },
       {
         "type": "docList",
+        "enabled": false,
         "title": "Gouvernance",
         "icon": "landmark",
         "iconClass": "purple",
@@ -339,6 +336,7 @@
       },
       {
         "type": "docList",
+        "source": "rhRecentDocuments",
         "title": "Vie RH",
         "icon": "users-round",
         "iconClass": "green",
@@ -373,7 +371,7 @@
       },
       {
         "type": "docList",
-        "title": "Vie Sociale",
+        "title": "Bien être & Vie sociale",
         "icon": "calendar-clock",
         "iconClass": "blue",
         "actionLabel": "Voir plus",
@@ -447,27 +445,13 @@
           {
             "id": "rex",
             "label": "REX",
-            "items": [
-              {
-                "iconBadge": "rss",
-                "title": "REX – Refonte intranet: adoption",
-                "meta": "Projet • Avr 2026",
-                "background": "#f0fdf4",
-                "color": "#16a34a"
-              },
-              {
-                "iconBadge": "trending-up",
-                "title": "REX – Processus tickets IT",
-                "meta": "Processus • Mars 2026",
-                "background": "#fdf4ff",
-                "color": "#d946ef"
-              }
-            ]
+            "items": []
           }
         ]
       },
       {
         "type": "docList",
+        "enabled": false,
         "title": "Annuaire",
         "icon": "book-user",
         "iconClass": "green",
@@ -505,6 +489,7 @@
       },
       {
         "type": "ideas",
+        "enabled": false,
         "title": "Capital Idées",
         "icon": "lightbulb",
         "iconClass": "pink",
@@ -535,7 +520,7 @@
           "background": "var(--cmr-primary)",
           "color": "white"
         },
-        "text": "\"L'innovation distingue les leaders des suiveurs. Notre ambition est de transformer chaque défi en opportunité de croissance.\""
+        "text": "« Seul, on va plus vite, ensemble, on va plus loin. »"
       },
       "mood": {
         "title": "Humeur du jour",
@@ -633,17 +618,35 @@
         "cmrItems": [
           {
             "month": "FÉV",
-            "day": "15",
-            "monthBackground": "#ef4444",
-            "title": "Assemblée Générale",
-            "meta": "Auditorium Principal"
+            "day": "11",
+            "monthBackground": "#256cb5",
+            "title": "Journées d’intégration des nouveaux collaborateurs 2026",
+            "meta": "11 février 2026",
+            "date": "2026-02-11"
+          },
+          {
+            "month": "FÉV",
+            "day": "12",
+            "monthBackground": "#256cb5",
+            "title": "Journées d’intégration des nouveaux collaborateurs 2026",
+            "meta": "12 février 2026",
+            "date": "2026-02-12"
+          },
+          {
+            "month": "FÉV",
+            "day": "13",
+            "monthBackground": "#256cb5",
+            "title": "Journées d’intégration des nouveaux collaborateurs 2026",
+            "meta": "13 février 2026",
+            "date": "2026-02-13"
           },
           {
             "month": "MAR",
             "day": "08",
-            "monthBackground": "#3b82f6",
-            "title": "Journée de la Femme",
-            "meta": "Événement Interne"
+            "monthBackground": "#256cb5",
+            "title": "Ftour dînatoire en l’honneur des femmes de la CMR",
+            "meta": "8 mars 2026",
+            "date": "2026-03-08"
           }
         ]
       },
@@ -676,8 +679,8 @@
           "color": "white"
         },
         "badge": "LIVE",
-        "subject": "Maintenance Serveur",
-        "description": "Ce soir à partir de 18h00. Indisponibilité estimée: 2h."
+        "subject": "De nouvelles bornes d'information arrivent dans nos espaces صلة",
+        "description": ""
       }
     }
   }

@@ -27,6 +27,7 @@
         "title": "Indicateurs",
         "description": "Pilotage des indicateurs clés des achats.",
         "summary": "Cette rubrique présente les principaux indicateurs de pilotage des achats afin de donner une lecture synthétique de l'activité : appels d'offres lancés, avancement du PPA, factures reçues et délais moyens de certification.",
+        "updatedAt": "Dernière mise à jour le 23/09/2026",
         "icon": "bar-chart-3",
         "iconStyle": {
           "background": "#f0fdf4",
@@ -35,19 +36,19 @@
         "metrics": [
           {
             "label": "AO lancés",
-            "value": "24"
+            "value": "33"
           },
           {
             "label": "Taux réalisation PPA",
-            "value": "68%"
+            "value": "71,74%"
           },
           {
             "label": "Factures reçues",
-            "value": "143"
+            "value": "278"
           },
           {
             "label": "Délai moyen certification",
-            "value": "4,8 j"
+            "value": "11,84 j"
           }
         ]
       },
@@ -112,7 +113,8 @@
         ]
       },
       {
-        "title": "Bibliothèque documentaire des CPS",
+        "title": "Recueil des CPS",
+        "gedFolder": "Recueil des CPS",
         "description": "Classement hiérarchique par année, appel d'offres puis CPS PDF.",
         "summary": "Cette bibliothèque organise les CPS par année puis par appel d'offres. Elle permet de retrouver rapidement le CPS associé à un dossier et de consulter les versions PDF disponibles.",
         "icon": "folder-tree",
@@ -123,31 +125,7 @@
         "tree": [
           {
             "year": "2026",
-            "children": [
-              {
-                "title": "AO 12/2026 - Prestations digitales",
-                "docs": [
-                  "CPS_AO_12_2026.pdf"
-                ]
-              },
-              {
-                "title": "AO 08/2026 - Fournitures",
-                "docs": [
-                  "CPS_AO_08_2026.pdf"
-                ]
-              }
-            ]
-          },
-          {
-            "year": "2025",
-            "children": [
-              {
-                "title": "AO 31/2025 - Maintenance",
-                "docs": [
-                  "CPS_AO_31_2025.pdf"
-                ]
-              }
-            ]
+            "children": []
           }
         ]
       }

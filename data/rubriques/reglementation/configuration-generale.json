@@ -4,129 +4,105 @@
   "data": {
     "regHeader": {
       "title": "Espace Réglementaire",
-      "description": "L’espace Réglementaire centralise les textes juridiques, notes, modèles, jurisprudences et contenus de veille utiles à la consultation documentaire."
+      "description": "Consultez les documents réglementaires selon l’arborescence documentaire de référence."
     },
-    "regMainTabs": [
-      {
-        "label": "Légal & Réglementaires",
-        "tab": "referentiels"
-      },
-      {
-        "label": "Notes & Prise de position",
-        "tab": "notes-position"
-      },
-      {
-        "label": "Bibliothèque des modèles",
-        "tab": "modeles"
-      },
-      {
-        "label": "Jurisprudence",
-        "tab": "jurisprudence"
-      },
-      {
-        "label": "Veille juridique",
-        "tab": "veille-juridique"
-      }
-    ],
     "regSectionSummaries": {
-      "referentiels": "Les textes juridiques et réglementaires sont structurés par périmètre afin de faciliter la consultation publique des références applicables.",
-      "notes-position": "Cette rubrique centralise les notes et prises de position juridiques afin de partager les orientations et éclairages validés.",
-      "modeles": "La bibliothèque des modèles regroupe les modèles documentaires utiles aux travaux juridiques et réglementaires.",
-      "jurisprudence": "La rubrique Jurisprudence rassemble les décisions et références jurisprudentielles classées par thème.",
-      "veille-juridique": "La veille juridique présente les nouveautés et alertes réglementaires publiées par le métier Juridique."
+      "modeles": "Modèles documentaires de référence.",
+      "gouvernance": "Textes réglementaires relatifs à la gouvernance.",
+      "jurisprudence": "Décisions et documents liés au contentieux.",
+      "legal-reglementaire": "Référentiel légal et réglementaire classé par domaine.",
+      "veille-juridique": "Documents de veille juridique relatifs à la retraite."
     },
     "regSectionConfig": {
-      "referentiels": {
-        "subs": [
-          {
-            "id": "legal-gouvernance",
-            "label": "Gouvernance"
-          },
-          {
-            "id": "regime-civil",
-            "label": "Régime Civil"
-          },
-          {
-            "id": "regime-militaire",
-            "label": "Régime Militaire"
-          },
-          {
-            "id": "regime-non-cotisants",
-            "label": "Régime des non cotisants"
-          }
-        ],
-        "defaultSub": "legal-gouvernance"
-      },
-      "notes-position": {
-        "subs": [
-          {
-            "id": "notes-juridiques",
-            "label": "Notes"
-          },
-          {
-            "id": "prises-position",
-            "label": "Prise de position"
-          }
-        ],
-        "defaultSub": "notes-juridiques"
-      },
       "modeles": {
         "subs": [
-          {
-            "id": "modeles",
-            "label": "Bibliothèque des modèles"
-          }
+          { "id": "bibliotheque-modeles", "label": "Bibliothèque des modèles", "path": "Bibliothèque des modèles" }
         ],
-        "defaultSub": "modeles"
+        "defaultSub": "bibliotheque-modeles"
+      },
+      "gouvernance": {
+        "subs": [
+          { "id": "gouvernance-arretes", "label": "Arrêtés", "path": "Gouvernance/Arrêtés" }
+        ],
+        "defaultSub": "gouvernance-arretes"
       },
       "jurisprudence": {
         "subs": [
-          {
-            "id": "jurisprudence",
-            "label": "Jurisprudence"
-          }
+          { "id": "jurisprudence-contentieux", "label": "Contentieux", "path": "Jurisprudence/Contentieux" }
         ],
-        "defaultSub": "jurisprudence"
+        "defaultSub": "jurisprudence-contentieux"
+      },
+      "legal-reglementaire": {
+        "subs": [
+          { "id": "legal-divers", "label": "Divers", "path": "Légal & Réglementaires/Divers" },
+          { "id": "legal-environnement", "label": "Environnement", "path": "Légal & Réglementaires/Environnement" },
+          { "id": "legal-finance-comptabilite", "label": "Finance et comptabilité", "path": "Légal & Réglementaires/Finance et comptabilité" },
+          { "id": "legal-gouvernance", "label": "Gouvernance", "path": "Légal & Réglementaires/Gouvernance", "folders": ["Arrêtés", "Décrets", "Lois"] },
+          { "id": "legal-marches-publics", "label": "Marchés publics", "path": "Légal & Réglementaires/Marchés publics" },
+          { "id": "legal-prestations-tiers", "label": "Prestations pour le compte des tiers", "path": "Légal & Réglementaires/Prestations pour le compte des tiers" },
+          {
+            "id": "legal-regime-civil",
+            "label": "Régime civil",
+            "path": "Légal & Réglementaires/Régime civil",
+            "folders": ["Arrêtés", "Circulaires", "Décrets", "Lois"],
+            "filterLabels": { "Circulaires": "Circulaire" },
+            "includeAllFilter": false,
+            "defaultFolder": "Arrêtés"
+          },
+          { "id": "legal-regime-complementaire", "label": "Régime complémentaire", "path": "Légal & Réglementaires/Régime complémentaire" },
+          {
+            "id": "legal-regime-non-cotisants",
+            "label": "Régime des non-cotisants",
+            "path": "Légal & Réglementaires/Régime des non-cotisants",
+            "folders": ["Arrêtés", "Lois"],
+            "includeAllFilter": false,
+            "defaultFolder": "Arrêtés"
+          },
+          {
+            "id": "legal-regime-militaires",
+            "label": "Régime militaires",
+            "path": "Légal & Réglementaires/Régime militaires",
+            "folders": ["Arrêtés", "Décrets", "Lois"],
+            "includeAllFilter": false,
+            "defaultFolder": "Arrêtés"
+          },
+          { "id": "legal-regime-particulier", "label": "Régime particulier", "path": "Légal & Réglementaires/Régime particulier" },
+          { "id": "legal-sst", "label": "Santé et sécurité au travail (SST)", "path": "Légal & Réglementaires/Santé et sécurité au travail (SST)" },
+          { "id": "legal-si-transformation", "label": "Systèmes d’information et transformation numérique", "path": "Légal & Réglementaires/Systèmes d’information et transformation numérique" }
+        ],
+        "defaultSub": "legal-divers"
       },
       "veille-juridique": {
         "subs": [
-          {
-            "id": "veille-juridique",
-            "label": "Veille juridique"
-          }
+          { "id": "veille-retraite", "label": "Retraite", "path": "Veille juridique/Retraite" }
         ],
-        "defaultSub": "veille-juridique"
+        "defaultSub": "veille-retraite"
       }
+    },
+    "regPages": {
+      "bibliotheque-modeles": { "title": "Bibliothèque des modèles", "icon": "library", "iconClass": "blue" },
+      "gouvernance-arretes": { "title": "Gouvernance · Arrêtés", "icon": "landmark", "iconClass": "green" },
+      "jurisprudence-contentieux": { "title": "Jurisprudence · Contentieux", "icon": "scale", "iconClass": "pink" },
+      "legal-divers": { "title": "Divers", "icon": "folder", "iconClass": "blue" },
+      "legal-environnement": { "title": "Environnement", "icon": "leaf", "iconClass": "green" },
+      "legal-finance-comptabilite": { "title": "Finance et comptabilité", "icon": "calculator", "iconClass": "blue" },
+      "legal-gouvernance": { "title": "Gouvernance", "icon": "landmark", "iconClass": "green" },
+      "legal-marches-publics": { "title": "Marchés publics", "icon": "briefcase-business", "iconClass": "orange" },
+      "legal-prestations-tiers": { "title": "Prestations pour le compte des tiers", "icon": "handshake", "iconClass": "blue" },
+      "legal-regime-civil": { "title": "Régime civil", "icon": "file-text", "iconClass": "blue" },
+      "legal-regime-complementaire": { "title": "Régime complémentaire", "icon": "files", "iconClass": "green" },
+      "legal-regime-non-cotisants": { "title": "Régime des non-cotisants", "icon": "users", "iconClass": "pink" },
+      "legal-regime-militaires": { "title": "Régime militaires", "icon": "shield", "iconClass": "orange" },
+      "legal-regime-particulier": { "title": "Régime particulier", "icon": "file-check", "iconClass": "blue" },
+      "legal-sst": { "title": "Santé et sécurité au travail (SST)", "icon": "heart-pulse", "iconClass": "pink" },
+      "legal-si-transformation": { "title": "Systèmes d’information et transformation numérique", "icon": "monitor-cog", "iconClass": "blue" },
+      "veille-retraite": { "title": "Veille juridique · Retraite", "icon": "radar", "iconClass": "green" }
     },
     "regLabels": {
       "consultLabel": "Consulter",
       "downloadLabel": "Télécharger",
-      "openLabel": "Ouvrir",
-      "browseLabel": "Parcourir",
-      "submitLabel": "Soumettre",
-      "publishLabel": "Publier",
-      "rejectLabel": "Rejeter",
-      "validateLabel": "Valider",
-      "newContentTitle": "Nouveau contenu (brouillon)",
-      "newContentType": "Document",
-      "draftStatus": "Brouillon",
-      "validationStatus": "En validation",
-      "publishedStatus": "Publié",
-      "createdPrefix": "Création:",
-      "statusPrefix": "Statut:",
-      "validationPrefix": "Validation",
-      "rejectionPrefix": "Rejet",
-      "contentFallback": "Contenu",
-      "todayLabel": "Aujourd’hui",
-      "tagsLabel": "tags",
-      "archiveTagsLabel": "Tags",
-      "activeLabel": "Actif",
-      "archivedLabel": "Archivé",
       "noResult": "Aucun résultat.",
-      "noProcedure": "Aucune procédure.",
-      "searchPrompt": "Tapez un mot-clé pour lancer la recherche.",
-      "noPending": "Aucun élément en attente.",
-      "noDocument": "Aucun document."
+      "noDocument": "Aucun document dans ce dossier."
     }
   }
 }

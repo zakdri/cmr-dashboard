@@ -211,9 +211,10 @@ function openAgendaTab(tabName) {
 
         const GED_ROOT_PATH = 'Intranet CMR';
         const GED_DOCUMENTS_CHANGED_EVENT = 'cmr:ged-documents-changed';
-        const GED_SESSION_CACHE_PREFIX = 'cmr-ged-documents:';
+        const GED_SESSION_CACHE_PREFIX = 'cmr-ged-documents:v4:';
         const gedDocumentsCache = new Map();
         const gedDocumentsCacheSource = new Map();
+        const gedFoldersCache = new Map();
         const gedDocumentsState = new Map();
         let lastGedFocusRevalidation = 0;
         let gedNavigationRevision = 0;
@@ -260,17 +261,18 @@ function openAgendaTab(tabName) {
             documents: 'Documents RH',
             enquetes: 'Enquêtes RH',
             mobilite: 'Mobilité spontanée',
-            offres: 'Postes Vacants',
-            forums: 'Forums & Groupes'
+            offres: 'Postes Vacants'
         };
 
         const gedKmPathMap = {
             referentiels: 'Référentiels métiers',
             rex: 'REX',
+            contributions: 'Contributions',
+            campagnes: 'Contributions/Campagnes',
             docs: 'Documents partagés',
             livrables: 'Articles & bilans/Livrables',
             modeles: 'Articles & bilans/Modèles de documents',
-            publications: 'Articles & bilans/Publications et bilans',
+            publications: 'Articles & bilans',
             supports: 'Supports pédagogiques',
             'audit-risque': 'Audit risques et conformité',
             'integration-km': 'Intégration KM'
@@ -383,6 +385,7 @@ function openAgendaTab(tabName) {
             if (window.CMR_GED_DOCUMENTS?.fetchDocuments) {
                 const result = await window.CMR_GED_DOCUMENTS.fetchDocuments(path, options);
                 gedDocumentsCache.set(path, result.documents);
+                gedFoldersCache.set(path, result.folders || []);
                 gedDocumentsCacheSource.set(path, result.meta?.cache || 'miss');
                 return result.documents;
             }
@@ -411,14 +414,20 @@ function openAgendaTab(tabName) {
             const payload = await response.json();
             const documents = (Array.isArray(payload.data) ? payload.data : []).map(normalizeGedDocument);
             gedDocumentsCache.set(path, documents);
+            gedFoldersCache.set(path, Array.isArray(payload.folders) ? payload.folders : []);
             gedDocumentsCacheSource.set(path, payload.meta?.cache || 'miss');
             writeGedDocumentsSessionCache(path, documents);
             return documents;
         }
 
-        function refreshGedDocumentsState(path) {
+        function refreshGedDocumentsState(path, refreshAfterCurrentLoad = false) {
             const state = gedDocumentsState.get(path);
-            if (!state || state.loading) return;
+            if (!state) return;
+            if (state.loading) {
+                if (refreshAfterCurrentLoad) state.refreshRequested = true;
+                return;
+            }
+            state.refreshRequested = false;
             state.loading = true;
             fetchGedDocuments(path, { refresh: true })
                 .then(documents => {
@@ -492,7 +501,9 @@ function openAgendaTab(tabName) {
                     .finally(() => {
                         state.loading = false;
                         if (typeof state.renderAfterLoad === 'function') state.renderAfterLoad();
-                        if (gedDocumentsCacheSource.get(path) !== 'miss') refreshGedDocumentsState(path);
+                        if (state.refreshRequested || gedDocumentsCacheSource.get(path) !== 'miss') {
+                            refreshGedDocumentsState(path);
+                        }
                     });
             }
 
@@ -553,6 +564,47 @@ function openAgendaTab(tabName) {
             return `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun ${escapeHtml(label)}.</div>`;
         }
 
+        const GED_DOCUMENTS_PAGE_SIZE = 10;
+        const gedDocumentsPages = new Map();
+        const gedDocumentsPageRenderers = new Map();
+
+        function paginateGedDocuments(key, items, renderAfterPageChange) {
+            const normalizedKey = String(key || 'documents');
+            const totalPages = Math.max(1, Math.ceil(items.length / GED_DOCUMENTS_PAGE_SIZE));
+            const page = Math.min(Math.max(gedDocumentsPages.get(normalizedKey) || 1, 1), totalPages);
+            gedDocumentsPages.set(normalizedKey, page);
+            if (typeof renderAfterPageChange === 'function') {
+                gedDocumentsPageRenderers.set(normalizedKey, renderAfterPageChange);
+            }
+            return {
+                items: items.slice((page - 1) * GED_DOCUMENTS_PAGE_SIZE, page * GED_DOCUMENTS_PAGE_SIZE),
+                page,
+                totalPages
+            };
+        }
+
+        function renderGedDocumentsPagination(key, pagination) {
+            if (pagination.totalPages <= 1) return '';
+            const serializedKey = escapeHtml(JSON.stringify(String(key || 'documents')));
+            return `
+                <div class="cmr-position-pagination cmr-document-pagination">
+                    <button type="button" onclick="changeGedDocumentsPage(${serializedKey}, -1)" ${pagination.page === 1 ? 'disabled' : ''} aria-label="Page précédente">
+                        <i data-lucide="chevron-left"></i> Précédent
+                    </button>
+                    <span>Page <strong>${pagination.page}</strong> sur ${pagination.totalPages}</span>
+                    <button type="button" onclick="changeGedDocumentsPage(${serializedKey}, 1)" ${pagination.page === pagination.totalPages ? 'disabled' : ''} aria-label="Page suivante">
+                        Suivant <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function changeGedDocumentsPage(key, delta) {
+            const normalizedKey = String(key || 'documents');
+            gedDocumentsPages.set(normalizedKey, (gedDocumentsPages.get(normalizedKey) || 1) + delta);
+            gedDocumentsPageRenderers.get(normalizedKey)?.();
+        }
+
         function mergeGedFoldersWithSkeleton(skeleton, documents, fallbackLabel = 'Documents') {
             const documentGroups = groupGedDocumentsByFirstSegment(documents, fallbackLabel);
             const groupsByLabel = new Map(documentGroups.map(group => [normalizeGedText(group.label), group]));
@@ -591,7 +643,9 @@ function openAgendaTab(tabName) {
                 paths.push(joinGedPath(GED_ROOT_PATH, base, gedKmPathMap[submenuSelections.km] || submenuSelections.km));
             }
             if (viewId === 'sitd' && typeof sitdSub !== 'undefined') {
-                paths.push(joinGedPath(GED_ROOT_PATH, base, gedSitdPathMap[sitdSub] || sitdSub));
+                getSitdSourceSubIds(sitdSub).forEach(sourceSubId => {
+                    paths.push(joinGedPath(GED_ROOT_PATH, base, gedSitdPathMap[sourceSubId] || sourceSubId));
+                });
             }
             if ((viewId === 'reglementation') && typeof regSub !== 'undefined') {
                 paths.push(joinGedPath(GED_ROOT_PATH, base, regGedPathMap[regSub] || regSub));
@@ -652,19 +706,75 @@ function openAgendaTab(tabName) {
             return null;
         }
 
-        function openTickerDetail(newsId) {
+        const FLASH_INFO_IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'avif', 'svg']);
+
+        function normalizeFlashInfoImageText(value) {
+            return String(value || '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/\.[^.]+$/, '')
+                .toLowerCase()
+                .replace(/[^\p{L}\p{N}]+/gu, ' ')
+                .trim();
+        }
+
+        function findFlashInfoImage(documents, item) {
+            const newsText = normalizeFlashInfoImageText(item?.text);
+            const newsTokens = new Set(newsText.split(/\s+/).filter(Boolean));
+            return (documents || [])
+                .filter(documentItem => {
+                    const extension = String(documentItem.fileName || documentItem.title || '').split('.').pop()?.toLowerCase();
+                    return FLASH_INFO_IMAGE_EXTENSIONS.has(extension);
+                })
+                .map(documentItem => {
+                    const assetText = normalizeFlashInfoImageText(documentItem.fileName || documentItem.title);
+                    const assetTokens = assetText.split(/\s+/).filter(Boolean);
+                    const overlap = assetTokens.filter(token => newsTokens.has(token)).length;
+                    const ratio = assetTokens.length ? overlap / assetTokens.length : 0;
+                    const directMatch = Boolean(assetText && (newsText.includes(assetText) || assetText.includes(newsText)));
+                    const qualifies = directMatch || (assetTokens.length === 1 ? overlap === 1 : overlap >= 2 || ratio >= 0.6);
+                    return { documentItem, score: qualifies ? (directMatch ? 100 : 0) + overlap * 10 + ratio : 0 };
+                })
+                .filter(candidate => candidate.score > 0)
+                .sort((left, right) => right.score - left.score)[0]?.documentItem || null;
+        }
+
+        async function openTickerDetail(newsId) {
             const item = cmrNewsItems.find(x => x.id === newsId);
             const modal = document.getElementById('tickerDetailModal');
             if (!item || !modal) return;
 
             window.__activeTickerItem = item;
+            const heading = document.getElementById('tickerDetailHeading');
             const subtitle = document.getElementById('tickerDetailSubtitle');
             const body = document.getElementById('tickerDetailBody');
+            const media = document.getElementById('tickerDetailMedia');
+            const image = document.getElementById('tickerDetailImage');
+            const imageTitle = document.getElementById('tickerDetailImageTitle');
+            if (heading) heading.textContent = item.text;
             if (subtitle) subtitle.textContent = item.category;
             if (body) body.textContent = item.text;
+            if (media) media.style.display = 'none';
+            if (image) image.removeAttribute('src');
+            if (imageTitle) imageTitle.textContent = '';
 
             modal.classList.add('active');
             lucide.createIcons();
+
+            if (typeof fetchGedDocuments !== 'function' || (typeof shouldUseDocumentsApi === 'function' && !shouldUseDocumentsApi())) return;
+            try {
+                const flashInfoPath = joinGedPath(GED_ROOT_PATH, 'Communication interne', 'Communication interne', 'Flash Infos');
+                const documents = await fetchGedDocuments(flashInfoPath);
+                if (window.__activeTickerItem?.id !== item.id) return;
+                const matchedImage = findFlashInfoImage(documents, item);
+                if (!matchedImage || !image || !media) return;
+                image.src = matchedImage.file;
+                image.alt = item.text;
+                if (imageTitle) imageTitle.textContent = item.text;
+                media.style.display = 'grid';
+            } catch (error) {
+                // The Flash Info remains readable when its GED image is unavailable.
+            }
         }
 
         function closeTickerDetailModal() {
@@ -673,15 +783,17 @@ function openAgendaTab(tabName) {
             modal.classList.remove('active');
         }
 
-        function goToFlashDetailFromModal() {
-            const item = window.__activeTickerItem;
-            if (!item) return;
-
+        function renderFlashDetailPage(item, matchedImage = null) {
             const detail = document.getElementById('flashDetailContent');
+            if (!detail) return;
             const detailPage = tickerDetailConfig.detailPage || {};
             const detailParagraphs = detailPage.paragraphs || [];
-            if (detail) {
-                detail.innerHTML = `
+            const media = matchedImage ? `
+                <figure style="margin:0 0 24px;display:grid;gap:10px;">
+                    <img src="${escapeHtml(matchedImage.file)}" alt="${escapeHtml(item.text)}" style="display:block;width:100%;max-height:620px;object-fit:contain;border-radius:10px;background:#f8fafc;">
+                    <figcaption style="font-weight:700;color:#1e293b;">${escapeHtml(item.text)}</figcaption>
+                </figure>` : '';
+            detail.innerHTML = `
                 <div class="actu-detail-body">
                     <div class="actu-detail-meta-row">
                         <span class="actu-detail-category">${escapeHtml(item.category)}</span>
@@ -694,18 +806,38 @@ function openAgendaTab(tabName) {
                             Intranet
                         </span>
                     </div>
-                    <h1 class="actu-detail-title">Détail Info Express</h1>
-                    <div class="actu-detail-content">
-                        <p>${escapeHtml(item.text)}</p>
-                        ${detailParagraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}
-                    </div>
+                    <h1 class="actu-detail-title">${escapeHtml(item.text)}</h1>
+                    ${media}
+                    ${detailParagraphs.length ? `
+                        <div class="actu-detail-content">
+                            ${detailParagraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}
+                        </div>` : ''}
                 </div>`;
-            }
+        }
+
+        async function goToFlashDetailFromModal() {
+            const item = window.__activeTickerItem;
+            if (!item) return;
+
+            renderFlashDetailPage(item);
 
             const modal = document.getElementById('tickerDetailModal');
             if (modal) modal.classList.remove('active');
             switchView('flash-detail');
             lucide.createIcons();
+
+            if (typeof fetchGedDocuments !== 'function' || (typeof shouldUseDocumentsApi === 'function' && !shouldUseDocumentsApi())) return;
+            try {
+                const flashInfoPath = joinGedPath(GED_ROOT_PATH, 'Communication interne', 'Communication interne', 'Flash Infos');
+                const documents = await fetchGedDocuments(flashInfoPath);
+                if (window.__activeTickerItem?.id !== item.id) return;
+                const matchedImage = findFlashInfoImage(documents, item);
+                if (!matchedImage) return;
+                renderFlashDetailPage(item, matchedImage);
+                lucide.createIcons();
+            } catch (error) {
+                // The page remains readable when its GED image is unavailable.
+            }
         }
 
         function goToDgMessage() {
@@ -746,8 +878,7 @@ function openAgendaTab(tabName) {
                 return `<span class="ticker-item" role="button" tabindex="0" data-news-id="${escapeHtml(item.id)}"><strong>${label} :</strong> ${text}</span>`;
             }).join('');
 
-            // Duplicate content for seamless loop
-            wrapper.innerHTML = newsHtml + newsHtml;
+            wrapper.innerHTML = newsHtml;
         }
 
         // Initialize ticker after section HTML has been injected.
@@ -1072,7 +1203,7 @@ function openAgendaTab(tabName) {
             }
 
             // Update Content
-            const pageTabs = ['page-rh-carriere', 'page-rh-documents', 'page-rh-offres', 'page-rh-mobilite', 'page-rh-enquetes', 'page-rh-forums'];
+            const pageTabs = ['page-rh-carriere', 'page-rh-documents', 'page-rh-attakmili', 'page-rh-offres', 'page-rh-mobilite', 'page-rh-formation', 'page-rh-enquetes'];
             pageTabs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
@@ -1094,11 +1225,12 @@ function openAgendaTab(tabName) {
                 document.body.classList.remove('org-chart-expanded');
             }
             const all = [
-                'overview', 'organigramme', 'postes', 'presentation', 'strategie', 'referentiels',
+                'overview', 'organigramme', 'postes', 'fiches-postes', 'presentation', 'strategie', 'referentiels',
                 'comites', 'direction', 'smi-politiques', 'smi-dossiers', 'smi-audits',
                 'smi-cartographie', 'smi-pilotage', 'smi-gouvernance-interne', 'smi-certification', 'smi-normes',
                 'cartographie', 'kpi-strategiques', 'rapports-gouvernance',
-                'culture-contenus', 'culture-faq', 'culture-communication', 'culture-quiz', 'culture-idees', 'culture-remontees', 'culture-stats'
+                'culture-contenus', 'culture-faq', 'culture-communication', 'culture-quiz', 'culture-idees', 'culture-remontees', 'culture-stats',
+                'rse-presentation', 'rse-politiques', 'rse-domaines', 'rse-documents', 'rse-gouvernance', 'rse-evaluation', 'rse-ressources'
             ];
             all.forEach(p => {
                 const el = document.getElementById('page-orggov-' + p);
@@ -1171,11 +1303,10 @@ function openAgendaTab(tabName) {
 
         function switchOrgGovTab(tabId) {
             const map = {
-                overview: ['overview'],
                 organigramme: ['organisation', 'organigramme'],
                 postes: ['organisation', 'postes'],
+                'fiches-postes': ['organisation', 'fiches-postes'],
                 referentiels: ['organisation', 'referentiels'],
-                direction: ['direction'],
                 'smi-politiques': ['smi', 'smi-politiques'],
                 'smi-cartographie': ['smi', 'smi-cartographie'],
                 'smi-dossiers': ['smi', 'smi-dossiers'],
@@ -1190,9 +1321,16 @@ function openAgendaTab(tabName) {
                 'culture-quiz': ['culture-qse-rse', 'culture-quiz'],
                 'culture-idees': ['culture-qse-rse', 'culture-idees'],
                 'culture-remontees': ['culture-qse-rse', 'culture-remontees'],
-                'culture-stats': ['culture-qse-rse', 'culture-stats']
+                'culture-stats': ['culture-qse-rse', 'culture-stats'],
+                'rse-presentation': ['rse', 'rse-presentation'],
+                'rse-politiques': ['rse', 'rse-politiques'],
+                'rse-domaines': ['rse', 'rse-domaines'],
+                'rse-documents': ['rse', 'rse-documents'],
+                'rse-gouvernance': ['rse', 'rse-gouvernance'],
+                'rse-evaluation': ['rse', 'rse-evaluation'],
+                'rse-ressources': ['rse', 'rse-ressources']
             };
-            const route = map[tabId] || ['overview'];
+            const route = map[tabId] || ['organisation', 'organigramme'];
             switchOrgGovSection(route[0]);
             if (route[1]) switchOrgGovSub(route[1]);
         }
@@ -1200,24 +1338,24 @@ function openAgendaTab(tabName) {
         // ====== ORGANIGRAMME ======
         const orgData = getCmrData('orgData', {});
 
-        function getOrgServiceId(service, prefix = 'service') {
+        function getOrgServiceId(service, prefix = 'service', namespace = 'org') {
             const slug = String(service.name || prefix)
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/(^-|-$)/g, '');
-            return `org-members-${prefix}-${slug}`;
+            return `${namespace}-members-${prefix}-${slug}`;
         }
 
-        function getOrgHiddenPanelId(node, prefix = 'node') {
+        function getOrgHiddenPanelId(node, prefix = 'node', namespace = 'org') {
             const slug = String(node.posteId || node.name || prefix)
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/(^-|-$)/g, '');
-            return `org-hidden-${prefix}-${slug}`;
+            return `${namespace}-hidden-${prefix}-${slug}`;
         }
 
         function renderOrgHiddenToggle(node, panelId) {
@@ -1233,10 +1371,10 @@ function openAgendaTab(tabName) {
             `;
         }
 
-        function renderOrgServiceMembers(service, prefix = 'service') {
+        function renderOrgServiceMembers(service, prefix = 'service', namespace = 'org') {
             const members = service.members || [];
             if (!members.length) return '';
-            const panelId = getOrgServiceId(service, prefix);
+            const panelId = getOrgServiceId(service, prefix, namespace);
             return `
                 <button class="cmr-org-service-toggle" type="button"
                     aria-label="Afficher les membres du ${service.name}"
@@ -1263,6 +1401,8 @@ function openAgendaTab(tabName) {
             const icon = variant === 'direction' ? 'landmark' : variant === 'service' ? 'shield-check' : 'users';
             const number = String(index + 1).padStart(2, '0');
             const hiddenPanelId = options.hiddenPanelId || '';
+            const namespace = options.namespace || 'org';
+            const nodeClass = node.posteId === 'secretariat-general' ? ' cmr-org-card--secretariat-general' : '';
             const visual = node.photo
                 ? `<img class="cmr-org-card-photo" src="${node.photo}" alt="Portrait illustratif pour ${node.name}" loading="lazy">`
                 : `<div class="cmr-org-card-icon"><i data-lucide="${icon}"></i></div>`;
@@ -1270,23 +1410,23 @@ function openAgendaTab(tabName) {
                 ? `<div class="cmr-org-person-name">${node.personName}${node.personNameStatus === 'provisional' ? '<span class="cmr-org-person-status" title="Nom provisoire" aria-label="Nom provisoire">*</span>' : ''}</div>`
                 : '';
             return `
-                <article class="cmr-org-card cmr-org-card--${variant}">
+                <article class="cmr-org-card cmr-org-card--${variant}${nodeClass}">
                     ${variant === 'pole' ? `<span class="cmr-org-card-number">${number}</span>` : ''}
                     ${visual}
                     <div class="cmr-org-card-copy">
                         ${variant === 'pole' ? `<div class="cmr-org-card-role">${node.role}</div>` : ''}
                         ${person}
-                        <div class="cmr-org-card-name">${node.name}</div>
+                        ${node.interim ? '<span class="cmr-org-interim-label">Par intérim</span>' : ''}
+                        <div class="cmr-org-card-name">${escapeHtml(node.functionTitle || node.name)}</div>
                     </div>
-                    ${node.posteId ? `<button class="cmr-org-card-action" onclick="openPosteFromOrg('${node.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
+                    ${node.posteId && node.hasFiche !== false ? `<button class="cmr-org-card-action" onclick="openPosteFromOrg('${node.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
                     ${hiddenPanelId ? renderOrgHiddenToggle(node, hiddenPanelId) : ''}
-                    ${variant === 'service' ? renderOrgServiceMembers(node, 'direct') : ''}
+                    ${variant === 'service' ? renderOrgServiceMembers(node, 'direct', namespace) : ''}
                 </article>
             `;
         }
 
-        function renderOrgDivision(division, divisionIndex = 0) {
-            const services = division.children || [];
+        function renderOrgDivision(division, divisionIndex = 0, namespace = 'org') {
             const label = division.role || 'Division';
             const personStatus = division.personNameStatus === 'provisional'
                 ? '<sup title="Nom provisoire">*</sup>'
@@ -1301,11 +1441,21 @@ function openAgendaTab(tabName) {
                         <span class="cmr-org-division-copy">
                             <small>${label}</small>
                             ${division.personName ? `<strong>${division.personName}${personStatus}</strong>` : ''}
-                            <span>${division.name}</span>
+                            <span>${escapeHtml(division.functionTitle || division.name)}</span>
                         </span>
-                        ${division.posteId ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${division.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
+                        ${division.posteId && division.hasFiche !== false ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${division.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
                     </article>
-                    ${services.length ? `<div class="cmr-org-service-tree">
+                    ${renderOrgServices(division, divisionIndex, namespace)}
+                </section>
+            `;
+        }
+
+        function renderOrgServices(division, divisionIndex, namespace) {
+            const services = division.children || [];
+            if (!services.length) return '';
+            return `<details class="cmr-org-services">
+                        <summary aria-label="Services rattachés (${services.length})" title="Services rattachés (${services.length})"><i data-lucide="circle-chevron-down" aria-hidden="true"></i></summary>
+                        <div class="cmr-org-service-tree">
                         ${services.map((service, serviceIndex) => `
                             <article class="cmr-org-service-card">
                                 ${service.photo
@@ -1314,57 +1464,56 @@ function openAgendaTab(tabName) {
                                 <span>
                                     <small>${service.role || 'Service'}</small>
                                     ${service.personName ? `<strong>${service.personName}${service.personNameStatus === 'provisional' ? '<sup title="Nom provisoire">*</sup>' : ''}</strong>` : ''}
-                                    <span>${service.name}</span>
+                                    <span>${escapeHtml(service.functionTitle || service.name)}</span>
                                 </span>
-                                ${service.posteId ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${service.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
-                                ${renderOrgServiceMembers(service, `division-${divisionIndex}-${serviceIndex}`)}
+                                ${service.posteId && service.hasFiche !== false ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${service.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
+                                ${renderOrgServiceMembers(service, `division-${divisionIndex}-${serviceIndex}`, namespace)}
                             </article>
                         `).join('')}
-                    </div>` : ''}
-                </section>
-            `;
+                        </div>
+                    </details>`;
         }
 
-        function renderOrgHiddenBranch(node, prefix) {
+        function renderOrgHiddenBranch(node, prefix, namespace = 'org') {
             const hiddenDivisions = node.hiddenChildren || [];
             if (!hiddenDivisions.length) return '';
-            const panelId = getOrgHiddenPanelId(node, prefix);
+            const panelId = getOrgHiddenPanelId(node, prefix, namespace);
             return `
                 <div class="cmr-org-hidden-branch" id="${panelId}" role="group" aria-label="Profils rattachés à ${node.name}" style="--org-hidden-count: ${hiddenDivisions.length};" hidden>
-                    ${hiddenDivisions.map((division, divisionIndex) => renderOrgDivision(division, `${prefix}-hidden-${divisionIndex}`)).join('')}
+                    ${hiddenDivisions.map((division, divisionIndex) => renderOrgDivision(division, `${prefix}-hidden-${divisionIndex}`, namespace)).join('')}
                 </div>
             `;
         }
 
-        function renderOrgSecondaryBranch(node, prefix) {
+        function renderOrgSecondaryBranch(node, prefix, namespace = 'org') {
             const secondaryDivisions = node.secondaryChildren || [];
             if (!secondaryDivisions.length) return '';
             return `
                 <div class="cmr-org-secondary-branch" aria-label="Divisions rattachées à ${node.name}">
-                    ${secondaryDivisions.map((division, divisionIndex) => renderOrgDivision(division, `${prefix}-secondary-${divisionIndex}`)).join('')}
+                    ${secondaryDivisions.map((division, divisionIndex) => renderOrgDivision(division, `${prefix}-secondary-${divisionIndex}`, namespace)).join('')}
                 </div>
             `;
         }
 
-        function renderOrgPoleColumn(node, index) {
+        function renderOrgPoleColumn(node, index, namespace = 'org') {
             const divisions = node.children || [];
             const hiddenDivisions = node.hiddenChildren || [];
-            const hiddenPanelId = hiddenDivisions.length ? getOrgHiddenPanelId(node, `pole-${index}`) : '';
+            const hiddenPanelId = hiddenDivisions.length ? getOrgHiddenPanelId(node, `pole-${index}`, namespace) : '';
             return `
                 <div class="cmr-org-pole-column">
-                    ${renderOrgCard(node, 'pole', index, { hiddenPanelId })}
+                    ${renderOrgCard(node, 'pole', index, { hiddenPanelId, namespace })}
                     ${divisions.length ? `
                         <div class="cmr-org-pole-branch">
-                            ${divisions.map((division, divisionIndex) => renderOrgDivision(division, `${index}-${divisionIndex}`)).join('')}
+                            ${divisions.map((division, divisionIndex) => renderOrgDivision(division, `${index}-${divisionIndex}`, namespace)).join('')}
                         </div>
                     ` : ''}
-                    ${renderOrgHiddenBranch(node, `pole-${index}`)}
+                    ${renderOrgHiddenBranch(node, `pole-${index}`, namespace)}
                 </div>
             `;
         }
 
-        function renderOrgTree() {
-            const container = document.getElementById('orgTree');
+        function renderOrgTree(containerId = 'orgTree', namespace = 'org') {
+            const container = document.getElementById(containerId);
             if (!container) return;
             const children = orgData.children || [];
             const directServices = children.filter(node => (node.role || '').toLowerCase().includes('rattach'));
@@ -1381,43 +1530,44 @@ function openAgendaTab(tabName) {
                     ${branch ? `
                         <div class="cmr-org-top-row cmr-org-top-row--solo">
                         <div class="cmr-org-root">
-                            ${renderOrgCard(orgData, 'direction')}
+                            ${renderOrgCard(orgData, 'direction', 0, { namespace })}
                         </div>
                         </div>
                         <div class="cmr-org-main-branch" data-org-collapsed="false">
                             <div class="cmr-org-direct-row" aria-label="Rattachements directs de la Direction">
                                 <div class="cmr-org-direct-unit cmr-org-direct-unit--service">
-                                    ${leftService ? renderOrgCard(leftService, 'service') : ''}
+                                    ${leftService ? renderOrgCard(leftService, 'service', 0, { namespace }) : ''}
                                 </div>
                                 <div class="cmr-org-direct-unit cmr-org-direct-unit--main">
                             <div class="cmr-org-main-node">
-                                ${renderOrgCard(branch, 'pole', 0)}
+                                ${renderOrgCard(branch, 'pole', 0, { namespace })}
                             </div>
                                 </div>
                                 <div class="cmr-org-direct-unit cmr-org-direct-unit--service">
-                                    ${rightService ? renderOrgCard(rightService, 'service') : ''}
+                                    ${rightService ? renderOrgCard(rightService, 'service', 0, { namespace }) : ''}
+                                    ${rightService ? renderOrgServices(rightService, 'direct-right', namespace) : ''}
                                 </div>
                             </div>
-                            ${renderOrgSecondaryBranch(branch, 'secretariat-general')}
+                            ${renderOrgSecondaryBranch(branch, 'secretariat-general', namespace)}
                             <div class="cmr-org-poles cmr-org-poles--official">
-                                ${poles.map(renderOrgPoleColumn).join('')}
+                                ${poles.map((pole, index) => renderOrgPoleColumn(pole, index, namespace)).join('')}
                             </div>
                         </div>
                     ` : `
                         <div class="cmr-org-top-row">
                             <div class="cmr-org-side cmr-org-side--left" data-org-collapsed="false">
-                                ${leftService ? renderOrgCard(leftService, 'service') : ''}
+                                ${leftService ? renderOrgCard(leftService, 'service', 0, { namespace }) : ''}
                             </div>
                             <div class="cmr-org-root">
-                                ${renderOrgCard(orgData, 'direction')}
+                                ${renderOrgCard(orgData, 'direction', 0, { namespace })}
                             </div>
                             <div class="cmr-org-side cmr-org-side--right" data-org-collapsed="false">
-                                ${rightService ? renderOrgCard(rightService, 'service') : ''}
+                                ${rightService ? renderOrgCard(rightService, 'service', 0, { namespace }) : ''}
                             </div>
                         </div>
-                        ${extraServices.length ? `<div class="cmr-org-extra-services" data-org-collapsed="false">${extraServices.map(node => renderOrgCard(node, 'service')).join('')}</div>` : ''}
+                        ${extraServices.length ? `<div class="cmr-org-extra-services" data-org-collapsed="false">${extraServices.map(node => renderOrgCard(node, 'service', 0, { namespace })).join('')}</div>` : ''}
                         <div class="cmr-org-poles" data-org-collapsed="false">
-                            ${poles.map(renderOrgPoleColumn).join('')}
+                            ${poles.map((pole, index) => renderOrgPoleColumn(pole, index, namespace)).join('')}
                         </div>
                     `}
                 </div>
@@ -1438,8 +1588,9 @@ function openAgendaTab(tabName) {
             const panel = document.getElementById(panelId);
             if (!panel || !button) return;
             const shouldOpen = panel.hidden;
+            const chart = panel.closest('.cmr-org-chart');
             if (shouldOpen) {
-                document.querySelectorAll('#orgTree .cmr-org-hidden-branch:not([hidden])').forEach(openPanel => {
+                chart?.querySelectorAll('.cmr-org-hidden-branch:not([hidden])').forEach(openPanel => {
                     if (openPanel === panel) return;
                     openPanel.hidden = true;
                     const openButton = document.querySelector(`[aria-controls="${openPanel.id}"]`);
@@ -1476,8 +1627,9 @@ function openAgendaTab(tabName) {
             const panel = document.getElementById(panelId);
             if (!panel || !button) return;
             const willOpen = panel.hidden;
+            const chart = panel.closest('.cmr-org-chart');
 
-            document.querySelectorAll('#orgTree .cmr-org-service-members:not([hidden])').forEach(openPanel => {
+            chart?.querySelectorAll('.cmr-org-service-members:not([hidden])').forEach(openPanel => {
                 if (openPanel === panel) return;
                 openPanel.hidden = true;
                 openPanel.closest('.cmr-org-service-card, .cmr-org-card--service')?.classList.remove('is-members-open');
@@ -1715,47 +1867,16 @@ function openAgendaTab(tabName) {
             return [node, ...children.flatMap(flattenOrgNodes)];
         }
 
-        function buildDefaultPoste(node) {
-            const isDivision = node.role === 'Division';
-            const entityType = isDivision ? 'Division' : 'Service';
-            const safeFileName = String(node.name || entityType)
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '')
-                .replace(/[^a-zA-Z0-9]+/g, '_')
-                .replace(/(^_|_$)/g, '');
-            return {
-                id: node.posteId,
-                titre: `Chef de ${entityType} ${node.name}`,
-                famille: `Fonction de responsabilité — ${entityType}`,
-                missions: isDivision
-                    ? [
-                        `Piloter les activités de la division « ${node.name} »`,
-                        'Coordonner les services et les équipes rattachés',
-                        'Suivre les objectifs, les risques et les indicateurs de performance'
-                    ]
-                    : [
-                        `Organiser et superviser les activités du service « ${node.name} »`,
-                        'Encadrer l’équipe et assurer la continuité opérationnelle',
-                        'Produire le reporting et contribuer à l’amélioration des processus'
-                    ],
-                competences: isDivision
-                    ? ['Pilotage d’activité', 'Management d’équipes', 'Coordination transverse']
-                    : ['Expertise métier', 'Organisation opérationnelle', 'Animation d’équipe'],
-                profil: isDivision
-                    ? ['Bac+5', '7+ ans d’expérience', 'Expérience confirmée en management']
-                    : ['Bac+5', '5+ ans d’expérience', 'Maîtrise du domaine du service'],
-                attachments: [{
-                    label: `Fiche fonction Chef de ${entityType} ${node.name}`,
-                    file: `Fiche_Fonction_${safeFileName}.pdf`
-                }]
-            };
-        }
-
         const orgNodes = flattenOrgNodes(orgData);
         const configuredPostesData = getCmrData('postesData', []);
         const postesData = orgNodes
-            .filter(node => node.posteId)
-            .map(node => configuredPostesData.find(poste => poste.id === node.posteId) || buildDefaultPoste(node));
+            .filter(node => node.posteId && node.hasFiche !== false)
+            .map(node => configuredPostesData.find(poste => poste.id === node.posteId))
+            .filter(Boolean);
+        const listedPostesData = orgNodes
+            .filter(node => node.posteId && node.hasFiche !== false)
+            .map(node => postesData.find(poste => poste.id === node.posteId))
+            .filter(Boolean);
         let posteSelectedId = null;
         let postesPage = 1;
         let postesQuery = '';
@@ -1770,6 +1891,39 @@ function openAgendaTab(tabName) {
 
         function getPosteProfile(id) {
             return orgNodes.find(node => node.posteId === id) || {};
+        }
+
+        function findOrgNodePath(node, posteId, path = []) {
+            if (!node || typeof node !== 'object') return null;
+            const currentPath = [...path, node];
+            if (node.posteId === posteId) return currentPath;
+            const children = [
+                ...(node.children || []),
+                ...(node.hiddenChildren || []),
+                ...(node.secondaryChildren || [])
+            ];
+            for (const child of children) {
+                const match = findOrgNodePath(child, posteId, currentPath);
+                if (match) return match;
+            }
+            return null;
+        }
+
+        function getPosteGedFolderPath(poste) {
+            const hierarchy = findOrgNodePath(orgData, poste.id);
+            if (!hierarchy) return '';
+            const relevantNodes = hierarchy.filter(node =>
+                node !== orgData && node.posteId !== 'secretariat-general'
+            );
+            const profile = relevantNodes.at(-1);
+            if (!profile) return '';
+            const segments = relevantNodes.map(node => {
+                if (node === profile && node.role === 'Service' && poste.folderAliases?.length) {
+                    return poste.folderAliases[0];
+                }
+                return node.name;
+            });
+            return joinGedPath(postesGedPath, ...segments);
         }
 
         function refreshPostesGedUi() {
@@ -1791,27 +1945,78 @@ function openAgendaTab(tabName) {
             return state;
         }
 
+        function refreshPosteGedDocuments(posteId) {
+            if (!shouldUseDocumentsApi()) return;
+            const poste = postesData.find(item => item.id === posteId);
+            const folderPath = poste ? getPosteGedFolderPath(poste) : '';
+            if (!folderPath) return;
+            const state = getGedDocumentsState(folderPath, refreshPostesGedUi);
+            if (state && !state.documents.length) state.loaded = false;
+            refreshGedDocumentsState(folderPath, true);
+        }
+
+        function isDocumentDirectlyInPosteFolder(documentItem, folderPath) {
+            if (Array.isArray(documentItem.segments)) {
+                return documentItem.segments.filter(Boolean).length === 0;
+            }
+
+            const expectedFolder = String(folderPath || '').split('/').filter(Boolean).at(-1) || '';
+            const reportedFolders = String(documentItem.folderLabel || '').split('/').filter(Boolean);
+            return reportedFolders.length === 1
+                && normalizeGedText(reportedFolders[0]) === normalizeGedText(expectedFolder);
+        }
+
         function getPosteAttachments(poste) {
             if (!shouldUseDocumentsApi()) return poste.attachments || [];
 
             const profile = getPosteProfile(poste.id);
-            const personKey = normalizeGedText(profile.personName);
-            if (!personKey) return [];
+            const directFolderPath = getPosteGedFolderPath(poste);
+            const directFolderState = directFolderPath
+                ? getGedDocumentsState(directFolderPath, refreshPostesGedUi)
+                : null;
+            const directDocuments = (directFolderState?.documents || [])
+                .filter(documentItem => isDocumentDirectlyInPosteFolder(documentItem, directFolderPath));
+            if (directDocuments.length) {
+                return directDocuments.map(documentItem => ({
+                    label: documentItem.title || documentItem.fileName,
+                    file: documentItem.file,
+                    fileName: documentItem.fileName,
+                    folderLabel: documentItem.folderLabel
+                }));
+            }
+            const profileName = String(profile.name || '').trim();
+            const profileRole = String(profile.role || '').trim();
+            const entityType = /^(division|service|p[oô]le)$/i.test(profileRole)
+                ? profileRole
+                : (profileName.match(/^(division|service|p[oô]le)\b/i)?.[1] || '');
+            const entityName = entityType
+                ? profileName.replace(new RegExp(`^${entityType}\\s+`, 'i'), '').trim()
+                : profileName;
+            const folderAliases = new Set([
+                poste.titre,
+                ...(poste.folderAliases || []),
+                profileName,
+                profile.personName,
+                entityType && entityName ? `Chef de ${entityType} ${entityName}` : '',
+                entityType && entityName ? `Responsable ${entityType} ${entityName}` : '',
+                profileName ? `Chef de ${profileName}` : '',
+                profileName ? `Responsable ${profileName}` : ''
+            ].map(normalizeGedText).filter(Boolean));
 
-            const personTokens = personKey.split(' ').filter(token => token.length > 1);
-            return postesGedDocuments
-                .filter(documentItem => {
-                    const documentKey = normalizeGedText(documentItem.fileName || documentItem.title)
-                        .replace(/\b(?:pdf|doc|docx|fiche|fonction|poste)\b/g, ' ')
-                        .replace(/\s+/g, ' ')
-                        .trim();
-                    return documentKey.includes(personKey)
-                        || personTokens.every(token => documentKey.includes(token));
-                })
+            const folderMatches = postesGedDocuments.filter(documentItem => {
+                const segments = Array.isArray(documentItem.segments)
+                    ? documentItem.segments
+                    : String(documentItem.folderLabel || '').split('/');
+                const leafFolder = segments.map(normalizeGedText).filter(Boolean).at(-1) || '';
+                return folderAliases.has(leafFolder);
+            });
+
+            return folderMatches
                 .map(documentItem => ({
                     label: documentItem.title || documentItem.fileName,
                     file: documentItem.file,
-                    fileName: documentItem.fileName
+                    fileName: documentItem.fileName,
+                    folderLabel: documentItem.folderLabel
                 }));
         }
 
@@ -1834,14 +2039,14 @@ function openAgendaTab(tabName) {
             const query = (q || '').trim().toLowerCase();
             postesQuery = query;
             const hierarchyOrder = orgNodes.filter(node => node.posteId).map(node => node.posteId);
-            const items = postesData
+            const items = listedPostesData
                 .filter(p => {
                     const profile = getPosteProfile(p.id);
                     return !query || [p.titre, p.famille, profile.personName].some(v => (v || '').toLowerCase().includes(query));
                 })
                 .sort((a, b) => hierarchyOrder.indexOf(a.id) - hierarchyOrder.indexOf(b.id));
             if (count) {
-                count.textContent = `${items.length} fiche${items.length > 1 ? 's' : ''}`;
+                count.textContent = `${items.length} poste${items.length > 1 ? 's' : ''}`;
             }
             if (items.length === 0) {
                 list.innerHTML = `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">Aucun poste.</div>`;
@@ -1855,16 +2060,16 @@ function openAgendaTab(tabName) {
                 const profile = getPosteProfile(p.id);
                 const provisional = profile.personNameStatus === 'provisional';
                 return `
-                <button class="cmr-position-list-item${posteSelectedId === p.id ? ' is-active' : ''}" data-poste-id="${p.id}" onclick="openPosteDetail('${p.id}')">
+                <button class="cmr-position-list-item${posteSelectedId === p.id ? ' is-active' : ''}" data-poste-id="${p.id}" ${p.hasFiche === false ? 'disabled style="cursor:default;"' : `onclick="openPosteDetail('${p.id}', true)"`}>
                     ${profile.photo
                         ? `<img class="cmr-position-list-photo" src="${profile.photo}" alt="" loading="lazy">`
                         : `<span class="cmr-position-list-fallback"><i data-lucide="user-round"></i></span>`}
                     <span class="cmr-position-list-copy">
-                        <span class="cmr-position-list-name">${profile.personName || 'Poste à pourvoir'}${provisional ? '<sup title="Nom provisoire">*</sup>' : ''}</span>
-                        <span class="cmr-position-list-title">${p.titre}</span>
+                        <span class="cmr-position-list-name">${escapeHtml(profile.personName || p.titre)}${provisional ? '<sup title="Nom provisoire">*</sup>' : ''}</span>
+                        ${profile.personName ? `<span class="cmr-position-list-title">${escapeHtml(p.titre)}</span>` : ''}
                         <span class="cmr-position-list-family">${p.famille}</span>
                     </span>
-                    <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                    ${p.hasFiche === false ? '' : '<i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>'}
                 </button>`;
             }).join('');
             if (pagination) {
@@ -1888,36 +2093,35 @@ function openAgendaTab(tabName) {
             const provisional = profile.personNameStatus === 'provisional';
             const attachments = getPosteAttachments(p);
             const attachmentsLoading = shouldUseDocumentsApi()
-                && Boolean(gedDocumentsState.get(postesGedPath)?.loading)
-                && !gedDocumentsState.get(postesGedPath)?.loaded;
+                && [postesGedPath, getPosteGedFolderPath(p)].filter(Boolean).some(path => {
+                    const state = gedDocumentsState.get(path);
+                    return Boolean(state?.loading && !state.loaded);
+                });
             return `
                 <div class="cmr-position-profile-header">
                     ${profile.photo
                         ? `<img class="cmr-position-profile-photo" src="${profile.photo}" alt="Portrait de ${profile.personName || p.titre}">`
                         : `<span class="cmr-position-profile-fallback"><i data-lucide="user-round"></i></span>`}
                     <div class="cmr-position-profile-copy">
-                        <div class="cmr-position-profile-eyebrow">Responsable de la fonction</div>
-                        <div class="cmr-position-profile-name">${profile.personName || 'Poste à pourvoir'}${provisional ? '<sup title="Nom provisoire">*</sup>' : ''}</div>
-                        <div class="cmr-position-profile-title">${p.titre}</div>
+                        <div class="cmr-position-profile-eyebrow">${profile.personName ? 'Responsable de la fonction' : 'Fiche de fonction'}</div>
+                        <div class="cmr-position-profile-name">${escapeHtml(profile.personName || p.titre)}${provisional ? '<sup title="Nom provisoire">*</sup>' : ''}</div>
+                        ${profile.interim ? '<span class="cmr-org-interim-label">Par intérim</span>' : ''}
+                        ${profile.personName ? `<div class="cmr-position-profile-title">${escapeHtml(p.titre)}</div>` : ''}
                         <span class="cmr-position-profile-family">${p.famille}</span>
                     </div>
                 </div>
                 ${provisional ? '<div class="cmr-position-provisional-note"><span>*</span> Identité provisoire utilisée pour la maquette.</div>' : ''}
                 <hr class="cmr-position-profile-divider">
-                <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px;">
+                <div class="cmr-position-sections">
+                    <section class="cmr-position-section">
                         <div style="font-weight:900;color:#1e293b;font-size:13px;">Missions</div>
-                        <ul style="margin:10px 0 0 18px;color:#475569;font-size:12px;line-height:1.8;">${p.missions.map(m => `<li>${m}</li>`).join('')}</ul>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px;">
+                        <ul>${p.missions.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+                    </section>
+                    <section class="cmr-position-section">
                         <div style="font-weight:900;color:#1e293b;font-size:13px;">Compétences</div>
-                        <ul style="margin:10px 0 0 18px;color:#475569;font-size:12px;line-height:1.8;">${p.competences.map(m => `<li>${m}</li>`).join('')}</ul>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px;grid-column:1/-1;">
-                        <div style="font-weight:900;color:#1e293b;font-size:13px;">Profil</div>
-                        <ul style="margin:10px 0 0 18px;color:#475569;font-size:12px;line-height:1.8;">${p.profil.map(m => `<li>${m}</li>`).join('')}</ul>
-                    </div>
-                    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;grid-column:1/-1;">
+                        <ul>${p.competences.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+                    </section>
+                    <section class="cmr-position-section">
                         <div style="font-weight:900;color:#1e293b;font-size:13px;">Pièces jointes</div>
                         <div class="doc-list" style="margin-top:10px;">
                             ${attachments.map(a => `
@@ -1931,16 +2135,17 @@ function openAgendaTab(tabName) {
                                 </div>
                             `).join('') || `<div style="color:#64748b;font-size:12px;">${attachmentsLoading ? 'Chargement de la fiche...' : 'Aucune fiche Moovapps associée.'}</div>`}
                         </div>
-                    </div>
+                    </section>
                 </div>
             `;
         }
 
-        function openPosteDetail(id) {
+        function openPosteDetail(id, refreshDocuments = false) {
             const p = postesData.find(x => x.id === id);
             const detail = document.getElementById('postesDetail');
             if (!p || !detail) return;
             syncPostesGedDocuments();
+            if (refreshDocuments) refreshPosteGedDocuments(id);
             posteSelectedId = id;
             document.querySelectorAll('[data-poste-id]').forEach(item => {
                 item.classList.toggle('is-active', item.getAttribute('data-poste-id') === id);
@@ -1985,8 +2190,9 @@ function openAgendaTab(tabName) {
             return modal;
         }
 
-        function openPosteModal(id) {
+        function openPosteModal(id, refreshDocuments = false) {
             syncPostesGedDocuments();
+            if (refreshDocuments) refreshPosteGedDocuments(id);
             const html = buildPosteDetailHtml(id);
             if (!html) return;
             const modal = ensurePosteModal();
@@ -2015,7 +2221,7 @@ function openAgendaTab(tabName) {
         });
 
         function openPosteFromOrg(id) {
-            openPosteModal(id);
+            openPosteModal(id, true);
         }
 
         // ====== RÉFÉRENTIELS (dossier + documents) ======
@@ -2029,7 +2235,7 @@ function openAgendaTab(tabName) {
             if (!d || !docs) return;
             if (shouldUseDocumentsApi()) {
                 const state = getGedDocumentsState(
-                    joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'Manuels des procédures'),
+                    joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'Organisation', 'Manuels des procédures'),
                     renderReferentiels
                 );
                 if (state?.loading && !state.loaded) {
@@ -2051,7 +2257,12 @@ function openAgendaTab(tabName) {
             } else {
                 visibleReferentiels = referentiels;
             }
-            d.innerHTML = visibleReferentiels.map(x => `
+            const foldersPaginationKey = 'organisation-referentiel-folders';
+            const foldersPagination = paginateGedDocuments(foldersPaginationKey, visibleReferentiels, renderReferentiels);
+            if (!foldersPagination.items.some(item => item.id === currentRef)) {
+                currentRef = foldersPagination.items[0]?.id || '';
+            }
+            d.innerHTML = foldersPagination.items.map(x => `
                 <div class="doc-item" onclick="openReferentiel('${x.id}')">
                     <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">REF</div>
                     <div class="doc-info">
@@ -2060,7 +2271,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('');
+            `).join('') + renderGedDocumentsPagination(foldersPaginationKey, foldersPagination);
             if (!visibleReferentiels.some(item => item.id === currentRef)) currentRef = visibleReferentiels[0]?.id || '';
             if (currentRef) openReferentiel(currentRef);
             else docs.innerHTML = renderGedEmpty('document');
@@ -2072,9 +2283,11 @@ function openAgendaTab(tabName) {
             const docs = document.getElementById('refDocs');
             const r = visibleReferentiels.find(x => x.id === id);
             if (!docs || !r) return;
+            const paginationKey = `organisation-referentiel:${id}`;
+            const pagination = paginateGedDocuments(paginationKey, r.docs || [], () => openReferentiel(id));
             docs.innerHTML = shouldUseDocumentsApi()
-                ? r.docs.map(doc => renderGedDocItem(doc, r.dossier)).join('') || renderGedEmpty('document')
-                : r.docs.map(doc => `
+                ? pagination.items.map(doc => renderGedDocItem(doc, r.dossier)).join('') || renderGedEmpty('document')
+                : pagination.items.map(doc => `
                     <div class="doc-item" onclick="openMockDownload('${doc.file}','${doc.label}')">
                         <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
                         <div class="doc-info">
@@ -2084,6 +2297,7 @@ function openAgendaTab(tabName) {
                         <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                     </div>
                 `).join('');
+            docs.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -2113,13 +2327,15 @@ function openAgendaTab(tabName) {
             const detail = document.getElementById('comitesDetail');
             const c = comitesData.find(x => x.id === id);
             if (!detail || !c) return;
+            const paginationKey = `comite-documents:${id}`;
+            const pagination = paginateGedDocuments(paginationKey, c.docs || [], () => openComite(id));
             detail.innerHTML = `
                 <div style="font-weight:900;color:#0f172a;font-size:16px;">${c.nom}</div>
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">Périodicité : <strong>${c.periodicite}</strong></div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:14px 0;">
                 <div style="font-weight:900;color:#1e293b;font-size:13px;margin-bottom:10px;">Procès-verbaux</div>
                 <div class="doc-list">
-                    ${c.docs.map(d => `
+                    ${pagination.items.map(d => `
                         <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
                             <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PV</div>
                             <div class="doc-info">
@@ -2129,6 +2345,7 @@ function openAgendaTab(tabName) {
                             <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                         </div>
                     `).join('')}
+                    ${renderGedDocumentsPagination(paginationKey, pagination)}
                 </div>
             `;
             lucide.createIcons();
@@ -2174,12 +2391,190 @@ function openAgendaTab(tabName) {
         const orgGovSmiCertifications = getCmrData('orgGovSmiCertifications', []);
 
         const orgGovCultureContents = getCmrData('orgGovCultureContents', []);
-        const orgGovCultureFaq = getCmrData('orgGovCultureFaq', []);
+        let orgGovCultureFaq = getCmrData('orgGovCultureFaq', []);
         const orgGovCultureNews = getCmrData('orgGovCultureNews', []);
         const orgGovCultureQuizzes = getCmrData('orgGovCultureQuizzes', []);
         let orgGovCultureIdeas = getCmrData('orgGovCultureIdeas', []);
         let orgGovCultureRemontees = getCmrData('orgGovCultureRemontees', []);
         const orgGovCultureStats = getCmrData('orgGovCultureStats', { items: [] });
+
+        const dataUniverseTextSpaces = {
+            faq: { titleField: 'sys_Title', descriptionField: 'Reponse' },
+            ideas: { titleField: 'sys_Title', descriptionField: 'Description', typeField: 'Qualite' },
+            reports: { titleField: 'sys_Title', descriptionField: 'Description', typeField: 'Type' }
+        };
+        const dataUniverseTextStates = new Map();
+        const orgGovCultureTextFormsOpen = { faq: false, ideas: false, reports: false };
+        const orgGovCultureTextDrafts = { faq: {}, ideas: {}, reports: {} };
+        const orgGovCultureTextSelectedIds = { ideas: '', reports: '' };
+        let orgGovCultureFaqQuery = '';
+        let orgGovCultureCommunicationMode = 'documents';
+        let orgGovCultureGalleryItems = [];
+        let orgGovCultureGalleryIndex = 0;
+        let orgGovCultureGalleryPreviousOverflow = '';
+
+        function shouldUseDataUniverseApi() {
+            return !window.location.hostname.toLowerCase().endsWith('github.io');
+        }
+
+        function getDataUniverseApiUrl(space) {
+            const url = new URL('api/text-content.php', document.baseURI);
+            url.searchParams.set('space', space);
+            return url.toString();
+        }
+
+        function extractDataUniverseRecords(payload) {
+            const root = payload?.data ?? payload;
+            if (Array.isArray(root)) return root;
+            if (!root || typeof root !== 'object') return [];
+            if (Array.isArray(root.values)) return root.values;
+            if (root.values && typeof root.values === 'object') return [root];
+            for (const key of ['data', 'items', 'records', 'results', 'rows', 'content', 'elements', 'result', 'value']) {
+                if (Array.isArray(root[key])) return root[key];
+                if (root[key]?.values && typeof root[key].values === 'object') return [root[key]];
+            }
+            return [];
+        }
+
+        function normalizeDataUniverseItem(space, record, fallback = {}) {
+            const config = dataUniverseTextSpaces[space];
+            const values = record?.values && typeof record.values === 'object' ? record.values : (record || {});
+            const title = values[config.titleField] ?? values.sys_Title ?? fallback.title ?? '';
+            const description = values[config.descriptionField] ?? fallback.description ?? '';
+            const type = config.typeField ? (values[config.typeField] ?? fallback.type ?? '') : '';
+            const recordId = record?.uid ?? record?.id ?? record?.['@id'] ?? record?.['$id'] ?? record?._id ?? record?.identifier ?? record?.sys_id ?? record?.sys_Id ?? record?.sys_Uid
+                ?? values.sys_Uid ?? values.sys_UID ?? values.sys_UniqueId ?? values.sys_Reference ?? record?.protocolUri ?? fallback.recordId ?? '';
+            return {
+                id: String(recordId || fallback.id || `${space}-${Date.now()}`),
+                recordId: String(recordId),
+                title: String(title),
+                description: String(description),
+                type: String(type),
+                date: String(record?.updatedAt ?? record?.createdAt ?? values.sys_CreationDate ?? fallback.date ?? ''),
+                pending: Boolean(fallback.pending)
+            };
+        }
+
+        function getDataUniverseTextState(space) {
+            if (!shouldUseDataUniverseApi()) return null;
+            const state = dataUniverseTextStates.get(space) || {
+                loading: false,
+                loaded: false,
+                attempted: false,
+                submitting: false,
+                error: null,
+                items: []
+            };
+            dataUniverseTextStates.set(space, state);
+            return state;
+        }
+
+        async function loadDataUniverseTextSpace(space, renderAfterLoad) {
+            const state = getDataUniverseTextState(space);
+            if (!state || state.loading || state.loaded || state.attempted) return;
+            state.loading = true;
+            state.attempted = true;
+            state.error = null;
+            try {
+                const response = await fetch(getDataUniverseApiUrl(space), {
+                    headers: { Accept: 'application/json' },
+                    cache: 'no-store'
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(payload.message || payload.error || `HTTP ${response.status}`);
+                state.items = extractDataUniverseRecords(payload).map((record, index) =>
+                    normalizeDataUniverseItem(space, record, { id: `${space}-${index}` })
+                );
+                state.loaded = true;
+            } catch (error) {
+                state.error = error;
+            } finally {
+                state.loading = false;
+                renderAfterLoad?.();
+            }
+        }
+
+        async function createDataUniverseTextItem(space, values, optimisticItem, renderAfterChange) {
+            const state = getDataUniverseTextState(space, renderAfterChange);
+            if (!state || state.submitting) return false;
+            const pendingId = `pending-${space}-${Date.now()}`;
+            const pendingItem = { ...optimisticItem, id: pendingId, pending: true };
+            const previousItems = state.items;
+            state.items = [pendingItem, ...previousItems];
+            state.submitting = true;
+            state.error = null;
+            renderAfterChange();
+
+            try {
+                const response = await fetch(getDataUniverseApiUrl(space), {
+                    method: 'POST',
+                    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+                    cache: 'no-store',
+                    body: JSON.stringify({ values })
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(payload.message || payload.error || `HTTP ${response.status}`);
+                const returnedRecord = extractDataUniverseRecords(payload)[0];
+                const createdItem = normalizeDataUniverseItem(space, returnedRecord || {}, { ...optimisticItem, id: pendingId, pending: false });
+                state.items = state.items.map(item => item.id === pendingId ? createdItem : item);
+                state.error = null;
+                return true;
+            } catch (error) {
+                state.items = previousItems;
+                state.error = error;
+                return false;
+            } finally {
+                state.submitting = false;
+                renderAfterChange();
+            }
+        }
+
+        function toggleOrgGovCultureTextForm(space) {
+            orgGovCultureTextFormsOpen[space] = !orgGovCultureTextFormsOpen[space];
+            orgGovCultureTextDrafts[space] = {};
+            if (space === 'faq') renderOrgGovCultureFaq();
+            if (space === 'ideas') renderOrgGovCultureIdeas();
+            if (space === 'reports') renderOrgGovCultureRemontees();
+        }
+
+        function getOrgGovCultureTextItems(space) {
+            if (shouldUseDataUniverseApi()) return dataUniverseTextStates.get(space)?.items || [];
+            if (space === 'faq') return orgGovCultureFaq.map((item, index) => ({ id: `demo-faq-${index}`, recordId: `demo-faq-${index}`, title: item.question, description: item.answer, type: '' }));
+            if (space === 'ideas') return orgGovCultureIdeas.map((item, index) => ({ ...item, id: `demo-idea-${index}`, recordId: `demo-idea-${index}`, description: item.description || '' }));
+            return orgGovCultureRemontees.map((item, index) => ({ ...item, id: `demo-report-${index}`, recordId: `demo-report-${index}`, description: item.description || '' }));
+        }
+
+        function renderOrgGovCultureTextSpace(space) {
+            if (space === 'faq') renderOrgGovCultureFaq();
+            if (space === 'ideas') renderOrgGovCultureIdeas();
+            if (space === 'reports') renderOrgGovCultureRemontees();
+        }
+
+        function filterOrgGovCultureFaq(value) {
+            orgGovCultureFaqQuery = String(value || '');
+            renderOrgGovCultureFaq();
+            const input = document.getElementById('orgGovCultureFaqSearch');
+            if (input) {
+                input.focus();
+                input.setSelectionRange(input.value.length, input.value.length);
+            }
+        }
+
+        function selectOrgGovCultureTextItem(space, id) {
+            if (space === 'faq') return;
+            orgGovCultureTextSelectedIds[space] = id;
+            orgGovCultureTextFormsOpen[space] = false;
+            orgGovCultureTextDrafts[space] = {};
+            renderOrgGovCultureTextSpace(space);
+        }
+
+        function renderDataUniverseStatus(state, emptyLabel) {
+            if (!state) return '';
+            if (state.loading && !state.items.length) return '<div style="padding:14px;color:#64748b;font-size:13px;">Chargement du contenu...</div>';
+            if (state.error) return '<div style="padding:12px;color:#9a3412;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;font-size:12px;margin-bottom:12px;">Impossible de synchroniser le contenu pour le moment.</div>';
+            if (!state.items.length) return `<div style="padding:14px;color:#64748b;font-size:13px;">${escapeHtml(emptyLabel)}</div>`;
+            return '';
+        }
 
         const orgGovProcessusMap = getCmrData('orgGovProcessusMap', {});
         let orgGovProcessusSelected = 'pilotage';
@@ -2203,9 +2598,8 @@ function openAgendaTab(tabName) {
         }
 
         function orgGovSmiDocumentMatchesFolder(documentItem, folderName) {
-            return String(documentItem.folderLabel || '')
-                .toLowerCase()
-                .startsWith(folderName.toLowerCase());
+            const firstSegment = getSmiDocumentSegments(documentItem)[0] || '';
+            return normalizeGedText(firstSegment) === normalizeGedText(folderName);
         }
 
         function getSmiDocumentSegments(documentItem) {
@@ -2216,14 +2610,25 @@ function openAgendaTab(tabName) {
                 .filter(Boolean);
         }
 
-        function buildOrgGovSmiDossiers(documents) {
+        function buildOrgGovSmiDossiers(documents, folders = []) {
             const dossierMap = new Map();
+            folders.forEach(folderItem => {
+                const segments = Array.isArray(folderItem.segments) ? folderItem.segments : [];
+                if (normalizeGedText(segments[0]) !== normalizeGedText('Dossiers processus') || !segments[1]) return;
+                const dossier = segments[1];
+                if (!dossierMap.has(dossier)) {
+                    dossierMap.set(dossier, {
+                        id: `smi-${slugifySmiLabel(dossier)}`,
+                        dossier,
+                        docs: []
+                    });
+                }
+            });
             documents.forEach((documentItem) => {
                 if (!orgGovSmiDocumentMatchesFolder(documentItem, 'Dossiers processus')) return;
 
                 const segments = getSmiDocumentSegments(documentItem);
-                const dossierSegments = segments.slice(1);
-                const dossier = dossierSegments.join(' / ') || 'Autres documents SMI';
+                const dossier = segments[1] || 'Documents sans sous-dossier';
                 if (!dossierMap.has(dossier)) {
                     dossierMap.set(dossier, {
                         id: `smi-${slugifySmiLabel(dossier)}`,
@@ -2239,7 +2644,8 @@ function openAgendaTab(tabName) {
                 });
             });
 
-            return Array.from(dossierMap.values());
+            return Array.from(dossierMap.values())
+                .sort((left, right) => left.dossier.localeCompare(right.dossier, 'fr'));
         }
 
         function buildOrgGovSmiCartographie(documents) {
@@ -2288,21 +2694,8 @@ function openAgendaTab(tabName) {
             return { families: Array.from(familyMap.values()) };
         }
 
-        function mergeOrgGovSmiDossiers(documents) {
-            const dynamicFolders = buildOrgGovSmiDossiers(documents);
-            const dynamicByLabel = new Map(dynamicFolders.map(folder => [normalizeGedText(folder.dossier), folder]));
-            const usedLabels = new Set();
-            const merged = orgGovSmiDossiersSkeleton.map(folder => {
-                const key = normalizeGedText(folder.dossier);
-                const dynamicFolder = dynamicByLabel.get(key);
-                if (dynamicFolder) usedLabels.add(key);
-                return { ...folder, docs: dynamicFolder?.docs || [] };
-            });
-            dynamicFolders.forEach(folder => {
-                const key = normalizeGedText(folder.dossier);
-                if (!usedLabels.has(key)) merged.push(folder);
-            });
-            return merged;
+        function mergeOrgGovSmiDossiers(documents, folders = []) {
+            return buildOrgGovSmiDossiers(documents, folders);
         }
 
         function mergeOrgGovSmiCartographie(documents) {
@@ -2332,11 +2725,11 @@ function openAgendaTab(tabName) {
             return { families };
         }
 
-        function applyOrgGovSmiDocuments(documents) {
+        function applyOrgGovSmiDocuments(documents, folders = []) {
             orgGovSmiPolitiquesData = documents.filter(documentItem =>
                 orgGovSmiDocumentMatchesFolder(documentItem, 'Politiques SMI')
             );
-            orgGovSmiDossiersData = mergeOrgGovSmiDossiers(documents);
+            orgGovSmiDossiersData = mergeOrgGovSmiDossiers(documents, folders);
             if (!orgGovSmiDossiersData.some(folder => folder.id === orgGovSmiDossierCurrent)) {
                 orgGovSmiDossierCurrent = orgGovSmiDossiersData[0]?.id || '';
             }
@@ -2368,7 +2761,7 @@ function openAgendaTab(tabName) {
 
             try {
                 const documents = await fetchGedDocuments(smiPath, { refresh: forceRefresh });
-                applyOrgGovSmiDocuments(documents);
+                applyOrgGovSmiDocuments(documents, gedFoldersCache.get(smiPath) || []);
                 orgGovSmiDocsLoaded = true;
                 revalidateAfterLoad = !forceRefresh && gedDocumentsCacheSource.get(smiPath) !== 'miss';
             } catch (error) {
@@ -2390,7 +2783,7 @@ function openAgendaTab(tabName) {
             const cachedDocuments = gedDocumentsCache.get(smiPath) || readGedDocumentsSessionCache(smiPath);
             if (cachedDocuments !== null) {
                 gedDocumentsCache.set(smiPath, cachedDocuments);
-                applyOrgGovSmiDocuments(cachedDocuments);
+                applyOrgGovSmiDocuments(cachedDocuments, gedFoldersCache.get(smiPath) || []);
                 orgGovSmiDocsLoaded = true;
             }
         }
@@ -2416,7 +2809,9 @@ function openAgendaTab(tabName) {
                 list.innerHTML = renderOrgGovSmiLocalModeNote() + `<div style="padding:12px;color:#64748b;font-size:13px;">${emptyMessage}</div>`;
                 return;
             }
-            list.innerHTML = renderOrgGovSmiLocalModeNote() + orgGovSmiPolitiquesData.map(d => `
+            const paginationKey = 'org-gov-smi-politiques';
+            const pagination = paginateGedDocuments(paginationKey, orgGovSmiPolitiquesData, renderOrgGovSmiPolitiques);
+            list.innerHTML = renderOrgGovSmiLocalModeNote() + pagination.items.map(d => `
                 <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.title))})">
                     <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">SMI</div>
                     <div class="doc-info">
@@ -2432,6 +2827,12 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiCartographie() {
             const root = document.getElementById('orgGovSmiCartographie');
             if (!root) return;
+            if (renderOrgGovSmiFolderDocuments(
+                'orgGovSmiCartographie',
+                'Cartographie des processus',
+                renderOrgGovSmiCartographie,
+                'PDF'
+            )) return;
             orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiCartographie);
             hydrateOrgGovSmiDocumentsFromCache();
             if (shouldUseSmiDocumentsApi() && !orgGovSmiDocsInitialized && !orgGovSmiDocsLoading) {
@@ -2446,6 +2847,8 @@ function openAgendaTab(tabName) {
             orgGovSmiCartFamily = family?.id || '';
             const process = (family?.processes || []).find(p => p.id === orgGovSmiCartProcess) || family?.processes?.[0];
             orgGovSmiCartProcess = process?.id || null;
+            const documentsPaginationKey = `org-gov-smi-cartographie:${process?.id || 'none'}`;
+            const documentsPagination = paginateGedDocuments(documentsPaginationKey, process?.docs || [], renderOrgGovSmiCartographie);
             root.innerHTML = `
                 ${renderOrgGovSmiLocalModeNote()}
                 <div class="dashboard-grid" style="grid-template-columns:.9fr 1.1fr 1.4fr;gap:18px;">
@@ -2474,13 +2877,14 @@ function openAgendaTab(tabName) {
                     <div>
                         <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Documents de cartographie</div>
                         <div class="doc-list">
-                            ${(process?.docs || []).map(d => `
+                            ${documentsPagination.items.map(d => `
                                 <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.label))})">
                                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
                                     <div class="doc-info"><div class="doc-title">${escapeHtml(d.label)}</div><div class="doc-meta">${escapeHtml(process.title)}</div></div>
                                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                                 </div>
                             `).join('')}
+                            ${renderGedDocumentsPagination(documentsPaginationKey, documentsPagination)}
                         </div>
                     </div>
                 </div>
@@ -2494,7 +2898,9 @@ function openAgendaTab(tabName) {
             const folder = orgGovSmiDossiersData.find(x => x.id === id);
             if (!docsHost || !folder) return;
             const docs = (folder.docs || []).filter(doc => orgGovSmiDossierFilter === 'all' || doc.type === orgGovSmiDossierFilter);
-            docsHost.innerHTML = docs.map(doc => `
+            const paginationKey = `org-gov-smi-dossier:${id}:${orgGovSmiDossierFilter}`;
+            const pagination = paginateGedDocuments(paginationKey, docs, () => openOrgGovSmiDossier(id));
+            docsHost.innerHTML = pagination.items.map(doc => `
                 <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(doc.file))},${escapeHtml(JSON.stringify(doc.label))})">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
                     <div class="doc-info">
@@ -2504,6 +2910,7 @@ function openAgendaTab(tabName) {
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('') || '<div style="padding:12px;color:#64748b;font-size:13px;">Aucun document pour ce filtre.</div>';
+            docsHost.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -2583,6 +2990,8 @@ function openAgendaTab(tabName) {
             revalidateOrgGovSmiDocuments(event.detail?.path || GED_ROOT_PATH);
         });
 
+        const orgGovSmiFolderFilters = new Map();
+
         function renderOrgGovSmiFolderDocuments(elementId, folderName, renderAfterLoad, iconLabel, fallbackItems = []) {
             const host = document.getElementById(elementId);
             if (!host) return true;
@@ -2600,16 +3009,54 @@ function openAgendaTab(tabName) {
                     host.innerHTML = `<div style="padding:12px;color:#64748b;font-size:13px;">Aucun document Moovapps dans ${escapeHtml(folderName)}.</div>`;
                     return true;
                 }
-                host.innerHTML = state.documents.map(d => `
-                    <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.title))})">
-                        <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">${escapeHtml(iconLabel)}</div>
-                        <div class="doc-info">
-                            <div class="doc-title">${escapeHtml(d.title)}</div>
-                            <div class="doc-meta">${escapeHtml(d.folderLabel || d.fileName || folderName)}</div>
-                        </div>
-                        <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                const documentFolder = documentItem => documentItem.segments?.[0] || 'Documents principaux';
+                const folderOptions = Array.from(new Set(state.documents.map(documentFolder)))
+                    .sort((left, right) => left.localeCompare(right, 'fr'))
+                    .map(label => ({ label, key: normalizeGedText(label) }));
+                const directDocumentsKey = normalizeGedText('Documents principaux');
+                const visibleFolderOptions = folderOptions.filter(option => option.key !== directDocumentsKey);
+                const showFolderFilters = visibleFolderOptions.length > 0;
+                const filterKey = `org-gov-smi-folder:${folderName}`;
+                const selectedFilter = showFolderFilters ? (orgGovSmiFolderFilters.get(filterKey) || 'all') : 'all';
+                const activeFilter = selectedFilter === 'all' || visibleFolderOptions.some(option => option.key === selectedFilter)
+                    ? selectedFilter
+                    : 'all';
+                orgGovSmiFolderFilters.set(filterKey, activeFilter);
+                const filteredDocuments = activeFilter === 'all'
+                    ? state.documents
+                    : state.documents.filter(documentItem => normalizeGedText(documentFolder(documentItem)) === activeFilter);
+                const paginationKey = `org-gov-smi:${folderName}:${activeFilter}`;
+                const pagination = paginateGedDocuments(paginationKey, filteredDocuments, renderAfterLoad);
+                host.innerHTML = `
+                    ${showFolderFilters ? `<div class="smi-folder-filter-bar" role="group" aria-label="Filtrer les documents par dossier">
+                        <button type="button" class="smi-folder-filter${activeFilter === 'all' ? ' active' : ''}" data-folder-filter="all">Tous <span>${state.documents.length}</span></button>
+                        ${visibleFolderOptions.map(option => `
+                            <button type="button" class="smi-folder-filter${activeFilter === option.key ? ' active' : ''}" data-folder-filter="${escapeHtml(option.key)}">
+                                ${escapeHtml(option.label)}
+                                <span>${state.documents.filter(documentItem => normalizeGedText(documentFolder(documentItem)) === option.key).length}</span>
+                            </button>
+                        `).join('')}
+                    </div>` : ''}
+                    <div class="doc-list smi-filtered-document-list">
+                        ${pagination.items.map(d => `
+                            <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.title))})">
+                                <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">${escapeHtml(iconLabel)}</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">${escapeHtml(d.title)}</div>
+                                    <div class="doc-meta">${escapeHtml(d.folderLabel || d.fileName || folderName)}</div>
+                                </div>
+                                <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </div>
+                        `).join('')}
+                        ${renderGedDocumentsPagination(paginationKey, pagination)}
                     </div>
-                `).join('');
+                `;
+                host.querySelectorAll('[data-folder-filter]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        orgGovSmiFolderFilters.set(filterKey, button.dataset.folderFilter || 'all');
+                        renderAfterLoad();
+                    });
+                });
                 lucide.createIcons();
                 return true;
             }
@@ -2633,10 +3080,29 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
+        function renderOrgGovSmiReferenceAttachments(folderName, label, references, renderAfterLoad) {
+            const path = joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'SMI', folderName);
+            const state = getGedDocumentsState(path, renderAfterLoad);
+            if (state?.loading && !state.loaded) return renderGedLoading('documents');
+            if (state?.error) return renderGedError('documents');
+            const referenceNames = new Set(references.flatMap(item => [item.file, item.label]).map(normalizeGedText).filter(Boolean));
+            const documents = (state?.documents || []).filter(item =>
+                referenceNames.has(normalizeGedText(item.fileName))
+                || referenceNames.has(normalizeGedText(item.title))
+                || (item.segments || []).some(segment => normalizeGedText(segment) === normalizeGedText(label))
+            );
+            return documents.map(item => renderGedDocItem(item)).join('') || renderGedEmpty('document');
+        }
+
         function renderOrgGovSmiPilotage() {
             const root = document.getElementById('orgGovSmiPilotage');
             if (!root) return;
-            if (renderOrgGovSmiFolderDocuments('orgGovSmiPilotage', 'Organisation de pilotage SMI', renderOrgGovSmiPilotage, 'SMI')) return;
+            if (renderOrgGovSmiFolderDocuments(
+                'orgGovSmiPilotage',
+                'Organisation de pilotage SMI',
+                renderOrgGovSmiPilotage,
+                'SMI'
+            )) return;
             const current = orgGovSmiPilotageRoles.find(r => r.id === orgGovSmiPilotageRole) || orgGovSmiPilotageRoles[0];
             orgGovSmiPilotageRole = current?.id || null;
             root.innerHTML = `
@@ -2655,7 +3121,9 @@ function openAgendaTab(tabName) {
                         <ul style="margin:8px 0 0 18px;color:#475569;font-size:12px;line-height:1.8;">${(current?.responsibilities || []).map(x => `<li>${x}</li>`).join('')}</ul>
                         <div style="margin-top:12px;font-weight:900;color:#1e293b;font-size:13px;">Autorités</div>
                         <p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.authority || ''}</p>
-                        ${current?.file ? `<button class="primary-btn" style="margin-top:14px;" onclick="openMockDownload('${current.file}','${current.role}')">Document nominatif</button>` : ''}
+                        ${shouldUseSmiDocumentsApi()
+                            ? renderOrgGovSmiReferenceAttachments('Organisation de pilotage SMI', current?.role, [{ file: current?.file, label: current?.role }], renderOrgGovSmiPilotage)
+                            : current?.file ? `<button class="primary-btn" style="margin-top:14px;" onclick="openMockDownload('${current.file}','${current.role}')">Document nominatif</button>` : ''}
                     </div>
                 </div>
             `;
@@ -2665,7 +3133,12 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiGovernance() {
             const root = document.getElementById('orgGovSmiGovernance');
             if (!root) return;
-            if (renderOrgGovSmiFolderDocuments('orgGovSmiGovernance', 'Gouvernance interne', renderOrgGovSmiGovernance, 'GOV')) return;
+            if (renderOrgGovSmiFolderDocuments(
+                'orgGovSmiGovernance',
+                'Gouvernance interne',
+                renderOrgGovSmiGovernance,
+                'GED'
+            )) return;
             const current = orgGovSmiGovernanceInstances.find(i => i.id === orgGovSmiGovernanceInstance) || orgGovSmiGovernanceInstances[0];
             orgGovSmiGovernanceInstance = current?.id || null;
             root.innerHTML = `
@@ -2682,7 +3155,9 @@ function openAgendaTab(tabName) {
                         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Missions</strong><p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.missions || ''}</p></div>
                         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Composition</strong><p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.composition || ''}</p></div>
                         <div class="doc-list">
-                            ${(current?.docs || []).map(d => `
+                            ${shouldUseSmiDocumentsApi()
+                                ? renderOrgGovSmiReferenceAttachments('Gouvernance interne', current?.title, current?.docs || [], renderOrgGovSmiGovernance)
+                                : (current?.docs || []).map(d => `
                                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
                                     <div class="doc-icon" style="background:#fee2e2;color:#dc2626;font-weight:900;">PDF</div>
                                     <div class="doc-info"><div class="doc-title">${d.label}</div><div class="doc-meta">${current.title}</div></div>
@@ -2699,18 +3174,42 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiCertification() {
             const root = document.getElementById('orgGovSmiCertification');
             if (!root) return;
-            if (renderOrgGovSmiFolderDocuments('orgGovSmiCertification', 'Certification', renderOrgGovSmiCertification, 'CERT')) return;
+            let certifications = orgGovSmiCertifications;
+            if (shouldUseSmiDocumentsApi()) {
+                const path = joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'SMI', 'Certification');
+                const state = getGedDocumentsState(path, renderOrgGovSmiCertification);
+                if (state?.loading && !state.loaded) {
+                    root.innerHTML = renderGedLoading('certifications');
+                    return;
+                }
+                if (state?.error) {
+                    root.innerHTML = renderGedError('certifications');
+                    return;
+                }
+                certifications = (state?.documents || []).map(documentItem => ({
+                    title: documentItem.title || documentItem.fileName,
+                    desc: documentItem.description || documentItem.folderLabel || 'Certification',
+                    file: documentItem.file
+                }));
+            }
+            if (!certifications.length) {
+                root.innerHTML = renderGedEmpty('certification disponible');
+                return;
+            }
+            const paginationKey = 'org-gov-smi:Certification';
+            const pagination = paginateGedDocuments(paginationKey, certifications, renderOrgGovSmiCertification);
             root.innerHTML = `
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
-                    ${orgGovSmiCertifications.map(c => `
-                        <div class="doc-card" onclick="openMockDownload('${c.file}','${c.title}')">
-                            <div class="doc-icon-large" style="background:#f0fdf4;color:#15803d;"><i data-lucide="badge-check" style="width:24px;height:24px;"></i></div>
-                            <div class="doc-card-title">${c.title}</div>
-                            <p style="font-size:12px;color:var(--text-light);line-height:1.6;">${c.desc}</p>
-                            <div class="doc-card-meta"><span>Consulter</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
-                        </div>
+                <div class="cmr-certification-grid">
+                    ${pagination.items.map(c => `
+                        <button type="button" class="doc-card cmr-certification-card" onclick="openMockDownload(${escapeHtml(JSON.stringify(c.file))},${escapeHtml(JSON.stringify(c.title))})">
+                            <span class="doc-icon-large" style="background:#f0fdf4;color:#15803d;"><i data-lucide="badge-check" style="width:24px;height:24px;"></i></span>
+                            <span class="doc-card-title">${escapeHtml(c.title)}</span>
+                            <span class="cmr-certification-description">${escapeHtml(c.desc || '')}</span>
+                            <span class="doc-card-meta"><span>Consulter</span><i data-lucide="arrow-right" style="width:16px;"></i></span>
+                        </button>
                     `).join('')}
                 </div>
+                ${renderGedDocumentsPagination(paginationKey, pagination)}
             `;
             lucide.createIcons();
         }
@@ -2846,15 +3345,41 @@ function openAgendaTab(tabName) {
         function renderOrgGovCultureContents() {
             const root = document.getElementById('orgGovCultureContents');
             if (!root) return;
+            const state = getGedDocumentsState(
+                joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'Culture QSE - RSE', 'Contenus pédagogiques'),
+                renderOrgGovCultureContents
+            );
+            if (state?.loading && !state.loaded) {
+                root.innerHTML = renderGedLoading('documents');
+                return;
+            }
+            if (state?.error) {
+                root.innerHTML = renderGedError('documents');
+                return;
+            }
+            const items = state
+                ? state.documents.map(doc => ({
+                    title: doc.title,
+                    file: doc.file,
+                    type: getGedFileKind(doc.fileName),
+                    meta: doc.folderLabel || doc.fileName
+                }))
+                : orgGovCultureContents.map(item => ({
+                    ...item,
+                    meta: `${item.theme} • ${item.type}`
+                }));
+            const paginationKey = 'org-gov-culture-contents';
+            const pagination = paginateGedDocuments(paginationKey, items, renderOrgGovCultureContents);
             root.innerHTML = `
                 <div class="doc-list">
-                    ${orgGovCultureContents.map(c => `
-                        <div class="doc-item" onclick="openMockDownload('${c.file}','${c.title}')">
-                            <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">${c.type.slice(0,3).toUpperCase()}</div>
-                            <div class="doc-info"><div class="doc-title">${c.title}</div><div class="doc-meta">${c.theme} • ${c.type}</div></div>
+                    ${pagination.items.map(c => `
+                        <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(c.file))},${escapeHtml(JSON.stringify(c.title))})">
+                            <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">${escapeHtml(c.type.slice(0,3).toUpperCase())}</div>
+                            <div class="doc-info"><div class="doc-title">${escapeHtml(c.title)}</div><div class="doc-meta">${escapeHtml(c.meta || '')}</div></div>
                             <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                         </div>
-                    `).join('')}
+                    `).join('') || renderGedEmpty('document')}
+                    ${renderGedDocumentsPagination(paginationKey, pagination)}
                 </div>
             `;
             lucide.createIcons();
@@ -2863,35 +3388,209 @@ function openAgendaTab(tabName) {
         function renderOrgGovCultureFaq() {
             const root = document.getElementById('orgGovCultureFaq');
             if (!root) return;
-            const q = (document.getElementById('orgGovCultureFaqSearch')?.value || '').trim().toLowerCase();
-            const items = orgGovCultureFaq.filter(f => !q || f.question.toLowerCase().includes(q) || f.answer.toLowerCase().includes(q));
+            const state = getDataUniverseTextState('faq', renderOrgGovCultureFaq);
+            loadDataUniverseTextSpace('faq', renderOrgGovCultureFaq);
+            const sourceItems = getOrgGovCultureTextItems('faq');
+            const rawQuery = orgGovCultureFaqQuery.trim();
+            const q = rawQuery.toLowerCase();
+            const items = sourceItems.filter(item => !q || item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q));
+            const paginationKey = `org-gov-culture-faq:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderOrgGovCultureFaq);
+            const draft = orgGovCultureTextDrafts.faq;
             root.innerHTML = `
-                <div class="actu-search-wrap" style="max-width:520px;margin-bottom:14px;">
-                    <i data-lucide="search" class="actu-search-icon"></i>
-                    <input id="orgGovCultureFaqSearch" class="actu-search-input" placeholder="Rechercher une question..." value="${q}" oninput="renderOrgGovCultureFaq()">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+                    <div class="actu-search-wrap" style="max-width:520px;flex:1;margin:0;">
+                        <i data-lucide="search" class="actu-search-icon"></i>
+                        <input id="orgGovCultureFaqSearch" class="actu-search-input" placeholder="Rechercher une question..." value="${escapeHtml(rawQuery)}" oninput="filterOrgGovCultureFaq(this.value)">
+                    </div>
+                    <button type="button" class="primary-btn" onclick="toggleOrgGovCultureTextForm('faq')">
+                        <i data-lucide="${orgGovCultureTextFormsOpen.faq ? 'x' : 'plus'}" style="width:16px;height:16px;"></i>
+                        ${orgGovCultureTextFormsOpen.faq ? 'Annuler' : 'Ajouter'}
+                    </button>
                 </div>
-                <div class="doc-list">
-                    ${items.map(f => `
-                        <div style="padding:14px 0;border-top:1px solid #f1f5f9;">
-                            <div style="font-weight:900;color:#0f172a;">${f.question}</div>
-                            <div style="margin-top:6px;color:#475569;font-size:13px;line-height:1.7;">${f.answer}</div>
+                ${orgGovCultureTextFormsOpen.faq ? `
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:14px;">
+                        <div style="font-weight:800;color:#0f172a;margin-bottom:10px;">Ajouter une FAQ</div>
+                        <input id="orgGovCultureFaqQuestion" class="actu-search-input" placeholder="Question" value="${escapeHtml(draft.title || '')}">
+                        <textarea id="orgGovCultureFaqAnswer" class="actu-search-input" style="height:100px;margin-top:10px;padding-top:10px;" placeholder="Réponse">${escapeHtml(draft.description || '')}</textarea>
+                        <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                            <button id="orgGovCultureFaqSubmit" type="button" class="primary-btn" onclick="submitOrgGovCultureFaq()" ${state?.submitting ? 'disabled' : ''}>${state?.submitting ? 'Enregistrement...' : 'Enregistrer'}</button>
                         </div>
-                    `).join('') || '<div style="color:#64748b;font-size:13px;">Aucun résultat.</div>'}
+                    </div>
+                ` : ''}
+                ${renderDataUniverseStatus(state, 'Aucune question enregistrée.')}
+                <div class="doc-list">
+                    ${pagination.items.map(item => `
+                        <div style="padding:14px 0;border-top:1px solid #f1f5f9;">
+                            <div style="min-width:0;">
+                                <div style="font-weight:900;color:#0f172a;">${escapeHtml(item.title)}</div>
+                                <div style="margin-top:6px;color:#475569;font-size:13px;line-height:1.7;">${escapeHtml(item.description)}</div>
+                            </div>
+                        </div>
+                    `).join('') || (!state?.loading && sourceItems.length ? '<div style="color:#64748b;font-size:13px;">Aucun résultat.</div>' : '')}
+                    ${renderGedDocumentsPagination(paginationKey, pagination)}
                 </div>
             `;
             lucide.createIcons();
         }
 
+        async function submitOrgGovCultureFaq() {
+            const title = (document.getElementById('orgGovCultureFaqQuestion')?.value || '').trim();
+            const description = (document.getElementById('orgGovCultureFaqAnswer')?.value || '').trim();
+            if (!title || !description) return;
+            orgGovCultureTextDrafts.faq = { title, description };
+            if (!shouldUseDataUniverseApi()) {
+                orgGovCultureFaq = [{ question: title, answer: description }, ...orgGovCultureFaq];
+                orgGovCultureTextDrafts.faq = {};
+                orgGovCultureTextFormsOpen.faq = false;
+                renderOrgGovCultureFaq();
+                return;
+            }
+            const values = { sys_Title: title, Reponse: description };
+            const success = await createDataUniverseTextItem('faq', values, { title, description }, renderOrgGovCultureFaq);
+            if (success) {
+                orgGovCultureTextDrafts.faq = {};
+                orgGovCultureTextFormsOpen.faq = false;
+                renderOrgGovCultureFaq();
+            }
+        }
+
+        function switchOrgGovCultureCommunicationMode(mode) {
+            orgGovCultureCommunicationMode = mode === 'gallery' ? 'gallery' : 'documents';
+            renderOrgGovCultureCommunication();
+        }
+
+        function renderOrgGovCultureGallerySlider() {
+            const lightbox = document.getElementById('orgGovCultureGalleryLightbox');
+            const item = orgGovCultureGalleryItems[orgGovCultureGalleryIndex];
+            if (!lightbox || !item) return;
+            lightbox.innerHTML = `
+                <div class="communication-lightbox-panel" onclick="event.stopPropagation()">
+                    <div class="communication-lightbox-header">
+                        <div>
+                            <strong>${escapeHtml(item.title || item.fileName || 'Image')}</strong>
+                            <span>${orgGovCultureGalleryIndex + 1} / ${orgGovCultureGalleryItems.length}</span>
+                        </div>
+                        <button type="button" class="communication-lightbox-close" onclick="closeOrgGovCultureGallery()" aria-label="Fermer l'aperçu">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+                    <div class="communication-lightbox-stage">
+                        ${orgGovCultureGalleryItems.length > 1 ? `
+                            <button type="button" class="communication-lightbox-arrow previous" onclick="moveOrgGovCultureGallery(-1)" aria-label="Image précédente"><i data-lucide="chevron-left"></i></button>
+                        ` : ''}
+                        <img src="${escapeHtml(item.file)}" alt="${escapeHtml(item.title || item.fileName || 'Image Communication QSE - RSE')}">
+                        ${orgGovCultureGalleryItems.length > 1 ? `
+                            <button type="button" class="communication-lightbox-arrow next" onclick="moveOrgGovCultureGallery(1)" aria-label="Image suivante"><i data-lucide="chevron-right"></i></button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function openOrgGovCultureGallery(index) {
+            if (!orgGovCultureGalleryItems.length) return;
+            orgGovCultureGalleryIndex = Math.max(0, Math.min(Number(index) || 0, orgGovCultureGalleryItems.length - 1));
+            let lightbox = document.getElementById('orgGovCultureGalleryLightbox');
+            if (!lightbox) {
+                lightbox = document.createElement('div');
+                lightbox.id = 'orgGovCultureGalleryLightbox';
+                lightbox.className = 'communication-lightbox';
+                lightbox.setAttribute('role', 'dialog');
+                lightbox.setAttribute('aria-modal', 'true');
+                lightbox.setAttribute('aria-label', 'Galerie Communication QSE - RSE');
+                lightbox.addEventListener('click', closeOrgGovCultureGallery);
+                document.body.appendChild(lightbox);
+            }
+            orgGovCultureGalleryPreviousOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            renderOrgGovCultureGallerySlider();
+        }
+
+        function moveOrgGovCultureGallery(delta) {
+            if (!orgGovCultureGalleryItems.length) return;
+            orgGovCultureGalleryIndex = (orgGovCultureGalleryIndex + delta + orgGovCultureGalleryItems.length) % orgGovCultureGalleryItems.length;
+            renderOrgGovCultureGallerySlider();
+        }
+
+        function closeOrgGovCultureGallery() {
+            document.getElementById('orgGovCultureGalleryLightbox')?.remove();
+            document.body.style.overflow = orgGovCultureGalleryPreviousOverflow;
+        }
+
+        document.addEventListener('keydown', event => {
+            if (!document.getElementById('orgGovCultureGalleryLightbox')) return;
+            if (event.key === 'Escape') closeOrgGovCultureGallery();
+            if (event.key === 'ArrowLeft') moveOrgGovCultureGallery(-1);
+            if (event.key === 'ArrowRight') moveOrgGovCultureGallery(1);
+        });
+
         function renderOrgGovCultureCommunication() {
             const root = document.getElementById('orgGovCultureCommunication');
             if (!root) return;
-            root.innerHTML = `<div class="doc-list">${orgGovCultureNews.map(n => `
-                <div class="doc-item" onclick="openMockDownload('${n.file}','${n.title}')">
-                    <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">${n.type.slice(0,3).toUpperCase()}</div>
-                    <div class="doc-info"><div class="doc-title">${n.title}</div><div class="doc-meta">${n.type} • ${n.date}</div></div>
-                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
-                </div>
-            `).join('')}</div>`;
+            const state = getGedDocumentsState(
+                joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'Culture QSE - RSE', 'Communication QSE - RSE'),
+                renderOrgGovCultureCommunication
+            );
+            if (state?.loading && !state.loaded) {
+                root.innerHTML = renderGedLoading('documents');
+                return;
+            }
+            if (state?.error) {
+                root.innerHTML = renderGedError('documents');
+                return;
+            }
+            const items = state
+                ? state.documents.map(doc => ({
+                    title: doc.title,
+                    file: doc.file,
+                    fileName: doc.fileName,
+                    type: getGedFileKind(doc.fileName),
+                    meta: doc.folderLabel || doc.fileName,
+                    segments: doc.segments || []
+                }))
+                : orgGovCultureNews.map(item => ({
+                    ...item,
+                    meta: `${item.type} • ${item.date}`
+                }));
+            const imageExtensions = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'avif', 'svg']);
+            const isImage = item => imageExtensions.has(String(item.fileName || item.title || '').split('?')[0].split('.').pop()?.toLowerCase());
+            const belongsToFolder = (item, folderName) => (item.segments || [])
+                .some(segment => normalizeGedText(segment) === normalizeGedText(folderName));
+            const galleryItems = items.filter(item => isImage(item) && belongsToFolder(item, 'Galerie QSE - RSE'));
+            orgGovCultureGalleryItems = galleryItems;
+            const documentItems = items.filter(item => belongsToFolder(item, 'Documentation QSE - RSE') || (!isImage(item) && !belongsToFolder(item, 'Galerie QSE - RSE')));
+            const activeItems = orgGovCultureCommunicationMode === 'gallery' ? galleryItems : documentItems;
+            const paginationKey = `org-gov-culture-communication:${orgGovCultureCommunicationMode}`;
+            const pagination = paginateGedDocuments(paginationKey, activeItems, renderOrgGovCultureCommunication);
+            const filters = `
+                <div class="qse-communication-filters" role="group" aria-label="Type de contenu Communication QSE - RSE">
+                    <button type="button" class="filter-pill${orgGovCultureCommunicationMode === 'documents' ? ' active' : ''}" onclick="switchOrgGovCultureCommunicationMode('documents')">
+                        <i data-lucide="files" aria-hidden="true"></i>
+                        Documentation
+                    </button>
+                    <button type="button" class="filter-pill${orgGovCultureCommunicationMode === 'gallery' ? ' active' : ''}" onclick="switchOrgGovCultureCommunicationMode('gallery')">
+                        <i data-lucide="images" aria-hidden="true"></i>
+                        Galerie
+                    </button>
+                </div>`;
+            if (orgGovCultureCommunicationMode === 'gallery') {
+                root.innerHTML = `${filters}<div class="qse-communication-gallery">${pagination.items.map(item => `
+                    <button type="button" class="qse-communication-gallery-item" onclick="openOrgGovCultureGallery(${galleryItems.indexOf(item)})">
+                        <img src="${escapeHtml(item.file)}" alt="${escapeHtml(item.title)}" loading="lazy">
+                        <span>${escapeHtml(item.title)}</span>
+                    </button>
+                `).join('') || renderGedEmpty('image')}</div>${renderGedDocumentsPagination(paginationKey, pagination)}`;
+            } else {
+                root.innerHTML = `${filters}<div class="doc-list">${pagination.items.map(n => `
+                    <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(n.file))},${escapeHtml(JSON.stringify(n.title))})">
+                        <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">${escapeHtml(n.type.slice(0,3).toUpperCase())}</div>
+                        <div class="doc-info"><div class="doc-title">${escapeHtml(n.title)}</div><div class="doc-meta">${escapeHtml(n.meta || '')}</div></div>
+                        <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                    </div>
+                `).join('') || renderGedEmpty('document')}</div>${renderGedDocumentsPagination(paginationKey, pagination)}`;
+            }
             lucide.createIcons();
         }
 
@@ -2907,7 +3606,7 @@ function openAgendaTab(tabName) {
                             <p style="font-size:12px;color:var(--text-light);">Score moyen : ${q.score}% • ${q.participants} participations</p>
                             <button class="primary-btn" onclick="alert('Quiz démarré : ${q.title}')">Participer</button>
                         </div>
-                    `).join('')}
+                    `).join('') || renderGedEmpty('quiz')}
                 </div>
             `;
             lucide.createIcons();
@@ -2916,65 +3615,147 @@ function openAgendaTab(tabName) {
         function renderOrgGovCultureIdeas() {
             const root = document.getElementById('orgGovCultureIdeas');
             if (!root) return;
+            const state = getDataUniverseTextState('ideas', renderOrgGovCultureIdeas);
+            loadDataUniverseTextSpace('ideas', renderOrgGovCultureIdeas);
+            const sourceItems = getOrgGovCultureTextItems('ideas');
+            if (!sourceItems.some(item => item.id === orgGovCultureTextSelectedIds.ideas)) {
+                orgGovCultureTextSelectedIds.ideas = sourceItems[0]?.id || '';
+            }
+            const selectedItem = sourceItems.find(item => item.id === orgGovCultureTextSelectedIds.ideas) || null;
+            const paginationKey = 'org-gov-culture-ideas';
+            const pagination = paginateGedDocuments(paginationKey, sourceItems, renderOrgGovCultureIdeas);
+            const draft = orgGovCultureTextDrafts.ideas;
+            const showSidePanel = orgGovCultureTextFormsOpen.ideas || selectedItem;
             root.innerHTML = `
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+                <div style="display:flex;justify-content:flex-end;margin-bottom:14px;">
+                    <button type="button" class="primary-btn" onclick="toggleOrgGovCultureTextForm('ideas')"><i data-lucide="${orgGovCultureTextFormsOpen.ideas ? 'x' : 'plus'}" style="width:16px;height:16px;"></i>${orgGovCultureTextFormsOpen.ideas ? 'Annuler' : 'Ajouter'}</button>
+                </div>
+                ${renderDataUniverseStatus(state, 'Aucune idée enregistrée.')}
+                <div class="data-universe-content-layout${showSidePanel ? ' has-form' : ''}">
                     <div class="doc-list">
-                        ${orgGovCultureIdeas.map(i => `
-                            <div class="doc-item"><div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">ID</div><div class="doc-info"><div class="doc-title">${i.title}</div><div class="doc-meta">${i.type} • ${i.date}</div></div></div>
+                        ${pagination.items.map(item => `
+                            <button type="button" class="doc-item data-universe-list-item${item.id === selectedItem?.id ? ' active' : ''}" onclick="selectOrgGovCultureTextItem('ideas', ${escapeHtml(JSON.stringify(item.id))})">
+                                <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">ID</div>
+                                <div class="doc-info"><div class="doc-title">${escapeHtml(item.title)}</div><div class="doc-meta">${escapeHtml([item.type, item.pending ? 'Enregistrement...' : ''].filter(Boolean).join(' • '))}</div></div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </button>
                         `).join('')}
+                        ${renderGedDocumentsPagination(paginationKey, pagination)}
                     </div>
-                    <div>
-                        <input id="orgGovCultureIdeaTitle" class="actu-search-input" placeholder="Titre de l'idée">
-                        <select id="orgGovCultureIdeaType" class="actu-search-input" style="height:40px;margin-top:12px;"><option>Qualité</option><option>SST</option><option>Environnement</option><option>RSE</option></select>
-                        <textarea id="orgGovCultureIdeaDesc" class="actu-search-input" style="height:110px;margin-top:12px;padding-top:10px;" placeholder="Décrire l'idée..."></textarea>
-                        <button class="primary-btn" style="margin-top:12px;" onclick="submitOrgGovCultureIdea()">Soumettre</button>
-                    </div>
+                    ${orgGovCultureTextFormsOpen.ideas ? `<div class="data-universe-detail-panel">
+                        <div style="font-weight:800;color:#0f172a;margin-bottom:10px;">Ajouter une idée</div>
+                        <input id="orgGovCultureIdeaTitle" class="actu-search-input" placeholder="Titre de l'idée" value="${escapeHtml(draft.title || '')}">
+                        <select id="orgGovCultureIdeaType" class="actu-search-input" style="height:40px;margin-top:12px;">${['Qualité', 'SST', 'Environnement', 'RSE'].map(type => `<option ${type === (draft.type || 'Qualité') ? 'selected' : ''}>${type}</option>`).join('')}</select>
+                        <textarea id="orgGovCultureIdeaDesc" class="actu-search-input" style="height:110px;margin-top:12px;padding-top:10px;" placeholder="Décrire l'idée...">${escapeHtml(draft.description || '')}</textarea>
+                        <button type="button" class="primary-btn" style="margin-top:12px;" onclick="submitOrgGovCultureIdea()" ${state?.submitting ? 'disabled' : ''}>${state?.submitting ? 'Enregistrement...' : 'Enregistrer'}</button>
+                    </div>` : (selectedItem ? `<div class="data-universe-detail-panel">
+                        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+                            <div><div class="doc-meta">${escapeHtml(selectedItem.type || '')}</div><div style="font-size:16px;font-weight:900;color:#0f172a;margin-top:4px;">${escapeHtml(selectedItem.title)}</div></div>
+                        </div>
+                        <div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0;color:#475569;font-size:13px;line-height:1.7;white-space:pre-wrap;">${escapeHtml(selectedItem.description || 'Aucune description.')}</div>
+                    </div>` : '')}
                 </div>
             `;
+            lucide.createIcons();
         }
 
-        function submitOrgGovCultureIdea() {
+        async function submitOrgGovCultureIdea() {
             const title = (document.getElementById('orgGovCultureIdeaTitle')?.value || '').trim();
             const type = document.getElementById('orgGovCultureIdeaType')?.value || 'Qualité';
-            if (!title) return;
-            orgGovCultureIdeas = [{ title, type, date: 'Aujourd’hui' }, ...orgGovCultureIdeas];
-            renderOrgGovCultureIdeas();
+            const description = (document.getElementById('orgGovCultureIdeaDesc')?.value || '').trim();
+            if (!title || !description) return;
+            orgGovCultureTextDrafts.ideas = { title, type, description };
+            if (!shouldUseDataUniverseApi()) {
+                orgGovCultureIdeas = [{ title, type, description, date: 'Aujourd’hui' }, ...orgGovCultureIdeas];
+                orgGovCultureTextDrafts.ideas = {};
+                orgGovCultureTextFormsOpen.ideas = false;
+                renderOrgGovCultureIdeas();
+                return;
+            }
+            const values = { sys_Title: title, Description: description, Qualite: type };
+            const success = await createDataUniverseTextItem('ideas', values, { title, type, description }, renderOrgGovCultureIdeas);
+            if (success) {
+                orgGovCultureTextDrafts.ideas = {};
+                orgGovCultureTextFormsOpen.ideas = false;
+                renderOrgGovCultureIdeas();
+            }
         }
 
         function renderOrgGovCultureRemontees() {
             const root = document.getElementById('orgGovCultureRemontees');
             if (!root) return;
+            const state = getDataUniverseTextState('reports', renderOrgGovCultureRemontees);
+            loadDataUniverseTextSpace('reports', renderOrgGovCultureRemontees);
+            const sourceItems = getOrgGovCultureTextItems('reports');
+            if (!sourceItems.some(item => item.id === orgGovCultureTextSelectedIds.reports)) {
+                orgGovCultureTextSelectedIds.reports = sourceItems[0]?.id || '';
+            }
+            const selectedItem = sourceItems.find(item => item.id === orgGovCultureTextSelectedIds.reports) || null;
+            const paginationKey = 'org-gov-culture-reports';
+            const pagination = paginateGedDocuments(paginationKey, sourceItems, renderOrgGovCultureRemontees);
+            const draft = orgGovCultureTextDrafts.reports;
+            const showSidePanel = orgGovCultureTextFormsOpen.reports || selectedItem;
             root.innerHTML = `
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+                <div style="display:flex;justify-content:flex-end;margin-bottom:14px;">
+                    <button type="button" class="primary-btn" onclick="toggleOrgGovCultureTextForm('reports')"><i data-lucide="${orgGovCultureTextFormsOpen.reports ? 'x' : 'plus'}" style="width:16px;height:16px;"></i>${orgGovCultureTextFormsOpen.reports ? 'Annuler' : 'Ajouter'}</button>
+                </div>
+                ${renderDataUniverseStatus(state, 'Aucune remontée enregistrée.')}
+                <div class="data-universe-content-layout${showSidePanel ? ' has-form' : ''}">
                     <div class="doc-list">
-                        ${orgGovCultureRemontees.map(r => `
-                            <div class="doc-item"><div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">REM</div><div class="doc-info"><div class="doc-title">${r.title}</div><div class="doc-meta">${r.type} • ${r.date}</div></div></div>
+                        ${pagination.items.map(item => `
+                            <button type="button" class="doc-item data-universe-list-item${item.id === selectedItem?.id ? ' active' : ''}" onclick="selectOrgGovCultureTextItem('reports', ${escapeHtml(JSON.stringify(item.id))})">
+                                <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">REM</div>
+                                <div class="doc-info"><div class="doc-title">${escapeHtml(item.title)}</div><div class="doc-meta">${escapeHtml([item.type, item.pending ? 'Enregistrement...' : ''].filter(Boolean).join(' • '))}</div></div>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
+                            </button>
                         `).join('')}
+                        ${renderGedDocumentsPagination(paginationKey, pagination)}
                     </div>
-                    <div>
-                        <input id="orgGovCultureRemTitle" class="actu-search-input" placeholder="Titre de la remontée">
-                        <select id="orgGovCultureRemType" class="actu-search-input" style="height:40px;margin-top:12px;"><option>Anomalie</option><option>Observation</option><option>Risque</option><option>Suggestion</option></select>
-                        <textarea id="orgGovCultureRemDesc" class="actu-search-input" style="height:110px;margin-top:12px;padding-top:10px;" placeholder="Décrire la remontée terrain..."></textarea>
-                        <button class="primary-btn" style="margin-top:12px;" onclick="submitOrgGovCultureRemontee()">Déclarer</button>
-                    </div>
+                    ${orgGovCultureTextFormsOpen.reports ? `<div class="data-universe-detail-panel">
+                        <div style="font-weight:800;color:#0f172a;margin-bottom:10px;">Ajouter une remontée</div>
+                        <input id="orgGovCultureRemTitle" class="actu-search-input" placeholder="Titre de la remontée" value="${escapeHtml(draft.title || '')}">
+                        <select id="orgGovCultureRemType" class="actu-search-input" style="height:40px;margin-top:12px;">${['Anomalie', 'Observation', 'Risque', 'Suggestion'].map(type => `<option ${type === (draft.type || 'Observation') ? 'selected' : ''}>${type}</option>`).join('')}</select>
+                        <textarea id="orgGovCultureRemDesc" class="actu-search-input" style="height:110px;margin-top:12px;padding-top:10px;" placeholder="Décrire la remontée terrain...">${escapeHtml(draft.description || '')}</textarea>
+                        <button type="button" class="primary-btn" style="margin-top:12px;" onclick="submitOrgGovCultureRemontee()" ${state?.submitting ? 'disabled' : ''}>${state?.submitting ? 'Enregistrement...' : 'Enregistrer'}</button>
+                    </div>` : (selectedItem ? `<div class="data-universe-detail-panel">
+                        <div><div class="doc-meta">${escapeHtml(selectedItem.type || '')}</div><div style="font-size:16px;font-weight:900;color:#0f172a;margin-top:4px;">${escapeHtml(selectedItem.title)}</div></div>
+                        <div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0;color:#475569;font-size:13px;line-height:1.7;white-space:pre-wrap;">${escapeHtml(selectedItem.description || 'Aucune description.')}</div>
+                    </div>` : '')}
                 </div>
             `;
+            lucide.createIcons();
         }
 
-        function submitOrgGovCultureRemontee() {
+        async function submitOrgGovCultureRemontee() {
             const title = (document.getElementById('orgGovCultureRemTitle')?.value || '').trim();
             const type = document.getElementById('orgGovCultureRemType')?.value || 'Observation';
-            if (!title) return;
-            orgGovCultureRemontees = [{ title, type, date: 'Aujourd’hui' }, ...orgGovCultureRemontees];
-            renderOrgGovCultureRemontees();
+            const description = (document.getElementById('orgGovCultureRemDesc')?.value || '').trim();
+            if (!title || !description) return;
+            orgGovCultureTextDrafts.reports = { title, type, description };
+            if (!shouldUseDataUniverseApi()) {
+                orgGovCultureRemontees = [{ title, type, description, date: 'Aujourd’hui' }, ...orgGovCultureRemontees];
+                orgGovCultureTextDrafts.reports = {};
+                orgGovCultureTextFormsOpen.reports = false;
+                renderOrgGovCultureRemontees();
+                return;
+            }
+            const values = { sys_Title: title, Type: type, Description: description };
+            const success = await createDataUniverseTextItem('reports', values, { title, type, description }, renderOrgGovCultureRemontees);
+            if (success) {
+                orgGovCultureTextDrafts.reports = {};
+                orgGovCultureTextFormsOpen.reports = false;
+                renderOrgGovCultureRemontees();
+            }
         }
 
         function renderOrgGovCultureStats() {
             const root = document.getElementById('orgGovCultureStats');
             if (!root) return;
+            const ideaState = getDataUniverseTextState('ideas', renderOrgGovCultureStats);
+            const reportState = getDataUniverseTextState('reports', renderOrgGovCultureStats);
             const dynamic = [
-                { label: 'Idées soumises', value: orgGovCultureIdeas.length },
-                { label: 'Remontées terrain', value: orgGovCultureRemontees.length }
+                { label: 'Idées soumises', value: ideaState ? ideaState.items.length : orgGovCultureIdeas.length },
+                { label: 'Remontées terrain', value: reportState ? reportState.items.length : orgGovCultureRemontees.length }
             ];
             const items = [...(orgGovCultureStats.items || []).slice(0, 2), ...dynamic];
             root.innerHTML = `
@@ -3000,14 +3781,23 @@ function openAgendaTab(tabName) {
         }
 
         async function openMockDownload(filename, title) {
+            const name = String(filename || '');
+            if (/^(https?:)?\/\//i.test(name) || /^(?:\.?\.?\/)?(?:api|docs)\//i.test(name) || name.startsWith('/')) {
+                openResolvedGedDocument(name, title || name);
+                return;
+            }
             const resolvedDocument = await resolveGedDocumentForClick(filename, title);
-            if (resolvedDocument?.file && resolvedDocument.file !== filename) {
+            if (resolvedDocument?.file) {
                 openResolvedGedDocument(resolvedDocument.file, resolvedDocument.title || title || filename);
                 return;
             }
 
+            if (shouldUseDocumentsApi()) {
+                alert('Le document est introuvable ou indisponible dans Moovapps. Veuillez réessayer.');
+                return;
+            }
+
             // Pour tous les PDF consultables: ouvrir un preview modal (pas de redirection)
-            const name = (filename || '').toString();
             if (/\.pdf(\?.*)?$/i.test(name)) {
                 const url = (/^(https?:)?\/\//i.test(name) || name.includes('/')) ? name : ('docs/' + name);
                 openPdfPreviewModal(url, title || filename);
@@ -3155,19 +3945,191 @@ function openAgendaTab(tabName) {
         const innovationPagesConfig = getCmrData('innovationPages', {});
         const innovationAccessProfiles = getCmrData('innovationAccessProfiles', {});
         const innovationThemeOptions = getCmrData('innovationThemeOptions', []);
-        const innovationCmrInnovThemeOptions = getCmrData('innovationCmrInnovThemeOptions', []);
-        let projectSheets = getCmrData('projectSheets', []);
-        let projectIdeas = getCmrData('projectIdeas', []);
-        let cmrInnovItems = getCmrData('cmrInnovItems', []);
-        let innovEventItems = getCmrData('innovEventItems', []);
+        const innovationProjectIdeaThemeOptions = getCmrData('innovationProjectIdeaThemeOptions', []);
+        function shouldUseInnovationApi() {
+            return !window.location.hostname.toLowerCase().endsWith('github.io');
+        }
+
+        let projectSheets = shouldUseInnovationApi() ? [] : getCmrData('projectSheets', []);
+        let projectIdeas = shouldUseInnovationApi() ? [] : getCmrData('projectIdeas', []);
+        let cmrInnovItems = shouldUseInnovationApi() ? [] : getCmrData('cmrInnovItems', []);
+        let innovEventItems = shouldUseInnovationApi() ? [] : getCmrData('innovEventItems', []);
         let selectedProjectSheetId = null;
         let selectedProjectIdeaId = null;
         let selectedInnovEventId = null;
-        let ideas = getCmrData('ideas', []);
+        let ideas = shouldUseInnovationApi() ? [] : getCmrData('ideas', []);
         let selectedIdeaId = null;
+        const innovationReadStates = new Map();
+
+        function getInnovationReadState(space) {
+            const state = innovationReadStates.get(space) || { loading: false, loaded: false, attempted: false, error: null };
+            innovationReadStates.set(space, state);
+            return state;
+        }
+
+        function getWorkflowViewItems(payload) {
+            const root = payload?.data?.data ?? payload?.data ?? payload;
+            return Array.isArray(root?.values) ? root.values : (Array.isArray(root) ? root : []);
+        }
+
+        function innovationViewItemMatchesSpace(space, values) {
+            if (!values || typeof values !== 'object') return false;
+            const hasValue = field => {
+                if (!Object.prototype.hasOwnProperty.call(values, field)) return false;
+                const value = values[field];
+                if (Array.isArray(value)) return value.length > 0;
+                if (value && typeof value === 'object') return Object.keys(value).length > 0;
+                return value !== undefined && value !== null && String(value).trim() !== '';
+            };
+            const projectIdeaFields = ['Theme', 'Periode', 'ImageIllustrative', 'SupportsDocumentaires'];
+            const cmrInnovFields = ['Description', 'Image'];
+            if (space === 'cmr-innov') {
+                return !projectIdeaFields.some(hasValue) && cmrInnovFields.some(hasValue);
+            }
+            if (space === 'project-idea') {
+                return projectIdeaFields.some(hasValue);
+            }
+            return true;
+        }
+
+        function innovationFileEntries(value) {
+            if (Array.isArray(value)) return value;
+            return value && typeof value === 'object' ? [value] : [];
+        }
+
+        function innovationDownloadUrl(file) {
+            if (!file?.downloadReference) return '';
+            const url = new URL('api/innovation-content.php', document.baseURI);
+            url.searchParams.set('downloadReference', file.downloadReference);
+            return url.toString();
+        }
+
+        function normalizeInnovationViewItem(space, values, index) {
+            const imageFile = [
+                values.ImageIllustrative,
+                values.ImageDuProjet,
+                values.Image,
+                values.VignetteRedimensionnee
+            ].flatMap(innovationFileEntries).find(file => file?.downloadReference);
+            const documentFiles = [values.SupportsDocumentaires, values.PiecesJointes, values.PieceJointe]
+                .flatMap(innovationFileEntries)
+                .filter(file => file?.downloadReference);
+            const period = values.Periode && typeof values.Periode === 'object' ? values.Periode : {};
+            const startDate = String(
+                period.startDate || period.start || period.from || period.dateDebut
+                || values.Date || values.DateDebut || ''
+            ).slice(0, 10);
+            const endDate = String(
+                period.endDate || period.end || period.to || period.dateFin
+                || values.DateFin || ''
+            ).slice(0, 10);
+            const common = {
+                id: String(values.sys_CurrentResourceId || values.sys_Reference || `${space}-${index}`),
+                title: String(values.sys_Title || values.Title || 'Sans titre'),
+                theme: String(values.Theme || values.Qualite || values.Type || ''),
+                date: startDate,
+                period: [startDate, endDate].filter(Boolean).join(' - '),
+                image: innovationDownloadUrl(imageFile) || 'images/intranet/slider1.png',
+                documents: documentFiles.map(file => ({
+                    name: String(file.name || file.fileName || 'Pièce jointe'),
+                    url: innovationDownloadUrl(file)
+                }))
+            };
+            if (space === 'project') {
+                return {
+                    ...common,
+                    summary: String(values.SyntheseDuProjet || values.Resume || values.Description || ''),
+                    description: String(values.SyntheseDuProjet || values.Resume || values.Description || ''),
+                    objective: String(values.Objectif || ''),
+                    team: String(values.EquipeProjet || ''),
+                    mentor: String(values.Mentor || ''),
+                    insights: String(values.Insights || '')
+                };
+            }
+            if (space === 'spontaneous') {
+                return { ...common, axis: common.theme, desc: String(values.DescriptionDeLIdee || values.Description || '') };
+            }
+            return { ...common, description: String(values.Description || values.SyntheseDuProjet || values.Theme || '') };
+        }
+
+        async function loadInnovationSpace(space, applyItems, renderAfterLoad) {
+            if (!shouldUseInnovationApi()) return;
+            const state = getInnovationReadState(space);
+            if (state.loading || state.loaded || state.attempted) return;
+            state.loading = true;
+            state.attempted = true;
+            state.error = null;
+            try {
+                const url = new URL('api/innovation-content.php', document.baseURI);
+                url.searchParams.set('space', space);
+                const response = await fetch(url, { headers: { Accept: 'application/json' }, cache: 'no-store' });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(payload.message || payload.error || `HTTP ${response.status}`);
+                const matchingItems = getWorkflowViewItems(payload)
+                    .filter(item => innovationViewItemMatchesSpace(space, item));
+                applyItems(matchingItems.map((item, index) => normalizeInnovationViewItem(space, item, index)));
+                state.loaded = true;
+            } catch (error) {
+                state.error = error;
+            } finally {
+                state.loading = false;
+                renderAfterLoad?.();
+            }
+        }
+
+        function renderInnovationAttachments(documents) {
+            if (!documents?.length) return '';
+            return `<div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0;">
+                <div style="font-weight:800;color:#0f172a;margin-bottom:8px;">Pièces jointes</div>
+                ${documents.map(file => `<a class="doc-item" href="${escapeHtml(file.url)}" target="_blank" rel="noopener" style="text-decoration:none;">
+                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">DOC</div>
+                    <div class="doc-info"><div class="doc-title">${escapeHtml(file.name)}</div></div>
+                    <i data-lucide="download" style="width:16px;height:16px;color:#64748b;"></i>
+                </a>`).join('')}
+            </div>`;
+        }
 
         function sortedRecent(items) {
-            return [...items].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0)).slice(0, 6);
+            return [...items].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+        }
+
+        function setInnovationSubmitStatus(id, message = '', isError = false) {
+            const status = document.getElementById(id);
+            if (!status) return;
+            status.textContent = message;
+            status.style.display = message ? 'block' : 'none';
+            status.style.color = isError ? '#b45309' : '#047857';
+        }
+
+        function innovationIsoDate(value) {
+            return value ? `${value}T00:00:00.000+0100` : '';
+        }
+
+        async function submitInnovationApi(space, values, files, statusId) {
+            if (!shouldUseInnovationApi()) return { demo: true };
+            const body = new FormData();
+            body.append('space', space);
+            body.append('values', JSON.stringify(values));
+            Object.entries(files || {}).forEach(([name, file]) => {
+                if (file) body.append(name, file, file.name);
+            });
+            setInnovationSubmitStatus(statusId, 'Enregistrement en cours...');
+            const response = await fetch('api/innovation-content.php', {
+                method: 'POST',
+                body,
+                cache: 'no-store'
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(result.message || result.error || `Erreur HTTP ${response.status}`);
+            }
+            const gedWarning = Array.isArray(result.ged) && result.ged.some(item => !item.ok);
+            setInnovationSubmitStatus(
+                statusId,
+                gedWarning ? 'Contenu ajouté. La publication d’une pièce jointe dans la GED a échoué.' : 'Contenu ajouté avec succès.',
+                gedWarning
+            );
+            return result;
         }
 
         function getInnovationSearchValue(inputId) {
@@ -3211,21 +4173,30 @@ function openAgendaTab(tabName) {
         function renderInnovationImageGrid(items, targetId, onClickFn, showDescription = true, searchInputId = null) {
             const root = document.getElementById(targetId);
             if (!root) return;
+            const isProjectCover = targetId === 'innovationProjectCards'
+                || targetId === 'innovationProjectIdeaCards'
+                || targetId === 'innovationEventCards';
             const query = searchInputId ? getInnovationSearchValue(searchInputId) : '';
-            const visibleItems = sortedRecent(items.filter(item => matchesInnovationSearch(item, query)));
+            const filteredItems = sortedRecent(items.filter(item => matchesInnovationSearch(item, query)));
+            const pageKey = `innovation-grid-${targetId}-${query}`;
+            const pagination = paginateGedDocuments(pageKey, filteredItems, () => renderInnovationImageGrid(items, targetId, onClickFn, showDescription, searchInputId));
+            const visibleItems = pagination.items;
             root.innerHTML = `
-                <div class="km-grid innovation-card-grid">
+                <div class="km-grid innovation-card-grid${isProjectCover ? ' innovation-project-cover-grid' : ''}">
                     ${visibleItems.map(item => `
-                        <div class="doc-card" style="cursor:pointer;padding:0;overflow:hidden;" onclick="${onClickFn}('${item.id}')">
-                            <img src="${item.image}" alt="${item.title}" style="width:100%;height:118px;object-fit:cover;display:block;">
+                        <div class="doc-card" style="cursor:pointer;padding:0;overflow:hidden;" onclick="${onClickFn}(${escapeHtml(JSON.stringify(item.id))})">
+                            ${isProjectCover
+                                ? `<img class="innovation-project-cover" src="${item.image}" alt="${escapeHtml(item.title)}" width="320" height="180">`
+                                : `<img src="${item.image}" alt="${escapeHtml(item.title)}" style="width:100%;height:118px;object-fit:cover;display:block;">`}
                             <div style="padding:14px;">
-                                <div class="doc-card-title">${item.title}</div>
-                                ${showDescription ? `<p style="font-size:12px;color:var(--text-light);margin-top:8px;line-height:1.6;">${item.description || ''}</p>` : ''}
-                                <div class="doc-card-meta"><span>${item.date || ''}</span><i data-lucide="chevron-right" style="width:16px;"></i></div>
+                                <div class="doc-card-title">${escapeHtml(item.title)}</div>
+                                ${showDescription ? `<p style="font-size:12px;color:var(--text-light);margin-top:8px;line-height:1.6;">${escapeHtml(item.description || '')}</p>` : ''}
+                                <div class="doc-card-meta"><span>${escapeHtml(item.date || '')}</span><i data-lucide="chevron-right" style="width:16px;"></i></div>
                             </div>
                         </div>
                     `).join('') || '<div style="grid-column:1/-1;color:#64748b;font-size:13px;padding:12px;">Aucun résultat trouvé.</div>'}
                 </div>
+                ${renderGedDocumentsPagination(pageKey, pagination)}
             `;
             lucide.createIcons();
         }
@@ -3242,14 +4213,26 @@ function openAgendaTab(tabName) {
             const project = projectSheets.find(p => p.id === selectedProjectSheetId) || projectSheets[0];
             selectedProjectSheetId = project?.id || null;
             detail.innerHTML = project ? `
-                <img src="${project.image}" alt="${project.title}" style="width:100%;max-height:190px;object-fit:cover;border-radius:12px;margin-bottom:14px;">
-                <div style="font-weight:900;color:#0f172a;font-size:16px;">${project.title}</div>
-                <p style="margin-top:8px;color:#475569;line-height:1.7;">${project.summary}</p>
-                <div style="display:grid;gap:10px;margin-top:12px;font-size:13px;color:#475569;">
-                    <div><strong>Objectif :</strong> ${project.objective}</div>
-                    <div><strong>Équipe projet :</strong> ${project.team}</div>
-                    <div><strong>Mentor :</strong> ${project.mentor}</div>
-                    <div><strong>Insights :</strong> ${project.insights}</div>
+                <div class="innovation-project-cover-scroll"><img class="innovation-project-cover-detail" src="${project.image}" alt="${escapeHtml(project.title)}"></div>
+                <div class="innovation-project-detail-body">
+                    <h2 class="innovation-project-detail-title">${escapeHtml(project.title)}</h2>
+                    <section class="innovation-project-text-section">
+                        <h3>Synthèse du projet</h3>
+                        <div class="innovation-project-copy">${escapeHtml(project.summary)}</div>
+                    </section>
+                    <section class="innovation-project-text-section">
+                        <h3>Objectif</h3>
+                        <div class="innovation-project-copy">${escapeHtml(project.objective)}</div>
+                    </section>
+                    <div class="innovation-project-facts">
+                        <section><h3>Équipe projet</h3><div class="innovation-project-copy">${escapeHtml(project.team)}</div></section>
+                        <section><h3>Sponsor</h3><div class="innovation-project-copy">${escapeHtml(project.mentor)}</div></section>
+                    </div>
+                    <section class="innovation-project-text-section innovation-project-insights">
+                        <h3>Insights</h3>
+                        <div class="innovation-project-copy">${escapeHtml(project.insights)}</div>
+                    </section>
+                    ${renderInnovationAttachments(project.documents)}
                 </div>
             ` : 'Sélectionnez un projet.';
         }
@@ -3266,10 +4249,23 @@ function openAgendaTab(tabName) {
             const project = projectIdeas.find(p => p.id === selectedProjectIdeaId) || projectIdeas[0];
             selectedProjectIdeaId = project?.id || null;
             detail.innerHTML = project ? `
-                <img src="${project.image}" alt="${project.title}" style="width:100%;max-height:190px;object-fit:cover;border-radius:12px;margin-bottom:14px;">
-                <div style="font-weight:900;color:#0f172a;font-size:16px;">${project.title}</div>
-                <p style="margin-top:8px;color:#475569;line-height:1.7;">${project.description}</p>
+                <div class="innovation-project-cover-scroll"><img class="innovation-project-cover-detail" src="${project.image}" alt="${escapeHtml(project.title)}"></div>
+                <div class="innovation-project-detail-body">
+                    <h2 class="innovation-project-detail-title">${escapeHtml(project.title)}</h2>
+                    <div class="innovation-project-facts">
+                        <section>
+                            <h3>Thème</h3>
+                            <div class="innovation-project-copy">${escapeHtml(project.theme || 'Non renseigné')}</div>
+                        </section>
+                        <section>
+                            <h3>Période</h3>
+                            <div class="innovation-project-copy">${escapeHtml(project.period || 'Non renseignée')}</div>
+                        </section>
+                    </div>
+                    ${renderInnovationAttachments(project.documents)}
+                </div>
             ` : 'Sélectionnez un projet idée.';
+            lucide.createIcons();
         }
 
         function switchInnovationProjectSub(subId) {
@@ -3286,10 +4282,32 @@ function openAgendaTab(tabName) {
         }
 
         function renderInnovationProjectCards() {
-            renderInnovationImageGrid(projectSheets, 'innovationProjectCards', 'selectInnovationProject', true, 'projectSheetSearch');
+            loadInnovationSpace('project', items => { projectSheets = items; }, renderInnovationProjectCards);
+            const state = getInnovationReadState('project');
+            const root = document.getElementById('innovationProjectCards');
+            if (state.loading && root) {
+                root.innerHTML = '<div style="padding:12px;color:#64748b;font-size:13px;">Chargement des projets...</div>';
+                return;
+            }
+            if (state.error && root) {
+                root.innerHTML = '<div style="padding:12px;color:#9a3412;font-size:13px;">Impossible de charger les projets pour le moment.</div>';
+                return;
+            }
+            renderInnovationImageGrid(projectSheets, 'innovationProjectCards', 'selectInnovationProject', false, 'projectSheetSearch');
         }
 
         function renderInnovationProjectIdeaCards() {
+            loadInnovationSpace('project-idea', items => { projectIdeas = items; }, renderInnovationProjectIdeaCards);
+            const state = getInnovationReadState('project-idea');
+            const root = document.getElementById('innovationProjectIdeaCards');
+            if (state.loading && root) {
+                root.innerHTML = '<div style="padding:12px;color:#64748b;font-size:13px;">Chargement des projets idées...</div>';
+                return;
+            }
+            if (state.error && root) {
+                root.innerHTML = '<div style="padding:12px;color:#9a3412;font-size:13px;">Impossible de charger les projets idées pour le moment.</div>';
+                return;
+            }
             renderInnovationImageGrid(projectIdeas, 'innovationProjectIdeaCards', 'selectInnovationProjectIdea', false, 'projectIdeaSearch');
         }
 
@@ -3300,27 +4318,46 @@ function openAgendaTab(tabName) {
 
         function toggleInnovationProjectForm() {
             const form = document.getElementById('innovationProjectForm');
-            if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            const browse = document.getElementById('innovationProjectBrowse');
+            if (!form) return;
+            const opening = form.style.display === 'none';
+            form.style.display = opening ? 'block' : 'none';
+            if (browse) browse.style.display = opening ? 'none' : 'block';
         }
 
-        function submitInnovationProject() {
+        async function submitInnovationProject() {
             const title = (document.getElementById('projectTitle')?.value || '').trim();
             const summary = (document.getElementById('projectSummary')?.value || '').trim();
+            const objective = (document.getElementById('projectObjective')?.value || '').trim();
             if (!title || !summary) return;
+            const imageFile = document.getElementById('projectImage')?.files?.[0] || null;
+            try {
+                await submitInnovationApi('project', {
+                    sys_Title: title,
+                    SyntheseDuProjet: summary,
+                    Objectif: objective,
+                    EquipeProjet: (document.getElementById('projectTeam')?.value || '').trim(),
+                    Mentor: (document.getElementById('projectMentor')?.value || '').trim(),
+                    Insights: (document.getElementById('projectInsights')?.value || '').trim()
+                }, { image: imageFile }, 'innovationProjectStatus');
+            } catch (error) {
+                setInnovationSubmitStatus('innovationProjectStatus', `Impossible d’ajouter le projet : ${error.message}`, true);
+                return;
+            }
             const id = 'fp' + Math.random().toString(16).slice(2);
             projectSheets = [{
                 id,
                 title,
                 description: summary,
                 summary,
-                objective: (document.getElementById('projectObjective')?.value || '').trim(),
+                objective,
                 team: (document.getElementById('projectTeam')?.value || '').trim(),
                 mentor: (document.getElementById('projectMentor')?.value || '').trim(),
                 insights: (document.getElementById('projectInsights')?.value || '').trim(),
-                image: 'images/intranet/slider_cmr_tech.png',
+                image: imageFile ? URL.createObjectURL(imageFile) : 'images/intranet/slider_cmr_tech.png',
                 date: new Date().toISOString().slice(0, 10)
             }, ...projectSheets];
-            ['projectTitle','projectSummary','projectObjective','projectTeam','projectMentor','projectInsights'].forEach(id => {
+            ['projectTitle','projectSummary','projectObjective','projectTeam','projectMentor','projectInsights','projectImage'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.value = '';
             });
@@ -3329,24 +4366,78 @@ function openAgendaTab(tabName) {
             renderInnovationProjectCards();
         }
 
+        function toggleInnovationProjectIdeaForm() {
+            const form = document.getElementById('innovationProjectIdeaForm');
+            const browse = document.getElementById('innovationProjectIdeaBrowse');
+            if (!form) return;
+            const opening = form.style.display === 'none';
+            form.style.display = opening ? 'block' : 'none';
+            if (browse) browse.style.display = opening ? 'none' : 'block';
+        }
+
+        async function submitInnovationProjectIdea() {
+            const title = (document.getElementById('projectIdeaTitle')?.value || '').trim();
+            const theme = (document.getElementById('projectIdeaTheme')?.value || innovationProjectIdeaThemeOptions[0] || '').trim();
+            const start = (document.getElementById('projectIdeaStart')?.value || '').trim();
+            const end = (document.getElementById('projectIdeaEnd')?.value || '').trim();
+            const image = document.getElementById('projectIdeaImage')?.files?.[0] || null;
+            const pdf = document.getElementById('projectIdeaDocs')?.files?.[0] || null;
+            if (!title) return;
+            if (pdf && pdf.type !== 'application/pdf') return;
+            try {
+                await submitInnovationApi('project-idea', {
+                    sys_Title: title,
+                    Theme: theme,
+                    Periode: {
+                        startDate: innovationIsoDate(start),
+                        endDate: innovationIsoDate(end)
+                    }
+                }, { image, documents: pdf }, 'innovationProjectIdeaStatus');
+            } catch (error) {
+                setInnovationSubmitStatus('innovationProjectIdeaStatus', `Impossible d’ajouter le projet idée : ${error.message}`, true);
+                return;
+            }
+            const item = {
+                id: 'pi' + Math.random().toString(16).slice(2),
+                title,
+                theme,
+                description: theme,
+                period: `${start || 'Du'} - ${end || 'Au'}`,
+                image: image ? URL.createObjectURL(image) : 'images/intranet/slider2.png',
+                date: start || new Date().toISOString().slice(0, 10),
+                documents: pdf ? [{ name: pdf.name, url: URL.createObjectURL(pdf) }] : []
+            };
+            projectIdeas = [item, ...projectIdeas];
+            ['projectIdeaTitle','projectIdeaStart','projectIdeaEnd','projectIdeaImage','projectIdeaDocs'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.value = '';
+            });
+            toggleInnovationProjectIdeaForm();
+            renderInnovationProjectIdeaCards();
+        }
+
         function renderInnovationSuivi() {
             switchInnovationProjectSub('fiches-projets');
         }
 
-        function renderIdeaMiniList(items, targetId, searchInputId = null) {
+        function renderIdeaMiniList(items, targetId, searchInputId = null, onClickFn = null) {
             const root = document.getElementById(targetId);
             if (!root) return;
             const query = searchInputId ? getInnovationSearchValue(searchInputId) : '';
-            const visibleItems = items.filter(item => matchesInnovationSearch(item, query));
-            root.innerHTML = visibleItems.map(item => `
-                <div class="doc-item">
-                    <img src="${item.image || 'images/intranet/slider1.png'}" alt="${item.title}" style="width:48px;height:48px;border-radius:12px;object-fit:cover;">
+            const filteredItems = items.filter(item => matchesInnovationSearch(item, query));
+            const pageKey = `innovation-list-${targetId}-${query}`;
+            const pagination = paginateGedDocuments(pageKey, filteredItems, () => renderIdeaMiniList(items, targetId, searchInputId));
+            root.innerHTML = pagination.items.map(item => `
+                <div class="doc-item" ${onClickFn ? `onclick="${onClickFn}(${escapeHtml(JSON.stringify(item.id))})" style="cursor:pointer;"` : ''}>
+                    <img src="${item.image || 'images/intranet/slider1.png'}" alt="${escapeHtml(item.title)}" style="width:48px;height:48px;border-radius:12px;object-fit:cover;">
                     <div class="doc-info">
-                        <div class="doc-title">${item.title}</div>
-                        <div class="doc-meta">${item.theme || item.axis || item.period || ''}</div>
+                        <div class="doc-title">${escapeHtml(item.title)}</div>
+                        <div class="doc-meta">${escapeHtml(item.theme || item.axis || item.period || '')}</div>
                     </div>
                 </div>
             `).join('') || '<div style="color:#64748b;font-size:13px;padding:12px 18px;">Aucun résultat trouvé.</div>';
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(pageKey, pagination));
+            lucide.createIcons();
         }
 
         function switchInnovationIdeaSub(subId) {
@@ -3362,39 +4453,119 @@ function openAgendaTab(tabName) {
         }
 
         function renderInnovationEspaceIdees() {
-            renderIdeaMiniList(ideas.map(i => ({ ...i, image: i.image || 'images/intranet/slider1.png', theme: i.axis })), 'innovationSpontaneousIdeas', 'spontaneousIdeaSearch');
-            renderIdeaMiniList(cmrInnovItems, 'innovationCmrInnovList', 'cmrInnovSearch');
+            loadInnovationSpace('spontaneous', items => { ideas = items; }, renderInnovationEspaceIdees);
+            loadInnovationSpace('cmr-innov', items => { cmrInnovItems = items; }, renderInnovationEspaceIdees);
+            renderIdeaMiniList(ideas.map(i => ({ ...i, image: i.image || 'images/intranet/slider1.png', theme: i.axis })), 'innovationSpontaneousIdeas', 'spontaneousIdeaSearch', 'selectSpontaneousIdea');
+            renderIdeaMiniList(cmrInnovItems, 'innovationCmrInnovList', 'cmrInnovSearch', 'selectCmrInnovItem');
+            if (getInnovationReadState('spontaneous').loading) {
+                const root = document.getElementById('innovationSpontaneousIdeas');
+                if (root) root.innerHTML = '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Chargement des idées...</div>';
+            }
+            if (getInnovationReadState('spontaneous').error) {
+                const root = document.getElementById('innovationSpontaneousIdeas');
+                if (root) root.innerHTML = '<div style="padding:12px 18px;color:#9a3412;font-size:13px;">Impossible de charger les idées pour le moment.</div>';
+            }
+            if (getInnovationReadState('cmr-innov').loading) {
+                const root = document.getElementById('innovationCmrInnovList');
+                if (root) root.innerHTML = '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Chargement des projets...</div>';
+            }
+            if (getInnovationReadState('cmr-innov').error) {
+                const root = document.getElementById('innovationCmrInnovList');
+                if (root) root.innerHTML = '<div style="padding:12px 18px;color:#9a3412;font-size:13px;">Impossible de charger les projets pour le moment.</div>';
+            }
         }
 
-        function submitSpontaneousIdea() {
+        function showInnovationIdeaPanel(space, mode, item = null) {
+            const prefix = space === 'spontaneous' ? 'spontaneousIdea' : 'cmrInnov';
+            const form = document.getElementById(`${prefix}Form`);
+            const detail = document.getElementById(`${prefix}Detail`);
+            if (form) form.style.display = mode === 'form' ? 'grid' : 'none';
+            if (!detail) return;
+            detail.style.display = mode === 'detail' ? 'block' : 'none';
+            if (mode !== 'detail') return;
+            detail.innerHTML = item ? `
+                ${item.image ? `<img src="${item.image}" alt="${escapeHtml(item.title)}" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:14px;">` : ''}
+                <div style="font-weight:900;color:#0f172a;font-size:16px;">${escapeHtml(item.title)}</div>
+                <div style="margin-top:6px;color:#64748b;font-size:12px;">${escapeHtml(item.theme || item.axis || '')}${item.period ? ` · ${escapeHtml(item.period)}` : ''}</div>
+                <p style="margin-top:12px;color:#475569;font-size:13px;line-height:1.7;">${escapeHtml(item.desc || item.description || '')}</p>
+                ${renderInnovationAttachments(item.documents)}
+            ` : '<div style="color:#64748b;font-size:13px;">Sélectionnez un élément pour afficher son détail.</div>';
+        }
+
+        function openSpontaneousIdeaForm() {
+            showInnovationIdeaPanel('spontaneous', 'form');
+            focusInnovationField('spontaneousIdeaTitle');
+        }
+
+        function openCmrInnovForm() {
+            showInnovationIdeaPanel('cmr-innov', 'form');
+            focusInnovationField('cmrInnovTitle');
+        }
+
+        function selectSpontaneousIdea(id) {
+            showInnovationIdeaPanel('spontaneous', 'detail', ideas.find(item => item.id === id));
+        }
+
+        function selectCmrInnovItem(id) {
+            showInnovationIdeaPanel('cmr-innov', 'detail', cmrInnovItems.find(item => item.id === id));
+        }
+
+        async function submitSpontaneousIdea() {
             const title = (document.getElementById('spontaneousIdeaTitle')?.value || '').trim();
             const axis = (document.getElementById('spontaneousIdeaTheme')?.value || innovationThemeOptions[0] || '').trim();
             const desc = (document.getElementById('spontaneousIdeaDesc')?.value || '').trim();
             if (!title || !desc) return;
-            ideas = [{ id: 'i' + Math.random().toString(16).slice(2), title, axis, score: 0, desc, comments: 0, image: 'images/intranet/slider1.png' }, ...ideas];
+            try {
+                await submitInnovationApi('spontaneous', {
+                    sys_Title: title,
+                    Theme: axis,
+                    DescriptionDeLIdee: desc
+                }, {}, 'spontaneousIdeaStatus');
+            } catch (error) {
+                setInnovationSubmitStatus('spontaneousIdeaStatus', `Impossible d’ajouter l’idée : ${error.message}`, true);
+                return;
+            }
+            const item = { id: 'i' + Math.random().toString(16).slice(2), title, axis, score: 0, desc, comments: 0, image: 'images/intranet/slider1.png' };
+            ideas = [item, ...ideas];
             ['spontaneousIdeaTitle','spontaneousIdeaDesc'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.value = '';
             });
             renderInnovationEspaceIdees();
+            showInnovationIdeaPanel('spontaneous', 'detail', item);
         }
 
-        function submitCmrInnov() {
+        async function submitCmrInnov() {
             const title = (document.getElementById('cmrInnovTitle')?.value || '').trim();
-            const theme = (document.getElementById('cmrInnovTheme')?.value || innovationCmrInnovThemeOptions[0] || '').trim();
-            const start = (document.getElementById('cmrInnovStart')?.value || '').trim();
-            const end = (document.getElementById('cmrInnovEnd')?.value || '').trim();
-            const pdf = document.getElementById('cmrInnovDocs')?.files?.[0];
-            if (!title) return;
-            if (pdf && pdf.type !== 'application/pdf') return;
-            cmrInnovItems = [{ id: 'ci' + Math.random().toString(16).slice(2), title, theme, period: `${start || 'Du'} - ${end || 'Au'}`, image: 'images/intranet/slider2.png' }, ...cmrInnovItems];
-            ['cmrInnovTitle','cmrInnovStart','cmrInnovEnd'].forEach(id => {
+            const description = (document.getElementById('cmrInnovDescription')?.value || '').trim();
+            const image = document.getElementById('cmrInnovImage')?.files?.[0] || null;
+            if (!title || !description) return;
+            try {
+                await submitInnovationApi('cmr-innov', {
+                    sys_Title: title,
+                    Description: description
+                }, { image }, 'cmrInnovStatus');
+            } catch (error) {
+                setInnovationSubmitStatus('cmrInnovStatus', `Impossible d’ajouter le projet : ${error.message}`, true);
+                return;
+            }
+            const item = {
+                id: 'ci' + Math.random().toString(16).slice(2),
+                title,
+                description,
+                image: image ? URL.createObjectURL(image) : 'images/intranet/slider2.png',
+                date: new Date().toISOString().slice(0, 10),
+                documents: []
+            };
+            cmrInnovItems = [item, ...cmrInnovItems];
+            ['cmrInnovTitle','cmrInnovDescription'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.value = '';
             });
-            const docs = document.getElementById('cmrInnovDocs');
-            if (docs) docs.value = '';
+            const imageInput = document.getElementById('cmrInnovImage');
+            if (imageInput) imageInput.value = '';
             renderInnovationEspaceIdees();
+            showInnovationIdeaPanel('cmr-innov', 'detail', item);
         }
 
         function selectInnovEvent(id) {
@@ -3409,13 +4580,70 @@ function openAgendaTab(tabName) {
             const event = innovEventItems.find(e => e.id === selectedInnovEventId) || innovEventItems[0];
             selectedInnovEventId = event?.id || null;
             detail.innerHTML = event ? `
-                <div style="font-weight:900;color:#0f172a;font-size:16px;">${event.title}</div>
-                <p style="margin:10px 0 0;color:var(--text-light);font-size:13px;line-height:1.7;">${event.description || ''}</p>
+                <div class="innovation-project-cover-scroll"><img class="innovation-project-cover-detail" src="${event.image}" alt="${escapeHtml(event.title)}"></div>
+                <div class="innovation-project-detail-body">
+                    <h2 class="innovation-project-detail-title">${escapeHtml(event.title)}</h2>
+                    <section class="innovation-project-text-section">
+                        <div class="innovation-project-copy">${escapeHtml(event.description || '')}</div>
+                    </section>
+                    ${renderInnovationAttachments(event.documents)}
+                </div>
             ` : 'Sélectionnez un Innov Event.';
         }
 
         function renderInnovEvent() {
+            loadInnovationSpace('event', items => { innovEventItems = items; }, renderInnovEvent);
+            const state = getInnovationReadState('event');
+            const root = document.getElementById('innovationEventCards');
+            if (state.loading && root) {
+                root.innerHTML = '<div style="padding:12px;color:#64748b;font-size:13px;">Chargement des événements...</div>';
+                return;
+            }
+            if (state.error && root) {
+                root.innerHTML = '<div style="padding:12px;color:#9a3412;font-size:13px;">Impossible de charger les événements pour le moment.</div>';
+                return;
+            }
             renderInnovationImageGrid(innovEventItems, 'innovationEventCards', 'selectInnovEvent', false, 'innovEventSearch');
+        }
+
+        function toggleInnovEventForm() {
+            const form = document.getElementById('innovEventForm');
+            const browse = document.getElementById('innovEventBrowse');
+            if (!form) return;
+            const opening = form.style.display === 'none';
+            form.style.display = opening ? 'block' : 'none';
+            if (browse) browse.style.display = opening ? 'none' : 'block';
+        }
+
+        async function submitInnovEvent() {
+            const title = (document.getElementById('innovEventTitle')?.value || '').trim();
+            const date = (document.getElementById('innovEventDate')?.value || '').trim();
+            const description = (document.getElementById('innovEventDescription')?.value || '').trim();
+            const image = document.getElementById('innovEventImage')?.files?.[0] || null;
+            if (!title || !date || !description) return;
+            try {
+                await submitInnovationApi('event', {
+                    sys_Title: title,
+                    Date: innovationIsoDate(date),
+                    Description: description
+                }, { image }, 'innovEventStatus');
+            } catch (error) {
+                setInnovationSubmitStatus('innovEventStatus', `Impossible d’ajouter l’événement : ${error.message}`, true);
+                return;
+            }
+            innovEventItems = [{
+                id: 'ie' + Math.random().toString(16).slice(2),
+                title,
+                date,
+                description,
+                image: image ? URL.createObjectURL(image) : 'images/intranet/slider1.png'
+            }, ...innovEventItems];
+            ['innovEventTitle','innovEventDate','innovEventDescription','innovEventImage'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.value = '';
+            });
+            toggleInnovEventForm();
+            renderInnovEvent();
         }
 
         function backToInnovationEventList() {
@@ -3805,7 +5033,9 @@ function openAgendaTab(tabName) {
             }
             const icon = type === 'politiques' ? 'file-text' : type === 'chartes' ? 'scroll-text' : type === 'codes' ? 'shield-check' : 'leaf';
             const items = state ? state.documents : (rseReferentiels[type] || []);
-            grid.innerHTML = items.map(d => `
+            const paginationKey = `rse-referentiels:${type}`;
+            const pagination = paginateGedDocuments(paginationKey, items, () => renderRseReferentiels(type));
+            grid.innerHTML = pagination.items.map(d => `
                 <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${d.file}','${d.title}')">
                     <div class="doc-icon-large pdf" style="background:#f8fafc;color:#475569;">
                         <i data-lucide="${icon}" style="width:24px;height:24px;"></i>
@@ -3814,6 +5044,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-card-meta"><span>${rseLabels.consultLabel || ''}</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
                 </div>
             `).join('') || renderGedEmpty('document');
+            grid.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -3831,7 +5062,9 @@ function openAgendaTab(tabName) {
                 return;
             }
             const items = state ? state.documents : rseRapports;
-            list.innerHTML = items.map(r => `
+            const paginationKey = 'rse-rapports';
+            const pagination = paginateGedDocuments(paginationKey, items, renderRseRapports);
+            list.innerHTML = pagination.items.map(r => `
                 <div class="doc-item" onclick="openMockDownload('${r.file}','${r.title}')">
                     <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">RSE</div>
                     <div class="doc-info">
@@ -3841,6 +5074,7 @@ function openAgendaTab(tabName) {
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('') || renderGedEmpty('document');
+            list.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -3873,7 +5107,9 @@ function openAgendaTab(tabName) {
                 return;
             }
             const items = state ? state.documents : rseInfos;
-            list.innerHTML = items.map(i => `
+            const paginationKey = 'rse-infos';
+            const pagination = paginateGedDocuments(paginationKey, items, renderRseInfos);
+            list.innerHTML = pagination.items.map(i => `
                 <div class="doc-item" onclick="openMockDownload('${i.file || `Info_RSE_${i.title.replace(/\\s+/g,'_')}.pdf`}','${i.title}')">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">INFO</div>
                     <div class="doc-info">
@@ -3883,6 +5119,7 @@ function openAgendaTab(tabName) {
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('') || renderGedEmpty('document');
+            list.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -3989,7 +5226,9 @@ function openAgendaTab(tabName) {
                 return;
             }
             const items = state ? state.documents : rseRex;
-            list.innerHTML = items.map(r => `
+            const paginationKey = 'rse-rex';
+            const pagination = paginateGedDocuments(paginationKey, items, renderRseRex);
+            list.innerHTML = pagination.items.map(r => `
                 <div class="doc-item" onclick="openMockDownload('${r.file}','${r.title}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">REX</div>
                     <div class="doc-info">
@@ -3999,6 +5238,7 @@ function openAgendaTab(tabName) {
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('') || renderGedEmpty('document');
+            list.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -4130,6 +5370,19 @@ function openAgendaTab(tabName) {
             renderSitdPage(subId);
         }
 
+        function getSitdSourceSubIds(subId) {
+            return subId === 'evenements-securite'
+                ? ['evenements-securite', 'campagnes-si']
+                : [subId];
+        }
+
+        function getSitdGedStates(subId) {
+            return getSitdSourceSubIds(subId).map(sourceSubId => {
+                const path = joinGedPath(GED_ROOT_PATH, gedViewPathMap.sitd, gedSitdPathMap[sourceSubId] || sourceSubId);
+                return getGedDocumentsState(path, () => renderSitdPage(subId));
+            });
+        }
+
         function renderSitdFilterButtons(subId, key, filters = []) {
             return `
                 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
@@ -4145,14 +5398,14 @@ function openAgendaTab(tabName) {
         function filterSitdDocuments(subId) {
             const config = sitdFilters[subId] || {};
             const q = normalizeGedText((sitdSearchState[subId] || '').trim());
-            const gedPath = joinGedPath(GED_ROOT_PATH, gedViewPathMap.sitd, gedSitdPathMap[subId] || subId);
-            const state = getGedDocumentsState(gedPath, () => renderSitdPage(subId));
-            const sourceDocuments = state
-                ? state.documents.map(documentItem => {
+            const sourceSubIds = getSitdSourceSubIds(subId);
+            const states = getSitdGedStates(subId);
+            const sourceDocuments = states.some(Boolean)
+                ? states.flatMap((state, index) => state ? state.documents.map(documentItem => {
                     const segments = Array.isArray(documentItem.segments) ? documentItem.segments : [];
                     return {
                         ...documentItem,
-                        section: subId,
+                        section: sourceSubIds[index],
                         title: documentItem.title,
                         file: documentItem.file,
                         theme: segments[0] || documentItem.folderLabel || '',
@@ -4161,11 +5414,11 @@ function openAgendaTab(tabName) {
                         structure: segments.slice(0, -1).join(' / '),
                         meta: documentItem.fileName || documentItem.folderLabel || ''
                     };
-                })
+                }) : [])
                 : sitdDocumentItems;
 
             return sourceDocuments.filter(doc => {
-                if (doc.section !== subId) return false;
+                if (!sourceSubIds.includes(doc.section)) return false;
                 if (q) {
                     const haystack = [
                         doc.title,
@@ -4198,11 +5451,13 @@ function openAgendaTab(tabName) {
 
         function renderSitdDocumentList(subId) {
             const config = sitdFilters[subId] || {};
-            const gedPath = joinGedPath(GED_ROOT_PATH, gedViewPathMap.sitd, gedSitdPathMap[subId] || subId);
-            const state = getGedDocumentsState(gedPath, () => renderSitdPage(subId));
-            if (state?.loading && !state.loaded) return renderGedLoading('documents');
-            if (state?.error) return renderGedError('documents');
+            const showDocumentFilters = !['sensibilisation-cyber', 'evenements-securite'].includes(subId);
+            const states = getSitdGedStates(subId);
+            if (states.some(state => state?.loading && !state.loaded)) return renderGedLoading('documents');
+            if (states.length && states.every(state => state?.error)) return renderGedError('documents');
             const docs = filterSitdDocuments(subId);
+            const paginationKey = `sitd:${subId}:${normalizeGedText(sitdSearchState[subId] || '')}:${JSON.stringify(sitdFilterState)}`;
+            const pagination = paginateGedDocuments(paginationKey, docs, () => renderSitdPage(subId));
             const filters = [
                 config.themeFilters ? renderSitdFilterButtons(subId, 'theme', config.themeFilters) : '',
                 config.yearFilters ? renderSitdFilterButtons(subId, 'year', config.yearFilters) : '',
@@ -4213,9 +5468,9 @@ function openAgendaTab(tabName) {
                     <i data-lucide="search" style="width:16px;"></i>
                     <input id="sitdDocSearch-${subId}" class="actu-search-input" placeholder="Rechercher un document..." value="${sitdSearchState[subId] || ''}" oninput="setSitdDocumentSearch('${subId}', this.value)">
                 </div>
-                ${filters}
+                ${showDocumentFilters ? filters : ''}
                 <div class="doc-list">
-                    ${docs.map(doc => `
+                    ${pagination.items.map(doc => `
                         <div class="doc-item" onclick="openMockDownload('${doc.file}','${doc.title}')">
                             <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">PDF</div>
                             <div class="doc-info">
@@ -4228,6 +5483,7 @@ function openAgendaTab(tabName) {
                             </div>
                         </div>
                     `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">${sitdLabels.emptyResult || ''}</div>`}
+                    ${renderGedDocumentsPagination(paginationKey, pagination)}
                 </div>
             `;
         }
@@ -4244,18 +5500,13 @@ function openAgendaTab(tabName) {
 
         function renderSitdExploitationAccess() {
             return `
-                <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px;">
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
-                        <div style="font-weight:900;color:#0f172a;">Répertoire des outils d'exploitation</div>
-                        <p style="margin-top:8px;font-size:13px;color:var(--text-light);line-height:1.7;">Accès au système de fichiers des outils d'exploitation.</p>
-                        <button class="primary-btn" style="margin-top:12px;" onclick="window.open('${sitdLabels.operationsFolderUrl || '#'}','_blank')">${sitdLabels.operationsFolderLabel || ''}</button>
+                <a href="${sitdLabels.operationsFolderUrl}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px;padding:16px;background:#fff;border:1px solid #dbe4ee;border-radius:8px;color:inherit;text-decoration:none;">
+                    <div>
+                        <div style="font-weight:900;color:#0f172a;font-size:16px;">${sitdLabels.operationsFolderLabel || "Répertoire des outils d'exploitation"}</div>
+                        <p style="margin-top:6px;font-size:13px;color:var(--text-light);line-height:1.7;">Accéder au répertoire des outils d'exploitation sur l'intranet PGP.</p>
                     </div>
-                    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
-                        <div style="font-weight:900;color:#0f172a;">GED OpenText</div>
-                        <p style="margin-top:8px;font-size:13px;color:var(--text-light);line-height:1.7;">Lien vers les documents d'exploitation disponibles dans la GED OpenText.</p>
-                        <button class="secondary-btn" style="margin-top:12px;" onclick="window.open('${sitdLabels.gedOpenTextUrl || '#'}','_blank')">${sitdLabels.gedOpenTextLabel || ''}</button>
-                    </div>
-                </div>
+                    <i data-lucide="external-link" style="width:20px;height:20px;color:#2563eb;flex:0 0 auto;"></i>
+                </a>
                 ${renderSitdDocumentList('exploitation')}
             `;
         }
@@ -4854,7 +6105,12 @@ function openAgendaTab(tabName) {
                 );
                 if (gedState?.loading && !gedState.loaded) pageContent = renderGedLoading('documents');
                 else if (gedState?.error) pageContent = renderGedError('documents');
-                else pageContent = (gedState?.documents || []).map(item => renderGedDocItem(item)).join('') || renderGedEmpty('document');
+                else {
+                    const paginationKey = `arc:${subId}`;
+                    const pagination = paginateGedDocuments(paginationKey, gedState?.documents || [], () => renderArcPage(subId));
+                    pageContent = (pagination.items.map(item => renderGedDocItem(item)).join('') || renderGedEmpty('document'))
+                        + renderGedDocumentsPagination(paginationKey, pagination);
+                }
             }
             host.innerHTML = `
                 <div class="dashboard-card">
@@ -4869,6 +6125,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <div style="padding:18px;" class="doc-list">${pageContent}</div>
                 </div>
+                ${renderGedDocumentsPagination(pageKey, pagination)}
             `;
             if (!gedState && subId === 'rapports-pv') renderArcRapportsPv();
             if (!gedState && subId === 'politiques-chartes') renderArcPolitiques();
@@ -4988,13 +6245,16 @@ function openAgendaTab(tabName) {
             const items = state
                 ? state.documents.map(doc => ({ title: doc.title, file: doc.file, meta: doc.folderLabel || doc.fileName }))
                 : staticItems;
-            grid.innerHTML = items.map(d => `
+            const paginationKey = `qse:${pathSuffix}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderAfterLoad);
+            grid.innerHTML = pagination.items.map(d => `
                 <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.title))})">
                     <div class="doc-icon-large pdf" style="background:#f8fafc;color:#475569;"><i data-lucide="file-text" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${escapeHtml(d.title)}</div>
                     <div class="doc-card-meta"><span>${escapeHtml(d.meta || qseLabels.consultLabel || '')}</span><i data-lucide="download" style="width:16px;color:#94a3b8;"></i></div>
                 </div>
             `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`;
+            grid.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -5007,18 +6267,23 @@ function openAgendaTab(tabName) {
         function renderQseSmiDocs() {
             const list = document.getElementById('qseSmiDocs');
             if (!list) return;
-            list.innerHTML = qseSmiDocs.map(d => `
+            const paginationKey = 'qse-smi-documents';
+            const pagination = paginateGedDocuments(paginationKey, qseSmiDocs, renderQseSmiDocs);
+            list.innerHTML = pagination.items.map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.title}')">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">SMI</div>
                     <div class="doc-info"><div class="doc-title">${d.title}</div><div class="doc-meta">${qseLabels.smiMeta || ''}</div></div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('');
+            list.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
         }
         function renderQsePedago() {
             const grid = document.getElementById('qsePedago');
             if (!grid) return;
-            grid.innerHTML = qsePedago.map(p => `
+            const paginationKey = 'qse-pedagogie';
+            const pagination = paginateGedDocuments(paginationKey, qsePedago, renderQsePedago);
+            grid.innerHTML = pagination.items.map(p => `
                 <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${p.file}','${p.title}')">
                     <div class="doc-icon-large" style="background:#fdf4ff;color:#7c3aed;"><i data-lucide="megaphone" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${p.title}</div>
@@ -5026,6 +6291,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-card-meta"><span>${qseLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                 </div>
             `).join('');
+            grid.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
         }
         function renderQseAudits() {
             const body = document.getElementById('qseAuditsTable');
@@ -5136,7 +6402,9 @@ function openAgendaTab(tabName) {
             const items = state
                 ? state.documents.map(doc => ({ title: doc.title, file: doc.file, meta: doc.folderLabel || doc.fileName }))
                 : qseCultureItems;
-            list.innerHTML = items.map(c => `
+            const paginationKey = 'qse:culture-communication';
+            const pagination = paginateGedDocuments(paginationKey, items, renderQseCulture);
+            list.innerHTML = pagination.items.map(c => `
                 <div class="doc-item" onclick="openMockDownload('${c.file}','${c.title}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">QSE</div>
                     <div class="doc-info"><div class="doc-title">${c.title}</div><div class="doc-meta">${c.meta}</div></div>
@@ -5145,7 +6413,7 @@ function openAgendaTab(tabName) {
                         <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('Participation_${c.title.replace(/\\s+/g,'_')}.pdf','Participation – ${c.title}')">${qseLabels.participateLabel || ''}</button>
                     </div>
                 </div>
-            `).join('');
+            `).join('') + renderGedDocumentsPagination(paginationKey, pagination);
             lucide.createIcons();
         }
         function renderQseCulturePortail() {
@@ -5163,14 +6431,16 @@ function openAgendaTab(tabName) {
             const items = state
                 ? state.documents.map(doc => ({ title: doc.title, file: doc.file, type: getGedFileKind(doc.fileName) }))
                 : qseCulturePortailItems;
-            grid.innerHTML = items.map(c => `
+            const paginationKey = 'qse:culture-contents';
+            const pagination = paginateGedDocuments(paginationKey, items, renderQseCulturePortail);
+            grid.innerHTML = pagination.items.map(c => `
                 <div class="doc-card" style="cursor:pointer;" onclick="openMockDownload('${c.file}','${c.title}')">
                     <div class="doc-icon-large" style="background:#eff6ff;color:#2563eb;"><i data-lucide="${c.type === 'Vidéo' ? 'play-circle' : 'megaphone'}" style="width:24px;height:24px;"></i></div>
                     <div class="doc-card-title">${c.title}</div>
                     <p style="font-size:12px;color:var(--text-light);margin-top:6px;">${c.type} · ${qseLabels.portalMetaSuffix || ''}</p>
                     <div class="doc-card-meta"><span>${qseLabels.consultLabel || ''}</span><i data-lucide="arrow-right" style="width:16px;"></i></div>
                 </div>
-            `).join('');
+            `).join('') + renderGedDocumentsPagination(paginationKey, pagination);
             lucide.createIcons();
         }
         function renderQseResultatsAudits() {
@@ -5204,40 +6474,21 @@ function openAgendaTab(tabName) {
         }
 
         // ===== RÉGLEMENTAIRE (table conforme — onglet 10. Réglementaire) =====
-        const regPages = ['legal-gouvernance','regime-civil','regime-militaire','regime-non-cotisants','notes-juridiques','prises-position','modeles','jurisprudence','veille-juridique'];
-        const regLegalSubIds = ['legal-gouvernance','regime-civil','regime-militaire','regime-non-cotisants'];
-        const regDocumentSubIds = ['notes-juridiques','prises-position','modeles','jurisprudence','veille-juridique'];
-        const regGedPathMap = {
-            'legal-gouvernance': 'Légal & Réglementaires',
-            'regime-civil': 'Légal & Réglementaires/Régime civil',
-            'regime-militaire': 'Légal & Réglementaires/Régime militaire',
-            'regime-non-cotisants': 'Légal & Réglementaires/Régime des non cotisants',
-            'notes-juridiques': 'Notes & Prise de position',
-            'prises-position': 'Notes & Prise de position',
-            modeles: 'Bibliothèque des modèles',
-            jurisprudence: 'Jurisprudence',
-            'veille-juridique': 'Veille juridique'
-        };
-
         const regSectionConfig = getCmrData('regSectionConfig', {});
         const regSectionSummaries = getCmrData('regSectionSummaries', {});
+        const regFolders = Object.values(regSectionConfig).flatMap(section => section.subs || []);
+        const regPages = regFolders.map(folder => folder.id);
+        const regLegalSubIds = [];
+        const regDocumentSubIds = regPages;
+        const regGedPathMap = Object.fromEntries(regFolders.map(folder => [folder.id, folder.path]));
 
-        let regSection = 'referentiels';
-        let regSub = 'legal-gouvernance';
+        let regSection = 'modeles';
+        let regSub = 'bibliotheque-modeles';
         let regTextesType = 'all';
-        const regLegalTypeBySub = {
-            'legal-gouvernance': 'all',
-            'regime-civil': 'all',
-            'regime-militaire': 'all',
-            'regime-non-cotisants': 'all'
-        };
-        const regDocumentThemeBySub = {
-            'notes-juridiques': 'all',
-            'prises-position': 'all',
-            'modeles': 'all',
-            'jurisprudence': 'all',
-            'veille-juridique': 'all'
-        };
+        const regLegalTypeBySub = {};
+        const regDocumentThemeBySub = Object.fromEntries(
+            regFolders.map(folder => [folder.id, folder.defaultFolder || 'all'])
+        );
         let regTheme = 'all';
         let regGlobalScope = 'all';
         let regHistoryFilter = 'all';
@@ -5273,7 +6524,7 @@ function openAgendaTab(tabName) {
                 `).join('');
                 subNav.style.display = (config.subs.length <= 1) ? 'none' : 'flex';
             }
-            switchRegSub(config?.defaultSub || config?.subs?.[0]?.id || 'legal-gouvernance');
+            switchRegSub(config?.defaultSub || config?.subs?.[0]?.id || 'bibliotheque-modeles');
             renderInPageSubmenuNavbar('reglementation');
             lucide.createIcons();
         }
@@ -5351,7 +6602,9 @@ function openAgendaTab(tabName) {
                 const qOk = !q || (i.title + ' ' + i.ref + ' ' + (i.tags || []).join(' ')).toLowerCase().includes(q);
                 return sectionOk && typeOk && qOk;
             });
-            root.innerHTML = items.map(i => `
+            const paginationKey = `reg-legal:${subId}:${selectedType}:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, () => renderRegLegalDocs(subId));
+            root.innerHTML = pagination.items.map(i => `
                 <div class="doc-item" onclick="openMockDownload('${i.file}','${i.title}')">
                     <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">${i.type.slice(0,3).toUpperCase()}</div>
                     <div class="doc-info">
@@ -5364,6 +6617,7 @@ function openAgendaTab(tabName) {
                     </div>
                 </div>
             `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noDocument || regLabels.noResult || ''}</div>`;
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
         function setRegDocumentThemeFor(subId, theme, el) {
@@ -5401,7 +6655,9 @@ function openAgendaTab(tabName) {
                 const qOk = !q || (i.title + ' ' + i.theme + ' ' + i.meta).toLowerCase().includes(q);
                 return sectionOk && themeOk && qOk;
             });
-            root.innerHTML = items.map(i => `
+            const paginationKey = `reg-documents:${subId}:${selectedTheme}:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, () => renderRegDocumentDocs(subId));
+            root.innerHTML = pagination.items.map(i => `
                 <div class="doc-item" onclick="openMockDownload('${i.file}','${i.title}')">
                     <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">PDF</div>
                     <div class="doc-info">
@@ -5414,6 +6670,7 @@ function openAgendaTab(tabName) {
                     </div>
                 </div>
             `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noDocument || regLabels.noResult || ''}</div>`;
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
         function renderRegTextes() {
@@ -5425,7 +6682,9 @@ function openAgendaTab(tabName) {
                 const qOk = !q || (i.title + ' ' + i.ref + ' ' + i.tags.join(' ')).toLowerCase().includes(q);
                 return typeOk && qOk;
             });
-            root.innerHTML = items.map(i => `
+            const paginationKey = `reg-textes:${regTextesType}:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderRegTextes);
+            root.innerHTML = pagination.items.map(i => `
                 <div class="doc-item" onclick="openMockDownload('${i.file}','${i.title}')">
                     <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">${i.type.slice(0,3).toUpperCase()}</div>
                     <div class="doc-info">
@@ -5438,6 +6697,7 @@ function openAgendaTab(tabName) {
                     </div>
                 </div>
             `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noResult || ''}</div>`;
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -5467,26 +6727,32 @@ function openAgendaTab(tabName) {
             if (!root) return;
             const q = (document.getElementById('regProcSearch')?.value || '').toLowerCase().trim();
             const items = regProcedures.filter(p => !q || (p.title + ' ' + p.meta + ' ' + (p.tags||[]).join(' ')).toLowerCase().includes(q));
-            root.innerHTML = items.map(p => `
+            const paginationKey = `reg-procedures:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderRegProcedures);
+            root.innerHTML = pagination.items.map(p => `
                 <div class="doc-item" onclick="openMockDownload('${p.file}','${p.title}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">PRC</div>
                     <div class="doc-info"><div class="doc-title">${p.title}</div><div class="doc-meta">${p.meta}</div></div>
                     <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${p.file}','${p.title}')">${regLabels.consultLabel || ''}</button>
                 </div>
             `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noProcedure || ''}</div>`;
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
         function renderRegNotes() {
             const root = document.getElementById('regNotesList');
             if (!root) return;
-            root.innerHTML = regNotes.map(n => `
+            const paginationKey = 'reg-notes';
+            const pagination = paginateGedDocuments(paginationKey, regNotes, renderRegNotes);
+            root.innerHTML = pagination.items.map(n => `
                 <div class="doc-item" onclick="openMockDownload('${n.file}','${n.title}')">
                     <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">GDE</div>
                     <div class="doc-info"><div class="doc-title">${n.title}</div><div class="doc-meta">${n.meta}</div></div>
                     <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${n.file}','${n.title}')">${regLabels.consultLabel || ''}</button>
                 </div>
             `).join('');
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -5510,26 +6776,32 @@ function openAgendaTab(tabName) {
                 ...regProcedures.map(p => hit('procedures', p.title, p.meta, p.file)),
                 ...regNotes.map(n => hit('notes', n.title, n.meta, n.file))
             ].filter(h => (regGlobalScope === 'all' || h.kind === regGlobalScope) && (h.title + ' ' + h.meta).toLowerCase().includes(q));
-            root.innerHTML = all.map(h => `
+            const paginationKey = `reg-global:${regGlobalScope}:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, all, renderRegGlobalSearch);
+            root.innerHTML = pagination.items.map(h => `
                 <div class="doc-item" onclick="openMockDownload('${h.file}','${h.title}')">
                     <div class="doc-icon" style="background:#f8fafc;color:#475569;font-weight:900;">${h.kind.slice(0,3).toUpperCase()}</div>
                     <div class="doc-info"><div class="doc-title">${h.title}</div><div class="doc-meta">${h.meta}</div></div>
                     <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${h.file}','${h.title}')">${regLabels.openLabel || ''}</button>
                 </div>
             `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noResult || ''}</div>`;
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
         function renderRegGed() {
             const root = document.getElementById('regGedList');
             if (!root) return;
-            root.innerHTML = regGedArchives.map(a => `
+            const paginationKey = 'reg-ged';
+            const pagination = paginateGedDocuments(paginationKey, regGedArchives, renderRegGed);
+            root.innerHTML = pagination.items.map(a => `
                 <div class="doc-item" onclick="openMockDownload('${a.file}','${a.title}')">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">GED</div>
                     <div class="doc-info"><div class="doc-title">${a.title}</div><div class="doc-meta">${a.meta}</div></div>
                     <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${a.file}','${a.title}')">${regLabels.consultLabel || ''}</button>
                 </div>
             `).join('');
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -5613,7 +6885,9 @@ function openAgendaTab(tabName) {
             if (!root) return;
             const tag = (document.getElementById('regArchiveTag')?.value || '').toLowerCase().trim();
             const items = regArchiveDocs.filter(d => d.state === regArchiveMode && (!tag || d.tags.join(' ').toLowerCase().includes(tag)));
-            root.innerHTML = items.map(d => `
+            const paginationKey = `reg-archives:${regArchiveMode}:${tag}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderRegArchives);
+            root.innerHTML = pagination.items.map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.title}')">
                     <div class="doc-icon" style="background:#fff1f2;color:#be123c;font-weight:900;">ARC</div>
                     <div class="doc-info">
@@ -5626,6 +6900,7 @@ function openAgendaTab(tabName) {
                     <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${d.file}','${d.title}')">${regLabels.consultLabel || ''}</button>
                 </div>
             `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">${regLabels.noDocument || ''}</div>`;
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -5751,13 +7026,16 @@ function openAgendaTab(tabName) {
                 const qOk = !q || (i.title + ' ' + i.meta).toLowerCase().includes(q);
                 return typeOk && qOk;
             });
-            root.innerHTML = items.map(i => `
+            const paginationKey = `metiers-referentiels:${metiersRefType}:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderMetiersReferentiels);
+            root.innerHTML = pagination.items.map(i => `
                 <div class="doc-item" onclick="openMockDownload('${i.file}','${i.title}')">
                     <div class="doc-icon" style="background:#ecfdf5;color:#059669;font-weight:900;">${i.type.slice(0,3).toUpperCase()}</div>
                     <div class="doc-info"><div class="doc-title">${i.title}</div><div class="doc-meta">${i.meta}</div></div>
                     <button class="actu-filter-btn" onclick="event.stopPropagation(); openMockDownload('${i.file}','${i.title}')">Consulter</button>
                 </div>
             `).join('') || `<div style="color:var(--text-light);font-size:13px;padding:6px 2px;">Aucun résultat.</div>`;
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -5766,7 +7044,9 @@ function openAgendaTab(tabName) {
             if (!root) return;
             const q = (document.getElementById('metiersLivSearch')?.value || '').toLowerCase().trim();
             const items = metiersLivrables.filter(l => !q || (l.title + ' ' + l.meta).toLowerCase().includes(q));
-            root.innerHTML = items.map(l => `
+            const paginationKey = `metiers-livrables:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderMetiersLivrables);
+            root.innerHTML = pagination.items.map(l => `
                 <div class="doc-item" onclick="openMockDownload('${l.file}','${l.title}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">DOC</div>
                     <div class="doc-info"><div class="doc-title">${l.title}</div><div class="doc-meta">${l.meta}</div></div>
@@ -5776,6 +7056,7 @@ function openAgendaTab(tabName) {
                     </div>
                 </div>
             `).join('');
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -5798,13 +7079,16 @@ function openAgendaTab(tabName) {
             renderMetiersSiWidget(false);
             const root = document.getElementById('metiersSiList');
             if (!root) return;
-            root.innerHTML = metiersSiSystems.map(s => `
+            const paginationKey = 'metiers-si';
+            const pagination = paginateGedDocuments(paginationKey, metiersSiSystems, renderMetiersSi);
+            root.innerHTML = pagination.items.map(s => `
                 <div class="doc-item" onclick="openMockDownload('${s.file}','${s.title}')">
                     <div class="doc-icon" style="background:#fdf4ff;color:#7c3aed;font-weight:900;">SI</div>
                     <div class="doc-info"><div class="doc-title">${s.title}</div><div class="doc-meta">${s.meta} • ${s.status}</div></div>
                     <button class="primary-btn" style="padding:8px 12px;" onclick="event.stopPropagation(); openMockDownload('${s.file}','Accéder – ${s.title}')">Accéder</button>
                 </div>
             `).join('');
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -6432,7 +7716,9 @@ function openAgendaTab(tabName) {
             }
             const q = (document.getElementById('mediaImgSearch')?.value || '').toLowerCase().trim();
             const items = mediaImages.filter(i => !q || (i.title + ' ' + i.category).toLowerCase().includes(q));
-            grid.innerHTML = items.map(i => `
+            const paginationKey = `media-images:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderMediaImages);
+            grid.innerHTML = pagination.items.map(i => `
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
                     <img src="${i.file}" alt="${escapeHtml(i.title)}" loading="lazy" style="display:block;width:100%;height:150px;object-fit:cover;background:#f8fafc;">
                     <div style="padding:10px;">
@@ -6445,6 +7731,7 @@ function openAgendaTab(tabName) {
                     </div>
                 </div>
             `).join('') || renderGedEmpty('image');
+            grid.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -6462,7 +7749,9 @@ function openAgendaTab(tabName) {
             }
             const q = (document.getElementById('mediaVidSearch')?.value || '').toLowerCase().trim();
             const items = mediaVideos.filter(v => !q || (v.title + ' ' + v.desc + ' ' + v.category).toLowerCase().includes(q));
-            root.innerHTML = items.map(v => `
+            const paginationKey = `media-videos:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderMediaVideos);
+            root.innerHTML = pagination.items.map(v => `
                 <div class="doc-item" onclick="openMediaVideo('${v.id}')">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">VID</div>
                     <div class="doc-info"><div class="doc-title">${v.title}</div><div class="doc-meta">${v.category} • ${v.date}</div></div>
@@ -6472,7 +7761,8 @@ function openAgendaTab(tabName) {
                     </div>
                 </div>
             `).join('') || renderGedEmpty('vidéo');
-            if (!mediaActiveVideoId && items[0]) openMediaVideo(items[0].id);
+            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
+            if (!mediaActiveVideoId && pagination.items[0]) openMediaVideo(pagination.items[0].id);
             lucide.createIcons();
         }
 
@@ -6601,8 +7891,8 @@ function openAgendaTab(tabName) {
         const adminSectionConfig = getCmrData('adminSectionConfig', {});
         const adminLabels = getCmrData('adminLabels', {});
 
-        let adminSection = 'utilisateurs';
-        let adminSub = 'comptes';
+        let adminSection = 'cms';
+        let adminSub = 'cms';
         let adminActiveUserId = null;
         let adminIsAuthenticated = false;
         let adminLogFilter = 'all';
@@ -7072,11 +8362,13 @@ function openAgendaTab(tabName) {
             `).join('');
             const active = sourceFolders.find(x => x.id === kmRefActive) || sourceFolders[0];
             const items = (active?.docs || []).filter(d => !q || d.label.toLowerCase().includes(q) || d.file.toLowerCase().includes(q));
+            const paginationKey = `km-referentiels:${active?.id || 'none'}:${q}`;
+            const pagination = paginateGedDocuments(paginationKey, items, renderKmReferentiels);
             docs.innerHTML = state?.loading && !state.loaded
                 ? renderGedLoading('documents')
                 : state?.error
                     ? renderGedError('documents')
-                    : items.map(d => `
+                    : (pagination.items.map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
                     <div class="doc-info">
@@ -7085,7 +8377,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`;
+            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`) + renderGedDocumentsPagination(paginationKey, pagination);
             lucide.createIcons();
         }
 
@@ -7106,25 +8398,46 @@ function openAgendaTab(tabName) {
             const list = document.getElementById('kmRexList');
             const detail = document.getElementById('kmRexDetail');
             if (!list || !detail) return;
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.km, gedKmPathMap.rex), renderKmRex);
+            if (state?.loading && !state.loaded) {
+                list.innerHTML = renderGedLoading('REX');
+                detail.innerHTML = kmPagesConfig.rex?.emptyDetail || '';
+                return;
+            }
+            if (state?.error) {
+                list.innerHTML = renderGedError('REX');
+                detail.innerHTML = kmPagesConfig.rex?.emptyDetail || '';
+                return;
+            }
             const q = (document.getElementById('kmRexSearch')?.value || '').trim().toLowerCase();
-            const items = kmRexData.filter(r => !q || r.title.toLowerCase().includes(q) || r.theme.toLowerCase().includes(q) || r.body.toLowerCase().includes(q));
+            const sourceItems = state
+                ? state.documents.map((doc, index) => ({
+                    id: doc.id || doc.protocolUri || doc.file || `ged-rex-${index}`,
+                    title: doc.title || doc.fileName,
+                    theme: doc.segments?.[0] || doc.folderLabel || 'REX',
+                    date: doc.updatedAt || doc.createdAt || '',
+                    body: doc.description || doc.folderLabel || '',
+                    attachment: doc.file
+                }))
+                : kmRexData;
+            const items = sourceItems.filter(r => !q || [r.title, r.theme, r.body].some(value => String(value || '').toLowerCase().includes(q)));
             list.innerHTML = items.map(r => `
-                <div class="doc-item" onclick="kmRexSelected='${r.id}'; renderKmRex();">
+                <div class="doc-item" onclick="kmRexSelected=${escapeHtml(JSON.stringify(r.id))}; renderKmRex();">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">REX</div>
                     <div class="doc-info">
-                        <div class="doc-title">${r.title}</div>
-                        <div class="doc-meta">${r.theme} • ${r.date}</div>
+                        <div class="doc-title">${escapeHtml(r.title)}</div>
+                        <div class="doc-meta">${escapeHtml([r.theme, r.date].filter(Boolean).join(' • '))}</div>
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('') || `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">${kmLabels.emptyRexLabel || ''}</div>`;
-            const sel = kmRexData.find(x => x.id === kmRexSelected) || null;
+            const sel = sourceItems.find(x => x.id === kmRexSelected) || null;
             detail.innerHTML = sel ? `
-                <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
-                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.theme} • ${sel.date}${sel.status ? ` • ${sel.status}` : ''}</div>
+                <div style="font-weight:900;color:#0f172a;font-size:16px;">${escapeHtml(sel.title)}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${escapeHtml([sel.theme, sel.date, sel.status].filter(Boolean).join(' • '))}</div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
-                <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.body}</div>
-                ${sel.attachment ? `<div style="display:flex;justify-content:flex-end;margin-top:14px;"><button class="secondary-btn" onclick="openMockDownload('${sel.attachment}','${sel.title}')">Pièce jointe</button></div>` : ''}
+                <div style="color:#475569;font-size:13px;line-height:1.8;">${escapeHtml(sel.body)}</div>
+                ${sel.attachment ? `<div style="display:flex;justify-content:flex-end;margin-top:14px;"><button class="secondary-btn" onclick="openMockDownload(${escapeHtml(JSON.stringify(sel.attachment))},${escapeHtml(JSON.stringify(sel.title))})">Pièce jointe</button></div>` : ''}
             ` : (kmPagesConfig.rex?.emptyDetail || '');
             lucide.createIcons();
         }
@@ -7197,7 +8510,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <span style="background:#dcfce7;color:#15803d;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;">${kmLabels.joinLabel || ''}</span>
                 </div>
-            `).join('');
+            `).join('') || `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">${kmLabels.emptyContentLabel || ''}</div>`;
             threads.innerHTML = kmThreads.map(t => `
                 <div class="doc-item">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">MSG</div>
@@ -7207,7 +8520,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <span style="background:#f8fafc;border:1px solid #e2e8f0;color:#475569;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;">${t.badge}</span>
                 </div>
-            `).join('');
+            `).join('') || `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">${kmLabels.emptyContentLabel || ''}</div>`;
             lucide.createIcons();
         }
 
@@ -7259,13 +8572,16 @@ function openAgendaTab(tabName) {
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('');
+            `).join('') + renderGedDocumentsPagination(paginationKey, pagination);
             const active = sourceFolders.find(x => x.id === kmDocsActive) || sourceFolders[0];
+            const activeDocuments = active?.docs || [];
+            const paginationKey = `km-documents:${active?.id || 'none'}`;
+            const pagination = paginateGedDocuments(paginationKey, activeDocuments, renderKmDocs);
             list.innerHTML = state?.loading && !state.loaded
                 ? renderGedLoading('documents')
                 : state?.error
                     ? renderGedError('documents')
-                    : (active?.docs || []).map(d => `
+                    : (pagination.items.map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
                     <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">PDF</div>
                     <div class="doc-info">
@@ -7274,7 +8590,7 @@ function openAgendaTab(tabName) {
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`;
+            `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`) + renderGedDocumentsPagination(paginationKey, pagination);
             lucide.createIcons();
         }
 
@@ -7282,23 +8598,44 @@ function openAgendaTab(tabName) {
             const list = document.getElementById('kmContribList');
             const detail = document.getElementById('kmContribDetail');
             if (!list || !detail) return;
-            list.innerHTML = kmContribData.map(c => `
-                <div class="doc-item" onclick="kmContribSelected='${c.id}'; renderKmContributions();">
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.km, gedKmPathMap.contributions), renderKmContributions);
+            if (state?.loading && !state.loaded) {
+                list.innerHTML = renderGedLoading('contributions');
+                detail.innerHTML = kmPagesConfig.contributions?.emptyDetail || '';
+                return;
+            }
+            if (state?.error) {
+                list.innerHTML = renderGedError('contributions');
+                detail.innerHTML = kmPagesConfig.contributions?.emptyDetail || '';
+                return;
+            }
+            const sourceItems = state
+                ? state.documents.map((doc, index) => ({
+                    id: doc.id || doc.protocolUri || doc.file || `ged-contribution-${index}`,
+                    title: doc.title || doc.fileName,
+                    date: doc.updatedAt || doc.createdAt || '',
+                    body: doc.description || doc.folderLabel || '',
+                    file: doc.file
+                }))
+                : kmContribData;
+            list.innerHTML = sourceItems.map(c => `
+                <div class="doc-item" onclick="kmContribSelected=${escapeHtml(JSON.stringify(c.id))}; renderKmContributions();">
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">K</div>
                     <div class="doc-info">
-                        <div class="doc-title">${c.title}</div>
-                        <div class="doc-meta">${c.date}</div>
+                        <div class="doc-title">${escapeHtml(c.title)}</div>
+                        <div class="doc-meta">${escapeHtml(c.date)}</div>
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('');
-            const sel = kmContribData.find(x => x.id === kmContribSelected) || null;
+            `).join('') || `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">${kmLabels.emptyContentLabel || ''}</div>`;
+            const sel = sourceItems.find(x => x.id === kmContribSelected) || null;
             detail.innerHTML = sel ? `
-                <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
-                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.date}</div>
-                ${sel.startDate || sel.endDate ? `<div style="margin-top:4px;color:var(--text-light);font-size:12px;">Période : ${sel.startDate || '-'} au ${sel.endDate || '-'}</div>` : ''}
+                <div style="font-weight:900;color:#0f172a;font-size:16px;">${escapeHtml(sel.title)}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${escapeHtml(sel.date)}</div>
+                ${sel.startDate || sel.endDate ? `<div style="margin-top:4px;color:var(--text-light);font-size:12px;">Période : ${escapeHtml(sel.startDate || '-')} au ${escapeHtml(sel.endDate || '-')}</div>` : ''}
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
-                <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.body}</div>
+                <div style="color:#475569;font-size:13px;line-height:1.8;">${escapeHtml(sel.body)}</div>
+                ${sel.file ? `<div style="display:flex;justify-content:flex-end;margin-top:14px;"><button class="secondary-btn" onclick="openMockDownload(${escapeHtml(JSON.stringify(sel.file))},${escapeHtml(JSON.stringify(sel.title))})">${kmLabels.consultLabel || 'Consulter'}</button></div>` : ''}
             ` : (kmPagesConfig.contributions?.emptyDetail || '');
             lucide.createIcons();
         }
@@ -7356,7 +8693,9 @@ function openAgendaTab(tabName) {
             const sourceItems = state
                 ? state.documents.map(doc => ({ title: doc.title, label: doc.title, file: doc.file, meta: doc.folderLabel || doc.fileName }))
                 : staticItems;
-            list.innerHTML = sourceItems.map(item => `
+            const paginationKey = `km:${pathSuffix}`;
+            const pagination = paginateGedDocuments(paginationKey, sourceItems, renderAfterLoad);
+            list.innerHTML = pagination.items.map(item => `
                 <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(item.file))},${escapeHtml(JSON.stringify(item.title || item.label))})">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(iconLabel)}</div>
                     <div class="doc-info">
@@ -7366,6 +8705,7 @@ function openAgendaTab(tabName) {
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
             `).join('') || `<div style="padding:12px;color:var(--text-light);font-size:13px;">Aucun document.</div>`;
+            list.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(paginationKey, pagination));
             lucide.createIcons();
         }
 
@@ -7472,36 +8812,44 @@ function openAgendaTab(tabName) {
             const list = document.getElementById('kmCampagnesList');
             const detail = document.getElementById('kmCampagnesDetail');
             if (!list || !detail) return;
-            list.innerHTML = kmCampagnes.map(c => `
-                <div class="doc-item" onclick="kmCampagnesSelected='${c.id}'; renderKmCampagnes();">
+            const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, gedViewPathMap.km, gedKmPathMap.campagnes), renderKmCampagnes);
+            if (state?.loading && !state.loaded) {
+                list.innerHTML = renderGedLoading('campagnes');
+                detail.innerHTML = kmPagesConfig.campagnes?.emptyDetail || '';
+                return;
+            }
+            if (state?.error) {
+                list.innerHTML = renderGedError('campagnes');
+                detail.innerHTML = kmPagesConfig.campagnes?.emptyDetail || '';
+                return;
+            }
+            const sourceItems = state
+                ? state.documents.map((doc, index) => ({
+                    id: doc.id || doc.protocolUri || doc.file || `ged-campagne-${index}`,
+                    title: doc.title || doc.fileName,
+                    domain: doc.folderLabel || 'Campagnes',
+                    meta: doc.fileName || '',
+                    file: doc.file
+                }))
+                : kmCampagnes;
+            list.innerHTML = sourceItems.map(c => `
+                <div class="doc-item" onclick="kmCampagnesSelected=${escapeHtml(JSON.stringify(c.id))}; renderKmCampagnes();">
                     <div class="doc-icon" style="background:#ecfdf5;color:#16a34a;font-weight:900;">INT</div>
                     <div class="doc-info">
-                        <div class="doc-title">${c.title}</div>
-                        <div class="doc-meta">${c.domain || c.type} • ${c.responses} ${kmLabels.responsesLabel || ''}</div>
+                        <div class="doc-title">${escapeHtml(c.title)}</div>
+                        <div class="doc-meta">${escapeHtml(c.domain || '')}${c.meta ? ` • ${escapeHtml(c.meta)}` : ''}</div>
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
-            `).join('');
-            const sel = kmCampagnes.find(x => x.id === kmCampagnesSelected) || kmCampagnes[0];
+            `).join('') || `<div style="padding:14px 16px;color:var(--text-light);font-size:12px;">${kmLabels.emptyContentLabel || 'Aucune campagne.'}</div>`;
+            const sel = sourceItems.find(x => x.id === kmCampagnesSelected) || null;
             kmCampagnesSelected = sel?.id || null;
             detail.innerHTML = sel ? `
-                <div style="font-weight:900;color:#0f172a;font-size:16px;">${sel.title}</div>
-                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${sel.domain || sel.type} • ${kmLabels.audienceLabel || ''} : ${sel.audience}</div>
+                <div style="font-weight:900;color:#0f172a;font-size:16px;">${escapeHtml(sel.title)}</div>
+                <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${escapeHtml(sel.domain || '')}</div>
                 <hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">
-                <div style="color:#475569;font-size:13px;line-height:1.8;">${sel.desc}</div>
-                <div style="margin-top:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${kmLabels.participationsLabel || ''}</div>
-                        <div style="margin-top:6px;font-size:22px;font-weight:900;color:#0f172a;">${sel.responses}</div>
-                    </div>
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;">
-                        <div style="font-size:11px;color:#94a3b8;font-weight:900;">${kmLabels.channelLabel || ''}</div>
-                        <div style="margin-top:6px;font-size:14px;font-weight:900;color:#0f172a;">${kmLabels.channelValue || ''}</div>
-                    </div>
-                </div>
                 <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:14px;">
-                    <button class="secondary-btn" onclick="openMockDownload('Campagne_${sel.id}.pdf','${sel.title}')">${kmLabels.consultLabel || ''}</button>
-                    <button class="primary-btn" onclick="participateKmCampagne('${sel.id}')">${kmLabels.participateLabel || ''}</button>
+                    <button class="secondary-btn" onclick="openMockDownload(${escapeHtml(JSON.stringify(sel.file))},${escapeHtml(JSON.stringify(sel.title))})">${kmLabels.consultLabel || 'Consulter'}</button>
                 </div>
             ` : (kmPagesConfig.campagnes?.emptyDetail || '');
             lucide.createIcons();
@@ -7600,35 +8948,7 @@ function openAgendaTab(tabName) {
         }
 
         // ===== POSTES VACANTS – 3-STEP FLOW =====
-        const offresData = getCmrData('offresData', {
-            bi: {
-                titre: 'Chef de Projet BI (H/F)',
-                direction: 'Direction des Systèmes d\'Information',
-                lieu: 'Casablanca',
-                niveau: 'Cadre',
-                date: '15/05/2026',
-                mission: 'Piloter les projets de Business Intelligence de la DSI : recueil des besoins métiers, conception des tableaux de bord, supervision des développements et suivi de la qualité des livrables.',
-                profil: ['Bac+5 en Informatique, Data ou équivalent', 'Minimum 5 ans d\'expérience en BI / Data', 'Maîtrise de Power BI, SQL, et des architectures datawarehouse', 'Capacité à fédérer des équipes transverses', 'Certifications PMP ou PRINCE2 appréciées']
-            },
-            comdig: {
-                titre: 'Responsable Communication Digital (H/F)',
-                direction: 'Direction de la Communication',
-                lieu: 'Siège – Rabat',
-                niveau: 'Manager',
-                date: '20/05/2026',
-                mission: 'Définir et piloter la stratégie de communication digitale de la CMR : gestion des canaux numériques, production de contenus, animation des communautés en ligne et reporting des performances.',
-                profil: ['Bac+5 en Communication, Marketing Digital ou équivalent', 'Minimum 7 ans d\'expérience dont 3 en management', 'Maîtrise des outils CMS, réseaux sociaux, SEO et analytics', 'Excellentes capacités rédactionnelles (français/arabe)', 'Créativité et sens de l\'innovation']
-            },
-            actuariat: {
-                titre: 'Analyste Risques & Actuariat (H/F)',
-                direction: 'Direction Technique',
-                lieu: 'Casablanca',
-                niveau: 'Expert',
-                date: '30/04/2026',
-                mission: 'Réaliser les études actuarielles et les modélisations de risques nécessaires à la gestion des régimes de retraite : projections financières, provisionnement, stress tests et reporting réglementaire.',
-                profil: ['Bac+5 en Actuariat, Mathématiques ou Statistiques', 'Minimum 4 ans d\'expérience en actuariat retraite ou assurance', 'Maîtrise de R, Python et des outils actuariels', 'Connaissance de la réglementation des régimes de retraite au Maroc', 'Aptitude à synthétiser des analyses complexes']
-            }
-        });
+        const offresData = getCmrData('offresData', {});
         let currentOffre = null;
 
         function showOffrefiche(id) {
@@ -7670,7 +8990,10 @@ function openAgendaTab(tabName) {
 
         const actualitesLabels = getCmrData('actualitesLabels', {});
         const actualitesFilters = getCmrData('actualitesFilters', []);
-        const actuData = getCmrData('actuData', []);
+        const actualitesDisplayOrder = new Map([[2, 0], [1, 1]]);
+        const actuData = [...getCmrData('actuData', [])].sort((left, right) =>
+            (actualitesDisplayOrder.get(left.id) ?? left.id) - (actualitesDisplayOrder.get(right.id) ?? right.id)
+        );
         const actualitesDefaultFilter = actualitesFilters.find(f => f.active)?.value || 'all';
         const actualitesDefaultFilterLabel = actualitesFilters.find(f => f.value === actualitesDefaultFilter)?.label || '';
 
@@ -7877,18 +9200,10 @@ function openAgendaTab(tabName) {
                             <i data-lucide="calendar" style="width:13px;height:13px;"></i>
                             ${article.date}
                         </span>
-                        <span class="actu-detail-author">
-                            <i data-lucide="user" style="width:13px;height:13px;"></i>
-                            ${article.author}
-                        </span>
                     </div>
                     <h1 class="actu-detail-title">${article.title}</h1>
                     <div class="actu-detail-content">
                         ${article.content.map(p => `<p>${p}</p>`).join('')}
-                    </div>
-                    <hr class="actu-detail-divider">
-                    <div class="actu-detail-tags">
-                        ${article.tags.map(t => `<span class="actu-detail-tag">${t}</span>`).join('')}
                     </div>
                 </div>
             `;
@@ -8131,7 +9446,7 @@ function openAgendaTab(tabName) {
             }
             if (viewId === 'institutionnel') {
                 // Default tab + render initial content
-                switchOrgGovTab('overview');
+                switchOrgGovTab('organigramme');
             }
             if (viewId === 'annuaire') {
                 lucide.createIcons();
@@ -8158,7 +9473,7 @@ function openAgendaTab(tabName) {
                 switchArcSection(getActiveSubmenuTab('arc') || 'audit-interne');
             }
             if (viewId === 'reglementation') {
-                switchRegSection(getActiveSubmenuTab('reglementation') || 'referentiels');
+                switchRegSection(getActiveSubmenuTab('reglementation') || 'modeles');
             }
             if (viewId === 'documentaires') {
                 switchMetiersSection(getActiveSubmenuTab('documentaires') || 'structuration-metier');
@@ -8170,7 +9485,7 @@ function openAgendaTab(tabName) {
                 switchMediaSection(getActiveSubmenuTab('mediatheque') || 'acces');
             }
             if (viewId === 'admin') {
-                switchAdminSection(getActiveSubmenuTab('admin') || 'utilisateurs');
+                switchAdminSection(getActiveSubmenuTab('admin') || 'cms');
             }
             if (viewId === 'actualites') {
                 const listPanel = document.getElementById('actu-list-panel');
@@ -8192,11 +9507,15 @@ function openAgendaTab(tabName) {
             switchOrgGovTab,
             switchOrgGovSection,
             switchOrgGovSub,
+            renderOrgTree,
             openPosteFromOrg,
             openPosteDetail,
             changePostesPage,
             searchPostes,
             closePosteModal,
+            openOrgGovCultureGallery,
+            moveOrgGovCultureGallery,
+            closeOrgGovCultureGallery,
             toggleOrgHiddenChildren,
             toggleOrgServiceMembers,
             openMockDownload

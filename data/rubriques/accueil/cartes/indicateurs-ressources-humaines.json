@@ -30,7 +30,8 @@
             "label": "Postes vacants",
             "icon": "user-plus"
           }
-        ]
+        ],
+        "enabled": false
       }
     ]
   }

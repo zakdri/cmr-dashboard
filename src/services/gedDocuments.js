@@ -1,6 +1,6 @@
 export const GED_ROOT_PATH = "Intranet CMR";
 export const GED_DOCUMENTS_CHANGED_EVENT = "cmr:ged-documents-changed";
-const GED_SESSION_CACHE_PREFIX = "cmr-ged-documents:";
+const GED_SESSION_CACHE_PREFIX = "cmr-ged-documents:v4:";
 const gedDocumentsMemoryCache = new Map();
 const gedDocumentsRequests = new Map();
 
@@ -106,7 +106,7 @@ export async function fetchGedDocuments(path, options = {}) {
   if (!refresh) {
     const cachedDocuments = readCachedGedDocuments(normalizedPath);
     if (cachedDocuments !== null) {
-      return { documents: cachedDocuments, meta: { cache: "browser" } };
+      return { documents: cachedDocuments, folders: [], meta: { cache: "browser" } };
     }
   }
 
@@ -121,8 +121,9 @@ export async function fetchGedDocuments(path, options = {}) {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const payload = await response.json();
       const documents = (Array.isArray(payload.data) ? payload.data : []).map(normalizeGedDocument);
+      const folders = Array.isArray(payload.folders) ? payload.folders : [];
       writeCachedGedDocuments(normalizedPath, documents);
-      return { documents, meta: payload.meta || {} };
+      return { documents, folders, meta: payload.meta || {} };
     })
     .finally(() => {
       gedDocumentsRequests.delete(requestKey);

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 import {
   GED_ROOT_PATH,
@@ -49,16 +50,19 @@ function WorkflowList({ items = [] }) {
   );
 }
 
-function MetricGrid({ metrics = [] }) {
+function MetricGrid({ metrics = [], updatedAt }) {
   return (
-    <div className="achats-metric-grid">
-      {metrics.map((metric) => (
-        <div className="doc-card static-card achats-metric-card" key={metric.label}>
-          <div className="achats-metric-value">{metric.value}</div>
-          <div className="doc-card-title">{metric.label}</div>
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="achats-metric-grid">
+        {metrics.map((metric) => (
+          <div className="doc-card static-card achats-metric-card" key={metric.label}>
+            <div className="achats-metric-value">{metric.value}</div>
+            <div className="doc-card-title">{metric.label}</div>
+          </div>
+        ))}
+      </div>
+      {updatedAt ? <p className="achats-last-update">{updatedAt}</p> : null}
+    </>
   );
 }
 
@@ -107,17 +111,19 @@ function DocumentList({ documents = [], gedPath, active }) {
       </div>
       <GedStatus state={gedState} />
       <div className="achats-doc-list">
-        {shouldUseDocumentsApi() && !gedState.error ? filteredDocuments.map((item) => (
-          <GedRow documentItem={item} key={item.id || item.fileName} />
-        )) : filteredDocuments.map((item) => (
-          <div className="doc-row achats-document-row" key={item.title}>
-            <div>
-              <strong>{item.title}</strong>
-              <p>Document public disponible en consultation.</p>
+        <PaginatedDocuments items={filteredDocuments} resetKey={query}>
+          {(visibleDocuments) => shouldUseDocumentsApi() && !gedState.error ? visibleDocuments.map((item) => (
+            <GedRow documentItem={item} key={item.id || item.fileName} />
+          )) : visibleDocuments.map((item) => (
+            <div className="doc-row achats-document-row" key={item.title}>
+              <div>
+                <strong>{item.title}</strong>
+                <p>Document public disponible en consultation.</p>
+              </div>
+              <span>{item.type}</span>
             </div>
-            <span>{item.type}</span>
-          </div>
-        ))}
+          ))}
+        </PaginatedDocuments>
         {!gedState.loading && !filteredDocuments.length ? <p className="empty-state">Aucun document trouvé.</p> : null}
       </div>
     </>
@@ -183,29 +189,48 @@ function CpsTree({ tree = [], gedPath, active }) {
       <GedStatus state={gedState} />
       <div className="achats-tree-list">
         {filteredTree.map((year) => (
-          <details className="doc-card static-card achats-tree-card" key={year.year} open>
-            <summary>{year.year}</summary>
-            {(year.children || []).map((child) => (
-              <div className="achats-tree-node" key={child.title}>
-                <strong>{child.title}</strong>
-                {(child.docs || []).map((doc) => (
-                  <button
-                    className="doc-card-meta"
-                    key={typeof doc === "object" ? doc.id || doc.fileName : doc}
-                    type="button"
-                    style={{ width: "100%", border: 0, background: "transparent", cursor: "pointer" }}
-                    onClick={(event) => {
-                      if (typeof doc === "object") {
-                        runLegacyHandler(event, `openMockDownload(${JSON.stringify(doc.file)},${JSON.stringify(doc.title)})`);
-                      }
-                    }}
-                  >
-                    <span>{typeof doc === "object" ? doc.title : doc}</span>
-                    <i data-lucide="download" style={{ width: 16 }} />
-                  </button>
-                ))}
-              </div>
-            ))}
+          <details className="achats-tree-year" key={year.year} open>
+            <summary><span>{year.year}</span><small>{year.children?.length || 0} mois</small></summary>
+            <PaginatedDocuments items={year.children || []} pageSize={6} resetKey={`${year.year}:${query}`}>
+              {(visibleMonths) => (
+                <div className="achats-month-grid">
+                  {visibleMonths.map((child) => (
+                    <section className="achats-month-card" key={child.title}>
+                      <header>
+                        <span className="achats-month-icon"><i data-lucide="folder" /></span>
+                        <div><strong>{child.title}</strong><small>{child.docs?.length || 0} document(s)</small></div>
+                      </header>
+                      <div className="achats-month-documents">
+                        <PaginatedDocuments items={child.docs || []} resetKey={`${year.year}:${child.title}:${query}`}>
+                          {(visibleDocuments) => visibleDocuments.map((doc) => {
+                            const title = typeof doc === "object" ? doc.title : doc;
+                            const extension = String(title || "").split(".").pop()?.toUpperCase() || "PDF";
+                            return (
+                              <button
+                                className="achats-cps-document"
+                                key={typeof doc === "object" ? doc.id || doc.fileName : doc}
+                                type="button"
+                                onClick={(event) => {
+                                  if (typeof doc === "object") {
+                                    runLegacyHandler(event, `openMockDownload(${JSON.stringify(doc.file)},${JSON.stringify(doc.title)})`);
+                                  }
+                                }}
+                              >
+                                <span className="achats-cps-file-kind">{extension}</span>
+                                <span>{title}</span>
+                                <i data-lucide="download" aria-hidden="true" />
+                              </button>
+                            );
+                          })}
+                        </PaginatedDocuments>
+                        {!child.docs?.length ? <p className="empty-state">Aucun document dans ce mois.</p> : null}
+                      </div>
+                    </section>
+                  ))}
+                </div>
+              )}
+            </PaginatedDocuments>
+            {!year.children?.length ? <p className="empty-state">Aucun CPS disponible pour cette année.</p> : null}
           </details>
         ))}
         {!gedState.loading && !filteredTree.length ? <p className="empty-state">Aucun document trouvé.</p> : null}
@@ -215,8 +240,8 @@ function CpsTree({ tree = [], gedPath, active }) {
 }
 
 function SectionBody({ section, active }) {
-  const gedPath = joinGedPath(GED_ROOT_PATH, "Espace Achats", section.title);
-  if (section.metrics) return <MetricGrid metrics={section.metrics} />;
+  const gedPath = joinGedPath(GED_ROOT_PATH, "Espace Achats", section.gedFolder || section.title);
+  if (section.metrics) return <MetricGrid metrics={section.metrics} updatedAt={section.updatedAt} />;
   if (section.tree) return <CpsTree tree={section.tree} gedPath={gedPath} active={active} />;
   if (section.documents) return <DocumentList documents={section.documents} gedPath={gedPath} active={active} />;
   return <WorkflowList items={section.items || []} />;

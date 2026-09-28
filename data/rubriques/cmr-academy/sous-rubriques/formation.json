@@ -4,7 +4,7 @@
   "data": {
     "academyPages": {
       "formation": {
-        "description": "La rubrique Formation centralise dans CMR Academy les demandes de formation et leur circuit de validation.",
+        "description": "La rubrique Formation centralise l’ensemble des demandes de formation ainsi que leur circuit de validation. Elle permet de faciliter la gestion et le suivi des demandes, depuis leur création jusqu’à leur validation, tout en offrant une meilleure visibilité sur l’état d’avancement des différentes étapes du processus.",
         "workflows": [
           {
             "title": "Demande de formation spontanée",

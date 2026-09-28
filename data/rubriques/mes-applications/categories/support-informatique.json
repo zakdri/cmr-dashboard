@@ -9,15 +9,15 @@
         "items": [
           {
             "id": "helpdesk",
-            "title": "Helpdesk",
+            "title": "HELPDESK",
             "description": "Support technique. Signaler un incident ou faire une demande.",
-            "action": "Créer un ticket",
+            "action": "Ouvrir",
             "icon": "life-buoy",
-            "href": "#",
+            "href": "http://pc/",
             "hoverBg": "#fef2f2",
             "hoverBorder": "#fecaca",
-            "iconBackground": "#ef4444",
-            "actionIcon": "arrow-right"
+            "iconBackground": "#256cb5",
+            "actionIcon": "external-link"
           },
           {
             "id": "glpi",
