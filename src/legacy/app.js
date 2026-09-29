@@ -2657,6 +2657,27 @@ function openAgendaTab(tabName) {
             return dossiers;
         }
 
+        function buildOrgGovSmiDossiersFromScopedDocuments(documents) {
+            const dossiers = orgGovSmiDossiersSkeleton.map(dossier => ({ ...dossier, docs: [] }));
+            const dossierMap = new Map(dossiers.map(dossier => [normalizeGedText(dossier.dossier), dossier]));
+
+            documents.forEach(documentItem => {
+                const segments = getSmiDocumentSegments(documentItem);
+                const normalizedSegments = segments.map(normalizeGedText);
+                const rootIndex = normalizedSegments.indexOf(normalizeGedText('Dossiers processus'));
+                const processName = rootIndex >= 0 ? segments[rootIndex + 1] : segments[0];
+                const dossier = dossierMap.get(normalizeGedText(processName || ''));
+                if (!dossier) return;
+                dossier.docs.push({
+                    ...documentItem,
+                    label: documentItem.label || documentItem.title,
+                    type: getOrgGovSmiDossierDocumentType(documentItem)
+                });
+            });
+
+            return dossiers;
+        }
+
         function buildOrgGovSmiCartographie(documents) {
             const cartographieDocuments = documents.filter(documentItem =>
                 orgGovSmiDocumentMatchesFolder(documentItem, 'Cartographie des processus')
@@ -2983,6 +3004,18 @@ function openAgendaTab(tabName) {
                 orgGovSmiDossiersData = orgGovSmiDossiersSkeleton;
                 if (!orgGovSmiDossiersData.some(folder => folder.id === orgGovSmiDossierCurrent)) {
                     orgGovSmiDossierCurrent = orgGovSmiDossiersData[0]?.id || '';
+                }
+            }
+            if (shouldUseSmiDocumentsApi()) {
+                const dossiersPath = joinGedPath(
+                    GED_ROOT_PATH,
+                    'Organisation & RSE',
+                    'SMI',
+                    'Dossiers processus'
+                );
+                const dossiersState = getGedDocumentsState(dossiersPath, renderOrgGovSmiDossiers);
+                if (dossiersState?.loaded && !dossiersState.error) {
+                    orgGovSmiDossiersData = buildOrgGovSmiDossiersFromScopedDocuments(dossiersState.documents || []);
                 }
             }
             if (!orgGovSmiDossiersData.length) {
