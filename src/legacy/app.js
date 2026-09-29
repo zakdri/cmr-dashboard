@@ -2596,6 +2596,7 @@ function openAgendaTab(tabName) {
 
         const orgGovSmiStaticContentFolders = new Set([
             'cartographie des processus',
+            'dossiers processus',
             'organisation de pilotage smi',
             'gouvernance interne'
         ]);
@@ -2627,16 +2628,17 @@ function openAgendaTab(tabName) {
                 .filter(Boolean);
         }
 
+        function getOrgGovSmiDossierDocumentType(documentItem) {
+            const segments = getSmiDocumentSegments(documentItem).map(normalizeGedText);
+            if (segments.some(segment => segment.includes('cip') && segment.includes('gtb'))) return 'CIP&GTB';
+            if (segments.some(segment => segment.startsWith('formulaire'))) return 'Formulaires';
+            if (segments.some(segment => segment.startsWith('registre'))) return 'Registres';
+            return 'Document';
+        }
+
         function buildOrgGovSmiDossiers(documents, folders = []) {
             const dossiers = orgGovSmiDossiersSkeleton.map(dossier => ({ ...dossier, docs: [] }));
             const dossierMap = new Map(dossiers.map(dossier => [normalizeGedText(dossier.dossier), dossier]));
-            const documentType = segments => {
-                const folderName = normalizeGedText(segments[2] || '');
-                if (folderName.includes('cip') && folderName.includes('gtb')) return 'CIP&GTB';
-                if (folderName.startsWith('formulaire')) return 'Formulaires';
-                if (folderName.startsWith('registre')) return 'Registres';
-                return 'Document';
-            };
 
             documents.forEach((documentItem) => {
                 if (!orgGovSmiDocumentMatchesFolder(documentItem, 'Dossiers processus')) return;
@@ -2648,7 +2650,7 @@ function openAgendaTab(tabName) {
                 dossier.docs.push({
                     ...documentItem,
                     label: documentItem.label || documentItem.title,
-                    type: documentType(segments)
+                    type: getOrgGovSmiDossierDocumentType(documentItem)
                 });
             });
 
@@ -2918,7 +2920,31 @@ function openAgendaTab(tabName) {
             const docsHost = document.getElementById('orgGovSmiDossiersDocs');
             const folder = orgGovSmiDossiersData.find(x => x.id === id);
             if (!docsHost || !folder) return;
-            const docs = (folder.docs || []).filter(doc => orgGovSmiDossierFilter === 'all' || doc.type === orgGovSmiDossierFilter);
+            let sourceDocuments = folder.docs || [];
+            if (shouldUseSmiDocumentsApi()) {
+                const path = joinGedPath(
+                    GED_ROOT_PATH,
+                    'Organisation & RSE',
+                    'SMI',
+                    'Dossiers processus',
+                    folder.dossier
+                );
+                const state = getGedDocumentsState(path, () => openOrgGovSmiDossier(id));
+                if (state?.loading && !state.loaded) {
+                    docsHost.innerHTML = renderGedLoading('documents');
+                    return;
+                }
+                if (state?.error) {
+                    docsHost.innerHTML = renderGedError('documents');
+                    return;
+                }
+                sourceDocuments = (state?.documents || []).map(documentItem => ({
+                    ...documentItem,
+                    label: documentItem.label || documentItem.title,
+                    type: getOrgGovSmiDossierDocumentType(documentItem)
+                }));
+            }
+            const docs = sourceDocuments.filter(doc => orgGovSmiDossierFilter === 'all' || doc.type === orgGovSmiDossierFilter);
             const paginationKey = `org-gov-smi-dossier:${id}:${orgGovSmiDossierFilter}`;
             const pagination = paginateGedDocuments(paginationKey, docs, () => openOrgGovSmiDossier(id));
             docsHost.innerHTML = pagination.items.map(doc => `
