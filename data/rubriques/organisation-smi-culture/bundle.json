@@ -3778,8 +3778,9 @@
     ],
     "orgGovSmiGovernanceProgram": {
       "title": "Programme de gouvernance",
-      "fileName": "Programme de gouvernance.pdf",
-      "gedFolder": "Gouvernance interne"
+      "fileName": "Programme de gouvernance interne du SMI.pdf",
+      "gedFolder": "Gouvernance interne",
+      "notesFolder": "Notes Instituants les comités"
     },
     "orgGovSmiGovernanceInstances": [
       {

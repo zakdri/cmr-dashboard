@@ -2388,8 +2388,9 @@ function openAgendaTab(tabName) {
         const orgGovSmiGovernanceInstances = getCmrData('orgGovSmiGovernanceInstances', []);
         const orgGovSmiGovernanceProgram = getCmrData('orgGovSmiGovernanceProgram', {
             title: 'Programme de gouvernance',
-            fileName: 'Programme de gouvernance.pdf',
-            gedFolder: 'Gouvernance interne'
+            fileName: 'Programme de gouvernance interne du SMI.pdf',
+            gedFolder: 'Gouvernance interne',
+            notesFolder: 'Notes Instituants les comités'
         });
         let orgGovSmiGovernanceInstance = null;
 
@@ -3106,17 +3107,22 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        function renderOrgGovSmiReferenceAttachments(folderName, label, references, renderAfterLoad) {
-            const path = joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'SMI', folderName);
+        function renderOrgGovSmiReferenceAttachments(folderName, label, references, renderAfterLoad, sourceSubfolder = '') {
+            const path = joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'SMI', folderName, sourceSubfolder);
             const state = getGedDocumentsState(path, renderAfterLoad);
             if (state?.loading && !state.loaded) return renderGedLoading('documents');
             if (state?.error) return renderGedError('documents');
             const referenceNames = new Set(references.flatMap(item => [item.file, item.label]).map(normalizeGedText).filter(Boolean));
-            const documents = (state?.documents || []).filter(item =>
-                referenceNames.has(normalizeGedText(item.fileName))
-                || referenceNames.has(normalizeGedText(item.title))
-                || (item.segments || []).some(segment => normalizeGedText(segment) === normalizeGedText(label))
-            );
+            const normalizedLabel = normalizeGedText(label);
+            const documents = (state?.documents || []).filter(item => {
+                const fileName = normalizeGedText(item.fileName);
+                const title = normalizeGedText(item.title);
+                return referenceNames.has(fileName)
+                    || referenceNames.has(title)
+                    || fileName.includes(normalizedLabel)
+                    || title.includes(normalizedLabel)
+                    || (item.segments || []).some(segment => normalizeGedText(segment) === normalizedLabel);
+            });
             return documents.map(item => renderGedDocItem(item)).join('') || renderGedEmpty('document');
         }
 
@@ -3138,8 +3144,9 @@ function openAgendaTab(tabName) {
 
             const expectedTitle = normalizeGedText(orgGovSmiGovernanceProgram.title);
             const expectedFileName = normalizeGedText(orgGovSmiGovernanceProgram.fileName);
-            const directDocuments = (state?.documents || []).filter(item => !(item.segments || []).length);
-            const matchingDocuments = directDocuments.filter(item => {
+            const allDocuments = state?.documents || [];
+            const directDocuments = allDocuments.filter(item => !(item.segments || []).length);
+            const matchingDocuments = allDocuments.filter(item => {
                 const title = normalizeGedText(item.title || item.fileName);
                 return title === expectedFileName
                     || title.includes(expectedTitle)
@@ -3215,7 +3222,13 @@ function openAgendaTab(tabName) {
                         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Composition</strong>${renderOrgGovSmiGovernanceDetail(current?.composition)}</div>
                         <div class="doc-list">
                             ${shouldUseSmiDocumentsApi()
-                                ? renderOrgGovSmiReferenceAttachments('Gouvernance interne', current?.title, current?.docs || [], renderOrgGovSmiGovernance)
+                                ? renderOrgGovSmiReferenceAttachments(
+                                    'Gouvernance interne',
+                                    current?.title,
+                                    current?.docs || [],
+                                    renderOrgGovSmiGovernance,
+                                    orgGovSmiGovernanceProgram.notesFolder || 'Notes Instituants les comités'
+                                )
                                 : (current?.docs || []).map(d => `
                                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
                                     <div class="doc-icon" style="background:#fee2e2;color:#dc2626;font-weight:900;">PDF</div>
