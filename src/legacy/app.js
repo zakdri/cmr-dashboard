@@ -2632,9 +2632,9 @@ function openAgendaTab(tabName) {
             const dossierMap = new Map(dossiers.map(dossier => [normalizeGedText(dossier.dossier), dossier]));
             const documentType = segments => {
                 const folderName = normalizeGedText(segments[2] || '');
-                if (folderName.includes('cib') && folderName.includes('gtb')) return 'CIB & GTB';
-                if (folderName.startsWith('formulaire')) return 'Formulaire';
-                if (folderName.startsWith('registre')) return 'Registre';
+                if (folderName.includes('cip') && folderName.includes('gtb')) return 'CIP&GTB';
+                if (folderName.startsWith('formulaire')) return 'Formulaires';
+                if (folderName.startsWith('registre')) return 'Registres';
                 return 'Document';
             };
 
@@ -2963,7 +2963,7 @@ function openAgendaTab(tabName) {
                 host.innerHTML = (useDocumentsApi ? renderOrgGovSmiLocalModeNote() : '') + '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Aucun dossier processus disponible.</div>';
                 return;
             }
-            const dossierFilters = ['CIB & GTB', 'Formulaire', 'Registre'];
+            const dossierFilters = ['CIP&GTB', 'Formulaires', 'Registres'];
             host.innerHTML = `
                 ${useDocumentsApi ? renderOrgGovSmiLocalModeNote() : ''}
                 <div class="dashboard-grid" style="grid-template-columns:1.1fr 1.9fr;gap:18px;padding:18px;">
