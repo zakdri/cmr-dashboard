@@ -2588,6 +2588,16 @@ function openAgendaTab(tabName) {
             return shouldUseDocumentsApi();
         }
 
+        const orgGovSmiStaticContentFolders = new Set([
+            'organisation de pilotage smi',
+            'gouvernance interne'
+        ]);
+
+        function shouldUseSmiFolderDocumentsApi(folderName) {
+            return shouldUseSmiDocumentsApi()
+                && !orgGovSmiStaticContentFolders.has(normalizeGedText(folderName));
+        }
+
         function slugifySmiLabel(value) {
             return String(value || 'smi')
                 .normalize('NFD')
@@ -2995,7 +3005,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiFolderDocuments(elementId, folderName, renderAfterLoad, iconLabel, fallbackItems = []) {
             const host = document.getElementById(elementId);
             if (!host) return true;
-            if (shouldUseSmiDocumentsApi()) {
+            if (shouldUseSmiFolderDocumentsApi(folderName)) {
                 const state = getGedDocumentsState(joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'SMI', folderName), renderAfterLoad);
                 if (state?.loading && !state.loaded) {
                     host.innerHTML = renderGedLoading('documents');
@@ -3121,7 +3131,7 @@ function openAgendaTab(tabName) {
                         <ul style="margin:8px 0 0 18px;color:#475569;font-size:12px;line-height:1.8;">${(current?.responsibilities || []).map(x => `<li>${x}</li>`).join('')}</ul>
                         <div style="margin-top:12px;font-weight:900;color:#1e293b;font-size:13px;">Autorités</div>
                         <p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.authority || ''}</p>
-                        ${shouldUseSmiDocumentsApi()
+                        ${shouldUseSmiFolderDocumentsApi('Organisation de pilotage SMI')
                             ? renderOrgGovSmiReferenceAttachments('Organisation de pilotage SMI', current?.role, [{ file: current?.file, label: current?.role }], renderOrgGovSmiPilotage)
                             : current?.file ? `<button class="primary-btn" style="margin-top:14px;" onclick="openMockDownload('${current.file}','${current.role}')">Document nominatif</button>` : ''}
                     </div>
@@ -3155,7 +3165,7 @@ function openAgendaTab(tabName) {
                         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Missions</strong><p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.missions || ''}</p></div>
                         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Composition</strong><p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.composition || ''}</p></div>
                         <div class="doc-list">
-                            ${shouldUseSmiDocumentsApi()
+                            ${shouldUseSmiFolderDocumentsApi('Gouvernance interne')
                                 ? renderOrgGovSmiReferenceAttachments('Gouvernance interne', current?.title, current?.docs || [], renderOrgGovSmiGovernance)
                                 : (current?.docs || []).map(d => `
                                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
