@@ -3810,7 +3810,12 @@
           "Le Chef de Division Planification et Contrôle de Gestion",
           "Les sponsors et les pilotes des processus du domaine Client"
         ],
-        "docs": []
+        "docs": [
+          {
+            "label": "Note instituant le Comité Client",
+            "file": "015-23 Comité Client.pdf"
+          }
+        ]
       },
       {
         "id": "comite-excellence-operationnelle",
@@ -3837,7 +3842,12 @@
           "Le Chef de Division Planification et Contrôle de Gestion",
           "Les sponsors et les pilotes des processus du domaine Opérations"
         ],
-        "docs": []
+        "docs": [
+          {
+            "label": "Note instituant le Comité Excellence Opérationnelle",
+            "file": "016-23 Comité Excellence Opérationnelle.pdf"
+          }
+        ]
       },
       {
         "id": "comite-ressources",
@@ -3865,7 +3875,12 @@
           "Le Chef de Division Planification et Contrôle de Gestion",
           "Les sponsors et les pilotes des processus concernés"
         ],
-        "docs": []
+        "docs": [
+          {
+            "label": "Note instituant le Comité Ressources",
+            "file": "019-23 Comité Ressources.pdf"
+          }
+        ]
       },
       {
         "id": "comite-strategique-si-transformation-digitale",
@@ -3894,7 +3909,12 @@
           "Le Chef de Service Transformation Digitale",
           "Les sponsors et les pilotes des processus du domaine SI et Transformation Digitale"
         ],
-        "docs": []
+        "docs": [
+          {
+            "label": "Note instituant le Comité Stratégie du SI et de la TD",
+            "file": "018-23 Comité Stratégie du SI et de la TD.pdf"
+          }
+        ]
       },
       {
         "id": "comite-strategique-securite-information",
@@ -3919,7 +3939,12 @@
           "Le Chef de Division Risk Management",
           "Le sponsor et le pilote du processus du domaine Sécurité de l'Information"
         ],
-        "docs": []
+        "docs": [
+          {
+            "label": "Note instituant le Comité Stratégique de Sécurité SI",
+            "file": "046-20 Comité Stratégique de Sécurité SI.pdf"
+          }
+        ]
       },
       {
         "id": "comite-risques-conformite",
@@ -3948,7 +3973,12 @@
           "Le Chef de Service Gouvernance",
           "Les sponsors et les pilotes des processus du domaine Risques et Conformité"
         ],
-        "docs": []
+        "docs": [
+          {
+            "label": "Note instituant le Comité Risques et Conformité",
+            "file": "017-23 Comité Risques et Conformité.pdf"
+          }
+        ]
       },
       {
         "id": "comite-alignement-strategique",
@@ -3966,7 +3996,12 @@
           "Le Chef de Service Planification Stratégique et PMO",
           "Le Chef de Service Innovation et Conduite du changement"
         ],
-        "docs": []
+        "docs": [
+          {
+            "label": "Note instituant le Comité d’Alignement Stratégique",
+            "file": "020-23 Comité d’Alignement Stratégique.pdf"
+          }
+        ]
       },
       {
         "id": "comite-strategie-performance",
