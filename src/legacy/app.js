@@ -2589,6 +2589,7 @@ function openAgendaTab(tabName) {
         }
 
         const orgGovSmiStaticContentFolders = new Set([
+            'politiques smi',
             'organisation de pilotage smi',
             'gouvernance interne'
         ]);
@@ -2736,9 +2737,11 @@ function openAgendaTab(tabName) {
         }
 
         function applyOrgGovSmiDocuments(documents, folders = []) {
-            orgGovSmiPolitiquesData = documents.filter(documentItem =>
-                orgGovSmiDocumentMatchesFolder(documentItem, 'Politiques SMI')
-            );
+            orgGovSmiPolitiquesData = shouldUseSmiFolderDocumentsApi('Politiques SMI')
+                ? documents.filter(documentItem =>
+                    orgGovSmiDocumentMatchesFolder(documentItem, 'Politiques SMI')
+                )
+                : orgGovSmiPolitiquesSkeleton;
             orgGovSmiDossiersData = mergeOrgGovSmiDossiers(documents, folders);
             if (!orgGovSmiDossiersData.some(folder => folder.id === orgGovSmiDossierCurrent)) {
                 orgGovSmiDossierCurrent = orgGovSmiDossiersData[0]?.id || '';
@@ -2807,21 +2810,26 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiPolitiques() {
             const list = document.getElementById('orgGovSmiPolitiques');
             if (!list) return;
-            orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiPolitiques);
-            hydrateOrgGovSmiDocumentsFromCache();
-            if (shouldUseSmiDocumentsApi() && !orgGovSmiDocsInitialized && !orgGovSmiDocsLoading) {
-                loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiPolitiques);
+            const useDocumentsApi = shouldUseSmiFolderDocumentsApi('Politiques SMI');
+            if (useDocumentsApi) {
+                orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiPolitiques);
+                hydrateOrgGovSmiDocumentsFromCache();
+                if (!orgGovSmiDocsInitialized && !orgGovSmiDocsLoading) {
+                    loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiPolitiques);
+                }
+            } else {
+                orgGovSmiPolitiquesData = orgGovSmiPolitiquesSkeleton;
             }
             if (!orgGovSmiPolitiquesData.length) {
-                const emptyMessage = orgGovSmiDocsLoading && !orgGovSmiDocsLoaded
+                const emptyMessage = useDocumentsApi && orgGovSmiDocsLoading && !orgGovSmiDocsLoaded
                     ? 'Chargement des documents SMI...'
-                    : 'Aucun document Moovapps dans Politiques SMI.';
-                list.innerHTML = renderOrgGovSmiLocalModeNote() + `<div style="padding:12px;color:#64748b;font-size:13px;">${emptyMessage}</div>`;
+                    : 'Aucune politique SMI disponible.';
+                list.innerHTML = (useDocumentsApi ? renderOrgGovSmiLocalModeNote() : '') + `<div style="padding:12px;color:#64748b;font-size:13px;">${emptyMessage}</div>`;
                 return;
             }
             const paginationKey = 'org-gov-smi-politiques';
             const pagination = paginateGedDocuments(paginationKey, orgGovSmiPolitiquesData, renderOrgGovSmiPolitiques);
-            list.innerHTML = renderOrgGovSmiLocalModeNote() + pagination.items.map(d => `
+            list.innerHTML = (useDocumentsApi ? renderOrgGovSmiLocalModeNote() : '') + pagination.items.map(d => `
                 <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.title))})">
                     <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">SMI</div>
                     <div class="doc-info">
