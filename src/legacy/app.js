@@ -2595,6 +2595,7 @@ function openAgendaTab(tabName) {
         }
 
         const orgGovSmiStaticContentFolders = new Set([
+            'cartographie des processus',
             'dossiers processus',
             'organisation de pilotage smi',
             'gouvernance interne'
@@ -2752,7 +2753,9 @@ function openAgendaTab(tabName) {
             if (!orgGovSmiDossiersData.some(folder => folder.id === orgGovSmiDossierCurrent)) {
                 orgGovSmiDossierCurrent = orgGovSmiDossiersData[0]?.id || '';
             }
-            orgGovSmiCartographieData = mergeOrgGovSmiCartographie(documents);
+            orgGovSmiCartographieData = shouldUseSmiFolderDocumentsApi('Cartographie des processus')
+                ? mergeOrgGovSmiCartographie(documents)
+                : orgGovSmiCartographieSkeleton;
             if (!orgGovSmiCartographieData.families?.some(family => family.id === orgGovSmiCartFamily)) {
                 orgGovSmiCartFamily = orgGovSmiCartographieData.families?.[0]?.id || '';
             }
@@ -2852,14 +2855,23 @@ function openAgendaTab(tabName) {
                 renderOrgGovSmiCartographie,
                 'PDF'
             )) return;
-            orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiCartographie);
-            hydrateOrgGovSmiDocumentsFromCache();
-            if (shouldUseSmiDocumentsApi() && !orgGovSmiDocsInitialized && !orgGovSmiDocsLoading) {
-                loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiCartographie);
+            const useDocumentsApi = shouldUseSmiFolderDocumentsApi('Cartographie des processus');
+            if (useDocumentsApi) {
+                orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiCartographie);
+                hydrateOrgGovSmiDocumentsFromCache();
+                if (!orgGovSmiDocsInitialized && !orgGovSmiDocsLoading) {
+                    loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiCartographie);
+                }
+            } else {
+                orgGovSmiCartographieData = orgGovSmiCartographieSkeleton;
+                if (!orgGovSmiCartographieData.families?.some(family => family.id === orgGovSmiCartFamily)) {
+                    orgGovSmiCartFamily = orgGovSmiCartographieData.families?.[0]?.id || '';
+                    orgGovSmiCartProcess = null;
+                }
             }
             const families = orgGovSmiCartographieData.families || [];
             if (!families.length) {
-                root.innerHTML = renderOrgGovSmiLocalModeNote() + '<div style="padding:12px;color:#64748b;font-size:13px;">Aucun document Moovapps dans Cartographie des processus.</div>';
+                root.innerHTML = (useDocumentsApi ? renderOrgGovSmiLocalModeNote() : '') + '<div style="padding:12px;color:#64748b;font-size:13px;">Aucune cartographie disponible.</div>';
                 return;
             }
             const family = families.find(f => f.id === orgGovSmiCartFamily) || families[0];
@@ -2869,7 +2881,7 @@ function openAgendaTab(tabName) {
             const documentsPaginationKey = `org-gov-smi-cartographie:${process?.id || 'none'}`;
             const documentsPagination = paginateGedDocuments(documentsPaginationKey, process?.docs || [], renderOrgGovSmiCartographie);
             root.innerHTML = `
-                ${renderOrgGovSmiLocalModeNote()}
+                ${useDocumentsApi ? renderOrgGovSmiLocalModeNote() : ''}
                 <div class="dashboard-grid" style="grid-template-columns:.9fr 1.1fr 1.4fr;gap:18px;">
                     <div>
                         <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Familles</div>
