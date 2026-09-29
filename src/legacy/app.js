@@ -2596,7 +2596,6 @@ function openAgendaTab(tabName) {
 
         const orgGovSmiStaticContentFolders = new Set([
             'cartographie des processus',
-            'dossiers processus',
             'organisation de pilotage smi',
             'gouvernance interne'
         ]);
@@ -2629,41 +2628,31 @@ function openAgendaTab(tabName) {
         }
 
         function buildOrgGovSmiDossiers(documents, folders = []) {
-            const dossierMap = new Map();
-            folders.forEach(folderItem => {
-                const segments = Array.isArray(folderItem.segments) ? folderItem.segments : [];
-                if (normalizeGedText(segments[0]) !== normalizeGedText('Dossiers processus') || !segments[1]) return;
-                const dossier = segments[1];
-                if (!dossierMap.has(dossier)) {
-                    dossierMap.set(dossier, {
-                        id: `smi-${slugifySmiLabel(dossier)}`,
-                        dossier,
-                        docs: []
-                    });
-                }
-            });
+            const dossiers = orgGovSmiDossiersSkeleton.map(dossier => ({ ...dossier, docs: [] }));
+            const dossierMap = new Map(dossiers.map(dossier => [normalizeGedText(dossier.dossier), dossier]));
+            const documentType = segments => {
+                const folderName = normalizeGedText(segments[2] || '');
+                if (folderName.includes('cib') && folderName.includes('gtb')) return 'CIB & GTB';
+                if (folderName.startsWith('formulaire')) return 'Formulaire';
+                if (folderName.startsWith('registre')) return 'Registre';
+                return 'Document';
+            };
+
             documents.forEach((documentItem) => {
                 if (!orgGovSmiDocumentMatchesFolder(documentItem, 'Dossiers processus')) return;
 
                 const segments = getSmiDocumentSegments(documentItem);
-                const dossier = segments[1] || 'Documents sans sous-dossier';
-                if (!dossierMap.has(dossier)) {
-                    dossierMap.set(dossier, {
-                        id: `smi-${slugifySmiLabel(dossier)}`,
-                        dossier,
-                        docs: []
-                    });
-                }
+                const dossier = dossierMap.get(normalizeGedText(segments[1] || ''));
+                if (!dossier) return;
 
-                dossierMap.get(dossier).docs.push({
+                dossier.docs.push({
                     ...documentItem,
                     label: documentItem.label || documentItem.title,
-                    type: 'Document SMI'
+                    type: documentType(segments)
                 });
             });
 
-            return Array.from(dossierMap.values())
-                .sort((left, right) => left.dossier.localeCompare(right.dossier, 'fr'));
+            return dossiers;
         }
 
         function buildOrgGovSmiCartographie(documents) {
@@ -2924,6 +2913,7 @@ function openAgendaTab(tabName) {
         }
 
         function openOrgGovSmiDossier(id) {
+            if (orgGovSmiDossierCurrent !== id) orgGovSmiDossierFilter = 'all';
             orgGovSmiDossierCurrent = id;
             const docsHost = document.getElementById('orgGovSmiDossiersDocs');
             const folder = orgGovSmiDossiersData.find(x => x.id === id);
@@ -2973,24 +2963,18 @@ function openAgendaTab(tabName) {
                 host.innerHTML = (useDocumentsApi ? renderOrgGovSmiLocalModeNote() : '') + '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Aucun dossier processus disponible.</div>';
                 return;
             }
-            const dossierFilters = ['all', ...Array.from(new Set(
-                orgGovSmiDossiersData
-                    .flatMap(folder => folder.docs || [])
-                    .map(doc => doc.type)
-                    .filter(Boolean)
-            ))];
+            const dossierFilters = ['CIB & GTB', 'Formulaire', 'Registre'];
             host.innerHTML = `
                 ${useDocumentsApi ? renderOrgGovSmiLocalModeNote() : ''}
                 <div class="dashboard-grid" style="grid-template-columns:1.1fr 1.9fr;gap:18px;padding:18px;">
                     <div>
-                        <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Dossiers processus</div>
                         <div id="orgGovSmiDossiersFolders" class="doc-list"></div>
                     </div>
                     <div>
                         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
                             <div style="font-weight:900;color:#0f172a;font-size:13px;">Documents</div>
                             <div id="orgGovSmiDossierFilters" style="display:flex;gap:8px;flex-wrap:wrap;">
-                                ${dossierFilters.map(f => `<button class="actu-filter-btn${orgGovSmiDossierFilter === f ? ' active' : ''}" data-filter="${escapeHtml(f)}" onclick="setOrgGovSmiDossierFilter(${escapeHtml(JSON.stringify(f))})">${f === 'all' ? 'Tous' : escapeHtml(f)}</button>`).join('')}
+                                ${dossierFilters.map(f => `<button class="actu-filter-btn${orgGovSmiDossierFilter === f ? ' active' : ''}" data-filter="${escapeHtml(f)}" onclick="setOrgGovSmiDossierFilter(${escapeHtml(JSON.stringify(f))})">${escapeHtml(f)}</button>`).join('')}
                             </div>
                         </div>
                         <div id="orgGovSmiDossiersDocs" class="doc-list"></div>

@@ -12,52 +12,84 @@
     },
     "orgGovSmiDossiersData": [
       {
-        "id": "dp1",
-        "dossier": "Pilotage & stratégie",
-        "docs": [
-          {
-            "file": "Processus_Pilotage_Strategique.pdf",
-            "label": "Processus — Pilotage stratégique",
-            "type": "CIB & GTB"
-          },
-          {
-            "file": "Fiche_Processus_Revues_Direction.pdf",
-            "label": "Fiche processus — Revues de direction",
-            "type": "Formulaire"
-          }
-        ]
+        "id": "gerer-relation-clients",
+        "dossier": "Gérer la Relation Clients",
+        "docs": []
       },
       {
-        "id": "dp2",
-        "dossier": "Ressources & compétences",
-        "docs": [
-          {
-            "file": "Processus_Gestion_Competences.pdf",
-            "label": "Processus — Gestion des compétences",
-            "type": "CIB & GTB"
-          },
-          {
-            "file": "Processus_Formation_Interne.pdf",
-            "label": "Processus — Formation interne",
-            "type": "Registre"
-          }
-        ]
+        "id": "gerer-relation-tiers",
+        "dossier": "Gérer la Relation avec les Tiers",
+        "docs": []
       },
       {
-        "id": "dp3",
-        "dossier": "Réalisation opérationnelle",
-        "docs": [
-          {
-            "file": "Processus_Traitement_Demandes.pdf",
-            "label": "Processus — Traitement des demandes",
-            "type": "CIB & GTB"
-          },
-          {
-            "file": "Processus_Controle_Qualite.pdf",
-            "label": "Processus — Contrôle qualité",
-            "type": "Registre"
-          }
-        ]
+        "id": "constituer-droits",
+        "dossier": "Constituer les Droits",
+        "docs": []
+      },
+      {
+        "id": "liquider-conceder-droits",
+        "dossier": "Liquider et Concéder les Droits",
+        "docs": []
+      },
+      {
+        "id": "regler-gerer-prestations",
+        "dossier": "Régler et Gérer les Prestations",
+        "docs": []
+      },
+      {
+        "id": "financer-prestations",
+        "dossier": "Financer les Prestations",
+        "docs": []
+      },
+      {
+        "id": "investir-optimiser-fonds",
+        "dossier": "Investir et Optimiser les Fonds",
+        "docs": []
+      },
+      {
+        "id": "gerer-systeme-information",
+        "dossier": "Gérer le Système d’information",
+        "docs": []
+      },
+      {
+        "id": "fournir-entretenir-moyens",
+        "dossier": "Fournir et Entretenir les Moyens",
+        "docs": []
+      },
+      {
+        "id": "developper-capital-humain",
+        "dossier": "Développer le Capital Humain",
+        "docs": []
+      },
+      {
+        "id": "fournir-appui-conseil-juridique",
+        "dossier": "Fournir l’Appui et le Conseil Juridique",
+        "docs": []
+      },
+      {
+        "id": "ameliorer-experience-clients",
+        "dossier": "Améliorer l’Expérience Clients",
+        "docs": []
+      },
+      {
+        "id": "risk-management",
+        "dossier": "Risk Management",
+        "docs": []
+      },
+      {
+        "id": "gerer-surveiller-smi",
+        "dossier": "Gérer et Surveiller le Système de Management Intégré",
+        "docs": []
+      },
+      {
+        "id": "gerer-innovation-transformations",
+        "dossier": "Gérer l’Innovation et les Transformations",
+        "docs": []
+      },
+      {
+        "id": "piloter-strategie-performance",
+        "dossier": "Piloter la Stratégie et la Performance",
+        "docs": []
       }
     ]
   }
