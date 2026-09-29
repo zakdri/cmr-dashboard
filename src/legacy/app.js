@@ -2386,6 +2386,11 @@ function openAgendaTab(tabName) {
         let orgGovSmiPilotageRole = null;
 
         const orgGovSmiGovernanceInstances = getCmrData('orgGovSmiGovernanceInstances', []);
+        const orgGovSmiGovernanceProgram = getCmrData('orgGovSmiGovernanceProgram', {
+            title: 'Programme de gouvernance',
+            fileName: 'Programme de gouvernance.pdf',
+            gedFolder: 'Gouvernance interne'
+        });
         let orgGovSmiGovernanceInstance = null;
 
         const orgGovSmiCertifications = getCmrData('orgGovSmiCertifications', []);
@@ -3115,6 +3120,36 @@ function openAgendaTab(tabName) {
             return documents.map(item => renderGedDocItem(item)).join('') || renderGedEmpty('document');
         }
 
+        function renderOrgGovSmiGovernanceDetail(value) {
+            const items = Array.isArray(value) ? value.filter(Boolean) : [];
+            if (items.length) {
+                return `<ul style="margin:8px 0 0 18px;color:#475569;font-size:12px;line-height:1.7;">${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
+            }
+            return `<p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${escapeHtml(value || '')}</p>`;
+        }
+
+        function renderOrgGovSmiGovernanceProgram(renderAfterLoad) {
+            if (!shouldUseSmiDocumentsApi()) return '';
+            const folderName = orgGovSmiGovernanceProgram.gedFolder || 'Gouvernance interne';
+            const path = joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'SMI', folderName);
+            const state = getGedDocumentsState(path, renderAfterLoad);
+            if (state?.loading && !state.loaded) return renderGedLoading('documents');
+            if (state?.error) return renderGedError('documents');
+
+            const expectedTitle = normalizeGedText(orgGovSmiGovernanceProgram.title);
+            const expectedFileName = normalizeGedText(orgGovSmiGovernanceProgram.fileName);
+            const directDocuments = (state?.documents || []).filter(item => !(item.segments || []).length);
+            const matchingDocuments = directDocuments.filter(item => {
+                const title = normalizeGedText(item.title || item.fileName);
+                return title === expectedFileName
+                    || title.includes(expectedTitle)
+                    || (title.includes('programme') && title.includes('gouvernance'));
+            });
+            const documents = matchingDocuments.length ? matchingDocuments : directDocuments;
+            return documents.map(item => renderGedDocItem(item, orgGovSmiGovernanceProgram.title)).join('')
+                || renderGedEmpty('document général');
+        }
+
         function renderOrgGovSmiPilotage() {
             const root = document.getElementById('orgGovSmiPilotage');
             if (!root) return;
@@ -3163,20 +3198,23 @@ function openAgendaTab(tabName) {
             const current = orgGovSmiGovernanceInstances.find(i => i.id === orgGovSmiGovernanceInstance) || orgGovSmiGovernanceInstances[0];
             orgGovSmiGovernanceInstance = current?.id || null;
             root.innerHTML = `
+                <div class="doc-list" style="margin-bottom:16px;">
+                    ${renderOrgGovSmiGovernanceProgram(renderOrgGovSmiGovernance)}
+                </div>
                 <div class="dashboard-grid" style="grid-template-columns:1fr 1.6fr;gap:18px;">
                     <div class="doc-list">
                         ${orgGovSmiGovernanceInstances.map(i => `
                             <div class="doc-item" onclick="orgGovSmiGovernanceInstance='${i.id}'; renderOrgGovSmiGovernance();" style="${i.id === orgGovSmiGovernanceInstance ? 'background:#eff6ff;border-color:#bfdbfe;' : ''}">
                                 <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">G</div>
-                                <div class="doc-info"><div class="doc-title">${i.title}</div><div class="doc-meta">Instance de gouvernance</div></div>
+                                <div class="doc-info"><div class="doc-title">${escapeHtml(i.title)}</div><div class="doc-meta">Instance de gouvernance</div></div>
                             </div>
                         `).join('')}
                     </div>
                     <div style="display:grid;gap:12px;">
-                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Missions</strong><p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.missions || ''}</p></div>
-                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Composition</strong><p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.composition || ''}</p></div>
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Missions</strong>${renderOrgGovSmiGovernanceDetail(current?.missions)}</div>
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;"><strong>Composition</strong>${renderOrgGovSmiGovernanceDetail(current?.composition)}</div>
                         <div class="doc-list">
-                            ${shouldUseSmiFolderDocumentsApi('Gouvernance interne')
+                            ${shouldUseSmiDocumentsApi()
                                 ? renderOrgGovSmiReferenceAttachments('Gouvernance interne', current?.title, current?.docs || [], renderOrgGovSmiGovernance)
                                 : (current?.docs || []).map(d => `
                                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">

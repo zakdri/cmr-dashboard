@@ -3776,34 +3776,211 @@
         "file": "Liste_Nominative_Correspondants_SMI.pdf"
       }
     ],
+    "orgGovSmiGovernanceProgram": {
+      "title": "Programme de gouvernance",
+      "fileName": "Programme de gouvernance.pdf",
+      "gedFolder": "Gouvernance interne"
+    },
     "orgGovSmiGovernanceInstances": [
       {
-        "id": "revue-direction",
-        "title": "Revue de direction",
-        "missions": "Évaluer la performance du SMI et arbitrer les plans d’amélioration.",
-        "composition": "Direction Générale, pilotes de processus, responsables SMI.",
-        "docs": [
-          {
-            "label": "PV revue de direction",
-            "file": "PV_Revue_Direction.pdf"
-          },
-          {
-            "label": "Plan d’actions SMI",
-            "file": "Plan_Actions_SMI.pdf"
-          }
-        ]
+        "id": "comite-client",
+        "title": "Comité Client",
+        "missions": [
+          "Valider les orientations stratégiques en matière de management de l'expérience Client et de Partenariat Métier.",
+          "Valider les propositions de normes, de chartes et de niveaux de services au profit des clients et des tiers.",
+          "Valider les objectifs et la méthodologie de l'écoute client.",
+          "Valider les objectifs et la méthodologie de développement, de promotion et de commercialisation des produits et services.",
+          "Valider les projets et les actions ainsi que leur priorisation et leurs budgets.",
+          "Surveiller les indicateurs de performance des processus Gérer la Relation Clients, Gérer la Relation avec les Tiers et Améliorer l'Expérience Client.",
+          "Surveiller les résultats des contrôles de premier et de deuxième niveau des processus Gérer la Relation Clients et Gérer la Relation avec les Tiers.",
+          "Examiner les retours d'information des clients, tiers et partenaires, y compris les réclamations, attentes et suggestions pertinentes.",
+          "Suivre l'avancement des projets, des actions correctives et d'amélioration continue ainsi que des actions de maîtrise des risques relatives aux processus concernés."
+        ],
+        "composition": [
+          "Le Directeur, président",
+          "Le Secrétaire Général",
+          "Le Chef de Pôle Clients",
+          "Le Chef de Pôle Opérations",
+          "Le Chef de Pôle Système d'Information et Transformation Digitale",
+          "Le Chef de Pôle Pilotage",
+          "Le Chef de Division Expérience Client",
+          "Le Chef de Division Relation Client",
+          "Le Chef de Division Études et Affaires Juridiques",
+          "Le Chef de Division Planification et Contrôle de Gestion",
+          "Les sponsors et les pilotes des processus du domaine Client"
+        ],
+        "docs": []
       },
       {
-        "id": "comite-smi",
-        "title": "Comité SMI",
-        "missions": "Suivre les indicateurs, audits, non-conformités et actions correctives.",
-        "composition": "Responsable SMI, correspondants SMI, pilotes de processus.",
-        "docs": [
-          {
-            "label": "Charte comité SMI",
-            "file": "Charte_Comite_SMI.pdf"
-          }
-        ]
+        "id": "comite-excellence-operationnelle",
+        "title": "Comité Excellence Opérationnelle",
+        "missions": [
+          "Valider les orientations et les objectifs en matière d'excellence opérationnelle.",
+          "Valider les opportunités de partenariat permettant d'atteindre les objectifs de l'excellence opérationnelle.",
+          "Valider les nouvelles approches et démarches visant à optimiser les processus opérationnels et à maximiser leur performance.",
+          "Valider les projets et les actions ainsi que leur priorisation et leurs budgets.",
+          "Surveiller les indicateurs de performance des processus Constituer les Droits, Liquider et Concéder les Droits et Régler et Gérer les Prestations, ainsi que les autres indicateurs mesurant l'excellence opérationnelle.",
+          "Surveiller les résultats des contrôles de premier et de deuxième niveau des processus opérationnels.",
+          "Suivre l'avancement des projets, des actions correctives et d'amélioration continue ainsi que des actions de maîtrise des risques relatives aux processus concernés."
+        ],
+        "composition": [
+          "Le Directeur, président",
+          "Le Secrétaire Général",
+          "Le Chef de Pôle Opérations",
+          "Le Chef de Pôle Clients",
+          "Le Chef de Pôle Ressources",
+          "Le Chef de Pôle Système d'Information et Transformation Digitale",
+          "Le Chef de Pôle Pilotage",
+          "Le Chef de Division Études et Affaires Juridiques",
+          "Le Chef de Division Risk Management",
+          "Le Chef de Division Planification et Contrôle de Gestion",
+          "Les sponsors et les pilotes des processus du domaine Opérations"
+        ],
+        "docs": []
+      },
+      {
+        "id": "comite-ressources",
+        "title": "Comité Ressources",
+        "missions": [
+          "Valider les stratégies et les objectifs liés à la gestion des ressources.",
+          "Examiner et valider l'allocation des ressources nécessaires à la réalisation des objectifs des processus.",
+          "Valider les nouvelles approches et démarches permettant d'améliorer l'expérience collaborateur.",
+          "Valider les projets et les actions ainsi que leur priorisation et leurs budgets.",
+          "Surveiller les indicateurs de performance des processus Financer les Prestations, Développer le Capital Humain et Fournir et Entretenir les Moyens.",
+          "Surveiller les retours d'information des collaborateurs et des prestataires externes.",
+          "Suivre les résultats de la gestion prévisionnelle des emplois et des compétences et décider des ajustements nécessaires.",
+          "Suivre l'avancement des actions correctives et d'amélioration continue ainsi que des actions de maîtrise des risques relatives aux processus concernés."
+        ],
+        "composition": [
+          "Le Directeur, président",
+          "Le Secrétaire Général",
+          "Le Chef de Pôle Ressources",
+          "Le Chef de Pôle Gestion du Portefeuille",
+          "Le Chef de Pôle Clients",
+          "Le Chef de Pôle Opérations",
+          "Le Chef de Pôle Système d'Information et Transformation Digitale",
+          "Le Chef de Pôle Pilotage",
+          "Le Chef de Division Contrôle des Engagements et des Paiements",
+          "Le Chef de Division Planification et Contrôle de Gestion",
+          "Les sponsors et les pilotes des processus concernés"
+        ],
+        "docs": []
+      },
+      {
+        "id": "comite-strategique-si-transformation-digitale",
+        "title": "Comité Stratégique du Système d’Information et de la Transformation Digitale",
+        "missions": [
+          "Définir les grandes orientations en matière d'évolution du Système d'Information.",
+          "Examiner et valider les stratégies et les politiques liées à la gestion du SI et à la transformation digitale.",
+          "Valider le portefeuille de projets SI ainsi que leur priorisation et leurs budgets.",
+          "Suivre la mise en œuvre du Schéma Directeur et de la stratégie de transformation digitale.",
+          "Surveiller les indicateurs de performance du processus Gérer le Système d'Information.",
+          "Suivre l'avancement des projets, des actions correctives et d'amélioration continue ainsi que des actions de maîtrise des risques relatives au processus concerné."
+        ],
+        "composition": [
+          "Le Directeur, président",
+          "Le Secrétaire Général",
+          "Le Chef de Pôle Système d'Information et Transformation Digitale",
+          "Le Chef de Pôle Clients",
+          "Le Chef de Pôle Opérations",
+          "Le Chef de Pôle Ressources",
+          "Le Chef de Pôle Pilotage",
+          "Le Chef de Pôle Gestion du Portefeuille",
+          "Le Chef de Division Études et Développement",
+          "Le Chef de Division Exploitation, Systèmes et Réseaux",
+          "Le Chef de Division Études et Affaires Juridiques",
+          "Le Chef de Division Risk Management",
+          "Le Chef de Service Transformation Digitale",
+          "Les sponsors et les pilotes des processus du domaine SI et Transformation Digitale"
+        ],
+        "docs": []
+      },
+      {
+        "id": "comite-strategique-securite-information",
+        "title": "Comité Stratégique de la Sécurité de l’Information",
+        "missions": [
+          "Définir les grandes orientations en matière de sécurité du SI et valider la politique de sécurité du SI.",
+          "Valider les plans d'actions de la sécurité du Système d'Information et leurs budgets.",
+          "Évaluer l'efficacité des plans d'actions de la sécurité du SI et proposer les ajustements nécessaires.",
+          "Approuver les programmes d'audit de la sécurité du SI et évaluer l'efficacité des recommandations.",
+          "Valider la cartographie des risques de la sécurité du SI et veiller à la réalisation et à l'évaluation des plans de maîtrise de ces risques."
+        ],
+        "composition": [
+          "Le Directeur, président",
+          "Le Secrétaire Général",
+          "Le Chef de Pôle Système d'Information et Transformation Digitale",
+          "Le Chef de Pôle Opérations",
+          "Le Chef de Pôle Clients",
+          "Le Chef de Pôle Pilotage",
+          "Le Chef de Pôle Ressources",
+          "Le Chef de Pôle Gestion du Portefeuille",
+          "Le Chef de Division Sécurité de l'Information",
+          "Le Chef de Division Risk Management",
+          "Le sponsor et le pilote du processus du domaine Sécurité de l'Information"
+        ],
+        "docs": []
+      },
+      {
+        "id": "comite-risques-conformite",
+        "title": "Comité Risques et Conformité",
+        "missions": [
+          "Valider la politique de gestion des risques, sa révision et assurer le suivi de sa mise en œuvre.",
+          "Valider les travaux de révision de la cartographie des risques.",
+          "Surveiller les résultats du dispositif de conformité aux exigences applicables.",
+          "Surveiller les travaux du dispositif de contrôle permanent, y compris la révision des manuels de contrôle interne.",
+          "Évaluer l'efficacité des dispositifs de gestion des risques, de gestion des incidents opérationnels et de conformité.",
+          "Suivre l'avancement du plan de maîtrise des risques.",
+          "Surveiller les indicateurs de performance des processus Risk Management et Fournir l'Appui et le Conseil Juridique.",
+          "Valider les projets et les actions ainsi que leur priorisation et leurs budgets.",
+          "Suivre l'avancement des projets et des actions correctives et d'amélioration continue relatifs aux processus concernés."
+        ],
+        "composition": [
+          "Le Directeur, président",
+          "Le Secrétaire Général",
+          "Le Chef de Division Risk Management",
+          "Le Chef de Pôle Clients",
+          "Le Chef de Pôle Opérations",
+          "Le Chef de Pôle Pilotage",
+          "Le Chef de Pôle Ressources",
+          "Le Chef de Division Études et Affaires Juridiques",
+          "Le Chef de Service Risques et Conformité",
+          "Le Chef de Service Gouvernance",
+          "Les sponsors et les pilotes des processus du domaine Risques et Conformité"
+        ],
+        "docs": []
+      },
+      {
+        "id": "comite-alignement-strategique",
+        "title": "Comité d’Alignement Stratégique",
+        "missions": [
+          "Examiner les idées de projets et d'actions issues des différentes sources d'amélioration, notamment l'Open Lab, les recommandations des études, les audits internes et externes, le plan de maîtrise des risques et le système de management intégré.",
+          "Statuer sur les projets à proposer à la Direction pour approbation, en veillant à la cohérence du portefeuille de projets et à sa conformité aux objectifs stratégiques.",
+          "Examiner la priorisation des projets avant de la soumettre à la Direction pour approbation."
+        ],
+        "composition": [
+          "Le Secrétaire Général, président",
+          "Le Chef de Pôle Pilotage",
+          "Le Chef de Pôle concerné par les projets inscrits à l'ordre du jour",
+          "Le Chef de Division Planification et Contrôle de Gestion",
+          "Le Chef de Service Planification Stratégique et PMO",
+          "Le Chef de Service Innovation et Conduite du changement"
+        ],
+        "docs": []
+      },
+      {
+        "id": "comite-strategie-performance",
+        "title": "Comité Stratégie et Performance",
+        "missions": [
+          "Surveiller la mise en œuvre de la stratégie de la CMR et sa performance, et s'assurer que le système de management intégré est approprié, efficace et aligné sur les orientations stratégiques."
+        ],
+        "composition": [
+          "Le Directeur, président",
+          "Le Secrétaire Général",
+          "Les membres du CODIR",
+          "Les sponsors des processus",
+          "Les pilotes des processus"
+        ],
+        "docs": []
       }
     ],
     "orgGovSmiAuditsData": [
