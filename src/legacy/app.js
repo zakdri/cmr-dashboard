@@ -2589,7 +2589,7 @@ function openAgendaTab(tabName) {
         }
 
         const orgGovSmiStaticContentFolders = new Set([
-            'politiques smi',
+            'dossiers processus',
             'organisation de pilotage smi',
             'gouvernance interne'
         ]);
@@ -2737,12 +2737,12 @@ function openAgendaTab(tabName) {
         }
 
         function applyOrgGovSmiDocuments(documents, folders = []) {
-            orgGovSmiPolitiquesData = shouldUseSmiFolderDocumentsApi('Politiques SMI')
-                ? documents.filter(documentItem =>
-                    orgGovSmiDocumentMatchesFolder(documentItem, 'Politiques SMI')
-                )
-                : orgGovSmiPolitiquesSkeleton;
-            orgGovSmiDossiersData = mergeOrgGovSmiDossiers(documents, folders);
+            orgGovSmiPolitiquesData = documents.filter(documentItem =>
+                orgGovSmiDocumentMatchesFolder(documentItem, 'Politiques SMI')
+            );
+            orgGovSmiDossiersData = shouldUseSmiFolderDocumentsApi('Dossiers processus')
+                ? mergeOrgGovSmiDossiers(documents, folders)
+                : orgGovSmiDossiersSkeleton;
             if (!orgGovSmiDossiersData.some(folder => folder.id === orgGovSmiDossierCurrent)) {
                 orgGovSmiDossierCurrent = orgGovSmiDossiersData[0]?.id || '';
             }
@@ -2810,26 +2810,21 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiPolitiques() {
             const list = document.getElementById('orgGovSmiPolitiques');
             if (!list) return;
-            const useDocumentsApi = shouldUseSmiFolderDocumentsApi('Politiques SMI');
-            if (useDocumentsApi) {
-                orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiPolitiques);
-                hydrateOrgGovSmiDocumentsFromCache();
-                if (!orgGovSmiDocsInitialized && !orgGovSmiDocsLoading) {
-                    loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiPolitiques);
-                }
-            } else {
-                orgGovSmiPolitiquesData = orgGovSmiPolitiquesSkeleton;
+            orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiPolitiques);
+            hydrateOrgGovSmiDocumentsFromCache();
+            if (shouldUseSmiDocumentsApi() && !orgGovSmiDocsInitialized && !orgGovSmiDocsLoading) {
+                loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiPolitiques);
             }
             if (!orgGovSmiPolitiquesData.length) {
-                const emptyMessage = useDocumentsApi && orgGovSmiDocsLoading && !orgGovSmiDocsLoaded
+                const emptyMessage = orgGovSmiDocsLoading && !orgGovSmiDocsLoaded
                     ? 'Chargement des documents SMI...'
-                    : 'Aucune politique SMI disponible.';
-                list.innerHTML = (useDocumentsApi ? renderOrgGovSmiLocalModeNote() : '') + `<div style="padding:12px;color:#64748b;font-size:13px;">${emptyMessage}</div>`;
+                    : 'Aucun document Moovapps dans Politiques SMI.';
+                list.innerHTML = renderOrgGovSmiLocalModeNote() + `<div style="padding:12px;color:#64748b;font-size:13px;">${emptyMessage}</div>`;
                 return;
             }
             const paginationKey = 'org-gov-smi-politiques';
             const pagination = paginateGedDocuments(paginationKey, orgGovSmiPolitiquesData, renderOrgGovSmiPolitiques);
-            list.innerHTML = (useDocumentsApi ? renderOrgGovSmiLocalModeNote() : '') + pagination.items.map(d => `
+            list.innerHTML = renderOrgGovSmiLocalModeNote() + pagination.items.map(d => `
                 <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.title))})">
                     <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">SMI</div>
                     <div class="doc-info">
@@ -2943,13 +2938,21 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiDossiers() {
             const host = document.getElementById('orgGovSmiDossiers');
             if (!host) return;
-            orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiDossiers);
-            hydrateOrgGovSmiDocumentsFromCache();
-            if (shouldUseSmiDocumentsApi() && !orgGovSmiDocsInitialized && !orgGovSmiDocsLoading) {
-                loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiDossiers);
+            const useDocumentsApi = shouldUseSmiFolderDocumentsApi('Dossiers processus');
+            if (useDocumentsApi) {
+                orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiDossiers);
+                hydrateOrgGovSmiDocumentsFromCache();
+                if (!orgGovSmiDocsInitialized && !orgGovSmiDocsLoading) {
+                    loadOrgGovSmiDocumentsFromApi(renderOrgGovSmiDossiers);
+                }
+            } else {
+                orgGovSmiDossiersData = orgGovSmiDossiersSkeleton;
+                if (!orgGovSmiDossiersData.some(folder => folder.id === orgGovSmiDossierCurrent)) {
+                    orgGovSmiDossierCurrent = orgGovSmiDossiersData[0]?.id || '';
+                }
             }
             if (!orgGovSmiDossiersData.length) {
-                host.innerHTML = renderOrgGovSmiLocalModeNote() + '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Aucun dossier processus Moovapps disponible.</div>';
+                host.innerHTML = (useDocumentsApi ? renderOrgGovSmiLocalModeNote() : '') + '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Aucun dossier processus disponible.</div>';
                 return;
             }
             const dossierFilters = ['all', ...Array.from(new Set(
@@ -2959,7 +2962,7 @@ function openAgendaTab(tabName) {
                     .filter(Boolean)
             ))];
             host.innerHTML = `
-                ${renderOrgGovSmiLocalModeNote()}
+                ${useDocumentsApi ? renderOrgGovSmiLocalModeNote() : ''}
                 <div class="dashboard-grid" style="grid-template-columns:1.1fr 1.9fr;gap:18px;padding:18px;">
                     <div>
                         <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Dossiers processus</div>
