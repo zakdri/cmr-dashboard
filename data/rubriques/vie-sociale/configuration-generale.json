@@ -24,6 +24,11 @@
           "title": "Soutien psychologique",
           "icon": "heart-handshake",
           "iconClass": "green"
+        },
+        {
+          "title": "Soutien social",
+          "icon": "hand-heart",
+          "iconClass": "purple"
         }
       ]
     },

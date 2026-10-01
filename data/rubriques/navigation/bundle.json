@@ -22,7 +22,7 @@
       },
       {
         "id": "institutionnel",
-        "label": "Organisation & RSE",
+        "label": "SMI & Organisation & RSE",
         "icon": "building-2",
         "handler": "switchView('institutionnel')"
       },
@@ -398,7 +398,7 @@
             "tab": "documents"
           },
           {
-            "label": "ATTAKMILI PLUS",
+            "label": "ATTAKMILI +",
             "tab": "attakmili"
           },
           {

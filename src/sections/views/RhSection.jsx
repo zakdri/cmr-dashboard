@@ -268,6 +268,21 @@ function AttakmiliDocuments({ documents, resetKey }) {
   );
 }
 
+function AttakmiliTextContent({ content = {} }) {
+  return (
+    <div className="rh-attakmili-text-content" dir="rtl" lang="ar">
+      {content.intro ? <p>{content.intro}</p> : null}
+      {content.heading ? <h5>{content.heading}</h5> : null}
+      {content.responsible ? <p>{content.responsible}</p> : null}
+      <dl>
+        {content.office ? <><dt>المكتب</dt><dd>{content.office}</dd></> : null}
+        {content.phone ? <><dt>الهاتف</dt><dd>{content.phone}</dd></> : null}
+        {content.email ? <><dt>البريد الإلكتروني</dt><dd><a href={`mailto:${content.email}`}>{content.email}</a></dd></> : null}
+      </dl>
+    </div>
+  );
+}
+
 function AttakmiliPage({ page, active }) {
   const [query, setQuery] = useState("");
   const gedState = useGedDocuments(
@@ -288,13 +303,13 @@ function AttakmiliPage({ page, active }) {
       <div className="section-search-row">
         <i data-lucide="search" style={{ width: 18 }} />
         <input
-          placeholder={page.searchPlaceholder || "Rechercher un document ATTAKMILI PLUS..."}
+          placeholder={page.searchPlaceholder || "Rechercher un document ATTAKMILI +..."}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
       </div>
-      {gedState.loading ? <div className="rh-attakmili-status">Chargement des documents ATTAKMILI PLUS...</div> : null}
-      {gedState.error ? <div className="rh-attakmili-error">Les documents ATTAKMILI PLUS ne sont pas disponibles pour le moment.</div> : null}
+      {gedState.loading ? <div className="rh-attakmili-status">Chargement des documents ATTAKMILI +...</div> : null}
+      {gedState.error ? <div className="rh-attakmili-error">Les documents ATTAKMILI + ne sont pas disponibles pour le moment.</div> : null}
       <div className="rh-attakmili-grid">
         {(page.blocks || []).map((block) => (
           <section className="content-card rh-attakmili-block" key={block.title}>
@@ -308,8 +323,11 @@ function AttakmiliPage({ page, active }) {
               );
               return (
                 <div className="rh-attakmili-child" key={child.title}>
-                  <h4>{child.title}</h4>
-                  <AttakmiliDocuments documents={documents} resetKey={`${child.title}:${query}`} />
+                  {!child.content ? <h4>{child.title}</h4> : null}
+                  {child.content ? <AttakmiliTextContent content={child.content} /> : null}
+                  {documents.length || !child.content ? (
+                    <AttakmiliDocuments documents={documents} resetKey={`${child.title}:${query}`} />
+                  ) : null}
                 </div>
               );
             }) : (

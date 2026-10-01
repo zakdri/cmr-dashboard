@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { icons } from "lucide";
 import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
-import { GED_ROOT_PATH, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import { GED_ROOT_PATH, getDocumentFileKind, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function ReactLucideIcon({ name, ...props }) {
@@ -79,10 +79,11 @@ function DocumentRow({ file }) {
   const isGedDoc = file && typeof file === "object";
   const title = isGedDoc ? file.title || file.fileName : String(file || "").replaceAll("_", " ");
   const downloadFile = isGedDoc ? file.file : file;
+  const fileKind = getDocumentFileKind(isGedDoc ? file : downloadFile);
 
   return (
     <button className="doc-row" type="button" onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(downloadFile)},${JSON.stringify(title)})`)}>
-      <div className="doc-icon pdf">PDF</div>
+      <div className={`doc-icon${fileKind === "PDF" ? " pdf" : ""}`}>{fileKind}</div>
       <div className="doc-info">
         <div className="doc-title">{title}</div>
         <div className="doc-meta">{isGedDoc ? file.folderLabel || file.fileName : "Document de gouvernance"}</div>

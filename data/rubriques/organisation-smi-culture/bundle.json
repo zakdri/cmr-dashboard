@@ -4,7 +4,7 @@
   "data": {
     "orgGovHeader": {
       "title": "SMI & Organisation & RSE",
-      "description": "Centralisation des contenus liés au SMI, à l’organisation, à la gouvernance interne et à la culture QSE/RSE."
+      "description": "Centralisation des contenus liés au SMI, à l’organisation, à la gouvernance interne et à la culture SMI/RSE."
     },
     "orgGovMainTabs": [
       {
@@ -16,12 +16,12 @@
         "label": "SMI"
       },
       {
-        "id": "culture-qse-rse",
-        "label": "Culture QSE - RSE"
-      },
-      {
         "id": "rse",
         "label": "RSE"
+      },
+      {
+        "id": "culture-qse-rse",
+        "label": "Culture SMI - RSE"
       }
     ],
     "orgGovSectionConfig": {
@@ -51,6 +51,10 @@
           {
             "id": "smi-politiques",
             "label": "Politiques SMI"
+          },
+          {
+            "id": "smi-chartes-codes",
+            "label": "Chartes & Codes"
           },
           {
             "id": "smi-cartographie",
@@ -95,7 +99,7 @@
           },
           {
             "id": "culture-communication",
-            "label": "Communication QSE - RSE"
+            "label": "Communication SMI - RSE"
           },
           {
             "id": "culture-quiz",
@@ -140,7 +144,7 @@
           },
           {
             "id": "rse-evaluation",
-            "label": "Évaluation RSE"
+            "label": "Certificats et labels RSE"
           },
           {
             "id": "rse-ressources",
@@ -166,7 +170,7 @@
       },
       "organigramme": {
         "title": "Organigramme",
-        "description": "Découvrez l’organisation interne de la CMR.",
+        "description": "En plus de la Direction et du Secrétariat Général, l’organigramme de la Caisse Marocaine des Retraites est composé de 6 pôles, 20 divisions et 51 services.",
         "expandLabel": "Développer tout",
         "collapseLabel": "Réduire"
       },
@@ -225,12 +229,17 @@
         "iconClass": "blue"
       },
       "smi": {
-        "description": "Cette rubrique regroupe les politiques, cartographies, dossiers processus, dispositifs de pilotage, audits, certifications et normes SMI."
+        "description": "Cette rubrique regroupe les politiques, chartes et codes, cartographies, dossiers processus, dispositifs de pilotage, audits, certifications et normes SMI."
       },
       "smi-politiques": {
         "title": "Politiques SMI",
         "icon": "shield-check",
         "iconClass": "green"
+      },
+      "smi-chartes-codes": {
+        "title": "Chartes & Codes",
+        "icon": "scroll-text",
+        "iconClass": "blue"
       },
       "smi-cartographie": {
         "title": "Cartographie des processus",
@@ -269,7 +278,7 @@
         "iconClass": "purple"
       },
       "culture-qse-rse": {
-        "description": "Cette rubrique fusionne les anciens espaces QSE et RSE pour centraliser les contenus de sensibilisation, communication, participation et suivi."
+        "description": "Cette rubrique fusionne les espaces SMI et RSE pour centraliser les contenus de sensibilisation, communication, participation et suivi."
       },
       "culture-contenus": {
         "title": "Contenus pédagogiques",
@@ -283,7 +292,7 @@
         "searchPlaceholder": "Rechercher une question..."
       },
       "culture-communication": {
-        "title": "Communication QSE - RSE",
+        "title": "Communication SMI - RSE",
         "icon": "newspaper",
         "iconClass": "orange"
       },
@@ -3617,30 +3626,34 @@
           "label": "Management",
           "processes": [
             {
-              "id": "pilotage-smi",
-              "title": "Pilotage SMI",
-              "description": "Définir, suivre et améliorer le système de management intégré.",
-              "docs": [
-                {
-                  "label": "Cartographie pilotage SMI",
-                  "file": "Cartographie_Pilotage_SMI.pdf"
-                },
-                {
-                  "label": "Fiche processus pilotage SMI",
-                  "file": "Fiche_Processus_Pilotage_SMI.pdf"
-                }
-              ]
+              "id": "ameliorer-experience-clients",
+              "dossierId": "ameliorer-experience-clients",
+              "title": "Améliorer l’Expérience Clients",
+              "description": "Améliorer la satisfaction clients en innovant continuellement sur les parcours clients, les services et les interactions."
             },
             {
-              "id": "revue-direction",
-              "title": "Revue de direction",
-              "description": "Organiser les revues périodiques et suivre les décisions associées.",
-              "docs": [
-                {
-                  "label": "Cartographie revue de direction",
-                  "file": "Cartographie_Revue_Direction.pdf"
-                }
-              ]
+              "id": "risk-management",
+              "dossierId": "risk-management",
+              "title": "Risk Management",
+              "description": "Donner une assurance raisonnable quant à la maîtrise des Risques en mettant en place une approche proactive et réactive au service d'une Dynamique d'Amélioration créatrice de Valeur Ajoutée pour la CMR et pour l'ensemble de ses Parties Prenantes."
+            },
+            {
+              "id": "gerer-surveiller-smi",
+              "dossierId": "gerer-surveiller-smi",
+              "title": "Gérer et Surveiller le Système de Management Intégré",
+              "description": "Surveiller le Système de Management de la Caisse Marocaine des Retraites et fournir les données d’orientation de la prise de décision afin d'améliorer continuellement ses performances."
+            },
+            {
+              "id": "gerer-innovation-transformations",
+              "dossierId": "gerer-innovation-transformations",
+              "title": "Gérer l’Innovation et les Transformations",
+              "description": "Améliorer l’expérience client et collaborateur en s’appuyant sur des démarches d’innovation et de transformation créatrices de valeur afin de renforcer la résilience, l’adaptabilité, l’agilité et la proactivité."
+            },
+            {
+              "id": "piloter-strategie-performance",
+              "dossierId": "piloter-strategie-performance",
+              "title": "Piloter la Stratégie et la Performance",
+              "description": "Définir et piloter les orientations stratégiques et la performance de la Caisse Marocaine des Retraites."
             }
           ]
         },
@@ -3649,26 +3662,28 @@
           "label": "Support",
           "processes": [
             {
-              "id": "documentation",
-              "title": "Maîtrise documentaire",
-              "description": "Gérer les documents, versions, validations et archivage SMI.",
-              "docs": [
-                {
-                  "label": "Cartographie maîtrise documentaire",
-                  "file": "Cartographie_Maitrise_Documentaire.pdf"
-                }
-              ]
+              "id": "gerer-systeme-information",
+              "dossierId": "gerer-systeme-information",
+              "title": "Gérer le Système d’information",
+              "description": "Doter la CMR d’un Système d’Information adapté, performant, disponible, fiable et sécurisé."
             },
             {
-              "id": "competences",
-              "title": "Compétences et sensibilisation",
-              "description": "Piloter les compétences et actions de sensibilisation QSE/RSE.",
-              "docs": [
-                {
-                  "label": "Cartographie compétences SMI",
-                  "file": "Cartographie_Competences_SMI.pdf"
-                }
-              ]
+              "id": "fournir-entretenir-moyens",
+              "dossierId": "fournir-entretenir-moyens",
+              "title": "Fournir et Entretenir les Moyens",
+              "description": "Assurer la mise à disposition des prestations de service, des fournitures, des infrastructures et des moyens logistiques nécessaires au fonctionnement efficace des différentes entités, tout en garantissant un environnement sécurisé et protégé et en assurant une gestion efficace de la relation avec les prestataires externes."
+            },
+            {
+              "id": "developper-capital-humain",
+              "dossierId": "developper-capital-humain",
+              "title": "Développer le Capital Humain",
+              "description": "Assurer le développement des compétences nécessaires soutenues par un leadership managérial agile et innovant et offrir une meilleure expérience collaborateur au service du déploiement efficace de la stratégie et de la réalisation des activités."
+            },
+            {
+              "id": "fournir-appui-conseil-juridique",
+              "dossierId": "fournir-appui-conseil-juridique",
+              "title": "Fournir l'Appui et le Conseil Juridique",
+              "description": "Mettre à la disposition des différentes entités un conseil proactif et une assistance juridique réactive tout en préservant les Intérêts de la CMR et sa Notoriété."
             }
           ]
         },
@@ -3677,26 +3692,46 @@
           "label": "Réalisation",
           "processes": [
             {
-              "id": "service-assures",
-              "title": "Service aux assurés",
-              "description": "Maîtriser les processus de service et de traitement des demandes.",
-              "docs": [
-                {
-                  "label": "Cartographie service assurés",
-                  "file": "Cartographie_Service_Assures.pdf"
-                }
-              ]
+              "id": "gerer-relation-clients",
+              "dossierId": "gerer-relation-clients",
+              "title": "Gérer la Relation Clients",
+              "description": "Offrir une expérience client bienveillante, innovante et omnicale, fondée sur une relation proactive et de confiance."
             },
             {
-              "id": "amelioration",
-              "title": "Amélioration continue",
-              "description": "Traiter les non-conformités, actions correctives et opportunités.",
-              "docs": [
-                {
-                  "label": "Cartographie amélioration continue",
-                  "file": "Cartographie_Amelioration_Continue.pdf"
-                }
-              ]
+              "id": "gerer-relation-tiers",
+              "dossierId": "gerer-relation-tiers",
+              "title": "Gérer la Relation avec les Tiers",
+              "description": "Mettre à la disposition des Tiers une information pertinente, assurer l’efficacité de la gestion, la conformité aux exigences conventionnelles prescrites et la prise en charge optimale de leurs requêtes."
+            },
+            {
+              "id": "constituer-droits",
+              "dossierId": "constituer-droits",
+              "title": "Constituer les Droits",
+              "description": "Assurer la constitution des droits conformément aux dispositions légales, réglementaires et aux exigences prescrites de la Caisse Marocaine des Retraites."
+            },
+            {
+              "id": "liquider-conceder-droits",
+              "dossierId": "liquider-conceder-droits",
+              "title": "Liquider et Concéder les Droits",
+              "description": "Assurer la liquidation et la concession des Droits conformément aux dispositions légales, réglementaires, conventionnelles ainsi qu'aux exigences prescrites de la Caisse Marocaine des Retraites."
+            },
+            {
+              "id": "regler-gerer-prestations",
+              "dossierId": "regler-gerer-prestations",
+              "title": "Régler et Gérer les Prestations",
+              "description": "Assurer le règlement, le suivi des droits et les prestations de retraite, conformément aux exigences légales, réglementaires ainsi que celles prescrites de la Caisse Marocaine des Retraites."
+            },
+            {
+              "id": "financer-prestations",
+              "dossierId": "financer-prestations",
+              "title": "Financer les Prestations",
+              "description": "Assurer, dans les délais, le financement mensuel du paiement des prestations des régimes gérés par la CMR et autres prestations pour le compte de Tiers."
+            },
+            {
+              "id": "investir-optimiser-fonds",
+              "dossierId": "investir-optimiser-fonds",
+              "title": "Investir et Optimiser les Fonds",
+              "description": "Assurer la gestion financière des Fonds de Réserves et des disponibilités de trésorerie dans le respect des exigences légales et règlementaires, des orientations des instances de gouvernance et en intégrant une démarche d’investissement innovante et socialement responsable."
             }
           ]
         }
@@ -3786,26 +3821,74 @@
     ],
     "orgGovSmiPilotageRoles": [
       {
-        "id": "pilote-processus",
-        "role": "Pilote de processus",
+        "id": "sponsor-processus",
+        "role": "Sponsor du Processus",
+        "intro": "Garant de l'adéquation entre les orientations stratégiques et les objectifs du processus :",
         "responsibilities": [
-          "Suivre les objectifs du processus",
-          "Mettre à jour la documentation",
-          "Piloter les actions d’amélioration"
-        ],
-        "authority": "Arbitrer les priorités d’amélioration du processus.",
-        "file": "Liste_Nominative_Pilotes_Processus.pdf"
+          "S’assurer de l’adéquation entre les orientations stratégiques et les objectifs du processus ;",
+          "Définir les objectifs du processus et valider les chantiers d'amélioration ou de modification du processus ;",
+          "Superviser la performance globale du processus ;",
+          "Veiller à la mise à disposition des ressources et leurs adéquations ;",
+          "Jouer le rôle du facilitateur."
+        ]
       },
       {
-        "id": "correspondant-smi",
-        "role": "Correspondant SMI",
+        "id": "pilote-processus",
+        "role": "Pilote du Processus",
+        "intro": "Responsable de la conformité, de la cohérence, de l’efficacité, de l’atteinte des objectifs et de l’amélioration du processus :",
         "responsibilities": [
-          "Relayer les exigences SMI",
-          "Collecter les remontées terrain",
-          "Contribuer aux audits"
-        ],
-        "authority": "Demander les éléments nécessaires au suivi SMI.",
-        "file": "Liste_Nominative_Correspondants_SMI.pdf"
+          "Surveiller les résultats et les indicateurs du processus ;",
+          "Analyser les données du processus ;",
+          "Surveiller la gestion des non-conformités et des actions correctives y afférentes ;",
+          "Décider et suivre la mise en œuvre des actions d'amélioration du processus y compris les actions de maîtrise des risques du processus ;",
+          "Veiller à la satisfaction des exigences clients du processus et des autres exigences ;",
+          "Veiller à la prise en charge des exigences des autres parties intéressées du processus ;",
+          "Surveiller et remonter les besoins et attentes en matière de la Santé et de la Sécurité au Travail des collaborateurs intervenants dans le processus ;",
+          "Animer les réunions de revue et d’amélioration du processus."
+        ]
+      },
+      {
+        "id": "animateur-processus",
+        "role": "Animateur du Processus",
+        "intro": "Responsable de la réalisation d'une ou plusieurs activités du processus :",
+        "responsibilities": [
+          "Réaliser les activités du processus qui le concernent ;",
+          "Vérifier la conformité des éléments de sortie du processus/activité ;",
+          "Veiller à la remontée de tout événement indésirable (presque-accident ou accident de travail) ou non-conformité SST et Environnement constaté ;",
+          "Contribuer à la sensibilisation des collaborateurs, intervenants dans le processus, sur les dangers et risques SST ainsi que sur les aspects environnementaux significatifs ;",
+          "Mettre en œuvre les actions d'amélioration (de correction, correctives et d’amélioration continue) et de maîtrise des risques du processus ;",
+          "Contribuer au calcul des indicateurs du processus et à l'atteinte des objectifs du processus ;",
+          "Maîtriser les informations documentées du processus/activité."
+        ]
+      },
+      {
+        "id": "responsable-ethique",
+        "role": "Responsable Ethique",
+        "intro": "Garant de la mise en œuvre, du fonctionnement et de l’amélioration continue du système de management anti-corruption et anti-fraude :",
+        "responsibilities": [
+          "Piloter le programme de prévention et de détection de la corruption et de la fraude au sein de la CMR ;",
+          "Contribuer à l’élaboration, la mise à jour et le suivi de la cartographie des risques de corruption et de fraude ;",
+          "Proposer et suivre la mise en œuvre des mesures de prévention et de maîtrise des risques identifiés ;",
+          "Participer à l’élaboration et à la mise à jour du code d’éthique de la CMR et de la politique du SMACAF ;",
+          "Appuyer l’entité chargée de développement des ressources humaines dans l’identification des besoins de sensibilisation et de formation en matière d’éthique ;",
+          "Veiller sur le respect de la politique du SMACAF et du code d’éthique de la CMR ;",
+          "Piloter la procédure d’alerte interne et suivre le traitement des signalements reçus ;",
+          "Assister les entités opérationnelles dans l’évaluation des tiers et des situations à risque ;",
+          "Organiser les revues de la fonction éthique."
+        ]
+      },
+      {
+        "id": "ambassadeur-ethique",
+        "role": "Ambassadeur Ethique",
+        "intro": "Intervient sur les processus, les activités et les personnels relevant de son périmètre :",
+        "responsibilities": [
+          "Relayer les politiques et procédures associées au SMACAF ;",
+          "Sensibiliser les équipes à l’éthique et à l’intégrité ;",
+          "Contribuer au respect des engagements des différents postes, en priorité ceux à risques plus que faibles ;",
+          "Appuyer la mise en œuvre et l’amélioration du SMACAF ;",
+          "Répondre aux questions éthiques au sein de son périmètre (en collaboration avec le responsable éthique) ;",
+          "Assister le responsable éthique dans la préparation des revues du SMACAF."
+        ]
       }
     ],
     "orgGovSmiGovernanceProgram": {
@@ -4087,6 +4170,7 @@
     ],
     "orgGovRsePortal": {
       "gedFolder": "RSE",
+      "description": "Cette rubrique centralise la démarche RSE, ses politiques, ses engagements, ses documents de référence, sa gouvernance, ses certifications et ses ressources.",
       "banner": {
         "tagline": "Ensemble, construisons une CMR citoyenne, responsable et durable",
         "logo": "images/intranet/rse/logo-rse.png"
@@ -4107,8 +4191,14 @@
         "description": "Cette sous-rubrique regroupe les politiques formalisant les orientations et engagements institutionnels de la CMR en matière de responsabilité sociétale.",
         "folder": "Politiques RSE",
         "items": [
-          "Politique RSE",
-          "Politique Achats Responsables"
+          {
+            "title": "Politique RSE",
+            "folder": "Politique RSE"
+          },
+          {
+            "title": "Politique Achats Responsables",
+            "folder": "Politique Achats Responsables"
+          }
         ]
       },
       "domains": {
@@ -4117,34 +4207,98 @@
         "folder": "Domaines d’Engagement RSE",
         "items": [
           {
-            "title": "Engagements de Gouvernance",
+            "title": "Engagement de Gouvernance",
             "objective": "Garantir l’engagement de bonne gouvernance à tous les niveaux",
-            "color": "#123b78"
+            "color": "#123b78",
+            "engagements": [
+              {
+                "title": "Renforcer l’engagement RSE et la transparence de la gouvernance",
+                "description": "Gouvernance exemplaire, Redevabilité et Transparence"
+              },
+              {
+                "title": "Promouvoir l'investissement responsable",
+                "description": "Intégration critères ESG, Investissement Responsable"
+              }
+            ]
           },
           {
-            "title": "Engagements pour l’Humain",
+            "title": "ENGAGEMENTS POUR L'HUMAIN",
             "objective": "Assumer pleinement notre responsabilité d’employeur",
-            "color": "#e86100"
+            "color": "#e86100",
+            "engagements": [
+              {
+                "title": "Respecter les droits de l’Homme sur les lieux de travail.",
+                "description": "Respect des droits, Equité, Inclusion"
+              },
+              {
+                "title": "Améliorer en continu les conditions d’emploi, de travail et le développement professionnel et personnel",
+                "description": "Développement des compétences, Epanouissement, Bien-être"
+              }
+            ]
           },
           {
-            "title": "Engagements Éthiques",
+            "title": "ENGAGEMENTS ETHIQUE",
             "objective": "Assurer avec loyauté et intégrité notre responsabilité dans la conduite des affaires",
-            "color": "#a60055"
+            "color": "#a60055",
+            "engagements": [
+              {
+                "title": "Prévenir la corruption et la fraude",
+                "description": "Intégrité, Anti-corruption, conformité"
+              },
+              {
+                "title": "Respecter les règles de la saine concurrence",
+                "description": "Concurrence loyale, équité"
+              },
+              {
+                "title": "Promouvoir la responsabilité sociétale des fournisseurs et prestataires",
+                "description": "Achats responsables, chaîne de valeur durable, prestataires engagés"
+              }
+            ]
           },
           {
-            "title": "Engagements Client-Centric",
+            "title": "ENGAGEMENTS CLIENT CENTRIC",
             "objective": "Mettre le client au centre de nos décisions et actions",
-            "color": "#009ebd"
+            "color": "#009ebd",
+            "engagements": [
+              {
+                "title": "Établir une relation durable et de confiance avec les clients",
+                "description": "Confiance, Equité, Inclusion et Sécurité"
+              },
+              {
+                "title": "Améliorer l’expérience clients",
+                "description": "Ecoute, Co-construction, Accompagnement, Bien-être Social"
+              }
+            ]
           },
           {
-            "title": "Engagements de Développement Sociétal",
-            "objective": "S’engager pleinement auprès de nos partenaires et des communautés",
-            "color": "#d6a600"
+            "title": "ENGAGEMENTS DE DÉVELOPPEMENT SOCIÉTAL",
+            "objective": "S’engager pleinement auprès de nos partenaires et des Communautés",
+            "color": "#d6a600",
+            "engagements": [
+              {
+                "title": "Contribuer au bien-être et au développement des communautés",
+                "description": "Engagement solidaire du personnel, Impact social-éducatif-environnemental, Projets/Actions d’intérêt général, Partenariats"
+              }
+            ]
           },
           {
-            "title": "Engagements pour l’Environnement",
+            "title": "ENGAGEMENTS POUR L’ENVIRONNEMENT",
             "objective": "Respecter l’environnement et réduire notre empreinte écologique",
-            "color": "#65a918"
+            "color": "#65a918",
+            "engagements": [
+              {
+                "title": "Maîtriser la consommation des ressources",
+                "description": "Sobriété, Optimisation, Réduction empreinte carbone"
+              },
+              {
+                "title": "Promouvoir les pratiques à faible empreinte écologique",
+                "description": "Eco-responsabilité, Eco-efficience"
+              },
+              {
+                "title": "Promouvoir les pratiques Green IT",
+                "description": "Sensibilisation, Numérique responsable"
+              }
+            ]
           }
         ]
       },
@@ -4162,17 +4316,90 @@
         "title": "Organisation et Gouvernance RSE",
         "description": "Cette sous-rubrique présente le dispositif mis en place pour piloter, animer, suivre et améliorer la démarche RSE.",
         "folder": "Organisation et Gouvernance RSE",
-        "actors": [
-          "Responsable RSE",
-          "Sponsor RSE",
-          "Référent RSE",
-          "Comité RSE"
-        ]
+        "rolesFolder": "Rôles et responsabilités",
+        "roles": [
+          {
+            "id": "responsable-rse",
+            "title": "Responsable RSE",
+            "folder": "Responsable RSE",
+            "summary": "Responsable de la démarche RSE, de sa structuration, de son alignement avec les priorités de la CMR, de son déploiement et de son amélioration continue.",
+            "responsibilities": [
+              "Assurer la structuration de la démarche RSE de la CMR en alignement avec les cadres de référence (ISO 26000, ODD, etc.) ainsi que l’actualisation de son référentiel documentaire.",
+              "Piloter les travaux d’identification des engagements RSE, de leur priorisation et de leur traduction en actions concrètes.",
+              "Assurer l’intégration des principes RSE dans les processus et activités de la CMR.",
+              "Consolider et assurer le suivi et le déploiement de la feuille de route RSE et des actions planifiées.",
+              "Promouvoir une culture RSE au sein de la CMR via des initiatives internes (ateliers, séminaires, événements RSE, etc.).",
+              "S’assurer que la Politique RSE est comprise, mise en œuvre et entretenue à tous les niveaux.",
+              "Assurer la réalisation des audits internes pour évaluer la conformité des actions avec les engagements RSE et conduire les évaluations pour la labélisation de la démarche et son renouvellement.",
+              "Surveiller, en coordination avec les acteurs RSE, les résultats de chaque engagement et la mesure d’impact des actions mises en œuvre.",
+              "S’assurer du traitement des écarts relatifs aux engagements et veiller à la mise en œuvre des actions d’amélioration.",
+              "Conduire les groupes de travail RSE, préparer et animer les comités RSE.",
+              "Préparer les rapports et reportings RSE/ESG."
+            ]
+          },
+          {
+            "id": "sponsor-rse",
+            "title": "Sponsor RSE",
+            "folder": "Sponsor RSE",
+            "summary": "Garant de l’adéquation entre les orientations stratégiques et les objectifs du domaine des engagements RSE sous sa responsabilité.",
+            "responsibilities": [
+              "Veiller au respect des engagements établis.",
+              "Valider les actions d’amélioration pour les engagements.",
+              "Surveiller et valider les performances RSE des engagements.",
+              "Valider les documents associés aux engagements.",
+              "Valider le traitement des écarts en cas de non-respect des engagements.",
+              "Contribuer à l’animation du Comité RSE."
+            ]
+          },
+          {
+            "id": "referent-rse",
+            "title": "Référent RSE",
+            "folder": "Référent RSE",
+            "summary": "Responsable de la mise en œuvre des engagements RSE dans son périmètre.",
+            "responsibilities": [
+              "Veiller au respect des engagements établis.",
+              "Proposer les actions d’amélioration pour les engagements RSE en charge.",
+              "Coordonner et suivre les plans d’actions d’amélioration avec les responsables concernés.",
+              "Mesurer, revoir et surveiller en continu le respect des engagements (TDB RSE).",
+              "Formaliser les documents associés à l’engagement RSE.",
+              "Gérer les écarts relevés liés au non-respect des engagements.",
+              "Participer au Comité RSE."
+            ]
+          }
+        ],
+        "committee": {
+          "title": "Comité RSE",
+          "folder": "Comité RSE",
+          "missions": [
+            "Définir les orientations et priorités stratégiques en matière de responsabilité sociétale de la CMR en alignement avec sa stratégie globale.",
+            "Valider les politiques, la charte et les engagements RSE de la Caisse.",
+            "Valider la planification et la priorisation des actions RSE ainsi que l’allocation des ressources nécessaires.",
+            "Surveiller le déploiement de la démarche RSE et sa performance.",
+            "Valider les rapports et reportings RSE."
+          ],
+          "composition": [
+            "M. le Directeur, Président du comité",
+            "Le Secrétaire Général",
+            "La Cheffe du Pôle Pilotage",
+            "La Cheffe du Pôle Clients",
+            "Le Chef du Pôle Ressources",
+            "Le Chef du Pôle Gestion du Portefeuille",
+            "Le Chef du Pôle Système d’Information et Transformation Digitale",
+            "Le Chef du Pôle Opérations",
+            "Le Chef de la Division Risk Management",
+            "Le Chef de la Division Études et Affaires Juridiques",
+            "La Cheffe de la Division Gouvernance et Communication",
+            "La Cheffe de la Division Contrôle des Engagements et des Paiements",
+            "Le Responsable RSE",
+            "Les Sponsors RSE",
+            "Les Référents RSE"
+          ]
+        }
       },
       "evaluation": {
-        "title": "Évaluation RSE",
+        "title": "Certificats et labels RSE",
         "description": "Diffusion des certificats, attestations de maturité et labels RSE obtenus par la CMR.",
-        "folder": "Evaluation RSE"
+        "folder": "Certificats et labels RSE"
       },
       "resources": {
         "title": "Ressources RSE",
@@ -4222,7 +4449,7 @@
     ],
     "orgGovCultureNews": [
       {
-        "title": "Calendrier QSE-RSE T3",
+        "title": "Calendrier SMI-RSE T3",
         "type": "Calendrier",
         "date": "Juil 2026",
         "file": "Calendrier_QSE_RSE_T3.pdf"

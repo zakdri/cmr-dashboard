@@ -1,20 +1,20 @@
 {
   "rubrique": "ressources-humaines",
-  "contenu": "ATTAKMILI PLUS",
+  "contenu": "ATTAKMILI +",
   "data": {
     "rhPages": {
       "attakmili": {
-        "title": "ATTAKMILI PLUS",
-        "description": "Consultez les informations, notes, formulaires et contenus d’accompagnement relatifs à ATTAKMILI PLUS.",
-        "searchPlaceholder": "Rechercher un document ATTAKMILI PLUS...",
+        "title": "ATTAKMILI +",
+        "description": "Consultez les informations, notes, formulaires et contenus d’accompagnement relatifs à ATTAKMILI +.",
+        "searchPlaceholder": "Rechercher un document ATTAKMILI +...",
         "blocks": [
           {
-            "title": "ATTAKMILI PLUS en bref",
+            "title": "ATTAKMILI + en bref",
             "icon": "info",
             "folderPath": ["ATTAKMILI PLUS en bref"]
           },
           {
-            "title": "Note sur ATTAKMILI PLUS",
+            "title": "Note sur ATTAKMILI +",
             "icon": "notebook-text",
             "folderPath": ["Note sur ATTAKMILI PLUS"]
           },
@@ -29,7 +29,15 @@
             "children": [
               {
                 "title": "Contenu textuel",
-                "folderPath": ["Accompagnement", "Contenu textuel"]
+                "folderPath": ["Accompagnement", "Contenu textuel"],
+                "content": {
+                  "intro": "يضع قسم الرأسمال البشري رهن إشارتكم خلية مواكبة للإجابة على استفساراتكم وتلقي طلبات انخراطكم",
+                  "heading": "المسؤول عن خلية المواكبة",
+                  "responsible": "السيدة لمياء كرين، إطار بقسم الرأسمال البشري",
+                  "office": "313",
+                  "phone": "1546",
+                  "email": "kers@cmr.gov.ma"
+                }
               }
             ]
           }

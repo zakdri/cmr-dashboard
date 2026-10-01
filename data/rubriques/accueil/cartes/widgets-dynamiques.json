@@ -5,7 +5,7 @@
     "dashboardCards": [
       {
         "type": "docList",
-        "title": "ATTAKMILI",
+        "title": "ATTAKMILI +",
         "icon": "shield-plus",
         "iconClass": "blue",
         "actionLabel": "Voir plus",
@@ -16,7 +16,7 @@
         "items": [
           {
             "badge": "01",
-            "title": "ATTAKMILI PLUS en bref",
+            "title": "ATTAKMILI + en bref",
             "meta": "Aucun document disponible",
             "background": "#eff6ff",
             "color": "#256cb5",
@@ -26,7 +26,7 @@
           },
           {
             "badge": "02",
-            "title": "Note sur ATTAKMILI PLUS",
+            "title": "Note sur ATTAKMILI +",
             "meta": "Aucun document disponible",
             "background": "#fff7ed",
             "color": "#ea580c",
@@ -53,6 +53,35 @@
             "icon": "chevron-right",
             "folderPath": ["ATTAKMILI PLUS", "Accompagnement", "Contenu textuel"],
             "handler": "openSubmenuView('rh','attakmili'); return false;"
+          }
+        ]
+      },
+      {
+        "type": "docList",
+        "title": "Widgets dynamiques",
+        "icon": "sparkles",
+        "iconClass": "blue",
+        "actionLabel": "Actualiser",
+        "actionIcon": "refresh-cw",
+        "actionNoWrap": true,
+        "items": [
+          {
+            "badge": "EVT",
+            "title": "Événements",
+            "meta": "À venir • Agenda personnel & Calendrier CMR",
+            "background": "#eff6ff",
+            "color": "#256cb5",
+            "icon": "chevron-right",
+            "handler": "switchView('agenda-interne'); return false;"
+          },
+          {
+            "badge": "ALT",
+            "title": "Alertes",
+            "meta": "Infos importantes • À surveiller",
+            "background": "#fff7ed",
+            "color": "#ea580c",
+            "icon": "chevron-right",
+            "handler": "switchView('alertes'); return false;"
           }
         ]
       }

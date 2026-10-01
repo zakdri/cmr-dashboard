@@ -51,6 +51,10 @@
       "fichier": "sous-rubriques/politiques-smi.json"
     },
     {
+      "contenu": "Chartes & Codes SMI",
+      "fichier": "sous-rubriques/chartes-et-codes-smi.json"
+    },
+    {
       "contenu": "Cartographie des processus SMI",
       "fichier": "sous-rubriques/cartographie-des-processus-smi.json"
     },
@@ -83,31 +87,31 @@
       "fichier": "sous-rubriques/espace-rse.json"
     },
     {
-      "contenu": "Contenus pédagogiques QSE-RSE",
+      "contenu": "Contenus pédagogiques SMI-RSE",
       "fichier": "sous-rubriques/contenus-pedagogiques-qse-rse.json"
     },
     {
-      "contenu": "FAQ QSE-RSE",
+      "contenu": "FAQ SMI-RSE",
       "fichier": "sous-rubriques/faq-qse-rse.json"
     },
     {
-      "contenu": "Communication QSE-RSE",
+      "contenu": "Communication SMI-RSE",
       "fichier": "sous-rubriques/communication-qse-rse.json"
     },
     {
-      "contenu": "Quiz et auto-évaluation QSE-RSE",
+      "contenu": "Quiz et auto-évaluation SMI-RSE",
       "fichier": "sous-rubriques/quiz-auto-evaluation-qse-rse.json"
     },
     {
-      "contenu": "Boîte à idées QSE-RSE",
+      "contenu": "Boîte à idées SMI-RSE",
       "fichier": "sous-rubriques/boite-a-idees-qse-rse.json"
     },
     {
-      "contenu": "Remontées terrain QSE-RSE",
+      "contenu": "Remontées terrain SMI-RSE",
       "fichier": "sous-rubriques/remontees-terrain-qse-rse.json"
     },
     {
-      "contenu": "Statistiques QSE-RSE",
+      "contenu": "Statistiques SMI-RSE",
       "fichier": "sous-rubriques/statistiques-qse-rse.json"
     }
   ]

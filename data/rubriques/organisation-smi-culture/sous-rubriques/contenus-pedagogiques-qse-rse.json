@@ -1,10 +1,10 @@
 {
   "rubrique": "organisation-smi-culture",
-  "contenu": "Contenus pédagogiques QSE-RSE",
+  "contenu": "Contenus pédagogiques SMI-RSE",
   "data": {
     "orgGovPages": {
       "culture-qse-rse": {
-        "description": "Cette rubrique fusionne les anciens espaces QSE et RSE pour centraliser les contenus de sensibilisation, communication, participation et suivi."
+        "description": "Cette rubrique fusionne les espaces SMI et RSE pour centraliser les contenus de sensibilisation, communication, participation et suivi."
       },
       "culture-contenus": {
         "title": "Contenus pédagogiques",

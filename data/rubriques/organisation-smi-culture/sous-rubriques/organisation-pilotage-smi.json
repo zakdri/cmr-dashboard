@@ -11,26 +11,74 @@
     },
     "orgGovSmiPilotageRoles": [
       {
-        "id": "pilote-processus",
-        "role": "Pilote de processus",
+        "id": "sponsor-processus",
+        "role": "Sponsor du Processus",
+        "intro": "Garant de l'adéquation entre les orientations stratégiques et les objectifs du processus :",
         "responsibilities": [
-          "Suivre les objectifs du processus",
-          "Mettre à jour la documentation",
-          "Piloter les actions d’amélioration"
-        ],
-        "authority": "Arbitrer les priorités d’amélioration du processus.",
-        "file": "Liste_Nominative_Pilotes_Processus.pdf"
+          "S’assurer de l’adéquation entre les orientations stratégiques et les objectifs du processus ;",
+          "Définir les objectifs du processus et valider les chantiers d'amélioration ou de modification du processus ;",
+          "Superviser la performance globale du processus ;",
+          "Veiller à la mise à disposition des ressources et leurs adéquations ;",
+          "Jouer le rôle du facilitateur."
+        ]
       },
       {
-        "id": "correspondant-smi",
-        "role": "Correspondant SMI",
+        "id": "pilote-processus",
+        "role": "Pilote du Processus",
+        "intro": "Responsable de la conformité, de la cohérence, de l’efficacité, de l’atteinte des objectifs et de l’amélioration du processus :",
         "responsibilities": [
-          "Relayer les exigences SMI",
-          "Collecter les remontées terrain",
-          "Contribuer aux audits"
-        ],
-        "authority": "Demander les éléments nécessaires au suivi SMI.",
-        "file": "Liste_Nominative_Correspondants_SMI.pdf"
+          "Surveiller les résultats et les indicateurs du processus ;",
+          "Analyser les données du processus ;",
+          "Surveiller la gestion des non-conformités et des actions correctives y afférentes ;",
+          "Décider et suivre la mise en œuvre des actions d'amélioration du processus y compris les actions de maîtrise des risques du processus ;",
+          "Veiller à la satisfaction des exigences clients du processus et des autres exigences ;",
+          "Veiller à la prise en charge des exigences des autres parties intéressées du processus ;",
+          "Surveiller et remonter les besoins et attentes en matière de la Santé et de la Sécurité au Travail des collaborateurs intervenants dans le processus ;",
+          "Animer les réunions de revue et d’amélioration du processus."
+        ]
+      },
+      {
+        "id": "animateur-processus",
+        "role": "Animateur du Processus",
+        "intro": "Responsable de la réalisation d'une ou plusieurs activités du processus :",
+        "responsibilities": [
+          "Réaliser les activités du processus qui le concernent ;",
+          "Vérifier la conformité des éléments de sortie du processus/activité ;",
+          "Veiller à la remontée de tout événement indésirable (presque-accident ou accident de travail) ou non-conformité SST et Environnement constaté ;",
+          "Contribuer à la sensibilisation des collaborateurs, intervenants dans le processus, sur les dangers et risques SST ainsi que sur les aspects environnementaux significatifs ;",
+          "Mettre en œuvre les actions d'amélioration (de correction, correctives et d’amélioration continue) et de maîtrise des risques du processus ;",
+          "Contribuer au calcul des indicateurs du processus et à l'atteinte des objectifs du processus ;",
+          "Maîtriser les informations documentées du processus/activité."
+        ]
+      },
+      {
+        "id": "responsable-ethique",
+        "role": "Responsable Ethique",
+        "intro": "Garant de la mise en œuvre, du fonctionnement et de l’amélioration continue du système de management anti-corruption et anti-fraude :",
+        "responsibilities": [
+          "Piloter le programme de prévention et de détection de la corruption et de la fraude au sein de la CMR ;",
+          "Contribuer à l’élaboration, la mise à jour et le suivi de la cartographie des risques de corruption et de fraude ;",
+          "Proposer et suivre la mise en œuvre des mesures de prévention et de maîtrise des risques identifiés ;",
+          "Participer à l’élaboration et à la mise à jour du code d’éthique de la CMR et de la politique du SMACAF ;",
+          "Appuyer l’entité chargée de développement des ressources humaines dans l’identification des besoins de sensibilisation et de formation en matière d’éthique ;",
+          "Veiller sur le respect de la politique du SMACAF et du code d’éthique de la CMR ;",
+          "Piloter la procédure d’alerte interne et suivre le traitement des signalements reçus ;",
+          "Assister les entités opérationnelles dans l’évaluation des tiers et des situations à risque ;",
+          "Organiser les revues de la fonction éthique."
+        ]
+      },
+      {
+        "id": "ambassadeur-ethique",
+        "role": "Ambassadeur Ethique",
+        "intro": "Intervient sur les processus, les activités et les personnels relevant de son périmètre :",
+        "responsibilities": [
+          "Relayer les politiques et procédures associées au SMACAF ;",
+          "Sensibiliser les équipes à l’éthique et à l’intégrité ;",
+          "Contribuer au respect des engagements des différents postes, en priorité ceux à risques plus que faibles ;",
+          "Appuyer la mise en œuvre et l’amélioration du SMACAF ;",
+          "Répondre aux questions éthiques au sein de son périmètre (en collaboration avec le responsable éthique) ;",
+          "Assister le responsable éthique dans la préparation des revues du SMACAF."
+        ]
       }
     ]
   }

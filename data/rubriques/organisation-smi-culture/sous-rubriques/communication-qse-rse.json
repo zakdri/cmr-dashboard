@@ -1,17 +1,17 @@
 {
   "rubrique": "organisation-smi-culture",
-  "contenu": "Communication QSE-RSE",
+  "contenu": "Communication SMI-RSE",
   "data": {
     "orgGovPages": {
       "culture-communication": {
-        "title": "Communication QSE - RSE",
+        "title": "Communication SMI - RSE",
         "icon": "newspaper",
         "iconClass": "orange"
       }
     },
     "orgGovCultureNews": [
       {
-        "title": "Calendrier QSE-RSE T3",
+        "title": "Calendrier SMI-RSE T3",
         "type": "Calendrier",
         "date": "Juil 2026",
         "file": "Calendrier_QSE_RSE_T3.pdf"

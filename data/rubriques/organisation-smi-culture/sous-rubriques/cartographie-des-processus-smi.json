@@ -16,30 +16,34 @@
           "label": "Management",
           "processes": [
             {
-              "id": "pilotage-smi",
-              "title": "Pilotage SMI",
-              "description": "Définir, suivre et améliorer le système de management intégré.",
-              "docs": [
-                {
-                  "label": "Cartographie pilotage SMI",
-                  "file": "Cartographie_Pilotage_SMI.pdf"
-                },
-                {
-                  "label": "Fiche processus pilotage SMI",
-                  "file": "Fiche_Processus_Pilotage_SMI.pdf"
-                }
-              ]
+              "id": "ameliorer-experience-clients",
+              "dossierId": "ameliorer-experience-clients",
+              "title": "Améliorer l’Expérience Clients",
+              "description": "Améliorer la satisfaction clients en innovant continuellement sur les parcours clients, les services et les interactions."
             },
             {
-              "id": "revue-direction",
-              "title": "Revue de direction",
-              "description": "Organiser les revues périodiques et suivre les décisions associées.",
-              "docs": [
-                {
-                  "label": "Cartographie revue de direction",
-                  "file": "Cartographie_Revue_Direction.pdf"
-                }
-              ]
+              "id": "risk-management",
+              "dossierId": "risk-management",
+              "title": "Risk Management",
+              "description": "Donner une assurance raisonnable quant à la maîtrise des Risques en mettant en place une approche proactive et réactive au service d'une Dynamique d'Amélioration créatrice de Valeur Ajoutée pour la CMR et pour l'ensemble de ses Parties Prenantes."
+            },
+            {
+              "id": "gerer-surveiller-smi",
+              "dossierId": "gerer-surveiller-smi",
+              "title": "Gérer et Surveiller le Système de Management Intégré",
+              "description": "Surveiller le Système de Management de la Caisse Marocaine des Retraites et fournir les données d’orientation de la prise de décision afin d'améliorer continuellement ses performances."
+            },
+            {
+              "id": "gerer-innovation-transformations",
+              "dossierId": "gerer-innovation-transformations",
+              "title": "Gérer l’Innovation et les Transformations",
+              "description": "Améliorer l’expérience client et collaborateur en s’appuyant sur des démarches d’innovation et de transformation créatrices de valeur afin de renforcer la résilience, l’adaptabilité, l’agilité et la proactivité."
+            },
+            {
+              "id": "piloter-strategie-performance",
+              "dossierId": "piloter-strategie-performance",
+              "title": "Piloter la Stratégie et la Performance",
+              "description": "Définir et piloter les orientations stratégiques et la performance de la Caisse Marocaine des Retraites."
             }
           ]
         },
@@ -48,26 +52,28 @@
           "label": "Support",
           "processes": [
             {
-              "id": "documentation",
-              "title": "Maîtrise documentaire",
-              "description": "Gérer les documents, versions, validations et archivage SMI.",
-              "docs": [
-                {
-                  "label": "Cartographie maîtrise documentaire",
-                  "file": "Cartographie_Maitrise_Documentaire.pdf"
-                }
-              ]
+              "id": "gerer-systeme-information",
+              "dossierId": "gerer-systeme-information",
+              "title": "Gérer le Système d’information",
+              "description": "Doter la CMR d’un Système d’Information adapté, performant, disponible, fiable et sécurisé."
             },
             {
-              "id": "competences",
-              "title": "Compétences et sensibilisation",
-              "description": "Piloter les compétences et actions de sensibilisation QSE/RSE.",
-              "docs": [
-                {
-                  "label": "Cartographie compétences SMI",
-                  "file": "Cartographie_Competences_SMI.pdf"
-                }
-              ]
+              "id": "fournir-entretenir-moyens",
+              "dossierId": "fournir-entretenir-moyens",
+              "title": "Fournir et Entretenir les Moyens",
+              "description": "Assurer la mise à disposition des prestations de service, des fournitures, des infrastructures et des moyens logistiques nécessaires au fonctionnement efficace des différentes entités, tout en garantissant un environnement sécurisé et protégé et en assurant une gestion efficace de la relation avec les prestataires externes."
+            },
+            {
+              "id": "developper-capital-humain",
+              "dossierId": "developper-capital-humain",
+              "title": "Développer le Capital Humain",
+              "description": "Assurer le développement des compétences nécessaires soutenues par un leadership managérial agile et innovant et offrir une meilleure expérience collaborateur au service du déploiement efficace de la stratégie et de la réalisation des activités."
+            },
+            {
+              "id": "fournir-appui-conseil-juridique",
+              "dossierId": "fournir-appui-conseil-juridique",
+              "title": "Fournir l'Appui et le Conseil Juridique",
+              "description": "Mettre à la disposition des différentes entités un conseil proactif et une assistance juridique réactive tout en préservant les Intérêts de la CMR et sa Notoriété."
             }
           ]
         },
@@ -76,26 +82,46 @@
           "label": "Réalisation",
           "processes": [
             {
-              "id": "service-assures",
-              "title": "Service aux assurés",
-              "description": "Maîtriser les processus de service et de traitement des demandes.",
-              "docs": [
-                {
-                  "label": "Cartographie service assurés",
-                  "file": "Cartographie_Service_Assures.pdf"
-                }
-              ]
+              "id": "gerer-relation-clients",
+              "dossierId": "gerer-relation-clients",
+              "title": "Gérer la Relation Clients",
+              "description": "Offrir une expérience client bienveillante, innovante et omnicale, fondée sur une relation proactive et de confiance."
             },
             {
-              "id": "amelioration",
-              "title": "Amélioration continue",
-              "description": "Traiter les non-conformités, actions correctives et opportunités.",
-              "docs": [
-                {
-                  "label": "Cartographie amélioration continue",
-                  "file": "Cartographie_Amelioration_Continue.pdf"
-                }
-              ]
+              "id": "gerer-relation-tiers",
+              "dossierId": "gerer-relation-tiers",
+              "title": "Gérer la Relation avec les Tiers",
+              "description": "Mettre à la disposition des Tiers une information pertinente, assurer l’efficacité de la gestion, la conformité aux exigences conventionnelles prescrites et la prise en charge optimale de leurs requêtes."
+            },
+            {
+              "id": "constituer-droits",
+              "dossierId": "constituer-droits",
+              "title": "Constituer les Droits",
+              "description": "Assurer la constitution des droits conformément aux dispositions légales, réglementaires et aux exigences prescrites de la Caisse Marocaine des Retraites."
+            },
+            {
+              "id": "liquider-conceder-droits",
+              "dossierId": "liquider-conceder-droits",
+              "title": "Liquider et Concéder les Droits",
+              "description": "Assurer la liquidation et la concession des Droits conformément aux dispositions légales, réglementaires, conventionnelles ainsi qu'aux exigences prescrites de la Caisse Marocaine des Retraites."
+            },
+            {
+              "id": "regler-gerer-prestations",
+              "dossierId": "regler-gerer-prestations",
+              "title": "Régler et Gérer les Prestations",
+              "description": "Assurer le règlement, le suivi des droits et les prestations de retraite, conformément aux exigences légales, réglementaires ainsi que celles prescrites de la Caisse Marocaine des Retraites."
+            },
+            {
+              "id": "financer-prestations",
+              "dossierId": "financer-prestations",
+              "title": "Financer les Prestations",
+              "description": "Assurer, dans les délais, le financement mensuel du paiement des prestations des régimes gérés par la CMR et autres prestations pour le compte de Tiers."
+            },
+            {
+              "id": "investir-optimiser-fonds",
+              "dossierId": "investir-optimiser-fonds",
+              "title": "Investir et Optimiser les Fonds",
+              "description": "Assurer la gestion financière des Fonds de Réserves et des disponibilités de trésorerie dans le respect des exigences légales et règlementaires, des orientations des instances de gouvernance et en intégrant une démarche d’investissement innovante et socialement responsable."
             }
           ]
         }

@@ -281,7 +281,7 @@ function openAgendaTab(tabName) {
         const gedSitdPathMap = {
             'sensibilisation-cyber': "Sécurité De L'Information/Sensibilisation",
             'modules-elearning': "Sécurité De L'Information/Modules E-Learning",
-            'evenements-securite': "Sécurité De L'Information/Événements Sécurité De L'Information",
+            'evenements-securite': "Sécurité De L'Information/Événements et campagnes Sécurité De L'Information",
             'campagnes-si': "Sécurité De L'Information/Campagnes Sécurité De L'Information",
             'smsi-politiques': 'SMSI/Politiques',
             'smsi-procedures': 'SMSI/Procédures',
@@ -521,6 +521,8 @@ function openAgendaTab(tabName) {
         function getGedFileKind(fileName) {
             const ext = String(fileName || '').split('?')[0].split('.').pop()?.toLowerCase() || '';
             if (ext === 'pdf') return 'PDF';
+            if (ext === 'jpeg') return 'JPG';
+            if (['jpg', 'png', 'gif', 'webp', 'svg', 'bmp'].includes(ext)) return ext.toUpperCase();
             if (['doc', 'docx'].includes(ext)) return 'DOC';
             if (['xls', 'xlsx', 'csv'].includes(ext)) return 'XLS';
             if (['ppt', 'pptx'].includes(ext)) return 'PPT';
@@ -530,7 +532,7 @@ function openAgendaTab(tabName) {
         function renderGedDocItem(documentItem, meta = '') {
             const label = documentItem.label || documentItem.title || documentItem.fileName || 'Document';
             const file = documentItem.file || documentItem.fileName || '';
-            const kind = getGedFileKind(label);
+            const kind = getGedFileKind(documentItem.fileName || label || file);
             return `
                 <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(file))},${escapeHtml(JSON.stringify(label))})">
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(kind)}</div>
@@ -1226,7 +1228,7 @@ function openAgendaTab(tabName) {
             }
             const all = [
                 'overview', 'organigramme', 'postes', 'fiches-postes', 'presentation', 'strategie', 'referentiels',
-                'comites', 'direction', 'smi-politiques', 'smi-dossiers', 'smi-audits',
+                'comites', 'direction', 'smi-politiques', 'smi-chartes-codes', 'smi-dossiers', 'smi-audits',
                 'smi-cartographie', 'smi-pilotage', 'smi-gouvernance-interne', 'smi-certification', 'smi-normes',
                 'cartographie', 'kpi-strategiques', 'rapports-gouvernance',
                 'culture-contenus', 'culture-faq', 'culture-communication', 'culture-quiz', 'culture-idees', 'culture-remontees', 'culture-stats',
@@ -1244,6 +1246,7 @@ function openAgendaTab(tabName) {
             if (pageId === 'referentiels') renderReferentiels();
             if (pageId === 'comites') { renderComites(); renderOrgGovComitesTimeline(); }
             if (pageId === 'smi-politiques') renderOrgGovSmiPolitiques();
+            if (pageId === 'smi-chartes-codes') renderOrgGovSmiChartesCodes();
             if (pageId === 'smi-cartographie') renderOrgGovSmiCartographie();
             if (pageId === 'smi-dossiers') renderOrgGovSmiDossiers();
             if (pageId === 'smi-pilotage') renderOrgGovSmiPilotage();
@@ -1308,6 +1311,7 @@ function openAgendaTab(tabName) {
                 'fiches-postes': ['organisation', 'fiches-postes'],
                 referentiels: ['organisation', 'referentiels'],
                 'smi-politiques': ['smi', 'smi-politiques'],
+                'smi-chartes-codes': ['smi', 'smi-chartes-codes'],
                 'smi-cartographie': ['smi', 'smi-cartographie'],
                 'smi-dossiers': ['smi', 'smi-dossiers'],
                 'smi-pilotage': ['smi', 'smi-pilotage'],
@@ -2289,7 +2293,7 @@ function openAgendaTab(tabName) {
                 ? pagination.items.map(doc => renderGedDocItem(doc, r.dossier)).join('') || renderGedEmpty('document')
                 : pagination.items.map(doc => `
                     <div class="doc-item" onclick="openMockDownload('${doc.file}','${doc.label}')">
-                        <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
+                        <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(getGedFileKind(doc.fileName || doc.label || doc.file))}</div>
                         <div class="doc-info">
                             <div class="doc-title">${doc.label}</div>
                             <div class="doc-meta">${doc.file}</div>
@@ -2375,6 +2379,7 @@ function openAgendaTab(tabName) {
             : orgGovSmiCartographieSkeleton;
         let orgGovSmiCartFamily = orgGovSmiCartographieData.families?.[0]?.id || '';
         let orgGovSmiCartProcess = null;
+        let orgGovSmiCartographieDocuments = [];
         let orgGovSmiDocsLoaded = false;
         let orgGovSmiDocsLoading = false;
         let orgGovSmiDocsError = null;
@@ -2768,6 +2773,13 @@ function openAgendaTab(tabName) {
             orgGovSmiCartographieData = shouldUseSmiFolderDocumentsApi('Cartographie des processus')
                 ? mergeOrgGovSmiCartographie(documents)
                 : orgGovSmiCartographieSkeleton;
+            const cartographyFolderDocuments = documents.filter(documentItem =>
+                orgGovSmiDocumentMatchesFolder(documentItem, 'Cartographie des processus')
+                && getSmiDocumentSegments(documentItem).length === 1
+            );
+            orgGovSmiCartographieDocuments = cartographyFolderDocuments.filter(documentItem =>
+                /\.pdf$/i.test(documentItem.fileName || documentItem.title || '')
+            );
             if (!orgGovSmiCartographieData.families?.some(family => family.id === orgGovSmiCartFamily)) {
                 orgGovSmiCartFamily = orgGovSmiCartographieData.families?.[0]?.id || '';
             }
@@ -2861,13 +2873,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovSmiCartographie() {
             const root = document.getElementById('orgGovSmiCartographie');
             if (!root) return;
-            if (renderOrgGovSmiFolderDocuments(
-                'orgGovSmiCartographie',
-                'Cartographie des processus',
-                renderOrgGovSmiCartographie,
-                'PDF'
-            )) return;
-            const useDocumentsApi = shouldUseSmiFolderDocumentsApi('Cartographie des processus');
+            const useDocumentsApi = shouldUseSmiDocumentsApi();
             if (useDocumentsApi) {
                 orgGovSmiRenderAfterLoad = guardGedRenderForCurrentNavigation(renderOrgGovSmiCartographie);
                 hydrateOrgGovSmiDocumentsFromCache();
@@ -2890,10 +2896,17 @@ function openAgendaTab(tabName) {
             orgGovSmiCartFamily = family?.id || '';
             const process = (family?.processes || []).find(p => p.id === orgGovSmiCartProcess) || family?.processes?.[0];
             orgGovSmiCartProcess = process?.id || null;
-            const documentsPaginationKey = `org-gov-smi-cartographie:${process?.id || 'none'}`;
-            const documentsPagination = paginateGedDocuments(documentsPaginationKey, process?.docs || [], renderOrgGovSmiCartographie);
             root.innerHTML = `
                 ${useDocumentsApi ? renderOrgGovSmiLocalModeNote() : ''}
+                <div class="doc-list" style="margin-bottom:18px;">
+                    ${orgGovSmiCartographieDocuments.map(documentItem => `
+                        <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(documentItem.file))},${escapeHtml(JSON.stringify(documentItem.title))})">
+                            <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(getGedFileKind(documentItem.fileName || documentItem.title || documentItem.file))}</div>
+                            <div class="doc-info"><div class="doc-title">${escapeHtml(documentItem.title)}</div><div class="doc-meta">Cartographie des processus</div></div>
+                            <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
+                        </div>
+                    `).join('')}
+                </div>
                 <div class="dashboard-grid" style="grid-template-columns:.9fr 1.1fr 1.4fr;gap:18px;">
                     <div>
                         <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Familles</div>
@@ -2911,28 +2924,43 @@ function openAgendaTab(tabName) {
                         <div class="doc-list">
                             ${(family?.processes || []).map(p => `
                                 <div class="doc-item" onclick="orgGovSmiCartProcess='${p.id}'; renderOrgGovSmiCartographie();" style="${p.id === orgGovSmiCartProcess ? 'background:#eff6ff;border-color:#bfdbfe;' : ''}">
-                                    <div class="doc-info"><div class="doc-title">${p.title}</div><div class="doc-meta">${p.description}</div></div>
+                                    <div class="doc-info"><div class="doc-title">${p.title}</div><div class="doc-meta">Afficher la finalité</div></div>
                                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                                 </div>
                             `).join('')}
                         </div>
                     </div>
                     <div>
-                        <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Documents de cartographie</div>
-                        <div class="doc-list">
-                            ${documentsPagination.items.map(d => `
-                                <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(d.file))},${escapeHtml(JSON.stringify(d.label))})">
-                                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
-                                    <div class="doc-info"><div class="doc-title">${escapeHtml(d.label)}</div><div class="doc-meta">${escapeHtml(process.title)}</div></div>
-                                    <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
-                                </div>
-                            `).join('')}
-                            ${renderGedDocumentsPagination(documentsPaginationKey, documentsPagination)}
+                        <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Finalité du processus</div>
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
+                            <div style="font-weight:900;color:#0f172a;font-size:15px;">${escapeHtml(process?.title || '')}</div>
+                            <p style="margin:10px 0 0;color:#475569;font-size:12px;line-height:1.7;">${escapeHtml(process?.description || 'Finalité non renseignée dans le fichier Excel.')}</p>
+                            ${process?.dossierId ? `<button type="button" class="secondary-btn" style="margin-top:14px;" onclick="openOrgGovSmiDossierFromCartographie('${escapeHtml(process.dossierId)}');">Ouvrir le dossier processus <i data-lucide="folder-open" style="width:15px;height:15px;"></i></button>` : ''}
                         </div>
                     </div>
                 </div>
             `;
             lucide.createIcons();
+        }
+
+        function renderOrgGovSmiChartesCodes() {
+            const list = document.getElementById('orgGovSmiChartesCodes');
+            if (!list) return;
+            if (renderOrgGovSmiFolderDocuments(
+                'orgGovSmiChartesCodes',
+                'Chartes & Codes',
+                renderOrgGovSmiChartesCodes,
+                'C&C'
+            )) return;
+            list.innerHTML = '<div style="padding:12px;color:#64748b;font-size:13px;">Aucun document disponible.</div>';
+        }
+
+        function openOrgGovSmiDossierFromCartographie(id) {
+            if (!orgGovSmiDossiersSkeleton.some(folder => folder.id === id)) return;
+            orgGovSmiDossierCurrent = id;
+            orgGovSmiDossierFilter = 'all';
+            switchOrgGovTab('smi-dossiers');
+            window.requestAnimationFrame(() => openOrgGovSmiDossier(id));
         }
 
         function openOrgGovSmiDossier(id) {
@@ -2970,7 +2998,7 @@ function openAgendaTab(tabName) {
             const pagination = paginateGedDocuments(paginationKey, docs, () => openOrgGovSmiDossier(id));
             docsHost.innerHTML = pagination.items.map(doc => `
                 <div class="doc-item" onclick="openMockDownload(${escapeHtml(JSON.stringify(doc.file))},${escapeHtml(JSON.stringify(doc.label))})">
-                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
+                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(getGedFileKind(doc.fileName || doc.label || doc.file))}</div>
                     <div class="doc-info">
                         <div class="doc-title">${escapeHtml(doc.label)}</div>
                         <div class="doc-meta">${escapeHtml(doc.type || folder.dossier)}</div>
@@ -3043,7 +3071,7 @@ function openAgendaTab(tabName) {
             const folders = document.getElementById('orgGovSmiDossiersFolders');
             if (folders) {
                 folders.innerHTML = orgGovSmiDossiersData.map(f => `
-                    <div class="doc-item" onclick="openOrgGovSmiDossier('${f.id}')">
+                    <div class="doc-item" onclick="openOrgGovSmiDossier('${f.id}'); renderOrgGovSmiDossiers();" style="${f.id === orgGovSmiDossierCurrent ? 'background:#eff6ff;border-color:#bfdbfe;' : ''}">
                         <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">GED</div>
                         <div class="doc-info">
                             <div class="doc-title">${escapeHtml(f.dossier)}</div>
@@ -3223,26 +3251,29 @@ function openAgendaTab(tabName) {
             )) return;
             const current = orgGovSmiPilotageRoles.find(r => r.id === orgGovSmiPilotageRole) || orgGovSmiPilotageRoles[0];
             orgGovSmiPilotageRole = current?.id || null;
+            const nominativeDocument = shouldUseSmiDocumentsApi()
+                ? renderOrgGovSmiPilotageDocuments(renderOrgGovSmiPilotage)
+                : '';
             root.innerHTML = `
                 <div class="dashboard-grid" style="grid-template-columns:1fr 1.6fr;gap:18px;">
                     <div class="doc-list">
                         ${orgGovSmiPilotageRoles.map(r => `
                             <div class="doc-item" onclick="orgGovSmiPilotageRole='${r.id}'; renderOrgGovSmiPilotage();" style="${r.id === orgGovSmiPilotageRole ? 'background:#eff6ff;border-color:#bfdbfe;' : ''}">
                                 <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">R</div>
-                                <div class="doc-info"><div class="doc-title">${r.role}</div><div class="doc-meta">Responsabilités et autorités</div></div>
+                                <div class="doc-info"><div class="doc-title">${escapeHtml(r.role)}</div><div class="doc-meta">Responsabilités et autorités</div></div>
                             </div>
                         `).join('')}
                     </div>
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
-                        <div style="font-weight:900;color:#0f172a;font-size:16px;">${current?.role || ''}</div>
-                        <div style="margin-top:12px;font-weight:900;color:#1e293b;font-size:13px;">Responsabilités</div>
-                        <ul style="margin:8px 0 0 18px;color:#475569;font-size:12px;line-height:1.8;">${(current?.responsibilities || []).map(x => `<li>${x}</li>`).join('')}</ul>
-                        <div style="margin-top:12px;font-weight:900;color:#1e293b;font-size:13px;">Autorités</div>
-                        <p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${current?.authority || ''}</p>
-                        ${shouldUseSmiFolderDocumentsApi('Organisation de pilotage SMI')
-                            ? renderOrgGovSmiReferenceAttachments('Organisation de pilotage SMI', current?.role, [{ file: current?.file, label: current?.role }], renderOrgGovSmiPilotage)
-                            : current?.file ? `<button class="primary-btn" style="margin-top:14px;" onclick="openMockDownload('${current.file}','${current.role}')">Document nominatif</button>` : ''}
+                        <div style="font-weight:900;color:#0f172a;font-size:16px;">${escapeHtml(current?.role || '')}</div>
+                        <div style="margin-top:12px;font-weight:900;color:#1e293b;font-size:13px;">Responsabilités et autorités</div>
+                        ${current?.intro ? `<p style="margin:8px 0 0;color:#475569;font-size:12px;line-height:1.7;">${escapeHtml(current.intro)}</p>` : ''}
+                        <ul style="margin:8px 0 0 18px;color:#475569;font-size:12px;line-height:1.8;">${(current?.responsibilities || []).map(x => `<li>${escapeHtml(x)}</li>`).join('')}</ul>
                     </div>
+                </div>
+                <div style="margin-top:18px;">
+                    <div style="font-weight:900;color:#0f172a;font-size:13px;margin-bottom:10px;">Document de référence</div>
+                    <div class="doc-list">${nominativeDocument}</div>
                 </div>
             `;
             lucide.createIcons();
@@ -3286,7 +3317,7 @@ function openAgendaTab(tabName) {
                                 )
                                 : (current?.docs || []).map(d => `
                                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
-                                    <div class="doc-icon" style="background:#fee2e2;color:#dc2626;font-weight:900;">PDF</div>
+                                    <div class="doc-icon" style="background:#fee2e2;color:#dc2626;font-weight:900;">${escapeHtml(getGedFileKind(d.fileName || d.label || d.file))}</div>
                                     <div class="doc-info"><div class="doc-title">${d.label}</div><div class="doc-meta">${current.title}</div></div>
                                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                                 </div>
@@ -3561,6 +3592,15 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
+        function renderOrgGovSmiPilotageDocuments(renderAfterLoad) {
+            const path = joinGedPath(GED_ROOT_PATH, 'Organisation & RSE', 'SMI', 'Organisation de pilotage SMI');
+            const state = getGedDocumentsState(path, renderAfterLoad);
+            if (state?.loading && !state.loaded) return renderGedLoading('documents');
+            if (state?.error) return renderGedError('documents');
+            return (state?.documents || []).map(documentItem => renderGedDocItem(documentItem)).join('')
+                || renderGedEmpty('document');
+        }
+
         async function submitOrgGovCultureFaq() {
             const title = (document.getElementById('orgGovCultureFaqQuestion')?.value || '').trim();
             const description = (document.getElementById('orgGovCultureFaqAnswer')?.value || '').trim();
@@ -3606,7 +3646,7 @@ function openAgendaTab(tabName) {
                         ${orgGovCultureGalleryItems.length > 1 ? `
                             <button type="button" class="communication-lightbox-arrow previous" onclick="moveOrgGovCultureGallery(-1)" aria-label="Image précédente"><i data-lucide="chevron-left"></i></button>
                         ` : ''}
-                        <img src="${escapeHtml(item.file)}" alt="${escapeHtml(item.title || item.fileName || 'Image Communication QSE - RSE')}">
+                        <img src="${escapeHtml(item.file)}" alt="${escapeHtml(item.title || item.fileName || 'Image Communication SMI - RSE')}">
                         ${orgGovCultureGalleryItems.length > 1 ? `
                             <button type="button" class="communication-lightbox-arrow next" onclick="moveOrgGovCultureGallery(1)" aria-label="Image suivante"><i data-lucide="chevron-right"></i></button>
                         ` : ''}
@@ -3626,7 +3666,7 @@ function openAgendaTab(tabName) {
                 lightbox.className = 'communication-lightbox';
                 lightbox.setAttribute('role', 'dialog');
                 lightbox.setAttribute('aria-modal', 'true');
-                lightbox.setAttribute('aria-label', 'Galerie Communication QSE - RSE');
+                lightbox.setAttribute('aria-label', 'Galerie Communication SMI - RSE');
                 lightbox.addEventListener('click', closeOrgGovCultureGallery);
                 document.body.appendChild(lightbox);
             }
@@ -3692,7 +3732,7 @@ function openAgendaTab(tabName) {
             const paginationKey = `org-gov-culture-communication:${orgGovCultureCommunicationMode}`;
             const pagination = paginateGedDocuments(paginationKey, activeItems, renderOrgGovCultureCommunication);
             const filters = `
-                <div class="qse-communication-filters" role="group" aria-label="Type de contenu Communication QSE - RSE">
+                <div class="qse-communication-filters" role="group" aria-label="Type de contenu Communication SMI - RSE">
                     <button type="button" class="filter-pill${orgGovCultureCommunicationMode === 'documents' ? ' active' : ''}" onclick="switchOrgGovCultureCommunicationMode('documents')">
                         <i data-lucide="files" aria-hidden="true"></i>
                         Documentation
@@ -5504,6 +5544,10 @@ function openAgendaTab(tabName) {
         }
 
         function getSitdGedStates(subId) {
+            if (subId === 'evenements-securite') {
+                const path = joinGedPath(GED_ROOT_PATH, gedViewPathMap.sitd, gedSitdPathMap['evenements-securite']);
+                return [getGedDocumentsState(path, () => renderSitdPage(subId))];
+            }
             return getSitdSourceSubIds(subId).map(sourceSubId => {
                 const path = joinGedPath(GED_ROOT_PATH, gedViewPathMap.sitd, gedSitdPathMap[sourceSubId] || sourceSubId);
                 return getGedDocumentsState(path, () => renderSitdPage(subId));
@@ -5599,7 +5643,7 @@ function openAgendaTab(tabName) {
                 <div class="doc-list">
                     ${pagination.items.map(doc => `
                         <div class="doc-item" onclick="openMockDownload('${doc.file}','${doc.title}')">
-                            <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">PDF</div>
+                            <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">${escapeHtml(getGedFileKind(doc.fileName || doc.title || doc.file))}</div>
                             <div class="doc-info">
                                 <div class="doc-title">${doc.title}</div>
                                 <div class="doc-meta">${doc.structure ? `${doc.structure} · ` : ''}${doc.theme || ''}${doc.year ? ` · ${doc.year}` : ''} · ${doc.meta}</div>
@@ -5993,7 +6037,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-list">
                         ${arcCharteDocs.map(d => `
                             <div class="doc-item" onclick="openMockDownload('${d.file}','${d.title}')">
-                                <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
+                                <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(getGedFileKind(d.fileName || d.title || d.file))}</div>
                                 <div class="doc-info">
                                     <div class="doc-title">${d.title}</div>
                                     <div class="doc-meta">Page / PDF · ${d.date} · ${arcLabels.charteMetaSuffix || ''}</div>
@@ -6786,7 +6830,7 @@ function openAgendaTab(tabName) {
             const pagination = paginateGedDocuments(paginationKey, items, () => renderRegDocumentDocs(subId));
             root.innerHTML = pagination.items.map(i => `
                 <div class="doc-item" onclick="openMockDownload('${i.file}','${i.title}')">
-                    <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">PDF</div>
+                    <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">${escapeHtml(getGedFileKind(i.fileName || i.title || i.file))}</div>
                     <div class="doc-info">
                         <div class="doc-title">${i.title}</div>
                         <div class="doc-meta">${i.theme} • ${i.meta}</div>
@@ -8497,7 +8541,7 @@ function openAgendaTab(tabName) {
                     ? renderGedError('documents')
                     : (pagination.items.map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
-                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PDF</div>
+                    <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(getGedFileKind(d.fileName || d.label || d.file))}</div>
                     <div class="doc-info">
                         <div class="doc-title">${d.label}</div>
                         <div class="doc-meta">${d.file}</div>
@@ -8710,7 +8754,7 @@ function openAgendaTab(tabName) {
                     ? renderGedError('documents')
                     : (pagination.items.map(d => `
                 <div class="doc-item" onclick="openMockDownload('${d.file}','${d.label}')">
-                    <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">PDF</div>
+                    <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">${escapeHtml(getGedFileKind(d.fileName || d.label || d.file))}</div>
                     <div class="doc-info">
                         <div class="doc-title">${d.label}</div>
                         <div class="doc-meta">${d.file}</div>

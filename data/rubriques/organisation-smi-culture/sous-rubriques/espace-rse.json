@@ -4,6 +4,7 @@
   "data": {
     "orgGovRsePortal": {
       "gedFolder": "RSE",
+      "description": "Cette rubrique centralise la démarche RSE, ses politiques, ses engagements, ses documents de référence, sa gouvernance, ses certifications et ses ressources.",
       "banner": {
         "tagline": "Ensemble, construisons une CMR citoyenne, responsable et durable",
         "logo": "images/intranet/rse/logo-rse.png"
@@ -23,19 +24,110 @@
         "title": "Politiques RSE",
         "description": "Cette sous-rubrique regroupe les politiques formalisant les orientations et engagements institutionnels de la CMR en matière de responsabilité sociétale.",
         "folder": "Politiques RSE",
-        "items": ["Politique RSE", "Politique Achats Responsables"]
+        "items": [
+          { "title": "Politique RSE", "folder": "Politique RSE" },
+          { "title": "Politique Achats Responsables", "folder": "Politique Achats Responsables" }
+        ]
       },
       "domains": {
         "title": "Domaines d’Engagement RSE",
         "description": "Cette sous-rubrique présente les domaines d’engagement de la CMR, leurs objectifs et les engagements associés.",
         "folder": "Domaines d’Engagement RSE",
         "items": [
-          { "title": "Engagements de Gouvernance", "objective": "Garantir l’engagement de bonne gouvernance à tous les niveaux", "color": "#123b78" },
-          { "title": "Engagements pour l’Humain", "objective": "Assumer pleinement notre responsabilité d’employeur", "color": "#e86100" },
-          { "title": "Engagements Éthiques", "objective": "Assurer avec loyauté et intégrité notre responsabilité dans la conduite des affaires", "color": "#a60055" },
-          { "title": "Engagements Client-Centric", "objective": "Mettre le client au centre de nos décisions et actions", "color": "#009ebd" },
-          { "title": "Engagements de Développement Sociétal", "objective": "S’engager pleinement auprès de nos partenaires et des communautés", "color": "#d6a600" },
-          { "title": "Engagements pour l’Environnement", "objective": "Respecter l’environnement et réduire notre empreinte écologique", "color": "#65a918" }
+          {
+            "title": "Engagement de Gouvernance",
+            "objective": "Garantir l’engagement de bonne gouvernance à tous les niveaux",
+            "color": "#123b78",
+            "engagements": [
+              {
+                "title": "Renforcer l’engagement RSE et la transparence de la gouvernance",
+                "description": "Gouvernance exemplaire, Redevabilité et Transparence"
+              },
+              {
+                "title": "Promouvoir l'investissement responsable",
+                "description": "Intégration critères ESG, Investissement Responsable"
+              }
+            ]
+          },
+          {
+            "title": "ENGAGEMENTS POUR L'HUMAIN",
+            "objective": "Assumer pleinement notre responsabilité d’employeur",
+            "color": "#e86100",
+            "engagements": [
+              {
+                "title": "Respecter les droits de l’Homme sur les lieux de travail.",
+                "description": "Respect des droits, Equité, Inclusion"
+              },
+              {
+                "title": "Améliorer en continu les conditions d’emploi, de travail et le développement professionnel et personnel",
+                "description": "Développement des compétences, Epanouissement, Bien-être"
+              }
+            ]
+          },
+          {
+            "title": "ENGAGEMENTS ETHIQUE",
+            "objective": "Assurer avec loyauté et intégrité notre responsabilité dans la conduite des affaires",
+            "color": "#a60055",
+            "engagements": [
+              {
+                "title": "Prévenir la corruption et la fraude",
+                "description": "Intégrité, Anti-corruption, conformité"
+              },
+              {
+                "title": "Respecter les règles de la saine concurrence",
+                "description": "Concurrence loyale, équité"
+              },
+              {
+                "title": "Promouvoir la responsabilité sociétale des fournisseurs et prestataires",
+                "description": "Achats responsables, chaîne de valeur durable, prestataires engagés"
+              }
+            ]
+          },
+          {
+            "title": "ENGAGEMENTS CLIENT CENTRIC",
+            "objective": "Mettre le client au centre de nos décisions et actions",
+            "color": "#009ebd",
+            "engagements": [
+              {
+                "title": "Établir une relation durable et de confiance avec les clients",
+                "description": "Confiance, Equité, Inclusion et Sécurité"
+              },
+              {
+                "title": "Améliorer l’expérience clients",
+                "description": "Ecoute, Co-construction, Accompagnement, Bien-être Social"
+              }
+            ]
+          },
+          {
+            "title": "ENGAGEMENTS DE DÉVELOPPEMENT SOCIÉTAL",
+            "objective": "S’engager pleinement auprès de nos partenaires et des Communautés",
+            "color": "#d6a600",
+            "engagements": [
+              {
+                "title": "Contribuer au bien-être et au développement des communautés",
+                "description": "Engagement solidaire du personnel, Impact social-éducatif-environnemental, Projets/Actions d’intérêt général, Partenariats"
+              }
+            ]
+          },
+          {
+            "title": "ENGAGEMENTS POUR L’ENVIRONNEMENT",
+            "objective": "Respecter l’environnement et réduire notre empreinte écologique",
+            "color": "#65a918",
+            "engagements": [
+              {
+                "title": "Maîtriser la consommation des ressources",
+                "description": "Sobriété, Optimisation, Réduction empreinte carbone"
+              },
+              {
+                "title": "Promouvoir les pratiques à faible empreinte écologique",
+                "description": "Eco-responsabilité, Eco-efficience"
+              },
+              {
+                "title": "Promouvoir les pratiques Green IT",
+                "description": "Sensibilisation, Numérique responsable"
+              }
+            ]
+          }
         ]
       },
       "documents": {
@@ -48,12 +140,90 @@
         "title": "Organisation et Gouvernance RSE",
         "description": "Cette sous-rubrique présente le dispositif mis en place pour piloter, animer, suivre et améliorer la démarche RSE.",
         "folder": "Organisation et Gouvernance RSE",
-        "actors": ["Responsable RSE", "Sponsor RSE", "Référent RSE", "Comité RSE"]
+        "rolesFolder": "Rôles et responsabilités",
+        "roles": [
+          {
+            "id": "responsable-rse",
+            "title": "Responsable RSE",
+            "folder": "Responsable RSE",
+            "summary": "Responsable de la démarche RSE, de sa structuration, de son alignement avec les priorités de la CMR, de son déploiement et de son amélioration continue.",
+            "responsibilities": [
+              "Assurer la structuration de la démarche RSE de la CMR en alignement avec les cadres de référence (ISO 26000, ODD, etc.) ainsi que l’actualisation de son référentiel documentaire.",
+              "Piloter les travaux d’identification des engagements RSE, de leur priorisation et de leur traduction en actions concrètes.",
+              "Assurer l’intégration des principes RSE dans les processus et activités de la CMR.",
+              "Consolider et assurer le suivi et le déploiement de la feuille de route RSE et des actions planifiées.",
+              "Promouvoir une culture RSE au sein de la CMR via des initiatives internes (ateliers, séminaires, événements RSE, etc.).",
+              "S’assurer que la Politique RSE est comprise, mise en œuvre et entretenue à tous les niveaux.",
+              "Assurer la réalisation des audits internes pour évaluer la conformité des actions avec les engagements RSE et conduire les évaluations pour la labélisation de la démarche et son renouvellement.",
+              "Surveiller, en coordination avec les acteurs RSE, les résultats de chaque engagement et la mesure d’impact des actions mises en œuvre.",
+              "S’assurer du traitement des écarts relatifs aux engagements et veiller à la mise en œuvre des actions d’amélioration.",
+              "Conduire les groupes de travail RSE, préparer et animer les comités RSE.",
+              "Préparer les rapports et reportings RSE/ESG."
+            ]
+          },
+          {
+            "id": "sponsor-rse",
+            "title": "Sponsor RSE",
+            "folder": "Sponsor RSE",
+            "summary": "Garant de l’adéquation entre les orientations stratégiques et les objectifs du domaine des engagements RSE sous sa responsabilité.",
+            "responsibilities": [
+              "Veiller au respect des engagements établis.",
+              "Valider les actions d’amélioration pour les engagements.",
+              "Surveiller et valider les performances RSE des engagements.",
+              "Valider les documents associés aux engagements.",
+              "Valider le traitement des écarts en cas de non-respect des engagements.",
+              "Contribuer à l’animation du Comité RSE."
+            ]
+          },
+          {
+            "id": "referent-rse",
+            "title": "Référent RSE",
+            "folder": "Référent RSE",
+            "summary": "Responsable de la mise en œuvre des engagements RSE dans son périmètre.",
+            "responsibilities": [
+              "Veiller au respect des engagements établis.",
+              "Proposer les actions d’amélioration pour les engagements RSE en charge.",
+              "Coordonner et suivre les plans d’actions d’amélioration avec les responsables concernés.",
+              "Mesurer, revoir et surveiller en continu le respect des engagements (TDB RSE).",
+              "Formaliser les documents associés à l’engagement RSE.",
+              "Gérer les écarts relevés liés au non-respect des engagements.",
+              "Participer au Comité RSE."
+            ]
+          }
+        ],
+        "committee": {
+          "title": "Comité RSE",
+          "folder": "Comité RSE",
+          "missions": [
+            "Définir les orientations et priorités stratégiques en matière de responsabilité sociétale de la CMR en alignement avec sa stratégie globale.",
+            "Valider les politiques, la charte et les engagements RSE de la Caisse.",
+            "Valider la planification et la priorisation des actions RSE ainsi que l’allocation des ressources nécessaires.",
+            "Surveiller le déploiement de la démarche RSE et sa performance.",
+            "Valider les rapports et reportings RSE."
+          ],
+          "composition": [
+            "M. le Directeur, Président du comité",
+            "Le Secrétaire Général",
+            "La Cheffe du Pôle Pilotage",
+            "La Cheffe du Pôle Clients",
+            "Le Chef du Pôle Ressources",
+            "Le Chef du Pôle Gestion du Portefeuille",
+            "Le Chef du Pôle Système d’Information et Transformation Digitale",
+            "Le Chef du Pôle Opérations",
+            "Le Chef de la Division Risk Management",
+            "Le Chef de la Division Études et Affaires Juridiques",
+            "La Cheffe de la Division Gouvernance et Communication",
+            "La Cheffe de la Division Contrôle des Engagements et des Paiements",
+            "Le Responsable RSE",
+            "Les Sponsors RSE",
+            "Les Référents RSE"
+          ]
+        }
       },
       "evaluation": {
-        "title": "Évaluation RSE",
+        "title": "Certificats et labels RSE",
         "description": "Diffusion des certificats, attestations de maturité et labels RSE obtenus par la CMR.",
-        "folder": "Evaluation RSE"
+        "folder": "Certificats et labels RSE"
       },
       "resources": {
         "title": "Ressources RSE",

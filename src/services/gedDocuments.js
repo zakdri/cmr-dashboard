@@ -25,6 +25,19 @@ export function normalizeGedKey(value) {
     .trim();
 }
 
+export function getDocumentFileKind(documentItem) {
+  const source = typeof documentItem === "string"
+    ? documentItem
+    : documentItem?.fileName || documentItem?.title || documentItem?.label || documentItem?.file || "";
+  const cleanSource = String(source).split(/[?#]/)[0];
+  const extension = cleanSource.match(/\.([a-z0-9]{2,5})$/i)?.[1]?.toUpperCase() || "";
+  if (extension === "JPEG") return "JPG";
+  if (["PDF", "JPG", "PNG", "GIF", "WEBP", "SVG", "BMP", "DOC", "DOCX", "XLS", "XLSX", "CSV", "PPT", "PPTX"].includes(extension)) {
+    return extension;
+  }
+  return "DOC";
+}
+
 export function gedPathsOverlap(left, right) {
   const leftPath = joinGedPath(left);
   const rightPath = joinGedPath(right);

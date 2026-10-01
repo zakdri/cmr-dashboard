@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { icons } from "lucide";
 import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
-import { GED_ROOT_PATH, joinGedPath, normalizeGedKey, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import { GED_ROOT_PATH, getDocumentFileKind, joinGedPath, normalizeGedKey, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function getOrgGovData() {
@@ -292,9 +292,9 @@ function RseDocumentRows({ documents = [], emptyLabel = "Aucun document disponib
             key={documentItem.id || documentItem.fileName}
             onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(documentItem.file)},${JSON.stringify(documentItem.title)})`)}
           >
-            <span className="doc-icon rse-portal-file-icon">PDF</span>
-            <span className="doc-info"><strong className="doc-title">{documentItem.title}</strong><span className="doc-meta">{documentItem.folderLabel || documentItem.fileName}</span></span>
-            <i data-lucide="download" aria-hidden="true" />
+            <span className="doc-icon rse-portal-file-icon">{getDocumentFileKind(documentItem)}</span>
+            <span className="doc-info"><strong className="doc-title">{documentItem.title || documentItem.fileName}</strong></span>
+            <ReactLucideIcon name="download" />
           </button>
         ))}
       </PaginatedDocuments>
@@ -303,18 +303,28 @@ function RseDocumentRows({ documents = [], emptyLabel = "Aucun document disponib
 }
 
 function RseReferenceBrowser({ items = [], documents = [], icon = "book-open", loading = false, horizontal = false }) {
-  const [selectedItem, setSelectedItem] = useState(items[0] || "");
+  const normalizedItems = useMemo(() => items.map((item) => (
+    typeof item === "string" ? { title: item, folder: item } : item
+  )), [items]);
+  const [selectedTitle, setSelectedTitle] = useState(normalizedItems[0]?.title || "");
+  const selectedItem = normalizedItems.find((item) => item.title === selectedTitle) || normalizedItems[0] || {};
 
   useEffect(() => {
-    if (!items.includes(selectedItem)) setSelectedItem(items[0] || "");
-  }, [items, selectedItem]);
+    if (!normalizedItems.some((item) => item.title === selectedTitle)) {
+      setSelectedTitle(normalizedItems[0]?.title || "");
+    }
+  }, [normalizedItems, selectedTitle]);
 
   const matchingDocuments = useMemo(() => {
-    const selectedKey = normalizeGedKey(selectedItem);
+    const selectedKey = normalizeGedKey(selectedItem.title);
+    const selectedFolderKey = normalizeGedKey(selectedItem.folder);
     if (!selectedKey) return [];
     const selectedTokens = selectedKey.split(" ").filter((token) => token.length > 2);
 
     return documents.filter((documentItem) => {
+      const documentFolders = (documentItem.segments || []).slice(1).map(normalizeGedKey);
+      if (selectedFolderKey && documentFolders.includes(selectedFolderKey)) return true;
+
       const documentKey = normalizeGedKey(
         [documentItem.title, documentItem.fileName, ...(documentItem.segments || []).slice(1)]
           .filter(Boolean)
@@ -324,60 +334,150 @@ function RseReferenceBrowser({ items = [], documents = [], icon = "book-open", l
     });
   }, [documents, selectedItem]);
 
-  const selectedDocument = matchingDocuments[0];
-
-  useEffect(() => {
-    window.requestAnimationFrame(() => window.lucide?.createIcons());
-  }, [selectedItem, selectedDocument]);
-
   return (
     <div className={`rse-two-pane${horizontal ? " rse-browser-horizontal" : ""}`}>
       <div className="rse-reference-list">
-        {items.map((item) => (
+        {normalizedItems.map((item) => (
           <button
             type="button"
-            key={item}
-            className={`rse-reference-option${selectedItem === item ? " active" : ""}`}
-            onClick={() => setSelectedItem(item)}
-            aria-pressed={selectedItem === item}
+            key={item.title}
+            className={`rse-reference-option${selectedItem.title === item.title ? " active" : ""}`}
+            onClick={() => setSelectedTitle(item.title)}
+            aria-pressed={selectedItem.title === item.title}
           >
-            <i data-lucide={icon} aria-hidden="true" />
-            <strong>{item}</strong>
-            <i className="rse-reference-chevron" data-lucide="chevron-right" aria-hidden="true" />
+            <ReactLucideIcon name={icon} />
+            <strong>{item.title}</strong>
+            <ReactLucideIcon className="rse-reference-chevron" name="chevron-right" />
           </button>
         ))}
       </div>
 
-      <div className="rse-document-preview" aria-live="polite">
+      <div className="rse-document-list-panel" aria-live="polite">
+        <h4>{selectedItem.title || "Documents RSE"}</h4>
         {loading ? <p className="rse-portal-loading">Chargement des documents RSE...</p> : null}
-        {!loading && selectedDocument ? (
-          <>
-            <div className="rse-document-preview-toolbar">
-              <div>
-                <strong>{selectedItem}</strong>
-                <span>{selectedDocument.fileName || selectedDocument.title}</span>
-              </div>
-              <button
-                type="button"
-                title="Télécharger le document"
-                aria-label={`Télécharger ${selectedItem}`}
-                onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(selectedDocument.file)},${JSON.stringify(selectedDocument.title)})`)}
-              >
-                <i data-lucide="download" aria-hidden="true" />
-              </button>
-            </div>
-            <iframe src={selectedDocument.file} title={`Aperçu - ${selectedItem}`} />
-            {matchingDocuments.length > 1 ? <RseDocumentRows documents={matchingDocuments} /> : null}
-          </>
-        ) : null}
-        {!loading && !selectedDocument ? (
-          <div className="rse-document-preview-empty">
-            <i data-lucide="file-search" aria-hidden="true" />
-            <strong>{selectedItem || "Document RSE"}</strong>
-            <span>Aucun fichier correspondant n'est disponible dans la GED.</span>
-          </div>
+        {!loading ? (
+          <RseDocumentRows
+            documents={matchingDocuments}
+            emptyLabel="Aucun fichier correspondant n'est disponible dans la GED."
+          />
         ) : null}
       </div>
+    </div>
+  );
+}
+
+function RseGovernanceBrowser({ governance = {}, documents = [], loading = false }) {
+  const roles = governance.roles || [];
+  const committee = governance.committee || {};
+  const [activeSpace, setActiveSpace] = useState("roles");
+  const [selectedRoleId, setSelectedRoleId] = useState(roles[0]?.id || "");
+  const selectedRole = roles.find((role) => role.id === selectedRoleId) || roles[0] || {};
+  const documentSegments = (documentItem) => (documentItem.segments?.length
+    ? documentItem.segments
+    : String(documentItem.folderLabel || "").split("/"))
+    .map((segment) => segment.trim())
+    .filter(Boolean);
+  const hasDocumentFolder = (documentItem, folder) => documentSegments(documentItem)
+    .some((segment) => normalizeGedKey(segment) === normalizeGedKey(folder));
+  const rolesFolder = governance.rolesFolder || "Rôles et responsabilités";
+  const generalRoleDocuments = documents.filter((documentItem) => {
+    const segments = documentSegments(documentItem).map(normalizeGedKey);
+    const rolesFolderIndex = segments.indexOf(normalizeGedKey(rolesFolder));
+    return rolesFolderIndex >= 0 && rolesFolderIndex === segments.length - 1;
+  });
+  const committeeDocuments = documents.filter((documentItem) => (
+    hasDocumentFolder(documentItem, committee.folder || committee.title || "Comité RSE")
+  ));
+
+  useEffect(() => {
+    if (!roles.some((role) => role.id === selectedRoleId)) {
+      setSelectedRoleId(roles[0]?.id || "");
+    }
+  }, [roles, selectedRoleId]);
+
+  return (
+    <div className="rse-governance-browser">
+      <div className="rse-governance-tabs" role="tablist" aria-label="Organisation et Gouvernance RSE">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeSpace === "roles"}
+          className={activeSpace === "roles" ? "active" : ""}
+          onClick={() => setActiveSpace("roles")}
+        >
+          <ReactLucideIcon name="users-round" />
+          Rôles et responsabilités
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeSpace === "committee"}
+          className={activeSpace === "committee" ? "active" : ""}
+          onClick={() => setActiveSpace("committee")}
+        >
+          <ReactLucideIcon name="presentation" />
+          Comité RSE
+        </button>
+      </div>
+
+      {activeSpace === "roles" ? (
+        <div role="tabpanel">
+          <div className="rse-two-pane rse-governance-content">
+            <div className="rse-governance-sidebar">
+              <div className="rse-reference-list">
+                {roles.map((role) => (
+                  <button
+                    type="button"
+                    key={role.id}
+                    className={`rse-reference-option${selectedRole.id === role.id ? " active" : ""}`}
+                    aria-pressed={selectedRole.id === role.id}
+                    onClick={() => setSelectedRoleId(role.id)}
+                  >
+                    <ReactLucideIcon name="user-round-check" />
+                    <strong>{role.title}</strong>
+                    <ReactLucideIcon className="rse-reference-chevron" name="chevron-right" />
+                  </button>
+                ))}
+              </div>
+            </div>
+            <article className="rse-governance-detail">
+              <h4>{selectedRole.title}</h4>
+              {selectedRole.summary ? <p>{selectedRole.summary}</p> : null}
+              <h5>Responsabilités</h5>
+              <ul>{(selectedRole.responsibilities || []).map((item) => <li key={item}>{item}</li>)}</ul>
+              <h5>Document d'organisation RSE</h5>
+              {loading ? <p className="rse-portal-loading">Chargement des documents...</p> : null}
+              {!loading ? <RseDocumentRows documents={generalRoleDocuments} emptyLabel="Aucun document d'organisation RSE disponible." /> : null}
+            </article>
+          </div>
+        </div>
+      ) : (
+        <div className="rse-two-pane rse-governance-content" role="tabpanel">
+          <div className="rse-governance-sidebar">
+            <div className="rse-reference-list">
+              <div>
+                <ReactLucideIcon name="presentation" />
+                <strong>{committee.title || "Comité RSE"}</strong>
+              </div>
+            </div>
+            <section className="rse-governance-sidebar-documents">
+              <h4>Document associé</h4>
+              {loading ? <p className="rse-portal-loading">Chargement des documents...</p> : null}
+              {!loading ? <RseDocumentRows documents={committeeDocuments} emptyLabel="Aucun document associé au Comité RSE." /> : null}
+            </section>
+          </div>
+          <div className="rse-governance-committee-detail">
+            <article className="rse-governance-detail">
+              <h4>Missions</h4>
+              <ul>{(committee.missions || []).map((item) => <li key={item}>{item}</li>)}</ul>
+            </article>
+            <article className="rse-governance-detail">
+              <h4>Composition</h4>
+              <ul>{(committee.composition || []).map((item) => <li key={item}>{item}</li>)}</ul>
+            </article>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -440,10 +540,6 @@ function RseDomainsBrowser({ domains = [], documents = [], loading = false }) {
 
   const selectedEngagement = engagementGroups.find((engagement) => engagement.title === selectedEngagementTitle);
 
-  useEffect(() => {
-    window.requestAnimationFrame(() => window.lucide?.createIcons());
-  }, [selectedDomainTitle, selectedEngagementTitle]);
-
   return (
     <div className="rse-domains-browser">
       <nav className="rse-domain-selector" aria-label="Domaines d'engagement RSE">
@@ -458,7 +554,7 @@ function RseDomainsBrowser({ domains = [], documents = [], loading = false }) {
           >
             <span aria-hidden="true" />
             <strong>{domain.title}</strong>
-            <i data-lucide="chevron-right" aria-hidden="true" />
+            <ReactLucideIcon name="chevron-right" />
           </button>
         ))}
       </nav>
@@ -557,12 +653,12 @@ function RsePortalContent({ portal, documents, loading }) {
 
       <div id="page-orggov-rse-gouvernance" className="km-tab-content" style={{ display: "none" }}>
         <Banner />
-        <section className="rse-portal-section"><h3>{governance.title}</h3><p>{governance.description}</p><RseReferenceBrowser items={governance.actors || []} documents={folderDocuments(governance.folder)} icon="user-round-check" loading={loading} /></section>
+        <section className="rse-portal-section"><h3>{governance.title}</h3><p>{governance.description}</p><RseGovernanceBrowser governance={governance} documents={folderDocuments(governance.folder)} loading={loading} /></section>
       </div>
 
       <div id="page-orggov-rse-evaluation" className="km-tab-content" style={{ display: "none" }}>
         <Banner />
-        <section className="rse-portal-section"><h3>{evaluation.title}</h3><p>{evaluation.description}</p>{loadingMessage}<RseDocumentRows documents={folderDocuments(evaluation.folder)} emptyLabel="Aucune attestation ou certification disponible." /></section>
+        <section className="rse-portal-section"><h3>{evaluation.title}</h3><p>{evaluation.description}</p>{loadingMessage}<RseDocumentRows documents={folderDocuments(evaluation.folder)} emptyLabel="Aucun certificat ou label RSE disponible." /></section>
       </div>
 
       <div id="page-orggov-rse-ressources" className="km-tab-content" style={{ display: "none" }}>
@@ -676,6 +772,12 @@ export default function InstitutionnelSection() {
             </React.Fragment>
           ))}
         </div>
+        <SummaryText>{({
+          organisation: pages.organisation?.description,
+          smi: pages.smi?.description,
+          rse: rsePortal.description,
+          "culture-qse-rse": pages["culture-qse-rse"]?.description,
+        })[activeSection]}</SummaryText>
         <div
           className="km-navbar"
           id="orgGovSubNavbar"
@@ -723,7 +825,6 @@ export default function InstitutionnelSection() {
           className="km-tab-content"
           style={{ display: "none" }}
         >
-          <SummaryText>{pages.organisation?.description}</SummaryText>
           <div
             className={`cmr-org-chart-viewer${
               isOrgChartExpanded ? " is-expanded" : ""
@@ -775,7 +876,6 @@ export default function InstitutionnelSection() {
           className="km-tab-content"
           style={{ display: "none" }}
         >
-          <SummaryText>{pages.organisation?.description}</SummaryText>
           <div
             style={{
               display: "flex",
@@ -855,7 +955,6 @@ export default function InstitutionnelSection() {
           className="km-tab-content"
           style={{ display: "none" }}
         >
-          <SummaryText>{pages.organisation?.description}</SummaryText>
           <div className="cmr-job-folder-heading">
             <div>
               <div className="app-category-title" style={{ margin: 0 }}>
@@ -990,7 +1089,6 @@ export default function InstitutionnelSection() {
           className="km-tab-content"
           style={{ display: "none" }}
         >
-          <SummaryText>{pages.organisation?.description}</SummaryText>
           <div className="app-category-title" style={{ marginBottom: 14 }}>
             {pages.referentiels?.title}
           </div>
@@ -1082,49 +1180,46 @@ export default function InstitutionnelSection() {
         </div>
 
         <div id="page-orggov-smi-politiques" className="km-tab-content" style={{ display: "none" }}>
-          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-politiques"] || {}}>
             <div id="orgGovSmiPolitiques" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
           </DynamicCardPage>
         </div>
+        <div id="page-orggov-smi-chartes-codes" className="km-tab-content" style={{ display: "none" }}>
+          <DynamicCardPage page={pages["smi-chartes-codes"] || {}}>
+            <div id="orgGovSmiChartesCodes" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
+          </DynamicCardPage>
+        </div>
         <div id="page-orggov-smi-cartographie" className="km-tab-content" style={{ display: "none" }}>
-          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-cartographie"] || {}}>
             <div id="orgGovSmiCartographie" style={{ padding: 18 }} />
           </DynamicCardPage>
         </div>
         <div id="page-orggov-smi-dossiers" className="km-tab-content" style={{ display: "none" }}>
-          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-dossiers"] || {}}>
             <div id="orgGovSmiDossiers" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
           </DynamicCardPage>
         </div>
         <div id="page-orggov-smi-pilotage" className="km-tab-content" style={{ display: "none" }}>
-          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-pilotage"] || {}}>
             <div id="orgGovSmiPilotage" style={{ padding: 18 }} />
           </DynamicCardPage>
         </div>
         <div id="page-orggov-smi-gouvernance-interne" className="km-tab-content" style={{ display: "none" }}>
-          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-gouvernance-interne"] || {}}>
             <div id="orgGovSmiGovernance" style={{ padding: 18 }} />
           </DynamicCardPage>
         </div>
         <div id="page-orggov-smi-audits" className="km-tab-content" style={{ display: "none" }}>
-          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-audits"] || {}}>
             <div id="orgGovSmiAudits" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
           </DynamicCardPage>
         </div>
         <div id="page-orggov-smi-certification" className="km-tab-content" style={{ display: "none" }}>
-          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-certification"] || {}}>
             <div id="orgGovSmiCertification" style={{ padding: 18 }} />
           </DynamicCardPage>
         </div>
         <div id="page-orggov-smi-normes" className="km-tab-content" style={{ display: "none" }}>
-          <SummaryText>{pages.smi?.description}</SummaryText>
           <DynamicCardPage page={pages["smi-normes"] || {}}>
             <div id="orgGovSmiNormes" className="doc-list" style={{ padding: "0 18px 18px 18px" }} />
           </DynamicCardPage>
@@ -1155,7 +1250,6 @@ export default function InstitutionnelSection() {
           ["culture-stats", "orgGovCultureStats"],
         ].map(([id, hostId]) => (
           <div key={id} id={`page-orggov-${id}`} className="km-tab-content" style={{ display: "none" }}>
-            <SummaryText>{pages["culture-qse-rse"]?.description}</SummaryText>
             <DynamicCardPage page={pages[id] || {}}>
               <div id={hostId} style={{ padding: 18 }} />
             </DynamicCardPage>

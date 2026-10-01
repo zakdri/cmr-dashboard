@@ -1,0 +1,13 @@
+{
+  "rubrique": "organisation-smi-culture",
+  "contenu": "Chartes & Codes SMI",
+  "data": {
+    "orgGovPages": {
+      "smi-chartes-codes": {
+        "title": "Chartes & Codes",
+        "icon": "scroll-text",
+        "iconClass": "blue"
+      }
+    }
+  }
+}
