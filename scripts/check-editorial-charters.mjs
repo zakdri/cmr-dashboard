@@ -12,7 +12,7 @@ const folder = data.communicationInterneSections.find(section => section.id === 
 const documentPath = `${root}/${folder}`;
 const documents = ['Charte Anti-Corruption.pdf', 'Code Ethique.pdf', 'Politique Anti-Fraude.pdf', 'Procedure Conflits.pdf'].map((fileName, index) => ({
   id: `charter-${index}`, title: fileName, fileName, extension: 'pdf',
-  file: `/api/documents.php?action=download&protocolUri=charter-${index}&fileName=${encodeURIComponent(fileName)}`,
+  file: `/moovapps/cmr-dashboard/ged-file/${encodeURIComponent(fileName)}?protocolUri=charter-${index}`,
   segments: [folder], folderLabel: folder,
 }));
 const otherDocument = { ...documents[0], id: 'note', title: 'Unrelated note.pdf', segments: ['Notes de service'] };
@@ -94,7 +94,7 @@ assert.deepEqual(recruitment.folderFilters, expectedFolders);
 assert.ok(!recruitment.filterByYear);
 const recruitmentDocuments = expectedFolders.map((name, index) => ({
   id: `recruitment-${index}`, title: `Avis poste ${index}.pdf`, year: index % 2 ? '2025' : '2026',
-  file: `/api/documents.php?action=download&protocolUri=recruitment-${index}`,
+  file: `/moovapps/cmr-dashboard/ged-file/${encodeURIComponent(`Avis poste ${index}.pdf`)}?protocolUri=recruitment-${index}`,
   segments: [name], folderLabel: name,
 }));
 recruitmentDocuments[1].segments[0] = "Chef de la Division Securite de l'Information";

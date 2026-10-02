@@ -265,7 +265,7 @@ function GedFolderBrowser({ documents = [], folders = [], loading = false, error
                 onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(documentItem.file)},${JSON.stringify(documentItem.title)})`)}
               >
                 <span><ReactLucideIcon name="file-text" /></span>
-                <div><strong>{documentItem.title}</strong><small>{documentItem.fileName}</small></div>
+                <div><strong>{documentItem.title || documentItem.fileName}</strong></div>
                 <ReactLucideIcon name="download" />
               </button>
             ))}

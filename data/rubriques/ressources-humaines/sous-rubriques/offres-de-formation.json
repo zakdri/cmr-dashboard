@@ -1,0 +1,12 @@
+{
+  "rubrique": "ressources-humaines",
+  "contenu": "Offres de formation",
+  "data": {
+    "rhPages": {
+      "offresFormation": {
+        "title": "Offres de formation",
+        "description": "Consultez les offres de formation proposées aux collaborateurs."
+      }
+    }
+  }
+}

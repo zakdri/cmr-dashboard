@@ -60,7 +60,7 @@ assert.ok(!vision.includes("Plan stratégique CMR"));
 assert.ok(!vision.includes("Feuille de route des orientations"));
 assert.ok(!vision.includes(space.exampleLabel));
 
-const visionWithPdf = render({ 4: { loading: false, error: null, documents: [{ title: "Document stratégique.pdf", fileName: "Document stratégique.pdf", file: "/api/documents.php?action=download&protocolUri=pdf" }] } });
+const visionWithPdf = render({ 4: { loading: false, error: null, documents: [{ title: "Document stratégique.pdf", fileName: "Document stratégique.pdf", file: "/moovapps/cmr-dashboard/ged-file/Document%20strat%C3%A9gique.pdf?protocolUri=pdf" }] } });
 assert.ok(visionWithPdf.includes('class="cmr-strategy-pdf-frame"'));
 assert.ok(visionWithPdf.includes("Document stratégique.pdf"));
 assert.ok(visionWithPdf.includes("download=1"));

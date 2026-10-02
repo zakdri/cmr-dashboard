@@ -26,6 +26,7 @@ import QseSection from './views/QseSection.jsx';
 import SitdSection from './views/SitdSection.jsx';
 import ArcSection from './views/ArcSection.jsx';
 import AdminSection from './views/AdminSection.jsx';
+import ProfileSection from './views/ProfileSection.jsx';
 
 export const sections = [
   { id: 'dashboard', Component: DashboardSection },
@@ -55,5 +56,6 @@ export const sections = [
   { id: 'qse', Component: QseSection },
   { id: 'sitd', Component: SitdSection },
   { id: 'arc', Component: ArcSection },
-  { id: 'admin', Component: AdminSection }
+  { id: 'admin', Component: AdminSection },
+  { id: 'profile', Component: ProfileSection }
 ];

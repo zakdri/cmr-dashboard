@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 
-const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v4";
+const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v5";
 
 const getModalsData = () => window.CMR_DATA?.data?.modals || {};
 

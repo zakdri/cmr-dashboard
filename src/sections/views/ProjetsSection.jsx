@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { icons } from "lucide";
 import { GED_ROOT_PATH, joinGedPath, normalizeGedKey } from "../../services/gedDocuments.js";
+import { fetchGedFile } from "../../services/moovappsPlatform.js";
 import { useGedDocuments } from "../../services/useGedDocuments.js";
 
 const STRATEGY_VISION_PATH = joinGedPath(
@@ -66,9 +67,38 @@ function Tabs({ items, active, change, label }) {
 function StrategicPlanDocument({ plan }) {
   const state = useGedDocuments(STRATEGY_VISION_PATH);
   const documentItem = state.documents.find((item) => /\.pdf$/i.test(item.fileName || item.title || ""));
-  const downloadUrl = documentItem?.file
-    ? `${documentItem.file}${documentItem.file.includes("?") ? "&" : "?"}download=1`
-    : "";
+  const [fileState, setFileState] = useState(() => ({
+    loading: Boolean(documentItem?.protocolUri),
+    url: documentItem?.protocolUri ? "" : documentItem?.file || "",
+    error: null,
+  }));
+
+  useEffect(() => {
+    let cancelled = false;
+    let objectUrl = "";
+    if (!documentItem?.protocolUri) {
+      setFileState({ loading: false, url: documentItem?.file || "", error: null });
+      return () => {};
+    }
+
+    setFileState({ loading: true, url: "", error: null });
+    fetchGedFile(documentItem.protocolUri, documentItem.fileName)
+      .then(({ blob }) => {
+        if (cancelled) return;
+        objectUrl = URL.createObjectURL(blob);
+        setFileState({ loading: false, url: objectUrl, error: null });
+      })
+      .catch((error) => {
+        if (!cancelled) setFileState({ loading: false, url: "", error });
+      });
+
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [documentItem?.protocolUri, documentItem?.file, documentItem?.fileName]);
+
+  const previewUrl = fileState.url;
 
   return (
     <section className="cmr-space-section cmr-space-documents cmr-strategy-document">
@@ -77,13 +107,15 @@ function StrategicPlanDocument({ plan }) {
       {state.loading ? <p className="empty-state">Chargement du document Moovapps...</p> : null}
       {!state.loading && state.error ? <p className="empty-state">Le document Moovapps n’est pas disponible pour le moment.</p> : null}
       {!state.loading && !state.error && !documentItem ? <p className="empty-state">Aucun document PDF disponible dans ce dossier.</p> : null}
-      {documentItem ? (
+      {documentItem && fileState.loading ? <p className="empty-state">Chargement de l’aperçu...</p> : null}
+      {documentItem && fileState.error ? <p className="empty-state">L’aperçu du document n’est pas disponible pour le moment.</p> : null}
+      {documentItem && previewUrl ? (
         <div className="cmr-strategy-pdf">
           <div className="cmr-strategy-pdf-actions">
-            <a className="secondary-btn" href={documentItem.file} target="_blank" rel="noreferrer"><LucideIcon name="external-link" />Ouvrir</a>
-            <a className="secondary-btn" href={downloadUrl}><LucideIcon name="download" />Télécharger</a>
+            <a className="secondary-btn" href={previewUrl} target="_blank" rel="noreferrer"><LucideIcon name="external-link" />Ouvrir</a>
+            <a className="secondary-btn" href={previewUrl} download={documentItem.fileName}><LucideIcon name="download" />Télécharger</a>
           </div>
-          <iframe className="cmr-strategy-pdf-frame" src={documentItem.file} title={documentItem.title || documentItem.fileName || "Document PDF"} />
+          <iframe className="cmr-strategy-pdf-frame" src={previewUrl} title={documentItem.title || documentItem.fileName || "Document PDF"} />
         </div>
       ) : null}
     </section>

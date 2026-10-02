@@ -20,6 +20,6 @@ function copyStaticAssets() {
 }
 
 export default defineConfig({
-  base: '/cmr-dashboard/',
+  base: './',
   plugins: [react(), copyStaticAssets()],
 });

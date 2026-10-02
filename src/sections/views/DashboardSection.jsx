@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 import { GED_ROOT_PATH, joinGedPath, normalizeGedKey } from "../../services/gedDocuments.js";
+import { platformUrl } from "../../services/moovappsPlatform.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
-const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v4";
+const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v5";
 
 function getSavedQuickAccessLabels(items) {
   const fallbackLabels = items.map((item) => item.label);
@@ -16,6 +17,15 @@ function getSavedQuickAccessLabels(items) {
   } catch {
     return fallbackLabels;
   }
+}
+
+function quickAccessUrl(item) {
+  const configuredPath = item.configKey
+    ? item.configKey.split(".").reduce((value, key) => value?.[key], window.CMR_PLATFORM_CONFIG)
+    : "";
+  const target = configuredPath || item.url || "#";
+  if (/^(?:https?:)?\/\//i.test(target) || target.startsWith("#")) return target;
+  return platformUrl(target);
 }
 
 function getDashboardData() {
@@ -704,7 +714,7 @@ function QuickAccess({ quickAccess }) {
 
           return (
             <a
-              href={item.url || "#"}
+              href={quickAccessUrl(item)}
               target={item.target || undefined}
               rel={opensNewTab ? "noopener noreferrer" : undefined}
               className="quick-access-item"

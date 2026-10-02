@@ -59,6 +59,13 @@
             "icon": "globe-2",
             "href": "http://172.17.100.180:8080/moovapps/easysite/pgp",
             "target": "_blank"
+          },
+          {
+            "label": "Workplace",
+            "icon": "panels-top-left",
+            "configKey": "services.workplace.path",
+            "href": "/easysite/workplace/",
+            "target": "_blank"
           }
         ]
       },

@@ -1,5 +1,7 @@
 import React from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+import PlatformServiceFrame from "../../components/PlatformServiceFrame.jsx";
+import { useViewActive } from "../../services/useGedDocuments.js";
 
 function getAdminData() {
   const data = window.CMR_DATA?.data || {};
@@ -38,6 +40,8 @@ function DashboardCard({ page, children, action, titleKey, iconKey, iconClassKey
 
 export default function AdminSection() {
   const { header, cards, labels, profiles, scopes, logFilters } = getAdminData();
+  const isViewActive = useViewActive("admin");
+  const cmsPath = window.CMR_PLATFORM_CONFIG?.services?.admin?.cms?.path || "";
   const comptes = cards.comptes || {};
   const roles = cards.roles || {};
   const acces = cards.acces || {};
@@ -207,19 +211,7 @@ export default function AdminSection() {
         </div>
 
         <div id="page-admin-cms" className="km-tab-content" style={{ display: "block" }}>
-          <DashboardCard page={cards.cms || {}}>
-            <div style={{ padding: 18 }}>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <button className="primary-btn" onClick={(event) => runLegacyHandler(event, "adminCreateCms()")}>
-                  Publier
-                </button>
-                <button className="secondary-btn" onClick={(event) => runLegacyHandler(event, "renderAdminCms()")}>
-                  Rafraîchir
-                </button>
-              </div>
-              <div id="adminCmsTableWrap" style={{ marginTop: 12 }} />
-            </div>
-          </DashboardCard>
+          <PlatformServiceFrame path={cmsPath} title="Contenus (CMS)" active={isViewActive} />
         </div>
 
         <div id="page-admin-securite" className="km-tab-content" style={{ display: "none" }}>

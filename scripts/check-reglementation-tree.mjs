@@ -74,10 +74,10 @@ assert.equal(militaryRegime.includeAllFilter, false);
 assert.equal(militaryRegime.defaultFolder, "Arrêtés");
 assert.deepEqual(militaryRegime.folders, ["Arrêtés", "Décrets", "Lois"]);
 
-const documentsApi = fs.readFileSync("public/api/smi-documents.php", "utf8");
+const documentsApi = fs.readFileSync("src/services/moovappsPlatform.js", "utf8");
 assert.match(
   documentsApi,
-  /collect_documents\([\s\S]*?\$documentScope,\s*\$rootResourceFolderPath\s*\);/,
+  /collectGedTree\(asArray\(response\?\.view\?\.body\?\.folder\), documents, folders, filterSegments, rootPath\);/,
   "Le repli GED doit conserver le chemin racine réel pour filtrer la rubrique demandée.",
 );
 console.log("Arborescence Réglementaire conforme.");

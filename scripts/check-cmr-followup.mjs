@@ -337,28 +337,28 @@ assert.ok(html.Innovation.includes('id="cmrInnovDescription"'));
 for (const removedId of ['cmrInnovTheme', 'cmrInnovStart', 'cmrInnovEnd', 'cmrInnovDocs']) {
   assert.ok(!html.Innovation.includes(`id="${removedId}"`));
 }
-const innovationApi = fs.readFileSync('public/api/innovation-content.php', 'utf8');
-const cmrInnovApi = innovationApi.slice(
-  innovationApi.indexOf("'cmr-innov' => ["),
-  innovationApi.indexOf("'project-idea' => ["),
+const platformClient = fs.readFileSync('src/services/moovappsPlatform.js', 'utf8');
+const cmrInnovApi = platformClient.slice(
+  platformClient.indexOf('"cmr-innov": {'),
+  platformClient.indexOf('"project-idea": {'),
 );
-assert.ok(cmrInnovApi.includes("'id' => '512002'"));
-assert.ok(cmrInnovApi.includes("'view_id' => '513704'"));
-assert.ok(cmrInnovApi.includes("'required' => ['sys_Title', 'Description']"));
-assert.ok(cmrInnovApi.includes("'fields' => ['sys_Title', 'Description']"));
-assert.ok(cmrInnovApi.includes("'files' => ['image' => 'Image']"));
+assert.ok(cmrInnovApi.includes('id: "512002"'));
+assert.ok(cmrInnovApi.includes('viewId: "513704"'));
+assert.ok(cmrInnovApi.includes('required: ["sys_Title", "Description"]'));
+assert.ok(cmrInnovApi.includes('fields: ["sys_Title", "Description"]'));
+assert.ok(cmrInnovApi.includes('files: { image: "Image" }'));
 assert.ok(!cmrInnovApi.includes('Theme'));
 assert.ok(!cmrInnovApi.includes('Periode'));
 assert.ok(!cmrInnovApi.includes('SupportsDocumentaires'));
-const projectIdeaApi = innovationApi.slice(
-  innovationApi.indexOf("'project-idea' => ["),
-  innovationApi.indexOf("'event' => ["),
+const projectIdeaApi = platformClient.slice(
+  platformClient.indexOf('"project-idea": {'),
+  platformClient.indexOf('event: {'),
 );
-assert.ok(projectIdeaApi.includes("'id' => '512282'"));
-assert.ok(projectIdeaApi.includes("'view_id' => '513770'"));
-assert.ok(projectIdeaApi.includes("'required' => ['sys_Title', 'Theme']"));
-assert.ok(projectIdeaApi.includes("'fields' => ['sys_Title', 'Theme', 'Periode']"));
-assert.ok(projectIdeaApi.includes("'files' => ['image' => 'ImageIllustrative', 'documents' => 'SupportsDocumentaires']"));
+assert.ok(projectIdeaApi.includes('id: "512282"'));
+assert.ok(projectIdeaApi.includes('viewId: "513770"'));
+assert.ok(projectIdeaApi.includes('required: ["sys_Title", "Theme"]'));
+assert.ok(projectIdeaApi.includes('fields: ["sys_Title", "Theme", "Periode"]'));
+assert.ok(projectIdeaApi.includes('files: { image: "ImageIllustrative", documents: "SupportsDocumentaires" }'));
 assert.ok(!app.includes('innovationCmrInnovThemeOptions'));
 assert.ok(app.includes("getCmrData('innovationProjectIdeaThemeOptions', [])"));
 assert.deepEqual(data.innovationProjectIdeaThemeOptions, [
@@ -482,9 +482,9 @@ for (const label of ['Helpdesk', 'Demande de mobilité', 'Demande de formation',
   assert.ok(headerQuickLinkLabels.includes(label));
 }
 assert.doesNotMatch(fs.readFileSync('src/sections/views/DashboardSection.jsx', 'utf8'), /<QuickAccess quickAccess=/);
-const vieSocialeSource = fs.readFileSync('src/sections/views/VieSocialeSection.jsx', 'utf8');
-assert.match(vieSocialeSource, /const \[previewIndex, setPreviewIndex\] = useState\(null\)/);
-assert.match(vieSocialeSource, /className="communication-lightbox"/);
-assert.match(vieSocialeSource, /showPreviousImage/);
-assert.match(vieSocialeSource, /showNextImage/);
+const vieSocialeLightboxSource = fs.readFileSync('src/sections/views/VieSocialeSection.jsx', 'utf8');
+assert.match(vieSocialeLightboxSource, /const \[previewIndex, setPreviewIndex\] = useState\(null\)/);
+assert.match(vieSocialeLightboxSource, /className="communication-lightbox"/);
+assert.match(vieSocialeLightboxSource, /showPreviousImage/);
+assert.match(vieSocialeLightboxSource, /showNextImage/);
 console.log('PASS: requested content, 21 application links/domains, RH quick-access navigation, React renders, SMI content with loading/error/empty/live documents.');

@@ -10,7 +10,6 @@ const VIE_SOCIALE_GALLERY_PATH = joinGedPath(
   "Galerie Vie Sociale",
 );
 const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "gif", "webp", "bmp", "avif", "svg"]);
-
 function EmphasizedText({ text, phrases = [] }) {
   const matchingPhrases = phrases.filter((phrase) => text.includes(phrase));
   if (!matchingPhrases.length) return text;
@@ -53,6 +52,8 @@ export default function VieSocialeSection() {
       src: item.file,
       alt: item.title || item.fileName || "Photo Vie Sociale",
       id: item.protocolUri || item.fileName,
+      protocolUri: item.protocolUri,
+      fileName: item.fileName,
     }));
   const gallery = shouldUseDocumentsApi() ? gedGallery : staticGallery;
   const previewImage = Number.isInteger(previewIndex) ? gallery[previewIndex] : null;

@@ -16,11 +16,37 @@
           "background": "#eff6ff",
           "color": "#2563eb"
         },
-        "items": [
-          "Préparation du PPA",
-          "Actualisation du PPA",
-          "Préparation DCE",
-          "Exécution des commandes et marchés publics"
+        "subsections": [
+          {
+            "title": "Préparation du PPA",
+            "description": "Préparer le Programme Prévisionnel des Achats et suivre les étapes de traitement.",
+            "icon": "clipboard-list",
+            "serviceKey": "preparation-ppa"
+          },
+          {
+            "title": "Actualisation du PPA",
+            "description": "Actualiser le Programme Prévisionnel des Achats et suivre les modifications.",
+            "icon": "refresh-cw",
+            "serviceKey": "actualisation-ppa"
+          },
+          {
+            "title": "Fiches projets",
+            "description": "Consulter et suivre les fiches projets liées aux achats.",
+            "icon": "folder-kanban",
+            "serviceKey": "fiches-projets"
+          },
+          {
+            "title": "Préparation DCE",
+            "description": "Préparer les dossiers de consultation des entreprises et suivre leur traitement.",
+            "icon": "files",
+            "serviceKey": "preparation-dce"
+          },
+          {
+            "title": "Publication et attribution des achats",
+            "description": "Suivre la publication des consultations et l’attribution des achats.",
+            "icon": "badge-check",
+            "serviceKey": "publication-attribution"
+          }
         ]
       },
       {

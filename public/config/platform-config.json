@@ -1,0 +1,46 @@
+{
+  "_readme": "Configuration propre à chaque environnement. Ce fichier est lu au démarrage et peut être modifié sur le serveur sans reconstruire l'application.",
+  "platform": {
+    "_comment": "Contexte racine de la plateforme Moovapps.",
+    "contextPath": "/moovapps"
+  },
+  "ged": {
+    "_comment": "URI de protocole de la bibliothèque documentaire Moovapps.",
+    "libraryProtocolUri": "uri://vdoc/datastore/036-000002-000"
+  },
+  "textSpaces": {
+    "faq":       { "id": "502641", "viewId": "506232", "transport": "session" },
+    "ideas":     { "id": "502597", "viewId": "506339", "transport": "session" },
+    "reports":   { "id": "502774", "viewId": "503728", "transport": "session" },
+    "stats":     { "id": "503604", "viewId": "523304", "transport": "session" },
+    "direction": { "id": "502852", "viewId": "504804", "transport": "session" }
+  },
+  "services": {
+    "workplace": {
+      "path": "/easysite/workplace/"
+    },
+    "rh": {
+      "offres":    { "path": "/easysite/workplace/applications/application-appel-a-candidature-interne-0/index" },
+      "mobilite":  { "path": "/easysite/workplace/applications/application-demande-de-mobilite-spontanee-0/index" },
+      "formation": { "path": "/easysite/workplace/applications/application-demande-de-formation-spontanee-0/index" },
+      "offresFormation": { "path": "/easysite/workplace/applications/application-offres-de-formations-0/index" }
+    },
+    "achats": {
+      "preparation-ppa":         { "path": "/easysite/workplace/applications/application-preparation-du-plan-previsionnel-des-achats-0/index" },
+      "actualisation-ppa":       { "path": "/easysite/workplace/applications/application-actualisation-du-plan-previsionnel-des-achats-0/index" },
+      "fiches-projets":          { "path": "/easysite/workplace/applications/application-fiches-projets-0/index" },
+      "preparation-dce":         { "path": "/easysite/workplace/applications/application-preparation-et-validation-du-dossier-de-consultation-0/index" },
+      "publication-attribution": { "path": "/easysite/workplace/applications/application-lancement-et-suivi-des-achats-0/index" }
+    },
+    "admin": {
+      "cms": { "path": "/easysite/workplace/applications/application-gestion-di-contenu-0" }
+    }
+  },
+  "innovationSpaces": {
+    "project":      { "id": "502460", "viewId": "504907", "folder": "Intranet CMR/Espace Innovation/Fiches Projets/Suivi des projets" },
+    "spontaneous":  { "id": "503105", "viewId": "503675", "folder": "Intranet CMR/Espace Innovation/Espace Idées/Dépôt d idée spontanée" },
+    "cmr-innov":    { "id": "502702", "viewId": "502822", "folder": "Intranet CMR/Espace Innovation/Espace Idées/CMR Innov" },
+    "project-idea": { "id": "502515", "viewId": "503743", "folder": "Intranet CMR/Espace Innovation/Fiches Projets/Projets Idées" },
+    "event":        { "id": "503489", "viewId": "504870", "folder": "Intranet CMR/Espace Innovation/Innov Event" }
+  }
+}

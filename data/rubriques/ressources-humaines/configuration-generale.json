@@ -32,6 +32,10 @@
         "label": "Demande de formation"
       },
       {
+        "id": "offres-formation",
+        "label": "Offres de formation"
+      },
+      {
         "id": "enquetes",
         "label": "Enquêtes RH"
       }

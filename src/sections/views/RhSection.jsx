@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { FormationPage } from "./AcademySection.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+import PlatformServiceFrame from "../../components/PlatformServiceFrame.jsx";
 import {
   GED_ROOT_PATH,
   joinGedPath,
@@ -41,7 +42,6 @@ function GedDocumentCard({ documentItem }) {
     <SimpleCard
       item={{
         title,
-        meta: documentItem.folderLabel || documentItem.fileName,
         icon: "file-text",
         iconStyle: { background: "#eff6ff", color: "#2563eb" },
         actionIcon: "download",
@@ -447,6 +447,28 @@ function MobilitePage({ page }) {
   );
 }
 
+function ConfiguredServicePage({ pageId, page, active, serviceKey, title }) {
+  const configuredPath = window.CMR_PLATFORM_CONFIG?.services?.rh?.[serviceKey]?.path;
+  const path = configuredPath || page.service?.path || "";
+  return (
+    <div id={pageId} className="km-tab-content" style={{ display: "none" }}>
+      <SectionIntro text={page.description} />
+      <PlatformServiceFrame path={path} title={page.workflow?.title || title} active={active} />
+    </div>
+  );
+}
+
+function ServiceDemoPage({ pageId, page, title }) {
+  return (
+    <div id={pageId} className="km-tab-content" style={{ display: "none" }}>
+      <SectionIntro text={page.description} />
+      <div className="content-card">
+        <h3>{page.title || title}</h3>
+      </div>
+    </div>
+  );
+}
+
 function IndicatorsSummary({ page }) {
   const indicators = page.indicators || [];
   useEffect(() => { window.lucide?.createIcons(); }, [indicators.length]);
@@ -567,8 +589,9 @@ function EnquetesPage({ page }) {
 export default function RhSection() {
   const { header, tabs, pages, offresIntro, offresList } = getRhData();
   const isViewActive = useViewActive("rh");
+  const demoMode = Boolean(window.CMR_PLATFORM?.isDemo);
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || "carriere");
-  const formationGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "CMR Academy", "Formation"), { enabled: isViewActive && activeTab === "formation" });
+  const formationGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "CMR Academy", "Formation"), { enabled: !demoMode && isViewActive && activeTab === "formation" });
 
   useEffect(() => {
     const syncTab = (event) => setActiveTab(event.detail?.tab || tabs[0]?.id || "carriere");
@@ -595,9 +618,18 @@ export default function RhSection() {
       <CareerPage page={pages.carriere || {}} active={isViewActive && activeTab === "carriere"} />
       <DocumentsPage page={pages.documents || {}} active={isViewActive && activeTab === "documents"} />
       <AttakmiliPage page={pages.attakmili || {}} active={isViewActive && activeTab === "attakmili"} />
-      <OffresPage offresIntro={offresIntro} offresList={offresList} />
-      <MobilitePage page={pages.mobilite || {}} />
-      <FormationPage pageId="page-rh-formation" page={pages.formation || {}} documents={formationGedState.documents} loading={formationGedState.loading} apiEnabled={shouldUseDocumentsApi()} />
+      {demoMode
+        ? <OffresPage offresIntro={offresIntro} offresList={offresList} />
+        : <ConfiguredServicePage pageId="page-rh-offres" page={{ description: offresIntro, ...(pages.offres || {}) }} active={isViewActive && activeTab === "offres"} serviceKey="offres" title="Postes vacants" />}
+      {demoMode
+        ? <MobilitePage page={pages.mobilite || {}} />
+        : <ConfiguredServicePage pageId="page-rh-mobilite" page={pages.mobilite || {}} active={isViewActive && activeTab === "mobilite"} serviceKey="mobilite" title="Mobilité spontanée" />}
+      {demoMode
+        ? <FormationPage pageId="page-rh-formation" page={pages.formation || {}} documents={formationGedState.documents} loading={false} apiEnabled={false} />
+        : <ConfiguredServicePage pageId="page-rh-formation" page={pages.formation || {}} active={isViewActive && activeTab === "formation"} serviceKey="formation" title="Demande de formation" />}
+      {demoMode
+        ? <ServiceDemoPage pageId="page-rh-offres-formation" page={pages.offresFormation || {}} title="Offres de formation" />
+        : <ConfiguredServicePage pageId="page-rh-offres-formation" page={pages.offresFormation || {}} active={isViewActive && activeTab === "offres-formation"} serviceKey="offresFormation" title="Offres de formation" />}
       <EnquetesPage page={pages.enquetes || {}} />
     </div>
   );

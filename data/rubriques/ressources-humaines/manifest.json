@@ -33,6 +33,10 @@
     {
       "contenu": "Demande de formation",
       "fichier": "sous-rubriques/demande-de-formation.json"
+    },
+    {
+      "contenu": "Offres de formation",
+      "fichier": "sous-rubriques/offres-de-formation.json"
     }
   ]
 }

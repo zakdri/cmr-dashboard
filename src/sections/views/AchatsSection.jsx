@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
+import PlatformServiceFrame from "../../components/PlatformServiceFrame.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 import {
   GED_ROOT_PATH,
@@ -18,35 +19,55 @@ function getAchatsData() {
   };
 }
 
-function WorkflowList({ items = [] }) {
-  const [query, setQuery] = useState("");
-  const filteredItems = items.filter((item) =>
-    item.toLowerCase().includes(query.trim().toLowerCase()),
-  );
+function WorkflowSubsections({ items = [], active }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeItem = items[activeIndex] || items[0];
+  const configuredPath = activeItem?.serviceKey
+    ? window.CMR_PLATFORM_CONFIG?.services?.achats?.[activeItem.serviceKey]?.path
+    : "";
+  const servicePath = configuredPath || activeItem?.service?.path || "";
+  const showService = !window.CMR_PLATFORM?.isDemo && Boolean(servicePath);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [items]);
+
+  useEffect(() => {
+    window.lucide?.createIcons();
+  }, [activeIndex]);
+
+  if (!activeItem) return null;
 
   return (
-    <>
-      <div className="section-search-row">
-        <i data-lucide="search" style={{ width: 18 }} />
-        <input
-          placeholder="Rechercher un workflow..."
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-      </div>
-      <div className="achats-workflow-list">
-        {filteredItems.map((item, index) => (
-          <div className="achats-workflow-row" key={item}>
-            <div className="achats-step-index">{index + 1}</div>
-            <div>
-              <strong>{item}</strong>
-              <p>Accéder au workflow et suivre les étapes de traitement.</p>
-            </div>
-            <i data-lucide="chevron-right" style={{ width: 18 }} />
-          </div>
+    <div className="achats-workflow-subsections">
+      <div className="achats-workflow-tabs" role="tablist" aria-label="Sous-rubriques de la gestion des achats">
+        {items.map((item, index) => (
+          <button
+            type="button"
+            role="tab"
+            aria-selected={index === activeIndex}
+            className={`achats-workflow-tab${index === activeIndex ? " active" : ""}`}
+            key={item.title}
+            onClick={() => setActiveIndex(index)}
+          >
+            {item.title}
+          </button>
         ))}
       </div>
-    </>
+      <div role="tabpanel">
+        {showService ? (
+          <PlatformServiceFrame path={servicePath} title={activeItem.title} active={active} />
+        ) : (
+          <div className="achats-workflow-panel">
+            <span className="achats-workflow-panel-icon"><i data-lucide={activeItem.icon || "workflow"} /></span>
+            <div>
+              <h4>{activeItem.title}</h4>
+              <p>{activeItem.description}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -83,7 +104,6 @@ function GedRow({ documentItem }) {
     >
       <div>
         <strong>{title}</strong>
-        <p>{documentItem.folderLabel || documentItem.fileName}</p>
       </div>
       <span>{documentItem.extension || "DOC"}</span>
     </button>
@@ -244,7 +264,8 @@ function SectionBody({ section, active }) {
   if (section.metrics) return <MetricGrid metrics={section.metrics} updatedAt={section.updatedAt} />;
   if (section.tree) return <CpsTree tree={section.tree} gedPath={gedPath} active={active} />;
   if (section.documents) return <DocumentList documents={section.documents} gedPath={gedPath} active={active} />;
-  return <WorkflowList items={section.items || []} />;
+  if (section.subsections) return <WorkflowSubsections items={section.subsections} active={active} />;
+  return null;
 }
 
 export default function AchatsSection() {

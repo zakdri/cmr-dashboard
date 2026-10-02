@@ -86,7 +86,7 @@ function DocumentRow({ file }) {
       <div className={`doc-icon${fileKind === "PDF" ? " pdf" : ""}`}>{fileKind}</div>
       <div className="doc-info">
         <div className="doc-title">{title}</div>
-        <div className="doc-meta">{isGedDoc ? file.folderLabel || file.fileName : "Document de gouvernance"}</div>
+        {!isGedDoc ? <div className="doc-meta">Document de gouvernance</div> : null}
       </div>
       <i data-lucide="download" />
     </button>

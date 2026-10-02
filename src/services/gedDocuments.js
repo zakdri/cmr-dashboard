@@ -1,3 +1,5 @@
+import { gedDownloadUrl, isDemoMode, listGedDocuments } from "./moovappsPlatform.js";
+
 export const GED_ROOT_PATH = "Intranet CMR";
 export const GED_DOCUMENTS_CHANGED_EVENT = "cmr:ged-documents-changed";
 const GED_SESSION_CACHE_PREFIX = "cmr-ged-documents:v4:";
@@ -5,7 +7,7 @@ const gedDocumentsMemoryCache = new Map();
 const gedDocumentsRequests = new Map();
 
 export function shouldUseDocumentsApi() {
-  return !window.location.hostname.toLowerCase().endsWith("github.io");
+  return !isDemoMode();
 }
 
 export function joinGedPath(...parts) {
@@ -88,15 +90,6 @@ export function writeCachedGedDocuments(path, documents) {
   }
 }
 
-export function documentsApiUrl(path, params = {}) {
-  const url = new URL("api/documents.php", document.baseURI);
-  url.searchParams.set("path", path);
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, value);
-  });
-  return url.toString();
-}
-
 export function normalizeGedDocument(item) {
   const protocolUri = item.protocolUri || "";
   const fileName = item.fileName || item.title || "document.pdf";
@@ -105,9 +98,7 @@ export function normalizeGedDocument(item) {
     title: item.title || fileName,
     label: item.label || item.title || fileName,
     fileName,
-    file: protocolUri
-      ? documentsApiUrl(GED_ROOT_PATH, { action: "download", protocolUri, fileName })
-      : item.file || fileName,
+    file: protocolUri ? gedDownloadUrl(protocolUri, fileName) : item.file || fileName,
   };
 }
 
@@ -126,13 +117,8 @@ export async function fetchGedDocuments(path, options = {}) {
   const requestKey = `${normalizedPath}|${refresh ? "refresh" : "cached"}`;
   if (gedDocumentsRequests.has(requestKey)) return gedDocumentsRequests.get(requestKey);
 
-  const request = fetch(documentsApiUrl(normalizedPath, refresh ? { refresh: "1" } : {}), {
-    headers: { Accept: "application/json" },
-    cache: "no-store",
-  })
-    .then(async (response) => {
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const payload = await response.json();
+  const request = listGedDocuments(normalizedPath)
+    .then((payload) => {
       const documents = (Array.isArray(payload.data) ? payload.data : []).map(normalizeGedDocument);
       const folders = Array.isArray(payload.folders) ? payload.folders : [];
       writeCachedGedDocuments(normalizedPath, documents);

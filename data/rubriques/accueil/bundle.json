@@ -132,6 +132,13 @@
           "icon": "globe-2",
           "url": "http://172.17.100.180:8080/moovapps/easysite/pgp",
           "target": "_blank"
+        },
+        {
+          "label": "Workplace",
+          "icon": "panels-top-left",
+          "configKey": "services.workplace.path",
+          "url": "/easysite/workplace/",
+          "target": "_blank"
         }
       ]
     },

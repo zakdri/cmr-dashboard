@@ -342,17 +342,6 @@ function openAgendaTab(tabName) {
             }
         }
 
-        function getDocumentsApiUrl(path = GED_ROOT_PATH, params = {}) {
-            const url = new URL('api/documents.php', document.baseURI);
-            url.searchParams.set('path', path);
-            Object.entries(params).forEach(([key, value]) => {
-                if (value !== undefined && value !== null && value !== '') {
-                    url.searchParams.set(key, value);
-                }
-            });
-            return url.toString();
-        }
-
         function normalizeGedText(value) {
             return String(value || '')
                 .normalize('NFD')
@@ -371,11 +360,7 @@ function openAgendaTab(tabName) {
                 label: documentItem.label || documentItem.title || fileName,
                 fileName,
                 file: protocolUri
-                    ? getDocumentsApiUrl(GED_ROOT_PATH, {
-                        action: 'download',
-                        protocolUri,
-                        fileName
-                    })
+                    ? window.CMR_PLATFORM?.ged?.downloadUrl?.(protocolUri, fileName)
                     : (documentItem.file || fileName)
             };
         }
@@ -403,15 +388,8 @@ function openAgendaTab(tabName) {
                 }
             }
 
-            const response = await fetch(getDocumentsApiUrl(path, options.refresh ? { refresh: '1' } : {}), {
-                headers: { Accept: 'application/json' },
-                cache: 'no-store'
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-
-            const payload = await response.json();
+            if (!window.CMR_PLATFORM?.ged?.list) throw new Error('Client GED Moovapps indisponible.');
+            const payload = await window.CMR_PLATFORM.ged.list(path);
             const documents = (Array.isArray(payload.data) ? payload.data : []).map(normalizeGedDocument);
             gedDocumentsCache.set(path, documents);
             gedFoldersCache.set(path, Array.isArray(payload.folders) ? payload.folders : []);
@@ -529,7 +507,7 @@ function openAgendaTab(tabName) {
             return 'DOC';
         }
 
-        function renderGedDocItem(documentItem, meta = '') {
+        function renderGedDocItem(documentItem) {
             const label = documentItem.label || documentItem.title || documentItem.fileName || 'Document';
             const file = documentItem.file || documentItem.fileName || '';
             const kind = getGedFileKind(documentItem.fileName || label || file);
@@ -538,7 +516,6 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(kind)}</div>
                     <div class="doc-info">
                         <div class="doc-title">${escapeHtml(label)}</div>
-                        <div class="doc-meta">${escapeHtml(meta || documentItem.folderLabel || documentItem.intranetPath || '')}</div>
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -687,7 +664,7 @@ function openAgendaTab(tabName) {
         async function resolveGedDocumentForClick(filename, title) {
             if (!shouldUseDocumentsApi()) return null;
             const rawName = String(filename || '');
-            if (/^(https?:)?\/\//i.test(rawName) || rawName.includes('/api/documents.php') || rawName.includes('api/documents.php')) {
+            if (/^(https?:)?\/\//i.test(rawName) || rawName.includes('/ged-file/')) {
                 return null;
             }
 
@@ -1205,10 +1182,8 @@ function openAgendaTab(tabName) {
             }
 
             // Update Content
-            const pageTabs = ['page-rh-carriere', 'page-rh-documents', 'page-rh-attakmili', 'page-rh-offres', 'page-rh-mobilite', 'page-rh-formation', 'page-rh-enquetes'];
-            pageTabs.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.style.display = 'none';
+            document.querySelectorAll('#view-rh .km-tab-content[id^="page-rh-"]').forEach(el => {
+                el.style.display = 'none';
             });
 
             const targetEl = document.getElementById('page-rh-' + tabId);
@@ -2133,7 +2108,6 @@ function openAgendaTab(tabName) {
                                     <div class="doc-icon" style="background:#fee2e2;color:#dc2626;font-weight:900;">${getGedFileKind(a.fileName || a.label)}</div>
                                     <div class="doc-info">
                                         <div class="doc-title">${escapeHtml(a.label)}</div>
-                                        <div class="doc-meta">${escapeHtml(a.fileName || a.file)}</div>
                                     </div>
                                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                                 </div>
@@ -2290,13 +2264,12 @@ function openAgendaTab(tabName) {
             const paginationKey = `organisation-referentiel:${id}`;
             const pagination = paginateGedDocuments(paginationKey, r.docs || [], () => openReferentiel(id));
             docs.innerHTML = shouldUseDocumentsApi()
-                ? pagination.items.map(doc => renderGedDocItem(doc, r.dossier)).join('') || renderGedEmpty('document')
+                ? pagination.items.map(doc => renderGedDocItem(doc)).join('') || renderGedEmpty('document')
                 : pagination.items.map(doc => `
                     <div class="doc-item" onclick="openMockDownload('${doc.file}','${doc.label}')">
                         <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(getGedFileKind(doc.fileName || doc.label || doc.file))}</div>
                         <div class="doc-info">
                             <div class="doc-title">${doc.label}</div>
-                            <div class="doc-meta">${doc.file}</div>
                         </div>
                         <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                     </div>
@@ -2344,7 +2317,6 @@ function openAgendaTab(tabName) {
                             <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">PV</div>
                             <div class="doc-info">
                                 <div class="doc-title">${d.label}</div>
-                                <div class="doc-meta">${d.file}</div>
                             </div>
                             <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                         </div>
@@ -2425,13 +2397,7 @@ function openAgendaTab(tabName) {
         let orgGovCultureGalleryPreviousOverflow = '';
 
         function shouldUseDataUniverseApi() {
-            return !window.location.hostname.toLowerCase().endsWith('github.io');
-        }
-
-        function getDataUniverseApiUrl(space) {
-            const url = new URL('api/text-content.php', document.baseURI);
-            url.searchParams.set('space', space);
-            return url.toString();
+            return !window.CMR_PLATFORM?.isDemo;
         }
 
         function extractDataUniverseRecords(payload) {
@@ -2487,12 +2453,8 @@ function openAgendaTab(tabName) {
             state.attempted = true;
             state.error = null;
             try {
-                const response = await fetch(getDataUniverseApiUrl(space), {
-                    headers: { Accept: 'application/json' },
-                    cache: 'no-store'
-                });
-                const payload = await response.json().catch(() => ({}));
-                if (!response.ok) throw new Error(payload.message || payload.error || `HTTP ${response.status}`);
+                if (!window.CMR_PLATFORM?.textContent?.list) throw new Error('Client Moovapps indisponible.');
+                const payload = await window.CMR_PLATFORM.textContent.list(space);
                 state.items = extractDataUniverseRecords(payload).map((record, index) =>
                     normalizeDataUniverseItem(space, record, { id: `${space}-${index}` })
                 );
@@ -2517,14 +2479,8 @@ function openAgendaTab(tabName) {
             renderAfterChange();
 
             try {
-                const response = await fetch(getDataUniverseApiUrl(space), {
-                    method: 'POST',
-                    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-                    cache: 'no-store',
-                    body: JSON.stringify({ values })
-                });
-                const payload = await response.json().catch(() => ({}));
-                if (!response.ok) throw new Error(payload.message || payload.error || `HTTP ${response.status}`);
+                if (!window.CMR_PLATFORM?.textContent?.create) throw new Error('Client Moovapps indisponible.');
+                const payload = await window.CMR_PLATFORM.textContent.create(space, values);
                 const returnedRecord = extractDataUniverseRecords(payload)[0];
                 const createdItem = normalizeDataUniverseItem(space, returnedRecord || {}, { ...optimisticItem, id: pendingId, pending: false });
                 state.items = state.items.map(item => item.id === pendingId ? createdItem : item);
@@ -2862,7 +2818,6 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#f0fdf4;color:#166534;font-weight:900;">SMI</div>
                     <div class="doc-info">
                         <div class="doc-title">${escapeHtml(d.title)}</div>
-                        <div class="doc-meta">${escapeHtml(d.folderLabel || 'Référentiel · Dossiers documentaires')}</div>
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -3153,7 +3108,6 @@ function openAgendaTab(tabName) {
                                 <div class="doc-icon" style="background:#eff6ff;color:#2563eb;font-weight:900;">${escapeHtml(iconLabel)}</div>
                                 <div class="doc-info">
                                     <div class="doc-title">${escapeHtml(d.title)}</div>
-                                    <div class="doc-meta">${escapeHtml(d.folderLabel || d.fileName || folderName)}</div>
                                 </div>
                                 <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                             </div>
@@ -3236,7 +3190,7 @@ function openAgendaTab(tabName) {
                     || (title.includes('programme') && title.includes('gouvernance'));
             });
             const documents = matchingDocuments.length ? matchingDocuments : directDocuments;
-            return documents.map(item => renderGedDocItem(item, orgGovSmiGovernanceProgram.title)).join('')
+            return documents.map(item => renderGedDocItem(item)).join('')
                 || renderGedEmpty('document général');
         }
 
@@ -3520,7 +3474,7 @@ function openAgendaTab(tabName) {
                     title: doc.title,
                     file: doc.file,
                     type: getGedFileKind(doc.fileName),
-                    meta: doc.folderLabel || doc.fileName
+                    meta: ''
                 }))
                 : orgGovCultureContents.map(item => ({
                     ...item,
@@ -3714,7 +3668,7 @@ function openAgendaTab(tabName) {
                     file: doc.file,
                     fileName: doc.fileName,
                     type: getGedFileKind(doc.fileName),
-                    meta: doc.folderLabel || doc.fileName,
+                    meta: '',
                     segments: doc.segments || []
                 }))
                 : orgGovCultureNews.map(item => ({
@@ -3938,24 +3892,43 @@ function openAgendaTab(tabName) {
         }
 
         // ====== Téléchargement (mock) ======
-        function openResolvedGedDocument(fileUrl, title) {
+        async function openResolvedGedDocument(fileUrl, title) {
             const name = String(fileUrl || '');
             if (/\.pdf(\?.*)?$/i.test(name) || /[?&]fileName=[^&]*\.pdf(?:&|$)/i.test(name)) {
                 openPdfPreviewModal(fileUrl, title);
                 return;
+            }
+            const isGedFile = /(?:^|\/)ged-file\//i.test(name) && /[?&]protocolUri=/i.test(name);
+            if (isGedFile && window.CMR_PLATFORM?.ged?.fetchFileFromUrl) {
+                try {
+                    const { blob, fileName } = await window.CMR_PLATFORM.ged.fetchFileFromUrl(fileUrl);
+                    const objectUrl = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = objectUrl;
+                    link.download = fileName || title || 'document';
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+                    return;
+                } catch (error) {
+                    console.warn('Téléchargement GED indisponible:', error?.message || error);
+                    alert('Le document est indisponible dans Moovapps. Veuillez réessayer.');
+                    return;
+                }
             }
             window.open(fileUrl, '_blank', 'noopener');
         }
 
         async function openMockDownload(filename, title) {
             const name = String(filename || '');
-            if (/^(https?:)?\/\//i.test(name) || /^(?:\.?\.?\/)?(?:api|docs)\//i.test(name) || name.startsWith('/')) {
-                openResolvedGedDocument(name, title || name);
+            if (/^(https?:)?\/\//i.test(name) || /^(?:\.?\.?\/)?(?:ged-file|docs)\//i.test(name) || name.startsWith('/')) {
+                await openResolvedGedDocument(name, title || name);
                 return;
             }
             const resolvedDocument = await resolveGedDocumentForClick(filename, title);
             if (resolvedDocument?.file) {
-                openResolvedGedDocument(resolvedDocument.file, resolvedDocument.title || title || filename);
+                await openResolvedGedDocument(resolvedDocument.file, resolvedDocument.title || title || filename);
                 return;
             }
 
@@ -4050,9 +4023,14 @@ function openAgendaTab(tabName) {
             const tryFetch = async () => {
                 try {
                     if (!pdfUrl) throw new Error('missing url');
-                    const res = await fetch(pdfUrl, { cache: 'no-store' });
-                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                    const blob = await res.blob();
+                    const isGedFile = /(?:^|\/)ged-file\//i.test(String(pdfUrl)) && /[?&]protocolUri=/i.test(String(pdfUrl));
+                    const blob = isGedFile && window.CMR_PLATFORM?.ged?.fetchFileFromUrl
+                        ? (await window.CMR_PLATFORM.ged.fetchFileFromUrl(pdfUrl)).blob
+                        : await (async () => {
+                            const res = await fetch(pdfUrl, { credentials: 'include', cache: 'no-store' });
+                            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                            return res.blob();
+                        })();
                     const signature = await blob.slice(0, 5).text();
                     if (signature !== '%PDF-') throw new Error('invalid pdf content');
                     if (requestId !== pdfPreviewRequestId) return;
@@ -4114,7 +4092,7 @@ function openAgendaTab(tabName) {
         const innovationThemeOptions = getCmrData('innovationThemeOptions', []);
         const innovationProjectIdeaThemeOptions = getCmrData('innovationProjectIdeaThemeOptions', []);
         function shouldUseInnovationApi() {
-            return !window.location.hostname.toLowerCase().endsWith('github.io');
+            return !window.CMR_PLATFORM?.isDemo;
         }
 
         let projectSheets = shouldUseInnovationApi() ? [] : getCmrData('projectSheets', []);
@@ -4166,9 +4144,7 @@ function openAgendaTab(tabName) {
 
         function innovationDownloadUrl(file) {
             if (!file?.downloadReference) return '';
-            const url = new URL('api/innovation-content.php', document.baseURI);
-            url.searchParams.set('downloadReference', file.downloadReference);
-            return url.toString();
+            return window.CMR_PLATFORM?.innovation?.fileUrl?.(file.downloadReference) || '';
         }
 
         function normalizeInnovationViewItem(space, values, index) {
@@ -4227,11 +4203,8 @@ function openAgendaTab(tabName) {
             state.attempted = true;
             state.error = null;
             try {
-                const url = new URL('api/innovation-content.php', document.baseURI);
-                url.searchParams.set('space', space);
-                const response = await fetch(url, { headers: { Accept: 'application/json' }, cache: 'no-store' });
-                const payload = await response.json().catch(() => ({}));
-                if (!response.ok) throw new Error(payload.message || payload.error || `HTTP ${response.status}`);
+                if (!window.CMR_PLATFORM?.innovation?.list) throw new Error('Client Moovapps indisponible.');
+                const payload = await window.CMR_PLATFORM.innovation.list(space);
                 const matchingItems = getWorkflowViewItems(payload)
                     .filter(item => innovationViewItemMatchesSpace(space, item));
                 applyItems(matchingItems.map((item, index) => normalizeInnovationViewItem(space, item, index)));
@@ -4274,22 +4247,9 @@ function openAgendaTab(tabName) {
 
         async function submitInnovationApi(space, values, files, statusId) {
             if (!shouldUseInnovationApi()) return { demo: true };
-            const body = new FormData();
-            body.append('space', space);
-            body.append('values', JSON.stringify(values));
-            Object.entries(files || {}).forEach(([name, file]) => {
-                if (file) body.append(name, file, file.name);
-            });
             setInnovationSubmitStatus(statusId, 'Enregistrement en cours...');
-            const response = await fetch('api/innovation-content.php', {
-                method: 'POST',
-                body,
-                cache: 'no-store'
-            });
-            const result = await response.json().catch(() => ({}));
-            if (!response.ok) {
-                throw new Error(result.message || result.error || `Erreur HTTP ${response.status}`);
-            }
+            if (!window.CMR_PLATFORM?.innovation?.submit) throw new Error('Client Moovapps indisponible.');
+            const result = await window.CMR_PLATFORM.innovation.submit(space, values, files);
             const gedWarning = Array.isArray(result.ged) && result.ged.some(item => !item.ok);
             setInnovationSubmitStatus(
                 statusId,
@@ -5236,7 +5196,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">RSE</div>
                     <div class="doc-info">
                         <div class="doc-title">${r.title}</div>
-                        <div class="doc-meta">${r.meta || r.folderLabel || ''}</div>
+                        ${r.meta ? `<div class="doc-meta">${r.meta}</div>` : ''}
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -5281,7 +5241,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">INFO</div>
                     <div class="doc-info">
                         <div class="doc-title">${i.title}</div>
-                        <div class="doc-meta">${i.meta || i.folderLabel || ''}</div>
+                        ${i.meta ? `<div class="doc-meta">${i.meta}</div>` : ''}
                     </div>
                     <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -5400,7 +5360,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">REX</div>
                     <div class="doc-info">
                         <div class="doc-title">${r.title}</div>
-                        <div class="doc-meta">${r.meta || r.folderLabel || ''}</div>
+                        ${r.meta ? `<div class="doc-meta">${r.meta}</div>` : ''}
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -6414,7 +6374,7 @@ function openAgendaTab(tabName) {
                 return;
             }
             const items = state
-                ? state.documents.map(doc => ({ title: doc.title, file: doc.file, meta: doc.folderLabel || doc.fileName }))
+                ? state.documents.map(doc => ({ title: doc.title, file: doc.file, meta: '' }))
                 : staticItems;
             const paginationKey = `qse:${pathSuffix}`;
             const pagination = paginateGedDocuments(paginationKey, items, renderAfterLoad);
@@ -6571,7 +6531,7 @@ function openAgendaTab(tabName) {
                 return;
             }
             const items = state
-                ? state.documents.map(doc => ({ title: doc.title, file: doc.file, meta: doc.folderLabel || doc.fileName }))
+                ? state.documents.map(doc => ({ title: doc.title, file: doc.file, meta: '' }))
                 : qseCultureItems;
             const paginationKey = 'qse:culture-communication';
             const pagination = paginateGedDocuments(paginationKey, items, renderQseCulture);
@@ -7745,6 +7705,11 @@ function openAgendaTab(tabName) {
             };
         }
 
+        function mediaSourceAttributes(item) {
+            if (!item?.protocolUri) return `src="${escapeHtml(item?.file || '')}"`;
+            return `data-ged-media-uri="${escapeHtml(item.protocolUri)}" data-ged-media-name="${escapeHtml(item.fileName || item.title || 'media')}"`;
+        }
+
         function getMediaGedState(kind, renderAfterLoad) {
             if (!shouldUseDocumentsApi()) return null;
             const state = getGedDocumentsState(mediaGedPaths[kind], renderAfterLoad);
@@ -7834,7 +7799,7 @@ function openAgendaTab(tabName) {
             root.innerHTML = shuffled.map(it => `
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;cursor:pointer;" onclick="openMockDownload('${it.file}','${it.title}')">
                     ${it.mediaKind === 'image'
-                        ? `<img src="${it.file}" alt="" loading="lazy" style="display:block;width:100%;height:90px;object-fit:cover;background:#f8fafc;">`
+                        ? `<img ${mediaSourceAttributes(it)} alt="" loading="lazy" style="display:block;width:100%;height:90px;object-fit:cover;background:#f8fafc;">`
                         : `<div style="height:90px;background:#f8fafc;display:flex;align-items:center;justify-content:center;"><i data-lucide="video" style="width:22px;height:22px;color:#475569;"></i></div>`}
                     <div style="padding:10px;">
                         <div style="font-weight:900;color:#0f172a;font-size:12px;line-height:1.4;">${it.title}</div>
@@ -7891,7 +7856,7 @@ function openAgendaTab(tabName) {
             const pagination = paginateGedDocuments(paginationKey, items, renderMediaImages);
             grid.innerHTML = pagination.items.map(i => `
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                    <img src="${i.file}" alt="${escapeHtml(i.title)}" loading="lazy" style="display:block;width:100%;height:150px;object-fit:cover;background:#f8fafc;">
+                    <img ${mediaSourceAttributes(i)} alt="${escapeHtml(i.title)}" loading="lazy" style="display:block;width:100%;height:150px;object-fit:cover;background:#f8fafc;">
                     <div style="padding:10px;">
                         <div style="font-weight:900;color:#0f172a;font-size:12px;line-height:1.4;">${i.title}</div>
                         <div style="margin-top:6px;color:var(--text-light);font-size:11px;">${i.category} • ${i.date}</div>
@@ -7944,7 +7909,7 @@ function openAgendaTab(tabName) {
             if (!v || !root) return;
             root.innerHTML = `
                 ${v.mediaKind === 'video'
-                    ? `<video controls preload="metadata" src="${escapeHtml(v.file)}" style="display:block;width:100%;max-height:360px;background:#0f172a;border-radius:8px;"></video>`
+                    ? `<video controls preload="metadata" ${mediaSourceAttributes(v)} style="display:block;width:100%;max-height:360px;background:#0f172a;border-radius:8px;"></video>`
                     : `<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;height:180px;display:flex;align-items:center;justify-content:center;"><i data-lucide="play" style="width:28px;height:28px;color:#475569;"></i></div>`}
                 <div style="margin-top:12px;font-weight:900;color:#0f172a;">${v.title}</div>
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${v.category} • ${v.date}</div>
@@ -8023,8 +7988,8 @@ function openAgendaTab(tabName) {
                 <div style="font-weight:900;color:#0f172a;">${it.title}</div>
                 <div style="margin-top:6px;color:var(--text-light);font-size:12px;">${kind} • ${it.category} • ${it.date}</div>
                 ${isVideo
-                    ? `<video controls preload="metadata" src="${escapeHtml(it.file)}" style="display:block;width:100%;max-height:360px;margin-top:12px;background:#0f172a;border-radius:8px;"></video>`
-                    : `<img src="${escapeHtml(it.file)}" alt="${escapeHtml(it.title)}" style="display:block;width:100%;max-height:420px;object-fit:contain;margin-top:12px;background:#f8fafc;border-radius:8px;">`}
+                    ? `<video controls preload="metadata" ${mediaSourceAttributes(it)} style="display:block;width:100%;max-height:360px;margin-top:12px;background:#0f172a;border-radius:8px;"></video>`
+                    : `<img ${mediaSourceAttributes(it)} alt="${escapeHtml(it.title)}" style="display:block;width:100%;max-height:420px;object-fit:contain;margin-top:12px;background:#f8fafc;border-radius:8px;">`}
                 <div style="margin-top:12px;display:flex;justify-content:flex-end;">
                     <button class="primary-btn" onclick="openMockDownload('${it.file}','${it.title}')">${mediaLabels.consultLabel || ''}</button>
                 </div>
@@ -8544,7 +8509,6 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(getGedFileKind(d.fileName || d.label || d.file))}</div>
                     <div class="doc-info">
                         <div class="doc-title">${d.label}</div>
-                        <div class="doc-meta">${d.file}</div>
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -8757,7 +8721,6 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">${escapeHtml(getGedFileKind(d.fileName || d.label || d.file))}</div>
                     <div class="doc-info">
                         <div class="doc-title">${d.label}</div>
-                        <div class="doc-meta">${d.file}</div>
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -8862,7 +8825,7 @@ function openAgendaTab(tabName) {
                 return;
             }
             const sourceItems = state
-                ? state.documents.map(doc => ({ title: doc.title, label: doc.title, file: doc.file, meta: doc.folderLabel || doc.fileName }))
+                ? state.documents.map(doc => ({ title: doc.title, label: doc.title, file: doc.file, meta: '' }))
                 : staticItems;
             const paginationKey = `km:${pathSuffix}`;
             const pagination = paginateGedDocuments(paginationKey, sourceItems, renderAfterLoad);
@@ -8871,7 +8834,7 @@ function openAgendaTab(tabName) {
                     <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">${escapeHtml(iconLabel)}</div>
                     <div class="doc-info">
                         <div class="doc-title">${escapeHtml(item.title || item.label)}</div>
-                        <div class="doc-meta">${escapeHtml(item.meta || item.file || '')}</div>
+                        ${item.meta ? `<div class="doc-meta">${escapeHtml(item.meta)}</div>` : ''}
                     </div>
                     <i data-lucide="download" style="width:16px;height:16px;color:#94a3b8;"></i>
                 </div>
@@ -9357,13 +9320,32 @@ function openAgendaTab(tabName) {
             renderActuGrid(getFilteredActu());
         }
 
-        function openActuDetail(id) {
+        async function openActuDetail(id) {
             const article = actuData.find(a => a.id === id);
             if (!article) return;
 
+            if (window.CMR_PLATFORM?.news?.loadDetails) {
+                await window.CMR_PLATFORM.news.loadDetails(article);
+            }
+
             const container = document.getElementById('actuDetailContent');
+            const detailImage = article.heroImage || article.image;
+            const articleContent = article.contentHtml
+                ? article.contentHtml
+                : (article.content || []).map(p => `<p>${p}</p>`).join('');
+            const attachments = (article.attachments || []).length
+                ? `<div class="actu-detail-attachments">
+                    <h3>Pièces jointes</h3>
+                    ${(article.attachments || []).map(file => `
+                        <a href="${file.url}" target="_blank" rel="noopener noreferrer" class="actu-detail-attachment">
+                            <i data-lucide="paperclip"></i>
+                            <span>${file.name || 'Pièce jointe'}</span>
+                        </a>
+                    `).join('')}
+                </div>`
+                : '';
             container.innerHTML = `
-                <img class="actu-detail-hero" src="${article.image}" alt="${article.title}" onerror="this.src='${actualitesLabels.fallbackImage || ''}'">
+                <img class="actu-detail-hero" src="${detailImage}" alt="${article.title}" onerror="this.src='${actualitesLabels.fallbackImage || ''}'">
                 <div class="actu-detail-body">
                     <div class="actu-detail-meta-row">
                         <span class="actu-detail-category">${article.category}</span>
@@ -9374,8 +9356,9 @@ function openAgendaTab(tabName) {
                     </div>
                     <h1 class="actu-detail-title">${article.title}</h1>
                     <div class="actu-detail-content">
-                        ${article.content.map(p => `<p>${p}</p>`).join('')}
+                        ${articleContent}
                     </div>
+                    ${attachments}
                 </div>
             `;
 

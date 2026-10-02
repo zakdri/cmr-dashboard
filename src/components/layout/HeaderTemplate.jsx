@@ -1,8 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+import { logout, platformUrl } from "../../services/moovappsPlatform.js";
 
 const getHeaderData = () => window.CMR_DATA?.data?.header || {};
-const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v4";
+const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v5";
+
+function quickLinkHref(item) {
+  const configuredPath = item.configKey
+    ? item.configKey.split(".").reduce((value, key) => value?.[key], window.CMR_PLATFORM_CONFIG)
+    : "";
+  const target = configuredPath || item.href || "#";
+  if (/^(?:https?:)?\/\//i.test(target) || target.startsWith("#")) return target;
+  return platformUrl(target);
+}
 
 function normalizeSearchText(value) {
   return String(value || "")
@@ -60,6 +70,7 @@ function getSavedQuickLinkLabels(items) {
 }
 
 export default function HeaderTemplate() {
+  const [, refreshUser] = useState(0);
   const header = getHeaderData();
   const notifications = header.notifications || {};
   const quickLinks = header.quickLinks || {};
@@ -83,6 +94,12 @@ export default function HeaderTemplate() {
       .slice(0, 8);
   }, [globalSearchEntries, normalizedQuery]);
   const showSearchResults = searchFocused && normalizedQuery.length >= 2;
+
+  useEffect(() => {
+    const handleUserUpdated = () => refreshUser((value) => value + 1);
+    window.addEventListener("cmr:user-updated", handleUserUpdated);
+    return () => window.removeEventListener("cmr:user-updated", handleUserUpdated);
+  }, []);
 
   useEffect(() => {
     const handleQuickAccessUpdated = (event) => {
@@ -127,6 +144,20 @@ export default function HeaderTemplate() {
 
   const selectedQuickLinks = quickLinkItems.filter((item) => selectedQuickLinkLabels.includes(item.label));
   const visibleQuickLinks = selectedQuickLinks.length ? selectedQuickLinks : quickLinkItems;
+
+  function openProfile(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    document.getElementById("userDropdown")?.classList.remove("active");
+    window.switchView?.("profile");
+    window.dispatchEvent(new CustomEvent("cmr:profile-open"));
+  }
+
+  async function handleLogout(event) {
+    event.preventDefault();
+    await logout();
+    window.location.reload();
+  }
 
   return (
     <>
@@ -332,7 +363,7 @@ export default function HeaderTemplate() {
               <div className="quick-links-grid">
                 {visibleQuickLinks.map((item) => (
                   <a
-                    href={item.href}
+                    href={quickLinkHref(item)}
                     target={item.target || undefined}
                     rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
                     className="quick-link-item"
@@ -355,7 +386,9 @@ export default function HeaderTemplate() {
                 runLegacyHandler(event, "toggleDropdown('userDropdown')")
               }
             >
-              <div className="header-avatar">{user.avatar}</div>
+              <div className="header-avatar" style={{ overflow: "hidden" }}>
+                {user.avatarUrl ? <img src={user.avatarUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : user.avatar}
+              </div>
               <span className="header-user-name">{user.name}</span>
               <i
                 data-lucide="chevron-down"
@@ -364,7 +397,7 @@ export default function HeaderTemplate() {
             </div>
             <div className="header-dropdown" id="userDropdown">
               <div className="dropdown-header">Mon Compte</div>
-              <a href="#" className="dropdown-item">
+              <a href="#" className="dropdown-item" onClick={openProfile}>
                 <i data-lucide="user" />
                 Mon Profil
               </a>
@@ -372,7 +405,7 @@ export default function HeaderTemplate() {
                 <i data-lucide="settings" />
                 Paramètres
               </a>
-              <a href="#" className="dropdown-item logout">
+              <a href="#" className="dropdown-item logout" onClick={handleLogout}>
                 <i data-lucide="log-out" />
                 Déconnexion
               </a>

@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 
 const app = fs.readFileSync('src/legacy/app.js', 'utf8');
-const start = app.indexOf('function openResolvedGedDocument(');
+const start = app.indexOf('async function openResolvedGedDocument(');
 const end = app.indexOf('// ====== Preview PDF (', start);
 const opened = [];
 const previews = [];
@@ -21,17 +21,17 @@ const context = vm.createContext({
 vm.runInContext(app.slice(start, end), context);
 
 const name = "Journées d'intégration 2025.pptx";
-for (const prefix of ['http://localhost/cmr-dashboard/', '/cmr-dashboard/', '', './', '../']) {
-  const url = `${prefix}api/documents.php?action=download&protocolUri=uri%3A%2F%2Ffile&fileName=${encodeURIComponent(name)}`;
+for (const prefix of ['http://localhost/moovapps/cmr-dashboard/', '/moovapps/cmr-dashboard/', '', './', '../']) {
+  const url = `${prefix}ged-file/${encodeURIComponent(name)}?protocolUri=uri%3A%2F%2Ffile&download=1`;
   await context.openMockDownload(url, name);
   assert.equal(opened.at(-1)[0], url, 'Navigate to the real binary endpoint');
   assert.equal(opened.at(-1)[2], 'noopener');
 }
 assert.equal(lookups, 0, 'Direct GED URLs do not fall through to demo downloads');
-await context.openMockDownload('/cmr-dashboard/api/documents.php?action=download&fileName=Guide.pdf', 'Guide');
+await context.openMockDownload('/moovapps/cmr-dashboard/ged-file/Guide.pdf?protocolUri=uri%3A%2F%2Fguide', 'Guide');
 assert.equal(previews.length, 1, 'PDF preview is preserved');
 
-resolved = {file: '/api/documents.php?action=download&fileName=Slides.pptx', title: 'Slides'};
+resolved = {file: '/moovapps/cmr-dashboard/ged-file/Slides.pptx?protocolUri=slides&download=1', title: 'Slides'};
 await context.openMockDownload('Slides.pptx', 'Slides');
 assert.equal(opened.at(-1)[0], resolved.file);
 resolved = null;

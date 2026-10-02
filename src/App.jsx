@@ -9,6 +9,17 @@ import { loadLegacyScript } from './legacy/loadLegacyScript.js';
 import { sections } from './sections/index.jsx';
 import { loadApplicationData } from './services/cmrData.js';
 import { renderLucideIcons } from './lucideLocal.js';
+import LoginView from './components/auth/LoginView.jsx';
+import {
+  applyCurrentUser,
+  authenticateRest,
+  checkSession,
+  getCurrentUser,
+  isDemoMode,
+  isTwoFactorEnabled,
+  loadMoovappsNews,
+  verifyCredentials
+} from './services/moovappsPlatform.js';
 
 function ErrorState() {
   return (
@@ -22,30 +33,73 @@ function ErrorState() {
 }
 
 export default function App() {
+  const [authState, setAuthState] = useState('checking');
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
 
-    async function boot() {
+    async function bootAuthenticated() {
       try {
         document.dispatchEvent(new CustomEvent('cmr:page-ready'));
         await loadApplicationData();
+        const demoMode = isDemoMode();
+        const [user] = await Promise.all([
+          demoMode ? null : getCurrentUser(),
+          demoMode ? null : loadMoovappsNews()
+        ]);
         if (cancelled) return;
+        applyCurrentUser(user);
+        setAuthState('authenticated');
         setReady(true);
       } catch (bootError) {
         console.error(bootError);
-        if (!cancelled) setError(bootError);
+        if (!cancelled) {
+          setError(bootError);
+          setAuthState('authenticated');
+        }
       }
     }
 
-    boot();
+    async function boot() {
+      const authDisabled = isDemoMode() || window.CMR_PLATFORM_CONFIG?.auth?.enabled === false;
+      if (authDisabled || await checkSession()) {
+        await bootAuthenticated();
+        return;
+      }
+      if (cancelled) return;
+      setTwoFactorEnabled(await isTwoFactorEnabled());
+      if (!cancelled) setAuthState('login');
+    }
+
+    if (authState === 'checking') boot();
+
+    async function verifyVisibleSession() {
+      if (isDemoMode() || document.visibilityState !== 'visible' || authState !== 'authenticated') return;
+      if (!await checkSession() && !cancelled) {
+        setReady(false);
+        setAuthState('login');
+      }
+    }
+    if (authState === 'authenticated') document.addEventListener('visibilitychange', verifyVisibleSession);
 
     return () => {
       cancelled = true;
+      document.removeEventListener('visibilitychange', verifyVisibleSession);
     };
-  }, []);
+  }, [authState]);
+
+  async function handleLogin(login, password) {
+    const result = await verifyCredentials(login, password);
+    if (![200, 301].includes(result.status)) return { ok: false, status: result.status };
+    await authenticateRest(login, password);
+    setError(null);
+    setReady(false);
+    setAuthState('checking');
+    return { ok: true, status: result.status };
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -75,6 +129,14 @@ export default function App() {
       requestAnimationFrame(() => renderLucideIcons());
     }
   }, [ready, error]);
+
+  if (authState === 'login') {
+    return <LoginView twoFactorEnabled={twoFactorEnabled} onLogin={handleLogin} />;
+  }
+
+  if (authState === 'checking') {
+    return <div className="app-loading" role="status">Chargement de l'intranet...</div>;
+  }
 
   return (
     <>

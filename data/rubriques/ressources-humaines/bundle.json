@@ -32,6 +32,10 @@
         "label": "Demande de formation"
       },
       {
+        "id": "offres-formation",
+        "label": "Offres de formation"
+      },
+      {
         "id": "enquetes",
         "label": "Enquêtes RH"
       }
@@ -210,7 +214,7 @@
                 "content": {
                   "intro": "يضع قسم الرأسمال البشري رهن إشارتكم خلية مواكبة للإجابة على استفساراتكم وتلقي طلبات انخراطكم",
                   "heading": "المسؤول عن خلية المواكبة",
-                  "responsible": "السيدة لمياء كرين، إطار بقسم الرأسمال البشري",
+                  "responsible": "السيدة نعيمة كرس، إطار بقسم الرأسمال البشري",
                   "office": "313",
                   "phone": "1546",
                   "email": "kers@cmr.gov.ma"
@@ -400,6 +404,10 @@
             }
           ]
         }
+      },
+      "offresFormation": {
+        "title": "Offres de formation",
+        "description": "Consultez les offres de formation proposées aux collaborateurs."
       }
     },
     "rhOffresIntro": "Les postes vacants internes restent accessibles avec leur workflow de consultation et de candidature.",

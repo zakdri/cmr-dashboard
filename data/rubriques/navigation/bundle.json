@@ -414,6 +414,10 @@
             "tab": "formation"
           },
           {
+            "label": "Offres de formation",
+            "tab": "offres-formation"
+          },
+          {
             "label": "Enquêtes RH",
             "tab": "enquetes"
           }
