@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import DocumentTypeIcon from "../../components/DocumentTypeIcon.jsx";
 import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 import { GED_ROOT_PATH, joinGedPath, normalizeGedKey, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
@@ -31,7 +32,6 @@ function getCommunicationData() {
 
 function ContentRow({ item, onActivate }) {
   const title = item.title || item.fileName;
-  const kind = (item.kind || item.extension || "DOC").toUpperCase();
   const meta = [item.date, item.meta || item.folderLabel || item.fileName].filter(Boolean).join(" · ");
   const isActionable = Boolean(item.file || onActivate);
   const Row = isActionable ? "button" : "div";
@@ -42,9 +42,7 @@ function ContentRow({ item, onActivate }) {
       className="doc-item"
       onClick={onActivate || (item.file ? (event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.file)},${JSON.stringify(title)})`) : undefined)}
     >
-      <div className={`doc-icon${kind === "PDF" ? " pdf" : ""}`} style={kind === "PDF" ? undefined : { background: "#eff6ff", color: "#256cb5" }}>
-        {kind}
-      </div>
+      <DocumentTypeIcon documentItem={item} size="compact" />
       <div className="doc-info">
         <div className="doc-title">{title}</div>
         <div className="doc-meta">{meta}</div>
@@ -59,6 +57,15 @@ function GedStatus({ state }) {
   if (state.loading) return <p className="empty-state">Chargement des documents Moovapps...</p>;
   if (state.error) return <p className="empty-state">Les documents Moovapps ne sont pas disponibles pour le moment.</p>;
   return null;
+}
+
+function gedTopFolder(item) {
+  return item?.segments?.[0] || String(item?.folderLabel || "").split("/")[0] || "";
+}
+
+function gedYear(item) {
+  const candidates = [item?.year, gedTopFolder(item)];
+  return String(candidates.find((value) => /^\d{4}$/.test(String(value || "").trim())) || "").trim();
 }
 
 function MediaGallery({ items, type, query, state }) {
@@ -182,15 +189,25 @@ export default function CommunicationInterneSection() {
   const detailGedState = useGedDocuments(detailGedPath, { enabled: isViewActive && activeArea === "communication" && Boolean(detail) });
   const photoGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Communication interne", "Médiathèque", "Photothèque"), { enabled: isViewActive && activeArea === "media" });
   const videoGedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Communication interne", "Médiathèque", "Vidéothèque"), { enabled: isViewActive && activeArea === "media" });
-  const years = useMemo(() => ["Tous", ...Array.from(new Set((detail?.items || []).map((item) => item.year)))], [detail]);
   const usesEditorialItems = detail?.id === "flash-info";
   const detailSourceItems = shouldUseDocumentsApi() && !usesEditorialItems ? detailGedState.documents : detail?.items || [];
+  const years = useMemo(() => {
+    const fallbackYears = (detail?.items || []).map((item) => item.year);
+    const gedFolderYears = (detailGedState.folders || []).map(gedYear);
+    const gedDocumentYears = (detailGedState.documents || []).map(gedYear);
+    const sourceYears = shouldUseDocumentsApi() && detail?.filterByYear
+      ? [...gedFolderYears, ...gedDocumentYears]
+      : fallbackYears;
+    const uniqueYears = Array.from(new Set(sourceYears.filter((item) => /^\d{4}$/.test(String(item || "")))))
+      .sort((left, right) => Number(left) - Number(right));
+    return ["Tous", ...uniqueYears];
+  }, [detail, detailGedState.documents, detailGedState.folders]);
   const detailItems = detailSourceItems.filter((item) => {
     const term = query.trim().toLowerCase();
     const haystack = [item.title, item.meta, item.date, item.fileName, item.folderLabel].join(" ").toLowerCase();
-    const documentFolder = item.segments?.[0] || item.folderLabel?.split("/")[0] || "";
+    const documentFolder = gedTopFolder(item);
     const matchesFolder = !detail?.folderFilters || !folder || normalizeGedKey(documentFolder) === normalizeGedKey(folder);
-    const matchesYear = !detail?.filterByYear || year === "Tous" || item.year === year;
+    const matchesYear = !detail?.filterByYear || year === "Tous" || gedYear(item) === year;
     return matchesFolder && matchesYear && (!term || haystack.includes(term));
   });
   const imageExtensions = new Set(["jpg", "jpeg", "png", "gif", "webp", "bmp", "avif", "svg"]);
@@ -223,6 +240,10 @@ export default function CommunicationInterneSection() {
   useEffect(() => {
     window.lucide?.createIcons();
   }, [activeArea, detailId, year, query, mediaType, folder, detailGedState, overviewGedState]);
+
+  useEffect(() => {
+    if (detail?.filterByYear && !years.includes(year)) setYear("Tous");
+  }, [detail, year, years]);
 
   return (
     <div id="view-communication-interne" className="view-section km-container">

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import cmrLoadingLogo from '../images/intranet/cmr-logo-login.png';
 import {
   HeaderTemplate,
   SidebarTemplate,
@@ -10,9 +11,12 @@ import { sections } from './sections/index.jsx';
 import { loadApplicationData } from './services/cmrData.js';
 import { renderLucideIcons } from './lucideLocal.js';
 import LoginView from './components/auth/LoginView.jsx';
+import { installCreationControlGuard } from './services/creationControls.js';
+import { applyFlashInfo, loadFlashInfo } from './services/flashInfo.js';
+import { applyAchatsIndicators, loadAchatsIndicators } from './services/achatsIndicators.js';
+import { applyWorkflowNotifications, loadWorkflowNotifications, openWorkflowNotificationById } from './services/workflowNotifications.js';
 import {
   applyCurrentUser,
-  authenticateRest,
   checkSession,
   getCurrentUser,
   isDemoMode,
@@ -38,6 +42,8 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(null);
 
+  useEffect(() => installCreationControlGuard(), []);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -46,12 +52,33 @@ export default function App() {
         document.dispatchEvent(new CustomEvent('cmr:page-ready'));
         await loadApplicationData();
         const demoMode = isDemoMode();
-        const [user] = await Promise.all([
+        const [user, flashInfo, achatsIndicators, , workflowNotifications] = await Promise.all([
           demoMode ? null : getCurrentUser(),
-          demoMode ? null : loadMoovappsNews()
+          demoMode ? null : loadFlashInfo().catch((loadError) => {
+            console.error('Chargement des Flash Info impossible :', loadError);
+            return [];
+          }),
+          demoMode ? null : loadAchatsIndicators().catch((loadError) => {
+            console.error('Chargement des indicateurs Achats impossible :', loadError);
+            return [];
+          }),
+          demoMode ? null : loadMoovappsNews(),
+          demoMode ? null : loadWorkflowNotifications().catch((loadError) => {
+            console.error('Chargement des notifications workflow impossible :', loadError);
+            return [];
+          })
         ]);
         if (cancelled) return;
+        if (!demoMode && !user) {
+          setReady(false);
+          setAuthState('login');
+          return;
+        }
         applyCurrentUser(user);
+        if (!demoMode) applyFlashInfo(flashInfo);
+        if (!demoMode) applyAchatsIndicators(achatsIndicators);
+        if (!demoMode) applyWorkflowNotifications(workflowNotifications);
+        window.openWorkflowNotificationById = openWorkflowNotificationById;
         setAuthState('authenticated');
         setReady(true);
       } catch (bootError) {
@@ -94,7 +121,6 @@ export default function App() {
   async function handleLogin(login, password) {
     const result = await verifyCredentials(login, password);
     if (![200, 301].includes(result.status)) return { ok: false, status: result.status };
-    await authenticateRest(login, password);
     setError(null);
     setReady(false);
     setAuthState('checking');
@@ -135,7 +161,14 @@ export default function App() {
   }
 
   if (authState === 'checking') {
-    return <div className="app-loading" role="status">Chargement de l'intranet...</div>;
+    return (
+      <div className="app-loading" role="status" aria-label="Chargement de l’intranet">
+        <div className="app-loading-brand" aria-hidden="true">
+          <img src={cmrLoadingLogo} alt="" />
+          <span className="app-loading-progress" />
+        </div>
+      </div>
+    );
   }
 
   return (

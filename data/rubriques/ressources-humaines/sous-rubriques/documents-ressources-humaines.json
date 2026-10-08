@@ -55,31 +55,6 @@
                 "actionIcon": "folder-open"
               }
             ]
-          },
-          {
-            "title": "Chartes RH",
-            "items": [
-              {
-                "title": "Charte Éthique & Déontologie",
-                "description": "Principes d'intégrité et comportements attendus.",
-                "meta": "Consulter",
-                "icon": "shield-check",
-                "iconStyle": {
-                  "background": "#f5f3ff",
-                  "color": "#7c3aed"
-                }
-              },
-              {
-                "title": "Charte RSE",
-                "description": "Engagements sociaux et environnementaux.",
-                "meta": "Consulter",
-                "icon": "leaf",
-                "iconStyle": {
-                  "background": "#ecfdf5",
-                  "color": "#059669"
-                }
-              }
-            ]
           }
         ]
       }

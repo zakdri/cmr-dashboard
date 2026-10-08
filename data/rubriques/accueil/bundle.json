@@ -78,25 +78,29 @@
       "icon": "megaphone",
       "iconClass": "orange",
       "avatar": "DG",
-      "category": "Organisation & Gouvernance",
-      "date": "25 Avril 2026",
-      "headline": "Point d’étape sur la feuille de route 2026",
-      "body": "Chers collaborateurs, je souhaite partager les priorités du trimestre et remercier les équipes mobilisées sur les chantiers de transformation. Retrouvez les décisions clés et les prochaines étapes dans l’espace Organisation & Gouvernance.",
-      "author": "Direction Générale",
-      "organization": "CMR Maroc",
+      "category": "Mot du Directeur",
+      "date": "",
+      "headline": "Bienvenue dans votre nouvel intranet",
+      "body": "J’ai le plaisir de vous accueillir sur la nouvelle version de votre intranet, un outil moderne, dynamique et accessible, conçu pour répondre à vos attentes et faciliter votre quotidien professionnel.",
+      "author": "Le Directeur",
+      "organization": "",
       "markReadLabel": "Marquer comme lu",
       "readLabel": "Lire le message",
       "detail": {
         "dateIcon": "calendar",
         "authorIcon": "user",
         "paragraphs": [
-          "Chers collaborateurs,",
-          "Je souhaite partager les priorités du trimestre et remercier les équipes mobilisées sur les chantiers de transformation. Notre ambition est de renforcer la qualité de service, de moderniser nos outils et d’accélérer la simplification de nos processus.",
-          "Les prochaines semaines seront consacrées au déploiement progressif des évolutions de l’intranet, à la consolidation des référentiels institutionnels et au suivi des décisions des comités."
+          "Chères collaboratrices, chers collaborateurs,",
+          "J’ai le plaisir de vous accueillir sur la nouvelle version de votre intranet, un outil moderne, dynamique et accessible, conçu pour répondre à vos attentes et faciliter votre quotidien professionnel.",
+          "Cette nouvelle plateforme marque une étape importante dans la modernisation de notre environnement de travail et l’amélioration de l’expérience collaborateur au sein de la CMR. Sa conception s’est appuyée sur vos attentes et vos suggestions, avec une priorité : vous proposer un espace utile, intuitif et adapté à vos besoins.",
+          "Vous y trouverez un accès facilité à l’actualité de la CMR, aux informations et aux ressources utiles, ainsi que de nouvelles rubriques et des services permettant d’effectuer certaines démarches professionnelles de manière simple, fluide et dématérialisée.",
+          "Espace commun d’information, de partage et de services, votre intranet vise à simplifier vos interactions et à favoriser une communication plus ouverte et plus collaborative. Il traduit notre volonté de construire une Institution plus agile, plus innovante et attentive à ses collaborateurs.",
+          "Votre intranet est avant tout le vôtre. Vos usages, vos remarques et vos idées contribueront à l’enrichir et à le faire évoluer au plus près de vos attentes. Je vous invite à le découvrir, à vous l’approprier et à le faire vivre ensemble.",
+          "Bienvenue dans votre nouvel intranet, un espace conçu pour vous et appelé à évoluer avec vous."
         ],
         "signature": {
-          "author": "Direction Générale",
-          "organization": "CMR Maroc"
+          "author": "Le Directeur",
+          "organization": ""
         }
       }
     },
@@ -106,7 +110,7 @@
         {
           "label": "Helpdesk",
           "icon": "life-buoy",
-          "url": "http://pc/",
+          "configKey": "externalLinks.helpdesk.url",
           "target": "_blank"
         },
         {
@@ -122,22 +126,15 @@
           "handler": "openSubmenuView('rh','formation'); return false;"
         },
         {
-          "label": "Outlook",
-          "icon": "mail",
-          "url": "https://outlook.office.com/mail/",
-          "target": "_blank"
-        },
-        {
           "label": "Espace PGP",
           "icon": "globe-2",
-          "url": "http://172.17.100.180:8080/moovapps/easysite/pgp",
+          "configKey": "externalLinks.pgp.url",
           "target": "_blank"
         },
         {
           "label": "Workplace",
           "icon": "panels-top-left",
-          "configKey": "services.workplace.path",
-          "url": "/easysite/workplace/",
+          "configKey": "externalLinks.workplace.url",
           "target": "_blank"
         }
       ]
@@ -154,25 +151,25 @@
           {
             "label": "ERSAL",
             "icon": "send",
-            "href": "http://ersal:8080/WERSAL/",
+            "configKey": "externalLinks.ersal.url",
             "background": "#256cb5"
           },
           {
             "label": "CRM",
             "icon": "contact-round",
-            "href": "https://crm.cmr.gov.ma/CRMPROD/main.aspx",
+            "configKey": "externalLinks.crm.url",
             "background": "#256cb5"
           },
           {
             "label": "OPEN TEXT",
             "icon": "folder-open",
-            "href": "https://ged.cmr.intra/",
+            "configKey": "externalLinks.openText.url",
             "background": "#256cb5"
           },
           {
             "label": "HELPDESK",
             "icon": "life-buoy",
-            "href": "http://pc/",
+            "configKey": "externalLinks.helpdesk.url",
             "background": "#256cb5"
           }
         ]
@@ -326,15 +323,6 @@
             "color": "#256cb5",
             "icon": "chevron-right",
             "handler": "switchView('agenda-interne'); return false;"
-          },
-          {
-            "badge": "ALT",
-            "title": "Alertes",
-            "meta": "Infos importantes • À surveiller",
-            "background": "#fff7ed",
-            "color": "#ea580c",
-            "icon": "chevron-right",
-            "handler": "switchView('alertes'); return false;"
           }
         ]
       },
@@ -372,7 +360,6 @@
       },
       {
         "type": "docList",
-        "source": "rhRecentDocuments",
         "title": "Vie RH",
         "icon": "users-round",
         "iconClass": "green",
@@ -380,28 +367,31 @@
         "actionHandler": "switchView('rh'); return false;",
         "items": [
           {
-            "badge": "NEW",
-            "title": "Nominations",
-            "meta": "3 mouvements • Cette semaine",
+            "badge": "CAR",
+            "title": "Ma Carrière",
+            "meta": "Profil et parcours professionnel",
             "background": "#eff6ff",
             "color": "#256cb5",
-            "icon": "chevron-right"
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('rh','carriere'); return false;"
           },
           {
-            "badge": "HR",
-            "title": "Recrutements",
-            "meta": "2 arrivées • Avril 2026",
+            "badge": "DOC",
+            "title": "Documents RH",
+            "meta": "Documents administratifs et référentiels",
             "background": "#f0fdf4",
             "color": "#16a34a",
-            "icon": "chevron-right"
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('rh','documents'); return false;"
           },
           {
-            "badge": "OUT",
-            "title": "Départs",
-            "meta": "1 départ • Mois en cours",
+            "badge": "ENQ",
+            "title": "Enquêtes RH",
+            "meta": "Consulter les enquêtes RH",
             "background": "#fff7ed",
             "color": "#ea580c",
-            "icon": "chevron-right"
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('rh','enquetes'); return false;"
           }
         ]
       },
@@ -443,45 +433,40 @@
         ]
       },
       {
-        "type": "km",
+        "type": "docList",
         "title": "Knowledge Management",
         "icon": "library",
         "iconClass": "blue",
-        "actionLabel": "Explorer",
-        "actionIcon": "compass",
+        "actionLabel": "Voir plus",
+        "actionIcon": "arrow-right",
         "actionHandler": "openSubmenuView('km','referentiels'); return false;",
-        "tabs": [
+        "items": [
           {
-            "id": "referentiels",
-            "label": "Référentiels",
-            "items": [
-              {
-                "badge": "PDF",
-                "badgeClass": "pdf",
-                "title": "Guide des indicateurs de retraite",
-                "meta": "Référentiels métiers • Version 2026",
-                "icon": "download"
-              },
-              {
-                "badge": "XLS",
-                "badgeClass": "xls",
-                "title": "Procédure SSO & accès",
-                "meta": "Référentiels SI • Mis à jour",
-                "icon": "download"
-              },
-              {
-                "badge": "DOC",
-                "badgeClass": "doc",
-                "title": "Charte KM – bonnes pratiques",
-                "meta": "Structuration • Semaine dernière",
-                "icon": "download"
-              }
-            ]
+            "badge": "REF",
+            "title": "Référentiels métiers",
+            "meta": "Guides, procédures et référentiels",
+            "background": "#eff6ff",
+            "color": "#256cb5",
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('km','referentiels'); return false;"
           },
           {
-            "id": "rex",
-            "label": "REX",
-            "items": []
+            "badge": "GLO",
+            "title": "Glossaire",
+            "meta": "Termes et définitions métiers",
+            "background": "#f0fdf4",
+            "color": "#16a34a",
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('km','glossaire'); return false;"
+          },
+          {
+            "badge": "REX",
+            "title": "REX",
+            "meta": "Retours d’expérience",
+            "background": "#fff7ed",
+            "color": "#ea580c",
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('km','rex'); return false;"
           }
         ]
       },
@@ -687,7 +672,7 @@
         ]
       },
       "birthdays": {
-        "title": "Anniversaires",
+        "title": "Anniversaires professionnels",
         "icon": "cake",
         "iconStyle": {
           "background": "linear-gradient(135deg, #ec4899, #db2777)"

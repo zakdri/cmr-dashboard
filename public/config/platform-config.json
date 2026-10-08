@@ -1,14 +1,76 @@
 {
   "_readme": "Configuration propre à chaque environnement. Ce fichier est lu au démarrage et peut être modifié sur le serveur sans reconstruire l'application.",
   "platform": {
-    "_comment": "Contexte racine de la plateforme Moovapps.",
+    "_comment": "Contexte racine de la plateforme Moovapps. baseUrl vide utilise le serveur courant; backendPort vide désactive la redirection de port.",
+    "baseUrl": "",
+    "backendPort": 8080,
     "contextPath": "/moovapps"
+  },
+  "endpoints": {
+    "_comment": "Routes techniques Moovapps. Elles peuvent être adaptées par environnement sans reconstruire l'application.",
+    "authSession": "/navigation/auth/iau",
+    "authTwoFactor": "/navigation/auth/2FA",
+    "authVerify": "/navigation/auth/verify",
+    "authLogout": "/navigation/auth/logout",
+    "currentUser": "/navigation/users/me",
+    "updateCurrentUser": "/navigation/users/me/update",
+    "flow": "/navigation/flow",
+    "sessionApiBase": "/navigation/api/v3",
+    "sessionWorkflowViews": "/workflows/views",
+    "workflowNotifications": "/workflowcmd?module=workflow&cmd=cmd&flowmode=json",
+    "sessionFileUpload": "/files",
+    "sessionFileDownload": "/files",
+    "portalBase": "/portal",
+    "newsList": "/navigation/news",
+    "newsDetails": "/navigation/news/details",
+    "sessionDataUniverse": "/datauniverse"
   },
   "ged": {
     "_comment": "URI de protocole de la bibliothèque documentaire Moovapps.",
-    "libraryProtocolUri": "uri://vdoc/datastore/036-000002-000"
+    "libraryProtocolUri": "uri://vdoc/datastore/036-000002-000",
+    "rootPath": "Intranet CMR",
+    "repositoryRootPath": "/DefaultOrganization/GED"
+  },
+  "externalLinks": {
+    "_comment": "Liens des accès rapides et des applications externes. Les URL peuvent être modifiées sans reconstruire l'application.",
+    "helpdesk": { "url": "http://pc/" },
+    "outlook":  { "url": "https://outlook.office.com/mail/" },
+    "pgp":      { "url": "/moovapps/easysite/pgp" },
+    "workplace": { "url": "/easysite/workplace/" },
+    "ersal":    { "url": "http://ersal:8080/WERSAL/" },
+    "crm":      { "url": "https://crm.cmr.gov.ma/CRMPROD/main.aspx" },
+    "openText": { "url": "https://ged.cmr.intra/" },
+    "gestionPresence": { "url": "https://gestiontempspresence/" },
+    "attakmili": { "url": "http://attakmili/login" },
+    "infirmite": { "url": "https://infirmite.cmr.gov.ma/" },
+    "portailCmr": { "url": "https://www.cmr.gov.ma/Portal/" },
+    "bpmMoovapps": { "url": "http://172.17.100.180/moovapps/easysite/workplace" },
+    "pwa": { "url": "https://cmrmaroc.sharepoint.com/sites/pwa/Projects.aspx" },
+    "teams": { "url": "#" },
+    "oneDrive": { "url": "#" },
+    "glpi": { "url": "#" },
+    "sage": { "url": "#" },
+    "achats": { "url": "#" },
+    "filesAttente": {
+      "rabat": { "url": "http://172.17.100.190:8080/login.jsp;JSESSIONID=7a09a1ef-eb67-4f78-b7fe-36101b8eeb6b" },
+      "casablanca": { "url": "http://172.16.7.200:18080/login.jsp;JSESSIONID=339ae924-0ef1-4aa5-80f5-bb61bc319a64" },
+      "tetouan": { "url": "http://172.16.2.200:18080/login.jsp" },
+      "oujda": { "url": "http://172.16.3.200:18080/" },
+      "errachidia": { "url": "http://172.16.12.200:18080/login.jsp" },
+      "fes": { "url": "http://172.16.4.200:18080/login.jsp" },
+      "marrakech": { "url": "http://172.16.6.200:18080/login.jsp" },
+      "agadir": { "url": "http://172.16.11.200:18080/login.jsp" },
+      "laayoune": { "url": "http://172.16.10.200:18080/login.jsp" },
+      "beniMellal": { "url": "http://172.16.15.202:18080/login.jsp" },
+      "sale": { "url": "http://172.16.13.202:18080/login.jsp" }
+    }
   },
   "textSpaces": {
+    "quote":     { "id": "502646", "viewId": "502647", "transport": "session" },
+    "birthdays": { "id": "502499", "viewId": "504808", "transport": "session" },
+    "infoexpress": { "id": "502920", "viewId": "505992", "transport": "session" },
+    "flashinfo": { "id": "502447", "viewId": "524425", "transport": "session" },
+    "achatsindicators": { "id": "502725", "viewId": "524476", "transport": "session" },
     "faq":       { "id": "502641", "viewId": "506232", "transport": "session" },
     "ideas":     { "id": "502597", "viewId": "506339", "transport": "session" },
     "reports":   { "id": "502774", "viewId": "503728", "transport": "session" },
@@ -16,9 +78,6 @@
     "direction": { "id": "502852", "viewId": "504804", "transport": "session" }
   },
   "services": {
-    "workplace": {
-      "path": "/easysite/workplace/"
-    },
     "rh": {
       "offres":    { "path": "/easysite/workplace/applications/application-appel-a-candidature-interne-0/index" },
       "mobilite":  { "path": "/easysite/workplace/applications/application-demande-de-mobilite-spontanee-0/index" },
@@ -33,7 +92,11 @@
       "publication-attribution": { "path": "/easysite/workplace/applications/application-lancement-et-suivi-des-achats-0/index" }
     },
     "admin": {
-      "cms": { "path": "/easysite/workplace/applications/application-gestion-di-contenu-0" }
+      "cms": { "path": "/easysite/workplace/applications/gestion-di-contenu/index" },
+      "espaceDocumentaire": {
+        "_comment": "Lien ged",
+        "path": "/easysite/workplace/custom/espace-intranet/intranet-cmr"
+      }
     }
   },
   "innovationSpaces": {

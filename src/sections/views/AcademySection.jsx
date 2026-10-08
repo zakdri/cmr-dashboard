@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import DocumentTypeIcon from "../../components/DocumentTypeIcon.jsx";
 import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 import {
@@ -9,6 +10,7 @@ import {
   shouldUseDocumentsApi,
 } from "../../services/gedDocuments.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
+import { preloadGedMedia } from "../../services/moovappsPlatform.js";
 
 function getAcademyData() {
   const data = window.CMR_DATA?.data || {};
@@ -23,12 +25,11 @@ function DocCard({ item }) {
   return (
     <button
       type="button"
-      className="doc-card static-card academy-doc-card"
+      className={`doc-card academy-doc-card${item.file ? " is-clickable" : " static-card"}`}
+      disabled={!item.file}
       onClick={item.file ? (event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.file)},${JSON.stringify(item.title)})`) : undefined}
     >
-      <div className="doc-icon-large" style={{ background: "#eff6ff", color: "#2563eb" }}>
-        <i data-lucide={item.icon || "file-text"} style={{ width: 24, height: 24 }} />
-      </div>
+      <DocumentTypeIcon documentItem={item} />
       <div className="doc-card-title">{item.title}</div>
       {item.description ? <p style={{ fontSize: 12, color: "var(--text-light)" }}>{item.description}</p> : null}
       {item.meta ? <div className="doc-card-meta"><span>{item.meta}</span><i data-lucide="download" style={{ width: 16 }} /></div> : null}
@@ -54,6 +55,12 @@ function MentoringItem({ item, onPreview }) {
   const isImage = onboardingImagePattern.test(item.fileName || item.title || "");
   if (!isImage) return <DocCard item={item} />;
   return <AcademyImageItem item={item} className="academy-mentoring-media" onPreview={onPreview} />;
+}
+
+function GuideItem({ item, onPreview }) {
+  const isImage = onboardingImagePattern.test(item.fileName || item.title || "");
+  if (!isImage) return <DocCard item={item} />;
+  return <AcademyImageItem item={item} className="academy-guide-media" onPreview={onPreview} />;
 }
 
 function AcademyImagePreview({ items, index, onChange, onClose }) {
@@ -280,6 +287,7 @@ function OnboardingPage({ page, documents, loading, apiEnabled }) {
   const [query, setQuery] = useState("");
   const [selectedDayTitle, setSelectedDayTitle] = useState("");
   const [activeGalleryYear, setActiveGalleryYear] = useState("");
+  const [guidePreviewIndex, setGuidePreviewIndex] = useState(null);
   const [mentorPreviewIndex, setMentorPreviewIndex] = useState(null);
   const term = query.trim().toLowerCase();
   const filterItems = (items = []) =>
@@ -290,6 +298,7 @@ function OnboardingPage({ page, documents, loading, apiEnabled }) {
   const guides = apiEnabled
     ? apiDocuments.filter((item) => !normalizeGedKey(item.intranetPath).includes("mentor") && !isOnboardingDayDocument(item))
     : filterItems(page.guides);
+  const guideImages = guides.filter((item) => onboardingImagePattern.test(item.fileName || item.title || ""));
   const allDays = apiEnabled ? buildOnboardingDays(documents) : filterItems(page.days);
   const days = allDays.filter((item) =>
     [item.title, item.description].join(" ").toLowerCase().includes(term),
@@ -303,6 +312,7 @@ function OnboardingPage({ page, documents, loading, apiEnabled }) {
   const activeGallery = galleryYears.find((day) => day.title === activeGalleryYear) || galleryYears[0] || {};
 
   useEffect(() => {
+    setGuidePreviewIndex(null);
     setMentorPreviewIndex(null);
   }, [query]);
 
@@ -322,7 +332,15 @@ function OnboardingPage({ page, documents, loading, apiEnabled }) {
         <p>{page.guidesDescription}</p>
         <div className="academy-doc-grid academy-doc-row-scroll">
           <PaginatedDocuments items={guides} resetKey={query}>
-            {(visibleDocuments) => visibleDocuments.map((item) => <DocCard item={item} key={item.protocolUri || item.title} />)}
+            {(visibleDocuments) => visibleDocuments.map((item) => (
+              <GuideItem
+                item={item}
+                key={item.protocolUri || item.title}
+                onPreview={onboardingImagePattern.test(item.fileName || item.title || "")
+                  ? () => setGuidePreviewIndex(guideImages.indexOf(item))
+                  : undefined}
+              />
+            ))}
           </PaginatedDocuments>
           {apiEnabled && guides.length === 0 ? <EmptyDocuments loading={loading} /> : null}
         </div>
@@ -398,6 +416,12 @@ function OnboardingPage({ page, documents, loading, apiEnabled }) {
         ) : <EmptyDocuments loading={apiEnabled && loading} />}
       </div>
       <AcademyImagePreview
+        items={guideImages}
+        index={guidePreviewIndex}
+        onChange={setGuidePreviewIndex}
+        onClose={() => setGuidePreviewIndex(null)}
+      />
+      <AcademyImagePreview
         items={mentoringImages}
         index={mentorPreviewIndex}
         onChange={setMentorPreviewIndex}
@@ -441,6 +465,38 @@ function DomainPage({ id, page, documents, loading, apiEnabled }) {
   const documentContents = id === "levelup"
     ? contents.filter((item) => !mediaContents.includes(item))
     : contents;
+
+  useEffect(() => {
+    if (id !== "levelup" || !apiEnabled) return undefined;
+
+    const pendingImages = documents
+      .filter((item) => item.protocolUri && onboardingImagePattern.test(item.fileName || item.title || item.file || ""))
+      .sort((left, right) => Number(right.segments?.[1] === effectiveSelected) - Number(left.segments?.[1] === effectiveSelected));
+    let cancelled = false;
+    let nextIndex = 0;
+
+    const preloadNext = async () => {
+      while (!cancelled && nextIndex < pendingImages.length) {
+        const item = pendingImages[nextIndex];
+        nextIndex += 1;
+        try {
+          await preloadGedMedia(item.protocolUri, item.fileName || item.title);
+        } catch {
+          // The normal media resolver will retry if a background preload fails.
+        }
+      }
+    };
+
+    const workers = Array.from(
+      { length: Math.min(3, pendingImages.length) },
+      () => preloadNext(),
+    );
+    Promise.all(workers).catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id, apiEnabled, documents, effectiveSelected]);
 
   return (
     <div id={`page-academy-${id}`} className="km-tab-content" style={{ display: "none" }}>
@@ -499,8 +555,9 @@ function DomainPage({ id, page, documents, loading, apiEnabled }) {
                 return (
                   <button
                     type="button"
-                    className="doc-card static-card academy-doc-card"
+                    className={`doc-card academy-doc-card${item.file ? " is-clickable" : " static-card"}`}
                     key={item.protocolUri || item.title}
+                    disabled={!item.file}
                     onClick={item.file ? (event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(item.file)},${JSON.stringify(item.title)})`) : undefined}
                   >
                     <div className="doc-icon-large" style={{ background: "#f0fdf4", color: "#16a34a" }}>

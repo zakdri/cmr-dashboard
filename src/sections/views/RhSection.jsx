@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
+import DocumentTypeIcon from "../../components/DocumentTypeIcon.jsx";
+import LucideIcon from "../../components/LucideIcon.jsx";
 import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { FormationPage } from "./AcademySection.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
@@ -31,7 +33,7 @@ function SectionIntro({ text }) {
 function IconBox({ icon = "file-text", style }) {
   return (
     <div className="doc-icon-large" style={style}>
-      <i data-lucide={icon} style={{ width: 24, height: 24 }} />
+      <LucideIcon name={icon} style={{ width: 24, height: 24 }} />
     </div>
   );
 }
@@ -42,8 +44,7 @@ function GedDocumentCard({ documentItem }) {
     <SimpleCard
       item={{
         title,
-        icon: "file-text",
-        iconStyle: { background: "#eff6ff", color: "#2563eb" },
+        documentItem,
         actionIcon: "download",
       }}
       onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(documentItem.file)},${JSON.stringify(title)})`)}
@@ -54,7 +55,7 @@ function GedDocumentCard({ documentItem }) {
 function SimpleCard({ item, onClick }) {
   return (
     <div className={`doc-card${onClick ? "" : " static-card"}`} onClick={onClick}>
-      <IconBox icon={item.icon} style={item.iconStyle} />
+      <DocumentTypeIcon documentItem={item.documentItem || item} />
       <div className="doc-card-title">{item.title}</div>
       {item.description ? <p style={{ fontSize: 12, color: "var(--text-light)" }}>{item.description}</p> : null}
       {item.meta || item.action ? (
@@ -117,8 +118,32 @@ function CareerAttachment({ attachment }) {
 
 function CareerPage({ page, active }) {
   const profile = page.profile || {};
+  const [currentUser, setCurrentUser] = useState(() => window.CMR_CURRENT_USER || null);
   const [openStep, setOpenStep] = useState(page.pathSteps?.[0]?.title || "");
   const gedState = useGedDocuments(joinGedPath(GED_ROOT_PATH, "Mes Services RH", "Ma Carrière"), { enabled: active });
+  useEffect(() => {
+    const handleUserUpdated = (event) => setCurrentUser(event.detail?.user || window.CMR_CURRENT_USER || null);
+    window.addEventListener("cmr:user-updated", handleUserUpdated);
+    return () => window.removeEventListener("cmr:user-updated", handleUserUpdated);
+  }, []);
+  const fallbackFields = Object.fromEntries((profile.fields || []).map((field) => [field.label, field.value]));
+  const profileFields = currentUser
+    ? [
+        {
+          label: "Nom",
+          value: currentUser.fullName
+            || currentUser.displayName
+            || `${currentUser.firstName || ""} ${currentUser.lastName || ""}`.trim()
+            || "Non renseigné",
+        },
+        { label: "Poste", value: currentUser.poste || currentUser.Poste || currentUser.function || "Non renseigné" },
+        { label: "Affectation", value: currentUser.affectation || currentUser.Affectation || "Non renseignée" },
+      ]
+    : [
+        { label: "Nom", value: window.CMR_DATA?.data?.header?.user?.name || "Utilisateur" },
+        { label: "Poste", value: fallbackFields.Poste || "Non renseigné" },
+        { label: "Affectation", value: fallbackFields.Affectation || "Non renseignée" },
+      ];
   const gedByFolder = useMemo(() => {
     const map = new Map();
     gedState.documents.forEach((doc) => {
@@ -141,14 +166,13 @@ function CareerPage({ page, active }) {
             </div>
           </div>
           <div style={{ display: "grid", gap: 10, marginTop: 18, textAlign: "left" }}>
-            {(profile.fields || []).map((field) => (
+            {profileFields.map((field) => (
               <div className="rh-profile-field" key={field.label}>
                 <strong>{field.label}</strong>
                 <span>{field.value}</span>
               </div>
             ))}
           </div>
-          <button className="primary-btn rh-profile-action">{profile.action}</button>
         </div>
 
         <div className="content-card rh-path-card">
@@ -197,9 +221,10 @@ function DocumentsPage({ page, active }) {
   const sourceCategories = shouldUseDocumentsApi()
     ? mergeDocumentsIntoGroups(page.categories || [], gedState.documents, { fallbackLabel: "Documents RH" })
     : (page.categories || []);
-  const categories = sourceCategories.map((category) => ({
+  const categories = sourceCategories
+    .filter((category) => !["chartes", "chartes rh"].includes(normalizeGedKey(category.title)))
+    .map((category) => ({
       ...category,
-      title: normalizeGedKey(category.title) === normalizeGedKey("Chartes RH") ? "Chartes" : category.title,
       items: (category.items || []).filter((item) =>
         [item.title, item.description, item.meta, item.fileName, item.folderLabel].join(" ").toLowerCase().includes(term),
       ),
@@ -558,7 +583,7 @@ function EnquetesPage({ page }) {
               <p style={{ color: "var(--text-light)" }}>{detail.longDescription}</p>
               <div className="doc-card-meta">
                 <span>{detail.theme}</span>
-                <a href={detail.accessUrl || "#"}>{detail.accessLabel}</a>
+                <a href={detail.accessUrl || "#"} target="_blank" rel="noopener noreferrer">{detail.accessLabel}</a>
               </div>
             </>
           ) : <p className="empty-state">Sélectionnez une enquête disponible.</p>}

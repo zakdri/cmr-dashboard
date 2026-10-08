@@ -42,6 +42,7 @@ export default function AdminSection() {
   const { header, cards, labels, profiles, scopes, logFilters } = getAdminData();
   const isViewActive = useViewActive("admin");
   const cmsPath = window.CMR_PLATFORM_CONFIG?.services?.admin?.cms?.path || "";
+  const espaceDocumentairePath = window.CMR_PLATFORM_CONFIG?.services?.admin?.espaceDocumentaire?.path || "";
   const comptes = cards.comptes || {};
   const roles = cards.roles || {};
   const acces = cards.acces || {};
@@ -212,6 +213,10 @@ export default function AdminSection() {
 
         <div id="page-admin-cms" className="km-tab-content" style={{ display: "block" }}>
           <PlatformServiceFrame path={cmsPath} title="Contenus (CMS)" active={isViewActive} />
+        </div>
+
+        <div id="page-admin-espace-documentaire" className="km-tab-content" style={{ display: "none" }}>
+          <PlatformServiceFrame path={espaceDocumentairePath} title="Espace documentaire" active={isViewActive} />
         </div>
 
         <div id="page-admin-securite" className="km-tab-content" style={{ display: "none" }}>

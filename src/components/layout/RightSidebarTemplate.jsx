@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
+import { isDemoMode, listTextContent } from "../../services/moovappsPlatform.js";
+import { loadBirthdayPeople } from "../../services/birthdays.js";
+import { loadInfoExpress } from "../../services/infoExpress.js";
 
 const getRightSidebarData = () =>
   window.CMR_DATA?.data?.dashboardRightSidebar || {};
@@ -204,13 +207,70 @@ function CmrAgendaItem({ item }) {
 export default function RightSidebarTemplate() {
   const rightSidebar = getRightSidebarData();
   const quote = rightSidebar.quote || {};
+  const [quoteText, setQuoteText] = useState(quote.text || "");
   const mood = rightSidebar.mood || {};
   const agenda = rightSidebar.agenda || {};
   const birthdays = rightSidebar.birthdays || {};
+  const demoBirthdayPeople = (birthdays.items || []).map((item, index) => ({
+    id: `demo-birthday-${index}`,
+    name: item.name,
+    affectation: String(item.role || "").split("•").slice(1).join("•").trim(),
+  }));
+  const [birthdayPeople, setBirthdayPeople] = useState(isDemoMode() ? demoBirthdayPeople : []);
   const flashInfo = rightSidebar.flashInfo || {};
+  const demoInfoExpress = flashInfo.subject
+    ? [{ id: "demo-info-express", title: flashInfo.subject }]
+    : [];
+  const [infoExpressItems, setInfoExpressItems] = useState(isDemoMode() ? demoInfoExpress : []);
   const agendaTabs = agenda.tabs || [];
   const personalTab = agendaTabs.find((tab) => tab.id === "perso") || {};
   const cmrTab = agendaTabs.find((tab) => tab.id === "cmr") || {};
+
+  useEffect(() => {
+    let cancelled = false;
+    if (isDemoMode()) return undefined;
+
+    listTextContent("quote")
+      .then(({ data }) => {
+        const currentQuote = (data || []).find((item) => String(item?.sys_Title || "").trim());
+        if (!cancelled && currentQuote) setQuoteText(String(currentQuote.sys_Title));
+      })
+      .catch((error) => console.error("Citation hebdomadaire Moovapps indisponible :", error));
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (isDemoMode()) return undefined;
+
+    loadInfoExpress()
+      .then((items) => {
+        if (!cancelled) setInfoExpressItems(items);
+      })
+      .catch((error) => console.error("Info Express Moovapps indisponible :", error));
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (isDemoMode()) return undefined;
+
+    loadBirthdayPeople()
+      .then((people) => {
+        if (!cancelled) setBirthdayPeople(people);
+      })
+      .catch((error) => console.error("Anniversaires Moovapps indisponibles :", error));
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <>
@@ -230,7 +290,7 @@ export default function RightSidebarTemplate() {
               display: "block",
             }}
           >
-            {quote.text}
+            {quoteText}
           </div>
         </div>
 
@@ -287,9 +347,7 @@ export default function RightSidebarTemplate() {
           <div style={tabWrapperStyle}>
             <button
               id={personalTab.buttonId}
-              onClick={(event) =>
-                runLegacyHandler(event, "openAgendaTab('perso')")
-              }
+              onClick={(event) => runLegacyHandler(event, "openAgendaTab('perso')")}
               className="agenda-tab-btn active"
               style={activeTabStyle}
             >
@@ -309,10 +367,7 @@ export default function RightSidebarTemplate() {
             style={{ display: "flex", flexDirection: "column", gap: 12 }}
           >
             {(agenda.personalItems || []).map((item) => (
-              <PersonalAgendaItem
-                item={item}
-                key={`${item.time}-${item.title}`}
-              />
+              <PersonalAgendaItem item={item} key={`${item.time}-${item.title}`} />
             ))}
           </div>
           <div
@@ -331,24 +386,35 @@ export default function RightSidebarTemplate() {
             {birthdays.title}
           </div>
           <div className="team-list" style={{ gap: 16 }}>
-            {(birthdays.items || []).map((item) => (
-              <div className="team-member" style={birthdayCardStyle} key={item.name}>
+            {birthdayPeople.slice(0, 2).map((person) => (
+              <div className="team-member" style={birthdayCardStyle} key={person.id}>
                 <div className="member-avatar" style={birthdays.avatarStyle}>
                   <i data-lucide={birthdays.avatarIcon} style={iconSize20} />
                 </div>
                 <div className="member-info">
                   <span className="member-name" style={{ fontSize: 15 }}>
-                    {item.name}
+                    {person.name}
                   </span>
                   <span
                     className="member-role"
                     style={{ color: "#f59e0b", fontWeight: 700 }}
                   >
-                    {item.role}
+                    Aujourd&apos;hui{person.affectation ? ` • ${person.affectation}` : ""}
                   </span>
                 </div>
               </div>
             ))}
+            {birthdayPeople.length > 2 ? (
+              <button
+                type="button"
+                className="secondary-btn"
+                onClick={(event) => runLegacyHandler(event, "switchView('birthdays')")}
+                style={{ width: "100%", justifyContent: "center" }}
+              >
+                Voir plus
+                <i data-lucide="arrow-right" style={iconSize12} />
+              </button>
+            ) : null}
           </div>
         </div>
 
@@ -360,9 +426,23 @@ export default function RightSidebarTemplate() {
               {flashInfo.badge}
             </span>
           </div>
-          <div className="flash-content-box">
-            <div className="flash-subject">{flashInfo.subject}</div>
-            <div className="flash-desc">{flashInfo.description}</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {infoExpressItems.slice(0, 2).map((item) => (
+              <div className="flash-content-box" key={item.id}>
+                <div className="flash-subject">{item.title}</div>
+              </div>
+            ))}
+            {infoExpressItems.length > 2 ? (
+              <button
+                type="button"
+                className="secondary-btn"
+                onClick={(event) => runLegacyHandler(event, "switchView('info-express')")}
+                style={{ width: "100%", justifyContent: "center" }}
+              >
+                Voir plus
+                <i data-lucide="arrow-right" style={iconSize12} />
+              </button>
+            ) : null}
           </div>
         </div>
       </aside>

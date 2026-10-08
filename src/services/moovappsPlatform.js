@@ -2,7 +2,6 @@ const DEFAULT_LIBRARY_PROTOCOL_URI = "uri://vdoc/datastore/036-000002-000";
 const DEFAULT_GED_ROOT_PATH = "Intranet CMR";
 const FOLDER_CACHE_KEY = "cmr-ged-folder-uris:v1";
 const FOLDER_CACHE_MAX_AGE = 24 * 60 * 60 * 1000;
-const REST_TOKEN_KEY = "cmr-rest-token:v1";
 const MAX_UPLOAD_SIZE = 25 * 1024 * 1024;
 const GED_MEDIA_SELECTOR = [
   'img[src*="ged-file/"]',
@@ -11,11 +10,34 @@ const GED_MEDIA_SELECTOR = [
   'source[src*="ged-file/"]',
   '[data-ged-media-uri]',
 ].join(",");
+const DEFAULT_ENDPOINTS = {
+  authSession: "/navigation/auth/iau",
+  authTwoFactor: "/navigation/auth/2FA",
+  authVerify: "/navigation/auth/verify",
+  authLogout: "/navigation/auth/logout",
+  currentUser: "/navigation/users/me",
+  updateCurrentUser: "/navigation/users/me/update",
+  flow: "/navigation/flow",
+  sessionApiBase: "/navigation/api/v3",
+  sessionWorkflowViews: "/workflows/views",
+  workflowNotifications: "/workflowcmd?module=workflow&cmd=cmd&flowmode=json",
+  sessionFileUpload: "/files",
+  sessionFileDownload: "/files",
+  portalBase: "/portal",
+  newsList: "/navigation/news",
+  newsDetails: "/navigation/news/details",
+  sessionDataUniverse: "/datauniverse",
+};
 const gedMediaObjectUrlCache = new Map();
 const gedMediaObjectUrls = new Set();
 let gedMediaObserver = null;
 
 const DEFAULT_TEXT_SPACES = {
+  quote: { id: "502646", viewId: "502647", transport: "session", fields: ["sys_Title"], required: ["sys_Title"] },
+  birthdays: { id: "502499", viewId: "504808", transport: "session", fields: ["sys_Title", "Affectation"], required: ["sys_Title"] },
+  infoexpress: { id: "502920", viewId: "505992", transport: "session", fields: ["sys_Title"], required: ["sys_Title"] },
+  flashinfo: { id: "502447", viewId: "524425", transport: "session", fields: ["sys_Title", "Image", "Description"], required: ["sys_Title"] },
+  achatsindicators: { id: "502725", viewId: "524476", transport: "session", fields: ["sys_Title", "Valeur"], required: ["sys_Title", "Valeur"] },
   faq: { id: "121", viewId: "814", transport: "session", fields: ["sys_Title", "Reponse"], required: ["sys_Title", "Reponse"] },
   ideas: { id: "120", viewId: "816", transport: "session", fields: ["sys_Title", "Description", "Qualite"], required: ["sys_Title", "Description", "Qualite"] },
   reports: { id: "123", viewId: "807", transport: "session", fields: ["sys_Title", "Type", "Description"], required: ["sys_Title", "Type", "Description"] },
@@ -66,9 +88,6 @@ const DEFAULT_INNOVATION_SPACES = {
   },
 };
 
-let authenticationDialog = null;
-let authenticationRetryAfter = 0;
-
 export const AUTH_STATUS = {
   SUCCESS: 200,
   INVALID_CREDENTIALS: 401,
@@ -87,9 +106,33 @@ export class PlatformApiError extends Error {
 }
 
 export function platformBaseUrl() {
-  const configured = window.CMR_PLATFORM_CONFIG?.platform?.contextPath;
-  const contextPath = configured || `/${window.location.pathname.split("/").filter(Boolean)[0] || ""}`;
+  const platformConfig = window.CMR_PLATFORM_CONFIG?.platform || {};
+  const configuredBaseUrl = String(platformConfig.baseUrl || "").trim();
+  if (configuredBaseUrl) {
+    try {
+      return new URL(configuredBaseUrl, window.location.origin).toString().replace(/\/+$/, "");
+    } catch {
+      console.warn("URL de plateforme Moovapps invalide :", configuredBaseUrl);
+    }
+  }
+  const contextPath = platformConfig.contextPath || `/${window.location.pathname.split("/").filter(Boolean)[0] || ""}`;
   return `${window.location.origin}${String(contextPath).replace(/\/$/, "")}`;
+}
+
+export function ensurePlatformOrigin() {
+  if (isDemoMode()) return false;
+  const platformConfig = window.CMR_PLATFORM_CONFIG?.platform || {};
+  const backendPort = Object.prototype.hasOwnProperty.call(platformConfig, "backendPort")
+    ? String(platformConfig.backendPort ?? "").trim()
+    : "8080";
+  const contextPath = `/${String(platformConfig.contextPath || "/moovapps").replace(/^\/+|\/+$/g, "")}`;
+  const dashboardPath = `${contextPath}/cmr-dashboard`;
+  if (!backendPort || window.location.port === backendPort || !window.location.pathname.startsWith(dashboardPath)) return false;
+
+  const target = new URL(window.location.href);
+  target.port = backendPort;
+  window.location.replace(target.toString());
+  return true;
 }
 
 export function isDemoMode() {
@@ -98,7 +141,67 @@ export function isDemoMode() {
 }
 
 export function platformUrl(path) {
-  return `${platformBaseUrl()}${path.startsWith("/") ? "" : "/"}${path}`;
+  const target = String(path || "");
+  if (/^https?:\/\//i.test(target)) return target;
+  return `${platformBaseUrl()}${target.startsWith("/") ? "" : "/"}${target}`;
+}
+
+function configuredValue(path, fallback = "") {
+  const keys = String(path || "").split(".").filter(Boolean);
+  if (!keys.length) return fallback;
+  const value = keys
+    .reduce((current, key) => current?.[key], window.CMR_PLATFORM_CONFIG);
+  return value === undefined || value === null || value === "" ? fallback : value;
+}
+
+export function configuredLink(configKey, fallback = "#") {
+  const target = String(configuredValue(configKey, fallback) || fallback);
+  if (/^(?:https?:)?\/\//i.test(target) || target.startsWith("#")) return target;
+  const contextPath = `/${String(window.CMR_PLATFORM_CONFIG?.platform?.contextPath || "/moovapps").replace(/^\/+|\/+$/g, "")}`;
+  if (target === contextPath || target.startsWith(`${contextPath}/`)) return `${window.location.origin}${target}`;
+  return platformUrl(target);
+}
+
+function endpoint(name) {
+  const fallback = String(name || "").split(".").filter(Boolean)
+    .reduce((current, key) => current?.[key], DEFAULT_ENDPOINTS) || "";
+  return String(configuredValue(`endpoints.${name}`, fallback));
+}
+
+function endpointWithSuffix(name, suffix = "") {
+  return `${endpoint(name).replace(/\/+$/, "")}${suffix.startsWith("/") || !suffix ? "" : "/"}${suffix}`;
+}
+
+const API_RECORD_KEYS = ["values", "items", "records", "results", "rows", "content", "elements", "result", "value"];
+
+export function extractApiRecords(payload) {
+  const root = payload?.data?.data ?? payload?.data ?? payload;
+
+  function findRecords(value, depth = 0) {
+    if (Array.isArray(value)) return value;
+    if (!value || typeof value !== "object" || depth > 6) return [];
+    if (value.values && typeof value.values === "object" && !Array.isArray(value.values)) return [value];
+    for (const key of API_RECORD_KEYS) {
+      const records = findRecords(value[key], depth + 1);
+      if (records.length) return records;
+    }
+    return [];
+  }
+
+  return findRecords(root).map((record) => {
+    if (!record?.values || typeof record.values !== "object" || Array.isArray(record.values)) return record;
+    return { ...record, ...record.values };
+  });
+}
+
+function unwrapApiObject(payload) {
+  let current = payload;
+  for (let depth = 0; depth < 4; depth += 1) {
+    if (!current || typeof current !== "object" || Array.isArray(current)) break;
+    if (!current.data || typeof current.data !== "object" || current.data === current) break;
+    current = current.data;
+  }
+  return current;
 }
 
 async function readResponse(response) {
@@ -109,6 +212,14 @@ async function readResponse(response) {
   } catch {
     return { raw: text.slice(0, 1000) };
   }
+}
+
+function isHtmlResponse(response, payload) {
+  const contentType = String(response.headers.get("content-type") || "").toLowerCase();
+  const raw = String(payload?.raw || "").trim().toLowerCase();
+  return contentType.includes("text/html")
+    || raw.startsWith("<!doctype html")
+    || raw.startsWith("<html");
 }
 
 async function navigationRequest(path, { method = "GET", json, headers = {} } = {}) {
@@ -122,13 +233,15 @@ async function navigationRequest(path, { method = "GET", json, headers = {} } = 
     options.headers["Content-Type"] = "application/json";
     options.body = JSON.stringify(json);
   }
-  return fetch(platformUrl(`/navigation${path}`), options);
+  return fetch(platformUrl(path), options);
 }
 
 export async function checkSession() {
   try {
-    const response = await navigationRequest("/auth/iau");
-    return response.status === 200 || response.status === 301;
+    const response = await navigationRequest(endpoint("authSession"));
+    if (![200, 301].includes(response.status)) return false;
+    const payload = await readResponse(response);
+    return !isHtmlResponse(response, payload);
   } catch (error) {
     console.error("Vérification de la session Moovapps impossible :", error);
     return false;
@@ -137,9 +250,9 @@ export async function checkSession() {
 
 export async function isTwoFactorEnabled() {
   try {
-    const response = await navigationRequest("/auth/2FA");
+    const response = await navigationRequest(endpoint("authTwoFactor"));
     if (!response.ok) return false;
-    return Boolean((await response.json())?.enabled);
+    return Boolean(unwrapApiObject(await response.json())?.enabled);
   } catch {
     return false;
   }
@@ -147,11 +260,13 @@ export async function isTwoFactorEnabled() {
 
 export async function verifyCredentials(login, password) {
   try {
-    const response = await navigationRequest("/auth/verify", {
+    const response = await navigationRequest(endpoint("authVerify"), {
       method: "POST",
       json: { login: String(login || "").trim(), password: String(password || "") },
     });
-    return { status: response.status, body: await readResponse(response) };
+    const body = await readResponse(response);
+    if (isHtmlResponse(response, body)) return { status: AUTH_STATUS.SERVER_ERROR, body: null };
+    return { status: response.status, body };
   } catch (error) {
     console.error("Connexion Moovapps impossible :", error);
     return { status: AUTH_STATUS.SERVER_ERROR, body: null };
@@ -160,8 +275,13 @@ export async function verifyCredentials(login, password) {
 
 export async function getCurrentUser() {
   try {
-    const response = await navigationRequest("/users/me");
-    return response.ok ? await response.json() : null;
+    const response = await navigationRequest(endpoint("currentUser"));
+    if (!response.ok) return null;
+    const payload = await readResponse(response);
+    const user = unwrapApiObject(payload);
+    return isHtmlResponse(response, payload) || !user || typeof user !== "object" || user.raw
+      ? null
+      : user;
   } catch (error) {
     console.error("Chargement du profil Moovapps impossible :", error);
     return null;
@@ -182,7 +302,7 @@ export async function updateCurrentUser(values) {
     newPassword: String(values.newPassword || "").trim(),
     confirmPassword: String(values.confirmPassword || "").trim(),
   };
-  const response = await navigationRequest("/users/me/update", { method: "POST", json: payload });
+  const response = await navigationRequest(endpoint("updateCurrentUser"), { method: "POST", json: payload });
   if (!response.ok) {
     const body = await readResponse(response);
     throw new PlatformApiError(requestError("Mise à jour du profil", response.status, body), {
@@ -194,11 +314,7 @@ export async function updateCurrentUser(values) {
 }
 
 export async function logout() {
-  try {
-    await navigationRequest("/auth/logout", { method: "POST", json: {} });
-  } finally {
-    clearRestToken();
-  }
+  await navigationRequest(endpoint("authLogout"), { method: "POST", json: {} });
 }
 
 export function userInitials(user = {}) {
@@ -286,18 +402,22 @@ function gedMediaRequest(element) {
 
   const source = element.getAttribute("src") || "";
   if (!/(?:^|\/)ged-file\//i.test(source)) return null;
+  let sourceProtocolUri = "";
+  try {
+    sourceProtocolUri = new URL(source, document.baseURI).searchParams.get("protocolUri") || "";
+  } catch {
+    // Keep the URL as the cache key when it cannot be parsed.
+  }
   return {
-    key: source,
+    key: sourceProtocolUri || source,
     source,
-    load: () => fetchGedFileFromUrl(source),
+    load: () => sourceProtocolUri
+      ? fetchGedFile(sourceProtocolUri, fileName)
+      : fetchGedFileFromUrl(source),
   };
 }
 
-async function hydrateGedMediaElement(element) {
-  const request = gedMediaRequest(element);
-  if (!request || element.dataset.gedMediaLoading === request.source) return;
-  element.dataset.gedMediaLoading = request.source;
-
+function loadGedMediaObjectUrl(request) {
   if (!gedMediaObjectUrlCache.has(request.key)) {
     const pending = request.load()
       .then(({ blob }) => {
@@ -311,9 +431,25 @@ async function hydrateGedMediaElement(element) {
       });
     gedMediaObjectUrlCache.set(request.key, pending);
   }
+  return gedMediaObjectUrlCache.get(request.key);
+}
+
+export function preloadGedMedia(protocolUri, fileName = "media") {
+  if (!protocolUri || isDemoMode()) return Promise.resolve("");
+  return loadGedMediaObjectUrl({
+    key: protocolUri,
+    source: `protocol:${protocolUri}`,
+    load: () => fetchGedFile(protocolUri, fileName),
+  });
+}
+
+async function hydrateGedMediaElement(element) {
+  const request = gedMediaRequest(element);
+  if (!request || element.dataset.gedMediaLoading === request.source) return;
+  element.dataset.gedMediaLoading = request.source;
 
   try {
-    const objectUrl = await gedMediaObjectUrlCache.get(request.key);
+    const objectUrl = await loadGedMediaObjectUrl(request);
     if (!element.isConnected || element.dataset.gedMediaLoading !== request.source) return;
     element.src = objectUrl;
     element.removeAttribute("data-ged-media-uri");
@@ -358,7 +494,7 @@ export function installGedMediaResolver() {
 
 export async function flowRequest(module, command, body) {
   const query = new URLSearchParams({ module, cmd: command, flowmode: "json" });
-  const response = await fetch(platformUrl(`/navigation/flow?${query}`), {
+  const response = await fetch(platformUrl(`${endpoint("flow")}?${query}`), {
     method: "POST",
     credentials: "include",
     cache: "no-store",
@@ -373,145 +509,35 @@ export async function flowRequest(module, command, body) {
   return payload;
 }
 
-export async function sessionApiRequest(path, { method = "GET", json, headers = {} } = {}) {
+function sessionApiUrl(path) {
+  const requestPath = String(path || "").startsWith("/navigation/")
+    ? String(path)
+    : endpointWithSuffix("sessionApiBase", path);
+  return platformUrl(requestPath);
+}
+
+export async function sessionApiRequest(path, { method = "GET", json, formData, headers = {} } = {}) {
   const options = {
     method,
     credentials: "include",
     cache: "no-store",
     headers: { Accept: "application/json", ...headers },
   };
-  if (json !== undefined) {
+  if (formData) {
+    options.body = formData;
+  } else if (json !== undefined) {
     options.headers["Content-Type"] = "application/json";
     options.body = JSON.stringify(json);
   }
-  const response = await fetch(platformUrl(`/navigation/api/v2${path}`), options);
+  const response = await fetch(sessionApiUrl(path), options);
   const payload = await readResponse(response);
   if (!response.ok) throw new PlatformApiError(requestError(`Session ${method} ${path}`, response.status, payload), { status: response.status, payload });
   return { status: response.status, data: payload };
 }
 
-function getRestToken() {
-  try {
-    const stored = JSON.parse(sessionStorage.getItem(REST_TOKEN_KEY) || "null");
-    if (stored?.token && (!stored.expiresAt || stored.expiresAt > Date.now())) return stored.token;
-  } catch {
-    // Ignore invalid browser cache.
-  }
-  return "";
-}
-
-function clearRestToken() {
-  try {
-    sessionStorage.removeItem(REST_TOKEN_KEY);
-  } catch {
-    // Browser storage is optional.
-  }
-}
-
-async function currentLogin() {
-  try {
-    const response = await fetch(platformUrl("/navigation/users/me"), { credentials: "include", headers: { Accept: "application/json" } });
-    if (!response.ok) return "";
-    const user = await response.json();
-    return String(user?.login || user?.username || user?.userName || user?.sys_Login || "").trim();
-  } catch {
-    return "";
-  }
-}
-
-export async function authenticateRest(login, password) {
-  try {
-    const response = await fetch(platformUrl("/api/v2/authentication"), {
-      method: "POST",
-      credentials: "include",
-      cache: "no-store",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ login, password }),
-    });
-    const payload = await readResponse(response);
-    if (!response.ok || typeof payload?.token !== "string" || !payload.token) return false;
-    const expiresAt = Date.parse(payload.expiration || "") || 0;
-    sessionStorage.setItem(REST_TOKEN_KEY, JSON.stringify({ token: payload.token, expiresAt }));
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function requestRestAuthentication() {
-  if (authenticationDialog) return authenticationDialog;
-  authenticationDialog = new Promise((resolve) => {
-    currentLogin().then((login) => {
-      const overlay = document.createElement("div");
-      overlay.setAttribute("role", "dialog");
-      overlay.setAttribute("aria-modal", "true");
-      overlay.style.cssText = "position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif";
-      const form = document.createElement("form");
-      form.style.cssText = "background:#fff;border-radius:8px;padding:24px;width:min(400px,92vw);box-shadow:0 20px 50px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:10px";
-      const inputStyle = "padding:10px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px";
-      form.innerHTML = `
-        <div style="font-weight:800;font-size:16px">Confirmer votre mot de passe</div>
-        <div style="font-size:13px;color:#475569;line-height:1.5">Pour lire et enregistrer les contenus Moovapps, saisissez de nouveau votre mot de passe. Il n'est pas conservé.</div>
-        <input name="login" autocomplete="username" placeholder="Identifiant" style="${inputStyle}">
-        <input name="password" type="password" autocomplete="current-password" placeholder="Mot de passe" style="${inputStyle}">
-        <div data-error style="color:#b91c1c;font-size:12px;min-height:16px"></div>
-        <div style="display:flex;gap:8px;justify-content:flex-end">
-          <button type="button" data-cancel style="padding:9px 14px;border:1px solid #cbd5e1;background:#fff;border-radius:6px;cursor:pointer">Annuler</button>
-          <button type="submit" style="padding:9px 16px;border:0;background:#1d4ed8;color:#fff;border-radius:6px;font-weight:700;cursor:pointer">Valider</button>
-        </div>`;
-      overlay.appendChild(form);
-      document.body.appendChild(overlay);
-      const loginInput = form.elements.login;
-      const passwordInput = form.elements.password;
-      const error = form.querySelector("[data-error]");
-      loginInput.value = login;
-      (login ? passwordInput : loginInput).focus();
-      const finish = (result) => {
-        overlay.remove();
-        authenticationDialog = null;
-        resolve(result);
-      };
-      form.querySelector("[data-cancel]").addEventListener("click", () => finish(false));
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        error.textContent = "";
-        if (await authenticateRest(loginInput.value.trim(), passwordInput.value)) finish(true);
-        else {
-          error.textContent = "Identifiant ou mot de passe incorrect.";
-          passwordInput.value = "";
-          passwordInput.focus();
-        }
-      });
-    });
-  });
-  return authenticationDialog;
-}
-
-export async function restApiRequest(path, { method = "GET", json, formData, headers = {} } = {}) {
-  let token = getRestToken();
-  if (!token && Date.now() > authenticationRetryAfter) {
-    const authenticated = await requestRestAuthentication();
-    if (!authenticated) authenticationRetryAfter = Date.now() + 60_000;
-    token = getRestToken();
-  }
-  const options = {
-    method,
-    credentials: "include",
-    cache: "no-store",
-    headers: { Accept: "application/json", ...(token ? { "X-AUTHENTICATION-KEY": token } : {}), ...headers },
-  };
-  if (formData) options.body = formData;
-  else if (json !== undefined) {
-    options.headers["Content-Type"] = "application/json";
-    options.body = JSON.stringify(json);
-  }
-  const response = await fetch(platformUrl(`/api/v2${path}`), options);
-  const payload = await readResponse(response);
-  if (!response.ok) {
-    if (response.status === 401 && token) clearRestToken();
-    throw new PlatformApiError(requestError(`API ${method} ${path}`, response.status, payload), { status: response.status, payload });
-  }
-  return { status: response.status, data: payload };
+export async function fetchWorkflowNotificationsPayload() {
+  const { data } = await sessionApiRequest(endpoint("workflowNotifications"));
+  return data;
 }
 
 function asArray(value) {
@@ -627,6 +653,10 @@ function libraryProtocolUri() {
   return window.CMR_PLATFORM_CONFIG?.ged?.libraryProtocolUri || DEFAULT_LIBRARY_PROTOCOL_URI;
 }
 
+function gedRootPath() {
+  return window.CMR_PLATFORM_CONFIG?.ged?.rootPath || DEFAULT_GED_ROOT_PATH;
+}
+
 function libraryViewBody(scopeType, protocolUri, maxLevel) {
   return {
     view: {
@@ -688,7 +718,7 @@ async function resolveGedFolder(requestedPath) {
 
 function relativeIntranetPath(path) {
   const parts = pathSegments(path);
-  const root = pathSegments(DEFAULT_GED_ROOT_PATH);
+  const root = pathSegments(gedRootPath());
   const offset = prefixOffset(parts, root);
   return offset === null ? cleanPath(path) : parts.slice(offset + root.length).join("/");
 }
@@ -749,7 +779,7 @@ function collectGedTree(folders, documents, folderEntries, filterSegments, paren
 }
 
 export async function listGedDocuments(path) {
-  const requestedPath = cleanPath(path) || `${DEFAULT_GED_ROOT_PATH}/Organisation & RSE/SMI`;
+  const requestedPath = cleanPath(path) || `${gedRootPath()}/Organisation & RSE/SMI`;
   const resolved = await resolveGedFolder(requestedPath);
   const scopeType = resolved.protocolUri ? "folder" : "library";
   const scopeUri = resolved.protocolUri || libraryProtocolUri();
@@ -758,7 +788,7 @@ export async function listGedDocuments(path) {
   const response = await libraryView(scopeType, scopeUri, -1);
   const documents = [];
   const folders = [];
-  const rootPath = scopeType === "folder" ? filterPath : "/DefaultOrganization/GED";
+  const rootPath = scopeType === "folder" ? filterPath : (window.CMR_PLATFORM_CONFIG?.ged?.repositoryRootPath || "/DefaultOrganization/GED");
   asArray(response?.view?.body?.resource).forEach((resource) => {
     const normalized = normalizeResource(resource, rootPath, filterSegments);
     if (normalized) documents.push(normalized);
@@ -784,6 +814,9 @@ export async function listGedDocuments(path) {
 export function gedDownloadUrl(protocolUri, fileName = "document.pdf", { download = false } = {}) {
   const url = new URL(`ged-file/${encodeURIComponent(fileName || "document")}`, document.baseURI);
   url.searchParams.set("protocolUri", protocolUri);
+  url.searchParams.set("platformBaseUrl", platformBaseUrl());
+  url.searchParams.set("flowPath", endpoint("flow"));
+  url.searchParams.set("portalBasePath", endpoint("portalBase"));
   if (download) url.searchParams.set("download", "1");
   return url.toString();
 }
@@ -816,7 +849,7 @@ export async function fetchGedFile(protocolUri, fallbackName = "document") {
   }
 
   const attachmentPath = String(content["@uri"]);
-  const response = await fetch(platformUrl(`/portal${attachmentPath.startsWith("/") ? "" : "/"}${attachmentPath}`), {
+  const response = await fetch(platformUrl(endpointWithSuffix("portalBase", attachmentPath)), {
     credentials: "include",
     cache: "no-store",
   });
@@ -866,14 +899,80 @@ function configSpace(group, key, defaults) {
   return { key: normalizedKey, ...fallback, ...(window.CMR_PLATFORM_CONFIG?.[group]?.[normalizedKey] || {}) };
 }
 
-export async function listTextContent(space) {
+const WORKFLOW_VIEW_PAGE_SIZE = 50;
+const WORKFLOW_VIEW_MAX_PAGES = 1000;
+const WORKFLOW_VIEW_RANGE_SPAN = 100;
+
+function workflowViewRecordKey(record) {
+  const values = record?.values && typeof record.values === "object" ? record.values : record;
+  const identifier = record?.uid
+    ?? record?.id
+    ?? record?.["@id"]
+    ?? record?.["$id"]
+    ?? record?._id
+    ?? record?.identifier
+    ?? values?.sys_CurrentResourceId
+    ?? values?.sys_Uid
+    ?? values?.sys_UID
+    ?? values?.sys_Reference;
+  return identifier == null || identifier === "" ? JSON.stringify(record) : String(identifier);
+}
+
+async function listWorkflowViewRecords(viewId, requestedRange = null) {
+  if (requestedRange && Number.isFinite(requestedRange.start) && Number.isFinite(requestedRange.end)) {
+    const query = new URLSearchParams({
+      id: String(viewId),
+      range: `${requestedRange.start}-${requestedRange.end}`,
+    });
+    const { data } = await sessionApiRequest(`${endpoint("sessionWorkflowViews")}?${query}`);
+    return extractApiRecords(data);
+  }
+
+  const records = [];
+  const seen = new Set();
+  let start = 0;
+
+  for (let page = 0; page < WORKFLOW_VIEW_MAX_PAGES; page += 1) {
+    const end = start + WORKFLOW_VIEW_RANGE_SPAN;
+    const query = new URLSearchParams({
+      id: String(viewId),
+      range: `${start}-${end}`,
+    });
+    const { data } = await sessionApiRequest(`${endpoint("sessionWorkflowViews")}?${query}`);
+    const batch = extractApiRecords(data);
+    let added = 0;
+
+    batch.forEach((record) => {
+      const key = workflowViewRecordKey(record);
+      if (seen.has(key)) return;
+      seen.add(key);
+      records.push(record);
+      added += 1;
+    });
+
+    if (batch.length < WORKFLOW_VIEW_RANGE_SPAN || added === 0) break;
+    start += batch.length;
+  }
+
+  return records;
+}
+
+export async function listTextContent(space, options = {}) {
   const config = configSpace("textSpaces", space, DEFAULT_TEXT_SPACES);
-  const request = String(config.transport || "rest").toLowerCase() === "session" ? sessionApiRequest : restApiRequest;
-  const path = request === sessionApiRequest
-    ? `/datauniverse/views?id=${encodeURIComponent(config.viewId)}&range=0-200`
-    : `/workflows/views/${encodeURIComponent(config.viewId)}`;
-  const { data } = await request(path);
-  return { data, meta: { source: "moovapps", space: config.key, viewId: config.viewId, transport: config.transport || "rest" } };
+  const requestedRange = Number.isFinite(options.start) && Number.isFinite(options.end)
+    ? { start: Math.max(0, options.start), end: Math.max(options.start, options.end) }
+    : null;
+  const data = await listWorkflowViewRecords(config.viewId, requestedRange);
+  return {
+    data,
+    meta: {
+      source: "moovapps",
+      space: config.key,
+      viewId: config.viewId,
+      transport: "session",
+      range: requestedRange,
+    },
+  };
 }
 
 export async function createTextContent(space, values = {}) {
@@ -886,25 +985,31 @@ export async function createTextContent(space, values = {}) {
   (config.required || []).forEach((field) => {
     if (!cleanValues[field]) throw new PlatformApiError(`Champ obligatoire manquant : ${field}`, { status: 422, code: "FIELD_REQUIRED" });
   });
-  const sessionTransport = String(config.transport || "rest").toLowerCase() === "session";
-  const request = sessionTransport ? sessionApiRequest : restApiRequest;
-  const path = sessionTransport ? `/datauniverse?tableId=${encodeURIComponent(config.id)}` : `/datauniverse/${encodeURIComponent(config.id)}`;
-  const { data } = await request(path, { method: "POST", json: { values: cleanValues } });
-  return { data, meta: { source: "moovapps", space: config.key, dataUniverseId: config.id, transport: config.transport || "rest" } };
+  const path = `${endpoint("sessionDataUniverse")}?tableId=${encodeURIComponent(config.id)}`;
+  const { data } = await sessionApiRequest(path, { method: "POST", json: { values: cleanValues } });
+  return { data, meta: { source: "moovapps", space: config.key, dataUniverseId: config.id, transport: "session" } };
 }
 
 function innovationSpace(space) {
   return configSpace("innovationSpaces", space, DEFAULT_INNOVATION_SPACES);
 }
 
-export async function listInnovationContent(space) {
+export async function listInnovationContent(space, options = {}) {
   const config = innovationSpace(space);
-  const { data } = await restApiRequest(`/workflows/views/${encodeURIComponent(config.viewId)}`);
-  return { data, meta: { space: config.key, viewId: config.viewId } };
+  const requestedRange = Number.isFinite(options.start) && Number.isFinite(options.end)
+    ? { start: Math.max(0, options.start), end: Math.max(options.start, options.end) }
+    : null;
+  const data = await listWorkflowViewRecords(config.viewId, requestedRange);
+  return { data, meta: { space: config.key, viewId: config.viewId, range: requestedRange } };
+}
+
+export function platformFileUrl(reference) {
+  if (!reference) return "";
+  return sessionApiUrl(`${endpoint("sessionFileDownload")}?downloadReference=${encodeURIComponent(reference)}`);
 }
 
 export function innovationFileUrl(reference) {
-  return reference ? platformUrl(`/api/v2/files/${encodeURIComponent(reference)}`) : "";
+  return platformFileUrl(reference);
 }
 
 function findUploadedFile(value) {
@@ -923,7 +1028,7 @@ async function uploadFile(file) {
   if (file.size > MAX_UPLOAD_SIZE) throw new PlatformApiError(`Fichier trop volumineux (25 Mo maximum) : ${file.name}`, { status: 413, code: "FILE_TOO_LARGE" });
   const formData = new FormData();
   formData.append("file", file, file.name);
-  const { data } = await restApiRequest("/files", { method: "POST", formData });
+  const { data } = await sessionApiRequest(endpoint("sessionFileUpload"), { method: "POST", formData });
   const uploaded = findUploadedFile(data);
   if (!uploaded) throw new PlatformApiError("Téléversement du fichier : référence introuvable.", { code: "MOOVAPPS_FILE_UPLOAD_FAILED", payload: data });
   return uploaded;
@@ -976,7 +1081,7 @@ export async function submitInnovationContent(space, values = {}, files = {}) {
     cleanValues[fieldName] = [uploaded];
     uploads.push({ file, reference: uploaded });
   }
-  const { data } = await restApiRequest(`/datauniverse/${encodeURIComponent(config.id)}`, { method: "POST", json: { values: cleanValues } });
+  const { data } = await sessionApiRequest(endpointWithSuffix("sessionDataUniverse", encodeURIComponent(config.id)), { method: "POST", json: { values: cleanValues } });
   const ged = [];
   for (const upload of uploads) ged.push(await publishFileToGed(upload.file, config.folder));
   return { data, files: uploads.map((upload) => upload.reference), ged, meta: { space: config.key, dataUniverseId: config.id, folder: config.folder } };
@@ -1049,10 +1154,11 @@ async function newsRequest(path, options = {}) {
 export async function loadNewsDetails(article) {
   if (!article || article.detailLoaded || !article.protocolURI) return article;
   try {
-    const details = await newsRequest("/news/details", {
+    const detailsPayload = await newsRequest(endpoint("newsDetails"), {
       method: "POST",
       json: { protocolURI: article.protocolURI },
     });
+    const details = unwrapApiObject(detailsPayload);
     article.contentHtml = sanitizeNewsHtml(details?.contenu);
     article.heroImage = resolvePlatformAssetUrl(details?.diaporamaURL);
     article.attachments = (details?.piecesJointes || []).map((attachment) => ({
@@ -1075,12 +1181,25 @@ export async function loadMoovappsNews() {
   if (!applicationData) return null;
   try {
     const rawItems = [];
+    const seenItems = new Set();
     let page = 1;
     let hasNext = true;
-    while (hasNext && page <= 20) {
-      const payload = await newsRequest(`/news?page=${page}&limit=50`);
-      rawItems.push(...(payload?.items || []));
-      hasNext = Boolean(payload?.hasNext);
+    while (hasNext && page <= WORKFLOW_VIEW_MAX_PAGES) {
+      const payload = await newsRequest(`${endpoint("newsList")}?page=${page}&limit=${WORKFLOW_VIEW_PAGE_SIZE}`);
+      const batch = extractApiRecords(payload);
+      let added = 0;
+      batch.forEach((item) => {
+        const key = workflowViewRecordKey(item);
+        if (seenItems.has(key)) return;
+        seenItems.add(key);
+        rawItems.push(item);
+        added += 1;
+      });
+      const pageInfo = unwrapApiObject(payload);
+      const reportedHasNext = pageInfo?.hasNext ?? payload?.hasNext;
+      hasNext = reportedHasNext === undefined
+        ? batch.length === WORKFLOW_VIEW_PAGE_SIZE && added > 0
+        : Boolean(reportedHasNext) && added > 0;
       page += 1;
     }
     const fallbackImage = applicationData.actualitesLabels?.fallbackImage || "";
@@ -1106,13 +1225,19 @@ export async function loadMoovappsNews() {
     const categories = [...new Set(articles.map((article) => article.category))].sort((left, right) => left.localeCompare(right, "fr"));
     applicationData.actualitesFilters = [{ ...allFilter, active: true }, ...categories.map((category) => ({ label: category, value: category }))];
     if (applicationData.dashboardNews) {
-      const toDashboardItem = (article) => ({
-        title: article.title,
-        meta: `${article.category} • ${article.date}`,
-        image: article.image || fallbackImage,
-        alt: article.title,
-        handler: `goToActualites(${article.id}); return false;`,
-      });
+      const toDashboardItem = (article) => {
+        const dashboardCategory = String(article.category || "")
+          .replace(/\binterne\b/gi, "")
+          .replace(/\s+/g, " ")
+          .trim();
+        return {
+          title: article.title,
+          meta: [dashboardCategory, article.date].filter(Boolean).join(" • "),
+          image: article.image || fallbackImage,
+          alt: article.title,
+          handler: `goToActualites(${article.id}); return false;`,
+        };
+      };
       const dashboardItems = articles.slice(0, 3).map(toDashboardItem);
       applicationData.dashboardNews = { ...applicationData.dashboardNews, slides: dashboardItems, miniItems: dashboardItems };
     }
@@ -1131,7 +1256,6 @@ export function exposePlatformApi() {
       checkSession,
       twoFactorEnabled: isTwoFactorEnabled,
       verify: verifyCredentials,
-      authenticateRest,
       currentUser: getCurrentUser,
       updateUser: updateCurrentUser,
       logout,

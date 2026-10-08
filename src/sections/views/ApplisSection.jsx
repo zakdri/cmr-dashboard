@@ -1,4 +1,5 @@
 import React from "react";
+import { configuredLink } from "../../services/moovappsPlatform.js";
 
 function getApplicationsData() {
   return {
@@ -28,11 +29,12 @@ export default function ApplisSection() {
               marginBottom: categoryIndex === categories.length - 1 ? 0 : 40,
             }}
           >
-            {(category.items || []).map((app) => (
-              <a
+            {(category.items || []).map((app) => {
+              const href = configuredLink(app.configKey, app.href || "#");
+              return <a
                 key={app.id}
-                href={app.href || "#"}
-                target={app.href && app.href !== "#" ? "_blank" : undefined}
+                href={href}
+                target={href !== "#" ? "_blank" : undefined}
                 rel="noopener noreferrer"
                 className="app-card-large"
                 style={{
@@ -60,8 +62,8 @@ export default function ApplisSection() {
                     />
                   </div>
                 </div>
-              </a>
-            ))}
+              </a>;
+            })}
           </div>
         </React.Fragment>
       ))}

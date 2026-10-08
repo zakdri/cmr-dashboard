@@ -9,7 +9,7 @@ import '@fontsource/inter/latin-800.css';
 import App from './App.jsx';
 import './lucideLocal.js';
 import '../css/styles.css';
-import { exposePlatformApi, installGedMediaResolver, loadPlatformConfig, registerGedServiceWorker } from './services/moovappsPlatform.js';
+import { ensurePlatformOrigin, exposePlatformApi, installGedMediaResolver, loadPlatformConfig, registerGedServiceWorker } from './services/moovappsPlatform.js';
 
 document.documentElement.classList.add('notranslate');
 document.documentElement.setAttribute('translate', 'no');
@@ -18,6 +18,7 @@ document.body.setAttribute('translate', 'no');
 
 async function bootstrap() {
   await loadPlatformConfig();
+  if (ensurePlatformOrigin()) return;
   exposePlatformApi();
   registerGedServiceWorker();
   installGedMediaResolver();

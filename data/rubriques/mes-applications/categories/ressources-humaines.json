@@ -10,7 +10,7 @@
           {
             "id": "gestion-presence",
             "title": "GESTION DE PRESENCE",
-            "href": "http://gestiontempspresence/CMR/",
+            "configKey": "externalLinks.gestionPresence.url",
             "icon": "clock",
             "action": "Ouvrir",
             "actionIcon": "external-link",

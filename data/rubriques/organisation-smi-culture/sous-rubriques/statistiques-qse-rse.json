@@ -10,24 +10,7 @@
       }
     },
     "orgGovCultureStats": {
-      "items": [
-        {
-          "label": "Consultations contenus",
-          "value": "1 248"
-        },
-        {
-          "label": "Participations quiz",
-          "value": "222"
-        },
-        {
-          "label": "Idées soumises",
-          "value": "18"
-        },
-        {
-          "label": "Remontées terrain",
-          "value": "11"
-        }
-      ]
+      "items": []
     }
   }
 }

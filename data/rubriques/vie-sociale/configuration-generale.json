@@ -11,14 +11,28 @@
       "description": "Consultez les services et dispositifs dédiés au bien-être des collaborateurs.",
       "blocks": [
         {
-          "title": "Médecin de travail",
+          "title": "Médecine du travail",
           "icon": "stethoscope",
-          "iconClass": "blue"
+          "iconClass": "blue",
+          "iconImage": "images/bien-etre/medecin-travail.jpg",
+          "iconImageAlt": "Médecine du travail",
+          "content": {
+            "heading": "Votre santé au travail, notre priorité.",
+            "paragraphs": [
+              "Le Médecin du travail vous accompagne dans la préservation de votre santé et votre bien-être au travail.",
+              "Pour toute information concernant les visites médicales, le suivi médical ou les prestations de la médecine du travail, nous vous invitons à vous rendre à l’espace dédié au niveau du siège de la CMR.",
+              "Prenez soin de vous, au travail comme au quotidien."
+            ]
+          }
         },
         {
           "title": "Comité hygiène & sécurité",
           "icon": "shield-check",
-          "iconClass": "orange"
+          "iconClass": "orange",
+          "iconImage": "images/bien-etre/comite-hygiene-securite.png",
+          "iconImageAlt": "Comité d’hygiène et de sécurité",
+          "iconImageScale": 1.45,
+          "iconImageOrigin": "50% 35%"
         },
         {
           "title": "Soutien psychologique",

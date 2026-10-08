@@ -7,11 +7,13 @@ function getNotificationsData() {
     header: data.notificationsHeader || {},
     tabs: data.notificationsTabs || [],
     notifications: data.notifData || [],
+    workflowTasks: Boolean(data.workflowNotificationsActive),
   };
 }
 
 export default function NotificationsSection() {
-  const { header, tabs, notifications } = getNotificationsData();
+  const { header, tabs, notifications, workflowTasks } = getNotificationsData();
+  const visibleTabs = workflowTasks ? tabs.filter((tab) => tab.value === "all") : tabs;
   const unreadCount = notifications.filter((notification) => notification.unread).length;
   const badgeValue = (tab) => {
     if (tab.value === "all") return notifications.length;
@@ -40,7 +42,7 @@ export default function NotificationsSection() {
               <p className="actu-page-sub">{header.description}</p>
             </div>
           </div>
-          <div className="notif-page-actions">
+          {!workflowTasks ? <div className="notif-page-actions">
             <button
               className="notif-mark-all-btn"
               onClick={(event) =>
@@ -50,11 +52,11 @@ export default function NotificationsSection() {
               <i data-lucide="check-check" style={{ width: 15, height: 15 }} />
               Tout marquer lu
             </button>
-          </div>
+          </div> : null}
         </div>
         {/* Filter tabs */}
         <div className="notif-page-tabs" id="notifPageTabs">
-          {tabs.map((tab) => {
+          {visibleTabs.map((tab) => {
             const count = badgeValue(tab);
             return (
               <button

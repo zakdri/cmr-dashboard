@@ -1,0 +1,24 @@
+{
+  "rubrique": "administration",
+  "contenu": "Accès à l’espace documentaire",
+  "data": {
+    "adminSectionConfig": {
+      "espace-documentaire": {
+        "subs": [
+          {
+            "id": "espace-documentaire",
+            "label": "Espace documentaire"
+          }
+        ],
+        "defaultSub": "espace-documentaire"
+      }
+    },
+    "adminPageCards": {
+      "espace-documentaire": {
+        "title": "Espace documentaire",
+        "icon": "folder-open",
+        "iconClass": "blue"
+      }
+    }
+  }
+}

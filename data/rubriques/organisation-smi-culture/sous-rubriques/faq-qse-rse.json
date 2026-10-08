@@ -7,6 +7,7 @@
         "title": "FAQ",
         "icon": "circle-help",
         "iconClass": "blue",
+        "intro": "Cette foire aux questions vise à faciliter la compréhension, l’appropriation et la contribution des collaborateurs au Système de Management Intégré de la CMR. Elle est structurée en trois blocs : comprendre le SMI, situer le SMI au sein de la CMR et contribuer concrètement à son fonctionnement et à son amélioration continue.",
         "searchPlaceholder": "Rechercher une question..."
       }
     },

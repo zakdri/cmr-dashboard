@@ -53,13 +53,34 @@ function errorResponse(status, code, message) {
   });
 }
 
+function platformBaseUrl(url) {
+  const fallback = `${self.location.origin}${CONTEXT_PATH}`;
+  const configured = url.searchParams.get('platformBaseUrl');
+  if (!configured) return fallback;
+  try {
+    const parsed = new URL(configured, self.location.origin);
+    if (!['http:', 'https:'].includes(parsed.protocol) || parsed.hostname !== self.location.hostname) return fallback;
+    return parsed.toString().replace(/\/+$/, '');
+  } catch {
+    return fallback;
+  }
+}
+
+function configuredPath(url, key, fallback) {
+  const value = String(url.searchParams.get(key) || fallback).trim();
+  return value.startsWith('/') && !value.startsWith('//') ? value : fallback;
+}
+
 async function serveGedFile(request, url) {
   const protocolUri = url.searchParams.get('protocolUri');
   if (!protocolUri) return errorResponse(400, 'PROTOCOL_URI_REQUIRED', 'Paramètre protocolUri manquant.');
   const forceDownload = url.searchParams.get('download') === '1';
   const fallbackName = decodeURIComponent(url.pathname.slice(FILE_PREFIX.length)) || 'document.pdf';
   try {
-    const flowUrl = `${self.location.origin}${CONTEXT_PATH}/navigation/flow?module=library&cmd=get&flowmode=json`;
+    const baseUrl = platformBaseUrl(url);
+    const flowPath = configuredPath(url, 'flowPath', '/navigation/flow');
+    const portalBasePath = configuredPath(url, 'portalBasePath', '/portal').replace(/\/+$/, '');
+    const flowUrl = `${baseUrl}${flowPath}?module=library&cmd=get&flowmode=json`;
     const flow = await fetch(flowUrl, {
       method: 'POST',
       credentials: 'include',
@@ -84,7 +105,7 @@ async function serveGedFile(request, url) {
     const upstreamHeaders = {};
     const range = request.headers.get('Range');
     if (range) upstreamHeaders.Range = range;
-    const upstream = await fetch(`${self.location.origin}${CONTEXT_PATH}/portal${content['@uri']}`, { credentials: 'include', headers: upstreamHeaders });
+    const upstream = await fetch(`${baseUrl}${portalBasePath}${content['@uri']}`, { credentials: 'include', headers: upstreamHeaders });
     if (!upstream.ok && upstream.status !== 206) return errorResponse(502, 'MOOVAPPS_DOWNLOAD_FAILED', `Téléchargement Moovapps : HTTP ${upstream.status}`);
 
     const headers = new Headers();

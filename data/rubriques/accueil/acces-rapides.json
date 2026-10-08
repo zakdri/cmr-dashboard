@@ -8,7 +8,7 @@
         {
           "label": "Helpdesk",
           "icon": "life-buoy",
-          "url": "http://pc/",
+          "configKey": "externalLinks.helpdesk.url",
           "target": "_blank"
         },
         {
@@ -24,22 +24,15 @@
           "handler": "openSubmenuView('rh','formation'); return false;"
         },
         {
-          "label": "Outlook",
-          "icon": "mail",
-          "url": "https://outlook.office.com/mail/",
-          "target": "_blank"
-        },
-        {
           "label": "Espace PGP",
           "icon": "globe-2",
-          "url": "http://172.17.100.180:8080/moovapps/easysite/pgp",
+          "configKey": "externalLinks.pgp.url",
           "target": "_blank"
         },
         {
           "label": "Workplace",
           "icon": "panels-top-left",
-          "configKey": "services.workplace.path",
-          "url": "/easysite/workplace/",
+          "configKey": "externalLinks.workplace.url",
           "target": "_blank"
         }
       ]

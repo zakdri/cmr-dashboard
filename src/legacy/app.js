@@ -209,9 +209,39 @@ function openAgendaTab(tabName) {
                 .replaceAll("'", '&#039;');
         }
 
+        const FAQ_RICH_TEXT_TAGS = new Set(['B', 'STRONG', 'I', 'EM', 'U', 'P', 'DIV', 'BR', 'UL', 'OL', 'LI']);
+
+        function sanitizeFaqRichText(value) {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = String(value || '');
+            wrapper.querySelectorAll('script, style, iframe, object, embed, link, meta').forEach(element => element.remove());
+            Array.from(wrapper.querySelectorAll('*')).reverse().forEach(element => {
+                if (!FAQ_RICH_TEXT_TAGS.has(element.tagName)) {
+                    element.replaceWith(...Array.from(element.childNodes));
+                    return;
+                }
+                Array.from(element.attributes).forEach(attribute => element.removeAttribute(attribute.name));
+            });
+            return wrapper.innerHTML.trim();
+        }
+
+        function renderFaqRichText(value) {
+            const source = String(value || '');
+            const hasRichMarkup = /<\/?(?:b|strong|i|em|u|p|div|br|ul|ol|li)\b/i.test(source);
+            return hasRichMarkup
+                ? sanitizeFaqRichText(source)
+                : escapeHtml(source).replace(/\r?\n/g, '<br>');
+        }
+
+        function faqRichTextPlainValue(value) {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = renderFaqRichText(value);
+            return (wrapper.textContent || '').trim();
+        }
+
         const GED_ROOT_PATH = 'Intranet CMR';
         const GED_DOCUMENTS_CHANGED_EVENT = 'cmr:ged-documents-changed';
-        const GED_SESSION_CACHE_PREFIX = 'cmr-ged-documents:v4:';
+        const GED_SESSION_CACHE_PREFIX = 'cmr-ged-documents:v5:';
         const gedDocumentsCache = new Map();
         const gedDocumentsCacheSource = new Map();
         const gedFoldersCache = new Map();
@@ -243,7 +273,7 @@ function openAgendaTab(tabName) {
             academy: 'CMR Academy',
             rh: 'Mes Services RH',
             km: 'Knowledge Management',
-            sitd: 'SITD',
+            sitd: 'Espace SITD',
             reglementation: 'Réglementation',
             rse: 'Organisation & RSE',
             qse: 'Organisation & RSE',
@@ -571,6 +601,10 @@ function openAgendaTab(tabName) {
                         <i data-lucide="chevron-left"></i> Précédent
                     </button>
                     <span>Page <strong>${pagination.page}</strong> sur ${pagination.totalPages}</span>
+                    <span class="cmr-pagination-jump">
+                        <label>Aller à <input type="number" min="1" max="${pagination.totalPages}" value="${pagination.page}" aria-label="Numéro de page" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); goToGedDocumentsPage(${serializedKey}, this.value); }"></label>
+                        <button type="button" onclick="goToGedDocumentsPage(${serializedKey}, this.previousElementSibling.querySelector('input').value)">Aller</button>
+                    </span>
                     <button type="button" onclick="changeGedDocumentsPage(${serializedKey}, 1)" ${pagination.page === pagination.totalPages ? 'disabled' : ''} aria-label="Page suivante">
                         Suivant <i data-lucide="chevron-right"></i>
                     </button>
@@ -581,6 +615,13 @@ function openAgendaTab(tabName) {
         function changeGedDocumentsPage(key, delta) {
             const normalizedKey = String(key || 'documents');
             gedDocumentsPages.set(normalizedKey, (gedDocumentsPages.get(normalizedKey) || 1) + delta);
+            gedDocumentsPageRenderers.get(normalizedKey)?.();
+        }
+
+        function goToGedDocumentsPage(key, value) {
+            const normalizedKey = String(key || 'documents');
+            const page = Math.max(1, Math.floor(Number(value) || 1));
+            gedDocumentsPages.set(normalizedKey, page);
             gedDocumentsPageRenderers.get(normalizedKey)?.();
         }
 
@@ -732,15 +773,22 @@ function openAgendaTab(tabName) {
             const imageTitle = document.getElementById('tickerDetailImageTitle');
             if (heading) heading.textContent = item.text;
             if (subtitle) subtitle.textContent = item.category;
-            if (body) body.textContent = item.text;
+            if (body) body.textContent = item.description || item.text;
             if (media) media.style.display = 'none';
             if (image) image.removeAttribute('src');
             if (imageTitle) imageTitle.textContent = '';
 
+            if (item.image && image && media) {
+                image.src = item.image;
+                image.alt = item.text;
+                if (imageTitle) imageTitle.textContent = item.text;
+                media.style.display = 'grid';
+            }
+
             modal.classList.add('active');
             lucide.createIcons();
 
-            if (typeof fetchGedDocuments !== 'function' || (typeof shouldUseDocumentsApi === 'function' && !shouldUseDocumentsApi())) return;
+            if (item.image || typeof fetchGedDocuments !== 'function' || (typeof shouldUseDocumentsApi === 'function' && !shouldUseDocumentsApi())) return;
             try {
                 const flashInfoPath = joinGedPath(GED_ROOT_PATH, 'Communication interne', 'Communication interne', 'Flash Infos');
                 const documents = await fetchGedDocuments(flashInfoPath);
@@ -766,7 +814,9 @@ function openAgendaTab(tabName) {
             const detail = document.getElementById('flashDetailContent');
             if (!detail) return;
             const detailPage = tickerDetailConfig.detailPage || {};
-            const detailParagraphs = detailPage.paragraphs || [];
+            const detailParagraphs = item.description
+                ? String(item.description).split(/\r?\n+/).map(paragraph => paragraph.trim()).filter(Boolean)
+                : (detailPage.paragraphs || []);
             const media = matchedImage ? `
                 <figure style="margin:0 0 24px;display:grid;gap:10px;">
                     <img src="${escapeHtml(matchedImage.file)}" alt="${escapeHtml(item.text)}" style="display:block;width:100%;max-height:620px;object-fit:contain;border-radius:10px;background:#f8fafc;">
@@ -798,14 +848,14 @@ function openAgendaTab(tabName) {
             const item = window.__activeTickerItem;
             if (!item) return;
 
-            renderFlashDetailPage(item);
+            renderFlashDetailPage(item, item.image ? { file: item.image } : null);
 
             const modal = document.getElementById('tickerDetailModal');
             if (modal) modal.classList.remove('active');
             switchView('flash-detail');
             lucide.createIcons();
 
-            if (typeof fetchGedDocuments !== 'function' || (typeof shouldUseDocumentsApi === 'function' && !shouldUseDocumentsApi())) return;
+            if (item.image || typeof fetchGedDocuments !== 'function' || (typeof shouldUseDocumentsApi === 'function' && !shouldUseDocumentsApi())) return;
             try {
                 const flashInfoPath = joinGedPath(GED_ROOT_PATH, 'Communication interne', 'Communication interne', 'Flash Infos');
                 const documents = await fetchGedDocuments(flashInfoPath);
@@ -1316,6 +1366,19 @@ function openAgendaTab(tabName) {
 
         // ====== ORGANIGRAMME ======
         const orgData = getCmrData('orgData', {});
+        const shouldDisplayOrgPeople = orgData.displayPeople !== false;
+        const shouldDisplayOrgServicePeople = shouldDisplayOrgPeople && orgData.displayServicePeople !== false;
+
+        function getOrderedOrgChildren(nodes = []) {
+            return nodes
+                .map((node, index) => ({ node, index }))
+                .sort((left, right) => {
+                    const leftOrder = Number.isFinite(left.node.order) ? left.node.order : left.index + 1000;
+                    const rightOrder = Number.isFinite(right.node.order) ? right.node.order : right.index + 1000;
+                    return leftOrder - rightOrder || left.index - right.index;
+                })
+                .map(entry => entry.node);
+        }
 
         function getOrgServiceId(service, prefix = 'service', namespace = 'org') {
             const slug = String(service.name || prefix)
@@ -1382,10 +1445,14 @@ function openAgendaTab(tabName) {
             const hiddenPanelId = options.hiddenPanelId || '';
             const namespace = options.namespace || 'org';
             const nodeClass = node.posteId === 'secretariat-general' ? ' cmr-org-card--secretariat-general' : '';
-            const visual = node.photo
-                ? `<img class="cmr-org-card-photo" src="${node.photo}" alt="Portrait illustratif pour ${node.name}" loading="lazy">`
+            const shouldDisplayNodePeople = variant !== 'service' ? shouldDisplayOrgPeople : shouldDisplayOrgServicePeople;
+            const portrait = shouldDisplayNodePeople
+                ? renderOrgNodePortrait(node, 'cmr-org-card-photo')
+                : '';
+            const visual = portrait
+                ? portrait
                 : `<div class="cmr-org-card-icon"><i data-lucide="${icon}"></i></div>`;
-            const person = node.personName
+            const person = shouldDisplayNodePeople && node.personName
                 ? `<div class="cmr-org-person-name">${node.personName}${node.personNameStatus === 'provisional' ? '<span class="cmr-org-person-status" title="Nom provisoire" aria-label="Nom provisoire">*</span>' : ''}</div>`
                 : '';
             return `
@@ -1410,8 +1477,11 @@ function openAgendaTab(tabName) {
             const personStatus = division.personNameStatus === 'provisional'
                 ? '<sup title="Nom provisoire">*</sup>'
                 : '';
-            const visual = division.photo
-                ? `<img src="${division.photo}" alt="Portrait de ${division.personName || division.name}" loading="lazy">`
+            const isServiceUnit = String(division.role || '').toLowerCase() === 'service';
+            const shouldDisplayUnitPeople = isServiceUnit ? shouldDisplayOrgServicePeople : shouldDisplayOrgPeople;
+            const portrait = shouldDisplayUnitPeople ? renderOrgNodePortrait(division) : '';
+            const visual = portrait
+                ? portrait
                 : `<span class="cmr-org-division-fallback"><i data-lucide="layers"></i></span>`;
             return `
                 <section class="cmr-org-division-unit">
@@ -1419,7 +1489,7 @@ function openAgendaTab(tabName) {
                         ${visual}
                         <span class="cmr-org-division-copy">
                             <small>${label}</small>
-                            ${division.personName ? `<strong>${division.personName}${personStatus}</strong>` : ''}
+                            ${shouldDisplayUnitPeople && division.personName ? `<strong>${division.personName}${personStatus}</strong>` : ''}
                             <span>${escapeHtml(division.functionTitle || division.name)}</span>
                         </span>
                         ${division.posteId && division.hasFiche !== false ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${division.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
@@ -1430,31 +1500,71 @@ function openAgendaTab(tabName) {
         }
 
         function renderOrgServices(division, divisionIndex, namespace) {
-            const services = division.children || [];
+            const services = getOrderedOrgChildren(division.children || []);
             if (!services.length) return '';
-            return `<details class="cmr-org-services">
-                        <summary aria-label="Services rattachés (${services.length})" title="Services rattachés (${services.length})"><i data-lucide="circle-chevron-down" aria-hidden="true"></i></summary>
-                        <div class="cmr-org-service-tree">
-                        ${services.map((service, serviceIndex) => `
-                            <article class="cmr-org-service-card">
-                                ${service.photo
-                                    ? `<img src="${service.photo}" alt="Portrait de ${service.personName || service.name}" loading="lazy">`
-                                    : `<span class="cmr-org-service-fallback"><i data-lucide="layers"></i></span>`}
-                                <span>
-                                    <small>${service.role || 'Service'}</small>
-                                    ${service.personName ? `<strong>${service.personName}${service.personNameStatus === 'provisional' ? '<sup title="Nom provisoire">*</sup>' : ''}</strong>` : ''}
-                                    <span>${escapeHtml(service.functionTitle || service.name)}</span>
-                                </span>
-                                ${service.posteId && service.hasFiche !== false ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${service.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
-                                ${renderOrgServiceMembers(service, `division-${divisionIndex}-${serviceIndex}`, namespace)}
-                            </article>
-                        `).join('')}
+            const panelId = getOrgHiddenPanelId(division, `division-${divisionIndex}-services`, namespace);
+            return `<div class="cmr-org-services">
+                        <button class="cmr-org-services-toggle" type="button"
+                            aria-label="Afficher les services rattachés à ${escapeHtml(division.name)}"
+                            aria-controls="${panelId}" aria-expanded="false"
+                            title="Services rattachés (${services.length})"
+                            data-org-services-target="${panelId}"
+                            onclick="toggleOrgDivisionServices('${panelId}', this)">
+                            <i data-lucide="circle-chevron-down" aria-hidden="true"></i>
+                        </button>
+                        <div class="cmr-org-service-tree" id="${panelId}" role="group" aria-label="Services rattachés à ${escapeHtml(division.name)}" hidden>
+                        ${services.map((service, serviceIndex) => renderOrgServiceNode(service, `division-${divisionIndex}-${serviceIndex}`, namespace)).join('')}
                         </div>
-                    </details>`;
+                    </div>`;
+        }
+
+        function renderOrgServiceNode(service, prefix, namespace, depth = 0) {
+            const subordinates = getOrderedOrgChildren(service.children || []);
+            const portrait = shouldDisplayOrgServicePeople ? renderOrgNodePortrait(service) : '';
+            const subordinatePanelId = subordinates.length
+                ? getOrgHiddenPanelId(service, `${prefix}-subordinates`, namespace)
+                : '';
+            const subordinateRows = [];
+            for (let index = 0; index < subordinates.length; index += 6) {
+                subordinateRows.push(subordinates.slice(index, index + 6));
+            }
+            return `
+                <div class="cmr-org-service-node${subordinates.length ? ' has-subordinates' : ''}">
+                    <article class="cmr-org-service-card">
+                        ${subordinates.length ? `
+                            <button class="cmr-org-subordinate-toggle" type="button"
+                                aria-label="Afficher les rattachements de ${escapeHtml(service.name)}"
+                                aria-controls="${subordinatePanelId}" aria-expanded="false"
+                                onclick="toggleOrgSubordinates('${subordinatePanelId}', this)">
+                                <i data-lucide="circle-chevron-down" aria-hidden="true"></i>
+                            </button>
+                        ` : ''}
+                        ${portrait
+                            ? portrait
+                            : `<span class="cmr-org-service-fallback"><i data-lucide="${depth ? 'map-pin' : 'layers'}"></i></span>`}
+                        <span>
+                            <small>${service.role || 'Service'}</small>
+                            ${shouldDisplayOrgServicePeople && service.personName ? `<strong>${service.personName}${service.personNameStatus === 'provisional' ? '<sup title="Nom provisoire">*</sup>' : ''}</strong>` : ''}
+                            <span>${escapeHtml(service.functionTitle || service.name)}</span>
+                        </span>
+                        ${service.posteId && service.hasFiche !== false ? `<button class="cmr-org-unit-action" onclick="openPosteFromOrg('${service.posteId}')">Fiche <i data-lucide="arrow-up-right"></i></button>` : ''}
+                        ${renderOrgServiceMembers(service, prefix, namespace)}
+                    </article>
+                    ${subordinates.length ? `
+                        <div class="cmr-org-subordinate-tree" id="${subordinatePanelId}" role="group" aria-label="Rattachements de ${escapeHtml(service.name)}" hidden>
+                            ${subordinateRows.map((row, rowIndex) => `
+                                <div class="cmr-org-subordinate-row" style="--org-subordinate-row-count: ${row.length};">
+                                    ${row.map((subordinate, subordinateIndex) => renderOrgServiceNode(subordinate, `${prefix}-${rowIndex}-${subordinateIndex}`, namespace, depth + 1)).join('')}
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
         }
 
         function renderOrgHiddenBranch(node, prefix, namespace = 'org') {
-            const hiddenDivisions = node.hiddenChildren || [];
+            const hiddenDivisions = getOrderedOrgChildren(node.hiddenChildren || []);
             if (!hiddenDivisions.length) return '';
             const panelId = getOrgHiddenPanelId(node, prefix, namespace);
             return `
@@ -1465,7 +1575,7 @@ function openAgendaTab(tabName) {
         }
 
         function renderOrgSecondaryBranch(node, prefix, namespace = 'org') {
-            const secondaryDivisions = node.secondaryChildren || [];
+            const secondaryDivisions = getOrderedOrgChildren(node.secondaryChildren || []);
             if (!secondaryDivisions.length) return '';
             return `
                 <div class="cmr-org-secondary-branch" aria-label="Divisions rattachées à ${node.name}">
@@ -1475,7 +1585,7 @@ function openAgendaTab(tabName) {
         }
 
         function renderOrgPoleColumn(node, index, namespace = 'org') {
-            const divisions = node.children || [];
+            const divisions = getOrderedOrgChildren(node.children || []);
             const hiddenDivisions = node.hiddenChildren || [];
             const hiddenPanelId = hiddenDivisions.length ? getOrgHiddenPanelId(node, `pole-${index}`, namespace) : '';
             return `
@@ -1494,7 +1604,8 @@ function openAgendaTab(tabName) {
         function renderOrgTree(containerId = 'orgTree', namespace = 'org') {
             const container = document.getElementById(containerId);
             if (!container) return;
-            const children = orgData.children || [];
+            syncPostesGedDocuments();
+            const children = getOrderedOrgChildren(orgData.children || []);
             const directServices = children.filter(node => (node.role || '').toLowerCase().includes('rattach'));
             const mainBranches = children.filter(node => !(node.role || '').toLowerCase().includes('rattach'));
             const leftService = directServices[0];
@@ -1502,7 +1613,7 @@ function openAgendaTab(tabName) {
             const extraServices = directServices.slice(2);
             const isOfficialLayout = mainBranches.length === 1 && (mainBranches[0].children || []).length > 3;
             const branch = isOfficialLayout ? mainBranches[0] : null;
-            const poles = branch ? (branch.children || []) : mainBranches;
+            const poles = branch ? getOrderedOrgChildren(branch.children || []) : mainBranches;
 
             container.innerHTML = `
                 <div class="cmr-org-chart${isOfficialLayout ? ' cmr-org-chart--official' : ''}" aria-label="Organigramme de la CMR">
@@ -1849,9 +1960,16 @@ function openAgendaTab(tabName) {
         const orgNodes = flattenOrgNodes(orgData);
         const configuredPostesData = getCmrData('postesData', []);
         const postesData = orgNodes
-            .filter(node => node.posteId && node.hasFiche !== false)
-            .map(node => configuredPostesData.find(poste => poste.id === node.posteId))
-            .filter(Boolean);
+            .filter(node => node.posteId && (node.hasFiche !== false || node.personName))
+            .map(node => configuredPostesData.find(poste => poste.id === node.posteId) || ({
+                id: node.posteId,
+                titre: node.functionTitle || node.name,
+                famille: node.role || 'Organisation',
+                missions: [],
+                competences: [],
+                attachments: [],
+                generatedFromOrg: true
+            }));
         const listedPostesData = orgNodes
             .filter(node => node.posteId && node.hasFiche !== false)
             .map(node => postesData.find(poste => poste.id === node.posteId))
@@ -1860,52 +1978,55 @@ function openAgendaTab(tabName) {
         let postesPage = 1;
         let postesQuery = '';
         const postesPageSize = 6;
-        const postesGedPath = joinGedPath(
+        const fonctionsGedPath = joinGedPath(
             GED_ROOT_PATH,
             'Organisation & RSE',
             'Organisation',
-            'Fiches et fonctions de postes'
+            'Fiches de fonctions'
         );
         let postesGedDocuments = [];
+        const posteDirectGedStates = new Map();
 
         function getPosteProfile(id) {
             return orgNodes.find(node => node.posteId === id) || {};
         }
 
-        function findOrgNodePath(node, posteId, path = []) {
-            if (!node || typeof node !== 'object') return null;
-            const currentPath = [...path, node];
-            if (node.posteId === posteId) return currentPath;
-            const children = [
-                ...(node.children || []),
-                ...(node.hiddenChildren || []),
-                ...(node.secondaryChildren || [])
-            ];
-            for (const child of children) {
-                const match = findOrgNodePath(child, posteId, currentPath);
-                if (match) return match;
+        function toggleOrgSubordinates(panelId, button) {
+            const panel = document.getElementById(panelId);
+            if (!panel || !button) return;
+            const shouldOpen = panel.hidden;
+            panel.hidden = !shouldOpen;
+            button.setAttribute('aria-expanded', String(shouldOpen));
+            button.classList.toggle('is-open', shouldOpen);
+            const icon = button.querySelector('svg, i');
+            if (icon) {
+                icon.outerHTML = `<i data-lucide="${shouldOpen ? 'circle-chevron-up' : 'circle-chevron-down'}" aria-hidden="true"></i>`;
             }
-            return null;
+            lucide.createIcons();
         }
 
-        function getPosteGedFolderPath(poste) {
-            const hierarchy = findOrgNodePath(orgData, poste.id);
-            if (!hierarchy) return '';
-            const relevantNodes = hierarchy.filter(node =>
-                node !== orgData && node.posteId !== 'secretariat-general'
-            );
-            const profile = relevantNodes.at(-1);
-            if (!profile) return '';
-            const segments = relevantNodes.map(node => {
-                if (node === profile && node.role === 'Service' && poste.folderAliases?.length) {
-                    return poste.folderAliases[0];
-                }
-                return node.name;
-            });
-            return joinGedPath(postesGedPath, ...segments);
+        function toggleOrgDivisionServices(panelId, button) {
+            const panel = document.getElementById(panelId);
+            if (!panel || !button) return;
+            const shouldOpen = panel.hidden;
+            panel.hidden = !shouldOpen;
+            button.setAttribute('aria-expanded', String(shouldOpen));
+            button.setAttribute('aria-label', `${shouldOpen ? 'Masquer' : 'Afficher'} les services rattachés`);
+            button.classList.toggle('is-open', shouldOpen);
+            const icon = button.querySelector('svg, i');
+            if (icon) {
+                icon.outerHTML = `<i data-lucide="${shouldOpen ? 'circle-chevron-up' : 'circle-chevron-down'}" aria-hidden="true"></i>`;
+            }
+            lucide.createIcons();
+            if (shouldOpen) {
+                window.setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }), 50);
+            }
         }
 
         function refreshPostesGedUi() {
+            const organigrammePageElement = document.getElementById('page-orggov-organigramme');
+            if (organigrammePageElement?.style.display !== 'none') renderOrgTree();
+
             const postesPageElement = document.getElementById('page-orggov-postes');
             if (postesPageElement?.style.display !== 'none') {
                 renderPostesList(postesQuery);
@@ -1919,50 +2040,19 @@ function openAgendaTab(tabName) {
 
         function syncPostesGedDocuments() {
             if (!shouldUseDocumentsApi()) return null;
-            const state = getGedDocumentsState(postesGedPath, refreshPostesGedUi);
+            const state = getGedDocumentsState(fonctionsGedPath, refreshPostesGedUi);
             postesGedDocuments = state?.documents || [];
             return state;
         }
 
-        function refreshPosteGedDocuments(posteId) {
+        function refreshPosteGedDocuments() {
             if (!shouldUseDocumentsApi()) return;
-            const poste = postesData.find(item => item.id === posteId);
-            const folderPath = poste ? getPosteGedFolderPath(poste) : '';
-            if (!folderPath) return;
-            const state = getGedDocumentsState(folderPath, refreshPostesGedUi);
+            const state = getGedDocumentsState(fonctionsGedPath, refreshPostesGedUi);
             if (state && !state.documents.length) state.loaded = false;
-            refreshGedDocumentsState(folderPath, true);
+            refreshGedDocumentsState(fonctionsGedPath, true);
         }
 
-        function isDocumentDirectlyInPosteFolder(documentItem, folderPath) {
-            if (Array.isArray(documentItem.segments)) {
-                return documentItem.segments.filter(Boolean).length === 0;
-            }
-
-            const expectedFolder = String(folderPath || '').split('/').filter(Boolean).at(-1) || '';
-            const reportedFolders = String(documentItem.folderLabel || '').split('/').filter(Boolean);
-            return reportedFolders.length === 1
-                && normalizeGedText(reportedFolders[0]) === normalizeGedText(expectedFolder);
-        }
-
-        function getPosteAttachments(poste) {
-            if (!shouldUseDocumentsApi()) return poste.attachments || [];
-
-            const profile = getPosteProfile(poste.id);
-            const directFolderPath = getPosteGedFolderPath(poste);
-            const directFolderState = directFolderPath
-                ? getGedDocumentsState(directFolderPath, refreshPostesGedUi)
-                : null;
-            const directDocuments = (directFolderState?.documents || [])
-                .filter(documentItem => isDocumentDirectlyInPosteFolder(documentItem, directFolderPath));
-            if (directDocuments.length) {
-                return directDocuments.map(documentItem => ({
-                    label: documentItem.title || documentItem.fileName,
-                    file: documentItem.file,
-                    fileName: documentItem.fileName,
-                    folderLabel: documentItem.folderLabel
-                }));
-            }
+        function getPosteGedAliases(poste, profile = getPosteProfile(poste.id)) {
             const profileName = String(profile.name || '').trim();
             const profileRole = String(profile.role || '').trim();
             const entityType = /^(division|service|p[oô]le)$/i.test(profileRole)
@@ -1971,7 +2061,7 @@ function openAgendaTab(tabName) {
             const entityName = entityType
                 ? profileName.replace(new RegExp(`^${entityType}\\s+`, 'i'), '').trim()
                 : profileName;
-            const folderAliases = new Set([
+            return new Set([
                 poste.titre,
                 ...(poste.folderAliases || []),
                 profileName,
@@ -1981,16 +2071,153 @@ function openAgendaTab(tabName) {
                 profileName ? `Chef de ${profileName}` : '',
                 profileName ? `Responsable ${profileName}` : ''
             ].map(normalizeGedText).filter(Boolean));
+        }
 
-            const folderMatches = postesGedDocuments.filter(documentItem => {
+        function normalizePosteGedMatch(value) {
+            return normalizeGedText(value)
+                .replace(/\b(?:de|du|des|d|la|le|les|et)\b/g, ' ')
+                .replace(/\bdroits\b/g, 'droit')
+                .replace(/\bsystemes\b/g, 'systeme')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function matchesPosteGedAlias(value, aliases) {
+            const normalized = normalizeGedText(value);
+            if (!normalized) return false;
+            if (aliases.has(normalized)) return true;
+            const matchKey = normalizePosteGedMatch(normalized);
+            return Array.from(aliases).some(alias => normalizePosteGedMatch(alias) === matchKey);
+        }
+
+        function getPosteGedFolderDocuments(poste) {
+            const profile = getPosteProfile(poste.id);
+            const folderAliases = getPosteGedAliases(poste, profile);
+
+            return postesGedDocuments.filter(documentItem => {
                 const segments = Array.isArray(documentItem.segments)
                     ? documentItem.segments
                     : String(documentItem.folderLabel || '').split('/');
                 const leafFolder = segments.map(normalizeGedText).filter(Boolean).at(-1) || '';
-                return folderAliases.has(leafFolder);
+                return matchesPosteGedAlias(leafFolder, folderAliases);
             });
+        }
 
-            return folderMatches
+        function isPostePortraitDocument(documentItem) {
+            const fileName = String(documentItem?.fileName || documentItem?.title || '').split(/[?#]/)[0];
+            return /\.(?:jpe?g|png|webp|gif|bmp|svg|avif)$/i.test(fileName);
+        }
+
+        function getPostePortraitDocument(poste, profile = getPosteProfile(poste.id)) {
+            if (!shouldUseDocumentsApi()) return null;
+            const personKey = normalizeGedText(profile.personName || '');
+            const folderImages = getPosteGedFolderDocuments(poste).filter(isPostePortraitDocument);
+            const folderPersonImage = folderImages.find(documentItem => {
+                const imageKey = normalizeGedText(documentItem.fileName || documentItem.title || '');
+                return personKey && imageKey.includes(personKey);
+            });
+            if (folderPersonImage) return folderPersonImage;
+
+            const globalPersonImage = personKey
+                ? postesGedDocuments.find(documentItem => {
+                    if (!isPostePortraitDocument(documentItem)) return false;
+                    const imageKey = normalizeGedText(documentItem.fileName || documentItem.title || '');
+                    return imageKey.includes(personKey);
+                })
+                : null;
+            return globalPersonImage || folderImages[0] || null;
+        }
+
+        function loadPosteDirectGedDocuments(poste, renderAfterLoad) {
+            if (!shouldUseDocumentsApi() || !window.CMR_PLATFORM?.ged?.list) return null;
+            const profile = getPosteProfile(poste.id);
+            const matchedDocument = getPosteGedFolderDocuments(poste)[0]
+                || getPostePortraitDocument(poste, profile);
+            const folderPath = String(matchedDocument?.folderPath || '').trim();
+            if (!folderPath) return null;
+
+            const state = posteDirectGedStates.get(poste.id) || {
+                folderPath,
+                loading: false,
+                loaded: false,
+                documents: [],
+                error: null,
+                renderAfterLoad: null
+            };
+            state.renderAfterLoad = renderAfterLoad;
+            if (state.folderPath !== folderPath) {
+                state.folderPath = folderPath;
+                state.loaded = false;
+                state.documents = [];
+            }
+            posteDirectGedStates.set(poste.id, state);
+            if (state.loading || state.loaded) return state;
+
+            state.loading = true;
+            window.CMR_PLATFORM.ged.list(folderPath)
+                .then(payload => {
+                    state.documents = (Array.isArray(payload?.data) ? payload.data : []).map(normalizeGedDocument);
+                    state.loaded = true;
+                    state.error = null;
+                })
+                .catch(error => {
+                    state.error = error;
+                    state.loaded = true;
+                })
+                .finally(() => {
+                    state.loading = false;
+                    state.renderAfterLoad?.();
+                });
+            return state;
+        }
+
+        function renderPostePortrait(poste, profile, className, alt = '', lazy = false) {
+            const gedPortrait = getPostePortraitDocument(poste, profile);
+            const fallbackPhoto = String(profile.photo || '').trim();
+            const source = gedPortrait?.file || fallbackPhoto || '';
+            if (!source) return '';
+
+            const gedAttributes = gedPortrait?.protocolUri
+                ? ` data-ged-media-uri="${escapeHtml(gedPortrait.protocolUri)}" data-ged-media-name="${escapeHtml(gedPortrait.fileName || gedPortrait.title || 'portrait')}"`
+                : '';
+            return `<img class="${className}" src="${escapeHtml(source)}" alt="${escapeHtml(alt)}"${gedAttributes}${lazy ? ' loading="lazy"' : ''}>`;
+        }
+
+        function renderOrgNodePortrait(node, className = '') {
+            if (!node) return '';
+            const alt = `Portrait de ${node.personName || node.name || ''}`;
+            const poste = postesData.find(item => item.id === node.posteId);
+            if (poste) return renderPostePortrait(poste, node, className, alt, true);
+
+            const fallbackPhoto = String(node.photo || '').trim();
+            if (!fallbackPhoto) return '';
+            return `<img class="${className}" src="${escapeHtml(fallbackPhoto)}" alt="${escapeHtml(alt)}" loading="lazy">`;
+        }
+
+        function getPosteAttachments(poste) {
+            if (!shouldUseDocumentsApi()) {
+                return (poste.attachments || []).filter(documentItem => !isPostePortraitDocument(documentItem));
+            }
+
+            const profile = getPosteProfile(poste.id);
+            const aliases = getPosteGedAliases(poste, profile);
+            const folderDocuments = getPosteGedFolderDocuments(poste)
+                .filter(documentItem => !isPostePortraitDocument(documentItem));
+            const namedDocuments = postesGedDocuments.filter(documentItem => {
+                if (isPostePortraitDocument(documentItem)) return false;
+                const fileName = String(documentItem.fileName || documentItem.title || '').replace(/\.[^.]+$/, '');
+                return matchesPosteGedAlias(fileName, aliases);
+            });
+            const directDocuments = posteDirectGedStates.get(poste.id)?.documents || [];
+            const documents = [...new Map(
+                [...folderDocuments, ...namedDocuments, ...directDocuments].map(documentItem => [
+                    documentItem.protocolUri || documentItem.id || documentItem.file,
+                    documentItem
+                ])
+            ).values()];
+
+            return documents
+                .filter(documentItem => !isPostePortraitDocument(documentItem))
                 .map(documentItem => ({
                     label: documentItem.title || documentItem.fileName,
                     file: documentItem.file,
@@ -2006,6 +2233,11 @@ function openAgendaTab(tabName) {
 
         function changePostesPage(delta) {
             postesPage += delta;
+            renderPostesList(document.getElementById('postesSearchInput')?.value || postesQuery);
+        }
+
+        function goToPostesPage(value) {
+            postesPage = Math.max(1, Math.floor(Number(value) || 1));
             renderPostesList(document.getElementById('postesSearchInput')?.value || postesQuery);
         }
 
@@ -2038,10 +2270,11 @@ function openAgendaTab(tabName) {
             list.innerHTML = pageItems.map(p => {
                 const profile = getPosteProfile(p.id);
                 const provisional = profile.personNameStatus === 'provisional';
+                const portrait = renderPostePortrait(p, profile, 'cmr-position-list-photo', '', true);
                 return `
                 <button class="cmr-position-list-item${posteSelectedId === p.id ? ' is-active' : ''}" data-poste-id="${p.id}" ${p.hasFiche === false ? 'disabled style="cursor:default;"' : `onclick="openPosteDetail('${p.id}', true)"`}>
-                    ${profile.photo
-                        ? `<img class="cmr-position-list-photo" src="${profile.photo}" alt="" loading="lazy">`
+                    ${portrait
+                        ? portrait
                         : `<span class="cmr-position-list-fallback"><i data-lucide="user-round"></i></span>`}
                     <span class="cmr-position-list-copy">
                         <span class="cmr-position-list-name">${escapeHtml(profile.personName || p.titre)}${provisional ? '<sup title="Nom provisoire">*</sup>' : ''}</span>
@@ -2057,6 +2290,10 @@ function openAgendaTab(tabName) {
                         <i data-lucide="chevron-left"></i> Précédent
                     </button>
                     <span>Page <strong>${postesPage}</strong> sur ${totalPages}</span>
+                    <span class="cmr-pagination-jump">
+                        <label>Aller à <input type="number" min="1" max="${totalPages}" value="${postesPage}" aria-label="Numéro de page" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); goToPostesPage(this.value); }"></label>
+                        <button type="button" onclick="goToPostesPage(this.previousElementSibling.querySelector('input').value)">Aller</button>
+                    </span>
                     <button type="button" onclick="changePostesPage(1)" ${postesPage === totalPages ? 'disabled' : ''} aria-label="Page suivante">
                         Suivant <i data-lucide="chevron-right"></i>
                     </button>
@@ -2067,19 +2304,24 @@ function openAgendaTab(tabName) {
 
         function buildPosteDetailHtml(id) {
             const p = postesData.find(x => x.id === id);
-            if (!p) return '';
             const profile = getPosteProfile(id);
+            if (!p || profile.hasFiche === false) return '';
             const provisional = profile.personNameStatus === 'provisional';
+            const portrait = renderPostePortrait(
+                p,
+                profile,
+                'cmr-position-profile-photo',
+                `Portrait de ${profile.personName || p.titre}`
+            );
             const attachments = getPosteAttachments(p);
             const attachmentsLoading = shouldUseDocumentsApi()
-                && [postesGedPath, getPosteGedFolderPath(p)].filter(Boolean).some(path => {
-                    const state = gedDocumentsState.get(path);
-                    return Boolean(state?.loading && !state.loaded);
-                });
+                && Boolean(gedDocumentsState.get(fonctionsGedPath)?.loading
+                    && !gedDocumentsState.get(fonctionsGedPath)?.loaded
+                    || posteDirectGedStates.get(p.id)?.loading);
             return `
                 <div class="cmr-position-profile-header">
-                    ${profile.photo
-                        ? `<img class="cmr-position-profile-photo" src="${profile.photo}" alt="Portrait de ${profile.personName || p.titre}">`
+                    ${portrait
+                        ? portrait
                         : `<span class="cmr-position-profile-fallback"><i data-lucide="user-round"></i></span>`}
                     <div class="cmr-position-profile-copy">
                         <div class="cmr-position-profile-eyebrow">${profile.personName ? 'Responsable de la fonction' : 'Fiche de fonction'}</div>
@@ -2094,11 +2336,15 @@ function openAgendaTab(tabName) {
                 <div class="cmr-position-sections">
                     <section class="cmr-position-section">
                         <div style="font-weight:900;color:#1e293b;font-size:13px;">Missions</div>
-                        <ul>${p.missions.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+                        ${p.missions?.length
+                            ? `<ul>${p.missions.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>`
+                            : '<div style="margin-top:10px;color:#64748b;font-size:12px;">Aucune mission renseignée.</div>'}
                     </section>
                     <section class="cmr-position-section">
                         <div style="font-weight:900;color:#1e293b;font-size:13px;">Compétences</div>
-                        <ul>${p.competences.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+                        ${p.competences?.length
+                            ? `<ul>${p.competences.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>`
+                            : '<div style="margin-top:10px;color:#64748b;font-size:12px;">Aucune compétence renseignée.</div>'}
                     </section>
                     <section class="cmr-position-section">
                         <div style="font-weight:900;color:#1e293b;font-size:13px;">Pièces jointes</div>
@@ -2123,7 +2369,10 @@ function openAgendaTab(tabName) {
             const detail = document.getElementById('postesDetail');
             if (!p || !detail) return;
             syncPostesGedDocuments();
-            if (refreshDocuments) refreshPosteGedDocuments(id);
+            if (refreshDocuments) refreshPosteGedDocuments();
+            loadPosteDirectGedDocuments(p, () => {
+                if (posteSelectedId === id) openPosteDetail(id);
+            });
             posteSelectedId = id;
             document.querySelectorAll('[data-poste-id]').forEach(item => {
                 item.classList.toggle('is-active', item.getAttribute('data-poste-id') === id);
@@ -2170,7 +2419,14 @@ function openAgendaTab(tabName) {
 
         function openPosteModal(id, refreshDocuments = false) {
             syncPostesGedDocuments();
-            if (refreshDocuments) refreshPosteGedDocuments(id);
+            if (refreshDocuments) refreshPosteGedDocuments();
+            const poste = postesData.find(item => item.id === id);
+            if (poste) {
+                loadPosteDirectGedDocuments(poste, () => {
+                    const activeModal = document.getElementById('posteOrgModal');
+                    if (activeModal && !activeModal.hidden && activeModal.dataset.posteId === id) openPosteModal(id);
+                });
+            }
             const html = buildPosteDetailHtml(id);
             if (!html) return;
             const modal = ensurePosteModal();
@@ -2440,7 +2696,15 @@ function openAgendaTab(tabName) {
                 attempted: false,
                 submitting: false,
                 error: null,
-                items: []
+                items: [],
+                page: 1,
+                pageSize: 10,
+                hasNext: false,
+                searchLoading: false,
+                searchLoaded: false,
+                searchAttempted: false,
+                searchItems: [],
+                searchError: null
             };
             dataUniverseTextStates.set(space, state);
             return state;
@@ -2454,8 +2718,14 @@ function openAgendaTab(tabName) {
             state.error = null;
             try {
                 if (!window.CMR_PLATFORM?.textContent?.list) throw new Error('Client Moovapps indisponible.');
-                const payload = await window.CMR_PLATFORM.textContent.list(space);
-                state.items = extractDataUniverseRecords(payload).map((record, index) =>
+                const isBackendPaged = ['faq', 'ideas', 'reports'].includes(space);
+                const start = isBackendPaged ? (state.page - 1) * state.pageSize : null;
+                const payload = await window.CMR_PLATFORM.textContent.list(space, isBackendPaged
+                    ? { start, end: start + state.pageSize + 1 }
+                    : {});
+                const records = extractDataUniverseRecords(payload);
+                state.hasNext = isBackendPaged && records.length > state.pageSize;
+                state.items = records.slice(0, isBackendPaged ? state.pageSize : records.length).map((record, index) =>
                     normalizeDataUniverseItem(space, record, { id: `${space}-${index}` })
                 );
                 state.loaded = true;
@@ -2465,6 +2735,72 @@ function openAgendaTab(tabName) {
                 state.loading = false;
                 renderAfterLoad?.();
             }
+        }
+
+        async function loadDataUniverseSearchItems(space, renderAfterLoad) {
+            const state = getDataUniverseTextState(space);
+            if (!state || state.searchLoading || state.searchLoaded || state.searchAttempted) return;
+            state.searchLoading = true;
+            state.searchAttempted = true;
+            state.searchError = null;
+            try {
+                if (!window.CMR_PLATFORM?.textContent?.list) throw new Error('Client Moovapps indisponible.');
+                const payload = await window.CMR_PLATFORM.textContent.list(space);
+                state.searchItems = extractDataUniverseRecords(payload).map((record, index) =>
+                    normalizeDataUniverseItem(space, record, { id: `${space}-search-${index}` })
+                );
+                state.searchLoaded = true;
+            } catch (error) {
+                state.searchError = error;
+            } finally {
+                state.searchLoading = false;
+                renderAfterLoad?.();
+            }
+        }
+
+        function changeDataUniverseTextPage(space, delta) {
+            const state = getDataUniverseTextState(space);
+            if (!state || state.loading) return;
+            const nextPage = Math.max(1, state.page + delta);
+            if (delta > 0 && !state.hasNext) return;
+            if (nextPage === state.page) return;
+            state.page = nextPage;
+            state.loaded = false;
+            state.attempted = false;
+            state.items = [];
+            renderOrgGovCultureTextSpace(space);
+        }
+
+        function goToDataUniverseTextPage(space, value) {
+            const state = getDataUniverseTextState(space);
+            if (!state || state.loading) return;
+            const nextPage = Math.max(1, Math.floor(Number(value) || 1));
+            if (nextPage === state.page) return;
+            state.page = nextPage;
+            state.loaded = false;
+            state.attempted = false;
+            state.items = [];
+            state.hasNext = false;
+            renderOrgGovCultureTextSpace(space);
+        }
+
+        function renderDataUniverseBackendPagination(space, state) {
+            if (!state) return '';
+            return `
+                <div class="cmr-position-pagination cmr-document-pagination">
+                    <button type="button" onclick="changeDataUniverseTextPage('${space}', -1)" ${state.page === 1 || state.loading ? 'disabled' : ''} aria-label="Page précédente">
+                        <i data-lucide="chevron-left"></i> Précédent
+                    </button>
+                    <span>Page <strong>${state.page}</strong></span>
+                    <span class="cmr-pagination-jump">
+                        <label>Aller à <input type="number" min="1" value="${state.page}" aria-label="Numéro de page" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); goToDataUniverseTextPage('${space}', this.value); }"></label>
+                        <button type="button" onclick="goToDataUniverseTextPage('${space}', this.previousElementSibling.querySelector('input').value)" ${state.loading ? 'disabled' : ''}>Aller</button>
+                    </span>
+                    <button type="button" onclick="changeDataUniverseTextPage('${space}', 1)" ${!state.hasNext || state.loading ? 'disabled' : ''} aria-label="Page suivante">
+                        Suivant <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            `;
         }
 
         async function createDataUniverseTextItem(space, values, optimisticItem, renderAfterChange) {
@@ -2484,6 +2820,9 @@ function openAgendaTab(tabName) {
                 const returnedRecord = extractDataUniverseRecords(payload)[0];
                 const createdItem = normalizeDataUniverseItem(space, returnedRecord || {}, { ...optimisticItem, id: pendingId, pending: false });
                 state.items = state.items.map(item => item.id === pendingId ? createdItem : item);
+                if (state.searchLoaded) {
+                    state.searchItems = [createdItem, ...state.searchItems.filter(item => item.id !== createdItem.id)];
+                }
                 state.error = null;
                 return true;
             } catch (error) {
@@ -2525,6 +2864,19 @@ function openAgendaTab(tabName) {
                 input.focus();
                 input.setSelectionRange(input.value.length, input.value.length);
             }
+        }
+
+        function syncOrgGovCultureFaqDraft(field, value) {
+            if (!['title', 'description'].includes(field)) return;
+            orgGovCultureTextDrafts.faq[field] = String(value || '');
+        }
+
+        function formatOrgGovCultureFaqAnswer(command) {
+            const editor = document.getElementById('orgGovCultureFaqAnswer');
+            if (!editor) return;
+            editor.focus();
+            document.execCommand(command, false, null);
+            syncOrgGovCultureFaqDraft('description', editor.innerHTML);
         }
 
         function selectOrgGovCultureTextItem(space, id) {
@@ -2973,6 +3325,43 @@ function openAgendaTab(tabName) {
             openOrgGovSmiDossier(orgGovSmiDossierCurrent);
         }
 
+        function getOrgGovSmiDossierPath(folder) {
+            return joinGedPath(
+                GED_ROOT_PATH,
+                'Organisation & RSE',
+                'SMI',
+                'Dossiers processus',
+                folder.dossier
+            );
+        }
+
+        function hydrateOrgGovSmiDossierCounts(folders) {
+            if (!shouldUseSmiDocumentsApi()) return folders;
+
+            return folders.map(folder => {
+                const state = getGedDocumentsState(
+                    getOrgGovSmiDossierPath(folder),
+                    renderOrgGovSmiDossiers
+                );
+                if (!state?.loaded || state.error) {
+                    return { ...folder, documentCountLoading: Boolean(state?.loading && !state.loaded) };
+                }
+
+                const docs = (state.documents || []).map(documentItem => ({
+                    ...documentItem,
+                    label: documentItem.label || documentItem.title,
+                    type: getOrgGovSmiDossierDocumentType(documentItem)
+                }));
+                return { ...folder, docs, documentCountLoading: false };
+            });
+        }
+
+        function renderOrgGovSmiDossierCount(folder) {
+            if (folder.documentCountLoading) return 'Chargement...';
+            const count = folder.docs?.length || 0;
+            return `${count} ${count === 1 ? 'document' : 'documents'}`;
+        }
+
         function renderOrgGovSmiDossiers() {
             const host = document.getElementById('orgGovSmiDossiers');
             if (!host) return;
@@ -3000,6 +3389,7 @@ function openAgendaTab(tabName) {
                 if (dossiersState?.loaded && !dossiersState.error) {
                     orgGovSmiDossiersData = buildOrgGovSmiDossiersFromScopedDocuments(dossiersState.documents || []);
                 }
+                orgGovSmiDossiersData = hydrateOrgGovSmiDossierCounts(orgGovSmiDossiersData);
             }
             if (!orgGovSmiDossiersData.length) {
                 host.innerHTML = (useDocumentsApi ? renderOrgGovSmiLocalModeNote() : '') + '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Aucun dossier processus disponible.</div>';
@@ -3030,7 +3420,7 @@ function openAgendaTab(tabName) {
                         <div class="doc-icon" style="background:#eff6ff;color:#1d4ed8;font-weight:900;">GED</div>
                         <div class="doc-info">
                             <div class="doc-title">${escapeHtml(f.dossier)}</div>
-                            <div class="doc-meta">${f.docs.length} document(s)</div>
+                            <div class="doc-meta">${escapeHtml(renderOrgGovSmiDossierCount(f))}</div>
                         </div>
                         <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                     </div>
@@ -3502,12 +3892,15 @@ function openAgendaTab(tabName) {
             if (!root) return;
             const state = getDataUniverseTextState('faq', renderOrgGovCultureFaq);
             loadDataUniverseTextSpace('faq', renderOrgGovCultureFaq);
-            const sourceItems = getOrgGovCultureTextItems('faq');
             const rawQuery = orgGovCultureFaqQuery.trim();
-            const q = rawQuery.toLowerCase();
-            const items = sourceItems.filter(item => !q || item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q));
-            const paginationKey = `org-gov-culture-faq:${q}`;
-            const pagination = paginateGedDocuments(paginationKey, items, renderOrgGovCultureFaq);
+            const q = normalizeGedText(rawQuery);
+            if (q && shouldUseDataUniverseApi()) loadDataUniverseSearchItems('faq', renderOrgGovCultureFaq);
+            const sourceItems = q && shouldUseDataUniverseApi()
+                ? (state?.searchItems || [])
+                : getOrgGovCultureTextItems('faq');
+            const items = sourceItems.filter(item => !q
+                || normalizeGedText(item.title).includes(q)
+                || normalizeGedText(faqRichTextPlainValue(item.description)).includes(q));
             const draft = orgGovCultureTextDrafts.faq;
             root.innerHTML = `
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
@@ -3523,24 +3916,38 @@ function openAgendaTab(tabName) {
                 ${orgGovCultureTextFormsOpen.faq ? `
                     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:14px;">
                         <div style="font-weight:800;color:#0f172a;margin-bottom:10px;">Ajouter une FAQ</div>
-                        <input id="orgGovCultureFaqQuestion" class="actu-search-input" placeholder="Question" value="${escapeHtml(draft.title || '')}">
-                        <textarea id="orgGovCultureFaqAnswer" class="actu-search-input" style="height:100px;margin-top:10px;padding-top:10px;" placeholder="Réponse">${escapeHtml(draft.description || '')}</textarea>
+                        <input id="orgGovCultureFaqQuestion" class="actu-search-input" placeholder="Question" value="${escapeHtml(draft.title || '')}" oninput="syncOrgGovCultureFaqDraft('title', this.value)">
+                        <div class="faq-rich-editor">
+                            <div class="faq-rich-editor-toolbar" role="toolbar" aria-label="Mise en forme de la réponse">
+                                <button type="button" onmousedown="event.preventDefault(); formatOrgGovCultureFaqAnswer('bold')" aria-label="Gras" title="Gras"><i data-lucide="bold"></i></button>
+                                <button type="button" onmousedown="event.preventDefault(); formatOrgGovCultureFaqAnswer('italic')" aria-label="Italique" title="Italique"><i data-lucide="italic"></i></button>
+                                <button type="button" onmousedown="event.preventDefault(); formatOrgGovCultureFaqAnswer('underline')" aria-label="Souligné" title="Souligné"><i data-lucide="underline"></i></button>
+                                <span class="faq-rich-editor-separator" aria-hidden="true"></span>
+                                <button type="button" onmousedown="event.preventDefault(); formatOrgGovCultureFaqAnswer('insertUnorderedList')" aria-label="Liste à puces" title="Liste à puces"><i data-lucide="list"></i></button>
+                                <button type="button" onmousedown="event.preventDefault(); formatOrgGovCultureFaqAnswer('insertOrderedList')" aria-label="Liste numérotée" title="Liste numérotée"><i data-lucide="list-ordered"></i></button>
+                                <span class="faq-rich-editor-separator" aria-hidden="true"></span>
+                                <button type="button" onmousedown="event.preventDefault(); formatOrgGovCultureFaqAnswer('removeFormat')" aria-label="Effacer la mise en forme" title="Effacer la mise en forme"><i data-lucide="remove-formatting"></i></button>
+                            </div>
+                            <div id="orgGovCultureFaqAnswer" class="faq-rich-editor-content" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Réponse" oninput="syncOrgGovCultureFaqDraft('description', this.innerHTML)">${renderFaqRichText(draft.description || '')}</div>
+                        </div>
                         <div style="display:flex;justify-content:flex-end;margin-top:10px;">
                             <button id="orgGovCultureFaqSubmit" type="button" class="primary-btn" onclick="submitOrgGovCultureFaq()" ${state?.submitting ? 'disabled' : ''}>${state?.submitting ? 'Enregistrement...' : 'Enregistrer'}</button>
                         </div>
                     </div>
                 ` : ''}
-                ${renderDataUniverseStatus(state, 'Aucune question enregistrée.')}
+                ${q ? '' : renderDataUniverseStatus(state, 'Aucune question enregistrée.')}
+                ${q && state?.searchLoading ? '<div style="padding:14px;color:#64748b;font-size:13px;">Recherche dans toutes les FAQ...</div>' : ''}
+                ${q && state?.searchError ? '<div style="padding:12px;color:#9a3412;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;font-size:12px;margin-bottom:12px;">Impossible de rechercher dans toutes les FAQ pour le moment.</div>' : ''}
                 <div class="doc-list">
-                    ${pagination.items.map(item => `
+                    ${items.map(item => `
                         <div style="padding:14px 0;border-top:1px solid #f1f5f9;">
                             <div style="min-width:0;">
                                 <div style="font-weight:900;color:#0f172a;">${escapeHtml(item.title)}</div>
-                                <div style="margin-top:6px;color:#475569;font-size:13px;line-height:1.7;">${escapeHtml(item.description)}</div>
+                                <div class="faq-rich-answer">${renderFaqRichText(item.description)}</div>
                             </div>
                         </div>
-                    `).join('') || (!state?.loading && sourceItems.length ? '<div style="color:#64748b;font-size:13px;">Aucun résultat.</div>' : '')}
-                    ${renderGedDocumentsPagination(paginationKey, pagination)}
+                    `).join('') || (q && !state?.searchLoading && (!shouldUseDataUniverseApi() || state?.searchLoaded) ? '<div style="color:#64748b;font-size:13px;">Aucun résultat.</div>' : '')}
+                    ${q ? '' : renderDataUniverseBackendPagination('faq', state)}
                 </div>
             `;
             lucide.createIcons();
@@ -3557,8 +3964,8 @@ function openAgendaTab(tabName) {
 
         async function submitOrgGovCultureFaq() {
             const title = (document.getElementById('orgGovCultureFaqQuestion')?.value || '').trim();
-            const description = (document.getElementById('orgGovCultureFaqAnswer')?.value || '').trim();
-            if (!title || !description) return;
+            const description = sanitizeFaqRichText(document.getElementById('orgGovCultureFaqAnswer')?.innerHTML || '');
+            if (!title || !faqRichTextPlainValue(description)) return;
             orgGovCultureTextDrafts.faq = { title, description };
             if (!shouldUseDataUniverseApi()) {
                 orgGovCultureFaq = [{ question: title, answer: description }, ...orgGovCultureFaq];
@@ -3743,8 +4150,6 @@ function openAgendaTab(tabName) {
                 orgGovCultureTextSelectedIds.ideas = sourceItems[0]?.id || '';
             }
             const selectedItem = sourceItems.find(item => item.id === orgGovCultureTextSelectedIds.ideas) || null;
-            const paginationKey = 'org-gov-culture-ideas';
-            const pagination = paginateGedDocuments(paginationKey, sourceItems, renderOrgGovCultureIdeas);
             const draft = orgGovCultureTextDrafts.ideas;
             const showSidePanel = orgGovCultureTextFormsOpen.ideas || selectedItem;
             root.innerHTML = `
@@ -3754,14 +4159,14 @@ function openAgendaTab(tabName) {
                 ${renderDataUniverseStatus(state, 'Aucune idée enregistrée.')}
                 <div class="data-universe-content-layout${showSidePanel ? ' has-form' : ''}">
                     <div class="doc-list">
-                        ${pagination.items.map(item => `
+                        ${sourceItems.map(item => `
                             <button type="button" class="doc-item data-universe-list-item${item.id === selectedItem?.id ? ' active' : ''}" onclick="selectOrgGovCultureTextItem('ideas', ${escapeHtml(JSON.stringify(item.id))})">
                                 <div class="doc-icon" style="background:#f0fdf4;color:#15803d;font-weight:900;">ID</div>
                                 <div class="doc-info"><div class="doc-title">${escapeHtml(item.title)}</div><div class="doc-meta">${escapeHtml([item.type, item.pending ? 'Enregistrement...' : ''].filter(Boolean).join(' • '))}</div></div>
                                 <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                             </button>
                         `).join('')}
-                        ${renderGedDocumentsPagination(paginationKey, pagination)}
+                        ${renderDataUniverseBackendPagination('ideas', state)}
                     </div>
                     ${orgGovCultureTextFormsOpen.ideas ? `<div class="data-universe-detail-panel">
                         <div style="font-weight:800;color:#0f172a;margin-bottom:10px;">Ajouter une idée</div>
@@ -3812,8 +4217,6 @@ function openAgendaTab(tabName) {
                 orgGovCultureTextSelectedIds.reports = sourceItems[0]?.id || '';
             }
             const selectedItem = sourceItems.find(item => item.id === orgGovCultureTextSelectedIds.reports) || null;
-            const paginationKey = 'org-gov-culture-reports';
-            const pagination = paginateGedDocuments(paginationKey, sourceItems, renderOrgGovCultureRemontees);
             const draft = orgGovCultureTextDrafts.reports;
             const showSidePanel = orgGovCultureTextFormsOpen.reports || selectedItem;
             root.innerHTML = `
@@ -3823,14 +4226,14 @@ function openAgendaTab(tabName) {
                 ${renderDataUniverseStatus(state, 'Aucune remontée enregistrée.')}
                 <div class="data-universe-content-layout${showSidePanel ? ' has-form' : ''}">
                     <div class="doc-list">
-                        ${pagination.items.map(item => `
+                        ${sourceItems.map(item => `
                             <button type="button" class="doc-item data-universe-list-item${item.id === selectedItem?.id ? ' active' : ''}" onclick="selectOrgGovCultureTextItem('reports', ${escapeHtml(JSON.stringify(item.id))})">
                                 <div class="doc-icon" style="background:#fff7ed;color:#ea580c;font-weight:900;">REM</div>
                                 <div class="doc-info"><div class="doc-title">${escapeHtml(item.title)}</div><div class="doc-meta">${escapeHtml([item.type, item.pending ? 'Enregistrement...' : ''].filter(Boolean).join(' • '))}</div></div>
                                 <i data-lucide="chevron-right" style="width:16px;height:16px;color:#94a3b8;"></i>
                             </button>
                         `).join('')}
-                        ${renderGedDocumentsPagination(paginationKey, pagination)}
+                        ${renderDataUniverseBackendPagination('reports', state)}
                     </div>
                     ${orgGovCultureTextFormsOpen.reports ? `<div class="data-universe-detail-panel">
                         <div style="font-weight:800;color:#0f172a;margin-bottom:10px;">Ajouter une remontée</div>
@@ -3872,23 +4275,7 @@ function openAgendaTab(tabName) {
         function renderOrgGovCultureStats() {
             const root = document.getElementById('orgGovCultureStats');
             if (!root) return;
-            const ideaState = getDataUniverseTextState('ideas', renderOrgGovCultureStats);
-            const reportState = getDataUniverseTextState('reports', renderOrgGovCultureStats);
-            const dynamic = [
-                { label: 'Idées soumises', value: ideaState ? ideaState.items.length : orgGovCultureIdeas.length },
-                { label: 'Remontées terrain', value: reportState ? reportState.items.length : orgGovCultureRemontees.length }
-            ];
-            const items = [...(orgGovCultureStats.items || []).slice(0, 2), ...dynamic];
-            root.innerHTML = `
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;">
-                    ${items.map(s => `
-                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;">
-                            <div style="font-size:11px;color:#94a3b8;font-weight:900;">${s.label}</div>
-                            <div style="margin-top:8px;font-size:24px;font-weight:900;color:#0f172a;">${s.value}</div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
+            root.innerHTML = '';
         }
 
         // ====== Téléchargement (mock) ======
@@ -4107,34 +4494,53 @@ function openAgendaTab(tabName) {
         const innovationReadStates = new Map();
 
         function getInnovationReadState(space) {
-            const state = innovationReadStates.get(space) || { loading: false, loaded: false, attempted: false, error: null };
+            const state = innovationReadStates.get(space) || {
+                loading: false,
+                loaded: false,
+                attempted: false,
+                error: null,
+                page: 1,
+                pageSize: 10,
+                hasNext: false,
+                searchLoading: false,
+                searchLoaded: false,
+                searchAttempted: false,
+                searchItems: [],
+                searchError: null
+            };
             innovationReadStates.set(space, state);
             return state;
         }
 
         function getWorkflowViewItems(payload) {
             const root = payload?.data?.data ?? payload?.data ?? payload;
-            return Array.isArray(root?.values) ? root.values : (Array.isArray(root) ? root : []);
-        }
+            const recordKeys = ['values', 'items', 'records', 'results', 'rows', 'content', 'elements', 'result', 'value'];
 
-        function innovationViewItemMatchesSpace(space, values) {
-            if (!values || typeof values !== 'object') return false;
-            const hasValue = field => {
-                if (!Object.prototype.hasOwnProperty.call(values, field)) return false;
-                const value = values[field];
-                if (Array.isArray(value)) return value.length > 0;
-                if (value && typeof value === 'object') return Object.keys(value).length > 0;
-                return value !== undefined && value !== null && String(value).trim() !== '';
-            };
-            const projectIdeaFields = ['Theme', 'Periode', 'ImageIllustrative', 'SupportsDocumentaires'];
-            const cmrInnovFields = ['Description', 'Image'];
-            if (space === 'cmr-innov') {
-                return !projectIdeaFields.some(hasValue) && cmrInnovFields.some(hasValue);
+            function findRecords(value, depth = 0) {
+                if (Array.isArray(value)) return value;
+                if (!value || typeof value !== 'object' || depth > 6) return [];
+                if (value.values && typeof value.values === 'object' && !Array.isArray(value.values)) return [value];
+                for (const key of recordKeys) {
+                    const records = findRecords(value[key], depth + 1);
+                    if (records.length) return records;
+                }
+                return [];
             }
-            if (space === 'project-idea') {
-                return projectIdeaFields.some(hasValue);
-            }
-            return true;
+
+            return findRecords(root).map(record => {
+                if (!record?.values || typeof record.values !== 'object' || Array.isArray(record.values)) return record;
+                return {
+                    ...record.values,
+                    sys_CurrentResourceId: record.values.sys_CurrentResourceId
+                        || record.uid
+                        || record.id
+                        || record['@id']
+                        || record['$id']
+                        || record._id
+                        || record.identifier
+                        || ''
+                };
+            });
         }
 
         function innovationFileEntries(value) {
@@ -4204,10 +4610,14 @@ function openAgendaTab(tabName) {
             state.error = null;
             try {
                 if (!window.CMR_PLATFORM?.innovation?.list) throw new Error('Client Moovapps indisponible.');
-                const payload = await window.CMR_PLATFORM.innovation.list(space);
-                const matchingItems = getWorkflowViewItems(payload)
-                    .filter(item => innovationViewItemMatchesSpace(space, item));
-                applyItems(matchingItems.map((item, index) => normalizeInnovationViewItem(space, item, index)));
+                const start = (state.page - 1) * state.pageSize;
+                const payload = await window.CMR_PLATFORM.innovation.list(space, {
+                    start,
+                    end: start + state.pageSize + 1
+                });
+                const items = getWorkflowViewItems(payload);
+                state.hasNext = items.length > state.pageSize;
+                applyItems(items.slice(0, state.pageSize).map((item, index) => normalizeInnovationViewItem(space, item, start + index)));
                 state.loaded = true;
             } catch (error) {
                 state.error = error;
@@ -4215,6 +4625,96 @@ function openAgendaTab(tabName) {
                 state.loading = false;
                 renderAfterLoad?.();
             }
+        }
+
+        async function loadInnovationSearchItems(space, renderAfterLoad) {
+            if (!shouldUseInnovationApi()) return;
+            const state = getInnovationReadState(space);
+            if (state.searchLoading || state.searchLoaded || state.searchAttempted) return;
+            state.searchLoading = true;
+            state.searchAttempted = true;
+            state.searchError = null;
+            try {
+                if (!window.CMR_PLATFORM?.innovation?.list) throw new Error('Client Moovapps indisponible.');
+                const payload = await window.CMR_PLATFORM.innovation.list(space);
+                state.searchItems = getWorkflowViewItems(payload).map((item, index) =>
+                    normalizeInnovationViewItem(space, item, index)
+                );
+                state.searchLoaded = true;
+            } catch (error) {
+                state.searchError = error;
+            } finally {
+                state.searchLoading = false;
+                renderAfterLoad?.();
+            }
+        }
+
+        function getInnovationKnownItems(space, pageItems) {
+            const searchItems = getInnovationReadState(space).searchItems || [];
+            return [...new Map([...searchItems, ...pageItems].map(item => [item.id, item])).values()];
+        }
+
+        function renderInnovationBackendPagination(space) {
+            if (!shouldUseInnovationApi()) return '';
+            const state = getInnovationReadState(space);
+            if (state.page === 1 && !state.hasNext) return '';
+            return `
+                <div class="cmr-position-pagination cmr-document-pagination" aria-label="Pagination ${escapeHtml(space)}">
+                    <button type="button" onclick="changeInnovationBackendPage('${space}', -1)" ${state.page === 1 || state.loading ? 'disabled' : ''} aria-label="Page précédente">
+                        <i data-lucide="chevron-left"></i> Précédent
+                    </button>
+                    <span>Page ${state.page}</span>
+                    <span class="cmr-pagination-jump">
+                        <label>Aller à <input type="number" min="1" value="${state.page}" aria-label="Numéro de page" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); goToInnovationBackendPage('${space}', this.value); }"></label>
+                        <button type="button" onclick="goToInnovationBackendPage('${space}', this.previousElementSibling.querySelector('input').value)" ${state.loading ? 'disabled' : ''}>Aller</button>
+                    </span>
+                    <button type="button" onclick="changeInnovationBackendPage('${space}', 1)" ${!state.hasNext || state.loading ? 'disabled' : ''} aria-label="Page suivante">
+                        Suivant <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>`;
+        }
+
+        function clearInnovationSpaceItems(space) {
+            if (space === 'project') projectSheets = [];
+            if (space === 'project-idea') projectIdeas = [];
+            if (space === 'spontaneous') ideas = [];
+            if (space === 'cmr-innov') cmrInnovItems = [];
+            if (space === 'event') innovEventItems = [];
+        }
+
+        function renderInnovationSpace(space) {
+            if (space === 'project') renderInnovationProjectCards();
+            if (space === 'project-idea') renderInnovationProjectIdeaCards();
+            if (space === 'spontaneous' || space === 'cmr-innov') renderInnovationEspaceIdees();
+            if (space === 'event') renderInnovEvent();
+        }
+
+        function changeInnovationBackendPage(space, delta) {
+            const state = getInnovationReadState(space);
+            if (state.loading || (delta > 0 && !state.hasNext)) return;
+            const nextPage = Math.max(1, state.page + delta);
+            if (nextPage === state.page) return;
+            state.page = nextPage;
+            state.loaded = false;
+            state.attempted = false;
+            state.error = null;
+            state.hasNext = false;
+            clearInnovationSpaceItems(space);
+            renderInnovationSpace(space);
+        }
+
+        function goToInnovationBackendPage(space, value) {
+            const state = getInnovationReadState(space);
+            if (state.loading) return;
+            const nextPage = Math.max(1, Math.floor(Number(value) || 1));
+            if (nextPage === state.page) return;
+            state.page = nextPage;
+            state.loaded = false;
+            state.attempted = false;
+            state.error = null;
+            state.hasNext = false;
+            clearInnovationSpaceItems(space);
+            renderInnovationSpace(space);
         }
 
         function renderInnovationAttachments(documents) {
@@ -4250,6 +4750,11 @@ function openAgendaTab(tabName) {
             setInnovationSubmitStatus(statusId, 'Enregistrement en cours...');
             if (!window.CMR_PLATFORM?.innovation?.submit) throw new Error('Client Moovapps indisponible.');
             const result = await window.CMR_PLATFORM.innovation.submit(space, values, files);
+            const state = getInnovationReadState(space);
+            state.searchLoaded = false;
+            state.searchAttempted = false;
+            state.searchItems = [];
+            state.searchError = null;
             const gedWarning = Array.isArray(result.ged) && result.ged.some(item => !item.ok);
             setInnovationSubmitStatus(
                 statusId,
@@ -4260,7 +4765,7 @@ function openAgendaTab(tabName) {
         }
 
         function getInnovationSearchValue(inputId) {
-            return (document.getElementById(inputId)?.value || '').trim().toLowerCase();
+            return normalizeGedText(document.getElementById(inputId)?.value || '');
         }
 
         function matchesInnovationSearch(item, query) {
@@ -4279,7 +4784,7 @@ function openAgendaTab(tabName) {
                 item.period,
                 item.axis,
                 item.desc
-            ].filter(Boolean).join(' ').toLowerCase().includes(query);
+            ].filter(Boolean).map(normalizeGedText).join(' ').includes(query);
         }
 
         function focusInnovationField(fieldId) {
@@ -4297,17 +4802,34 @@ function openAgendaTab(tabName) {
             lucide.createIcons();
         }
 
-        function renderInnovationImageGrid(items, targetId, onClickFn, showDescription = true, searchInputId = null) {
+        function renderInnovationImageGrid(items, targetId, onClickFn, showDescription = true, searchInputId = null, backendSpace = null) {
             const root = document.getElementById(targetId);
             if (!root) return;
             const isProjectCover = targetId === 'innovationProjectCards'
                 || targetId === 'innovationProjectIdeaCards'
                 || targetId === 'innovationEventCards';
             const query = searchInputId ? getInnovationSearchValue(searchInputId) : '';
-            const filteredItems = sortedRecent(items.filter(item => matchesInnovationSearch(item, query)));
+            const usesBackendPagination = backendSpace && shouldUseInnovationApi();
+            const usesGlobalSearch = Boolean(usesBackendPagination && query);
+            const backendState = usesBackendPagination ? getInnovationReadState(backendSpace) : null;
+            if (usesGlobalSearch) {
+                loadInnovationSearchItems(backendSpace, () => renderInnovationImageGrid(items, targetId, onClickFn, showDescription, searchInputId, backendSpace));
+            }
+            const searchableItems = usesGlobalSearch ? (backendState?.searchItems || []) : items;
+            const filteredItems = sortedRecent(searchableItems.filter(item => matchesInnovationSearch(item, query)));
             const pageKey = `innovation-grid-${targetId}-${query}`;
-            const pagination = paginateGedDocuments(pageKey, filteredItems, () => renderInnovationImageGrid(items, targetId, onClickFn, showDescription, searchInputId));
-            const visibleItems = pagination.items;
+            const pagination = usesBackendPagination
+                ? null
+                : paginateGedDocuments(pageKey, filteredItems, () => renderInnovationImageGrid(items, targetId, onClickFn, showDescription, searchInputId, backendSpace));
+            const visibleItems = usesBackendPagination ? filteredItems : pagination.items;
+            if (usesGlobalSearch && backendState?.searchLoading) {
+                root.innerHTML = '<div style="padding:12px;color:#64748b;font-size:13px;">Recherche dans tous les enregistrements...</div>';
+                return;
+            }
+            if (usesGlobalSearch && backendState?.searchError) {
+                root.innerHTML = '<div style="padding:12px;color:#9a3412;font-size:13px;">Impossible d’effectuer la recherche globale pour le moment.</div>';
+                return;
+            }
             root.innerHTML = `
                 <div class="km-grid innovation-card-grid${isProjectCover ? ' innovation-project-cover-grid' : ''}">
                     ${visibleItems.map(item => `
@@ -4323,7 +4845,9 @@ function openAgendaTab(tabName) {
                         </div>
                     `).join('') || '<div style="grid-column:1/-1;color:#64748b;font-size:13px;padding:12px;">Aucun résultat trouvé.</div>'}
                 </div>
-                ${renderGedDocumentsPagination(pageKey, pagination)}
+                ${usesBackendPagination
+                    ? (query ? '' : renderInnovationBackendPagination(backendSpace))
+                    : renderGedDocumentsPagination(pageKey, pagination)}
             `;
             lucide.createIcons();
         }
@@ -4337,7 +4861,8 @@ function openAgendaTab(tabName) {
         function renderInnovationProjectDetail() {
             const detail = document.getElementById('innovationProjectDetail');
             if (!detail) return;
-            const project = projectSheets.find(p => p.id === selectedProjectSheetId) || projectSheets[0];
+            const knownProjects = getInnovationKnownItems('project', projectSheets);
+            const project = knownProjects.find(p => p.id === selectedProjectSheetId) || knownProjects[0];
             selectedProjectSheetId = project?.id || null;
             detail.innerHTML = project ? `
                 <div class="innovation-project-cover-scroll"><img class="innovation-project-cover-detail" src="${project.image}" alt="${escapeHtml(project.title)}"></div>
@@ -4373,7 +4898,8 @@ function openAgendaTab(tabName) {
         function renderInnovationProjectIdeaDetail() {
             const detail = document.getElementById('innovationProjectIdeaDetail');
             if (!detail) return;
-            const project = projectIdeas.find(p => p.id === selectedProjectIdeaId) || projectIdeas[0];
+            const knownProjects = getInnovationKnownItems('project-idea', projectIdeas);
+            const project = knownProjects.find(p => p.id === selectedProjectIdeaId) || knownProjects[0];
             selectedProjectIdeaId = project?.id || null;
             detail.innerHTML = project ? `
                 <div class="innovation-project-cover-scroll"><img class="innovation-project-cover-detail" src="${project.image}" alt="${escapeHtml(project.title)}"></div>
@@ -4420,7 +4946,7 @@ function openAgendaTab(tabName) {
                 root.innerHTML = '<div style="padding:12px;color:#9a3412;font-size:13px;">Impossible de charger les projets pour le moment.</div>';
                 return;
             }
-            renderInnovationImageGrid(projectSheets, 'innovationProjectCards', 'selectInnovationProject', false, 'projectSheetSearch');
+            renderInnovationImageGrid(projectSheets, 'innovationProjectCards', 'selectInnovationProject', false, 'projectSheetSearch', 'project');
         }
 
         function renderInnovationProjectIdeaCards() {
@@ -4435,7 +4961,7 @@ function openAgendaTab(tabName) {
                 root.innerHTML = '<div style="padding:12px;color:#9a3412;font-size:13px;">Impossible de charger les projets idées pour le moment.</div>';
                 return;
             }
-            renderInnovationImageGrid(projectIdeas, 'innovationProjectIdeaCards', 'selectInnovationProjectIdea', false, 'projectIdeaSearch');
+            renderInnovationImageGrid(projectIdeas, 'innovationProjectIdeaCards', 'selectInnovationProjectIdea', false, 'projectIdeaSearch', 'project-idea');
         }
 
         function backToInnovationProjectList(subId) {
@@ -4547,14 +5073,32 @@ function openAgendaTab(tabName) {
             switchInnovationProjectSub('fiches-projets');
         }
 
-        function renderIdeaMiniList(items, targetId, searchInputId = null, onClickFn = null) {
+        function renderIdeaMiniList(items, targetId, searchInputId = null, onClickFn = null, backendSpace = null) {
             const root = document.getElementById(targetId);
             if (!root) return;
             const query = searchInputId ? getInnovationSearchValue(searchInputId) : '';
-            const filteredItems = items.filter(item => matchesInnovationSearch(item, query));
+            const usesBackendPagination = backendSpace && shouldUseInnovationApi();
+            const usesGlobalSearch = Boolean(usesBackendPagination && query);
+            const backendState = usesBackendPagination ? getInnovationReadState(backendSpace) : null;
+            if (usesGlobalSearch) {
+                loadInnovationSearchItems(backendSpace, () => renderIdeaMiniList(items, targetId, searchInputId, onClickFn, backendSpace));
+            }
+            const searchableItems = usesGlobalSearch ? (backendState?.searchItems || []) : items;
+            const filteredItems = searchableItems.filter(item => matchesInnovationSearch(item, query));
             const pageKey = `innovation-list-${targetId}-${query}`;
-            const pagination = paginateGedDocuments(pageKey, filteredItems, () => renderIdeaMiniList(items, targetId, searchInputId));
-            root.innerHTML = pagination.items.map(item => `
+            const pagination = usesBackendPagination
+                ? null
+                : paginateGedDocuments(pageKey, filteredItems, () => renderIdeaMiniList(items, targetId, searchInputId, onClickFn, backendSpace));
+            const visibleItems = usesBackendPagination ? filteredItems : pagination.items;
+            if (usesGlobalSearch && backendState?.searchLoading) {
+                root.innerHTML = '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Recherche dans tous les enregistrements...</div>';
+                return;
+            }
+            if (usesGlobalSearch && backendState?.searchError) {
+                root.innerHTML = '<div style="padding:12px 18px;color:#9a3412;font-size:13px;">Impossible d’effectuer la recherche globale pour le moment.</div>';
+                return;
+            }
+            root.innerHTML = visibleItems.map(item => `
                 <div class="doc-item" ${onClickFn ? `onclick="${onClickFn}(${escapeHtml(JSON.stringify(item.id))})" style="cursor:pointer;"` : ''}>
                     <img src="${item.image || 'images/intranet/slider1.png'}" alt="${escapeHtml(item.title)}" style="width:48px;height:48px;border-radius:12px;object-fit:cover;">
                     <div class="doc-info">
@@ -4563,7 +5107,9 @@ function openAgendaTab(tabName) {
                     </div>
                 </div>
             `).join('') || '<div style="color:#64748b;font-size:13px;padding:12px 18px;">Aucun résultat trouvé.</div>';
-            root.insertAdjacentHTML('beforeend', renderGedDocumentsPagination(pageKey, pagination));
+            root.insertAdjacentHTML('beforeend', usesBackendPagination
+                ? (query ? '' : renderInnovationBackendPagination(backendSpace))
+                : renderGedDocumentsPagination(pageKey, pagination));
             lucide.createIcons();
         }
 
@@ -4582,8 +5128,8 @@ function openAgendaTab(tabName) {
         function renderInnovationEspaceIdees() {
             loadInnovationSpace('spontaneous', items => { ideas = items; }, renderInnovationEspaceIdees);
             loadInnovationSpace('cmr-innov', items => { cmrInnovItems = items; }, renderInnovationEspaceIdees);
-            renderIdeaMiniList(ideas.map(i => ({ ...i, image: i.image || 'images/intranet/slider1.png', theme: i.axis })), 'innovationSpontaneousIdeas', 'spontaneousIdeaSearch', 'selectSpontaneousIdea');
-            renderIdeaMiniList(cmrInnovItems, 'innovationCmrInnovList', 'cmrInnovSearch', 'selectCmrInnovItem');
+            renderIdeaMiniList(ideas.map(i => ({ ...i, image: i.image || 'images/intranet/slider1.png', theme: i.axis })), 'innovationSpontaneousIdeas', 'spontaneousIdeaSearch', 'selectSpontaneousIdea', 'spontaneous');
+            renderIdeaMiniList(cmrInnovItems, 'innovationCmrInnovList', 'cmrInnovSearch', 'selectCmrInnovItem', 'cmr-innov');
             if (getInnovationReadState('spontaneous').loading) {
                 const root = document.getElementById('innovationSpontaneousIdeas');
                 if (root) root.innerHTML = '<div style="padding:12px 18px;color:#64748b;font-size:13px;">Chargement des idées...</div>';
@@ -4630,11 +5176,11 @@ function openAgendaTab(tabName) {
         }
 
         function selectSpontaneousIdea(id) {
-            showInnovationIdeaPanel('spontaneous', 'detail', ideas.find(item => item.id === id));
+            showInnovationIdeaPanel('spontaneous', 'detail', getInnovationKnownItems('spontaneous', ideas).find(item => item.id === id));
         }
 
         function selectCmrInnovItem(id) {
-            showInnovationIdeaPanel('cmr-innov', 'detail', cmrInnovItems.find(item => item.id === id));
+            showInnovationIdeaPanel('cmr-innov', 'detail', getInnovationKnownItems('cmr-innov', cmrInnovItems).find(item => item.id === id));
         }
 
         async function submitSpontaneousIdea() {
@@ -4704,7 +5250,8 @@ function openAgendaTab(tabName) {
         function renderInnovEventDetail() {
             const detail = document.getElementById('innovationEventDetail');
             if (!detail) return;
-            const event = innovEventItems.find(e => e.id === selectedInnovEventId) || innovEventItems[0];
+            const knownEvents = getInnovationKnownItems('event', innovEventItems);
+            const event = knownEvents.find(e => e.id === selectedInnovEventId) || knownEvents[0];
             selectedInnovEventId = event?.id || null;
             detail.innerHTML = event ? `
                 <div class="innovation-project-cover-scroll"><img class="innovation-project-cover-detail" src="${event.image}" alt="${escapeHtml(event.title)}"></div>
@@ -4730,7 +5277,7 @@ function openAgendaTab(tabName) {
                 root.innerHTML = '<div style="padding:12px;color:#9a3412;font-size:13px;">Impossible de charger les événements pour le moment.</div>';
                 return;
             }
-            renderInnovationImageGrid(innovEventItems, 'innovationEventCards', 'selectInnovEvent', false, 'innovEventSearch');
+            renderInnovationImageGrid(innovEventItems, 'innovationEventCards', 'selectInnovEvent', false, 'innovEventSearch', 'event');
         }
 
         function toggleInnovEventForm() {
@@ -6757,6 +7304,18 @@ function openAgendaTab(tabName) {
             if (el) el.classList.add('active');
             renderRegDocumentDocs(subId);
         }
+
+        function normalizeRegDocumentTheme(value) {
+            const normalized = normalizeGedText(value);
+            const singularThemes = {
+                arretes: 'arrete',
+                circulaires: 'circulaire',
+                decrets: 'decret',
+                lois: 'loi'
+            };
+            return singularThemes[normalized] || normalized;
+        }
+
         function renderRegDocumentDocs(subId) {
             const root = document.getElementById(`regDocumentList-${subId}`);
             if (!root) return;
@@ -6782,7 +7341,8 @@ function openAgendaTab(tabName) {
                 : regDocumentItems;
             const items = sourceItems.filter(i => {
                 const sectionOk = i.section === subId;
-                const themeOk = selectedTheme === 'all' || i.theme === selectedTheme;
+                const themeOk = selectedTheme === 'all'
+                    || normalizeRegDocumentTheme(i.theme) === normalizeRegDocumentTheme(selectedTheme);
                 const qOk = !q || (i.title + ' ' + i.theme + ' ' + i.meta).toLowerCase().includes(q);
                 return sectionOk && themeOk && qOk;
             });
@@ -9274,7 +9834,6 @@ function openAgendaTab(tabName) {
                 <div class="actu-card" onclick="openActuDetail(${a.id})">
                     <img class="actu-card-img" src="${a.image}" alt="${a.title}" onerror="this.src='${actualitesLabels.fallbackImage || ''}'">
                     <div class="actu-card-body">
-                        <span class="actu-card-category">${a.category}</span>
                         <div class="actu-card-title">${a.title}</div>
                         <div class="actu-card-excerpt">${a.excerpt}</div>
                         <div class="actu-card-footer">
@@ -9296,7 +9855,6 @@ function openAgendaTab(tabName) {
 
         function getFilteredActu() {
             return actuData.filter(a => {
-                const matchCat = actuCurrentCategory === 'all' || a.category === actuCurrentCategory;
                 const q = actuCurrentSearch.trim().toLowerCase();
                 const matchSearch = !q ||
                     a.title.toLowerCase().includes(q) ||
@@ -9304,7 +9862,7 @@ function openAgendaTab(tabName) {
                     a.category.toLowerCase().includes(q) ||
                     a.author.toLowerCase().includes(q) ||
                     (a.tags || []).some(t => t.toLowerCase().includes(q));
-                return matchCat && matchSearch;
+                return matchSearch;
             });
         }
 
@@ -9348,7 +9906,6 @@ function openAgendaTab(tabName) {
                 <img class="actu-detail-hero" src="${detailImage}" alt="${article.title}" onerror="this.src='${actualitesLabels.fallbackImage || ''}'">
                 <div class="actu-detail-body">
                     <div class="actu-detail-meta-row">
-                        <span class="actu-detail-category">${article.category}</span>
                         <span class="actu-detail-date">
                             <i data-lucide="calendar" style="width:13px;height:13px;"></i>
                             ${article.date}
@@ -9425,7 +9982,7 @@ function openAgendaTab(tabName) {
                 notifs.forEach(n => {
                     const ic = notifIcons[n.type] || {};
                     html += `
-                        <div class="notif-page-item${n.unread ? ' unread' : ''}" id="notif-item-${n.id}" onclick="markNotifRead(${n.id})">
+                        <div class="notif-page-item${n.unread ? ' unread' : ''}" id="notif-item-${n.id}" onclick="${n.workflowTask ? `openWorkflowNotificationById(${escapeHtml(JSON.stringify(String(n.id)))})` : `markNotifRead(${n.id})`}">
                             <div class="notif-page-icon" style="background:${ic.bg};color:${ic.color};">
                                 <i data-lucide="${ic.icon}" style="width:20px;height:20px;"></i>
                             </div>
@@ -9479,11 +10036,12 @@ function openAgendaTab(tabName) {
 
         function updateNotifBadge() {
             const unreadCount = notifData.filter(n => n.unread).length;
+            const badgeCount = notifData.some(n => n.workflowTask) ? notifData.length : unreadCount;
             // Header badge
             const badge = document.querySelector('.header-icon-btn .badge');
             if (badge) {
-                badge.textContent = unreadCount;
-                badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+                badge.textContent = badgeCount;
+                badge.style.display = badgeCount > 0 ? 'flex' : 'none';
             }
             // Tab badges
             const tabAll = document.getElementById('notifTabAll');
@@ -9664,13 +10222,22 @@ function openAgendaTab(tabName) {
             renderOrgTree,
             openPosteFromOrg,
             openPosteDetail,
+            changeGedDocumentsPage,
+            goToGedDocumentsPage,
             changePostesPage,
+            goToPostesPage,
+            changeDataUniverseTextPage,
+            goToDataUniverseTextPage,
+            changeInnovationBackendPage,
+            goToInnovationBackendPage,
             searchPostes,
             closePosteModal,
             openOrgGovCultureGallery,
             moveOrgGovCultureGallery,
             closeOrgGovCultureGallery,
             toggleOrgHiddenChildren,
+            toggleOrgDivisionServices,
+            toggleOrgSubordinates,
             toggleOrgServiceMembers,
             openMockDownload
         });

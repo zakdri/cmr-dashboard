@@ -3,8 +3,7 @@
   "contenu": "Présentation Stratégie et Projets",
   "data": {
     "projetsHeader": {
-      "title": "Stratégie & Projets CMR",
-      "description": "Vision transverse de la stratégie, du portefeuille projets, des indicateurs et des livrables."
+      "title": "Stratégie & Projets CMR"
     },
     "strategieProjetsSpace": {
       "intro": "Une vision, des orientations, des projets. Cet espace réunit les grands axes de la stratégie de la CMR et les projets qui la concrétisent au quotidien.",
@@ -75,7 +74,25 @@
             "title": "Mes outils",
             "subtitle": "Les ressources utiles au chef de projet",
             "icon": "briefcase-business",
-            "items": ["Charte projet", "Matrice RACI", "MS Project"]
+            "items": [
+              {
+                "label": "Charte projet",
+                "documentAliases": ["Charte projet", "Charte de projet"]
+              },
+              {
+                "label": "Matrice RACI",
+                "documentAliases": ["Matrice RACI", "RACI"]
+              },
+              {
+                "label": "MS Project",
+                "configKey": "externalLinks.pwa.url",
+                "external": true
+              },
+              {
+                "label": "Bilan de projet",
+                "documentAliases": ["Bilan de projet", "Bilan projet"]
+              }
+            ]
           }
         },
         "axes": [

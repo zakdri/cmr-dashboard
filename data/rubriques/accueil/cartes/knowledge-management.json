@@ -4,45 +4,40 @@
   "data": {
     "dashboardCards": [
       {
-        "type": "km",
+        "type": "docList",
         "title": "Knowledge Management",
         "icon": "library",
         "iconClass": "blue",
-        "actionLabel": "Explorer",
-        "actionIcon": "compass",
+        "actionLabel": "Voir plus",
+        "actionIcon": "arrow-right",
         "actionHandler": "openSubmenuView('km','referentiels'); return false;",
-        "tabs": [
+        "items": [
           {
-            "id": "referentiels",
-            "label": "Référentiels",
-            "items": [
-              {
-                "badge": "PDF",
-                "badgeClass": "pdf",
-                "title": "Guide des indicateurs de retraite",
-                "meta": "Référentiels métiers • Version 2026",
-                "icon": "download"
-              },
-              {
-                "badge": "XLS",
-                "badgeClass": "xls",
-                "title": "Procédure SSO & accès",
-                "meta": "Référentiels SI • Mis à jour",
-                "icon": "download"
-              },
-              {
-                "badge": "DOC",
-                "badgeClass": "doc",
-                "title": "Charte KM – bonnes pratiques",
-                "meta": "Structuration • Semaine dernière",
-                "icon": "download"
-              }
-            ]
+            "badge": "REF",
+            "title": "Référentiels métiers",
+            "meta": "Guides, procédures et référentiels",
+            "background": "#eff6ff",
+            "color": "#256cb5",
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('km','referentiels'); return false;"
           },
           {
-            "id": "rex",
-            "label": "REX",
-            "items": []
+            "badge": "GLO",
+            "title": "Glossaire",
+            "meta": "Termes et définitions métiers",
+            "background": "#f0fdf4",
+            "color": "#16a34a",
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('km','glossaire'); return false;"
+          },
+          {
+            "badge": "REX",
+            "title": "REX",
+            "meta": "Retours d’expérience",
+            "background": "#fff7ed",
+            "color": "#ea580c",
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('km','rex'); return false;"
           }
         ]
       }

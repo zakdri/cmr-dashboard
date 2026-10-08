@@ -72,6 +72,11 @@
         "bg": "#fff1f2",
         "color": "#dc2626",
         "icon": "settings"
+      },
+      "workflow": {
+        "bg": "#eaf2ff",
+        "color": "#2563eb",
+        "icon": "workflow"
       }
     }
   }

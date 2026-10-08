@@ -9,6 +9,10 @@
           {
             "label": "Contenus (CMS)",
             "tab": "cms"
+          },
+          {
+            "label": "Espace documentaire",
+            "tab": "espace-documentaire"
           }
         ]
       }

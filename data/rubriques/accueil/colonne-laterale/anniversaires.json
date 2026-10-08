@@ -4,7 +4,7 @@
   "data": {
     "dashboardRightSidebar": {
       "birthdays": {
-        "title": "Anniversaires",
+        "title": "Anniversaires professionnels",
         "icon": "cake",
         "iconStyle": {
           "background": "linear-gradient(135deg, #ec4899, #db2777)"

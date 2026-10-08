@@ -13,6 +13,7 @@
       "usage",
       "reporting",
       "cms",
+      "espace-documentaire",
       "securite",
       "tracabilite",
       "performance"
@@ -171,6 +172,15 @@
         ],
         "defaultSub": "cms"
       },
+      "espace-documentaire": {
+        "subs": [
+          {
+            "id": "espace-documentaire",
+            "label": "Espace documentaire"
+          }
+        ],
+        "defaultSub": "espace-documentaire"
+      },
       "tracabilite": {
         "subs": [
           {
@@ -243,6 +253,11 @@
         "title": "CMS (interface admin)",
         "icon": "layout-template",
         "iconClass": "orange"
+      },
+      "espace-documentaire": {
+        "title": "Espace documentaire",
+        "icon": "folder-open",
+        "iconClass": "blue"
       },
       "tracabilite": {
         "title": "Journal des actions (log)",

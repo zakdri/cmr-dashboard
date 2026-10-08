@@ -43,18 +43,17 @@ export default function LoginView({ twoFactorEnabled, onLogin }) {
         <section className="login-identity" aria-label="Caisse Marocaine des Retraites">
           <img className="login-logo" src="images/intranet/cmr-logo-login.png" alt="Caisse Marocaine des Retraites" />
           <div className="login-identity-copy">
-            <span>Espace collaborateur</span>
-            <h2>Votre portail interne CMR</h2>
-            <p>Retrouvez votre environnement de travail et les services de la Caisse.</p>
+            <h2>Votre <strong>portail intranet</strong></h2>
+            <p>Retrouvez votre environnement<br />de travail et les services de la CMR.</p>
           </div>
-          <div className="login-identity-footer">Caisse Marocaine des Retraites</div>
         </section>
 
         <section className="login-panel" aria-labelledby="login-title">
           <div className="login-form-wrap">
+            <span className="login-space-title">Espace collaborateur</span>
             <span className="login-eyebrow">Accès sécurisé</span>
             <h1 id="login-title">Bienvenue</h1>
-            <p className="login-intro">Connectez-vous avec votre compte Moovapps.</p>
+            <p className="login-intro">Connectez-vous avec votre compte.</p>
             {twoFactorEnabled ? (
               <div className="login-alert" role="alert">
                 L'authentification à deux facteurs est activée. Utilisez la page de connexion Moovapps ou contactez votre administrateur.
@@ -62,10 +61,14 @@ export default function LoginView({ twoFactorEnabled, onLogin }) {
             ) : null}
             <form onSubmit={handleSubmit} className="login-form">
               <label htmlFor="cmr-login">Identifiant</label>
-              <input id="cmr-login" value={login} onChange={(event) => setLogin(event.target.value)} autoComplete="username" placeholder="Votre identifiant" disabled={submitting || twoFactorEnabled} />
+              <div className="login-input-field">
+                <span className="login-input-icon"><LoginIcon name="UserRound" /></span>
+                <input id="cmr-login" value={login} onChange={(event) => setLogin(event.target.value)} autoComplete="username" aria-label="Identifiant" disabled={submitting || twoFactorEnabled} />
+              </div>
               <label htmlFor="cmr-password">Mot de passe</label>
-              <div className="login-password-field">
-                <input id="cmr-password" type={passwordVisible ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" placeholder="Votre mot de passe" disabled={submitting || twoFactorEnabled} />
+              <div className="login-input-field login-password-field">
+                <span className="login-input-icon"><LoginIcon name="LockKeyhole" /></span>
+                <input id="cmr-password" type={passwordVisible ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" aria-label="Mot de passe" disabled={submitting || twoFactorEnabled} />
                 <button
                   type="button"
                   className="login-password-toggle"
@@ -80,10 +83,11 @@ export default function LoginView({ twoFactorEnabled, onLogin }) {
               </div>
               {error ? <div className="login-error" role="alert">{error}</div> : null}
               <button type="submit" className="primary-btn login-submit" disabled={submitting || twoFactorEnabled}>
-                {submitting ? "Connexion..." : "Se connecter"}
+                <span>{submitting ? "Connexion..." : "Se connecter"}</span>
+                <LoginIcon name="ArrowRight" />
               </button>
             </form>
-            <p className="login-help">En cas de difficulté, contactez votre administrateur.</p>
+            <p className="login-help"><LoginIcon name="Headphones" /><span>En cas de difficulté, contactez le <strong>Support SI</strong>.</span></p>
           </div>
         </section>
       </div>

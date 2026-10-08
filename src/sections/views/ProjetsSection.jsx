@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { icons } from "lucide";
 import { GED_ROOT_PATH, joinGedPath, normalizeGedKey } from "../../services/gedDocuments.js";
-import { fetchGedFile } from "../../services/moovappsPlatform.js";
+import { configuredLink, fetchGedFile } from "../../services/moovappsPlatform.js";
 import { useGedDocuments } from "../../services/useGedDocuments.js";
 
 const STRATEGY_VISION_PATH = joinGedPath(
@@ -16,6 +16,7 @@ const PROJECT_TOOLS_PATH = joinGedPath(
   "Stratégie & Projets CMR",
   "Projets CMR",
   "Démarche",
+  "Mes outils",
 );
 
 function LucideIcon({ name, ...props }) {
@@ -44,6 +45,28 @@ function LucideIcon({ name, ...props }) {
       {iconNode.map(([tag, attributes], index) => React.createElement(tag, { ...attributes, key: `${tag}-${index}` }))}
     </svg>
   );
+}
+
+async function downloadProjectTool(event, documentItem, fallbackName) {
+  if (!documentItem?.protocolUri) return;
+  event.preventDefault();
+
+  try {
+    const { blob, fileName } = await fetchGedFile(documentItem.protocolUri, fallbackName);
+    if (!blob?.size) throw new Error("Fichier vide");
+
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = objectUrl;
+    link.download = fileName || fallbackName || "document";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  } catch (error) {
+    console.error("Téléchargement de l’outil projet impossible :", error);
+    window.alert("Le document est indisponible dans Moovapps. Veuillez réessayer.");
+  }
 }
 
 function getSpace() {
@@ -162,11 +185,16 @@ function Review({ review, exampleLabel }) {
 
 function Approach({ approach }) {
   const toolsState = useGedDocuments(PROJECT_TOOLS_PATH);
-  const toolDocument = (label) => {
-    const labelKey = normalizeGedKey(label);
-    return toolsState.documents.find((documentItem) => normalizeGedKey(
-      [documentItem.title, documentItem.fileName, documentItem.folderLabel].filter(Boolean).join(" "),
-    ).includes(labelKey));
+  const toolDocument = (tool) => {
+    const aliases = (tool.documentAliases?.length ? tool.documentAliases : [tool.label])
+      .map(normalizeGedKey)
+      .filter(Boolean);
+    return toolsState.documents.find((documentItem) => {
+      const documentKey = normalizeGedKey(
+        [documentItem.title, documentItem.fileName, documentItem.folderLabel].filter(Boolean).join(" "),
+      );
+      return aliases.some((alias) => documentKey.includes(alias));
+    });
   };
 
   return (
@@ -192,8 +220,29 @@ function Approach({ approach }) {
           <div className="cmr-project-transverse-title"><span><LucideIcon name={approach.tools?.icon} /></span><div><h4>{approach.tools?.title}</h4><p>{approach.tools?.subtitle}</p></div></div>
           <div className="cmr-project-tool-links">
             {(approach.tools?.items || []).map((item) => {
-              const documentItem = toolDocument(item);
-              return documentItem ? <a key={item} href={documentItem.file} target="_blank" rel="noreferrer">{item}<LucideIcon name="external-link" /></a> : <span key={item} title="Ressource non disponible dans Moovapps">{item}</span>;
+              const tool = typeof item === "string" ? { label: item } : item;
+              if (tool.external) {
+                return <a key={tool.label} href={configuredLink(tool.configKey, tool.href || "#")} target="_blank" rel="noopener noreferrer">{tool.label}<LucideIcon name="external-link" /></a>;
+              }
+
+              const documentItem = toolDocument(tool);
+              if (!documentItem) return <span key={tool.label} title="Document non disponible dans la GED">{tool.label}</span>;
+
+              const fileName = documentItem.fileName || documentItem.title || `${tool.label}.pdf`;
+              const isPdf = /\.pdf$/i.test(fileName);
+              const href = documentItem.file || "#";
+              return (
+                <a
+                  key={tool.label}
+                  href={href}
+                  target={isPdf ? "_blank" : undefined}
+                  rel={isPdf ? "noreferrer" : undefined}
+                  download={isPdf || documentItem.protocolUri ? undefined : fileName}
+                  onClick={isPdf ? undefined : (event) => downloadProjectTool(event, documentItem, fileName)}
+                >
+                  {tool.label}<LucideIcon name={isPdf ? "external-link" : "download"} />
+                </a>
+              );
             })}
           </div>
         </section>
@@ -265,7 +314,7 @@ export default function ProjetsSection() {
   const projects = content.projects || {};
   return (
     <div id="view-projets" className="view-section km-container cmr-space">
-      <div className="km-header"><h2>{header.title}</h2><p>{header.description}</p></div>
+      <div className="km-header"><h2>{header.title}</h2>{header.description ? <p>{header.description}</p> : null}</div>
       <p className="cmr-space-intro">{content.intro}</p>
       <Tabs label="Rubriques de Stratégie et Projets CMR" items={[{ id: "strategy", title: strategy.title || "Stratégie CMR" }, { id: "projects", title: projects.title || "Projets CMR" }]} active={major} change={setMajor} />
       <div className="cmr-space-summary"><h3>{major === "strategy" ? strategy.title : projects.title}</h3><p>{major === "strategy" ? strategy.summary : projects.summary}</p></div>

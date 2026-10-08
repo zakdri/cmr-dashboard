@@ -8,6 +8,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 const read = path => JSON.parse(fs.readFileSync(path, 'utf8'));
 const data = Object.assign({}, ...read('data/cmr-data.json').modules.map(module => read(`data/${module.bundle}`).data));
+const platformConfig = read('public/config/platform-config.json');
 const app = fs.readFileSync('src/legacy/app.js', 'utf8');
 const css = fs.readFileSync('css/styles.css', 'utf8');
 const governanceSource = fs.readFileSync('src/sections/views/GouvernanceSection.jsx', 'utf8');
@@ -184,32 +185,32 @@ assert.equal((tickerStyles.match(/animation: ticker 12s linear infinite/g) || []
 assert.ok(!tickerStyles.includes('animation: ticker 60s'));
 
 const expectedApps = [
-  ['ERSAL', 'http://ersal:8080/WERSAL/', 'Métiers'],
-  ['OPEN TEXT', 'https://ged.cmr.intra/', 'Outils Collaboratifs'],
-  ['BPM MOOVAPS', 'http://172.17.100.180/moovapps/easysite/workplace', 'Organisation'],
-  ['CRM', 'https://crm.cmr.gov.ma/CRMPROD/main.aspx', 'Métiers'],
-  ['ATTAKMILI', 'http://attakmili/login', 'Métiers'],
-  ['INFIRMITE', 'https://infirmite.cmr.gov.ma/', 'Métiers'],
-  ['HELPDESK', 'http://pc/', 'Support & IT'],
-  ['PORTAIL', 'https://www.cmr.gov.ma/Portal/', 'Métiers'],
-  ['PWA (PROJETS)', 'https://cmrmaroc.sharepoint.com/sites/pwa/Projects.aspx', 'Pilotage'],
-  ['GESTION DE PRESENCE', 'http://gestiontempspresence/CMR/', 'Ressources Humaines'],
-  ['FILE D’ATTENTE RABAT', 'http://172.17.100.190:8080/login.jsp;JSESSIONID=7a09a1ef-eb67-4f78-b7fe-36101b8eeb6b', 'Métiers'],
-  ['FILE D’ATTENTE CASABLANCA', 'http://172.16.7.200:18080/login.jsp;JSESSIONID=339ae924-0ef1-4aa5-80f5-bb61bc319a64', 'Métiers'],
-  ['FILE D’ATTENTE TETOUAN', 'http://172.16.2.200:18080/login.jsp', 'Métiers'],
-  ['FILE D’ATTENTE OUJDA', 'http://172.16.3.200:18080/', 'Métiers'],
-  ['FILE D’ATTENTE ERRACHIDIA', 'http://172.16.12.200:18080/login.jsp', 'Métiers'],
-  ['FILE D’ATTENTE FES', 'http://172.16.4.200:18080/login.jsp', 'Métiers'],
-  ['FILE D’ATTENTE MARRAKECH', 'http://172.16.6.200:18080/login.jsp', 'Métiers'],
-  ['FILE D’ATTENTE AGADIR', 'http://172.16.11.200:18080/login.jsp', 'Métiers'],
-  ['FILE D’ATTENTE LAAYOUNE', 'http://172.16.10.200:18080/login.jsp', 'Métiers'],
-  ['FILE D’ATTENTE BENI MELLAL', 'http://172.16.15.202:18080/login.jsp', 'Métiers'],
-  ['FILE D’ATTENTE SALE', 'http://172.16.13.202:18080/login.jsp', 'Métiers'],
+  ['ERSAL', 'externalLinks.ersal.url', 'Métiers'],
+  ['OPEN TEXT', 'externalLinks.openText.url', 'Outils Collaboratifs'],
+  ['BPM MOOVAPS', 'externalLinks.bpmMoovapps.url', 'Organisation'],
+  ['CRM', 'externalLinks.crm.url', 'Métiers'],
+  ['ATTAKMILI', 'externalLinks.attakmili.url', 'Métiers'],
+  ['INFIRMITE', 'externalLinks.infirmite.url', 'Métiers'],
+  ['HELPDESK', 'externalLinks.helpdesk.url', 'Support & IT'],
+  ['PORTAIL', 'externalLinks.portailCmr.url', 'Métiers'],
+  ['PWA (PROJETS)', 'externalLinks.pwa.url', 'Pilotage'],
+  ['GESTION DE PRESENCE', 'externalLinks.gestionPresence.url', 'Ressources Humaines'],
+  ['FILE D’ATTENTE RABAT', 'externalLinks.filesAttente.rabat.url', 'Métiers'],
+  ['FILE D’ATTENTE CASABLANCA', 'externalLinks.filesAttente.casablanca.url', 'Métiers'],
+  ['FILE D’ATTENTE TETOUAN', 'externalLinks.filesAttente.tetouan.url', 'Métiers'],
+  ['FILE D’ATTENTE OUJDA', 'externalLinks.filesAttente.oujda.url', 'Métiers'],
+  ['FILE D’ATTENTE ERRACHIDIA', 'externalLinks.filesAttente.errachidia.url', 'Métiers'],
+  ['FILE D’ATTENTE FES', 'externalLinks.filesAttente.fes.url', 'Métiers'],
+  ['FILE D’ATTENTE MARRAKECH', 'externalLinks.filesAttente.marrakech.url', 'Métiers'],
+  ['FILE D’ATTENTE AGADIR', 'externalLinks.filesAttente.agadir.url', 'Métiers'],
+  ['FILE D’ATTENTE LAAYOUNE', 'externalLinks.filesAttente.laayoune.url', 'Métiers'],
+  ['FILE D’ATTENTE BENI MELLAL', 'externalLinks.filesAttente.beniMellal.url', 'Métiers'],
+  ['FILE D’ATTENTE SALE', 'externalLinks.filesAttente.sale.url', 'Métiers'],
 ];
-for (const [title, href, domain] of expectedApps) {
+for (const [title, configKey, domain] of expectedApps) {
   const matches = data.applicationsCategories.flatMap(category => category.items.filter(item => item.title === title).map(item => ({ ...item, domain: category.title })));
   assert.equal(matches.length, 1, title);
-  assert.equal(matches[0].href, href, title);
+  assert.equal(matches[0].configKey, configKey, title);
   assert.equal(matches[0].domain, domain, title);
   assert.ok(matches[0].icon, title);
 }
@@ -245,7 +246,7 @@ for (const [label, tab] of [['Demande de mobilité', 'mobilite'], ['Demande de f
   assert.equal(Object.values(nodes).filter(item => item.style.display === 'block').length, 1);
 }
 // Render the affected React views without contacting any intranet service.
-globalThis.window = { CMR_DATA: { data }, location: { hostname: 'zakdri.github.io' }, localStorage: { getItem: () => JSON.stringify(['Mobilité spontanée', 'Formation spontanée', 'HelpDesk', 'Réservation de salles']) } };
+globalThis.window = { CMR_DATA: { data }, CMR_PLATFORM_CONFIG: platformConfig, location: { hostname: 'zakdri.github.io', origin: 'https://zakdri.github.io' }, localStorage: { getItem: () => JSON.stringify(['Mobilité spontanée', 'Formation spontanée', 'HelpDesk', 'Réservation de salles']) } };
 globalThis.document = { getElementById: () => null };
 const compiled = await build({
   stdin: { contents: ['Dashboard', 'Academy', 'Rh', 'Applis', 'Innovation', 'CommunicationInterne'].map(name => `export { default as ${name} } from './src/sections/views/${name}Section.jsx';`).join('\n') + "\nexport { default as Modals } from './src/components/layout/ModalsTemplate.jsx';", resolveDir: process.cwd(), loader: 'js' },
@@ -464,6 +465,36 @@ const organisationChartSource = read('data/rubriques/organisation-smi-culture/so
 assert.equal(organisationChartSource.data.orgData.personName, 'Lotfi BOUJENDAR');
 assert.equal(organisationChartSource.data.orgData.role, 'Directeur');
 assert.equal(organisationChartSource.data.orgData.functionTitle, 'Directeur');
+assert.equal(organisationChartSource.data.orgData.displayPeople, true);
+assert.equal(organisationChartSource.data.orgData.displayServicePeople, true);
+assert.equal(organisationChartSource.data.orgData.children.find(node => node.posteId === 'audit-interne').personName, 'Amal SEBAAI');
+const secretariatGeneral = organisationChartSource.data.orgData.children.find(node => node.posteId === 'secretariat-general');
+const poleClients = secretariatGeneral.children.find(node => node.posteId === 'pole-clients');
+const relationClient = poleClients.hiddenChildren.find(node => node.posteId === 'division-relation-client');
+const animationReseau = relationClient.children.find(node => node.posteId === 'chef-de-service-animation-du-reseau');
+assert.equal(animationReseau.children.filter(node => node.role === 'Délégation régionale').length, 11);
+assert.equal(animationReseau.children.at(-1).functionTitle, "Chef de Centre d'Accueil de Rabat");
+assert.equal(relationClient.children.some(node => node.posteId === 'chef-de-delegation'), false);
+const poleOperations = secretariatGeneral.children.find(node => node.posteId === 'pole-operations');
+const concessionRights = poleOperations.hiddenChildren.find(node => node.posteId === 'division-concession-droits');
+assert.ok(concessionRights.children.some(node => node.posteId === 'chef-de-service-verification-et-concession'));
+const portfolioPole = secretariatGeneral.children.find(node => node.posteId === 'pole-gestion-portefeuille');
+assert.ok(portfolioPole.hiddenChildren.some(node => node.posteId === 'chef-de-service-conformite-et-controle-interne'));
+assert.ok(portfolioPole.hiddenChildren.some(node => node.posteId === 'chef-de-service-recherche-et-analyse'));
+const portfolioManagement = portfolioPole.hiddenChildren.find(node => node.posteId === 'division-gestion-portefeuille-gestion');
+assert.equal(portfolioManagement.children.some(node => node.posteId === 'chef-de-service-conformite-et-controle-interne'), false);
+const resourcesPole = secretariatGeneral.children.find(node => node.posteId === 'pole-ressources');
+const financeDivision = resourcesPole.hiddenChildren.find(node => node.posteId === 'division-financiere-comptable');
+assert.deepEqual(
+  financeDivision.children.map(node => node.posteId),
+  ['chef-de-service-comptabilite', 'chef-de-service-financier', 'chef-du-service-recouvrement'],
+);
+assert.match(app, /function renderOrgServiceNode\(service, prefix, namespace, depth = 0\)/);
+assert.match(app, /function toggleOrgSubordinates\(panelId, button\)/);
+assert.match(app, /class="cmr-org-subordinate-toggle"/);
+assert.match(app, /class="cmr-org-subordinate-tree"[^>]*hidden/);
+assert.match(css, /\.cmr-org-subordinate-tree\s*\{/);
+assert.match(css, /\.cmr-org-subordinate-tree\[hidden\]\s*\{[\s\S]*?display:\s*none;/);
 assert.match(css, /\.cmr-org-direct-unit--service\s*\{[\s\S]*?padding-top:\s*80px;/);
 assert.match(css, /\.cmr-org-direct-unit--service::before\s*\{[\s\S]*?height:\s*114px;/);
 assert.match(css, /@media \(max-width: 680px\)[\s\S]*?\.cmr-org-direct-unit--main\s*\{[\s\S]*?order:\s*-1;/);

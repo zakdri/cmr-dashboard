@@ -25,10 +25,12 @@ export default function DgMessageSection() {
               <span className="actu-detail-category">
                 {dgMessage.category}
               </span>
-              <span className="actu-detail-date">
-                <i data-lucide={detail.dateIcon} style={{ width: 13, height: 13 }} />
-                {dgMessage.date}
-              </span>
+              {dgMessage.date ? (
+                <span className="actu-detail-date">
+                  <i data-lucide={detail.dateIcon} style={{ width: 13, height: 13 }} />
+                  {dgMessage.date}
+                </span>
+              ) : null}
               <span className="actu-detail-author">
                 <i data-lucide={detail.authorIcon} style={{ width: 13, height: 13 }} />
                 {dgMessage.author}
@@ -43,8 +45,7 @@ export default function DgMessageSection() {
               ))}
               <p style={{ marginTop: 18 }}>
                 <strong>{detail.signature?.author}</strong>
-                <br />
-                {detail.signature?.organization}
+                {detail.signature?.organization ? <><br />{detail.signature.organization}</> : null}
               </p>
             </div>
           </div>

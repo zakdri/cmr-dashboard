@@ -3,10 +3,22 @@
   "contenu": "Mot du Directeur général",
   "data": {
     "governanceDirector": {
-      "title": "Construire une gouvernance responsable et durable",
-      "description": "Notre gouvernance repose sur la transparence, la responsabilité et la qualité de la décision. Elle accompagne la transformation de la CMR tout en garantissant la continuité de ses missions de service public et la confiance de ses parties prenantes.",
+      "title": "Chères collaboratrices, chers collaborateurs,",
+      "paragraphs": [
+        "J’ai le plaisir de vous accueillir sur la nouvelle version de votre intranet, un outil moderne, dynamique et accessible, conçu pour répondre à vos attentes et faciliter votre quotidien professionnel.",
+        "Cette nouvelle plateforme marque une étape importante dans la modernisation de notre environnement de travail et l’amélioration de l’expérience collaborateur au sein de la CMR. Sa conception s’est appuyée sur vos attentes et vos suggestions, avec une priorité : vous proposer un espace utile, intuitif et adapté à vos besoins.",
+        "Vous y trouverez un accès facilité à l’actualité de la CMR, aux informations et aux ressources utiles, ainsi que de nouvelles rubriques et des services permettant d’effectuer certaines démarches professionnelles de manière simple, fluide et dématérialisée.",
+        "Espace commun d’information, de partage et de services, votre intranet vise à simplifier vos interactions et à favoriser une communication plus ouverte et plus collaborative. Il traduit notre volonté de construire une Institution plus agile, plus innovante et attentive à ses collaborateurs.",
+        "Votre intranet est avant tout le vôtre. Vos usages, vos remarques et vos idées contribueront à l’enrichir et à le faire évoluer au plus près de vos attentes. Je vous invite à le découvrir, à vous l’approprier et à le faire vivre ensemble.",
+        "Bienvenue dans votre nouvel intranet, un espace conçu pour vous et appelé à évoluer avec vous."
+      ],
+      "highlights": [
+        "vous proposer un espace utile, intuitif et adapté à vos besoins.",
+        "Votre intranet est avant tout le vôtre."
+      ],
+      "boldParagraphs": [5],
       "photo": "images/intranet/directeur-lotfi-boujendar.jpg",
-      "signatureTitle": "Caisse Marocaine des Retraites",
+      "signatureTitle": "Le Directeur de la Caisse Marocaine des Retraites",
       "name": "M. Lotfi Boujendar"
     }
   }

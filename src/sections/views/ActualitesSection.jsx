@@ -5,13 +5,12 @@ function getActualitesData() {
   const data = window.CMR_DATA?.data || {};
   return {
     header: data.actualitesHeader || {},
-    filters: data.actualitesFilters || [],
     articles: data.actuData || [],
   };
 }
 
 export default function ActualitesSection() {
-  const { header, filters, articles } = getActualitesData();
+  const { header, articles } = getActualitesData();
 
   return (
     <>
@@ -41,20 +40,6 @@ export default function ActualitesSection() {
                 }
               />
             </div>
-          </div>
-          {/* Category Filter */}
-          <div className="actu-filters" id="actuFilters">
-            {filters.map((filter) => (
-              <button
-                key={filter.value}
-                className={`actu-filter-btn${filter.active ? " active" : ""}`}
-                onClick={(event) =>
-                  runLegacyHandler(event, `filterByCategory('${filter.value}', this)`)
-                }
-              >
-                {filter.label}
-              </button>
-            ))}
           </div>
           {/* Results count */}
           <div className="actu-results-info" id="actuResultsInfo">

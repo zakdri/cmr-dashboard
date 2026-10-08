@@ -13,23 +13,11 @@
             "description": "Support technique. Signaler un incident ou faire une demande.",
             "action": "Ouvrir",
             "icon": "life-buoy",
-            "href": "http://pc/",
+            "configKey": "externalLinks.helpdesk.url",
             "hoverBg": "#fef2f2",
             "hoverBorder": "#fecaca",
             "iconBackground": "#256cb5",
             "actionIcon": "external-link"
-          },
-          {
-            "id": "glpi",
-            "title": "GLPI",
-            "description": "Gestion de parc informatique et inventaire.",
-            "action": "Consulter",
-            "icon": "monitor",
-            "href": "#",
-            "hoverBg": "#f8fafc",
-            "hoverBorder": "#cbd5e1",
-            "iconBackground": "#64748b",
-            "actionIcon": "arrow-right"
           }
         ]
       }

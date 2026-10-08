@@ -54,8 +54,7 @@
               "label": "Affectation",
               "value": "Digital & Innovation"
             }
-          ],
-          "action": "Consulter le profil"
+          ]
         },
         "pathTitle": "Parcours collaborateur",
         "pathDescription": "Le parcours est présenté sous forme de panneaux consultables avec descriptions, pièces jointes et liens utiles.",
@@ -145,31 +144,6 @@
                   "color": "#16a34a"
                 },
                 "actionIcon": "folder-open"
-              }
-            ]
-          },
-          {
-            "title": "Chartes RH",
-            "items": [
-              {
-                "title": "Charte Éthique & Déontologie",
-                "description": "Principes d'intégrité et comportements attendus.",
-                "meta": "Consulter",
-                "icon": "shield-check",
-                "iconStyle": {
-                  "background": "#f5f3ff",
-                  "color": "#7c3aed"
-                }
-              },
-              {
-                "title": "Charte RSE",
-                "description": "Engagements sociaux et environnementaux.",
-                "meta": "Consulter",
-                "icon": "leaf",
-                "iconStyle": {
-                  "background": "#ecfdf5",
-                  "color": "#059669"
-                }
               }
             ]
           }
@@ -361,7 +335,18 @@
           "arabicResponses": "16 (5,5 %)"
         },
         "surveysTitle": "Enquêtes disponibles",
-        "surveys": [],
+        "surveys": [
+          {
+            "title": "Quiz SMACAF",
+            "description": "Participez au quiz SMACAF.",
+            "longDescription": "Testez vos connaissances en participant au quiz SMACAF.",
+            "theme": "SMACAF",
+            "accessUrl": "https://forms.cloud.microsoft/r/tnSQKYvTwb",
+            "accessLabel": "Répondre au quiz",
+            "icon": "clipboard-check",
+            "meta": "Nouvelle enquête"
+          }
+        ],
         "historyTitle": "Historique des enquêtes",
         "historyYears": [],
         "history": []

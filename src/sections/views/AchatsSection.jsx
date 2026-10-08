@@ -33,6 +33,16 @@ function WorkflowSubsections({ items = [], active }) {
   }, [items]);
 
   useEffect(() => {
+    const openService = (event) => {
+      const serviceKey = event.detail?.serviceKey;
+      const targetIndex = items.findIndex((item) => item.serviceKey === serviceKey);
+      if (targetIndex >= 0) setActiveIndex(targetIndex);
+    };
+    window.addEventListener("cmr:achats-service", openService);
+    return () => window.removeEventListener("cmr:achats-service", openService);
+  }, [items]);
+
+  useEffect(() => {
     window.lucide?.createIcons();
   }, [activeIndex]);
 

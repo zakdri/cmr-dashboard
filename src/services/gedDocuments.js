@@ -2,7 +2,7 @@ import { gedDownloadUrl, isDemoMode, listGedDocuments } from "./moovappsPlatform
 
 export const GED_ROOT_PATH = "Intranet CMR";
 export const GED_DOCUMENTS_CHANGED_EVENT = "cmr:ged-documents-changed";
-const GED_SESSION_CACHE_PREFIX = "cmr-ged-documents:v4:";
+const GED_SESSION_CACHE_PREFIX = "cmr-ged-documents:v5:";
 const gedDocumentsMemoryCache = new Map();
 const gedDocumentsRequests = new Map();
 

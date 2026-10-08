@@ -73,15 +73,6 @@
             "color": "#256cb5",
             "icon": "chevron-right",
             "handler": "switchView('agenda-interne'); return false;"
-          },
-          {
-            "badge": "ALT",
-            "title": "Alertes",
-            "meta": "Infos importantes • À surveiller",
-            "background": "#fff7ed",
-            "color": "#ea580c",
-            "icon": "chevron-right",
-            "handler": "switchView('alertes'); return false;"
           }
         ]
       }

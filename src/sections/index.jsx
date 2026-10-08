@@ -27,6 +27,8 @@ import SitdSection from './views/SitdSection.jsx';
 import ArcSection from './views/ArcSection.jsx';
 import AdminSection from './views/AdminSection.jsx';
 import ProfileSection from './views/ProfileSection.jsx';
+import BirthdaysSection from './views/BirthdaysSection.jsx';
+import InfoExpressSection from './views/InfoExpressSection.jsx';
 
 export const sections = [
   { id: 'dashboard', Component: DashboardSection },
@@ -57,5 +59,7 @@ export const sections = [
   { id: 'sitd', Component: SitdSection },
   { id: 'arc', Component: ArcSection },
   { id: 'admin', Component: AdminSection },
-  { id: 'profile', Component: ProfileSection }
+  { id: 'profile', Component: ProfileSection },
+  { id: 'birthdays', Component: BirthdaysSection },
+  { id: 'info-express', Component: InfoExpressSection }
 ];

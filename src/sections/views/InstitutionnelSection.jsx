@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
+import DocumentTypeIcon from "../../components/DocumentTypeIcon.jsx";
 import { icons } from "lucide";
 import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
-import { GED_ROOT_PATH, getDocumentFileKind, joinGedPath, normalizeGedKey, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import { GED_ROOT_PATH, joinGedPath, normalizeGedKey, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function getOrgGovData() {
@@ -130,9 +131,7 @@ function SimpleDocCard({ doc }) {
         )
       }
     >
-      <div className="doc-icon-large pdf">
-        <i data-lucide="file-text" style={{ width: 24, height: 24 }} />
-      </div>
+      <DocumentTypeIcon documentItem={doc} />
       <div className="doc-card-title">{doc.title}</div>
       <p
         style={{
@@ -157,6 +156,7 @@ function DynamicCardPage({ page, children }) {
       <div className="card-header">
         <CardTitle title={page.title} icon={page.icon} iconClass={page.iconClass} />
       </div>
+      {page.intro ? <p className="dynamic-card-intro">{page.intro}</p> : null}
       {children}
     </div>
   );
@@ -292,7 +292,7 @@ function RseDocumentRows({ documents = [], emptyLabel = "Aucun document disponib
             key={documentItem.id || documentItem.fileName}
             onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(documentItem.file)},${JSON.stringify(documentItem.title)})`)}
           >
-            <span className="doc-icon rse-portal-file-icon">{getDocumentFileKind(documentItem)}</span>
+            <DocumentTypeIcon documentItem={documentItem} size="compact" className="rse-portal-file-icon" />
             <span className="doc-info"><strong className="doc-title">{documentItem.title || documentItem.fileName}</strong></span>
             <ReactLucideIcon name="download" />
           </button>

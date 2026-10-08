@@ -5,7 +5,6 @@
     "dashboardCards": [
       {
         "type": "docList",
-        "source": "rhRecentDocuments",
         "title": "Vie RH",
         "icon": "users-round",
         "iconClass": "green",
@@ -13,28 +12,31 @@
         "actionHandler": "switchView('rh'); return false;",
         "items": [
           {
-            "badge": "NEW",
-            "title": "Nominations",
-            "meta": "3 mouvements • Cette semaine",
+            "badge": "CAR",
+            "title": "Ma Carrière",
+            "meta": "Profil et parcours professionnel",
             "background": "#eff6ff",
             "color": "#256cb5",
-            "icon": "chevron-right"
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('rh','carriere'); return false;"
           },
           {
-            "badge": "HR",
-            "title": "Recrutements",
-            "meta": "2 arrivées • Avril 2026",
+            "badge": "DOC",
+            "title": "Documents RH",
+            "meta": "Documents administratifs et référentiels",
             "background": "#f0fdf4",
             "color": "#16a34a",
-            "icon": "chevron-right"
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('rh','documents'); return false;"
           },
           {
-            "badge": "OUT",
-            "title": "Départs",
-            "meta": "1 départ • Mois en cours",
+            "badge": "ENQ",
+            "title": "Enquêtes RH",
+            "meta": "Consulter les enquêtes RH",
             "background": "#fff7ed",
             "color": "#ea580c",
-            "icon": "chevron-right"
+            "icon": "chevron-right",
+            "handler": "openSubmenuView('rh','enquetes'); return false;"
           }
         ]
       }

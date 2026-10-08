@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { icons } from "lucide";
+import DocumentTypeIcon from "../../components/DocumentTypeIcon.jsx";
 import PaginatedDocuments from "../../components/PaginatedDocuments.jsx";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
-import { GED_ROOT_PATH, getDocumentFileKind, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
+import { GED_ROOT_PATH, joinGedPath, shouldUseDocumentsApi } from "../../services/gedDocuments.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 function ReactLucideIcon({ name, ...props }) {
@@ -79,11 +80,9 @@ function DocumentRow({ file }) {
   const isGedDoc = file && typeof file === "object";
   const title = isGedDoc ? file.title || file.fileName : String(file || "").replaceAll("_", " ");
   const downloadFile = isGedDoc ? file.file : file;
-  const fileKind = getDocumentFileKind(isGedDoc ? file : downloadFile);
-
   return (
     <button className="doc-row" type="button" onClick={(event) => runLegacyHandler(event, `openMockDownload(${JSON.stringify(downloadFile)},${JSON.stringify(title)})`)}>
-      <div className={`doc-icon${fileKind === "PDF" ? " pdf" : ""}`}>{fileKind}</div>
+      <DocumentTypeIcon documentItem={file} size="compact" />
       <div className="doc-info">
         <div className="doc-title">{title}</div>
         {!isGedDoc ? <div className="doc-meta">Document de gouvernance</div> : null}
@@ -98,6 +97,29 @@ function GedStatus({ state }) {
   if (state.loading) return <p className="empty-state">Chargement des documents Moovapps...</p>;
   if (state.error) return <p className="empty-state">Les documents Moovapps ne sont pas disponibles pour le moment.</p>;
   return null;
+}
+
+function HighlightedText({ text, highlights = [] }) {
+  const source = String(text || "");
+  const phrases = highlights.filter((phrase) => source.includes(phrase));
+  if (!phrases.length) return source;
+
+  const parts = [];
+  let cursor = 0;
+  while (cursor < source.length) {
+    const next = phrases
+      .map((phrase) => ({ phrase, index: source.indexOf(phrase, cursor) }))
+      .filter((candidate) => candidate.index >= 0)
+      .sort((left, right) => left.index - right.index)[0];
+    if (!next) {
+      parts.push(source.slice(cursor));
+      break;
+    }
+    if (next.index > cursor) parts.push(source.slice(cursor, next.index));
+    parts.push(<strong key={`${next.index}-${next.phrase}`}>{next.phrase}</strong>);
+    cursor = next.index + next.phrase.length;
+  }
+  return parts;
 }
 
 function GovernanceNav({ items, activeId, onSelect, className = "" }) {
@@ -200,17 +222,29 @@ export default function GouvernanceSection() {
 
       {activeTab === "mot-directeur" ? (
         <article className="content-card governance-director-article">
-          <img
-            src={director.photo}
-            alt="M. Lotfi Boujendar, Directeur de la Caisse Marocaine de la Retraite"
-          />
+          {director.photo ? (
+            <img
+              src={director.photo}
+              alt="Directeur de la Caisse Marocaine de la Retraite"
+            />
+          ) : null}
           <div>
-            <span className="governance-eyebrow">Mot du Directeur</span>
-            <h3>{director.title}</h3>
-            <p>{director.description}</p>
+            {director.eyebrow !== undefined
+              ? (director.eyebrow ? <span className="governance-eyebrow">{director.eyebrow}</span> : null)
+              : <span className="governance-eyebrow">Mot du Directeur</span>}
+            {director.title ? <h3>{director.title}</h3> : null}
+            <div className="governance-director-copy">
+              {(director.paragraphs || (director.description ? [director.description] : [])).map((paragraph, index) => (
+                <p key={paragraph}>
+                  {(director.boldParagraphs || []).includes(index)
+                    ? <strong>{paragraph}</strong>
+                    : <HighlightedText text={paragraph} highlights={director.highlights} />}
+                </p>
+              ))}
+            </div>
             <div className="governance-signature">
-              <span>{director.signatureTitle}</span>
-              <strong>{director.name}</strong>
+              {director.signatureTitle ? <span>{director.signatureTitle}</span> : null}
+              {director.name ? <strong>{director.name}</strong> : null}
             </div>
           </div>
         </article>

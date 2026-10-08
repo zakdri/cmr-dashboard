@@ -66,7 +66,7 @@
       },
       {
         "id": "innovation",
-        "label": "Innov",
+        "label": "Innovation",
         "icon": "lightbulb",
         "handler": "toggleSidebarSubmenu('innovation')",
         "hasSubmenu": true
@@ -86,7 +86,7 @@
       },
       {
         "id": "sitd",
-        "label": "SITD",
+        "label": "Espace SITD",
         "icon": "server",
         "handler": "toggleSidebarSubmenu('sitd')",
         "hasSubmenu": true

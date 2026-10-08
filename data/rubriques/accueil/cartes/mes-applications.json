@@ -14,25 +14,25 @@
           {
             "label": "ERSAL",
             "icon": "send",
-            "href": "http://ersal:8080/WERSAL/",
+            "configKey": "externalLinks.ersal.url",
             "background": "#256cb5"
           },
           {
             "label": "CRM",
             "icon": "contact-round",
-            "href": "https://crm.cmr.gov.ma/CRMPROD/main.aspx",
+            "configKey": "externalLinks.crm.url",
             "background": "#256cb5"
           },
           {
             "label": "OPEN TEXT",
             "icon": "folder-open",
-            "href": "https://ged.cmr.intra/",
+            "configKey": "externalLinks.openText.url",
             "background": "#256cb5"
           },
           {
             "label": "HELPDESK",
             "icon": "life-buoy",
-            "href": "http://pc/",
+            "configKey": "externalLinks.helpdesk.url",
             "background": "#256cb5"
           }
         ]

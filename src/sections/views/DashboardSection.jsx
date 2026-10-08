@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
 import { GED_ROOT_PATH, joinGedPath, normalizeGedKey } from "../../services/gedDocuments.js";
-import { platformUrl } from "../../services/moovappsPlatform.js";
+import { configuredLink } from "../../services/moovappsPlatform.js";
 import { useGedDocuments, useViewActive } from "../../services/useGedDocuments.js";
 
 const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v5";
@@ -19,13 +19,8 @@ function getSavedQuickAccessLabels(items) {
   }
 }
 
-function quickAccessUrl(item) {
-  const configuredPath = item.configKey
-    ? item.configKey.split(".").reduce((value, key) => value?.[key], window.CMR_PLATFORM_CONFIG)
-    : "";
-  const target = configuredPath || item.url || "#";
-  if (/^(?:https?:)?\/\//i.test(target) || target.startsWith("#")) return target;
-  return platformUrl(target);
+function configuredItemUrl(item) {
+  return configuredLink(item.configKey, item.url || item.href || "#");
 }
 
 function getDashboardData() {
@@ -146,7 +141,7 @@ function AppsCard({ card }) {
       <CardHeader card={card} />
       <div className="app-grid">
         {(card.items || []).slice(0, 4).map((item) => (
-          <a className="app-item" key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a className="app-item" key={item.label} href={configuredItemUrl(item)} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
             <div className="app-icon" style={{ background: item.background }}>
               <i data-lucide={item.icon} style={{ width: 22, height: 22 }} />
             </div>
@@ -565,18 +560,20 @@ function DgMessage({ message }) {
             >
               {message.category}
             </span>
-            <span
-              style={{
-                fontSize: 12,
-                color: "var(--text-light)",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-              }}
-            >
-              <i data-lucide="calendar" style={{ width: 14, height: 14 }} />
-              {message.date}
-            </span>
+            {message.date ? (
+              <span
+                style={{
+                  fontSize: 12,
+                  color: "var(--text-light)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
+              >
+                <i data-lucide="calendar" style={{ width: 14, height: 14 }} />
+                {message.date}
+              </span>
+            ) : null}
           </div>
           <div
             style={{
@@ -630,7 +627,7 @@ function DgMessage({ message }) {
                 >
                   {message.author}
                 </div>
-                <div style={{ lineHeight: "1.1" }}>{message.organization}</div>
+                {message.organization ? <div style={{ lineHeight: "1.1" }}>{message.organization}</div> : null}
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -714,7 +711,7 @@ function QuickAccess({ quickAccess }) {
 
           return (
             <a
-              href={quickAccessUrl(item)}
+              href={configuredItemUrl(item)}
               target={item.target || undefined}
               rel={opensNewTab ? "noopener noreferrer" : undefined}
               className="quick-access-item"

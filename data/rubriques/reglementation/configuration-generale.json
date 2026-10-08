@@ -44,8 +44,7 @@
             "id": "legal-regime-civil",
             "label": "Régime civil",
             "path": "Légal & Réglementaires/Régime civil",
-            "folders": ["Arrêtés", "Circulaires", "Décrets", "Lois"],
-            "filterLabels": { "Circulaires": "Circulaire" },
+            "folders": ["Arrêtés", "Circulaire", "Décrets", "Lois"],
             "includeAllFilter": false,
             "defaultFolder": "Arrêtés"
           },
@@ -66,7 +65,7 @@
             "includeAllFilter": false,
             "defaultFolder": "Arrêtés"
           },
-          { "id": "legal-regime-particulier", "label": "Régime particulier", "path": "Légal & Réglementaires/Régime particulier" },
+          { "id": "legal-regime-particulier", "label": "Régime particulier", "path": "Légal & Réglementaires/Régimes particuliers" },
           { "id": "legal-sst", "label": "Santé et sécurité au travail (SST)", "path": "Légal & Réglementaires/Santé et sécurité au travail (SST)" },
           { "id": "legal-si-transformation", "label": "Systèmes d’information et transformation numérique", "path": "Légal & Réglementaires/Systèmes d’information et transformation numérique" }
         ],

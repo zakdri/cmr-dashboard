@@ -7,25 +7,29 @@
       "icon": "megaphone",
       "iconClass": "orange",
       "avatar": "DG",
-      "category": "Organisation & Gouvernance",
-      "date": "25 Avril 2026",
-      "headline": "Point d’étape sur la feuille de route 2026",
-      "body": "Chers collaborateurs, je souhaite partager les priorités du trimestre et remercier les équipes mobilisées sur les chantiers de transformation. Retrouvez les décisions clés et les prochaines étapes dans l’espace Organisation & Gouvernance.",
-      "author": "Direction Générale",
-      "organization": "CMR Maroc",
+      "category": "Mot du Directeur",
+      "date": "",
+      "headline": "Bienvenue dans votre nouvel intranet",
+      "body": "J’ai le plaisir de vous accueillir sur la nouvelle version de votre intranet, un outil moderne, dynamique et accessible, conçu pour répondre à vos attentes et faciliter votre quotidien professionnel.",
+      "author": "Le Directeur",
+      "organization": "",
       "markReadLabel": "Marquer comme lu",
       "readLabel": "Lire le message",
       "detail": {
         "dateIcon": "calendar",
         "authorIcon": "user",
         "paragraphs": [
-          "Chers collaborateurs,",
-          "Je souhaite partager les priorités du trimestre et remercier les équipes mobilisées sur les chantiers de transformation. Notre ambition est de renforcer la qualité de service, de moderniser nos outils et d’accélérer la simplification de nos processus.",
-          "Les prochaines semaines seront consacrées au déploiement progressif des évolutions de l’intranet, à la consolidation des référentiels institutionnels et au suivi des décisions des comités."
+          "Chères collaboratrices, chers collaborateurs,",
+          "J’ai le plaisir de vous accueillir sur la nouvelle version de votre intranet, un outil moderne, dynamique et accessible, conçu pour répondre à vos attentes et faciliter votre quotidien professionnel.",
+          "Cette nouvelle plateforme marque une étape importante dans la modernisation de notre environnement de travail et l’amélioration de l’expérience collaborateur au sein de la CMR. Sa conception s’est appuyée sur vos attentes et vos suggestions, avec une priorité : vous proposer un espace utile, intuitif et adapté à vos besoins.",
+          "Vous y trouverez un accès facilité à l’actualité de la CMR, aux informations et aux ressources utiles, ainsi que de nouvelles rubriques et des services permettant d’effectuer certaines démarches professionnelles de manière simple, fluide et dématérialisée.",
+          "Espace commun d’information, de partage et de services, votre intranet vise à simplifier vos interactions et à favoriser une communication plus ouverte et plus collaborative. Il traduit notre volonté de construire une Institution plus agile, plus innovante et attentive à ses collaborateurs.",
+          "Votre intranet est avant tout le vôtre. Vos usages, vos remarques et vos idées contribueront à l’enrichir et à le faire évoluer au plus près de vos attentes. Je vous invite à le découvrir, à vous l’approprier et à le faire vivre ensemble.",
+          "Bienvenue dans votre nouvel intranet, un espace conçu pour vous et appelé à évoluer avec vous."
         ],
         "signature": {
-          "author": "Direction Générale",
-          "organization": "CMR Maroc"
+          "author": "Le Directeur",
+          "organization": ""
         }
       }
     }

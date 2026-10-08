@@ -1,17 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { runLegacyHandler } from "../../legacy/runLegacyHandler.js";
-import { logout, platformUrl } from "../../services/moovappsPlatform.js";
+import { configuredLink, logout } from "../../services/moovappsPlatform.js";
+import { openWorkflowNotification } from "../../services/workflowNotifications.js";
 
 const getHeaderData = () => window.CMR_DATA?.data?.header || {};
 const QUICK_ACCESS_STORAGE_KEY = "cmr.headerQuickAccess.selectedLabels.v5";
 
 function quickLinkHref(item) {
-  const configuredPath = item.configKey
-    ? item.configKey.split(".").reduce((value, key) => value?.[key], window.CMR_PLATFORM_CONFIG)
-    : "";
-  const target = configuredPath || item.href || "#";
-  if (/^(?:https?:)?\/\//i.test(target) || target.startsWith("#")) return target;
-  return platformUrl(target);
+  return configuredLink(item.configKey, item.href || "#");
 }
 
 function normalizeSearchText(value) {
@@ -73,6 +69,7 @@ export default function HeaderTemplate() {
   const [, refreshUser] = useState(0);
   const header = getHeaderData();
   const notifications = header.notifications || {};
+  const workflowNotificationsActive = Boolean(window.CMR_DATA?.data?.workflowNotificationsActive);
   const quickLinks = header.quickLinks || {};
   const user = header.user || {};
   const quickLinkItems = quickLinks.items || [];
@@ -289,12 +286,12 @@ export default function HeaderTemplate() {
               }
             >
               <i data-lucide="bell" style={{ width: 20, height: 20 }} />
-              <span className="badge">{notifications.badge}</span>
+              {Number(notifications.badge) > 0 ? <span className="badge">{notifications.badge}</span> : null}
             </button>
             <div className="header-dropdown" id="notifDropdown">
               <div className="dropdown-header">
                 Notifications
-                <span
+                {!workflowNotificationsActive ? <span
                   style={{
                     fontSize: 11,
                     color: "var(--cmr-primary)",
@@ -302,15 +299,20 @@ export default function HeaderTemplate() {
                   }}
                 >
                   Tout marquer lu
-                </span>
+                </span> : null}
               </div>
               {(notifications.items || []).map((item) => (
-                <div className="notif-item" key={`${item.title}-${item.time}`}>
+                <button
+                  type="button"
+                  className="notif-item notif-item-button"
+                  key={item.id || `${item.title}-${item.time}`}
+                  onClick={() => item.workflowTask && openWorkflowNotification(item)}
+                >
                   <div className="notif-title">{item.title}</div>
                   <div className="notif-desc">{item.description}</div>
-                  <div className="notif-time">{item.time}</div>
-                </div>
+                </button>
               ))}
+              {!(notifications.items || []).length ? <p className="notif-dropdown-empty">Aucune tâche en attente.</p> : null}
               <div className="notif-voir-tout">
                 <button
                   className="notif-voir-tout-btn"

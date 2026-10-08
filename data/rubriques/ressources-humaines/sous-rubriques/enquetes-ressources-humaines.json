@@ -35,7 +35,18 @@
           "arabicResponses": "16 (5,5 %)"
         },
         "surveysTitle": "Enquêtes disponibles",
-        "surveys": [],
+        "surveys": [
+          {
+            "title": "Quiz SMACAF",
+            "description": "Participez au quiz SMACAF.",
+            "longDescription": "Testez vos connaissances en participant au quiz SMACAF.",
+            "theme": "SMACAF",
+            "accessUrl": "https://forms.cloud.microsoft/r/tnSQKYvTwb",
+            "accessLabel": "Répondre au quiz",
+            "icon": "clipboard-check",
+            "meta": "Nouvelle enquête"
+          }
+        ],
         "historyTitle": "Historique des enquêtes",
         "historyYears": [],
         "history": []

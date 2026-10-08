@@ -87,13 +87,10 @@
             "path": "Légal & Réglementaires/Régime civil",
             "folders": [
               "Arrêtés",
-              "Circulaires",
+              "Circulaire",
               "Décrets",
               "Lois"
             ],
-            "filterLabels": {
-              "Circulaires": "Circulaire"
-            },
             "includeAllFilter": false,
             "defaultFolder": "Arrêtés"
           },
@@ -128,7 +125,7 @@
           {
             "id": "legal-regime-particulier",
             "label": "Régime particulier",
-            "path": "Légal & Réglementaires/Régime particulier"
+            "path": "Légal & Réglementaires/Régimes particuliers"
           },
           {
             "id": "legal-sst",

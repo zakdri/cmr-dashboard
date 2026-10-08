@@ -39,6 +39,10 @@
       "fichier": "sous-rubriques/gestion-des-contenus-cms.json"
     },
     {
+      "contenu": "Accès à l’espace documentaire",
+      "fichier": "sous-rubriques/espace-documentaire.json"
+    },
+    {
       "contenu": "Journal et traçabilité des actions",
       "fichier": "sous-rubriques/journal-et-tracabilite.json"
     }
